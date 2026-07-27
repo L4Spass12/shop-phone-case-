@@ -1004,19 +1004,32 @@ const breadcrumbSchema = {
     function initStickyAtc() {
       const bar     = document.getElementById('sticky-atc');
       const mainCTA = document.getElementById('buy-button');
-      if (!bar || !mainCTA || !('IntersectionObserver' in window)) return null;
+      if (!bar || !mainCTA) return null;
 
-      const io = new IntersectionObserver((entries) => {
-        const visible = entries[0].isIntersecting;
-        if (visible) {
-          bar.classList.add('translate-y-full');
-          bar.setAttribute('aria-hidden', 'true');
-        } else {
-          bar.classList.remove('translate-y-full');
-          bar.setAttribute('aria-hidden', 'false');
-        }
-      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-      io.observe(mainCTA);
+      // La barre n'apparaît QUE lorsque le CTA principal est sorti par le HAUT
+      // du viewport (= dépassé en scrollant). Elle reste cachée tant qu'il est
+      // encore plus bas que l'écran, ce qui est le cas à l'arrivée sur la page.
+      //
+      // On lit la position réelle du CTA à chaque frame de scroll plutôt que
+      // d'utiliser un IntersectionObserver : celui-ci ne réagit qu'aux
+      // FRANCHISSEMENTS d'intersection et resterait bloqué dans le mauvais état
+      // si l'on arrive directement au-delà du CTA sans jamais l'avoir croisé
+      // (lien d'ancrage, restauration de position de scroll, saut de scroll).
+      let scheduled = false;
+      const syncBar = () => {
+        scheduled = false;
+        const passed = mainCTA.getBoundingClientRect().bottom <= 0;
+        bar.classList.toggle('translate-y-full', !passed);
+        bar.setAttribute('aria-hidden', passed ? 'false' : 'true');
+      };
+      const onScroll = () => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(syncBar);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      syncBar();
 
       return {
         btns: [

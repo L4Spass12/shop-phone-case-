@@ -738,13 +738,28 @@ const breadcrumbSchema = {
     function initStickyAtc() {
       const bar     = document.getElementById('sticky-atc');
       const mainCTA = document.getElementById('buy-button');
-      if (!bar || !mainCTA || !('IntersectionObserver' in window)) return null;
-      const io = new IntersectionObserver((entries) => {
-        const visible = entries[0].isIntersecting;
-        if (visible) { bar.classList.add('translate-y-full'); bar.setAttribute('aria-hidden', 'true'); }
-        else { bar.classList.remove('translate-y-full'); bar.setAttribute('aria-hidden', 'false'); }
-      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-      io.observe(mainCTA);
+      if (!bar || !mainCTA) return null;
+      // La barre n'apparaît QUE lorsque le CTA est sorti par le HAUT du
+      // viewport (= dépassé en scrollant), pas quand il est encore sous
+      // l'écran à l'arrivée sur la page. Lecture de la position réelle à
+      // chaque frame de scroll plutôt qu'un IntersectionObserver, qui ne
+      // réagit qu'aux franchissements et resterait bloqué si l'on arrive
+      // directement au-delà du CTA (ancre, restauration de scroll, saut).
+      let scheduled = false;
+      const syncBar = () => {
+        scheduled = false;
+        const passed = mainCTA.getBoundingClientRect().bottom <= 0;
+        bar.classList.toggle('translate-y-full', !passed);
+        bar.setAttribute('aria-hidden', passed ? 'false' : 'true');
+      };
+      const onScroll = () => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(syncBar);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      syncBar();
       return {
         btns: [document.getElementById('sticky-atc-btn'), document.getElementById('sticky-atc-btn-desk')].filter(Boolean),
         sizeMobile: document.getElementById('sticky-atc-size-mobile'),
