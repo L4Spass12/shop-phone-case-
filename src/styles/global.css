@@ -162,207 +162,129 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   Bouton ATC animé — adapté de Uiverse.io (dexter-st)
-   Structure attendue :
-   <div class="btn-wrapper">
-     <div class="gradient-layer"></div>
-     <div class="gradient-layer"></div>
-     <button class="gradient-btn">…</button>
-     <span class="text-overlay" aria-hidden="true">…</span>
-     <div class="light"></div>
-   </div>
-   NB : les mix-blend-mode (color-dodge / difference) nécessitent un fond
-   sombre pour produire l'effet — le wrapper embarque donc son propre fond,
-   ce qui rend le bouton auto-suffisant sur n'importe quel thème de page.
-   ═══════════════════════════════════════════════════════════════════════ */
-.btn-wrapper {
-  --rad: 32px;
-  --color-wrapper-border: #fff;
-  --color-btn-bg: #f00;
-  --color-btn-text: #000;
-  --color-btn-text-shadow: #fff;
-  --color-btn-inset-shadow: #558;
-  --color-layer-a: #fff;
-  --color-layer-b: #00f;
-  --color-overlay-text: #000;
-  --color-overlay-glow: #fff;
-  --color-overlay-shadow: #0004;
-  --color-overlay-highlight: #fff5;
+   Bouton ATC holographique
+   Inspiré du bouton "gradient" de Uiverse.io (dexter-st), réimplémenté :
+   l'original empile 4 mix-blend-mode sur des couches géantes en rotation,
+   ce qui fuit hors du bouton et produit des artefacts de compositing.
+   Ici : une nappe conique irisée en rotation lente, contenue par
+   `overflow:hidden` + `isolation:isolate`, plus un bord dégradé métallique.
 
+   Usage :
+     <button class="atc-holo">Ajouter au panier <span class="opacity-70 font-normal">19,90 €</span></button>
+
+   Modificateurs :
+     .atc-holo--soft   version plus douce (moins saturée)
+     .atc-holo--vivid  version plus colorée
+     .atc-holo--block  pleine largeur (barre ATC sticky mobile)
+
+   Les pseudo-éléments sont en z-index NÉGATIF : le libellé du bouton reste
+   donc toujours au-dessus, y compris quand le JS des variantes réécrit
+   l'innerHTML (texte nu non enveloppé dans un span).
+   ═══════════════════════════════════════════════════════════════════════ */
+.atc-holo {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  overflow: clip;
-  overflow-clip-margin: 4px;
+  gap: .55em;
 
-  border: 2px solid var(--color-wrapper-border);
-  border-radius: var(--rad);
-  /* Fond sombre : indispensable pour que color-dodge/difference "prennent"
-     sur un thème clair (sinon le bouton disparaît dans le blanc). */
-  background: #0a0a14;
-
-  font-family: "Inter", sans-serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-
-  filter: saturate(0.65) brightness(1.8);
-}
-
-.gradient-btn {
-  position: relative;
-  z-index: -1;
-
-  padding: 12px 36px;
-  border: none;
-  border-radius: var(--rad);
+  padding: 15px 38px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  overflow: hidden;        /* la nappe irisée ne sort JAMAIS de la pilule */
+  isolation: isolate;      /* pas de fuite de compositing vers la page */
 
   font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  letter-spacing: 0.15rem;
-
-  color: var(--color-btn-text);
-  background-color: var(--color-btn-bg);
-  background-size: 200% 200%;
-  box-shadow: inset 0 0 10px 9px var(--color-btn-inset-shadow);
-  text-shadow: 0 1px 3px var(--color-btn-text-shadow);
-
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #33334a;
   cursor: pointer;
-  mix-blend-mode: color-dodge;
-  transition:
-    color 0.3s ease,
-    text-shadow 0.3s ease;
+
+  /* fond interne clair (padding-box) + bord irisé (border-box) */
+  background:
+    linear-gradient(#f4f2fb, #ece9f6) padding-box,
+    conic-gradient(from 210deg, #a78bfa, #ffd9a0, #7dd3fc, #e9a8ff, #a78bfa) border-box;
+
+  box-shadow:
+    0 1px 2px rgba(30, 20, 60, .12),
+    0 10px 24px -10px rgba(90, 70, 180, .42);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 
-.gradient-btn::after {
+/* Nappe irisée en rotation lente */
+.atc-holo::before {
   content: "";
   position: absolute;
-  pointer-events: none;
-
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-
-  border-radius: var(--rad);
-  background-size: 200% 200%;
-  mix-blend-mode: difference;
-  z-index: 1;
+  inset: -75%;
+  z-index: -2;
+  background: conic-gradient(from 0turn,
+    #a78bfa, #ffffff, #7dd3fc, #ffffff, #f0abfc, #ffe3b0, #ffffff, #a78bfa);
+  filter: blur(9px) saturate(1.75);
+  animation: atc-spin 22s linear infinite;
 }
 
-.gradient-layer {
+/* Reflet spéculaire + ombrage bas : donne le côté "verre / nacre" */
+.atc-holo::after {
+  content: "";
   position: absolute;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
-
-  left: -160px;
-  width: 500%;
-  aspect-ratio: 1;
-
-  background: radial-gradient(
-    ellipse at 65% 180%,
-    var(--color-layer-a),
-    var(--color-layer-b),
-    var(--color-layer-a),
-    var(--color-layer-b),
-    var(--color-layer-a),
-    var(--color-layer-b),
-    var(--color-layer-a),
-    var(--color-layer-b),
-    var(--color-layer-a),
-    var(--color-layer-b),
-    var(--color-layer-a)
-  );
-
-  mix-blend-mode: difference;
-  animation: rotate 8s linear infinite;
-}
-
-.gradient-layer:last-of-type {
-  mix-blend-mode: color-dodge;
-}
-
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.text-overlay {
-  position: absolute;
-  pointer-events: none;
-  z-index: 2;
-
-  padding: 12px 36px;
-  border-radius: var(--rad);
-
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  letter-spacing: 0.15rem;
-
-  color: var(--color-overlay-text);
-  text-shadow: 0 0 4px var(--color-overlay-glow);
+  background:
+    radial-gradient(70% 115% at 34% 6%, rgba(255,255,255,.85), rgba(255,255,255,0) 55%),
+    linear-gradient(to bottom, rgba(255,255,255,.20), rgba(255,255,255,0) 36%, rgba(70,50,130,.12));
   box-shadow:
-    inset 0 -4px 4px 0 var(--color-overlay-shadow),
-    inset 0 4px 4px 0 var(--color-overlay-highlight);
-
-  mix-blend-mode: multiply;
-  transition: transform 0.3s ease;
-  animation: opacityPulse 5s ease infinite;
-  white-space: nowrap;
+    inset 0 1px 1px rgba(255,255,255,.95),
+    inset 0 -3px 7px rgba(70,50,130,.14);
 }
 
-.btn-wrapper:hover .text-overlay { transform: scale(1.1); }
-.btn-wrapper:hover .gradient-btn {
-  color: #0000;
-  text-shadow: 0 0 0 #0000;
+.atc-holo:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 2px rgba(30, 20, 60, .14),
+    0 16px 32px -12px rgba(90, 70, 180, .55);
+}
+.atc-holo:active { transform: translateY(0) scale(.985); }
+
+.atc-holo:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 3px;
 }
 
-.btn-wrapper:active .text-overlay { transform: scale(0.95); }
-.btn-wrapper:active .gradient-btn {
-  color: #0000;
-  text-shadow: 0 0 0 #0000;
+@keyframes atc-spin { to { transform: rotate(1turn); } }
+
+/* ─── Modificateurs ──────────────────────────────────────────────── */
+.atc-holo--soft::before  { filter: blur(11px) saturate(1.35); }
+.atc-holo--vivid::before {
+  background: conic-gradient(from 0turn,
+    #8b5cf6, #ffffff, #22d3ee, #ffffff, #e879f9, #fbbf24, #ffffff, #8b5cf6);
+  filter: blur(8px) saturate(1.9);
+}
+.atc-holo--block { display: flex; width: 100%; }
+
+/* Version compacte pour la barre sticky desktop */
+.atc-holo--sm {
+  padding: 11px 24px;
+  font-size: .9375rem;
+  letter-spacing: .04em;
 }
 
-.light {
-  position: absolute;
-
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 50px;
-  width: 80%;
-  height: 1.9rem;
-  aspect-ratio: 1;
-  background-color: #fff5;
-  filter: blur(5px);
-  animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.1; }
-}
-
-@keyframes opacityPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* Rupture de stock : on gèle l'animation et on grise le bouton */
-.btn-wrapper:has(.gradient-btn:disabled) {
-  filter: saturate(0) brightness(1.2);
-  opacity: 0.55;
-}
-.btn-wrapper:has(.gradient-btn:disabled) .gradient-layer,
-.btn-wrapper:has(.gradient-btn:disabled) .light,
-.btn-wrapper:has(.gradient-btn:disabled) .text-overlay {
-  animation: none;
-}
-.btn-wrapper:has(.gradient-btn:disabled) .gradient-btn {
+/* ─── Rupture de stock ───────────────────────────────────────────── */
+.atc-holo:disabled {
   cursor: not-allowed;
+  color: #8a8a93;
+  background:
+    linear-gradient(#f4f4f5, #ececee) padding-box,
+    linear-gradient(#d4d4d8, #d4d4d8) border-box;
+  box-shadow: none;
+  transform: none;
 }
+.atc-holo:disabled::before { animation: none; filter: grayscale(1) blur(10px) opacity(.35); }
+.atc-holo:disabled::after  { box-shadow: none; }
 
-/* Accessibilité : pas d'animation pour prefers-reduced-motion */
+/* ─── Accessibilité : respect de prefers-reduced-motion ──────────── */
 @media (prefers-reduced-motion: reduce) {
-  .gradient-layer, .light, .text-overlay { animation: none; }
+  .atc-holo::before { animation: none; }
+  .atc-holo { transition: none; }
 }

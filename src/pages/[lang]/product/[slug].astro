@@ -353,38 +353,20 @@ const breadcrumbSchema = {
           </div>
         )}
 
-        <!-- Bouton d'achat — style animé Uiverse (voir global.css). L'overlay
-             décoratif est resynchronisé par le MutationObserver ci-dessous. -->
-        <div class="btn-wrapper self-start">
-          <div class="gradient-layer"></div>
-          <div class="gradient-layer"></div>
-          <button
-            id="buy-button"
-            class="buy-button gradient-btn disabled:opacity-40 disabled:cursor-not-allowed"
-            disabled={!inStock}
-            data-item-id={sku ?? product.slug}
-            data-item-name={name}
-            data-item-price={Math.round(price * 100)}
-            data-item-image={imageUrl}
-          >
-            {inStock ? (
-              <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
-            ) : t('shop.outOfStock', lang)}
-          </button>
-          <span class="text-overlay" aria-hidden="true" id="buy-button-overlay"></span>
-          <div class="light"></div>
-        </div>
-        <script>
-          // Miroir décoratif : copie le texte du bouton ATC dans l'overlay
-          // (le JS variantes réécrit le bouton à chaque changement de prix).
-          const atcBtn = document.getElementById('buy-button');
-          const atcOverlay = document.getElementById('buy-button-overlay');
-          if (atcBtn && atcOverlay) {
-            const sync = () => { atcOverlay.textContent = atcBtn.textContent; };
-            sync();
-            new MutationObserver(sync).observe(atcBtn, { childList: true, subtree: true, characterData: true });
-          }
-        </script>
+        <!-- Bouton d'achat — style holographique, cf. .atc-holo dans global.css -->
+        <button
+          id="buy-button"
+          class="buy-button atc-holo self-start"
+          disabled={!inStock}
+          data-item-id={sku ?? product.slug}
+          data-item-name={name}
+          data-item-price={Math.round(price * 100)}
+          data-item-image={imageUrl}
+        >
+          {inStock ? (
+            <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+          ) : t('shop.outOfStock', lang)}
+        </button>
 
         <div class="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/[0.08]">
           <div class="flex items-center gap-3">
@@ -494,7 +476,7 @@ const breadcrumbSchema = {
         <p class="text-[11px] text-n-500 font-light mb-1.5 text-center">
           <span id="sticky-atc-size-mobile" class="text-cream font-medium">-</span>
         </p>
-        <button id="sticky-atc-btn" class="buy-button btn-primary w-full text-base py-3.5 disabled:opacity-40 disabled:cursor-not-allowed"
+        <button id="sticky-atc-btn" class="buy-button atc-holo atc-holo--block atc-holo--sm"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
           data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
@@ -510,7 +492,7 @@ const breadcrumbSchema = {
             · <span id="sticky-atc-price">{formatPrice(price)}</span>
           </p>
         </div>
-        <button id="sticky-atc-btn-desk" class="buy-button btn-primary text-sm px-6 py-3 whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+        <button id="sticky-atc-btn-desk" class="buy-button atc-holo atc-holo--sm whitespace-nowrap shrink-0"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
           data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
