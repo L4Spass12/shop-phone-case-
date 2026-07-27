@@ -31,6 +31,26 @@ npm run dev        # http://localhost:4321
    livraisons) — remplace les placeholders `[NOM DE LA SOCIÉTÉ]`, `[SIRET]`, etc.
    ⚠️ À faire relire avant mise en ligne.
 
+### Bouton « Ajouter au panier »
+
+Le CTA d'achat (`.btn-atc` dans `src/styles/global.css`) est un bouton dégradé
+avec liseré, icône panier, reflet au survol et léger soulèvement. Pour l'adapter
+à ta marque, seules **5 variables** en tête de la règle sont à changer :
+
+```css
+--atc-fill-bottom / --atc-fill-top   /* fond (dégradé vers le haut) */
+--atc-ring-bottom / --atc-ring-top   /* liseré 2px */
+--atc-glow                           /* halo au survol */
+```
+
+Détails d'implémentation (à connaître avant de le modifier) :
+- Tout tient dans **un seul `<button>`** (technique `padding-box`/`border-box`)
+  et l'**icône est injectée en CSS** (`mask-image`), car le JS du sélecteur de
+  variantes réécrit l'`innerHTML` du bouton : un `<span>` interne ou une icône
+  en HTML seraient effacés au changement de variante.
+- Déclinaisons : `.btn-atc--sm` (barre sticky desktop), `.btn-atc--block`
+  (pleine largeur), et pleine largeur automatique sous 640px pour le CTA principal.
+
 ## 📦 Ajouter du contenu
 
 | Quoi | Où | Notes |
