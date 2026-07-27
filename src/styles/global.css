@@ -10,6 +10,20 @@
 :root {
   --header-h: 64px;
   color-scheme: light;
+
+  /* ═════════════════════════════════════════════════════════════════════
+     COULEUR D'ACCENT DE LA MARQUE — source unique de vérité.
+     Changer ces 3 valeurs suffit à re-brander tout ce qui est coloré :
+     le bouton « Ajouter au panier », les badges Promo/Bestseller, les
+     anneaux de focus, la sélection de texte et les survols de liens.
+
+     Exprimées en canaux RVB (sans `rgb()`) pour que Tailwind puisse en
+     dériver des utilitaires avec opacité : `bg-accent/10`, `text-accent`,
+     `ring-accent/40`… (voir `colors.accent` dans tailwind.config.mjs).
+     ═════════════════════════════════════════════════════════════════════ */
+  --accent-rgb:        166 44 226;   /* teinte principale  */
+  --accent-light-rgb:  192 69 252;   /* variante claire (haut de dégradé) */
+  --accent-dark-rgb:   129 34 176;   /* variante foncée (liseré, ombres)  */
 }
 @media (min-width: 768px) {
   :root { --header-h: 72px; }
@@ -28,7 +42,14 @@
     @apply text-cream font-medium tracking-tight;
   }
   ::selection {
-    @apply bg-beige text-cream;
+    @apply bg-accent/20 text-cream;
+  }
+  /* Anneau de focus clavier unifié sur toute l'interface : accessibilité +
+     rappel de l'accent de marque. Les composants qui définissent leur propre
+     focus (ex. .btn-atc) le surchargent localement. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-rgb));
+    outline-offset: 2px;
   }
 }
 
@@ -178,14 +199,16 @@
    changer pour adapter le bouton à ta marque.
    ═══════════════════════════════════════════════════════════════════════ */
 .btn-atc {
+  /* Toutes les couleurs dérivent de l'accent de marque défini dans :root —
+     rien à changer ici pour re-brander. */
   /* Fond interne (dégradé vers le haut) */
-  --atc-fill-bottom: #a62ce2;
-  --atc-fill-top:    #c045fc;
+  --atc-fill-bottom: rgb(var(--accent-rgb));
+  --atc-fill-top:    rgb(var(--accent-light-rgb));
   /* Liseré dégradé (2px) */
-  --atc-ring-bottom: #8122b0;
-  --atc-ring-top:    #dc98fd;
-  /* Halo au survol (dérivé de la couleur de marque) */
-  --atc-glow:        rgba(166, 44, 226, .45);
+  --atc-ring-bottom: rgb(var(--accent-dark-rgb));
+  --atc-ring-top:    rgb(var(--accent-light-rgb) / .75);
+  /* Halo au survol */
+  --atc-glow:        rgb(var(--accent-rgb) / .45);
 
   position: relative;
   isolation: isolate;   /* nécessaire pour que le reflet (::after) se place

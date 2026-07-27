@@ -207,7 +207,7 @@ const faqSchema = {
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   width="800" height="600" loading="lazy" decoding="async" />
                 {product.data.compareAtPrice && (
-                  <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
+                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
                     -{Math.round((1 - product.data.price / product.data.compareAtPrice) * 100)}%
                   </span>
                 )}
@@ -277,7 +277,7 @@ const faqSchema = {
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   width="800" height="600" loading="lazy" decoding="async" />
                 {p.data.compareAtPrice && (
-                  <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
+                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
                     -{Math.round((1 - p.data.price / p.data.compareAtPrice) * 100)}%
                   </span>
                 )}

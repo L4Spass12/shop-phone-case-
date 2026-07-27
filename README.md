@@ -31,17 +31,44 @@ npm run dev        # http://localhost:4321
    livraisons) — remplace les placeholders `[NOM DE LA SOCIÉTÉ]`, `[SIRET]`, etc.
    ⚠️ À faire relire avant mise en ligne.
 
+### Couleur d'accent (une seule couleur à changer)
+
+Tout ce qui est coloré sur le site dérive de **3 variables** définies dans
+`:root` au début de `src/styles/global.css` :
+
+```css
+--accent-rgb:        166 44 226;   /* teinte principale  */
+--accent-light-rgb:  192 69 252;   /* variante claire    */
+--accent-dark-rgb:   129 34 176;   /* variante foncée    */
+```
+
+Les changer suffit à re-brander : le bouton « Ajouter au panier », les badges
+Promo / Bestseller / remise, les anneaux de focus clavier et la sélection de
+texte. Elles sont exposées à Tailwind via `colors.accent`
+(`tailwind.config.mjs`), ce qui donne les utilitaires `bg-accent`,
+`text-accent`, `bg-accent/10`, `ring-accent/40`…
+
+> Valeurs en **canaux RVB sans `rgb()`** : c'est ce qui permet à Tailwind de
+> gérer les opacités. Ne pas les remplacer par des `#hex`.
+
+**Hiérarchie des boutons** — volontairement, tous les CTA ne partagent PAS le
+même style : un bouton ne ressort que s'il est le seul à ressembler à ça.
+
+| Niveau | Classe | Usage |
+|---|---|---|
+| Primaire commercial | `.btn-atc` | uniquement l'ajout au panier |
+| Primaire | `.btn-primary` | actions importantes (Découvrir, Envoyer) |
+| Secondaire | `.btn-outline` | actions optionnelles |
+
+⚠️ Convention du thème : `white` est remappé sur l'encre foncée et `dark` sur le
+blanc (voir `tailwind.config.mjs`). Sur un fond `bg-accent`, le texte blanc
+s'écrit donc **`text-dark`**, pas `text-white`.
+
 ### Bouton « Ajouter au panier »
 
 Le CTA d'achat (`.btn-atc` dans `src/styles/global.css`) est un bouton dégradé
-avec liseré, icône panier, reflet au survol et léger soulèvement. Pour l'adapter
-à ta marque, seules **5 variables** en tête de la règle sont à changer :
-
-```css
---atc-fill-bottom / --atc-fill-top   /* fond (dégradé vers le haut) */
---atc-ring-bottom / --atc-ring-top   /* liseré 2px */
---atc-glow                           /* halo au survol */
-```
+avec liseré, icône panier, reflet au survol et léger soulèvement. Ses couleurs
+dérivent automatiquement de l'accent ci-dessus — rien à changer dans la règle.
 
 Détails d'implémentation (à connaître avant de le modifier) :
 - Tout tient dans **un seul `<button>`** (technique `padding-box`/`border-box`)

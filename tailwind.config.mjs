@@ -37,11 +37,23 @@ export default {
         teal:       '#F0F0F2',  // variante panel
         beige:      '#E5E5E8',  // bordures / tags
         cream:      '#111113',  // texte principal / surfaces inversées
-        terracotta: '#111113',  // accent (boutons, liens) — mets ta couleur de marque ici
+        terracotta: '#111113',  // conservé pour compat : accent "encre" (boutons neutres)
         sage:       '#16A34A',  // accent de statut (succès / en stock)
         /* Neutres complémentaires */
         'n-500':    '#8A8A93',
         'n-400':    '#52525B',
+        /**
+         * ─── ACCENT DE MARQUE ───────────────────────────────────────
+         * Les valeurs viennent des variables `--accent-*-rgb` définies
+         * dans src/styles/global.css (source unique de vérité) : on les
+         * change LÀ-BAS, jamais ici. La syntaxe rgb(var(...) / <alpha>)
+         * permet les opacités Tailwind : bg-accent/10, ring-accent/40…
+         */
+        accent: {
+          DEFAULT: 'rgb(var(--accent-rgb) / <alpha-value>)',
+          light:   'rgb(var(--accent-light-rgb) / <alpha-value>)',
+          dark:    'rgb(var(--accent-dark-rgb) / <alpha-value>)',
+        },
       },
       fontFamily: {
         // Une seule police pour tout le site. `display` existe pour la compat
