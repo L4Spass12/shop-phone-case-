@@ -283,7 +283,7 @@
    sticky), y compris celui réinjecté par le JS des variantes. Unité `em`
    pour que la réduction suive aussi la taille du modificateur --sm. */
 .btn-atc > span {
-  font-size: .8125em;
+  font-size: .75em;
   font-weight: 500;
 }
 
