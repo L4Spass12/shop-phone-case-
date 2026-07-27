@@ -353,10 +353,10 @@ const breadcrumbSchema = {
           </div>
         )}
 
-        <!-- Bouton d'achat — style holographique, cf. .atc-holo dans global.css -->
+        <!-- Bouton d'achat — style : cf. .btn-atc dans global.css -->
         <button
           id="buy-button"
-          class="buy-button atc-holo self-start"
+          class="buy-button btn-atc self-start"
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
@@ -476,7 +476,7 @@ const breadcrumbSchema = {
         <p class="text-[11px] text-n-500 font-light mb-1.5 text-center">
           <span id="sticky-atc-size-mobile" class="text-cream font-medium">-</span>
         </p>
-        <button id="sticky-atc-btn" class="buy-button atc-holo atc-holo--block atc-holo--sm"
+        <button id="sticky-atc-btn" class="buy-button btn-atc btn-atc--block btn-atc--sm"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
           data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
@@ -492,7 +492,7 @@ const breadcrumbSchema = {
             · <span id="sticky-atc-price">{formatPrice(price)}</span>
           </p>
         </div>
-        <button id="sticky-atc-btn-desk" class="buy-button atc-holo atc-holo--sm whitespace-nowrap shrink-0"
+        <button id="sticky-atc-btn-desk" class="buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
           data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>

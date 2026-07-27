@@ -454,10 +454,10 @@ const breadcrumbSchema = {
           </div>
         )}
 
-        <!-- Bouton d'achat (Atelier) — style holographique, cf. .atc-holo dans global.css -->
+        <!-- Bouton d'achat (Atelier) — style : cf. .btn-atc dans global.css -->
         <button
           id="buy-button"
-          class="buy-button atc-holo self-start"
+          class="buy-button btn-atc self-start"
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
@@ -597,7 +597,7 @@ const breadcrumbSchema = {
         </p>
         <button
           id="sticky-atc-btn"
-          class="buy-button atc-holo atc-holo--block atc-holo--sm"
+          class="buy-button btn-atc btn-atc--block btn-atc--sm"
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
@@ -626,7 +626,7 @@ const breadcrumbSchema = {
         </div>
         <button
           id="sticky-atc-btn-desk"
-          class="buy-button atc-holo atc-holo--sm whitespace-nowrap shrink-0"
+          class="buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0"
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
