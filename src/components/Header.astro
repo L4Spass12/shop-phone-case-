@@ -24,19 +24,12 @@ const langSwitcherItems = ACTIVE_LOCALES.map(l => ({
   active: l === lang,
 }));
 
-// Détermine quel onglet est actif selon l'URL courante
-// Liste des pages légales/statiques pour exclure de "Blog actif"
-const LEGAL = ['/contact', '/mentions-legales', '/politique-de-confidentialite',
-               '/conditions-generales-de-vente-cgv', '/livraisons-et-retours'];
-
+// Détermine quel onglet est actif selon l'URL courante.
+// NB : pas d'état "blog actif" ici — le blog n'est plus dans la nav principale
+// (il vit dans le footer), donc aucun onglet à surligner pour ces pages.
 const isHome    = stripped === '/';
 const isShop    = stripped === '/boutique' || stripped.startsWith('/product/') || stripped.startsWith('/product-category/');
 const isContact = stripped === '/contact';
-// Blog actif sur /blog, /category/*, et les articles de blog (slug à la racine
-// non légal + non home)
-const isBlog    = stripped === '/blog'
-                  || stripped.startsWith('/category/')
-                  || (!isShop && !isHome && !LEGAL.includes(stripped));
 
 // Ordre des catégories produit dans le dropdown header
 const cats = (siteConfig.productCategories || []) as {slug:string; label:string}[];
@@ -99,7 +92,9 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
         </details>
       )}
 
-      <a href={url('/blog')} class={`nav-link ${isBlog ? 'nav-active' : ''}`} aria-current={isBlog ? 'page' : undefined}>{t('nav.blog', lang)}</a>
+      {/* Le blog n'est pas dans la nav principale (volontairement) : il reste
+          accessible depuis le footer, pour garder le header focalisé sur le
+          parcours d'achat. */}
       <a href={url('/contact')} class={`nav-link ${isContact ? 'nav-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
     </nav>
 
@@ -201,7 +196,6 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
       </details>
     )}
 
-    <a href={url('/blog')} class={`block py-2.5 transition-colors ${isBlog ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isBlog ? 'page' : undefined}>{t('nav.blog', lang)}</a>
     <a href={url('/contact')} class={`block py-2.5 transition-colors ${isContact ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
   </nav>
 </header>
