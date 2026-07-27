@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Icon from '../../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+import siteConfig from '../../../../site.config.mjs';
+import { unsplashSrcset, unsplashAt } from '../../../lib/image';
+import InfiniteReveal from '../../../components/InfiniteReveal.astro';
+import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'fr' | 'en' | 'de' };
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const articleHref = (slug: string) => url('/' + parseEntrySlug(slug).slug);
+
+// Slugifier (même règle que ailleurs : NFD + supprime diacritiques + kebab-case)
+function catToSlug(cat: string): string {
+  return (siteConfig.categorySlugs as Record<string, string>)?.[cat]
+    ?? cat.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+const blogCategories = siteConfig.categories as string[];
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(p => parseEntrySlug(p.slug).lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = posts.find(p => p.data.featured);
+const rest = posts.filter(p => !p.data.featured || p.slug !== featured?.slug);
+
+const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat(intlLocale, { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+
+const SITE_URL = siteConfig.url;
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: t('blog.title', lang, { site: siteConfig.name }),
+  description: t('blog.intro', lang),
+  url: `${SITE_URL}${lp}/blog`,
+  inLanguage: localeMeta(lang).htmlLang,
+  isPartOf: { '@type': 'WebSite', name: siteConfig.name, url: SITE_URL },
+  hasPart: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: `${SITE_URL}${articleHref(p.slug)}`,
+    datePublished: p.data.pubDate.toISOString(),
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('nav.home', lang), item: `${SITE_URL}${lp}/` },
+    { '@type': 'ListItem', position: 2, name: t('nav.blog', lang), item: `${SITE_URL}${lp}/blog` },
+  ],
+};
+---
+
+<BaseLayout
+  title={t('blog.title', lang, { site: siteConfig.name })}
+  description={t('blog.intro', lang)}
+  jsonLd={[collectionSchema, breadcrumbSchema]}
+>
+  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <!-- Page header -->
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-cream leading-[1.1] mb-4">
+        {t('blog.subtitle', lang)}
+      </h1>
+      <p class="text-base text-n-400 max-w-xl mx-auto font-light">
+        {t('blog.intro', lang)}
+      </p>
+    </div>
+
+    {featured && (
+      <a href={articleHref(featured.slug)} class="group block mb-16 md:mb-20">
+        <div class="grid md:grid-cols-5 gap-8 md:gap-10">
+          <div class="md:col-span-3 relative aspect-[16/10] md:aspect-[21/12] rounded-2xl overflow-hidden bg-panel border border-white/[0.05]">
+            {featured.data.image
+              ? <img
+                  src={unsplashAt(featured.data.image, 800)}
+                  srcset={unsplashSrcset(featured.data.image)}
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                  alt={featured.data.imageAlt ?? featured.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                  width="1200" height="675" fetchpriority="high" decoding="async"
+                />
+              : <div class="w-full h-full flex items-center justify-center text-n-500"><Icon name="mouse" size={64} strokeWidth={1.25} /></div>
+            }
+          </div>
+          <div class="md:col-span-2 flex flex-col justify-center">
+            <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-3">{featured.data.category}</span>
+            <h2 class="text-2xl md:text-3xl text-cream font-medium tracking-tight leading-tight mb-4 group-hover:underline underline-offset-4">
+              {featured.data.title}
+            </h2>
+            <p class="text-sm text-n-400 font-light leading-relaxed mb-6">
+              {featured.data.description}
+            </p>
+            <div class="flex items-center gap-2 text-xs text-n-500 font-light">
+              <span>{featured.data.author}</span>
+              <span>·</span>
+              <time datetime={featured.data.pubDate.toISOString()}>{formatDate(featured.data.pubDate)}</time>
+            </div>
+          </div>
+        </div>
+      </a>
+    )}
+
+    <!-- Category filters -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      <a href={url('/blog')} class="text-xs font-medium px-4 py-2 rounded-full bg-cream text-dark transition-colors">
+        {t('blog.filterAll', lang)}
+      </a>
+      {blogCategories.map(cat => (
+        <a
+          href={url(`/category/${catToSlug(cat)}`)}
+          class="text-xs font-medium px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.02] text-n-400 hover:text-cream hover:border-white/20 transition-colors"
+        >
+          {cat}
+        </a>
+      ))}
+    </div>
+
+    {rest.length > 0 ? (
+      <>
+      <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {rest.map((post, i) => (
+          <a href={articleHref(post.slug)} class="post-card group block">
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-5">
+              {post.data.image
+                ? <img
+                    src={unsplashAt(post.data.image, 600)}
+                    srcset={unsplashSrcset(post.data.image, [400, 600, 800])}
+                    sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1024px) calc(50vw - 48px), 380px"
+                    alt={post.data.imageAlt ?? post.data.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                    width="800" height="600"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={i === 0 ? 'high' : undefined}
+                    decoding="async"
+                  />
+                : <div class="w-full h-full flex items-center justify-center text-n-500"><Icon name="mouse" size={48} strokeWidth={1.25} /></div>
+              }
+            </div>
+            <div>
+              <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2 block">{post.data.category}</span>
+              <h2 class="text-base font-medium text-cream mb-1 tracking-tight leading-snug group-hover:underline underline-offset-4">
+                {post.data.title}
+              </h2>
+              <p class="text-xs text-n-500 font-light line-clamp-2 mt-1">{post.data.description}</p>
+              <time datetime={post.data.pubDate.toISOString()} class="text-[11px] text-n-500 font-light mt-3 block">{formatDate(post.data.pubDate)}</time>
+            </div>
+          </a>
+        ))}
+      </div>
+      <InfiniteReveal targetId="posts-grid" itemSelector=".post-card" initial={9} batch={9} />
+      </>
+    ) : (
+      <div class="text-center py-20">
+        <p class="text-sm text-n-500 font-light">{t('blog.noPosts', lang)}</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>

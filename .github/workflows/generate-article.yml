@@ -1,0 +1,104 @@
+name: Generate Article
+
+on:
+  # Cron désactivé par défaut dans le starter. Pour activer la publication
+  # automatique (3 articles/semaine), décommente les 2 lignes ci-dessous
+  # et alimente scripts/topics.json avec des sujets.
+  # schedule:
+  #   - cron: '0 8 * * 1,3,5'  # lun, mer, ven à 8h UTC
+  workflow_dispatch:
+
+concurrency:
+  group: hostinger-ftp
+  cancel-in-progress: true
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate article (FR)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        run: node scripts/generate-article.mjs
+
+      # Traduit automatiquement le nouvel article en EN + DE.
+      # Le script est idempotent (skip si la cible existe) → seul l'article
+      # tout juste créé est effectivement traduit, les autres sont ignorés.
+      - name: Translate new article to English
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/translate-content.mjs --lang en --collection blog
+
+      - name: Translate new article to German
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/translate-content.mjs --lang de --collection blog
+
+      - name: Compress new images
+        run: |
+          node -e "
+          const sharp = require('sharp');
+          const fs = require('fs');
+          const path = require('path');
+          const dir = './public/images/blog';
+          if (!fs.existsSync(dir)) process.exit(0);
+          const files = fs.readdirSync(dir).filter(f => f.endsWith('.webp') && !/-\d+w\.webp$/.test(f));
+          Promise.all(files.map(async f => {
+            const fp = path.join(dir, f);
+            const buf = await sharp(fp).webp({ quality: 65 }).toBuffer();
+            if (buf.length < fs.statSync(fp).size) fs.writeFileSync(fp, buf);
+          })).then(() => console.log('Images compressed'));
+          "
+
+      - name: Generate responsive variants (-400w / -800w)
+        run: node scripts/generate-responsive.mjs
+
+      - name: Check if article was created
+        id: check
+        run: |
+          git add src/content/blog/ scripts/topics.json public/images/blog/
+          git diff --staged --quiet && echo "created=false" >> $GITHUB_OUTPUT || echo "created=true" >> $GITHUB_OUTPUT
+
+      - name: Commit new article
+        if: steps.check.outputs.created == 'true'
+        run: |
+          SITE_NAME=$(node -e "import('./site.config.mjs').then(m=>process.stdout.write(m.default.name))")
+          git config user.name "${SITE_NAME} Bot"
+          git config user.email "bot@${GITHUB_REPOSITORY#*/}.com"
+          git commit -m "chore: auto-generate article"
+          for i in 1 2 3; do
+            git push && break
+            echo "Push attempt $i failed (probablement transitoire), rebase + retry dans 15s..."
+            git pull --rebase origin main || true
+            sleep 15
+          done
+          git push
+
+      - name: Build
+        if: steps.check.outputs.created == 'true'
+        run: npm run build
+
+      - name: Install lftp
+        if: steps.check.outputs.created == 'true'
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via lftp
+        if: steps.check.outputs.created == 'true'
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: bash scripts/deploy-ftp.sh

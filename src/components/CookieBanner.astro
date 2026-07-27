@@ -1,0 +1,158 @@
+---
+/**
+ * Bannière de consentement cookies — conforme RGPD/GDPR (UE 27 + UK)
+ * et CCPA (Californie). Couvre tous les marchés du shop : FR/EN/DE.
+ *
+ * Logique :
+ *  1. Au load, on lit localStorage("bp_cookie_consent")
+ *     - "accepted" / "refused"  → bannière masquée (l'utilisateur a choisi)
+ *     - null                    → on affiche la bannière après 800 ms (post-LCP)
+ *  2. Click "Accepter" / "Refuser" / X → écrit le choix dans localStorage,
+ *     dispatch un event `bp:consent-change` (utile si on branche GA plus tard),
+ *     puis cache la bannière avec une transition douce.
+ *
+ * Perf :
+ *  - Bannière injectée en bas du body (post Footer), JS différé via
+ *    requestIdleCallback → zéro impact LCP.
+ *  - Aucun cookie tiers chargé tant que l'utilisateur n'a pas accepté.
+ *
+ * Conformité :
+ *  - Les cookies "strictement nécessaires" (panier, paiement Stripe,
+ *    préférence langue bp_lang, ce consentement lui-même) ne requièrent
+ *    pas de consentement préalable selon le RGPD (art. 5(3) ePrivacy).
+ *  - "Accepter" et "Refuser" ont une visibilité équivalente (exigence
+ *    EDPB / CNIL / BfDI). Le X compte comme un refus pour éviter tout
+ *    consentement implicite.
+ *  - Pour activer Google Analytics, Meta Pixel ou autre tracker tiers
+ *    plus tard, écoute `bp:consent-change` et n'instancie le tracker
+ *    que si event.detail === "accepted".
+ */
+import { localeFromPath, localePrefix, t } from '../lib/i18n';
+
+const lang = localeFromPath(Astro.url.pathname);
+const lp = localePrefix(lang);
+const privacyHref = `${lp}/politique-de-confidentialite`;
+---
+
+<div
+  id="cookie-banner"
+  class="hidden fixed inset-x-3 bottom-3 md:inset-x-auto md:bottom-4 md:left-4 md:max-w-md z-[60] bg-panel border border-white/[0.12] rounded-2xl shadow-2xl backdrop-blur-md p-5 md:p-6"
+  role="dialog"
+  aria-labelledby="cookie-banner-title"
+  aria-describedby="cookie-banner-msg"
+>
+  <div class="flex items-start gap-3 mb-4">
+    <div class="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-cream shrink-0 mt-0.5" aria-hidden="true">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+        <path d="M8.5 8.5v.01"/>
+        <path d="M16 15.5v.01"/>
+        <path d="M12 12v.01"/>
+        <path d="M11 17v.01"/>
+        <path d="M7 14v.01"/>
+      </svg>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h2 id="cookie-banner-title" class="text-sm font-medium text-cream mb-1 tracking-tight">{t('cookies.title', lang)}</h2>
+      <p id="cookie-banner-msg" class="text-xs text-n-400 font-light leading-relaxed">
+        {t('cookies.message', lang)}{' '}
+        <a href={privacyHref} hreflang="fr" class="text-cream underline underline-offset-2 decoration-white/30 hover:decoration-cream transition-colors">
+          {t('cookies.learnMore', lang)}
+        </a>
+      </p>
+    </div>
+    <button
+      type="button"
+      id="cookie-banner-close"
+      aria-label={t('cookies.ariaClose', lang)}
+      class="w-7 h-7 rounded-full text-n-500 hover:text-cream transition-colors flex items-center justify-center shrink-0 -mt-1 -mr-1"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex items-center justify-end gap-5">
+    {/* "Refuser" comme lien stylisé (souligné, taille égale au texte du
+        message) plutôt que bouton. Reste accessible visuellement —
+        condition minimale RGPD pour que le choix soit considéré comme
+        libre. Évite la "dark pattern" du Refuser caché. */}
+    <button
+      type="button"
+      id="cookie-banner-refuse"
+      class="text-xs text-n-400 underline underline-offset-4 decoration-white/30 hover:text-cream hover:decoration-cream transition-colors"
+    >
+      {t('cookies.refuse', lang)}
+    </button>
+    <button
+      type="button"
+      id="cookie-banner-accept"
+      class="text-xs font-medium px-5 py-2.5 rounded-full bg-cream text-dark hover:bg-n-400 transition-colors"
+    >
+      {t('cookies.accept', lang)}
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Slide-up + fade-in à l'apparition. Réversible pour la sortie. */
+  #cookie-banner {
+    transform: translateY(8px);
+    opacity: 0;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  #cookie-banner.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Sortie symétrique */
+  #cookie-banner.leaving {
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const STORAGE_KEY = 'bp_cookie_consent';
+    function init() {
+      // Skip si l'utilisateur a déjà fait un choix
+      let prev = null;
+      try { prev = localStorage.getItem(STORAGE_KEY); } catch (_) {}
+      if (prev === 'accepted' || prev === 'refused') return;
+
+      const banner = document.getElementById('cookie-banner');
+      if (!banner) return;
+
+      const close = (choice) => {
+        try { localStorage.setItem(STORAGE_KEY, choice); } catch (_) {}
+        // Notify any listener (analytics setup, etc.) that consent state changed.
+        window.dispatchEvent(new CustomEvent('bp:consent-change', { detail: choice }));
+        banner.classList.add('leaving');
+        banner.classList.remove('visible');
+        setTimeout(() => banner.classList.add('hidden'), 230);
+      };
+
+      document.getElementById('cookie-banner-accept')
+        ?.addEventListener('click', () => close('accepted'));
+      document.getElementById('cookie-banner-refuse')
+        ?.addEventListener('click', () => close('refused'));
+      // Le bouton X compte comme un refus (ne pas acter d'accord par défaut — CNIL).
+      document.getElementById('cookie-banner-close')
+        ?.addEventListener('click', () => close('refused'));
+
+      // Reveal post-LCP (visible + transition kick in via the .visible class).
+      banner.classList.remove('hidden');
+      requestAnimationFrame(() => banner.classList.add('visible'));
+    }
+
+    // Différé jusqu'au idle, max 1500 ms pour ne pas trop tarder.
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(init, { timeout: 1500 });
+    } else {
+      setTimeout(init, 800);
+    }
+  })();
+</script>

@@ -1,0 +1,296 @@
+---
+import siteConfig from '../../site.config.mjs';
+import { t, localeFromPath, localePrefix, localizeUrl, ACTIVE_LOCALES, localeMeta } from '../lib/i18n';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const lang = localeFromPath(Astro.url.pathname);
+const lp = localePrefix(lang); // '' pour fr, '/en' pour en, '/de' pour de
+
+// Helpers internes : URLs préfixées par locale
+const url = (path: string) => `${lp}${path}`;
+
+// Pour la détection d'onglet actif, on travaille sur le pathname dépouillé du
+// préfixe de locale (le matcher reste identique en fr/en/de).
+const stripped = lp ? pathname.replace(new RegExp(`^${lp}`), '') || '/' : pathname;
+
+// Switcher de langue : pour chaque locale active, on calcule l'URL équivalente
+// dans cette locale. Affiché uniquement si > 1 locale active.
+const showLangSwitcher = ACTIVE_LOCALES.length > 1;
+const langSwitcherItems = ACTIVE_LOCALES.map(l => ({
+  code: l,
+  label: localeMeta(l).label,
+  short: localeMeta(l).short,
+  href: localizeUrl(Astro.url.pathname, l),
+  active: l === lang,
+}));
+
+// Détermine quel onglet est actif selon l'URL courante
+// Liste des pages légales/statiques pour exclure de "Blog actif"
+const LEGAL = ['/contact', '/mentions-legales', '/politique-de-confidentialite',
+               '/conditions-generales-de-vente-cgv', '/livraisons-et-retours'];
+
+const isHome    = stripped === '/';
+const isShop    = stripped === '/boutique' || stripped.startsWith('/product/') || stripped.startsWith('/product-category/');
+const isContact = stripped === '/contact';
+// Blog actif sur /blog, /category/*, et les articles de blog (slug à la racine
+// non légal + non home)
+const isBlog    = stripped === '/blog'
+                  || stripped.startsWith('/category/')
+                  || (!isShop && !isHome && !LEGAL.includes(stripped));
+
+// Ordre des catégories produit dans le dropdown header
+const cats = (siteConfig.productCategories || []) as {slug:string; label:string}[];
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 left-0 right-0 backdrop-blur-xl bg-dark/80 border-b border-white/[0.08]"
+  style="height: var(--header-h); z-index: 10000;"
+>
+  <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+    <a href={url('/')} class="font-medium tracking-tightest text-lg text-cream shrink-0" aria-label={`${siteConfig.name} - ${t('nav.home', lang)}`}>
+      {siteConfig.logoPrefix}<span class="text-n-400">{siteConfig.logoSuffix}</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-7 font-body text-sm" aria-label="Navigation">
+      <a href={url('/')} class={`nav-link ${isHome ? 'nav-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+
+      {siteConfig.shop?.enabled && (
+        <a href={url('/boutique')} class={`nav-link ${isShop ? 'nav-active' : ''}`} aria-current={isShop ? 'page' : undefined}>{t('nav.shop', lang)}</a>
+      )}
+
+      {siteConfig.shop?.enabled && cats.length > 0 && (
+        <details class="nav-dropdown relative">
+          <summary
+            class="nav-cat-trigger inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-white/[0.03] text-cream cursor-pointer hover:border-white/25 hover:bg-white/[0.07] transition-colors select-none"
+            aria-label={t('nav.openCategoryMenu', lang)}
+          >
+            <span>{t('nav.categories', lang)}</span>
+            <svg class="w-3.5 h-3.5 nav-cat-chevron text-n-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+          <div class="nav-cat-panel absolute top-full left-1/2 -translate-x-1/2 mt-3 min-w-[300px] rounded-2xl border border-white/[0.12] bg-panel shadow-2xl p-2 z-30" role="menu">
+            <a href={url('/boutique')} class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors" role="menuitem">
+              <span>{t('nav.categoriesAll', lang)}</span>
+              <span class="text-[10px] text-n-500 uppercase tracking-widest">{t('nav.shop', lang)}</span>
+            </a>
+            <div class="h-px bg-white/[0.06] my-2 mx-2"></div>
+            {cats.map(c => {
+              const active = stripped === `/product-category/${c.slug}`;
+              return (
+                <a
+                  href={url(`/product-category/${c.slug}`)}
+                  class={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${active ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
+                  aria-current={active ? 'page' : undefined}
+                  role="menuitem"
+                >
+                  <span>{c.label}</span>
+                  {active && (
+                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  )}
+                </a>
+              );
+            })}
+          </div>
+        </details>
+      )}
+
+      <a href={url('/blog')} class={`nav-link ${isBlog ? 'nav-active' : ''}`} aria-current={isBlog ? 'page' : undefined}>{t('nav.blog', lang)}</a>
+      <a href={url('/contact')} class={`nav-link ${isContact ? 'nav-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+    </nav>
+
+    <div class="flex items-center gap-5 shrink-0">
+      {showLangSwitcher && (
+        <details class="lang-switcher relative">
+          <summary
+            class="lang-switcher-trigger inline-flex items-center gap-1 text-xs font-medium text-n-400 hover:text-cream cursor-pointer select-none transition-colors"
+            aria-label="Choisir la langue / Choose language / Sprache wählen"
+          >
+            <span>{localeMeta(lang).short}</span>
+            <svg class="w-3 h-3 lang-chevron text-n-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+          <div class="lang-panel absolute top-full right-0 mt-3 min-w-[140px] rounded-xl border border-white/[0.12] bg-panel shadow-2xl p-1.5 z-30" role="menu">
+            {langSwitcherItems.map(item => (
+              <a
+                href={item.href}
+                hreflang={item.code}
+                class={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-xs transition-colors ${item.active ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
+                role="menuitem"
+                aria-current={item.active ? 'true' : undefined}
+                data-lang-link={item.code}
+              >
+                <span>{item.label}</span>
+                <span class="text-[10px] tracking-widest opacity-60">{item.short}</span>
+              </a>
+            ))}
+          </div>
+        </details>
+      )}
+      {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && (
+        <div data-atelier-cart-icon class="flex items-center"></div>
+      )}
+
+      <!-- Mobile menu button -->
+      <button
+        id="menu-btn"
+        class="md:hidden text-n-400 hover:text-cream transition-colors flex items-center justify-center"
+        aria-label={t('nav.menu', lang)}
+        aria-expanded="false"
+      >
+        <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav
+    id="mobile-nav"
+    class="hidden md:hidden bg-dark border-t border-white/[0.08] px-6 py-4 flex-col gap-1 font-body text-sm"
+    aria-label={t('nav.menu', lang)}
+  >
+    <a href={url('/')} class={`block py-2.5 transition-colors ${isHome ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+    {siteConfig.shop?.enabled && (
+      <a
+        href={url('/boutique')}
+        class={`my-1.5 flex items-center justify-between gap-2 px-4 py-2.5 rounded-full border transition-colors ${isShop ? 'bg-cream text-dark border-cream font-medium' : 'border-white/[0.12] bg-white/[0.03] text-cream hover:border-white/25 hover:bg-white/[0.07]'}`}
+        aria-current={isShop ? 'page' : undefined}
+      >
+        <span class="text-sm">{t('nav.shop', lang)}</span>
+        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </a>
+    )}
+
+    {/* Catégories en accordéon sur mobile - style pill distinct */}
+    {siteConfig.shop?.enabled && cats.length > 0 && (
+      <details class="mobile-cat-details my-1.5">
+        <summary class="flex items-center justify-between gap-2 px-4 py-2.5 rounded-full border border-white/[0.12] bg-white/[0.03] text-cream cursor-pointer list-none select-none hover:border-white/25 hover:bg-white/[0.07] transition-colors">
+          <span class="text-sm">{t('nav.categories', lang)}</span>
+          <svg class="w-4 h-4 mobile-cat-chevron text-n-400 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-2 pl-4 py-1 space-y-0.5 border-l border-white/[0.08] ml-1">
+          {cats.map(c => {
+            const active = stripped === `/product-category/${c.slug}`;
+            return (
+              <a
+                href={url(`/product-category/${c.slug}`)}
+                class={`block py-2 text-xs transition-colors ${active ? 'text-cream font-medium' : 'text-n-500 hover:text-cream'}`}
+                aria-current={active ? 'page' : undefined}
+              >
+                {c.label}
+              </a>
+            );
+          })}
+        </div>
+      </details>
+    )}
+
+    <a href={url('/blog')} class={`block py-2.5 transition-colors ${isBlog ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isBlog ? 'page' : undefined}>{t('nav.blog', lang)}</a>
+    <a href={url('/contact')} class={`block py-2.5 transition-colors ${isContact ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+  </nav>
+</header>
+
+<style>
+  /* ─── Liens de nav avec indicateur de page active ───────────────── */
+  .nav-link {
+    position: relative;
+    color: #9ca3af; /* n-400 */
+    transition: color 0.2s;
+  }
+  .nav-link:hover {
+    color: #111113; /* cream */
+  }
+  .nav-link.nav-active {
+    color: #111113;
+  }
+  .nav-link.nav-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    background: #111113;
+    border-radius: 2px;
+  }
+
+  /* ─── Dropdown Catégories ──────────────────────────────────────── */
+  .nav-dropdown summary { list-style: none; }
+  .nav-dropdown summary::-webkit-details-marker { display: none; }
+  .nav-dropdown[open] .nav-cat-chevron { transform: rotate(180deg); }
+  .nav-cat-chevron { transition: transform 0.2s ease; }
+  .nav-cat-panel { animation: nav-cat-fade 0.15s ease-out; }
+  @keyframes nav-cat-fade {
+    from { opacity: 0; transform: translate(-50%, -4px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  /* ─── Mobile catégories accordion ─────────────────────────────── */
+  .mobile-cat-details summary { list-style: none; }
+  .mobile-cat-details summary::-webkit-details-marker { display: none; }
+  .mobile-cat-details[open] .mobile-cat-chevron { transform: rotate(180deg); }
+
+  /* ─── Switcher de langue ──────────────────────────────────────── */
+  .lang-switcher summary { list-style: none; }
+  .lang-switcher summary::-webkit-details-marker { display: none; }
+  .lang-switcher[open] .lang-chevron { transform: rotate(180deg); }
+  .lang-chevron { transition: transform 0.2s ease; }
+  .lang-panel { animation: lang-fade 0.15s ease-out; }
+  @keyframes lang-fade {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const nav = document.getElementById('mobile-nav');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !nav?.classList.contains('hidden');
+    nav?.classList.toggle('hidden', isOpen);
+    nav?.classList.toggle('flex', !isOpen);
+    iconMenu?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  // Ferme les dropdowns au clic ailleurs (desktop)
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node;
+    document.querySelectorAll('.nav-dropdown[open], .lang-switcher[open]').forEach((d) => {
+      if (!d.contains(target)) d.removeAttribute('open');
+    });
+  });
+
+  // ─── Mémorisation du choix de langue ────────────────────────────
+  // Quand l'utilisateur clique un lien du switcher, on stocke le code dans
+  // un cookie 1 an. À la prochaine visite, le bandeau d'auto-détection (ci-
+  // dessous) ne propose plus rien.
+  document.querySelectorAll('[data-lang-link]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const code = (el as HTMLElement).dataset.langLink;
+      if (code) {
+        document.cookie = `bp_lang=${code}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+      }
+    });
+  });
+</script>

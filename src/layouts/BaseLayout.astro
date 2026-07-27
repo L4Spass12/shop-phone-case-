@@ -1,0 +1,197 @@
+---
+import '../styles/global.css';
+import siteConfig from '../../site.config.mjs';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LangSuggestBanner from '../components/LangSuggestBanner.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** Additional JSON-LD block(s) to inject (object or array) */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Preload hint pour le LCP : image(s) responsive prioritaires */
+  preloadImages?: Array<{
+    href: string;
+    media?: string;
+    imagesrcset?: string;
+    imagesizes?: string;
+  }>;
+}
+
+const SITE_NAME = siteConfig.name;
+const SITE_URL = siteConfig.url;
+const DEFAULT_DESCRIPTION = siteConfig.description;
+
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  image = '/og-image.jpg',
+  type = 'website',
+  noindex = false,
+  jsonLd,
+  preloadImages = [],
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+const ogImage = new URL(image, Astro.site ?? SITE_URL).toString();
+
+// Locale courante : déduite de l'URL (ex: /en/foo/ → "en"). Fallback : défaut.
+const currentLocale: Locale = (Astro.currentLocale as Locale) ?? localeFromPath(Astro.url.pathname);
+const currentLocaleMeta = localeMeta(currentLocale);
+
+// hreflang alternates : pour chaque locale active, on calcule l'URL équivalente
+// (le path sans préfixe locale est partagé). x-default pointe vers la locale par défaut.
+// Tant qu'une seule locale est active, on n'émet RIEN (Google ignore les hreflang
+// pointant vers la même page) — pas de pollution dans le head.
+const hreflangAlternates = ACTIVE_LOCALES.length > 1
+  ? ACTIVE_LOCALES.map((lang) => ({
+      hreflang: localeMeta(lang).htmlLang,
+      href: new URL(localizeUrl(Astro.url.pathname, lang), SITE_URL).toString(),
+    }))
+  : [];
+
+// Organization + WebSite structured data (always present)
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE_URL}/og-image.jpg`,
+    width: 1200,
+    height: 630,
+  },
+  sameAs: Object.values(siteConfig.socials).filter(Boolean),
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  inLanguage: currentLocaleMeta.htmlLang,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${SITE_URL}/blog?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const baseSchemas = [organizationSchema, websiteSchema];
+const extraSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const allSchemas = [...baseSchemas, ...extraSchemas];
+---
+
+<!doctype html>
+<html lang={currentLocaleMeta.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
+    {preloadImages.map(img => (
+      <link
+        rel="preload"
+        as="image"
+        href={img.href}
+        media={img.media}
+        imagesrcset={img.imagesrcset}
+        imagesizes={img.imagesizes}
+        fetchpriority="high"
+      />
+    ))}
+
+    <!-- Favicons (?v=2 = cache-bust : .htaccess force max-age=1y, immutable sur les SVG) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
+    <link rel="mask-icon" href="/favicon.svg?v=2" color="#FFFFFF" />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+
+    {/* hreflang alternates : multi-langues. x-default = la locale par défaut.
+        Émis uniquement quand au moins 2 locales sont actives (sinon, polluant). */}
+    {hreflangAlternates.length > 0 && (
+      <>
+        {hreflangAlternates.map((alt) => (
+          <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+        ))}
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={new URL(localizeUrl(Astro.url.pathname, ACTIVE_LOCALES[0]), SITE_URL).toString()}
+        />
+      </>
+    )}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={currentLocaleMeta.ogLocale} />
+    <meta property="og:site_name" content={SITE_NAME} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- RSS feed discovery -->
+    <link rel="alternate" type="application/rss+xml" title={`Blog ${SITE_NAME}`} href={`${SITE_URL}/rss.xml`} />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+
+    <!-- Structured data (JSON-LD) -->
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+    {/* ─────────── Atelier widget (paiement 1 étape via Stripe) ───────────
+        On lui passe la locale et la devise courantes via data-* attributes.
+        Le widget DOIT lire ces attributs et localiser ses labels + son
+        format de prix en conséquence. Si les labels restent en FR malgré
+        data-locale, c'est que le widget côté worker n'a pas encore l'i18n
+        implémentée — fix à faire dans le repo du widget. */}
+    {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && siteConfig.shop?.atelier?.shopId && (
+      <script
+        src={siteConfig.shop.atelier.widgetUrl}
+        data-shop-id={siteConfig.shop.atelier.shopId}
+        data-locale={currentLocale}
+        data-language={currentLocale}
+        data-currency={currencyForLocale(currentLocale)}
+        defer
+      ></script>
+    )}
+
+  </head>
+  <body>
+    <Header />
+    <main style="padding-top: var(--header-h);">
+      <slot />
+    </main>
+    <Footer />
+    <LangSuggestBanner />
+    <CookieBanner />
+  </body>
+</html>

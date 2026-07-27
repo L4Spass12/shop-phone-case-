@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import { unsplashSrcset, unsplashAt } from '../lib/image';
+import { t, parseEntrySlug, localePrefix, type Locale } from '../lib/i18n';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  lang?: Locale;
+}
+const { posts, lang = 'fr' } = Astro.props;
+
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const articleHref = (slug: string) => url('/' + parseEntrySlug(slug).slug);
+
+const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat(intlLocale, { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+---
+
+<section id="blog" class="relative py-24 px-6 border-t border-white/[0.04] overflow-hidden bg-gradient-to-b from-dark via-[#0c0e14] to-dark">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-[#3b5bff]/[0.06] blur-[140px] rounded-[100%] pointer-events-none"></div>
+  <div class="absolute bottom-10 right-10 w-[400px] h-[250px] bg-[#b45cff]/[0.04] blur-[120px] rounded-full pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2 block">{t('home.recentLabel', lang)}</span>
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-2">{t('home.recentTitle', lang)}</h2>
+        <p class="text-sm text-n-500 font-light">{t('blog.subtitle', lang)}</p>
+      </div>
+      <a href={url('/blog')} class="hidden md:inline-flex items-center gap-2 text-sm text-n-400 hover:text-cream transition-colors">
+        {t('home.viewAllArticles', lang)} →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {posts.map((post) => (
+        <a href={articleHref(post.slug)} class="group block">
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-5">
+            {post.data.image
+              ? <img
+                  src={unsplashAt(post.data.image, 600)}
+                  srcset={unsplashSrcset(post.data.image, [400, 600, 800])}
+                  sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 48px), 380px"
+                  alt={post.data.imageAlt ?? post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                  width="800" height="600" loading="lazy"
+                />
+              : <div class="w-full h-full flex items-center justify-center text-n-500"><Icon name="mouse" size={48} strokeWidth={1.25} /></div>
+            }
+            {post.data.featured && (
+              <div class="absolute top-4 left-4">
+                <span class="bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('home.featuredBadge', lang)}</span>
+              </div>
+            )}
+          </div>
+          <div class="flex flex-col">
+            <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2">{post.data.category}</span>
+            <h3 class="text-base font-medium text-cream mb-1 tracking-tight leading-snug group-hover:underline underline-offset-4">
+              {post.data.title}
+            </h3>
+            <p class="text-xs text-n-500 font-light line-clamp-2 mt-1">{post.data.description}</p>
+            <time datetime={post.data.pubDate.toISOString()} class="text-[11px] text-n-500 font-light mt-3">{formatDate(post.data.pubDate)}</time>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-10 md:hidden">
+      <a href={url('/blog')} class="btn-primary">{t('home.viewAllArticles', lang)}</a>
+    </div>
+  </div>
+</section>

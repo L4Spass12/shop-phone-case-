@@ -1,0 +1,168 @@
+---
+// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+
+const title = "Conditions Générales de Vente (CGV)";
+const description = `Les présentes conditions générales de vente s'appliquent à toutes les ventes conclues sur le site Internet ${siteConfig.name}.`;
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
+    <article class="prose prose-lg max-w-none
+      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+      prose-strong:text-cream prose-strong:font-medium
+      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
+      prose-hr:border-white/[0.08]"
+      set:html={`
+<h4 class="wp-block-heading">Préambule</h4>
+
+
+
+<p>Les présentes conditions générales de vente s&rsquo;appliquent à toutes les ventes conclues sur le site Internet <strong>${siteConfig.name}</strong>.</p>
+
+
+
+<p>Le site est édité par : <strong>[NOM DE LA SOCIÉTÉ]</strong>, [FORME JURIDIQUE], situé au <strong>[ADRESSE]</strong>, immatriculé sous le numéro <strong>[SIRET]</strong>. Email : <strong>${siteConfig.forms.contactEmail}</strong> Téléphone : <strong>[TÉLÉPHONE]</strong></p>
+
+
+
+<p>Le client déclare avoir pris connaissance et avoir accepté les conditions générales de vente antérieurement à la passation de sa commande. La validation de la commande vaut donc acceptation des conditions générales de vente.</p>
+
+
+
+<h4 class="wp-block-heading">Article 1 &#8211; Principes</h4>
+
+
+
+<p>Les présentes conditions générales expriment l&rsquo;intégralité des obligations des parties. Elles sont accessibles sur le site <strong>${siteConfig.name}</strong> et prévaudront, le cas échéant, sur toute autre version ou tout autre document contradictoire.</p>
+
+
+
+<h4 class="wp-block-heading">Article 2 &#8211; Prix</h4>
+
+
+
+<p>Les prix de nos produits sont indiqués en euros. <strong>[RÉGIME TVA : ex. « TVA non applicable, art. 293 B du CGI » ou « TVA incluse »]</strong> Les prix ne tiennent pas compte des frais de livraison, facturés en supplément, et indiqués avant la validation de la commande. Le vendeur se réserve le droit de modifier ses prix à tout moment, mais le produit sera facturé sur la base du tarif en vigueur au moment de la validation de la commande.</p>
+
+
+
+<h4 class="wp-block-heading">Article 3 &#8211; Commande</h4>
+
+
+
+<p>La commande est validée lorsque le client :</p>
+
+
+
+<ol start="1" class="wp-block-list">
+<li>Sélectionne ses produits.</li>
+
+
+
+<li>Vérifie le détail de sa commande et son prix total (panier).</li>
+
+
+
+<li>Confirme sa commande et procède au paiement (« Double clic »). Toute commande vaut acceptation des prix et descriptions des produits disponibles à la vente. <strong>${siteConfig.name}</strong> accuse réception de la commande par l&rsquo;envoi d&rsquo;un e-mail.</li>
+</ol>
+
+
+
+<h4 class="wp-block-heading">Article 4 &#8211; Paiement</h4>
+
+
+
+<p>Le fait de valider la commande implique pour vous l&rsquo;obligation de payer le prix indiqué. Le règlement de vos achats s&rsquo;effectue par carte bancaire grâce au système sécurisé <strong>Stripe</strong>. Le débit de la carte est effectué au moment de la commande.</p>
+
+
+
+<h4 class="wp-block-heading">Article 5 &#8211; Livraison</h4>
+
+
+
+<p>Les produits sont livrés à l&rsquo;adresse de livraison indiquée au cours du processus de commande. Les délais de livraison indiqués sur le site sont des délais indicatifs, correspondant aux délais moyens de traitement et de livraison. En cas de retard d&rsquo;expédition, un mail vous sera adressé pour vous informer d&rsquo;une éventuelle conséquence sur le délai de livraison qui vous a été indiqué. Conformément aux dispositions légales, en cas de retard de livraison de plus de 30 jours, vous bénéficiez de la possibilité d&rsquo;annuler la commande.</p>
+
+
+
+<h4 class="wp-block-heading">Article 6 &#8211; Droit de rétractation</h4>
+
+
+
+<p>Conformément aux dispositions de l&rsquo;article L.221-18 du Code de la Consommation, vous disposez d&rsquo;un délai de <strong>14 jours</strong> à compter de la réception de vos produits pour exercer votre droit de rétractation sans avoir à justifier de motifs ni à payer de pénalité.</p>
+
+
+
+<p><strong>Retours :</strong> Les retours sont à effectuer dans leur état d&rsquo;origine et complets (emballage, accessoires, notice). Dans ce cadre, votre responsabilité est engagée. Tout dommage subi par le produit à cette occasion peut être de nature à faire échec au droit de rétractation</p>
+
+
+
+<p><strong>Remboursement :</strong> En cas d&rsquo;exercice du droit de rétractation, <strong>[NOM DE LA SOCIÉTÉ]</strong> procédera au remboursement des sommes versées, dans un délai de 14 jours suivant la notification de votre demande et via le même moyen de paiement que celui utilisé lors de la commande.</p>
+
+
+
+<h4 class="wp-block-heading">Article 7 &#8211; Garanties Légales</h4>
+
+
+
+<p>Tous nos produits bénéficient de la garantie légale de conformité (articles L.217-4 et suivants du Code de la consommation) et de la garantie des vices cachés (articles 1641 et suivants du Code civil), permettant de renvoyer les produits livrés défectueux ou non conformes.</p>
+
+
+
+<h4 class="wp-block-heading">Article 9 &#8211; Données personnelles</h4>
+
+
+
+<p>Les informations nominatives collectées sont indispensables pour le traitement de votre commande et l&rsquo;établissement des factures. Elles peuvent être communiquées aux partenaires chargés de l&rsquo;exécution, du traitement, de la gestion et du paiement des commandes. Le client dispose d&rsquo;un droit d&rsquo;accès permanent, de modification, de rectification et d&rsquo;opposition s&rsquo;agissant des informations le concernant.</p>
+
+
+
+<p><strong>ANNEXE &#8211; MODÈLE DE FORMULAIRE DE RÉTRACTATION</strong></p>
+
+
+
+<p><em>(Veuillez compléter et renvoyer le présent formulaire uniquement si vous souhaitez vous rétracter du contrat)</em></p>
+
+
+
+<p><strong>À l&rsquo;attention de [NOM DE LA SOCIÉTÉ],</strong> <strong>[ADRESSE]</strong> <strong>Email : ${siteConfig.forms.contactEmail}</strong></p>
+
+
+
+<p>Je/Nous (<em>) vous notifie/notifions (</em>) par la présente ma/notre (<em>) rétractation du contrat portant sur la vente du bien (</em>)/pour la prestation de services (*) ci-dessous :</p>
+
+
+
+<p>Commandé le (<em>) / Reçu le (</em>) : &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</p>
+
+
+
+<p>Numéro de la commande : &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</p>
+
+
+
+<p>Nom du (des) consommateur(s) : &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</p>
+
+
+
+<p>Adresse du (des) consommateur(s) : &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</p>
+
+
+
+<p>Signature du (des) consommateur(s) (uniquement en cas de notification du présent formulaire sur papier) :</p>
+
+
+
+<p>Date : &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</p>
+
+
+
+<p><em>(</em>) Rayez la mention inutile.*</p>
+`}
+    />
+  </div>
+</BaseLayout>

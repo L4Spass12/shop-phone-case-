@@ -1,0 +1,785 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Icon from '../../../components/Icon.astro';
+import FabricationSection from '../../../components/FabricationSection.astro';
+import { getCollection } from 'astro:content';
+import siteConfig from '../../../../site.config.mjs';
+import { unsplashSrcset } from '../../../lib/image';
+import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  const nonDefaultLocales = ACTIVE_LOCALES.filter(l => l !== siteConfig.i18n.defaultLocale);
+  return products
+    .filter(p => {
+      const { lang } = parseEntrySlug(p.slug);
+      return (nonDefaultLocales as string[]).includes(lang);
+    })
+    .map(product => {
+      const { lang, slug } = parseEntrySlug(product.slug);
+      return {
+        params: { lang, slug },
+        props: { product },
+      };
+    });
+}
+
+const { lang } = Astro.params as { lang: 'fr' | 'en' | 'de' };
+const { product } = Astro.props;
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const productHref = (slug: string) => url('/product/' + parseEntrySlug(slug).slug);
+
+const { Content } = await product.render();
+const {
+  name, price, compareAtPrice, priceRange, image, imageAlt, gallery,
+  categories, shortDescription, stock, sku, attributes, variations,
+} = product.data as any;
+
+const allProducts = await getCollection('products');
+
+// Sélection catégorie pour le slider "Vous aimerez aussi"
+const GENERIC_CATEGORIES = new Set([
+  'categorie-transversale-exemple',
+]);
+const preferredCategory = (categories || []).find((c: string) => !GENERIC_CATEGORIES.has(c))
+  ?? categories?.[0];
+
+const productLang = parseEntrySlug(product.slug).lang;
+const related = allProducts
+  .filter(p => p.slug !== product.slug
+    && parseEntrySlug(p.slug).lang === productLang
+    && (p.data.categories || []).includes(preferredCategory));
+
+const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
+  style: 'currency', currency: localeMeta(lang).currency || 'EUR',
+}).format(n);
+
+const _today = new Date();
+function addCalendarDays(date: Date, days: number) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+const deliveryStart = addCalendarDays(_today, 6);
+const deliveryEnd   = addCalendarDays(_today, 10);
+const fmtDeliveryDate = (d: Date) =>
+  new Intl.DateTimeFormat(intlLocale, { day: 'numeric', month: 'long' }).format(d);
+const deliveryWindowText = lang === 'en'
+  ? `between ${fmtDeliveryDate(deliveryStart)} and ${fmtDeliveryDate(deliveryEnd)}`
+  : lang === 'de'
+  ? `zwischen dem ${fmtDeliveryDate(deliveryStart)} und dem ${fmtDeliveryDate(deliveryEnd)}`
+  : `entre le ${fmtDeliveryDate(deliveryStart)} et le ${fmtDeliveryDate(deliveryEnd)}`;
+
+const SITE_URL = siteConfig.url;
+const productUrl = `${SITE_URL}${productHref(product.slug)}`;
+const imageUrl = new URL(image, SITE_URL).toString();
+const hasVariations = Array.isArray(variations) && variations.length > 0;
+const inStock = hasVariations ? variations.some((v: any) => v.inStock) : (stock == null || stock > 0);
+
+const brandSuffix = ` | ${siteConfig.name}`;
+const seoTitle = (name.length + brandSuffix.length) <= 60
+  ? `${name}${brandSuffix}`
+  : name;
+const priceStart = priceRange?.min ?? price;
+const truncated = shortDescription.length > 70
+  ? shortDescription.slice(0, 70).replace(/\s+\S*$/, '') + '…'
+  : shortDescription;
+const seoDescription = `${name}. ${truncated} ${t('shop.from', lang)} ${formatPrice(priceStart)}.`.slice(0, 160);
+
+const variantsJson = JSON.stringify(variations || []);
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name,
+  description: shortDescription,
+  image: [imageUrl, ...(gallery || []).slice(1).map((g: string) => new URL(g, SITE_URL).toString())],
+  sku: sku ?? product.slug,
+  brand: { '@type': 'Brand', name: siteConfig.name },
+  offers: hasVariations ? {
+    '@type': 'AggregateOffer',
+    priceCurrency: localeMeta(lang).currency || 'EUR',
+    lowPrice: priceRange?.min ?? price,
+    highPrice: priceRange?.max ?? price,
+    offerCount: variations.length,
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+  } : {
+    '@type': 'Offer',
+    url: productUrl,
+    priceCurrency: localeMeta(lang).currency || 'EUR',
+    price: price.toFixed(2),
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    itemCondition: 'https://schema.org/NewCondition',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('nav.home', lang), item: `${SITE_URL}${lp}/` },
+    { '@type': 'ListItem', position: 2, name: t('shop.breadcrumbShop', lang), item: `${SITE_URL}${lp}/boutique` },
+    { '@type': 'ListItem', position: 3, name, item: productUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={image}
+  jsonLd={[productSchema, breadcrumbSchema]}
+  noindex={(categories ?? []).length === 0}
+>
+  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
+    <nav class="flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
+      <a href={url('/')} class="hover:text-cream transition-colors shrink-0">{t('nav.home', lang)}</a>
+      <span class="shrink-0">/</span>
+      <a href={url('/boutique')} class="hover:text-cream transition-colors shrink-0">{t('shop.breadcrumbShop', lang)}</a>
+      <span class="shrink-0">/</span>
+      <span class="text-n-400 truncate">{name}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+      {(() => {
+        const slides = Array.from(new Set([image, ...(gallery || [])]));
+        return (
+        <div class="product-gallery" data-gallery data-slide-count={slides.length}>
+          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/3] group">
+            <div class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full" data-gallery-track>
+              {slides.map((src, i) => (
+                <div class="flex-none w-full h-full snap-start snap-always">
+                  <img
+                    data-gallery-slide={i}
+                    src={src}
+                    srcset={unsplashSrcset(src)}
+                    sizes="(max-width: 1024px) 100vw, 560px"
+                    alt={i === 0 ? (imageAlt ?? name) : `${name} - ${i + 1}`}
+                    class="w-full h-full object-cover"
+                    width="1200" height="900"
+                    fetchpriority={i === 0 ? 'high' : 'auto'}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {slides.length > 1 && (
+              <>
+                <button type="button" data-gallery-prev class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button type="button" data-gallery-next class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </>
+            )}
+          </div>
+
+          {slides.length > 1 && (
+            <div class="hidden md:grid grid-cols-5 gap-2 mt-3">
+              {slides.slice(0, 10).map((g, i) => (
+                <button type="button" data-gallery-thumb={i} class={`gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}>
+                  <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        );
+      })()}
+
+      <div class="flex flex-col">
+        {categories && categories.length > 0 && (
+          <div class="flex flex-wrap gap-1.5 mb-3">
+            {categories.map((c: string) => (
+              <a
+                href={url(`/product-category/${c}`)}
+                class="text-[10px] text-n-500 font-medium uppercase tracking-widest hover:text-cream transition-colors"
+              >
+                {c.replace(/-/g, ' ')}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
+          {name}
+        </h1>
+        <p class="text-sm md:text-base text-n-400 leading-relaxed mb-6 font-light">
+          {shortDescription}
+        </p>
+
+        <div class="flex items-baseline gap-3 mb-2">
+          <span id="product-price" class="text-2xl md:text-3xl text-cream font-medium tracking-tight">
+            {priceRange && priceRange.min !== priceRange.max
+              ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}`
+              : formatPrice(price)}
+          </span>
+          {compareAtPrice && (
+            <span id="product-compare" class="text-sm text-n-500 line-through font-light">
+              {formatPrice(compareAtPrice)}
+            </span>
+          )}
+          {compareAtPrice && (
+            <span class="text-[10px] font-medium bg-cream text-dark px-2 py-1 rounded-sm uppercase tracking-wider">
+              -{Math.round((1 - price / compareAtPrice) * 100)}%
+            </span>
+          )}
+        </div>
+        <div class="mb-8"></div>
+
+        <div id="product-stock" class={`flex items-center gap-2 mb-6 text-sm font-light ${inStock ? 'text-sage' : 'text-n-500'}`}>
+          <span class={`w-1.5 h-1.5 rounded-full ${inStock ? 'bg-sage' : 'bg-n-500'}`}></span>
+          <span>{inStock ? t('shop.inStock', lang) : t('shop.outOfStock', lang)}</span>
+        </div>
+
+        {hasVariations && attributes.length > 0 && (
+          <div id="variant-selector" class="space-y-6 mb-8">
+            {attributes.map((attr: any) => {
+              const SIZE_RE = /(\d+)\s*[x×]\s*(\d+)/i;
+              const parsed = attr.values.map((v: any) => {
+                const m = v.label.match(SIZE_RE);
+                return m ? { ...v, w: parseInt(m[1], 10), h: parseInt(m[2], 10) } : { ...v, w: null, h: null };
+              });
+              const isSize = parsed.every((v: any) => v.w != null && v.h != null);
+
+              if (!isSize) {
+                return (
+                  <div>
+                    <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                      {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                      {attr.values.map((val: any, idx: number) => (
+                        <button
+                          type="button" data-variant-option data-variant-type="pill"
+                          data-attr={attr.name} data-value={val.slug}
+                          class={`variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors ${idx === 0 ? 'bg-cream text-dark border-cream' : 'bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20'}`}
+                        >
+                          {val.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              const maxW = Math.max(...parsed.map((v: any) => v.w));
+              const maxH = Math.max(...parsed.map((v: any) => v.h));
+              const largestIdx = parsed.reduce(
+                (best: number, v: any, i: number, arr: any[]) => (v.w * v.h > arr[best].w * arr[best].h ? i : best),
+                0
+              );
+
+              return (
+                <div>
+                  <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                    {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                  </label>
+                  <div class="grid gap-2" style={`grid-template-columns: repeat(${parsed.length}, minmax(0, 1fr));`}>
+                    {parsed.map((val: any, idx: number) => {
+                      const isSelected = idx === largestIdx;
+                      const isPopular  = idx === largestIdx;
+                      const pad = 5;
+                      const vbW = maxW + pad * 2;
+                      const vbH = maxH + pad * 2;
+                      const padX = pad;
+                      const padY = pad + (maxH - val.h) / 2;
+                      const mouseW = Math.min(7, val.w * 0.13);
+                      const mouseH = Math.min(12, val.h * 0.32);
+                      const mouseCx = padX + val.w - mouseW / 2 - val.w * 0.08;
+                      const mouseCy = padY + val.h / 2;
+                      const showKeyboard = val.w >= 55;
+                      const kbW = Math.min(36, val.w * 0.55);
+                      const kbH = kbW * 0.36;
+                      const kbX = padX + val.w * 0.08;
+                      const kbY = padY + (val.h - kbH) / 2;
+
+                      return (
+                        <button
+                          type="button" data-variant-option data-variant-type="size"
+                          data-attr={attr.name} data-value={val.slug}
+                          class={`variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0 ${isSelected ? 'bg-white/[0.04] border-cream' : 'bg-white/[0.02] border-white/[0.08] hover:border-white/25'}`}
+                          aria-label={val.label}
+                        >
+                          {isPopular && (
+                            <span class="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] md:text-[10px] font-medium bg-cream text-dark px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-sm">
+                              {t('shop.popular', lang)}
+                            </span>
+                          )}
+                          <svg viewBox={`0 0 ${vbW} ${vbH}`} class="w-full h-auto mb-2 block" aria-hidden="true">
+                            <rect x={padX} y={padY} width={val.w} height={val.h} rx="2" ry="2"
+                              fill={isSelected ? 'rgba(244,244,247,0.10)' : 'rgba(255,255,255,0.04)'}
+                              stroke={isSelected ? 'rgba(244,244,247,0.8)' : 'rgba(255,255,255,0.25)'}
+                              stroke-width="0.5" class="size-rect"/>
+                            {showKeyboard && (
+                              <g class="keyboard-g">
+                                <rect x={kbX} y={kbY} width={kbW} height={kbH} rx="1" ry="1"
+                                  fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.35)" stroke-width="0.4"/>
+                                {[0.22, 0.45, 0.68].map(ry => (
+                                  <line x1={kbX + kbW * 0.05} y1={kbY + kbH * ry} x2={kbX + kbW * 0.95} y2={kbY + kbH * ry}
+                                    stroke="rgba(255,255,255,0.25)" stroke-width="0.3" stroke-dasharray="0.6 0.4"/>
+                                ))}
+                              </g>
+                            )}
+                            <g class="mouse-g">
+                              <path d={
+                                  `M ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` C ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx} ${mouseCy - mouseH*0.5}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` L ${mouseCx + mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` Z`
+                                } fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="0.4" stroke-linejoin="round"/>
+                              <line x1={mouseCx} y1={mouseCy - mouseH*0.42} x2={mouseCx} y2={mouseCy - mouseH*0.12} stroke="rgba(255,255,255,0.3)" stroke-width="0.3"/>
+                              <rect x={mouseCx - mouseW*0.06} y={mouseCy - mouseH*0.2} width={mouseW*0.12} height={mouseH*0.14} rx={mouseW*0.05}
+                                fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.45)" stroke-width="0.2"/>
+                            </g>
+                          </svg>
+                          <div class="text-center">
+                            <div class="text-[11px] md:text-[13px] font-medium text-cream tracking-tight leading-none whitespace-nowrap">{val.label}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <!-- Bouton d'achat — style animé Uiverse (voir global.css). L'overlay
+             décoratif est resynchronisé par le MutationObserver ci-dessous. -->
+        <div class="btn-wrapper self-start">
+          <div class="gradient-layer"></div>
+          <div class="gradient-layer"></div>
+          <button
+            id="buy-button"
+            class="buy-button gradient-btn disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={!inStock}
+            data-item-id={sku ?? product.slug}
+            data-item-name={name}
+            data-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            {inStock ? (
+              <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+            ) : t('shop.outOfStock', lang)}
+          </button>
+          <span class="text-overlay" aria-hidden="true" id="buy-button-overlay"></span>
+          <div class="light"></div>
+        </div>
+        <script>
+          // Miroir décoratif : copie le texte du bouton ATC dans l'overlay
+          // (le JS variantes réécrit le bouton à chaque changement de prix).
+          const atcBtn = document.getElementById('buy-button');
+          const atcOverlay = document.getElementById('buy-button-overlay');
+          if (atcBtn && atcOverlay) {
+            const sync = () => { atcOverlay.textContent = atcBtn.textContent; };
+            sync();
+            new MutationObserver(sync).observe(atcBtn, { childList: true, subtree: true, characterData: true });
+          }
+        </script>
+
+        <div class="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/[0.08]">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="shield-check" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">{t('shop.secureDelivery', lang)}</p>
+              <p class="text-xs text-n-500 font-light">{t('shop.secureDeliverySub', lang)}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="arrow-right" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">{t('shop.return30Days', lang)}</p>
+              <p class="text-xs text-n-500 font-light">{t('shop.return30DaysSub', lang)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-16 max-w-3xl below-fold-defer">
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{t('shop.description', lang)}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <article class="mt-5 prose prose-base max-w-none
+          prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+          prose-h2:text-xl prose-h2:mt-10 prose-h3:text-lg
+          prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+          prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+          prose-strong:text-cream prose-strong:font-medium
+          prose-ul:font-light prose-li:text-n-400
+          prose-blockquote:border-cream prose-blockquote:bg-panel prose-blockquote:rounded-r-xl prose-blockquote:text-n-400">
+          <Content />
+        </article>
+      </details>
+
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{t('shop.shippingReturns', lang)}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          <div class="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3 flex items-start gap-3">
+            <svg class="w-5 h-5 text-cream shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            <p class="text-cream font-medium text-sm leading-relaxed">
+              {t('shop.deliveryWindow', lang, { window: deliveryWindowText })}
+            </p>
+          </div>
+          {lang === 'en' ? (
+            <>
+              <div><h3 class="text-cream font-medium mb-1.5">Shipping</h3><p>Order prepared within 24-48 business hours. Shipped from our French workshop with tracked Colissimo.</p></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Delivery times</h3><ul class="list-disc pl-5 space-y-1"><li>France: 6-10 days</li><li>Europe: 8-14 days</li><li>Rest of world: 14-21 days</li></ul></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Returns & refunds</h3><p>You have <strong class="text-cream">30 days from receipt</strong> to change your mind. Free returns in France. Item must be in original condition. Full refund within 5 business days of return.</p><p class="mt-2 text-xs text-n-500">Custom-made products cannot be returned unless defective.</p></div>
+            </>
+          ) : lang === 'de' ? (
+            <>
+              <div><h3 class="text-cream font-medium mb-1.5">Versand</h3><p>Bestellung in 24-48 Werkstunden vorbereitet. Versand aus unserem Atelier in Frankreich per verfolgbarem Colissimo.</p></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Lieferzeiten</h3><ul class="list-disc pl-5 space-y-1"><li>Deutschland & EU: 8-14 Tage</li><li>Frankreich: 6-10 Tage</li><li>Rest der Welt: 14-21 Tage</li></ul></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Rückgabe & Erstattung</h3><p>Du hast <strong class="text-cream">30 Tage ab Erhalt</strong>, um deine Meinung zu ändern. Artikel muss im Originalzustand sein. Vollständige Erstattung innerhalb von 5 Werktagen nach Eingang der Rücksendung.</p><p class="mt-2 text-xs text-n-500">Personalisierte Produkte sind vom Umtausch ausgenommen, außer bei Fertigungsfehlern.</p></div>
+            </>
+          ) : null}
+        </div>
+      </details>
+
+      <details class="product-toggle group border-t border-b border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{t('shop.care', lang)}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          {lang === 'en' ? (
+            <>
+              <div><h3 class="text-cream font-medium mb-1.5">Care tips</h3><p>Care copy placeholder - customise this section. Explain here how to look after your products so they last.</p></div>
+            </>
+          ) : lang === 'de' ? (
+            <>
+              <div><h3 class="text-cream font-medium mb-1.5">Pflegehinweise</h3><p>Pflegetext - bitte anpassen. Beschreibe hier, wie du deine Produkte pflegst, damit sie lange halten.</p></div>
+            </>
+          ) : null}
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <div
+    id="sticky-atc"
+    class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 bg-dark/95 backdrop-blur-lg border-t border-white/[0.08]"
+    aria-hidden="true"
+  >
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-3.5">
+      <div class="md:hidden">
+        <p class="text-[11px] text-n-500 font-light mb-1.5 text-center">
+          <span id="sticky-atc-size-mobile" class="text-cream font-medium">-</span>
+        </p>
+        <button id="sticky-atc-btn" class="buy-button btn-primary w-full text-base py-3.5 disabled:opacity-40 disabled:cursor-not-allowed"
+          disabled={!inStock}
+          data-item-id={sku ?? product.slug} data-item-name={name}
+          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
+          {t('shop.addToCart', lang)} <span id="sticky-atc-price-mobile">{formatPrice(price)}</span>
+        </button>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <img src={image} alt="" class="w-12 h-12 rounded-lg object-cover border border-white/[0.08] shrink-0" loading="lazy" decoding="async"/>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
+          <p class="text-xs text-n-400 font-light truncate">
+            <span id="sticky-atc-size" class="text-cream font-medium">-</span>
+            · <span id="sticky-atc-price">{formatPrice(price)}</span>
+          </p>
+        </div>
+        <button id="sticky-atc-btn-desk" class="buy-button btn-primary text-sm px-6 py-3 whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+          disabled={!inStock}
+          data-item-id={sku ?? product.slug} data-item-name={name}
+          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
+          {t('shop.addToCart', lang)}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="below-fold-defer"><FabricationSection /></div>
+
+  {related.length > 0 && (
+    <section class="relative py-16 md:py-20 border-t border-white/[0.04] overflow-hidden below-fold-defer">
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between mb-6 md:mb-8 gap-4">
+          <div>
+            <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2 block">{t('shop.collection', lang)}</span>
+            <h2 class="text-xl md:text-2xl font-medium tracking-tight text-cream">{t('shop.youMightLike', lang)}</h2>
+          </div>
+          <a href={url(`/product-category/${preferredCategory}`)} class="inline-flex items-center gap-1.5 text-xs md:text-sm text-n-400 hover:text-cream transition-colors whitespace-nowrap">
+            {t('shop.viewAll', lang)} ({related.length})
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="product-slider relative" data-slider>
+        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
+          {related.map((p: any) => (
+            <a href={productHref(p.slug)} class="slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block">
+              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
+                <img src={p.data.image} srcset={unsplashSrcset(p.data.image)}
+                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 45vw, (max-width: 1024px) 32vw, 300px"
+                  alt={p.data.imageAlt ?? p.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width="800" height="600" loading="lazy" decoding="async"/>
+                {p.data.compareAtPrice && (
+                  <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
+                    -{Math.round((1 - p.data.price / p.data.compareAtPrice) * 100)}%
+                  </span>
+                )}
+              </div>
+              <h3 class="text-sm font-medium text-cream tracking-tight leading-snug line-clamp-2 mb-1 group-hover:underline underline-offset-4">
+                {p.data.name}
+              </h3>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="text-cream font-medium">
+                  {p.data.priceRange && p.data.priceRange.min !== p.data.priceRange.max
+                    ? `${t('shop.from', lang)} ${formatPrice(p.data.priceRange.min)}`
+                    : formatPrice(p.data.price)}
+                </span>
+                {p.data.compareAtPrice && (
+                  <span class="text-n-500 line-through font-light">{formatPrice(p.data.compareAtPrice)}</span>
+                )}
+              </div>
+            </a>
+          ))}
+          <div class="flex-none w-2" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <style>
+    .product-slider .slider-track { scrollbar-width: none; -ms-overflow-style: none; }
+    .product-slider .slider-track::-webkit-scrollbar { display: none; }
+    .gallery-track { scrollbar-width: none; -ms-overflow-style: none; }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .product-toggle summary::-webkit-details-marker { display: none; }
+    .product-toggle summary::marker { content: ''; }
+    .below-fold-defer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
+  </style>
+
+  <script is:inline set:html={`
+    (function() {
+    function initGallery() {
+      const root = document.querySelector('[data-gallery]');
+      if (!root) return null;
+      const track  = root.querySelector('[data-gallery-track]');
+      const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const prev   = root.querySelector('[data-gallery-prev]');
+      const next   = root.querySelector('[data-gallery-next]');
+      const count  = parseInt(root.dataset.slideCount || '0', 10);
+      let current  = 0;
+      const paint = () => {
+        thumbs.forEach((t, i) => { t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors ' + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30'); });
+        if (prev) prev.disabled = current <= 0;
+        if (next) next.disabled = current >= count - 1;
+      };
+      const goTo = (idx) => { if (idx < 0 || idx >= count || !track) return; track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' }); };
+      if (track) {
+        let raf = null;
+        track.addEventListener('scroll', () => { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { const idx = Math.round(track.scrollLeft / track.clientWidth); if (idx !== current) { current = idx; paint(); } }); }, { passive: true });
+      }
+      prev?.addEventListener('click', () => goTo(current - 1));
+      next?.addEventListener('click', () => goTo(current + 1));
+      thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+      paint();
+      return { goTo, getMainSlide: () => root.querySelector('[data-gallery-slide="0"]'), getMainThumb: () => root.querySelector('[data-gallery-thumb="0"] img') };
+    }
+
+    function initRelatedSlider() {
+      document.querySelectorAll('[data-slider]').forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        if (!track) return;
+      });
+    }
+
+    function initVariants(galleryApi, stickyRefs) {
+      const variants = ${variantsJson};
+      const buyBtn   = document.getElementById('buy-button');
+      const priceEl  = document.getElementById('product-price');
+      const compareEl = document.getElementById('product-compare');
+      const stockEl  = document.getElementById('product-stock');
+      const selector = document.getElementById('variant-selector');
+      if (!variants.length || !selector || !buyBtn) return;
+
+      const currency = '${localeMeta(lang).currency || 'EUR'}';
+      const intlLoc = '${intlLocale}';
+      const fmtPrice = (v) => new Intl.NumberFormat(intlLoc, { style: 'currency', currency }).format(v);
+      const T_FROM = ${JSON.stringify(t('shop.from', lang))};
+      const T_INSTOCK = ${JSON.stringify(t('shop.inStock', lang))};
+      const T_OOSSHORT = ${JSON.stringify(t('shop.outOfStockShort', lang))};
+      const T_OOS = ${JSON.stringify(t('shop.outOfStock', lang))};
+      const T_ADDCART = ${JSON.stringify(t('shop.addToCart', lang))};
+      const T_UNAVAIL = ${JSON.stringify(t('shop.unavailableCombo', lang))};
+
+      const mainSlide = galleryApi?.getMainSlide() ?? null;
+      const mainThumb = galleryApi?.getMainThumb() ?? null;
+      const originalSrc = mainSlide?.getAttribute('src') ?? null;
+
+      const selected = {};
+      selector.querySelectorAll('[data-attr]').forEach(btn => {
+        const a = btn.dataset.attr;
+        if (selected[a]) return;
+        if (btn.classList.contains('bg-cream') || btn.classList.contains('border-cream')) selected[a] = btn.dataset.value;
+      });
+
+      const findVariant = () => variants.find(v => {
+        for (const [k, val] of Object.entries(selected)) { if (v.attributes[k] !== val) return false; }
+        return true;
+      });
+
+      const setStock = (inStock, label) => {
+        if (!stockEl) return;
+        const dot = stockEl.querySelector('span:first-child');
+        const txt = stockEl.querySelector('span:last-child');
+        stockEl.className = 'flex items-center gap-2 mb-6 text-sm font-light ' + (inStock ? 'text-sage' : 'text-n-500');
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full ' + (inStock ? 'bg-sage' : 'bg-n-500');
+        if (txt) txt.textContent = label;
+      };
+
+      function update() {
+        Object.entries(selected).forEach(([attr, slug]) => {
+          const label = document.querySelector('[data-selected-label="' + attr + '"]');
+          if (!label) return;
+          const pill = selector.querySelector('[data-attr="' + attr + '"][data-value="' + slug + '"]');
+          label.textContent = pill ? pill.textContent.trim() : slug;
+        });
+        const v = findVariant();
+        if (!v) { buyBtn.disabled = true; buyBtn.textContent = T_UNAVAIL; setStock(false, T_OOS); return; }
+        if (priceEl) priceEl.textContent = fmtPrice(v.price);
+        if (compareEl) {
+          if (v.compareAtPrice) { compareEl.textContent = fmtPrice(v.compareAtPrice); compareEl.classList.remove('hidden'); }
+          else { compareEl.classList.add('hidden'); }
+        }
+        setStock(v.inStock, v.inStock ? T_INSTOCK : T_OOSSHORT);
+        if (mainSlide) {
+          const nextSrc = v.image || originalSrc;
+          if (nextSrc && mainSlide.getAttribute('src') !== nextSrc) {
+            mainSlide.setAttribute('src', nextSrc);
+            const m = nextSrc.match(/^(?!https?:)(.*)\\.webp$/i);
+            if (m) {
+              const base = m[1];
+              mainSlide.setAttribute('srcset', base + '-400w.webp 400w, ' + base + '-800w.webp 800w, ' + nextSrc + ' 1200w');
+            } else { mainSlide.removeAttribute('srcset'); }
+            if (mainThumb) mainThumb.setAttribute('src', nextSrc);
+          }
+          galleryApi?.goTo(0);
+        }
+        const variantDesc = Object.entries(selected).map(([k, val]) => {
+          const pill = selector.querySelector('[data-attr="' + k + '"][data-value="' + val + '"]');
+          return k + ': ' + (pill ? pill.textContent.trim() : val);
+        }).join(', ');
+        buyBtn.disabled = !v.inStock;
+        buyBtn.dataset.itemId = v.id;
+        buyBtn.dataset.itemPrice = Math.round(v.price * 100);
+        buyBtn.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
+        buyBtn.innerHTML = v.inStock
+          ? T_ADDCART + ' <span class="opacity-70 font-normal">' + fmtPrice(v.price) + '</span>'
+          : T_OOS;
+        if (stickyRefs) {
+          stickyRefs.btns.forEach(b => {
+            b.disabled = !v.inStock;
+            b.dataset.itemId = v.id;
+            b.dataset.itemPrice = Math.round(v.price * 100);
+            b.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;
+          });
+          const dimPill = selector.querySelector('[data-variant-type="size"].border-cream');
+          const sizeLabel = dimPill
+            ? (dimPill.querySelector('.text-cream')?.textContent.trim() || variantDesc)
+            : variantDesc;
+          if (stickyRefs.sizeMobile) stickyRefs.sizeMobile.textContent = sizeLabel;
+          if (stickyRefs.sizeDesk)   stickyRefs.sizeDesk.textContent   = sizeLabel;
+          if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
+          if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
+        }
+      }
+
+      const pillClass = 'variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors';
+      const sizeClass = 'variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0';
+      const off = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.02] border-white/[0.08] hover:border-white/25'
+        : pillClass + ' bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20';
+      const on = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.04] border-cream'
+        : pillClass + ' bg-cream text-dark border-cream';
+
+      selector.querySelectorAll('[data-variant-option]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const attr = btn.dataset.attr;
+          const type = btn.dataset.variantType || 'pill';
+          selector.querySelectorAll('[data-attr="' + attr + '"]').forEach(b => {
+            const t = b.dataset.variantType || 'pill';
+            b.className = off(t);
+            const rect = b.querySelector('.size-rect');
+            if (rect) { rect.setAttribute('fill', 'rgba(255,255,255,0.04)'); rect.setAttribute('stroke', 'rgba(255,255,255,0.25)'); }
+          });
+          btn.className = on(type);
+          if (type === 'size') {
+            const rect = btn.querySelector('.size-rect');
+            if (rect) { rect.setAttribute('fill', 'rgba(244,244,247,0.10)'); rect.setAttribute('stroke', 'rgba(244,244,247,0.8)'); }
+          }
+          selected[attr] = btn.dataset.value;
+          update();
+        });
+      });
+      update();
+    }
+
+    function initStickyAtc() {
+      const bar     = document.getElementById('sticky-atc');
+      const mainCTA = document.getElementById('buy-button');
+      if (!bar || !mainCTA || !('IntersectionObserver' in window)) return null;
+      const io = new IntersectionObserver((entries) => {
+        const visible = entries[0].isIntersecting;
+        if (visible) { bar.classList.add('translate-y-full'); bar.setAttribute('aria-hidden', 'true'); }
+        else { bar.classList.remove('translate-y-full'); bar.setAttribute('aria-hidden', 'false'); }
+      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+      io.observe(mainCTA);
+      return {
+        btns: [document.getElementById('sticky-atc-btn'), document.getElementById('sticky-atc-btn-desk')].filter(Boolean),
+        sizeMobile: document.getElementById('sticky-atc-size-mobile'),
+        sizeDesk:   document.getElementById('sticky-atc-size'),
+        priceMobile: document.getElementById('sticky-atc-price-mobile'),
+        priceDesk:   document.getElementById('sticky-atc-price'),
+      };
+    }
+
+    function bootProductJS() {
+      const galleryApi = initGallery();
+      initRelatedSlider();
+      const stickyRefs = initStickyAtc();
+      initVariants(galleryApi, stickyRefs);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(bootProductJS, { timeout: 2000 });
+    else setTimeout(bootProductJS, 0);
+    })();
+  `} />
+</BaseLayout>

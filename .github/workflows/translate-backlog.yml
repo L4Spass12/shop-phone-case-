@@ -1,0 +1,67 @@
+name: Sync Translations (EN/DE)
+
+# Rattrape les traductions EN/DE manquantes de toutes les collections de contenu.
+# Utile quand des articles/produits ont été ajoutés à la main (hors du workflow
+# generate-article.yml, qui traduit automatiquement à la création).
+#
+# Le script scripts/translate-content.mjs est idempotent : il ne traduit que les
+# fichiers dont la cible <collection>/<lang>/<slug>.md n'existe pas encore. Les
+# collections déjà à jour sont donc simplement skippées (aucun appel API).
+#
+# Déclenchement 100% manuel. Le commit final (contenu → src/) déclenche
+# automatiquement deploy.yml, qui build + déploie sur Hostinger.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Translate missing content (idempotent)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          for lang in en de; do
+            for coll in blog products productCategories; do
+              echo "::group::$coll -> $lang"
+              node scripts/translate-content.mjs --lang "$lang" --collection "$coll"
+              echo "::endgroup::"
+            done
+          done
+
+      # Valide le schéma AVANT de committer : si une traduction casse le build,
+      # on s'arrête ici et main reste propre (aucun contenu invalide poussé).
+      - name: Build (validation)
+        run: npm run build
+
+      - name: Commit & push new translations
+        run: |
+          git add src/content/
+          if git diff --staged --quiet; then
+            echo "Aucune nouvelle traduction — tout est déjà à jour, rien à committer."
+            exit 0
+          fi
+          SITE_NAME=$(node -e "import('./site.config.mjs').then(m=>process.stdout.write(m.default.name))")
+          git config user.name "${SITE_NAME} Bot"
+          git config user.email "bot@${GITHUB_REPOSITORY#*/}.com"
+          git commit -m "chore(i18n): rattrapage des traductions EN/DE manquantes"
+          for i in 1 2 3; do
+            git push && exit 0
+            echo "Push $i échoué (probablement transitoire), rebase + retry dans 10s..."
+            git pull --rebase origin main || true
+            sleep 10
+          done
+          git push

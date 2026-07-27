@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import InfiniteReveal from '../../components/InfiniteReveal.astro';
+import { getCollection } from 'astro:content';
+import siteConfig from '../../../site.config.mjs';
+import { responsiveSrcset } from '../../lib/responsive';
+import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'fr' | 'en' | 'de' };
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const productHref = (slug: string) => url('/product/' + parseEntrySlug(slug).slug);
+
+const allProducts = await getCollection('products');
+const products = allProducts
+  .filter(p => parseEntrySlug(p.slug).lang === lang)
+  .filter(p => (p.data.categories ?? []).length > 0)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featured = products.find(p => p.data.featured);
+const rest = products.filter(p => !p.data.featured || p.slug !== featured?.slug);
+
+const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
+  style: 'currency', currency: localeMeta(lang).currency || 'EUR',
+}).format(n);
+
+const displayPrice = (d: any) =>
+  d.priceRange && d.priceRange.min !== d.priceRange.max
+    ? `${t('shop.from', lang)} ${formatPrice(d.priceRange.min)}`
+    : formatPrice(d.price);
+
+const SITE_URL = siteConfig.url;
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${siteConfig.name} - ${t('shop.label', lang)}`,
+  description: t('shop.collectionTitle', lang),
+  url: `${SITE_URL}${lp}/boutique`,
+  inLanguage: localeMeta(lang).htmlLang,
+  isPartOf: { '@type': 'WebSite', name: siteConfig.name, url: SITE_URL },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('nav.home', lang), item: `${SITE_URL}${lp}/` },
+    { '@type': 'ListItem', position: 2, name: t('shop.breadcrumbShop', lang), item: `${SITE_URL}${lp}/boutique` },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${t('shop.breadcrumbShop', lang)} - ${siteConfig.name}`}
+  description={t('shop.collectionTitle', lang)}
+  jsonLd={[collectionSchema, breadcrumbSchema]}
+>
+  <section class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-cream mb-2 leading-[1.15]">{t('shop.collectionTitle', lang)}</h1>
+        <p class="text-sm text-n-500 font-light">{t('shop.collectionCount', lang, { n: products.length })}</p>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-n-500 font-light">
+        <Icon name="shield-check" size={14} strokeWidth={1.5} />
+        <span>{t('shop.secureDelivery', lang)}</span>
+        <span class="mx-2">·</span>
+        <span>{t('shop.return30Days', lang)}</span>
+      </div>
+    </div>
+
+    {products.length === 0 ? (
+      <div class="text-center py-20">
+        <p class="text-sm text-n-500 font-light">{t('shop.collectionEmpty', lang)}</p>
+      </div>
+    ) : (
+      <>
+        {featured && (
+          <a href={productHref(featured.slug)} class="group block mb-16 md:mb-20">
+            <div class="grid md:grid-cols-5 gap-8 md:gap-10">
+              <div class="md:col-span-3 relative aspect-[16/10] md:aspect-[21/12] rounded-2xl overflow-hidden bg-panel border border-white/[0.05]">
+                <img
+                  src={featured.data.image}
+                  srcset={responsiveSrcset(featured.data.image)}
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                  alt={featured.data.imageAlt ?? featured.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                  width="1200" height="675" fetchpriority="high" decoding="async"
+                />
+                <div class="absolute top-4 left-4">
+                  <span class="bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('shop.bestseller', lang)}</span>
+                </div>
+              </div>
+              <div class="md:col-span-2 flex flex-col justify-center">
+                <h2 class="text-2xl md:text-3xl text-cream font-medium tracking-tight leading-tight mb-4 group-hover:underline underline-offset-4">
+                  {featured.data.name}
+                </h2>
+                <p class="text-sm text-n-400 font-light leading-relaxed mb-6">
+                  {featured.data.shortDescription}
+                </p>
+                <div class="flex items-baseline gap-3">
+                  <span class="text-2xl text-cream font-medium tracking-tight">{displayPrice(featured.data)}</span>
+                  {featured.data.compareAtPrice && (
+                    <span class="text-sm text-n-500 line-through font-light">{formatPrice(featured.data.compareAtPrice)}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </a>
+        )}
+
+        <nav class="mb-10" aria-label={t('shop.chooseCategory', lang)}>
+          <details class="cat-dropdown relative inline-block">
+            <summary
+              class="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-white/[0.12] bg-white/[0.03] text-sm font-medium text-cream cursor-pointer hover:border-white/25 hover:bg-white/[0.06] transition-colors select-none"
+              aria-label={t('shop.chooseCategory', lang)}
+            >
+              <span class="text-n-500 text-xs uppercase tracking-widest">{t('shop.categoryLabel', lang)}</span>
+              <span class="text-cream">{t('shop.categoryAll', lang)}</span>
+              <svg class="w-4 h-4 cat-chevron text-n-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="cat-panel absolute top-full left-0 mt-2 min-w-[280px] md:min-w-[320px] rounded-2xl border border-white/[0.12] bg-panel shadow-2xl p-2 z-20" role="menu">
+              <a href={url('/boutique')} class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm bg-cream text-dark font-medium" aria-current="page" role="menuitem">
+                <span>{t('nav.categoriesAll', lang)}</span>
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </a>
+              <div class="h-px bg-white/[0.06] my-2 mx-2"></div>
+              {(siteConfig.productCategories as {slug:string; label:string}[]).map(c => (
+                <a
+                  href={url(`/product-category/${c.slug}`)}
+                  class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors"
+                  role="menuitem"
+                >
+                  <span>{c.label}</span>
+                </a>
+              ))}
+            </div>
+          </details>
+        </nav>
+
+        <style>
+          .cat-dropdown summary { list-style: none; }
+          .cat-dropdown summary::-webkit-details-marker { display: none; }
+          .cat-dropdown[open] .cat-chevron { transform: rotate(180deg); }
+          .cat-chevron { transition: transform 0.2s ease; }
+          .cat-panel { animation: cat-fade-in 0.15s ease-out; }
+          @keyframes cat-fade-in {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+        </style>
+
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {rest.map((product, i) => (
+            <a
+              href={productHref(product.slug)}
+              class="product-card group block"
+              data-categories={(product.data.categories || []).join(',')}
+            >
+              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-5">
+                <img
+                  src={product.data.image}
+                  srcset={responsiveSrcset(product.data.image)}
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1024px) calc(50vw - 48px), 380px"
+                  alt={product.data.imageAlt ?? product.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                  width="800" height="600"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                  decoding="async"
+                />
+                {product.data.compareAtPrice && (
+                  <div class="absolute top-4 left-4">
+                    <span class="bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('shop.sale', lang)}</span>
+                  </div>
+                )}
+              </div>
+              <div class="flex justify-between items-start gap-4">
+                <div class="min-w-0">
+                  <h2 class="text-base font-medium text-cream mb-1 tracking-tight group-hover:underline underline-offset-4 truncate">
+                    {product.data.name}
+                  </h2>
+                  <p class="text-xs text-n-500 font-light truncate">{product.data.shortDescription}</p>
+                </div>
+                <div class="flex items-baseline gap-2 shrink-0">
+                  <span class="text-sm text-cream font-medium whitespace-nowrap">{displayPrice(product.data)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <InfiniteReveal targetId="products-grid" itemSelector=".product-card" initial={12} batch={12} />
+      </>
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,116 @@
+---
+// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+
+const title = "Livraisons et Retours";
+const description = `Toute commande passée sur ${siteConfig.name} est traitée avec soin. Nous expédions votre colis sous 24 à 48h ouvrées après réception du paiement.`;
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
+    <article class="prose prose-lg max-w-none
+      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+      prose-strong:text-cream prose-strong:font-medium
+      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
+      prose-hr:border-white/[0.08]"
+      set:html={`
+<p>Toute commande passée sur <strong>${siteConfig.name}</strong> est traitée avec soin depuis nos locaux situés à <strong>[VILLE D&rsquo;EXPÉDITION]</strong>. Nous expédions votre colis sous <strong>24 à 48h ouvrées</strong> après réception du paiement. <em>(Si vous commandez le vendredi soir ou le week-end, votre commande partira le lundi suivant).</em></p>
+
+
+
+<p><strong>Modes de livraison &amp; Tarifs</strong> Nous vous proposons les modes de livraison suivants :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Livraison Standard (Colissimo / La Poste)</strong> :
+<ul class="wp-block-list">
+<li>Délai : 2 à 3 jours ouvrés (en France métropolitaine).</li>
+
+
+
+<li>Tarif : <strong>[X,XX] €</strong> <em>(ou « Calculé selon le poids dans le panier »)</em>.</li>
+
+
+
+<li><em>Livraison Offerte dès [XX] € d&rsquo;achat !</em> <em>(Si vous proposez cette option, mettez-la en gras, c&rsquo;est un gros argument de vente).</em></li>
+</ul>
+</li>
+
+
+
+<li><strong>[OPTIONNEL] Mondial Relay (Point Relais)</strong> :
+<ul class="wp-block-list">
+<li>Délai : 3 à 5 jours ouvrés.</li>
+
+
+
+<li>Tarif : <strong>[X,XX] €</strong>.</li>
+</ul>
+</li>
+</ul>
+
+
+
+<p>Une fois votre commande expédiée, vous recevrez automatiquement un <strong>numéro de suivi</strong> par e-mail pour localiser votre colis en temps réel.</p>
+
+
+
+<h4 class="wp-block-heading">2. Retours et Échanges</h4>
+
+
+
+<p><strong>Satisfait ou Remboursé</strong> Vous avez changé d&rsquo;avis ? Pas de problème. Conformément à la loi, vous disposez de <strong>14 jours</strong> après réception de votre commande pour nous la retourner.</p>
+
+
+
+<p><strong>Comment effectuer un retour ?</strong></p>
+
+
+
+<ol start="1" class="wp-block-list">
+<li>Envoyez-nous un petit e-mail à <strong>${siteConfig.forms.contactEmail}</strong> avec votre numéro de commande pour nous prévenir.</li>
+
+
+
+<li>Emballez soigneusement le produit (il doit être neuf, dans son emballage d&rsquo;origine et non utilisé).</li>
+
+
+
+<li>Expédiez le colis à l&rsquo;adresse suivante : <strong>[NOM DE LA SOCIÉTÉ] (${siteConfig.name})</strong> <strong>[ADRESSE]</strong></li>
+</ol>
+
+
+
+<p><strong>Frais de retour</strong></p>
+
+
+
+<ul class="wp-block-list">
+<li>Si le produit est défectueux ou s&rsquo;il y a une erreur de notre part : <strong>Nous prenons en charge les frais de retour</strong> (nous vous enverrons une étiquette prépayée).</li>
+
+
+
+<li>Si vous avez simplement changé d&rsquo;avis : Les frais de retour sont <strong>à votre charge</strong>.</li>
+</ul>
+
+
+
+<p><strong>Remboursement</strong> Une fois le colis reçu et vérifié dans nos locaux, nous procédons au remboursement intégral (prix du produit + frais de port aller) sous <strong>7 jours maximum</strong> sur le moyen de paiement utilisé lors de l&rsquo;achat.</p>
+
+
+
+<h4 class="wp-block-heading">3. Un problème à la livraison ?</h4>
+
+
+
+<p>Si votre colis arrive abîmé ou ouvert, merci de <strong>prendre des photos immédiatement</strong> et de nous contacter au <strong>[TÉLÉPHONE]</strong> ou par e-mail à <strong>${siteConfig.forms.contactEmail}</strong>. Nous trouverons une solution immédiatement (renvoi d&rsquo;un nouveau produit ou remboursement).</p>
+`}
+    />
+  </div>
+</BaseLayout>

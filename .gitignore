@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.*
+*.zip
+.DS_Store
+
+# Fichiers de travail migration WP
+import/
+
+# Astro cache
+.astro/

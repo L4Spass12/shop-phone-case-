@@ -1,0 +1,105 @@
+RewriteEngine On
+
+# Page 404 personnalisée
+ErrorDocument 404 /404.html
+
+# ─── Sitemap canonique ────────────────────────────────────────────────────
+# Astro émet /sitemap-index.xml (avec /sitemap-0.xml dedans), auto-généré à
+# chaque build avec toutes les pages publiques. On expose le tout sous
+# /sitemap.xml (URL canonique attendue par GSC et tous les crawlers) via
+# une réécriture INTERNE — pas de 301, GSC ne sait pas suivre les redirects
+# sur un sitemap soumis.
+RewriteRule ^sitemap\.xml$ /sitemap-index.xml [L]
+
+# ─── Canonicalisation URL (anti-duplicate content SEO) ────────────────────
+# 1. Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# 2. Force non-www (domaine nu au lieu de www.domaine)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# 3. Retire index.html des URLs (/foo/index.html → /foo/)
+RewriteCond %{THE_REQUEST} \s/+(.*?)index\.html[\s?] [NC]
+RewriteRule ^ /%1 [L,R=301]
+
+# 4. Ajoute un trailing slash sur les répertoires (/foo → /foo/)
+#    Ne touche pas les fichiers réels (*.webp, *.css, etc.)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{2,5})$
+RewriteCond %{REQUEST_URI} !(/$)
+RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+# ─── Fallback i18n : pages non traduites → version FR ─────────────────────
+# Pour les chemins /en/<x> ou /de/<x> qui n'existent pas physiquement
+# (ex: /en/product/foo/, /en/category/foo/, /en/mentions-legales/), on
+# redirige vers la version FR. Les pages traduites existent comme fichiers
+# réels (-d ou -f matche), donc cette règle ne les touche pas.
+#
+# IMPORTANT : on vérifie aussi <chemin>/index.html pour gérer le cas où
+# le chemin est un répertoire avec un index.html à servir (Apache n'inclut
+# pas index.html implicitement dans %{REQUEST_FILENAME}).
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}/index.html !-f
+RewriteCond %{REQUEST_FILENAME}index.html !-f
+RewriteRule ^(en|de)(/(.*))?$ /$3 [L,R=302]
+
+# Security headers
+<IfModule mod_headers.c>
+  # Discovery (RFC 8288)
+  Header always set Link "</sitemap-index.xml>; rel=sitemap, </rss.xml>; rel=alternate"
+
+  # Clickjacking protection
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # MIME sniffing protection
+  Header always set X-Content-Type-Options "nosniff"
+
+  # XSS protection (legacy browsers)
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Referrer policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Force HTTPS for 1 year
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Permissions policy — désactive les APIs inutiles (payment autorisé pour Apple/Google Pay via Stripe)
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Content Security Policy (Cart Cloudflare Worker + Stripe + Web3Forms + Google Maps + Fonts)
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.workers.dev https://*.stripe.com https://*.stripe.network https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://*.workers.dev https://*.stripe.com https://*.stripe.network https://fonts.googleapis.com https://fonts.bunny.net; img-src 'self' data: https: blob:; font-src 'self' https://*.workers.dev https://*.stripe.com https://*.stripe.network https://fonts.gstatic.com https://fonts.bunny.net data:; connect-src 'self' https://*.workers.dev https://*.stripe.com https://*.stripe.network https://api.web3forms.com https://maps.googleapis.com https://*.gstatic.com; frame-src https://*.workers.dev https://*.stripe.com https://*.stripe.network; frame-ancestors 'none'"
+</IfModule>
+
+# Cache long terme pour les assets statiques
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Cache-Control immutable pour les assets fingerprintés générés par Astro
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2|webp|png|jpg|jpeg|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML : toujours revalider (courte durée) pour pouvoir déployer
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Compression gzip
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Masquer la signature serveur
+ServerSignature Off

@@ -1,0 +1,28 @@
+{
+  "name": "myshop-starter",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@astrojs/mdx": "^3.1.9",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.3",
+    "@fontsource/inter": "^5.2.8",
+    "astro": "^4.16.0",
+    "image-size": "^2.0.2",
+    "tailwindcss": "^3.4.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.1",
+    "sharp": "^0.34.5",
+    "turndown": "^7.2.4"
+  }
+}

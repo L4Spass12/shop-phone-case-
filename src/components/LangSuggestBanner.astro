@@ -1,0 +1,160 @@
+---
+/**
+ * Bandeau de suggestion de langue.
+ *
+ * Logique côté client :
+ *  1. Si le cookie `bp_lang` existe → on respecte le choix utilisateur, banner masquée.
+ *  2. Sinon, on regarde navigator.languages :
+ *     - Si la langue navigateur correspond à une autre locale qu'on supporte
+ *       ET que ce n'est pas la locale courante → on affiche le bandeau.
+ *  3. Cliquer "View in English" : navigue vers la version localisée + cookie.
+ *  4. Cliquer "Rester en …" : ferme la banner + cookie sur la locale courante.
+ *
+ * Performance : injecté en bas du <body>, requestIdleCallback → zéro impact LCP.
+ * SEO : Googlebot envoie Accept-Language: en-US/gzip;q=1.0... mais le banner ne
+ *       redirige JAMAIS automatiquement (uniquement sur clic utilisateur), donc
+ *       pas de cloaking et pas d'impact sur l'indexation.
+ */
+import siteConfig from '../../site.config.mjs';
+import { ACTIVE_LOCALES, localeMeta } from '../lib/i18n';
+
+// On embarque tous les messages localisés dans un objet JSON exposé au client.
+// La banner s'auto-traduit selon la locale détectée du navigateur (pas celle
+// de la page courante : ça reste plus engageant).
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
+import de from '../i18n/de.json';
+
+const messages = { fr: fr.langSuggest, en: en.langSuggest, de: de.langSuggest };
+
+// Labels lisibles par locale (Français / English / Deutsch) pour les boutons.
+const localeLabels = Object.fromEntries(
+  ACTIVE_LOCALES.map(l => [l, localeMeta(l).label])
+);
+
+// Préfixe URL par locale ('' pour défaut)
+const DEFAULT_LOCALE = siteConfig.i18n.defaultLocale;
+const prefixes = Object.fromEntries(
+  ACTIVE_LOCALES.map(l => [l, l === DEFAULT_LOCALE ? '' : `/${l}`])
+);
+
+// Seulement utile si > 1 locale active.
+const enabled = ACTIVE_LOCALES.length > 1;
+---
+
+{enabled && (
+  <div
+    id="lang-suggest"
+    class="hidden fixed bottom-4 right-4 z-50 max-w-sm bg-panel border border-white/[0.12] rounded-2xl shadow-2xl backdrop-blur-md p-4 pr-10"
+    role="dialog"
+    aria-live="polite"
+    aria-label="Language suggestion"
+  >
+    <p
+      id="lang-suggest-msg"
+      class="text-sm text-cream font-light mb-3 leading-relaxed"
+    >
+      <!-- Rempli par JS selon la langue détectée -->
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <a
+        id="lang-suggest-view"
+        href="#"
+        class="text-xs font-medium px-3 py-2 rounded-full bg-cream text-dark hover:bg-n-400 transition-colors"
+      >
+        <!-- Rempli par JS -->
+      </a>
+      <button
+        id="lang-suggest-dismiss"
+        type="button"
+        class="text-xs font-medium px-3 py-2 rounded-full border border-white/[0.12] bg-white/[0.03] text-n-400 hover:text-cream hover:border-white/25 transition-colors"
+      >
+        <!-- Rempli par JS -->
+      </button>
+    </div>
+    <button
+      type="button"
+      data-lang-suggest-close
+      class="absolute top-3 right-3 w-6 h-6 rounded-full text-n-500 hover:text-cream transition-colors flex items-center justify-center"
+      aria-label="Close"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <script is:inline define:vars={{ messages, localeLabels, prefixes, ACTIVE_LOCALES, DEFAULT_LOCALE }}>
+    (function() {
+      function init() {
+        // 1. Cookie déjà présent → l'utilisateur a déjà fait un choix, on respecte.
+        if (document.cookie.split('; ').some(c => c.startsWith('bp_lang='))) return;
+
+        // 2. Détermine la locale de la page courante via le pathname.
+        const path = location.pathname;
+        let currentLocale = DEFAULT_LOCALE;
+        for (const l of ACTIVE_LOCALES) {
+          if (l === DEFAULT_LOCALE) continue;
+          if (path === '/' + l || path.startsWith('/' + l + '/')) {
+            currentLocale = l;
+            break;
+          }
+        }
+
+        // 3. Cherche la 1re langue navigateur qui correspond à une locale active,
+        // différente de la locale courante.
+        const navLangs = (navigator.languages || [navigator.language || '']).map(s => String(s).toLowerCase());
+        let suggested = null;
+        for (const navLang of navLangs) {
+          const base = navLang.split('-')[0];
+          if (ACTIVE_LOCALES.includes(base) && base !== currentLocale) {
+            suggested = base;
+            break;
+          }
+        }
+        if (!suggested) return;
+
+        // 4. Construit l'URL cible localisée. Strip le préfixe locale existant
+        //    s'il y en a un, puis re-préfixe avec la suggestion.
+        let stripped = path;
+        for (const l of ACTIVE_LOCALES) {
+          if (l === DEFAULT_LOCALE) continue;
+          if (path === '/' + l || path === '/' + l + '/') { stripped = '/'; break; }
+          if (path.startsWith('/' + l + '/')) { stripped = path.slice(l.length + 1); break; }
+        }
+        const targetUrl = (prefixes[suggested] || '') + stripped + location.search + location.hash;
+
+        // 5. Remplit les textes dans la langue SUGGÉRÉE (plus engageant).
+        const m = messages[suggested] || messages[DEFAULT_LOCALE];
+        const banner = document.getElementById('lang-suggest');
+        const msg    = document.getElementById('lang-suggest-msg');
+        const view   = document.getElementById('lang-suggest-view');
+        const dismiss = document.getElementById('lang-suggest-dismiss');
+        if (!banner || !msg || !view || !dismiss) return;
+
+        msg.textContent = m.msg;
+        view.textContent = m.view;
+        view.href = targetUrl;
+        dismiss.textContent = m.dismiss.replace('{currentLabel}', localeLabels[currentLocale] || currentLocale);
+
+        // 6. Handlers : cookie 1 an dans tous les cas.
+        function setCookie(lang) {
+          document.cookie = 'bp_lang=' + lang + '; path=/; max-age=' + (60*60*24*365) + '; SameSite=Lax';
+        }
+        view.addEventListener('click', () => setCookie(suggested));
+        dismiss.addEventListener('click', () => {
+          setCookie(currentLocale);
+          banner.classList.add('hidden');
+        });
+        banner.querySelector('[data-lang-suggest-close]')?.addEventListener('click', () => {
+          setCookie(currentLocale);
+          banner.classList.add('hidden');
+        });
+
+        // 7. Affichage différé pour ne pas bloquer le LCP.
+        banner.classList.remove('hidden');
+      }
+
+      if ('requestIdleCallback' in window) requestIdleCallback(init, { timeout: 3000 });
+      else setTimeout(init, 1500);
+    })();
+  </script>
+)}

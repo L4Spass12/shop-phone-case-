@@ -1,0 +1,368 @@
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-h: 64px;
+  color-scheme: light;
+}
+@media (min-width: 768px) {
+  :root { --header-h: 72px; }
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-dark text-n-400 font-body antialiased;
+    /* Pure minimal look */
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3, h4 {
+    @apply text-cream font-medium tracking-tight;
+  }
+  ::selection {
+    @apply bg-beige text-cream;
+  }
+}
+
+@layer components {
+  /* Primary button — white on black (GLIDE-style) */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-cream text-dark
+           px-6 py-3 rounded-full
+           font-body text-sm font-medium tracking-tight
+           transition-colors duration-300
+           hover:bg-n-400;
+  }
+  /* Secondary outline button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent text-cream
+           border border-white/10
+           px-6 py-3 rounded-full
+           font-body text-sm font-medium tracking-tight
+           transition-colors duration-300
+           hover:bg-white/5;
+  }
+  .section-title {
+    @apply font-medium tracking-tight text-cream text-3xl md:text-4xl lg:text-5xl leading-[1.1];
+  }
+  .section-subtitle {
+    @apply font-light text-base md:text-lg text-n-400 leading-relaxed;
+  }
+
+  /* Pill tag — minimal border style */
+  .tag {
+    @apply inline-flex items-center gap-2
+           px-3 py-1 rounded-full
+           text-xs font-medium
+           border border-white/[0.08] bg-white/[0.02] text-n-400
+           backdrop-blur-sm;
+  }
+  .tag::before { content: none; }
+  .tag-light {
+    @apply bg-white/[0.02] text-cream border-white/[0.08];
+  }
+  .tag-beige {
+    @apply bg-white/[0.02] text-n-400 border-white/[0.08];
+  }
+  .tag-terracotta {
+    @apply bg-cream text-dark border-transparent;
+  }
+  .tag-teal {
+    @apply bg-white/[0.02] text-cream border-white/[0.08];
+  }
+  .tag-sage {
+    @apply bg-sage/10 text-sage border-sage/20;
+  }
+  .tag-outline-light {
+    @apply bg-white/[0.02] text-cream backdrop-blur-sm border-white/[0.08];
+  }
+  /* Status pill with colored dot (like "Nouveau : ..." in GLIDE) */
+  .tag-status::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: rgba(34, 197, 94, 0.85);
+  }
+
+  /* Prose / blog figures */
+  .prose figure {
+    @apply my-8 rounded-2xl overflow-hidden border border-white/[0.05];
+  }
+  .prose figure img {
+    @apply w-full h-64 md:h-80 object-cover;
+  }
+  .prose figure figcaption {
+    @apply text-center text-xs text-n-500 font-light py-2 px-4 bg-panel;
+  }
+
+  /* FAQ accordion */
+  .prose details {
+    @apply mb-3 rounded-2xl overflow-hidden border border-white/[0.08] bg-panel;
+    transition: border-color 0.2s ease;
+  }
+  .prose details:hover { @apply border-white/20; }
+  .prose details[open] { @apply border-white/20; }
+  .prose details summary {
+    @apply flex items-center justify-between gap-4 px-5 py-4 cursor-pointer select-none list-none;
+    @apply font-medium text-base text-cream tracking-tight;
+    @apply transition-colors duration-150;
+  }
+  .prose details summary::-webkit-details-marker { display: none; }
+  .prose details summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background-color: theme('colors.cream');
+    border-radius: 9999px;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%230a0a0a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M5 7.5l5 5 5-5'/%3E%3C/svg%3E");
+    mask-size: cover;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%230a0a0a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M5 7.5l5 5 5-5'/%3E%3C/svg%3E");
+    -webkit-mask-size: cover;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .prose details[open] summary::after { transform: rotate(180deg); }
+  .prose details > *:not(summary) {
+    @apply px-5 pb-5 pt-3 font-body font-light text-sm text-n-400 leading-relaxed;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Custom thin scrollbar (GLIDE-style) */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
+
+/* Atelier widget — icône panier dans le header (GLIDE dark) */
+[data-atelier-header-icon] {
+  color: #52525B !important;
+  margin-left: 0 !important;
+  transition: color 0.2s ease;
+}
+[data-atelier-header-icon]:hover {
+  color: #111113 !important;
+}
+[data-atelier-header-badge] {
+  background: #111113 !important;
+  color: #FFFFFF !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Bouton ATC animé — adapté de Uiverse.io (dexter-st)
+   Structure attendue :
+   <div class="btn-wrapper">
+     <div class="gradient-layer"></div>
+     <div class="gradient-layer"></div>
+     <button class="gradient-btn">…</button>
+     <span class="text-overlay" aria-hidden="true">…</span>
+     <div class="light"></div>
+   </div>
+   NB : les mix-blend-mode (color-dodge / difference) nécessitent un fond
+   sombre pour produire l'effet — le wrapper embarque donc son propre fond,
+   ce qui rend le bouton auto-suffisant sur n'importe quel thème de page.
+   ═══════════════════════════════════════════════════════════════════════ */
+.btn-wrapper {
+  --rad: 32px;
+  --color-wrapper-border: #fff;
+  --color-btn-bg: #f00;
+  --color-btn-text: #000;
+  --color-btn-text-shadow: #fff;
+  --color-btn-inset-shadow: #558;
+  --color-layer-a: #fff;
+  --color-layer-b: #00f;
+  --color-overlay-text: #000;
+  --color-overlay-glow: #fff;
+  --color-overlay-shadow: #0004;
+  --color-overlay-highlight: #fff5;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: clip;
+  overflow-clip-margin: 4px;
+
+  border: 2px solid var(--color-wrapper-border);
+  border-radius: var(--rad);
+  /* Fond sombre : indispensable pour que color-dodge/difference "prennent"
+     sur un thème clair (sinon le bouton disparaît dans le blanc). */
+  background: #0a0a14;
+
+  font-family: "Inter", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+
+  filter: saturate(0.65) brightness(1.8);
+}
+
+.gradient-btn {
+  position: relative;
+  z-index: -1;
+
+  padding: 12px 36px;
+  border: none;
+  border-radius: var(--rad);
+
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: 0.15rem;
+
+  color: var(--color-btn-text);
+  background-color: var(--color-btn-bg);
+  background-size: 200% 200%;
+  box-shadow: inset 0 0 10px 9px var(--color-btn-inset-shadow);
+  text-shadow: 0 1px 3px var(--color-btn-text-shadow);
+
+  cursor: pointer;
+  mix-blend-mode: color-dodge;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.gradient-btn::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  border-radius: var(--rad);
+  background-size: 200% 200%;
+  mix-blend-mode: difference;
+  z-index: 1;
+}
+
+.gradient-layer {
+  position: absolute;
+  pointer-events: none;
+
+  left: -160px;
+  width: 500%;
+  aspect-ratio: 1;
+
+  background: radial-gradient(
+    ellipse at 65% 180%,
+    var(--color-layer-a),
+    var(--color-layer-b),
+    var(--color-layer-a),
+    var(--color-layer-b),
+    var(--color-layer-a),
+    var(--color-layer-b),
+    var(--color-layer-a),
+    var(--color-layer-b),
+    var(--color-layer-a),
+    var(--color-layer-b),
+    var(--color-layer-a)
+  );
+
+  mix-blend-mode: difference;
+  animation: rotate 8s linear infinite;
+}
+
+.gradient-layer:last-of-type {
+  mix-blend-mode: color-dodge;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.text-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+
+  padding: 12px 36px;
+  border-radius: var(--rad);
+
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: 0.15rem;
+
+  color: var(--color-overlay-text);
+  text-shadow: 0 0 4px var(--color-overlay-glow);
+  box-shadow:
+    inset 0 -4px 4px 0 var(--color-overlay-shadow),
+    inset 0 4px 4px 0 var(--color-overlay-highlight);
+
+  mix-blend-mode: multiply;
+  transition: transform 0.3s ease;
+  animation: opacityPulse 5s ease infinite;
+  white-space: nowrap;
+}
+
+.btn-wrapper:hover .text-overlay { transform: scale(1.1); }
+.btn-wrapper:hover .gradient-btn {
+  color: #0000;
+  text-shadow: 0 0 0 #0000;
+}
+
+.btn-wrapper:active .text-overlay { transform: scale(0.95); }
+.btn-wrapper:active .gradient-btn {
+  color: #0000;
+  text-shadow: 0 0 0 #0000;
+}
+
+.light {
+  position: absolute;
+
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 50px;
+  width: 80%;
+  height: 1.9rem;
+  aspect-ratio: 1;
+  background-color: #fff5;
+  filter: blur(5px);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.1; }
+}
+
+@keyframes opacityPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Rupture de stock : on gèle l'animation et on grise le bouton */
+.btn-wrapper:has(.gradient-btn:disabled) {
+  filter: saturate(0) brightness(1.2);
+  opacity: 0.55;
+}
+.btn-wrapper:has(.gradient-btn:disabled) .gradient-layer,
+.btn-wrapper:has(.gradient-btn:disabled) .light,
+.btn-wrapper:has(.gradient-btn:disabled) .text-overlay {
+  animation: none;
+}
+.btn-wrapper:has(.gradient-btn:disabled) .gradient-btn {
+  cursor: not-allowed;
+}
+
+/* Accessibilité : pas d'animation pour prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-layer, .light, .text-overlay { animation: none; }
+}

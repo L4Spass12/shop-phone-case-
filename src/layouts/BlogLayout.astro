@@ -1,0 +1,281 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import BlogSidebar from '../components/BlogSidebar.astro';
+import type { CollectionEntry } from 'astro:content';
+import siteConfig from '../../site.config.mjs';
+import type { MarkdownHeading } from 'astro';
+import { unsplashSrcset, unsplashAt } from '../lib/image';
+import { t, parseEntrySlug, localePrefix, localeMeta } from '../lib/i18n';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  headings: MarkdownHeading[];
+  related?: CollectionEntry<'blog'>[];
+}
+
+const { post, headings, related = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, author, category, tags, image, imageAlt, imageTitle, faq } = post.data;
+
+// Locale d\u00e9riv\u00e9e du slug de l'entry (ex: "en/foo" \u2192 'en'). Pour les articles
+// \u00e0 la racine FR, slug = "foo" \u2192 'fr'.
+const { lang, slug: bareSlug } = parseEntrySlug(post.slug);
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const articleHref = (s: string) => url('/' + parseEntrySlug(s).slug);
+
+function catToSlug(cat: string): string {
+  return (siteConfig.categorySlugs as Record<string,string>)?.[cat]
+    ?? cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat(intlLocale, { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+const formattedDate = new Intl.DateTimeFormat(intlLocale, {
+  year: 'numeric', month: 'long', day: 'numeric',
+}).format(pubDate);
+const formattedUpdated = updatedDate
+  ? new Intl.DateTimeFormat(intlLocale, { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedDate)
+  : null;
+
+const SITE_URL = siteConfig.url;
+const articleUrl = `${SITE_URL}${url('/' + bareSlug)}/`;
+const imageUrl = image ? new URL(image, SITE_URL).toString() : `${SITE_URL}/og-image.jpg`;
+
+// Article schema (schema.org/Article)
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  image: [imageUrl],
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: author,
+    url: SITE_URL,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/og-image.jpg`,
+      width: 1200,
+      height: 630,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl,
+  },
+  articleSection: category,
+  keywords: tags.join(', '),
+  inLanguage: localeMeta(lang).htmlLang,
+};
+
+// FAQ schema
+const faqSchema = faq && faq.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(item => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+} : null;
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('nav.home', lang), item: `${SITE_URL}${lp}/` },
+    { '@type': 'ListItem', position: 2, name: t('nav.blog', lang), item: `${SITE_URL}${lp}/blog` },
+    { '@type': 'ListItem', position: 3, name: title, item: articleUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={title.length + 3 + siteConfig.name.length <= 65 ? `${title} | ${siteConfig.name}` : title}
+  description={description.length > 160 ? description.slice(0, 157).replace(/\s+\S*$/, '') + '…' : description}
+  type="article"
+  image={image ?? '/og-image.jpg'}
+  jsonLd={[articleSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
+  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-n-500 mb-10 overflow-x-auto whitespace-nowrap pb-1 font-light">
+      <a href={url('/')} class="hover:text-cream transition-colors shrink-0">{t('nav.home', lang)}</a>
+      <span class="shrink-0">/</span>
+      <a href={url('/blog')} class="hover:text-cream transition-colors shrink-0">{t('nav.blog', lang)}</a>
+      <span class="shrink-0">/</span>
+      <span class="text-n-400 truncate">{title}</span>
+    </nav>
+
+    <!-- 2-col layout — single column on mobile, 2 cols on desktop -->
+    <div class="grid lg:grid-cols-[1fr_300px] lg:gap-16">
+      <!-- Article -->
+      <div class="min-w-0 max-w-3xl">
+        <!-- Category tag -->
+        <a href={url(`/category/${catToSlug(category)}`)} class="text-[10px] text-n-500 font-medium uppercase tracking-widest hover:text-cream transition-colors">{category}</a>
+
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-cream mt-4 mb-6 leading-[1.15]">
+          {title}
+        </h1>
+
+        <!-- Description/lede -->
+        <p class="text-base md:text-lg text-n-400 leading-relaxed mb-8 font-light">
+          {description}
+        </p>
+
+        <!-- Meta -->
+        <div class="flex flex-wrap items-center gap-3 text-xs text-n-500 mb-10 pb-8 border-b border-white/[0.08] font-light">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-full bg-cream text-dark flex items-center justify-center text-[11px] font-medium">
+              {author.charAt(0)}
+            </div>
+            <span><span class="text-n-400">{author}</span></span>
+          </div>
+          <span>·</span>
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+          {formattedUpdated && (
+            <>
+              <span>·</span>
+              <span>{t('blog.updatedOn', lang)} {formattedUpdated}</span>
+            </>
+          )}
+        </div>
+
+        <!-- Cover image -->
+        {image && (
+          <figure class="rounded-2xl overflow-hidden mb-12 aspect-video bg-panel border border-white/[0.05]">
+            <img
+              src={unsplashAt(image, 800)}
+              srcset={unsplashSrcset(image)}
+              sizes="(max-width: 1024px) 100vw, 760px"
+              alt={imageAlt ?? title}
+              title={imageTitle ?? title}
+              class="w-full h-full object-cover"
+              width="1200" height="676"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </figure>
+        )}
+
+        <!-- Content -->
+        <article class="prose prose-lg max-w-none
+          prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream prose-headings:scroll-mt-24
+          prose-h2:text-2xl prose-h2:mt-14 prose-h3:text-xl
+          prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+          prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+          prose-strong:text-cream prose-strong:font-medium
+          prose-ul:font-light prose-ol:font-light prose-li:text-n-400
+          prose-blockquote:border-cream prose-blockquote:bg-panel prose-blockquote:rounded-r-xl prose-blockquote:py-2 prose-blockquote:not-italic prose-blockquote:text-n-400
+          prose-code:text-cream prose-code:bg-panel prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal
+          prose-hr:border-white/[0.08]
+          blog-tables">
+          <slot />
+        </article>
+
+        <!-- Tables : design dark cohérent avec le reste du site (cards .bg-panel + border-white/[0.08]).
+             prose-table:* ne couvre pas tout (pas de prose-tr/prose-thead), donc on cible en CSS scoped. -->
+        <style is:global>
+          .blog-tables { overflow-x: auto; }
+          .blog-tables table {
+            display: table;
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid rgb(255 255 255 / 0.08);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            font-size: 0.9rem;
+          }
+          .blog-tables thead {
+            background: rgb(255 255 255 / 0.04);
+          }
+          .blog-tables th {
+            color: rgb(248 246 240); /* cream */
+            font-weight: 500;
+            text-align: left;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid rgb(255 255 255 / 0.12);
+          }
+          .blog-tables td {
+            color: rgb(163 163 163); /* n-400 */
+            font-weight: 300;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid rgb(255 255 255 / 0.06);
+          }
+          .blog-tables tbody tr:last-child td { border-bottom: 0; }
+          .blog-tables tbody tr:hover td {
+            background: rgb(255 255 255 / 0.02);
+          }
+          .blog-tables td em, .blog-tables th em {
+            color: rgb(212 212 212);
+            font-style: italic;
+          }
+        </style>
+
+        <!-- Tags -->
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-14 pt-8 border-t border-white/[0.08]">
+            {tags.map(tag => (
+              <span class="inline-block text-[11px] font-light px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-n-500">#{tag}</span>
+            ))}
+          </div>
+        )}
+
+        <!-- À lire aussi -->
+        {related.length > 0 && (
+          <section class="mt-16 pt-10 border-t border-white/[0.08]">
+            <h2 class="text-xl font-medium tracking-tight text-cream mb-8">{t('blog.alsoRead', lang)}</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {related.map(p => (
+                <a href={articleHref(p.slug)} class="group block">
+                  <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-4">
+                    {p.data.image
+                      ? <img
+                          src={unsplashAt(p.data.image, 400)}
+                          srcset={unsplashSrcset(p.data.image, [400, 600])}
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                          alt={p.data.imageAlt ?? p.data.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                          loading="lazy"
+                        />
+                      : <div class="w-full h-full flex items-center justify-center text-n-500"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="6"/><line x1="12" y1="2" x2="12" y2="11"/></svg></div>
+                    }
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest">{p.data.category}</span>
+                    <h3 class="text-sm font-medium text-cream mt-1 tracking-tight leading-snug group-hover:underline underline-offset-4 line-clamp-2">{p.data.title}</h3>
+                    <time class="text-[11px] text-n-500 font-light mt-2 block">{formatDate(p.data.pubDate)}</time>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Back to blog -->
+        <div class="mt-14">
+          <a href={url('/blog')} class="inline-flex items-center gap-2 text-sm text-n-400 hover:text-cream transition-colors">
+            {t('blog.backToBlog', lang)}
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <BlogSidebar headings={headings} lang={lang} />
+    </div>
+  </div>
+</BaseLayout>

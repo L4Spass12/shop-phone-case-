@@ -1,0 +1,104 @@
+---
+// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+
+const title = "MENTIONS LÉGALES";
+const description = `Édition du site Le présent site, accessible à l’URL ${siteConfig.name} (le « Site »), est édité par :`;
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
+    <article class="prose prose-lg max-w-none
+      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+      prose-strong:text-cream prose-strong:font-medium
+      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
+      prose-hr:border-white/[0.08]"
+      set:html={`
+<p><strong>Édition du site</strong> Le présent site, accessible à l’URL <strong>${siteConfig.name}</strong> (le « Site »), est édité par :</p>
+
+
+
+<p><strong>[NOM DE LA SOCIÉTÉ]</strong>, [FORME JURIDIQUE], situé au <strong>[ADRESSE]</strong>. Immatriculé sous le numéro <strong>[SIRET]</strong> au R.C.S. de [VILLE] (ou RM si artisan)</p>
+
+
+
+<p><strong>Coordonnées</strong></p>
+
+
+
+<ul class="wp-block-list">
+<li>E-mail : <strong>${siteConfig.forms.contactEmail}</strong></li>
+
+
+
+<li>Téléphone : <strong>[TÉLÉPHONE]</strong></li>
+
+
+
+<li>Adresse : [ADRESSE]</li>
+</ul>
+
+
+
+<p><strong>TVA Intracommunautaire</strong> [RÉGIME TVA : ex. « Franchise en base de TVA - TVA non applicable, art. 293 B du CGI » ou numéro de TVA intracommunautaire].</p>
+
+
+
+<p><strong>Directeur de la publication</strong> [NOM DU DIRECTEUR DE LA PUBLICATION].</p>
+
+
+
+<p><strong>Hébergement</strong> Le Site est hébergé par <strong>[HÉBERGEUR + ADRESSE]</strong>. Joignable par le moyen suivant : [CONTACT HÉBERGEUR]</p>
+
+
+
+<h3 class="wp-block-heading">2. CLAUSES SPÉCIFIQUES POUR VOS CGV</h3>
+
+
+
+<p>Dans vos Conditions Générales de Vente, voici les paragraphes spécifiques à modifier pour coller à votre statut et vos infos :</p>
+
+
+
+<p><strong>Article &#8211; Prix</strong> Les prix de nos produits sont indiqués en euros. [RÉGIME TVA : précisez si les prix sont indiqués hors taxes (HT) ou toutes taxes comprises (TTC), et le régime de TVA applicable]. Les frais de traitement et d&rsquo;expédition sont facturés en supplément.</p>
+
+
+
+<p><strong>Article &#8211; Service Client</strong> Pour toute information ou question, notre service client est à votre disposition :</p>
+
+
+
+<ul class="wp-block-list">
+<li>Par téléphone : <strong>[TÉLÉPHONE]</strong> (du lundi au vendredi de 9h à 18h <em>[Adaptez vos horaires]</em>)</li>
+
+
+
+<li>Par email : <strong>${siteConfig.forms.contactEmail}</strong></li>
+
+
+
+<li>Par courrier postal : [ADRESSE]</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">3. PIED DE PAGE (Footer) de votre site</h3>
+
+
+
+<p>Pour rassurer vos clients et respecter la loi, votre pied de page sur <code>${siteConfig.name}</code> doit contenir ces liens et infos :</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p><strong>Contact :</strong> [TÉLÉPHONE] | ${siteConfig.forms.contactEmail} <strong>Liens :</strong> Mentions Légales | CGV | Politique de Confidentialité | Livraisons et Retours © [ANNÉE] ${siteConfig.name} &#8211; [NOM DE LA SOCIÉTÉ] ([FORME JURIDIQUE])</p>
+</blockquote>
+`}
+    />
+  </div>
+</BaseLayout>

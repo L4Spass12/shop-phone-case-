@@ -1,0 +1,138 @@
+---
+// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+
+const title = "Politique de Confidentialité";
+const description = "Dernière mise à jour : [DATE]";
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
+    <article class="prose prose-lg max-w-none
+      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+      prose-strong:text-cream prose-strong:font-medium
+      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
+      prose-hr:border-white/[0.08]"
+      set:html={`
+<p><strong>Dernière mise à jour :</strong> [DATE]</p>
+
+
+
+<p>Le site <strong>${siteConfig.name}</strong> est soucieux de la protection des données personnelles. Nous nous engageons à assurer le meilleur niveau de protection à vos données personnelles en conformité avec la loi Informatique et Libertés et le RGPD.</p>
+
+
+
+<h4 class="wp-block-heading">1. Responsable du traitement</h4>
+
+
+
+<p>Le responsable du traitement des données collectées sur le site ${siteConfig.name} est : <strong>[NOM DE LA SOCIÉTÉ]</strong> Adresse : [ADRESSE] Email : ${siteConfig.forms.contactEmail}</p>
+
+
+
+<h4 class="wp-block-heading">2. Données collectées</h4>
+
+
+
+<p>Nous collectons les données suivantes lorsque vous passez commande ou nous contactez :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Identité :</strong> nom, prénom, adresse, numéro de téléphone.</li>
+
+
+
+<li><strong>Contact :</strong> adresse e-mail.</li>
+
+
+
+<li><strong>Données de connexion :</strong> adresse IP, type de navigateur (via les cookies).</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading">3. Utilisation de vos données</h4>
+
+
+
+<p>Vos données sont utilisées uniquement pour :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Gérer votre commande :</strong> expédition, facturation, suivi de livraison, service après-vente.</li>
+
+
+
+<li><strong>Paiement :</strong> sécurisation des transactions via notre partenaire <strong>Stripe</strong>.</li>
+
+
+
+<li><strong>Contact :</strong> vous répondre via le formulaire de contact ou par email.</li>
+
+
+
+<li><strong>Obligations légales :</strong> conservation des factures (10 ans).</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading">4. Partage des données</h4>
+
+
+
+<p>Nous ne vendons jamais vos données personnelles. Elles sont transmises uniquement aux prestataires indispensables au traitement de la commande :</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Stripe (Paiement) :</strong> Vos coordonnées bancaires sont saisies directement sur l&rsquo;interface sécurisée de Stripe. <strong>${siteConfig.name} n&rsquo;a jamais accès à votre numéro de carte bancaire complet.</strong></li>
+
+
+
+<li><strong>Transporteurs :</strong> (Ex : La Poste/Colissimo, Mondial Relay) pour livrer votre colis.</li>
+
+
+
+<li><strong>[HÉBERGEUR + ADRESSE] :</strong> Hébergeur du site (données stockées sur des serveurs sécurisés).</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading">5. Durée de conservation</h4>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Données de commande :</strong> conservées pendant la durée de la relation commerciale, puis archivées pour des raisons comptables (10 ans).</li>
+
+
+
+<li><strong>Données de prospects (sans achat) :</strong> conservées 3 ans après le dernier contact.</li>
+</ul>
+
+
+
+<h4 class="wp-block-heading">6. Vos droits</h4>
+
+
+
+<p>Conformément à la réglementation, vous disposez d&rsquo;un droit d&rsquo;accès, de rectification, d&rsquo;effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous par email à : <strong>${siteConfig.forms.contactEmail}</strong> ou par courrier au [ADRESSE].</p>
+
+
+
+<h4 class="wp-block-heading">7. Cookies</h4>
+
+
+
+<p>Lors de votre navigation sur ${siteConfig.name}, des cookies sont déposés sur votre ordinateur, votre mobile ou votre tablette. Les cookies nécessaires au fonctionnement du site (panier d&rsquo;achat, session) ne nécessitent pas votre accord. Les cookies tiers (Google Analytics, publicité) nécessitent votre consentement explicite via notre bandeau cookie. Vous pouvez modifier vos préférences à tout moment.</p>
+`}
+    />
+  </div>
+</BaseLayout>

@@ -1,0 +1,108 @@
+---
+/**
+ * Composant "infinite scroll reveal" : affiche les N premiers enfants
+ * (matché par le sélecteur `itemSelector`) et révèle les suivants par
+ * batches quand l'utilisateur approche la fin.
+ *
+ * Les items cachés sont en display:none → les <img loading="lazy">
+ * ne se téléchargent pas tant qu'ils ne sont pas révélés.
+ *
+ * Compatible avec les filtres qui modifient un attribut data-* sur
+ * les items : quand un filtre est actif, TOUS les items matching sont
+ * révélés d'un coup (on désactive le batch).
+ *
+ * Usage :
+ *   <InfiniteReveal targetId="products-grid" itemSelector=".product-card" initial={12} batch={12} />
+ *   <div id="products-grid">...</div>
+ */
+interface Props {
+  targetId: string;
+  itemSelector: string;
+  initial?: number;
+  batch?: number;
+  label?: string;
+}
+const { targetId, itemSelector, initial = 12, batch = 12, label = 'Chargement…' } = Astro.props;
+---
+
+<div
+  data-infinite-reveal
+  data-target={targetId}
+  data-item-selector={itemSelector}
+  data-initial={initial}
+  data-batch={batch}
+  class="flex justify-center mt-10"
+>
+  <div class="reveal-sentinel h-px w-full"></div>
+  <span class="reveal-loader hidden text-xs text-n-500 font-light">{label}</span>
+</div>
+
+<style>
+  [data-reveal-hidden="true"] { display: none !important; }
+</style>
+
+<script is:inline>
+  (function() {
+    document.querySelectorAll('[data-infinite-reveal]').forEach(wrap => {
+      const targetId = wrap.getAttribute('data-target');
+      const itemSelector = wrap.getAttribute('data-item-selector');
+      const initial = parseInt(wrap.getAttribute('data-initial') || '12', 10);
+      const batch = parseInt(wrap.getAttribute('data-batch') || '12', 10);
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const allItems = Array.from(target.querySelectorAll(itemSelector));
+      if (allItems.length <= initial) return;
+
+      let shown = initial;
+
+      function applyReveal() {
+        allItems.forEach((el, i) => {
+          el.setAttribute('data-reveal-hidden', i >= shown ? 'true' : 'false');
+        });
+      }
+      applyReveal();
+
+      // Observer le sentinel : quand il approche le viewport, révèle le batch suivant
+      const sentinel = wrap.querySelector('.reveal-sentinel');
+      const loader = wrap.querySelector('.reveal-loader');
+      const io = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        if (shown >= allItems.length) {
+          io.disconnect();
+          wrap.remove();
+          return;
+        }
+        loader && loader.classList.remove('hidden');
+        shown = Math.min(shown + batch, allItems.length);
+        // léger délai pour laisser paraître le loader
+        requestAnimationFrame(() => {
+          applyReveal();
+          loader && loader.classList.add('hidden');
+          if (shown >= allItems.length) {
+            io.disconnect();
+            wrap.remove();
+          }
+        });
+      }, { rootMargin: '400px 0px' });
+      io.observe(sentinel);
+
+      // Compat filtres : si un autre script modifie la visibilité via style.display,
+      // on détecte ça (via MutationObserver) et on désactive le batch le temps
+      // qu'un filtre est actif.
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const f = btn.getAttribute('data-filter');
+          if (f && f !== 'all') {
+            // filtre actif → on révèle tout, le filtre lui-même cachera
+            shown = allItems.length;
+            applyReveal();
+            io.disconnect();
+            wrap.remove();
+          }
+        });
+      });
+    });
+  })();
+</script>

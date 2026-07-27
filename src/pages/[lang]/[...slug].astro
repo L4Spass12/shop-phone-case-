@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { parseEntrySlug, ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  // Cette route catch-all émet uniquement les articles non-FR (EN, DE…).
+  // params.lang = locale, params.slug = slug brut sans préfixe locale.
+  return posts
+    .filter(p => {
+      const { lang } = parseEntrySlug(p.slug);
+      return lang !== 'fr' && (ACTIVE_LOCALES as string[]).includes(lang);
+    })
+    .map(post => {
+      const { lang, slug } = parseEntrySlug(post.slug);
+      return {
+        params: { lang, slug },
+        props: { post, allPosts: posts },
+      };
+    });
+}
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await post.render();
+const postLang = parseEntrySlug(post.slug).lang;
+
+// Related : même catégorie ET même langue.
+const related = allPosts
+  .filter(p => p.slug !== post.slug
+    && p.data.category === post.data.category
+    && parseEntrySlug(p.slug).lang === postLang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BlogLayout post={post} headings={headings} related={related}>
+  <Content />
+</BlogLayout>

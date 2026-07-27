@@ -1,0 +1,110 @@
+import { defineCollection, z } from 'astro:content';
+import siteConfig from '../../site.config.mjs';
+
+const categories = siteConfig.categories as [string, ...string[]];
+
+const blog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    author: z.string().default(siteConfig.article.author),
+    category: z.enum(categories),
+    tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageTitle: z.string().optional(),
+    featured: z.boolean().default(false),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+  }),
+});
+
+/**
+ * Une valeur d'attribut (ex. "XL", "Bleu foncé")
+ */
+const attrValue = z.object({
+  label: z.string(),  // "Bleu foncé"
+  slug: z.string(),   // "bleu-fonce"
+});
+
+/**
+ * Un attribut de produit (ex. "Dimensions" avec 3 valeurs)
+ */
+const attribute = z.object({
+  name: z.string(),              // "Dimensions"
+  values: z.array(attrValue),    // [{label:"45 × 35 cm", slug:"45-x-35-cm"}, ...]
+});
+
+/**
+ * Une variante = une combinaison spécifique d'attributs, avec son prix/stock/image propres
+ */
+const variation = z.object({
+  id: z.union([z.number(), z.string()]),
+  sku: z.string().optional(),
+  price: z.number().positive(),
+  compareAtPrice: z.number().positive().optional(),
+  inStock: z.boolean().default(true),
+  stock: z.number().int().nonnegative().nullable().optional(),
+  // quelle combinaison d'attributs cette variation représente
+  // ex: {"Dimensions": "45-x-35-cm", "Couleurs": "bleu-fonce"}
+  attributes: z.record(z.string(), z.string()),
+  // image propre à la variante (optionnelle)
+  image: z.string().optional(),
+});
+
+const products = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    // Prix affichés par défaut (= prix min si plusieurs variantes)
+    price: z.number().positive(),
+    compareAtPrice: z.number().positive().optional(),
+    // Si le produit a plusieurs variantes avec des prix différents,
+    // on affiche "dès X €" sur les listings
+    priceRange: z.object({
+      min: z.number().positive(),
+      max: z.number().positive(),
+    }).optional(),
+    image: z.string(),
+    imageAlt: z.string().optional(),
+    gallery: z.array(z.string()).default([]),
+    // Plusieurs catégories possibles (ex. gaming + manga-anime)
+    categories: z.array(z.string()).default([]),
+    shortDescription: z.string(),
+    weight: z.number().int().positive().optional(),
+    stock: z.number().int().nonnegative().nullable().optional(),
+    sku: z.string().optional(),
+    featured: z.boolean().default(false),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    // ─── Variantes ───
+    attributes: z.array(attribute).default([]),
+    variations: z.array(variation).default([]),
+  }),
+});
+
+/**
+ * Contenu SEO des pages /product-category/<slug>/
+ *  - frontmatter = métadonnées + intro courte + FAQ structurée
+ *  - body markdown = guide d'achat (H2/H3), affiché sous la grille produits
+ */
+const productCategories = defineCollection({
+  type: 'content',
+  // NB: le slug est dérivé automatiquement du nom de fichier par Astro.
+  // Le fichier `boutique-kawaii.md` → entry.slug === 'boutique-kawaii'.
+  schema: z.object({
+    title: z.string(),                // H1 + <title>
+    metaDescription: z.string(),      // <meta name="description">
+    intro: z.string(),                // paragraphe sous le H1, au-dessus de la grille (plaintext)
+    // Titre du toggle "guide d'achat" — doit contenir le mot-clé cible
+    // ex: "Tout savoir sur les produits de cette categorie"
+    guideHeading: z.string().optional(),
+    keywords: z.array(z.string()).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    updatedDate: z.coerce.date().optional(),
+  }),
+});
+
+export const collections = { blog, products, productCategories };

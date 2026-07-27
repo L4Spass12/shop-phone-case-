@@ -1,0 +1,147 @@
+---
+import siteConfig from '../../site.config.mjs';
+import { t, localeFromPath, localePrefix } from '../lib/i18n';
+
+const lang = localeFromPath(Astro.url.pathname);
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/[0.04] bg-dark pt-16 pb-8 px-6 mt-auto">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+    <!-- Brand -->
+    <div class="md:col-span-1">
+      <a href={url('/')} class="text-lg font-medium tracking-tightest text-cream inline-block mb-4">
+        {siteConfig.logoPrefix}<span class="text-n-400">{siteConfig.logoSuffix}</span>
+      </a>
+      <p class="text-xs text-n-500 font-light leading-relaxed max-w-xs">
+        {siteConfig.description}
+      </p>
+      <div class="flex gap-3 mt-6">
+        {siteConfig.socials?.instagram && (
+          <a href={siteConfig.socials.instagram} aria-label="Instagram" class="w-8 h-8 rounded-full border border-white/[0.08] flex items-center justify-center text-n-400 hover:text-cream hover:border-white/20 transition-colors">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+        )}
+        {siteConfig.socials?.tiktok && (
+          <a href={siteConfig.socials.tiktok} aria-label="TikTok" class="w-8 h-8 rounded-full border border-white/[0.08] flex items-center justify-center text-n-400 hover:text-cream hover:border-white/20 transition-colors">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.84 4.84 0 01-1.01-.08z"/></svg>
+          </a>
+        )}
+        {siteConfig.socials?.youtube && (
+          <a href={siteConfig.socials.youtube} aria-label="YouTube" class="w-8 h-8 rounded-full border border-white/[0.08] flex items-center justify-center text-n-400 hover:text-cream hover:border-white/20 transition-colors">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Links -->
+    <div>
+      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.explore', lang)}</h4>
+      <ul class="space-y-3 text-xs text-n-500 font-light">
+        <li><a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a></li>
+        <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>
+        {siteConfig.shop?.enabled && <li><a href={url('/boutique')} class="hover:text-cream transition-colors">{t('nav.shop', lang)}</a></li>}
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.categories', lang)}</h4>
+      <ul class="space-y-3 text-xs text-n-500 font-light">
+        {siteConfig.categories.map(cat => {
+          const slug = siteConfig.categorySlugs?.[cat]
+            ?? cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          return <li><a href={url(`/category/${slug}`)} class="hover:text-cream transition-colors">{cat}</a></li>;
+        })}
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.stayInformed', lang)}</h4>
+      <p class="text-xs text-n-500 font-light mb-4">{t('footer.newsletterIntro', lang)}</p>
+      <form id="newsletter-form" class="flex flex-col gap-2" novalidate>
+        <input type="hidden" name="access_key" value={siteConfig.forms?.web3formsKey ?? ''} />
+        <input type="hidden" name="subject" value={`Nouvelle inscription newsletter - ${siteConfig.name}`} />
+        <input type="hidden" name="from_name" value={`Newsletter ${siteConfig.name}`} />
+        <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="flex items-stretch">
+          <input
+            type="email"
+            name="email"
+            placeholder={t('footer.emailPlaceholder', lang)}
+            required
+            autocomplete="email"
+            class="bg-panel border border-white/[0.08] rounded-l-md px-3 py-2 w-full text-xs text-cream placeholder-n-500 focus:outline-none focus:border-white/20 transition-colors"
+          />
+          <button
+            type="submit"
+            id="newsletter-submit"
+            class="bg-cream text-dark px-3 py-2 rounded-r-md text-xs font-medium hover:bg-n-400 border border-cream transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span data-newsletter-label data-newsletter-label-default={t('footer.join', lang)}>{t('footer.join', lang)}</span>
+          </button>
+        </div>
+        <p id="newsletter-success" class="hidden text-[11px] text-sage">{t('footer.newsletterSuccess', lang)}</p>
+        <p id="newsletter-error" class="hidden text-[11px] text-terracotta">{t('footer.newsletterError', lang)}</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/[0.04] text-[10px] text-n-500 font-light">
+    <p>© {currentYear} {siteConfig.name}. {t('footer.rights', lang)}</p>
+    <div class="flex gap-4 mt-4 md:mt-0">
+      {/* Pages légales : FR-only (droit français applicable). On pointe directement
+          vers la version FR pour éviter que Google flag des "Page avec redirection"
+          quand il crawle les versions /en/ et /de/ qui font ensuite un 302 vers FR. */}
+      <a href="/conditions-generales-de-vente-cgv" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.cgv', lang)}</a>
+      <a href="/politique-de-confidentialite" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.privacy', lang)}</a>
+      <a href="/mentions-legales" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.legal', lang)}</a>
+      <a href={url('/contact')} class="hover:text-n-400 transition-colors">{t('footer.contact', lang)}</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Newsletter submit (Web3Forms) — différé via requestIdleCallback pour ne pas bloquer le LCP -->
+<script is:inline>
+  (function() {
+    function initNewsletter() {
+      const form = document.getElementById('newsletter-form');
+      if (!form) return;
+      const submit = document.getElementById('newsletter-submit');
+      const label  = form.querySelector('[data-newsletter-label]');
+      const okBox  = document.getElementById('newsletter-success');
+      const errBox = document.getElementById('newsletter-error');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        okBox.classList.add('hidden');
+        errBox.classList.add('hidden');
+        submit.disabled = true;
+        label.textContent = '…';
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            okBox.classList.remove('hidden');
+            form.reset();
+          } else {
+            errBox.classList.remove('hidden');
+          }
+        } catch {
+          errBox.classList.remove('hidden');
+        } finally {
+          submit.disabled = false;
+          label.textContent = label.dataset.newsletterLabelDefault || label.textContent;
+        }
+      });
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(initNewsletter, { timeout: 2000 });
+    else setTimeout(initNewsletter, 0);
+  })();
+</script>

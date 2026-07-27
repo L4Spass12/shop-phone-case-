@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+import { t, localeFromPath } from '../lib/i18n';
+
+const lang = localeFromPath(Astro.url.pathname);
+const title = t('contact.title', lang);
+const description = t('contact.subtitle', lang);
+const web3formsKey = siteConfig.forms?.web3formsKey ?? '';
+const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
+    <!-- En-tête -->
+    <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-3 block">{t('contact.title', lang)}</span>
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-5">
+      {title}
+    </h1>
+    <p class="text-base text-n-400 leading-relaxed mb-12 font-light max-w-xl">
+      {t('contact.subtitle', lang)}
+    </p>
+
+    <!-- Formulaire -->
+    <form id="contact-form" class="space-y-5" novalidate>
+      <!-- Champs cachés Web3Forms -->
+      <input type="hidden" name="access_key" value={web3formsKey} />
+      <input type="hidden" name="subject" value={`Nouveau message contact - ${siteConfig.name}`} />
+      <input type="hidden" name="from_name" value={`Formulaire ${siteConfig.name}`} />
+      <!-- Honeypot anti-bot (laissez vide) -->
+      <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <!-- Prénom + Nom : 2 colonnes desktop, 1 colonne mobile -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label for="contact-firstname" class="block text-xs text-n-400 font-medium mb-2">{t('contact.firstname', lang)} <span class="text-cream">*</span></label>
+          <input
+            type="text"
+            id="contact-firstname"
+            name="prenom"
+            required
+            autocomplete="given-name"
+            class="w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+          />
+        </div>
+        <div>
+          <label for="contact-lastname" class="block text-xs text-n-400 font-medium mb-2">{t('contact.lastname', lang)} <span class="text-cream">*</span></label>
+          <input
+            type="text"
+            id="contact-lastname"
+            name="nom"
+            required
+            autocomplete="family-name"
+            class="w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+          />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="contact-email" class="block text-xs text-n-400 font-medium mb-2">{t('contact.email', lang)} <span class="text-cream">*</span></label>
+        <input
+          type="email"
+          id="contact-email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="vous@exemple.com"
+          class="w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+        />
+      </div>
+
+      <!-- Sujet (optionnel, predefined) -->
+      <div>
+        <label for="contact-topic" class="block text-xs text-n-400 font-medium mb-2">{t('contact.subject', lang)}</label>
+        <select
+          id="contact-topic"
+          name="objet"
+          class="w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors appearance-none"
+        >
+          <option value="">{t('contact.selectPlaceholder', lang)}</option>
+          <option value="Question avant achat">{t('contact.subjectQuestion', lang)}</option>
+          <option value="Suivi de commande">{t('contact.subjectOrder', lang)}</option>
+          <option value="Problème de livraison">{t('contact.subjectShipping', lang)}</option>
+          <option value="Retour ou remboursement">{t('contact.subjectReturn', lang)}</option>
+          <option value="Demande personnalisée">{t('contact.subjectCustom', lang)}</option>
+          <option value="Partenariat / collaboration">{t('contact.subjectPartnership', lang)}</option>
+          <option value="Autre">{t('contact.subjectOther', lang)}</option>
+        </select>
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label for="contact-message" class="block text-xs text-n-400 font-medium mb-2">{t('contact.message', lang)} <span class="text-cream">*</span></label>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows="6"
+          required
+          placeholder={t('contact.messagePlaceholder', lang)}
+          class="w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors resize-y min-h-[140px]"
+        ></textarea>
+      </div>
+
+      <!-- Submit + état -->
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+        <button
+          type="submit"
+          id="contact-submit"
+          class="btn-primary inline-flex items-center justify-center gap-2 px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span data-submit-label data-submit-label-default={t('contact.send', lang)} data-submit-label-sending={t('contact.sending', lang)}>{t('contact.send', lang)}</span>
+          <svg data-submit-spinner class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9" stroke-opacity="0.25"/>
+            <path d="M21 12a9 9 0 0 1-9 9" />
+          </svg>
+        </button>
+        <p class="text-xs text-n-500 font-light">
+          {t('contact.responseDelay', lang)}
+        </p>
+      </div>
+
+      <!-- Messages de retour -->
+      <div
+        id="contact-success"
+        class="hidden rounded-xl border border-sage/30 bg-sage/[0.08] px-5 py-4 text-sm text-sage"
+        role="status"
+      >
+        {t('contact.success', lang)}
+      </div>
+      <div
+        id="contact-error"
+        class="hidden rounded-xl border border-terracotta/30 bg-terracotta/[0.08] px-5 py-4 text-sm text-terracotta"
+        role="alert"
+      >
+        {t('contact.error', lang)}
+        <a href={`mailto:${contactEmail}`} class="underline">{contactEmail}</a>.
+      </div>
+    </form>
+
+    <!-- Contact direct alternatif -->
+    <div class="mt-12 pt-8 border-t border-white/[0.08]">
+      <p class="text-xs text-n-500 font-light">
+        Vous pouvez aussi nous écrire directement à
+        <a href={`mailto:${contactEmail}`} class="text-cream hover:underline underline-offset-4">{contactEmail}</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Soumission via Web3Forms (POST fetch, pas de page reload) -->
+  <script is:inline>
+    (function() {
+      const form = document.getElementById('contact-form');
+      if (!form) return;
+      const submit = document.getElementById('contact-submit');
+      const label  = form.querySelector('[data-submit-label]');
+      const spin   = form.querySelector('[data-submit-spinner]');
+      const okBox  = document.getElementById('contact-success');
+      const errBox = document.getElementById('contact-error');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        okBox.classList.add('hidden');
+        errBox.classList.add('hidden');
+        submit.disabled = true;
+        label.textContent = label.dataset.submitLabelSending || label.textContent;
+        spin.classList.remove('hidden');
+
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            okBox.classList.remove('hidden');
+            form.reset();
+          } else {
+            console.error('Web3Forms error', data);
+            errBox.classList.remove('hidden');
+          }
+        } catch (err) {
+          console.error('Submit error', err);
+          errBox.classList.remove('hidden');
+        } finally {
+          submit.disabled = false;
+          label.textContent = label.dataset.submitLabelDefault || label.textContent;
+          spin.classList.add('hidden');
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

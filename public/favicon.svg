@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Shop">
+  <rect width="100" height="100" rx="22" fill="#111113"/>
+  <!--
+    Pictogramme sac de shopping neutre (indépendant des polices système),
+    lisible jusqu'à 16px. Remplace-le par le monogramme de ta marque.
+  -->
+  <path
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M28 38 L72 38 L68 78 L32 78 Z"
+  />
+  <path
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="7"
+    stroke-linecap="round"
+    d="M39 48 L39 34 Q39 22 50 22 Q61 22 61 34 L61 48"
+  />
+</svg>

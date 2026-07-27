@@ -1,0 +1,1068 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import FabricationSection from '../../components/FabricationSection.astro';
+import { getCollection } from 'astro:content';
+import siteConfig from '../../../site.config.mjs';
+import { unsplashSrcset } from '../../lib/image';
+import { parseEntrySlug } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  // Cette route ne génère QUE les pages FR : /product/<slug>/. Les versions EN/DE
+  // (ex: /en/product/<slug>/) auront leur propre fichier dans src/pages/[lang]/...
+  // ajouté en phase 5 quand le contenu localisé sera disponible.
+  return products
+    .filter(p => parseEntrySlug(p.slug).lang === 'fr')
+    .map(product => ({
+      params: { slug: product.slug },
+      props: { product },
+    }));
+}
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+const {
+  name, price, compareAtPrice, priceRange, image, imageAlt, gallery,
+  categories, shortDescription, stock, sku, attributes, variations,
+} = product.data;
+
+const allProducts = await getCollection('products');
+
+// ─── Sélection catégorie pour "Vous aimerez aussi" ─────────────────────
+// Les catégories transversales contiennent TOUS les produits
+// → on préfère une catégorie thématique. Priorité bas = déprioritisé.
+const GENERIC_CATEGORIES = new Set([
+  'categorie-transversale-exemple',        // à personnaliser : slugs de catégories transversales
+]);
+const preferredCategory = (categories || []).find(c => !GENERIC_CATEGORIES.has(c))
+  ?? categories?.[0];
+
+// TOUS les produits de cette collection thématique (hors produit courant) ET
+// dans la même langue que le produit affiché (pas de mix FR/EN dans le slider).
+const productLang = parseEntrySlug(product.slug).lang;
+const related = allProducts
+  .filter(p => p.slug !== product.slug
+    && parseEntrySlug(p.slug).lang === productLang
+    && (p.data.categories || []).includes(preferredCategory));
+
+const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
+  style: 'currency', currency: siteConfig.shop.currency,
+}).format(n);
+
+// Dates de livraison estimées : 6 à 10 jours calendaires (week-ends inclus)
+const _today = new Date();
+function addCalendarDays(date: Date, days: number) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+const deliveryStart = addCalendarDays(_today, 6);
+const deliveryEnd   = addCalendarDays(_today, 10);
+const fmtDeliveryDate = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' }).format(d);
+const deliveryWindowText = `entre le ${fmtDeliveryDate(deliveryStart)} et le ${fmtDeliveryDate(deliveryEnd)}`;
+
+const SITE_URL = siteConfig.url;
+const productUrl = `${SITE_URL}/product/${product.slug}/`;
+const imageUrl = new URL(image, SITE_URL).toString();
+const hasVariations = Array.isArray(variations) && variations.length > 0;
+const inStock = hasVariations ? variations.some(v => v.inStock) : (stock == null || stock > 0);
+
+// ─── SEO : titre court + meta description unique par produit ──────────
+// Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
+// sinon juste "Nom du produit" (sans le nom du site).
+const brandSuffix = ` | ${siteConfig.name}`;
+const seoTitle = (name.length + brandSuffix.length) <= 60
+  ? `${name}${brandSuffix}`
+  : name;
+
+// Meta description : combine shortDesc tronquée + catégorie + prix pour garantir
+// l'unicité même si shortDescription est dupliquée entre produits.
+// Format : "<nom>. <shortDesc courte>. À partir de X€. Livraison sécurisée."
+const priceStart = priceRange?.min ?? price;
+const catLabel = categories?.[0]?.replace(/^boutique-/, '').replace(/-/g, ' ') ?? '';
+const truncated = shortDescription.length > 70
+  ? shortDescription.slice(0, 70).replace(/\s+\S*$/, '') + '…'
+  : shortDescription;
+const rawDesc = `${name}${catLabel ? ` ${catLabel}` : ''}. ${truncated} Dès ${priceStart}€, livraison sécurisée.`;
+const seoDescription = rawDesc.length > 160
+  ? rawDesc.slice(0, 160).replace(/\s+\S*$/, '') + '…'
+  : rawDesc;
+
+// Serialize variations + attributes pour le JS client (sélecteur de variantes)
+const variantsJson = JSON.stringify(variations || []);
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name,
+  description: shortDescription,
+  image: [imageUrl, ...(gallery || []).slice(1).map(g => new URL(g, SITE_URL).toString())],
+  sku: sku ?? product.slug,
+  brand: { '@type': 'Brand', name: siteConfig.name },
+  offers: hasVariations ? {
+    '@type': 'AggregateOffer',
+    priceCurrency: siteConfig.shop.currency,
+    lowPrice: priceRange?.min ?? price,
+    highPrice: priceRange?.max ?? price,
+    offerCount: variations.length,
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
+  } : {
+    '@type': 'Offer',
+    url: productUrl,
+    priceCurrency: siteConfig.shop.currency,
+    price: price.toFixed(2),
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'Boutique', item: `${SITE_URL}/boutique` },
+    { '@type': 'ListItem', position: 3, name, item: productUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={image}
+  jsonLd={[productSchema, breadcrumbSchema]}
+  noindex={(categories ?? []).length === 0}
+>
+  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
+      <a href="/" class="hover:text-cream transition-colors shrink-0">Accueil</a>
+      <span class="shrink-0">/</span>
+      <a href="/boutique" class="hover:text-cream transition-colors shrink-0">Boutique</a>
+      <span class="shrink-0">/</span>
+      <span class="text-n-400 truncate">{name}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+      <!-- ═══════════════════════════ GALERIE ═══════════════════════════ -->
+      {(() => {
+        // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
+        // Les images de variations ne sont PAS ajoutées (design épuré).
+        // Au changement de variante, le slide principal sera swappé directement via JS.
+        const slides = Array.from(new Set([image, ...(gallery || [])]));
+        return (
+        <div class="product-gallery" data-gallery data-slide-count={slides.length}>
+          <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
+               sur desktop = flèches prev/next. Une seule image visible à la fois. -->
+          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/3] group">
+            <div
+              class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
+              data-gallery-track
+            >
+              {slides.map((src, i) => (
+                <div class="flex-none w-full h-full snap-start snap-always">
+                  <img
+                    data-gallery-slide={i}
+                    src={src}
+                    srcset={unsplashSrcset(src)}
+                    sizes="(max-width: 1024px) 100vw, 560px"
+                    alt={i === 0 ? (imageAlt ?? name) : `${name} - image ${i + 1}`}
+                    class="w-full h-full object-cover"
+                    width="1200"
+                    height="900"
+                    fetchpriority={i === 0 ? 'high' : 'auto'}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <!-- Flèches desktop uniquement (apparaissent au hover) -->
+            {slides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  data-gallery-prev
+                  aria-label="Image précédente"
+                  class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button
+                  type="button"
+                  data-gallery-next
+                  aria-label="Image suivante"
+                  class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </>
+            )}
+          </div>
+
+          <!-- Thumbs : DESKTOP uniquement. Sur mobile → swipe natif. -->
+          {slides.length > 1 && (
+            <div class="hidden md:grid grid-cols-5 gap-2 mt-3">
+              {slides.slice(0, 10).map((g, i) => (
+                <button
+                  type="button"
+                  data-gallery-thumb={i}
+                  class={`gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
+                  aria-label={`Voir l'image ${i + 1}`}
+                >
+                  <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        );
+      })()}
+
+      <!-- Info + CTA -->
+      <div class="flex flex-col">
+        <!-- Categories -->
+        {categories && categories.length > 0 && (
+          <div class="flex flex-wrap gap-1.5 mb-3">
+            {categories.map(c => (
+              <a
+                href={`/product-category/${c}`}
+                class="text-[10px] text-n-500 font-medium uppercase tracking-widest hover:text-cream transition-colors"
+              >
+                {c.replace(/-/g, ' ')}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
+          {name}
+        </h1>
+        <p class="text-sm md:text-base text-n-400 leading-relaxed mb-6 font-light">
+          {shortDescription}
+        </p>
+
+        <!-- Prix -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span id="product-price" class="text-2xl md:text-3xl text-cream font-medium tracking-tight">
+            {priceRange && priceRange.min !== priceRange.max
+              ? `Dès ${formatPrice(priceRange.min)}`
+              : formatPrice(price)}
+          </span>
+          {compareAtPrice && (
+            <span id="product-compare" class="text-sm text-n-500 line-through font-light">
+              {formatPrice(compareAtPrice)}
+            </span>
+          )}
+          {compareAtPrice && (
+            <span class="text-[10px] font-medium bg-cream text-dark px-2 py-1 rounded-sm uppercase tracking-wider">
+              -{Math.round((1 - price / compareAtPrice) * 100)}%
+            </span>
+          )}
+        </div>
+        <div class="mb-8"></div>
+
+        <!-- Stock -->
+        <div id="product-stock" class={`flex items-center gap-2 mb-6 text-sm font-light ${inStock ? 'text-sage' : 'text-n-500'}`}>
+          <span class={`w-1.5 h-1.5 rounded-full ${inStock ? 'bg-sage' : 'bg-n-500'}`}></span>
+          <span>{inStock ? 'En stock' : 'Rupture de stock'}</span>
+        </div>
+
+        <!-- Sélecteurs de variantes -->
+        {hasVariations && attributes.length > 0 && (
+          <div id="variant-selector" class="space-y-6 mb-8">
+            {attributes.map(attr => {
+              // Détecte si l'attribut est une dimension ("45 × 35 cm", "90x40 cm"…).
+              // Si oui → cards avec visualisation SVG. Sinon → pills classiques.
+              const SIZE_RE = /(\d+)\s*[x×]\s*(\d+)/i;
+              const parsed = attr.values.map(v => {
+                const m = v.label.match(SIZE_RE);
+                return m ? { ...v, w: parseInt(m[1], 10), h: parseInt(m[2], 10) } : { ...v, w: null, h: null };
+              });
+              const isSize = parsed.every(v => v.w != null && v.h != null);
+
+              if (!isSize) {
+                // ── Attribut classique (couleur, matière…) : pills ──
+                return (
+                  <div>
+                    <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                      {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                      {attr.values.map((val, idx) => (
+                        <button
+                          type="button"
+                          data-variant-option
+                          data-variant-type="pill"
+                          data-attr={attr.name}
+                          data-value={val.slug}
+                          class={`variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors ${idx === 0 ? 'bg-cream text-dark border-cream' : 'bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20'}`}
+                        >
+                          {val.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              // ── Attribut "Dimensions" : cards avec visualisation ──
+              const maxW = Math.max(...parsed.map(v => v.w));
+              const maxH = Math.max(...parsed.map(v => v.h));
+              // Variante par défaut = la plus grande (par aire) → badge "Populaire"
+              const largestIdx = parsed.reduce(
+                (best, v, i, arr) => (v.w * v.h > arr[best].w * arr[best].h ? i : best),
+                0
+              );
+
+              return (
+                <div>
+                  <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                    {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                  </label>
+                  <div class={`grid gap-2`} style={`grid-template-columns: repeat(${parsed.length}, minmax(0, 1fr));`}>
+                    {parsed.map((val, idx) => {
+                      const isSelected = idx === largestIdx;
+                      const isPopular  = idx === largestIdx;
+                      // Produit scalé dans la card (viewBox = largeur max × hauteur max).
+                      // Padding 5 unités tout autour pour laisser respirer.
+                      const pad = 5;
+                      const vbW = maxW + pad * 2;
+                      const vbH = maxH + pad * 2;
+                      // Position du produit (centré verticalement, aligné à gauche)
+                      const padX = pad;
+                      const padY = pad + (maxH - val.h) / 2;
+                      // Souris : orientation portrait (longueur > largeur, vue du dessus)
+                      // Dimensions réalistes ~7 × 12 cm
+                      const mouseW = Math.min(7, val.w * 0.13);
+                      const mouseH = Math.min(12, val.h * 0.32);
+                      const mouseCx = padX + val.w - mouseW / 2 - val.w * 0.08;
+                      const mouseCy = padY + val.h / 2;
+                      // Clavier : ~36 × 13 cm, uniquement si le produit fait ≥ 55 cm de large
+                      const showKeyboard = val.w >= 55;
+                      const kbW = Math.min(36, val.w * 0.55);
+                      const kbH = kbW * 0.36;
+                      const kbX = padX + val.w * 0.08;
+                      const kbY = padY + (val.h - kbH) / 2;
+
+                      return (
+                        <button
+                          type="button"
+                          data-variant-option
+                          data-variant-type="size"
+                          data-attr={attr.name}
+                          data-value={val.slug}
+                          class={`variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0 ${isSelected ? 'bg-white/[0.04] border-cream' : 'bg-white/[0.02] border-white/[0.08] hover:border-white/25'}`}
+                          aria-label={`Taille ${val.label}${isPopular ? ' (le plus populaire)' : ''}`}
+                        >
+                          {isPopular && (
+                            <span class="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] md:text-[10px] font-medium bg-cream text-dark px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-sm">
+                              Populaire
+                            </span>
+                          )}
+                          <svg
+                            viewBox={`0 0 ${vbW} ${vbH}`}
+                            class="w-full h-auto mb-2 block"
+                            aria-hidden="true"
+                          >
+                            <!-- Surface produit -->
+                            <rect
+                              x={padX} y={padY} width={val.w} height={val.h}
+                              rx="2" ry="2"
+                              fill={isSelected ? 'rgba(244,244,247,0.10)' : 'rgba(255,255,255,0.04)'}
+                              stroke={isSelected ? 'rgba(244,244,247,0.8)' : 'rgba(255,255,255,0.25)'}
+                              stroke-width="0.5"
+                              class="size-rect"
+                            />
+                            {/* Clavier : rect + petites touches stylisées */}
+                            {showKeyboard && (
+                              <g class="keyboard-g">
+                                <rect
+                                  x={kbX} y={kbY} width={kbW} height={kbH}
+                                  rx="1" ry="1"
+                                  fill="rgba(255,255,255,0.06)"
+                                  stroke="rgba(255,255,255,0.35)"
+                                  stroke-width="0.4"
+                                />
+                                {/* Touches : 3 lignes de petits rects */}
+                                {[0.22, 0.45, 0.68].map(ry => (
+                                  <line
+                                    x1={kbX + kbW * 0.05} y1={kbY + kbH * ry}
+                                    x2={kbX + kbW * 0.95} y2={kbY + kbH * ry}
+                                    stroke="rgba(255,255,255,0.25)"
+                                    stroke-width="0.3"
+                                    stroke-dasharray="0.6 0.4"
+                                  />
+                                ))}
+                              </g>
+                            )}
+                            {/* Souris : forme "pear" vue du dessus, palm en haut,
+                                 boutons en bas, molette centrale */}
+                            <g class="mouse-g">
+                              {/* Corps : path avec haut arrondi plus large, bas légèrement
+                                   resserré (proportions d'une souris type) */}
+                              <path
+                                d={
+                                  `M ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` C ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx} ${mouseCy - mouseH*0.5}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` L ${mouseCx + mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` Z`
+                                }
+                                fill="rgba(255,255,255,0.08)"
+                                stroke="rgba(255,255,255,0.45)"
+                                stroke-width="0.4"
+                                stroke-linejoin="round"
+                              />
+                              {/* Ligne de séparation des clics gauche/droit (haut) */}
+                              <line
+                                x1={mouseCx} y1={mouseCy - mouseH*0.42}
+                                x2={mouseCx} y2={mouseCy - mouseH*0.12}
+                                stroke="rgba(255,255,255,0.3)"
+                                stroke-width="0.3"
+                              />
+                              {/* Molette : petit rect arrondi centré-haut */}
+                              <rect
+                                x={mouseCx - mouseW*0.06}
+                                y={mouseCy - mouseH*0.2}
+                                width={mouseW*0.12}
+                                height={mouseH*0.14}
+                                rx={mouseW*0.05}
+                                fill="rgba(255,255,255,0.3)"
+                                stroke="rgba(255,255,255,0.45)"
+                                stroke-width="0.2"
+                              />
+                            </g>
+                          </svg>
+                          <div class="text-center">
+                            <div class="text-[11px] md:text-[13px] font-medium text-cream tracking-tight leading-none whitespace-nowrap">{val.label}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <!-- Bouton d'achat (Atelier) — style animé Uiverse (voir global.css).
+             Le JS variantes met à jour le texte de #buy-button ; l'overlay
+             décoratif est resynchronisé par le MutationObserver ci-dessous. -->
+        <div class="btn-wrapper self-start">
+          <div class="gradient-layer"></div>
+          <div class="gradient-layer"></div>
+          <button
+            id="buy-button"
+            class="buy-button gradient-btn disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={!inStock}
+            data-item-id={sku ?? product.slug}
+            data-item-name={name}
+            data-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            {inStock ? (
+              <>Ajouter au panier <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+            ) : 'Indisponible'}
+          </button>
+          <span class="text-overlay" aria-hidden="true" id="buy-button-overlay"></span>
+          <div class="light"></div>
+        </div>
+        <script>
+          // Miroir décoratif : copie le texte du bouton ATC dans l'overlay
+          // (le JS variantes réécrit le bouton à chaque changement de prix).
+          const atcBtn = document.getElementById('buy-button');
+          const atcOverlay = document.getElementById('buy-button-overlay');
+          if (atcBtn && atcOverlay) {
+            const sync = () => { atcOverlay.textContent = atcBtn.textContent; };
+            sync();
+            new MutationObserver(sync).observe(atcBtn, { childList: true, subtree: true, characterData: true });
+          }
+        </script>
+
+        <!-- Garanties -->
+        <div class="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/[0.08]">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="shield-check" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">Livraison sécurisée</p>
+              <p class="text-xs text-n-500 font-light">colis suivi & assuré</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="arrow-right" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">Retour 30 jours</p>
+              <p class="text-xs text-n-500 font-light">gratuit et simple</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ TOGGLES PRODUIT ═══════════════════════════
+         3 accordéons en HTML natif (<details>). Google indexe parfaitement le
+         contenu à l'intérieur (ouvert ou fermé), donc SEO-friendly. Zéro JS. -->
+    <section class="mt-16 max-w-3xl below-fold-defer">
+      <!-- Description -->
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">Description</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <article class="mt-5 prose prose-base max-w-none
+          prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+          prose-h2:text-xl prose-h2:mt-10 prose-h3:text-lg
+          prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+          prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+          prose-strong:text-cream prose-strong:font-medium
+          prose-ul:font-light prose-li:text-n-400
+          prose-blockquote:border-cream prose-blockquote:bg-panel prose-blockquote:rounded-r-xl prose-blockquote:text-n-400
+          prose-code:text-cream prose-code:bg-panel prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal">
+          <Content />
+        </article>
+      </details>
+
+      <!-- Livraison & retours -->
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">Livraison & retours</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          <!-- Date de livraison dynamique (mise en avant) -->
+          <div class="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3 flex items-start gap-3">
+            <svg class="w-5 h-5 text-cream shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            <p class="text-cream font-medium text-sm leading-relaxed">
+              Vous recevez votre colis <span class="text-cream">{deliveryWindowText}</span>.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">Expédition</h3>
+            <p>Commande préparée sous 24 à 48 heures ouvrées. Expédition depuis notre atelier en France via Colissimo ou Mondial Relay selon votre choix au paiement.</p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">Délais de livraison</h3>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>France métropolitaine : 6 à 10 jours</li>
+              <li>Europe (Belgique, Suisse, Luxembourg, Allemagne…) : 8 à 14 jours</li>
+              <li>Reste du monde : 14 à 21 jours</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">Frais de livraison</h3>
+            <p><strong class="text-cream">Livraison sécurisée</strong> : tous les colis sont expédiés avec numéro de suivi et assurance transporteur. Les frais sont calculés au checkout selon le transporteur sélectionné et la destination.</p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">Retours & remboursement</h3>
+            <p>Vous disposez de <strong class="text-cream">30 jours après réception</strong> pour changer d'avis. Retour gratuit en France (étiquette prépayée fournie). Le produit doit être renvoyé dans son état d'origine, non utilisé et dans son emballage. Remboursement intégral sous 5 jours ouvrés après réception du colis.</p>
+            <p class="mt-2 text-xs text-n-500">Les produits personnalisés ne sont ni repris ni échangés, sauf défaut de fabrication.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- Entretien -->
+      <details class="product-toggle group border-t border-b border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">Entretien</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">Conseils d'entretien</h3>
+            <p>Texte d'entretien - à personnaliser. Décrivez ici comment entretenir vos produits pour les faire durer.</p>
+          </div>
+        </div>
+      </details>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════ STICKY ATC BAR (mobile + desktop) ═══════════════════════════
+       Apparaît quand le CTA principal (#buy-button) sort du viewport.
+       Mobile : label taille + bouton pleine largeur avec prix.
+       Desktop : vignette + nom + taille + prix + bouton. -->
+  <div
+    id="sticky-atc"
+    class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 bg-dark/95 backdrop-blur-lg border-t border-white/[0.08]"
+    aria-hidden="true"
+  >
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-3.5">
+      <!-- Mobile : label taille au-dessus + bouton pleine largeur -->
+      <div class="md:hidden">
+        <p class="text-[11px] text-n-500 font-light mb-1.5 text-center">
+          <span id="sticky-atc-size-mobile" class="text-cream font-medium">-</span>
+        </p>
+        <button
+          id="sticky-atc-btn"
+          class="buy-button btn-primary w-full text-base py-3.5 disabled:opacity-40 disabled:cursor-not-allowed"
+          disabled={!inStock}
+          data-item-id={sku ?? product.slug}
+          data-item-name={name}
+          data-item-price={Math.round(price * 100)}
+          data-item-image={imageUrl}
+        >
+          Ajouter au panier <span id="sticky-atc-price-mobile">{formatPrice(price)}</span>
+        </button>
+      </div>
+
+      <!-- Desktop : vignette + nom + taille · prix + bouton à droite -->
+      <div class="hidden md:flex items-center gap-4">
+        <img
+          src={image}
+          alt=""
+          class="w-12 h-12 rounded-lg object-cover border border-white/[0.08] shrink-0"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
+          <p class="text-xs text-n-400 font-light truncate">
+            <span id="sticky-atc-size" class="text-cream font-medium">-</span>
+            · <span id="sticky-atc-price">{formatPrice(price)}</span>
+          </p>
+        </div>
+        <button
+          id="sticky-atc-btn-desk"
+          class="buy-button btn-primary text-sm px-6 py-3 whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+          disabled={!inStock}
+          data-item-id={sku ?? product.slug}
+          data-item-name={name}
+          data-item-price={Math.round(price * 100)}
+          data-item-image={imageUrl}
+        >
+          Ajouter au panier
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ FABRICATION HAUTE PRÉCISION ═══════════════════════════ -->
+  <div class="below-fold-defer"><FabricationSection /></div>
+
+  <!-- ═══════════════════════════ VOUS AIMEREZ AUSSI (slider full-width) ═══════════════════════════ -->
+  {related.length > 0 && (
+    <section class="relative py-16 md:py-20 border-t border-white/[0.04] overflow-hidden below-fold-defer">
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between mb-6 md:mb-8 gap-4">
+          <div>
+            <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2 block">Collection</span>
+            <h2 class="text-xl md:text-2xl font-medium tracking-tight text-cream">Vous aimerez aussi</h2>
+          </div>
+          <a href={`/product-category/${preferredCategory}`} class="inline-flex items-center gap-1.5 text-xs md:text-sm text-n-400 hover:text-cream transition-colors whitespace-nowrap">
+            Voir tout ({related.length})
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Slider full-width : même structure que la home -->
+      <div class="product-slider relative" data-slider>
+        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
+          {related.map(p => (
+            <a
+              href={`/product/${p.slug}`}
+              class="slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block"
+            >
+              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
+                <img
+                  src={p.data.image}
+                  srcset={unsplashSrcset(p.data.image)}
+                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 45vw, (max-width: 1024px) 32vw, 300px"
+                  alt={p.data.imageAlt ?? p.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width="800" height="600" loading="lazy" decoding="async"
+                />
+                {p.data.compareAtPrice && (
+                  <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
+                    -{Math.round((1 - p.data.price / p.data.compareAtPrice) * 100)}%
+                  </span>
+                )}
+              </div>
+              <h3 class="text-sm font-medium text-cream tracking-tight leading-snug line-clamp-2 mb-1 group-hover:underline underline-offset-4">
+                {p.data.name}
+              </h3>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="text-cream font-medium">
+                  {p.data.priceRange && p.data.priceRange.min !== p.data.priceRange.max
+                    ? `Dès ${formatPrice(p.data.priceRange.min)}`
+                    : formatPrice(p.data.price)}
+                </span>
+                {p.data.compareAtPrice && (
+                  <span class="text-n-500 line-through font-light">{formatPrice(p.data.compareAtPrice)}</span>
+                )}
+              </div>
+            </a>
+          ))}
+          <div class="flex-none w-2" aria-hidden="true"></div>
+        </div>
+
+        <!-- Flèches desktop -->
+        <div class="pointer-events-none absolute inset-0 max-w-7xl mx-auto hidden md:block px-6">
+          <button
+            type="button"
+            data-scroll="prev"
+            class="pointer-events-auto absolute left-2 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full bg-dark/90 border border-white/[0.15] backdrop-blur flex items-center justify-center text-cream hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all shadow-lg"
+            aria-label="Produits précédents"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button
+            type="button"
+            data-scroll="next"
+            class="pointer-events-auto absolute right-2 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full bg-dark/90 border border-white/[0.15] backdrop-blur flex items-center justify-center text-cream hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all shadow-lg"
+            aria-label="Produits suivants"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <style>
+        .product-slider .slider-track { scrollbar-width: none; -ms-overflow-style: none; }
+        .product-slider .slider-track::-webkit-scrollbar { display: none; }
+        /* Galerie : masque scrollbar horizontale sur le track */
+        .gallery-track { scrollbar-width: none; -ms-overflow-style: none; }
+        .gallery-track::-webkit-scrollbar { display: none; }
+        /* Toggles produit : masque le marker natif des <summary> */
+        .product-toggle summary::-webkit-details-marker { display: none; }
+        .product-toggle summary::marker { content: ''; }
+
+        /* ─── content-visibility: auto ─────────────────────────────────
+           Le navigateur skip le rendu des sections hors viewport pour
+           économiser la layout/paint au load. Fix décisif pour Lighthouse
+           qui n'a plus à attendre que TOUTE la page soit peinte avant de
+           committer le LCP. `contain-intrinsic-size` réserve l'espace
+           pour éviter toute surprise de scroll. */
+        .below-fold-defer {
+          content-visibility: auto;
+          contain-intrinsic-size: auto 800px;
+        }
+
+      </style>
+    </section>
+  )}
+
+  <!-- ═══════════════════════════ JS PRODUIT ═══════════════════════════
+       Trois modules indépendants, tous différés via requestIdleCallback :
+       1. Galerie (scroll-snap + thumbs + flèches desktop + clavier)
+       2. Slider "Vous aimerez aussi" (flèches desktop)
+       3. Sélecteur de variantes (pills/cards + sync prix/stock/image)
+  -->
+  <script is:inline set:html={`
+    (function() {
+
+    /* ─── 1. GALERIE ───────────────────────────────────────────────── */
+    function initGallery() {
+      const root = document.querySelector('[data-gallery]');
+      if (!root) return null;
+      const track  = root.querySelector('[data-gallery-track]');
+      const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const prev   = root.querySelector('[data-gallery-prev]');
+      const next   = root.querySelector('[data-gallery-next]');
+      const count  = parseInt(root.dataset.slideCount || '0', 10);
+      let current  = 0;
+
+      const paint = () => {
+        thumbs.forEach((t, i) => {
+          t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors '
+            + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30');
+        });
+        if (prev) prev.disabled = current <= 0;
+        if (next) next.disabled = current >= count - 1;
+      };
+
+      const goTo = (idx) => {
+        if (idx < 0 || idx >= count || !track) return;
+        track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
+      };
+
+      // Détecte le slide courant via scroll (swipe natif mobile + scrollTo desktop)
+      if (track) {
+        let raf = null;
+        track.addEventListener('scroll', () => {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const idx = Math.round(track.scrollLeft / track.clientWidth);
+            if (idx !== current) { current = idx; paint(); }
+          });
+        }, { passive: true });
+      }
+
+      prev?.addEventListener('click', () => goTo(current - 1));
+      next?.addEventListener('click', () => goTo(current + 1));
+      thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+      });
+      root.setAttribute('tabindex', '0');
+
+      paint();
+      // API exposée pour le sélecteur de variantes
+      return { goTo, getMainSlide: () => root.querySelector('[data-gallery-slide="0"]'),
+               getMainThumb: () => root.querySelector('[data-gallery-thumb="0"] img') };
+    }
+
+    /* ─── 2. SLIDER "VOUS AIMEREZ AUSSI" ───────────────────────────── */
+    function initRelatedSlider() {
+      document.querySelectorAll('[data-slider]').forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        const prev  = slider.querySelector('[data-scroll="prev"]');
+        const next  = slider.querySelector('[data-scroll="next"]');
+        if (!track) return;
+
+        const scrollByCards = (dir) => {
+          const card = track.querySelector('.slider-card');
+          if (!card) return;
+          const w = card.getBoundingClientRect().width + 20;
+          track.scrollBy({ left: w * 2 * dir, behavior: 'smooth' });
+        };
+        prev?.addEventListener('click', () => scrollByCards(-1));
+        next?.addEventListener('click', () => scrollByCards(1));
+
+        const upd = () => {
+          if (!prev || !next) return;
+          prev.disabled = track.scrollLeft <= 1;
+          next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+        };
+        track.addEventListener('scroll', upd, { passive: true });
+        window.addEventListener('resize', upd);
+        requestAnimationFrame(upd);
+      });
+    }
+
+    /* ─── 3. SÉLECTEUR DE VARIANTES ────────────────────────────────── */
+    function initVariants(galleryApi, stickyRefs) {
+      const variants = ${variantsJson};
+      const buyBtn   = document.getElementById('buy-button');
+      const priceEl  = document.getElementById('product-price');
+      const compareEl = document.getElementById('product-compare');
+      const stockEl  = document.getElementById('product-stock');
+      const selector = document.getElementById('variant-selector');
+      if (!variants.length || !selector || !buyBtn) return;
+
+      const currency = '${siteConfig.shop.currency}';
+      const fmtPrice = (v) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(v);
+
+      // Slide 0 = image principale (swap au changement de variante)
+      const mainSlide = galleryApi?.getMainSlide() ?? null;
+      const mainThumb = galleryApi?.getMainThumb() ?? null;
+      const originalSrc = mainSlide?.getAttribute('src') ?? null;
+
+      // Initial : pill bg-cream OU size-card border-cream
+      const selected = {};
+      selector.querySelectorAll('[data-attr]').forEach(btn => {
+        const a = btn.dataset.attr;
+        if (selected[a]) return;
+        if (btn.classList.contains('bg-cream') || btn.classList.contains('border-cream')) {
+          selected[a] = btn.dataset.value;
+        }
+      });
+
+      const findVariant = () => variants.find(v => {
+        for (const [k, val] of Object.entries(selected)) {
+          if (v.attributes[k] !== val) return false;
+        }
+        return true;
+      });
+
+      const setStock = (inStock, label) => {
+        if (!stockEl) return;
+        const dot = stockEl.querySelector('span:first-child');
+        const txt = stockEl.querySelector('span:last-child');
+        stockEl.className = 'flex items-center gap-2 mb-6 text-sm font-light ' + (inStock ? 'text-sage' : 'text-n-500');
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full ' + (inStock ? 'bg-sage' : 'bg-n-500');
+        if (txt) txt.textContent = label;
+      };
+
+      function update() {
+        // Labels "Dimensions : 45 × 35 cm"
+        Object.entries(selected).forEach(([attr, slug]) => {
+          const label = document.querySelector('[data-selected-label="' + attr + '"]');
+          if (!label) return;
+          const pill = selector.querySelector('[data-attr="' + attr + '"][data-value="' + slug + '"]');
+          label.textContent = pill ? pill.textContent.trim() : slug;
+        });
+
+        const v = findVariant();
+        if (!v) {
+          buyBtn.disabled = true;
+          buyBtn.textContent = 'Combinaison indisponible';
+          setStock(false, 'Indisponible');
+          return;
+        }
+
+        // Prix + compare
+        if (priceEl) priceEl.textContent = fmtPrice(v.price);
+        if (compareEl) {
+          if (v.compareAtPrice) {
+            compareEl.textContent = fmtPrice(v.compareAtPrice);
+            compareEl.classList.remove('hidden');
+          } else {
+            compareEl.classList.add('hidden');
+          }
+        }
+
+        // Stock
+        setStock(v.inStock, v.inStock ? 'En stock' : 'Rupture');
+
+        // Image : swap src du slide principal + thumb 0
+        if (mainSlide) {
+          const nextSrc = v.image || originalSrc;
+          if (nextSrc && mainSlide.getAttribute('src') !== nextSrc) {
+            mainSlide.setAttribute('src', nextSrc);
+            // Reconstruit le srcset responsive pour les .webp locaux (variantes -400w/-800w pré-générées)
+            const m = nextSrc.match(/^(?!https?:)(.*)\.webp$/i);
+            if (m) {
+              const base = m[1];
+              mainSlide.setAttribute('srcset', base + '-400w.webp 400w, ' + base + '-800w.webp 800w, ' + nextSrc + ' 1200w');
+            } else {
+              mainSlide.removeAttribute('srcset');
+            }
+            if (mainThumb) mainThumb.setAttribute('src', nextSrc);
+          }
+          galleryApi?.goTo(0);
+        }
+
+        // Bouton + dataset Atelier
+        const variantDesc = Object.entries(selected).map(([k, val]) => {
+          const pill = selector.querySelector('[data-attr="' + k + '"][data-value="' + val + '"]');
+          return k + ': ' + (pill ? pill.textContent.trim() : val);
+        }).join(', ');
+        buyBtn.disabled = !v.inStock;
+        buyBtn.dataset.itemId = v.id;
+        buyBtn.dataset.itemPrice = Math.round(v.price * 100);
+        buyBtn.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
+        buyBtn.innerHTML = v.inStock
+          ? 'Ajouter au panier <span class="opacity-70 font-normal">' + fmtPrice(v.price) + '</span>'
+          : 'Indisponible';
+
+        // Sync sticky ATC bar (boutons mobile + desktop, prix, label taille)
+        if (stickyRefs) {
+          stickyRefs.btns.forEach(b => {
+            b.disabled = !v.inStock;
+            b.dataset.itemId = v.id;
+            b.dataset.itemPrice = Math.round(v.price * 100);
+            b.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;
+          });
+          const dimPill = selector.querySelector('[data-variant-type="size"].border-cream');
+          const sizeLabel = dimPill
+            ? (dimPill.querySelector('.text-cream')?.textContent.trim() || variantDesc)
+            : variantDesc;
+          if (stickyRefs.sizeMobile) stickyRefs.sizeMobile.textContent = sizeLabel;
+          if (stickyRefs.sizeDesk)   stickyRefs.sizeDesk.textContent   = sizeLabel;
+          if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
+          if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
+        }
+      }
+
+      // Click handlers (pills + size cards)
+      const pillClass = 'variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors';
+      const sizeClass = 'variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0';
+      const off = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.02] border-white/[0.08] hover:border-white/25'
+        : pillClass + ' bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20';
+      const on = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.04] border-cream'
+        : pillClass + ' bg-cream text-dark border-cream';
+
+      selector.querySelectorAll('[data-variant-option]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const attr = btn.dataset.attr;
+          const type = btn.dataset.variantType || 'pill';
+          selector.querySelectorAll('[data-attr="' + attr + '"]').forEach(b => {
+            const t = b.dataset.variantType || 'pill';
+            b.className = off(t);
+            const rect = b.querySelector('.size-rect');
+            if (rect) {
+              rect.setAttribute('fill', 'rgba(255,255,255,0.04)');
+              rect.setAttribute('stroke', 'rgba(255,255,255,0.25)');
+            }
+          });
+          btn.className = on(type);
+          if (type === 'size') {
+            const rect = btn.querySelector('.size-rect');
+            if (rect) {
+              rect.setAttribute('fill', 'rgba(244,244,247,0.10)');
+              rect.setAttribute('stroke', 'rgba(244,244,247,0.8)');
+            }
+          }
+          selected[attr] = btn.dataset.value;
+          update();
+        });
+      });
+
+      update();
+    }
+
+    /* ─── 4. STICKY ATC BAR ────────────────────────────────────────── */
+    function initStickyAtc() {
+      const bar     = document.getElementById('sticky-atc');
+      const mainCTA = document.getElementById('buy-button');
+      if (!bar || !mainCTA || !('IntersectionObserver' in window)) return null;
+
+      const io = new IntersectionObserver((entries) => {
+        const visible = entries[0].isIntersecting;
+        if (visible) {
+          bar.classList.add('translate-y-full');
+          bar.setAttribute('aria-hidden', 'true');
+        } else {
+          bar.classList.remove('translate-y-full');
+          bar.setAttribute('aria-hidden', 'false');
+        }
+      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+      io.observe(mainCTA);
+
+      return {
+        btns: [
+          document.getElementById('sticky-atc-btn'),
+          document.getElementById('sticky-atc-btn-desk'),
+        ].filter(Boolean),
+        sizeMobile: document.getElementById('sticky-atc-size-mobile'),
+        sizeDesk:   document.getElementById('sticky-atc-size'),
+        priceMobile: document.getElementById('sticky-atc-price-mobile'),
+        priceDesk:   document.getElementById('sticky-atc-price'),
+      };
+    }
+
+    /* ─── ENTRYPOINT : tout différé jusqu'à idle (post-LCP) ─────────── */
+    function bootProductJS() {
+      const galleryApi = initGallery();
+      initRelatedSlider();
+      const stickyRefs = initStickyAtc();
+      initVariants(galleryApi, stickyRefs);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(bootProductJS, { timeout: 2000 });
+    } else {
+      setTimeout(bootProductJS, 0);
+    }
+
+    })();
+  `} />
+</BaseLayout>
