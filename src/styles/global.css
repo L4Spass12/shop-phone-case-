@@ -278,14 +278,13 @@
   outline-offset: 3px;
 }
 
-/* Prix affiché dans le bouton : plus discret que le libellé.
-   Cible tous les <span> du bouton (prix du CTA principal et des barres
-   sticky), y compris celui réinjecté par le JS des variantes. Unité `em`
-   pour que la réduction suive aussi la taille du modificateur --sm. */
+/* Prix rappelé dans le bouton : légèrement plus petit que le libellé pour
+   garder la hiérarchie. Cible tous les <span> du bouton (CTA principal et
+   barres sticky), y compris celui réinjecté par le JS des variantes ; unité
+   `em` pour que la réduction suive la taille du modificateur --sm. */
 .btn-atc > span {
-  font-size: .6875em;   /* 11px pour un libellé à 16px */
+  font-size: .875em;
   font-weight: 500;
-  letter-spacing: 0;
 }
 
 /* ─── Modificateurs ──────────────────────────────────────────────── */
