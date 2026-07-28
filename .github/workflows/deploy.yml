@@ -1,13 +1,22 @@
 name: Build & Deploy to Hostinger
 
+# ═══════════════════════════════════════════════════════════════════════════
+# ⚠️ DÉPLOIEMENT FTP — DÉSORMAIS MANUEL UNIQUEMENT (repli de secours).
+#
+# Le déploiement se fait maintenant par l'intégration Git de hPanel, branchée
+# sur la branche `hostinger-deploy` (voir hostinger-branch.yml).
+#
+# Le déclencheur `push` a été retiré VOLONTAIREMENT : si les deux mécanismes
+# tournaient en parallèle, ils écriraient en même temps dans public_html
+# (le FTP prend ~20 min, le Git quelques secondes) — on obtiendrait un site
+# à moitié mis à jour, avec des HTML pointant vers des assets déjà remplacés.
+#
+# Reste utile pour : reprendre la main si l'intégration Git tombe, ou forcer
+# un rafraîchissement complet par FTP. Lancement : onglet Actions → ce
+# workflow → « Run workflow ».
+# ═══════════════════════════════════════════════════════════════════════════
+
 on:
-  push:
-    branches: [main]
-    # Un changement purement CI (workflows) ne modifie pas le site : inutile de
-    # relancer un déploiement FTP complet (~20 min). Les commits de contenu, eux,
-    # touchent src/ et déclenchent bien le déploiement.
-    paths-ignore:
-      - '.github/**'
   workflow_dispatch:
 
 concurrency:

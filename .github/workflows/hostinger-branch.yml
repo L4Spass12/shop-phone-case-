@@ -1,0 +1,78 @@
+name: Build → branche hostinger-deploy
+
+# ═══════════════════════════════════════════════════════════════════════════
+# POURQUOI CETTE BRANCHE EXISTE
+#
+# L'intégration Git de hPanel (Hostinger) copie le contenu du dépôt TEL QUEL
+# dans public_html : elle n'exécute AUCUNE commande de build. Or ce site est
+# en Astro — ce qui doit être servi, c'est le dossier `dist/` compilé, pas les
+# sources. Brancher Hostinger sur `main` déploierait src/, package.json, etc.,
+# et le site ne s'afficherait pas.
+#
+# Ce workflow maintient donc une branche `hostinger-deploy` qui contient le
+# site COMPILÉ à sa racine. C'est cette branche qu'il faut sélectionner dans
+# hPanel → Websites → Dashboard → Advanced → Git.
+#
+# La branche est un ARTEFACT de build : elle est réécrite en force à chaque
+# fois (son historique n'a aucune valeur). Ne jamais y committer à la main.
+# ═══════════════════════════════════════════════════════════════════════════
+
+on:
+  push:
+    branches: [main]
+    # Un changement purement CI ne modifie pas le site rendu.
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+  workflow_dispatch:
+
+# Deux builds concurrents pousseraient en force sur la même branche : on
+# sérialise, et on annule le build devenu obsolète.
+concurrency:
+  group: hostinger-deploy-branch
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # Garde-fou : sans .htaccess, on perd la redirection HTTPS, les en-têtes
+      # de sécurité, la réécriture du sitemap et le fallback i18n /en /de.
+      # Mieux vaut échouer ici que déployer un site silencieusement dégradé.
+      - name: Vérifier le contenu du build
+        run: |
+          test -f dist/index.html    || { echo "::error::dist/index.html manquant"; exit 1; }
+          test -f dist/.htaccess     || { echo "::error::dist/.htaccess manquant"; exit 1; }
+          test -f dist/sitemap-index.xml || echo "::warning::sitemap-index.xml absent"
+          echo "Pages générées : $(find dist -name '*.html' | wc -l)"
+
+      - name: Pousser dist/ sur la branche hostinger-deploy
+        run: |
+          cd dist
+          git init -q
+          git checkout -q -b hostinger-deploy
+          git config user.name  "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          git commit -q -m "build: ${GITHUB_SHA::7} — $(find . -name '*.html' | wc -l | tr -d ' ') pages"
+          git push --force --quiet \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            hostinger-deploy
+          echo "✅ branche hostinger-deploy mise à jour depuis ${GITHUB_SHA::7}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
