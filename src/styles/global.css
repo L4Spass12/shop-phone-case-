@@ -354,3 +354,120 @@
   .btn-atc:hover, .btn-atc:active { transform: none; }
   .btn-atc:hover::after { transform: translateX(-115%); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Bouton ATC "blob" — variante A/B, adapté de Uiverse.io (adamgiebl).
+   4 blobs colorés flottent derrière une couche de verre dépoli
+   (backdrop-filter) ; au survol les couleurs permutent et les blobs
+   grossissent.
+
+   Structure attendue :
+     <button class="btn-atc-blob">
+       <span class="ab-text">Ajouter au panier <span>19,90 €</span></span>
+       <span class="ab-blob" aria-hidden="true"></span> × 4
+     </button>
+
+   Adaptations vs l'original :
+   - scopé en .btn-atc-blob (l'original stylait `button` globalement) ;
+   - largeur auto : la couche verre .ab-text est EN FLUX (position:relative)
+     et dimensionne le bouton, au lieu du 8em fixe de l'original ;
+   - blobs positionnés en % pour couvrir n'importe quelle largeur.
+
+   ⚠️ Repose sur des éléments enfants → réservé aux produits SANS variations
+   (le JS des variantes réécrit l'innerHTML du bouton). L'aiguillage est fait
+   dans src/pages/product/[slug].astro via le champ `atcVariant` du produit.
+   ═══════════════════════════════════════════════════════════════════════ */
+.btn-atc-blob {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  border: none;
+  padding: 0;
+  border-radius: 40em;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Couche verre : EN FLUX → c'est elle qui donne sa taille au bouton */
+.btn-atc-blob .ab-text {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  width: 100%;
+  padding: .95em 2.3em;
+  border-radius: 40em;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.473),
+    rgba(150, 150, 150, 0.25)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+}
+
+.btn-atc-blob .ab-blob {
+  position: absolute;
+  z-index: -1;
+  width: 48%;
+  height: 130%;
+  border-radius: 5em;
+  transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+/* nth-child(2..5) comme dans l'original : .ab-text est l'enfant 1 (un span
+   lui aussi — nth-of-type serait décalé), les 4 blobs sont les enfants 2 à 5. */
+.btn-atc-blob .ab-blob:nth-child(2) { left: -6%; top: -15%; background: #ff930f; }
+.btn-atc-blob .ab-blob:nth-child(3) { left: 22%; top: 10%;  background: #bf0fff; }
+.btn-atc-blob .ab-blob:nth-child(4) { left: 50%; top: -40%; background: #ff1b6b; }
+.btn-atc-blob .ab-blob:nth-child(5) { left: 62%; top: 40%;  background: #0061ff; }
+
+.btn-atc-blob:hover .ab-blob:nth-child(2) { background: #0061ff; }
+.btn-atc-blob:hover .ab-blob:nth-child(3) { background: #ff1b6b; }
+.btn-atc-blob:hover .ab-blob:nth-child(4) { background: #bf0fff; }
+.btn-atc-blob:hover .ab-blob:nth-child(5) { background: #ff930f; }
+.btn-atc-blob:hover .ab-blob { transform: scale(1.3); }
+
+.btn-atc-blob:active .ab-text {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .9);
+}
+
+.btn-atc-blob:focus-visible {
+  outline: 2px solid rgb(var(--accent-rgb));
+  outline-offset: 3px;
+}
+
+.btn-atc-blob:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.btn-atc-blob:disabled .ab-blob {
+  background: #9ca3af;
+  transform: none;
+}
+
+/* Prix : même hiérarchie que sur .btn-atc */
+.btn-atc-blob .ab-text > span {
+  font-size: .875em;
+  font-weight: 500;
+}
+
+/* Mobile : pleine largeur, comme le CTA principal .btn-atc */
+@media (max-width: 640px) {
+  .btn-atc-blob {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-atc-blob .ab-blob { transition: none; }
+  .btn-atc-blob:hover .ab-blob { transform: none; }
+}

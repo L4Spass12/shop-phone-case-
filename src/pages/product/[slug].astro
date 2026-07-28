@@ -69,6 +69,12 @@ const imageUrl = new URL(image, SITE_URL).toString();
 const hasVariations = Array.isArray(variations) && variations.length > 0;
 const inStock = hasVariations ? variations.some(v => v.inStock) : (stock == null || stock > 0);
 
+// Variante A/B du bouton ATC. Le style 'blob' repose sur des éléments enfants
+// (blobs + couche verre) : on ne l'applique QUE si le produit n'a pas de
+// variations, car le JS du sélecteur réécrit l'innerHTML de #buy-button et
+// détruirait ces enfants. Avec variations → repli silencieux sur 'gradient'.
+const atcBlob = product.data.atcVariant === 'blob' && !hasVariations;
+
 // ─── SEO : titre court + meta description unique par produit ──────────
 // Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
 // sinon juste "Nom du produit" (sans le nom du site).
@@ -454,20 +460,43 @@ const breadcrumbSchema = {
           </div>
         )}
 
-        <!-- Bouton d'achat (Atelier) — style : cf. .btn-atc dans global.css -->
-        <button
-          id="buy-button"
-          class="buy-button btn-atc self-start"
-          disabled={!inStock}
-          data-item-id={sku ?? product.slug}
-          data-item-name={name}
-          data-item-price={Math.round(price * 100)}
-          data-item-image={imageUrl}
-        >
-          {inStock ? (
-            <>Ajouter au panier <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
-          ) : 'Indisponible'}
-        </button>
+        <!-- Bouton d'achat (Atelier) — style piloté par `atcVariant` du produit :
+             'gradient' (défaut, .btn-atc) ou 'blob' (.btn-atc-blob, cf. global.css). -->
+        {atcBlob ? (
+          <button
+            id="buy-button"
+            class="buy-button btn-atc-blob self-start"
+            disabled={!inStock}
+            data-item-id={sku ?? product.slug}
+            data-item-name={name}
+            data-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            <span class="ab-text">
+              {inStock ? (
+                <>Ajouter au panier <span>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+              ) : 'Indisponible'}
+            </span>
+            <span class="ab-blob" aria-hidden="true"></span>
+            <span class="ab-blob" aria-hidden="true"></span>
+            <span class="ab-blob" aria-hidden="true"></span>
+            <span class="ab-blob" aria-hidden="true"></span>
+          </button>
+        ) : (
+          <button
+            id="buy-button"
+            class="buy-button btn-atc self-start"
+            disabled={!inStock}
+            data-item-id={sku ?? product.slug}
+            data-item-name={name}
+            data-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            {inStock ? (
+              <>Ajouter au panier <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+            ) : 'Indisponible'}
+          </button>
+        )}
 
         <!-- Garanties -->
         <div class="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/[0.08]">
