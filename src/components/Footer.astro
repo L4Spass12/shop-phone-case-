@@ -39,7 +39,7 @@ const currentYear = new Date().getFullYear();
 
     <!-- Links -->
     <div>
-      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.explore', lang)}</h4>
+      <h2 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.explore', lang)}</h2>
       <ul class="space-y-3 text-xs text-n-500 font-light">
         <li><a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a></li>
         <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>
@@ -48,7 +48,7 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div>
-      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.categories', lang)}</h4>
+      <h2 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.categories', lang)}</h2>
       <ul class="space-y-3 text-xs text-n-500 font-light">
         {siteConfig.categories.map(cat => {
           const slug = siteConfig.categorySlugs?.[cat]
@@ -59,7 +59,7 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div>
-      <h4 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.stayInformed', lang)}</h4>
+      <h2 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.stayInformed', lang)}</h2>
       <p class="text-xs text-n-500 font-light mb-4">{t('footer.newsletterIntro', lang)}</p>
       <form id="newsletter-form" class="flex flex-col gap-2" novalidate>
         <input type="hidden" name="access_key" value={siteConfig.forms?.web3formsKey ?? ''} />
