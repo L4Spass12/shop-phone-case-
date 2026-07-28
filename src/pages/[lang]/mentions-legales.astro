@@ -3,11 +3,23 @@
  * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
  *
  * Un texte juridique traduit n'est PAS un texte juridique valide dans l'autre
- * juridiction. Ces pages fournissent la STRUCTURE attendue par chaque marché,
- * pas un contenu opposable :
- *   - EN : « Legal notice » générique (marché UK/US).
- *   - DE : squelette d'« Impressum » conforme dans sa structure au §5 DDG
- *          (ex-§5 TMG), qui impose des mentions précises en Allemagne.
+ * juridiction : ces pages fournissent la structure attendue par chaque marché,
+ * pas un contenu opposable.
+ *
+ * ⚖️ PRINCIPE DU PAYS D'ORIGINE (directive e-commerce 2000/31, art. 3) : un
+ * vendeur établi en FRANCE relève du droit français pour ses obligations
+ * d'identification. Il n'a donc PAS à produire un « Impressum » au sens du
+ * §5 DDG allemand, lequel vise les fournisseurs établis en Allemagne.
+ *
+ * On conserve néanmoins le titre « Impressum » : c'est le terme que les
+ * consommateurs allemands cherchent, et l'information d'identification doit
+ * de toute façon leur être fournie (directive UE droits des consommateurs).
+ * Le contenu identifie donc l'entreprise FRANÇAISE, et renvoie au médiateur
+ * français — et non à une Verbraucherschlichtungsstelle allemande, le VSBG ne
+ * s'appliquant qu'aux entreprises établies en Allemagne.
+ *
+ * NB : le §5 TMG n'existe plus, remplacé par le §5 DDG en mai 2024. Les
+ * modèles citant « §5 TMG » sont périmés.
  * Remplace tous les [CROCHETS] et fais relire le tout.
  */
 import LegalPage from '../../components/LegalPage.astro';
@@ -29,7 +41,7 @@ const content = {
     heading: 'LEGAL NOTICE',
     description: `Legal notice for ${shop}: publisher, contact details, hosting provider and VAT information.`,
     html: `
-<p><strong>Site publisher</strong> This website, accessible at <strong>${shop}</strong> (the "Site"), is published by:</p>
+<p><strong>Site publisher</strong> This website, accessible at <strong>${siteConfig.url}</strong> (the "Site"), is operated by a company established in <strong>France</strong> and is therefore subject to French law:</p>
 
 <p><strong>[COMPANY NAME]</strong>, [LEGAL FORM], registered office at <strong>[ADDRESS]</strong>. Company registration number <strong>[REGISTRATION NUMBER]</strong>, registered in [CITY/REGISTRY].</p>
 
@@ -57,16 +69,22 @@ const content = {
 
 <p>Unless stated otherwise, all content on this Site (texts, images, logos, page structure) is the property of [COMPANY NAME] or is used with permission. Any reproduction without prior written consent is prohibited.</p>
 
-<h2 class="wp-block-heading">Online dispute resolution</h2>
+<h2 class="wp-block-heading">Consumer mediation</h2>
 
-<p>[If you sell to consumers in the EU, add here the alternative dispute resolution body you are affiliated with, and its contact details.]</p>
+<p>As a French business we are affiliated with an approved consumer mediation body, which you can contact <strong>free of charge</strong> if a written complaint to us has not been resolved to your satisfaction:</p>
+
+<p><strong>[MEDIATOR NAME]</strong> — <strong>[ADDRESS]</strong> — <strong>[WEBSITE]</strong></p>
+
+<p><em>The EU online dispute resolution (ODR) platform was permanently shut down on 20 July 2025; a link to it is no longer required.</em></p>
 `,
   },
   de: {
     heading: 'IMPRESSUM',
     description: `Impressum von ${shop}: Anbieter, Kontakt, Hosting und Umsatzsteuer-Angaben.`,
     html: `
-<p><strong>Angaben gemäß § 5 DDG</strong></p>
+<p><strong>Anbieter dieser Website</strong></p>
+
+<p><em>Dieser Shop wird von einem in Frankreich ansässigen Unternehmen betrieben. Nach dem Herkunftslandprinzip (Art. 3 der E-Commerce-Richtlinie) gilt für die Anbieterkennzeichnung französisches Recht; die folgenden Angaben entsprechen den französischen Vorschriften und geben dir alle Informationen, die du zur Identifikation des Verkäufers brauchst.</em></p>
 
 <p><strong>[FIRMENNAME]</strong>, [RECHTSFORM]<br />
 [STRASSE UND HAUSNUMMER]<br />
@@ -86,12 +104,13 @@ const content = {
 
 <h2 class="wp-block-heading">Registereintrag</h2>
 
-<p>Eingetragen im [REGISTER, z. B. Handelsregister] des [REGISTERGERICHT]<br />
-Registernummer: <strong>[REGISTERNUMMER]</strong></p>
+<p>Eingetragen im französischen Handelsregister (R.C.S.) von [STADT]<br />
+Registernummer (SIREN/SIRET): <strong>[REGISTERNUMMER]</strong><br />
+Stammkapital: <strong>[BETRAG] €</strong></p>
 
 <h2 class="wp-block-heading">Umsatzsteuer-Identifikationsnummer</h2>
 
-<p>[USt-IdNr. gemäß § 27 a UStG: <strong>[USt-IdNr.]</strong> — oder Hinweis auf die Kleinunternehmerregelung nach § 19 UStG.]</p>
+<p>Innergemeinschaftliche USt-IdNr.: <strong>[USt-IdNr.]</strong> <em>[oder Hinweis, dass keine USt. ausgewiesen wird - franz. Kleinunternehmerregelung, Art. 293 B CGI.]</em></p>
 
 <h2 class="wp-block-heading">Verantwortlich für den Inhalt</h2>
 
@@ -105,9 +124,15 @@ Registernummer: <strong>[REGISTERNUMMER]</strong></p>
 
 <p>Sofern nicht anders angegeben, sind alle Inhalte dieser Website (Texte, Bilder, Logos, Seitenstruktur) Eigentum von [FIRMENNAME] oder werden mit Erlaubnis verwendet. Eine Vervielfältigung ohne vorherige schriftliche Zustimmung ist untersagt.</p>
 
-<h2 class="wp-block-heading">Streitschlichtung</h2>
+<h2 class="wp-block-heading">Verbraucherschlichtung</h2>
 
-<p>[Angabe, ob du zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle bereit oder verpflichtet bist, mit Name und Anschrift der Stelle.]</p>
+<p>Als französisches Unternehmen sind wir einer französischen Verbraucherschlichtungsstelle (« médiateur de la consommation ») angeschlossen, die du <strong>kostenlos</strong> anrufen kannst, wenn deine schriftliche Beschwerde bei uns nicht zufriedenstellend gelöst wurde:</p>
+
+<p><strong>[NAME DER SCHLICHTUNGSSTELLE]</strong><br />
+Anschrift: <strong>[ANSCHRIFT]</strong><br />
+Website: <strong>[WEBSITE]</strong></p>
+
+<p><em>Hinweis: Die europäische OS-Plattform wurde am 20. Juli 2025 eingestellt; ein Link darauf ist nicht mehr erforderlich.</em></p>
 `,
   },
 }[lang];

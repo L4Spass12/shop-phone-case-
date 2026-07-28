@@ -1,10 +1,15 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER AVANT MISE EN LIGNE.
- * Les délais, tarifs et conditions de retour doivent correspondre à ta réalité
- * logistique ET au droit du marché visé (le droit de rétractation de 14 jours
- * est une règle UE ; hors UE, vérifie les obligations locales).
- * Remplace tous les [CROCHETS].
+ * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
+ *
+ * ⚖️ EN → ÉTATS-UNIS : aucun droit de retour légal pour un achat en ligne. Le
+ *    retour est purement contractuel — ce que la page annonce engage le
+ *    vendeur. S'applique en revanche la FTC « Mail, Internet, or Telephone
+ *    Order Merchandise Rule » (16 CFR 435) : expédier dans le délai annoncé
+ *    ou, à défaut d'annonce, sous 30 jours, avec remboursement prompt sinon.
+ *
+ * ⚖️ DE → UE : droit de rétractation légal de 14 jours, et renvoi obligatoire
+ *    vers la fonctionnalité de rétractation en ligne.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -27,7 +32,11 @@ const content = {
     html: `
 <h2 class="wp-block-heading">1. Shipping</h2>
 
-<p>Every order placed on <strong>${shop}</strong> is prepared with care from our premises in <strong>[DISPATCH CITY]</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are dispatched the following Monday.)</em></p>
+<p>Every order placed on <strong>${shop}</strong> is prepared with care from our premises in <strong>[DISPATCH CITY], France</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are dispatched the following Monday.)</em></p>
+
+<p>Where a product page states a shipping timeframe, we ship within it. Where none is stated, we ship <strong>within 30 days</strong> of your order; if we cannot, we will email you and you may cancel for a prompt full refund. <em>(FTC Mail, Internet, or Telephone Order Merchandise Rule, 16 CFR Part 435.)</em></p>
+
+<p><strong>Customs and import charges:</strong> parcels ship from France. Duties, import fees or state sales/use tax may be due on delivery. <em>[State clearly who bears them.]</em></p>
 
 <p><strong>Delivery options &amp; rates</strong></p>
 
@@ -51,7 +60,9 @@ const content = {
 
 <h2 class="wp-block-heading">2. Returns and exchanges</h2>
 
-<p><strong>Changed your mind?</strong> You have <strong>14 days</strong> from receiving your order to return it. [Adjust this period to the law applicable in your market.]</p>
+<p><strong>Our returns policy - not a statutory right.</strong> US federal law does not give buyers a general right to cancel an online purchase (the FTC "cooling-off" rule covers door-to-door sales only). The window below is the one we grant you contractually:</p>
+
+<p>You may return an item within <strong>[X] days</strong> of delivery. The simplest way is our <a href="/en/retractation"><strong>online returns request form</strong></a>.</p>
 
 <p><strong>How to return an item</strong></p>
 
@@ -105,7 +116,9 @@ const content = {
 
 <h2 class="wp-block-heading">2. Rückgabe und Umtausch</h2>
 
-<p><strong>Du hast es dir anders überlegt?</strong> Du hast <strong>14 Tage</strong> ab Erhalt deiner Bestellung Zeit, sie zurückzusenden. [Diese Frist an das im Zielmarkt geltende Recht anpassen - in der EU gilt das gesetzliche Widerrufsrecht.]</p>
+<p><strong>Du hast es dir anders überlegt?</strong> Du hast das gesetzliche Recht, binnen <strong>14 Tagen</strong> ab Erhalt deiner Bestellung ohne Angabe von Gründen zu widerrufen.</p>
+
+<p>Am einfachsten geht das über unser <a href="/de/retractation"><strong>Online-Widerrufsformular</strong></a>, das dauerhaft und kostenlos verfügbar ist. Du kannst uns auch per E-Mail oder Brief schreiben.</p>
 
 <p><strong>So sendest du zurück</strong></p>
 

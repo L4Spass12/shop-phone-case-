@@ -1,10 +1,24 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
- * Structure alignée sur le RGPD (applicable dans toute l'UE, donc valable pour
- * la version allemande / DSGVO). Pour une audience hors UE (UK GDPR, CCPA…),
- * les mentions et les droits listés doivent être adaptés.
- * Remplace tous les [CROCHETS] et la date de mise à jour.
+ * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
+ *
+ * ⚖️ DE → DSGVO/RGPD : le vendeur est établi dans l'UE, le RGPD s'applique
+ *    pleinement. Structure alignée sur les art. 13-14 RGPD.
+ *
+ * ⚖️ EN → marché ÉTATS-UNIS. Deux textes à distinguer :
+ *    - CalOPPA (Cal. Bus. & Prof. Code §22575) : impose une politique de
+ *      confidentialité à TOUT site commercial collectant des données de
+ *      résidents californiens, SANS SEUIL de taille. Exigences propres :
+ *      lien « conspicuous », énumération des CATÉGORIES de données et des
+ *      tiers, description du processus de modification par l'utilisateur,
+ *      divulgation du traitement des signaux « Do Not Track », date d'entrée
+ *      en vigueur et modalités de notification des changements.
+ *    - CCPA/CPRA : ne s'applique qu'au-delà de seuils (≈25 M$ de CA annuel,
+ *      ou données de 100 000+ Californiens achetées/vendues/partagées, ou 50 %+
+ *      du CA tiré de la vente de données). Une petite boutique en est
+ *      normalement EXEMPTÉE → ne pas promettre des droits CCPA par défaut.
+ *    Le RGPD continue de s'appliquer puisque le vendeur est établi dans l'UE :
+ *    c'est un standard plus élevé, autant l'assumer et le dire.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -23,61 +37,76 @@ const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 const content = {
   en: {
     heading: 'PRIVACY POLICY',
-    description: `How ${shop} collects, uses and protects your personal data, in accordance with the GDPR.`,
+    description: `How ${shop} collects, uses and shares your personal information, and the choices you have.`,
     html: `
-<p><strong>Last updated:</strong> [DATE]</p>
+<p><strong>Effective date:</strong> [DATE] &nbsp;|&nbsp; <strong>Last updated:</strong> [DATE]</p>
 
-<p><strong>${shop}</strong> takes the protection of personal data seriously. We are committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR).</p>
+<p>This policy explains what we collect when you visit or buy from <strong>${shop}</strong>, why, who we share it with, and what you can do about it. We are based in the European Union, which means we apply the <strong>GDPR</strong> to everyone - a stricter standard than most US state laws require.</p>
 
-<h2 class="wp-block-heading">1. Data controller</h2>
+<h2 class="wp-block-heading">1. Who is responsible</h2>
 
-<p>The controller of the data collected on ${shop} is: <strong>[COMPANY NAME]</strong>. Address: [ADDRESS]. Email: ${email}</p>
+<p><strong>[COMPANY NAME]</strong>, [ADDRESS], France. Questions about privacy: <strong>${email}</strong>.</p>
 
-<h2 class="wp-block-heading">2. Data we collect</h2>
-
-<p>We collect the following data when you place an order or contact us:</p>
+<h2 class="wp-block-heading">2. Categories of information we collect</h2>
 
 <ul class="wp-block-list">
-<li><strong>Identity:</strong> first name, last name, address, phone number.</li>
-<li><strong>Contact:</strong> email address.</li>
-<li><strong>Technical data:</strong> IP address, browser type (via cookies).</li>
+<li><strong>Identifiers:</strong> name, billing and shipping address, email address, phone number.</li>
+<li><strong>Commercial information:</strong> products you ordered, order history, amounts paid.</li>
+<li><strong>Internet activity:</strong> IP address, browser and device type, pages viewed - collected through cookies.</li>
+<li><strong>Payment information:</strong> handled directly by Stripe. <strong>We never receive or store your full card number.</strong></li>
 </ul>
 
-<h2 class="wp-block-heading">3. How we use your data</h2>
+<p>We do <strong>not</strong> knowingly collect information from children under 13. <em>[If your products target children, COPPA imposes additional obligations - take advice.]</em></p>
 
-<p>Your data is used solely to:</p>
+<h2 class="wp-block-heading">3. Why we use it</h2>
 
 <ul class="wp-block-list">
-<li><strong>Process your order:</strong> shipping, invoicing, delivery tracking, after-sales service.</li>
-<li><strong>Take payment:</strong> secure transactions through our partner <strong>Stripe</strong>.</li>
-<li><strong>Reply to you:</strong> via the contact form or by email.</li>
-<li><strong>Meet legal obligations:</strong> retention of invoices ([X] years).</li>
+<li>To process, ship and invoice your order, and to handle returns.</li>
+<li>To take payment securely and prevent fraud.</li>
+<li>To answer your messages.</li>
+<li>To meet our accounting and tax obligations.</li>
+<li>To send marketing emails <strong>only if you opted in</strong> - you can unsubscribe from any email.</li>
 </ul>
 
-<h2 class="wp-block-heading">4. Data sharing</h2>
+<h2 class="wp-block-heading">4. Who we share it with</h2>
 
-<p>We never sell your personal data. It is shared only with the providers strictly required to fulfil your order:</p>
+<p><strong>We do not sell your personal information.</strong> We share it only with the providers needed to fulfil your order:</p>
 
 <ul class="wp-block-list">
-<li><strong>Stripe (payment):</strong> your card details are entered directly in Stripe's secure interface. <strong>${shop} never has access to your full card number.</strong></li>
-<li><strong>Carriers:</strong> [CARRIER NAMES] to deliver your parcel.</li>
-<li><strong>[HOSTING PROVIDER + ADDRESS]:</strong> hosting of the site (data stored on secure servers).</li>
+<li><strong>Stripe</strong> - payment processing.</li>
+<li><strong>[CARRIER NAMES]</strong> - shipping and tracking.</li>
+<li><strong>[HOSTING PROVIDER]</strong> - hosting of this website.</li>
+<li><strong>[ANY ANALYTICS / EMAIL PROVIDER]</strong> - <em>[name them; CalOPPA requires you to disclose the categories of third parties.]</em></li>
 </ul>
 
-<h2 class="wp-block-heading">5. Retention periods</h2>
+<p><strong>International transfers:</strong> your data is processed in the European Union. If a provider transfers it outside the EU, we rely on the safeguards required by the GDPR (adequacy decision or standard contractual clauses).</p>
+
+<h2 class="wp-block-heading">5. How long we keep it</h2>
 
 <ul class="wp-block-list">
-<li><strong>Order data:</strong> kept for the duration of the commercial relationship, then archived for accounting purposes ([X] years).</li>
-<li><strong>Prospect data (no purchase):</strong> kept for [X] years after the last contact.</li>
+<li><strong>Order data:</strong> for the duration of our relationship, then archived to meet accounting obligations ([X] years).</li>
+<li><strong>Enquiries without a purchase:</strong> [X] years after our last exchange.</li>
 </ul>
 
-<h2 class="wp-block-heading">6. Your rights</h2>
+<h2 class="wp-block-heading">6. Your rights and choices</h2>
 
-<p>Under the GDPR you have the right to access, rectify, erase and port your data, as well as to object to and restrict its processing. To exercise these rights, email us at <strong>${email}</strong> or write to us at [ADDRESS]. You may also lodge a complaint with your national supervisory authority.</p>
+<p>You can ask us to <strong>access, correct, delete or export</strong> your personal information, object to a use of it, or withdraw your consent to marketing. Email <strong>${email}</strong> and we will respond within one month.</p>
 
-<h2 class="wp-block-heading">7. Cookies</h2>
+<p><strong>Reviewing and changing your information:</strong> you can also ask us at any time to review or update the details attached to your orders, by emailing us at the address above. <em>(CalOPPA requires us to describe this process.)</em></p>
 
-<p>While browsing ${shop}, cookies are stored on your computer, phone or tablet. Cookies strictly necessary for the site to work (shopping cart, session, language preference) do not require your consent. Third-party cookies (analytics, advertising) require your explicit consent via our cookie banner. You can change your preferences at any time.</p>
+<p><em>[California residents: the CCPA/CPRA grants additional rights - including the right to know, delete, correct and opt out of sale or sharing - but it only applies to businesses meeting statutory thresholds (roughly $25M annual revenue, or personal information of 100,000+ California residents bought, sold or shared, or 50%+ of revenue from selling personal information). If you cross a threshold, this section must be expanded and a "Do Not Sell or Share My Personal Information" link added. Verify your status before publishing.]</em></p>
+
+<p>If you are in the EU or the UK, you may also lodge a complaint with your data protection authority.</p>
+
+<h2 class="wp-block-heading">7. Cookies and "Do Not Track"</h2>
+
+<p>Cookies that are strictly necessary for the site to work (cart, session, language) are set without consent. Analytics and advertising cookies are set <strong>only after you agree</strong> via our cookie banner, and you can change your choice at any time.</p>
+
+<p><strong>Do Not Track:</strong> <em>[CalOPPA requires an explicit statement here. State whether you honour browser "Do Not Track" signals. If you do not, say so plainly - that is permitted, but silence is not.]</em></p>
+
+<h2 class="wp-block-heading">8. Changes to this policy</h2>
+
+<p>If we change this policy we will update the "last updated" date above and, for significant changes, notify you by email or with a notice on the site.</p>
 `,
   },
   de: {

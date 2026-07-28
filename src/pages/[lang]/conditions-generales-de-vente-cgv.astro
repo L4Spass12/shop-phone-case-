@@ -1,15 +1,27 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
+ * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
  *
- * Des CGV sont le document le PLUS dépendant du droit local : la version FR
- * cite le Code de la consommation français (art. L.221-18, L.217-4…), qui ne
- * s'applique pas ailleurs. Ces versions reprennent donc la STRUCTURE et les
- * droits harmonisés au niveau UE (rétractation 14 jours, garantie légale de
- * conformité), sans référence à des articles de loi français :
- *   - EN : rédigé pour un acheteur consommateur dans l'UE.
- *   - DE : « AGB », terminologie allemande (Widerrufsrecht, Gewährleistung).
- * Pour vendre hors UE (UK, US, CH), il faut des CGV distinctes.
+ * ⚖️ DEUX JURIDICTIONS DIFFÉRENTES, DEUX TEXTES DIFFÉRENTS — ne pas fusionner :
+ *
+ * EN → marché ÉTATS-UNIS.
+ *   - Il n'existe AUCUN droit de rétractation fédéral pour un achat en ligne.
+ *     Le « FTC Cooling-Off Rule » (16 CFR 429) ne couvre que le démarchage à
+ *     domicile ≥ 25 $, pas le e-commerce. Le retour est donc purement
+ *     CONTRACTUEL : ce que la politique annonce fait loi, d'où l'obligation de
+ *     l'énoncer clairement.
+ *   - FTC « Mail, Internet, or Telephone Order Merchandise Rule » (16 CFR 435) :
+ *     le vendeur doit avoir une base raisonnable pour expédier dans le délai
+ *     annoncé, ou à défaut d'annonce dans les 30 JOURS, et rembourser
+ *     promptement s'il ne peut pas.
+ *   - Ne PAS recopier les articles du Code de la consommation français.
+ *
+ * DE → marché ALLEMAND (UE).
+ *   - Droit de rétractation de 14 jours harmonisé au niveau UE : il s'applique.
+ *   - Rome I art. 6 : le consommateur allemand conserve les dispositions
+ *     impératives de son droit national, même si le vendeur est français.
+ *
+ * Aucune mention de la plateforme européenne ODR : fermée le 20 juillet 2025.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -27,134 +39,134 @@ const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 
 const content = {
   en: {
-    heading: 'TERMS AND CONDITIONS OF SALE',
-    description: `Terms and conditions of sale for ${shop}: orders, prices, payment, delivery, right of withdrawal and legal guarantees.`,
+    heading: 'TERMS OF SALE',
+    description: `Terms of sale for ${shop}: orders, prices, shipping times, returns policy, warranties and governing law.`,
     html: `
-<h2 class="wp-block-heading">Preamble</h2>
+<p><em>Last updated: [DATE]</em></p>
 
-<p>These terms and conditions of sale apply to all sales concluded on the website <strong>${shop}</strong>.</p>
+<h2 class="wp-block-heading">1. Who we are</h2>
 
-<p>The site is published by: <strong>[COMPANY NAME]</strong>, [LEGAL FORM], registered office at <strong>[ADDRESS]</strong>, registration number <strong>[REGISTRATION NUMBER]</strong>. Email: <strong>${email}</strong>. Phone: <strong>[PHONE]</strong>.</p>
+<p>This website is operated by <strong>[COMPANY NAME]</strong>, [LEGAL FORM] registered in France, registered office at <strong>[ADDRESS]</strong>, company number <strong>[REGISTRATION NUMBER]</strong>. Email: <strong>${email}</strong>. Phone: <strong>[PHONE]</strong>.</p>
 
-<p>The customer declares having read and accepted these terms and conditions before placing their order. Validating an order therefore constitutes acceptance of these terms.</p>
+<p>Placing an order means you accept these terms.</p>
 
-<h2 class="wp-block-heading">Article 1 - Principles</h2>
+<h2 class="wp-block-heading">2. Prices and taxes</h2>
 
-<p>These terms set out the entirety of the obligations of the parties. They are available on <strong>${shop}</strong> and prevail over any other version or contradictory document.</p>
+<p>Prices are shown in <strong>[CURRENCY]</strong> and exclude shipping, which is calculated and displayed before you confirm your order.</p>
 
-<h2 class="wp-block-heading">Article 2 - Prices</h2>
+<p><strong>Import duties and taxes:</strong> orders are shipped from France. Depending on the destination and order value, US customs duties, import fees or state sales/use tax may apply on delivery. <em>[State clearly who pays them - you or the customer. This is a frequent source of disputes and chargebacks.]</em></p>
 
-<p>Our product prices are shown in euros. <strong>[VAT STATUS: e.g. "VAT included" or "not VAT registered"]</strong>. Prices exclude delivery costs, which are charged in addition and shown before the order is confirmed. The seller may change prices at any time, but products are invoiced at the price in force when the order is validated.</p>
+<p><em>[If you have economic nexus in one or more US states, you may be required to register, collect and remit sales tax there. Thresholds vary by state - take advice before you start selling.]</em></p>
 
-<h2 class="wp-block-heading">Article 3 - Orders</h2>
+<h2 class="wp-block-heading">3. Orders</h2>
 
-<p>An order is validated when the customer:</p>
+<p>Your order is placed when you select your items, review your cart and total, then confirm and pay. We acknowledge receipt of your order by email. We may decline an order in case of an obvious pricing error, suspected fraud, or if the item is unavailable - in which case you are refunded in full.</p>
 
-<ol start="1" class="wp-block-list">
-<li>Selects their products.</li>
-<li>Reviews the order details and total price (cart).</li>
-<li>Confirms the order and pays. Any order constitutes acceptance of the prices and descriptions of the products offered for sale. <strong>${shop}</strong> acknowledges receipt of the order by email.</li>
-</ol>
+<h2 class="wp-block-heading">4. Payment</h2>
 
-<h2 class="wp-block-heading">Article 4 - Payment</h2>
+<p>Payment is taken by card at the time of the order, through the secure <strong>Stripe</strong> system. We never receive or store your full card number.</p>
 
-<p>Validating the order creates an obligation to pay the stated price. Purchases are paid by card through the secure <strong>Stripe</strong> system. The card is charged at the time of the order.</p>
+<h2 class="wp-block-heading">5. Shipping times</h2>
 
-<h2 class="wp-block-heading">Article 5 - Delivery</h2>
+<p>We ship within the timeframe stated on the product page. Where no timeframe is stated, we ship <strong>within 30 days</strong> of your order.</p>
 
-<p>Products are delivered to the delivery address given during the order process. Delivery times shown on the site are indicative and correspond to average processing and delivery times. If dispatch is delayed, you will be informed by email of any consequence for the delivery time given to you. Where delivery is delayed by more than 30 days, you may cancel the order.</p>
+<p>If we cannot ship in time, we will tell you by email and you may either agree to a new date or cancel for a <strong>prompt full refund</strong>. <em>(This reflects the FTC Mail, Internet, or Telephone Order Merchandise Rule, 16 CFR Part 435.)</em></p>
 
-<h2 class="wp-block-heading">Article 6 - Right of withdrawal</h2>
+<h2 class="wp-block-heading">6. Returns - our policy, not a statutory right</h2>
 
-<p>You have <strong>14 days</strong> from receipt of your products to exercise your right of withdrawal, without giving any reason and without penalty. [This right derives from EU consumer law; adapt it for markets outside the EU.]</p>
+<p><strong>Please read this section carefully.</strong> United States federal law does <strong>not</strong> give buyers a general right to cancel or return an online purchase. The FTC "cooling-off" rule applies to door-to-door sales, not to online orders. Any right of return you have here is the one we grant you contractually below.</p>
 
-<p><strong>Returns:</strong> returned items must be complete and in their original condition (packaging, accessories, instructions). You are responsible for the item until we receive it; any damage caused during this period may invalidate the right of withdrawal.</p>
+<p><strong>Our policy:</strong> you may return an item within <strong>[X] days</strong> of delivery, provided it is unused and in its original packaging.</p>
 
-<p><strong>Refunds:</strong> where the right of withdrawal is exercised, <strong>[COMPANY NAME]</strong> will refund the amounts paid within 14 days of being notified of your request, using the same payment method as the original order.</p>
+<ul class="wp-block-list">
+<li>To start a return, use our <a href="/en/retractation"><strong>online returns request form</strong></a> or email <strong>${email}</strong>.</li>
+<li><strong>Return shipping:</strong> we cover it if the item is faulty or if we made a mistake; otherwise it is at your expense. <em>[Adjust to your actual policy.]</em></li>
+<li><strong>Refunds</strong> are issued to the original payment method within <strong>[X] days</strong> of us receiving and checking the item.</li>
+<li><em>[List any non-returnable items: personalised goods, hygiene items, etc.]</em></li>
+</ul>
 
-<h2 class="wp-block-heading">Article 7 - Legal guarantees</h2>
+<h2 class="wp-block-heading">7. Faulty items and warranties</h2>
 
-<p>All our products come with the legal guarantee of conformity and the guarantee against hidden defects, allowing you to return products delivered faulty or not as described. [Cite the specific statutory references applicable in your market.]</p>
+<p>If an item arrives damaged or faulty, contact us within <strong>[X] days</strong> with photos and we will replace it or refund you.</p>
 
-<h2 class="wp-block-heading">Article 8 - Personal data</h2>
+<p><em>[US-specific: consider whether you give an express written warranty. If you do, the Magnuson-Moss Warranty Act sets rules on how it must be worded and made available. If you disclaim implied warranties, note that some states restrict or prohibit such disclaimers. Take advice before publishing this section.]</em></p>
 
-<p>The personal information collected is required to process your order and issue invoices. It may be shared with the partners responsible for fulfilling, processing, managing and taking payment for orders. Customers have a permanent right of access, modification, rectification and objection regarding their own data. See our privacy policy for details.</p>
+<h2 class="wp-block-heading">8. Limitation of liability</h2>
 
-<h2 class="wp-block-heading">Appendix - Model withdrawal form</h2>
+<p><em>[To be drafted with a lawyer. Limitation-of-liability and warranty-disclaimer clauses are interpreted strictly and vary state by state; an over-broad clause can be held unenforceable in full.]</em></p>
 
-<p><em>(Complete and return this form only if you wish to withdraw from the contract.)</em></p>
+<h2 class="wp-block-heading">9. Personal data</h2>
 
-<p><strong>To [COMPANY NAME], [ADDRESS] - Email: ${email}</strong></p>
+<p>We are established in the European Union, so we process your personal data under the GDPR - a higher standard than most US state laws. See our <a href="/en/politique-de-confidentialite">privacy policy</a> for the details of what we collect and your rights.</p>
 
-<p>I/We (*) hereby give notice that I/we (*) withdraw from my/our (*) contract of sale of the following goods (*) / for the provision of the following service (*):</p>
+<h2 class="wp-block-heading">10. Complaints and governing law</h2>
 
-<p>Ordered on (*) / received on (*): ..............................</p>
-<p>Order number: ..............................</p>
-<p>Name of consumer(s): ..............................</p>
-<p>Address of consumer(s): ..............................</p>
-<p>Signature of consumer(s) (only if this form is notified on paper):</p>
-<p>Date: ..............................</p>
+<p>Please contact us first at <strong>${email}</strong> - most issues are resolved within a day or two.</p>
 
-<p><em>(*) Delete as appropriate.</em></p>
+<p>These terms are governed by French law, without depriving you of the protection of any mandatory consumer rules that apply where you live. <em>[If you want to add an arbitration clause or a class-action waiver - both common in US e-commerce terms - that must be drafted by a US-qualified lawyer, as their enforceability depends on precise wording and on state law.]</em></p>
+
+<p>As a French business we also adhere to a consumer mediation scheme: <strong>[MEDIATOR NAME] - [WEBSITE]</strong>.</p>
 `,
   },
   de: {
     heading: 'ALLGEMEINE GESCHÄFTSBEDINGUNGEN',
     description: `AGB von ${shop}: Bestellung, Preise, Zahlung, Lieferung, Widerrufsrecht und gesetzliche Gewährleistung.`,
     html: `
-<h2 class="wp-block-heading">Präambel</h2>
+<p><em>Letzte Aktualisierung: [DATUM]</em></p>
 
-<p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Verkäufe, die über die Website <strong>${shop}</strong> abgeschlossen werden.</p>
+<h2 class="wp-block-heading">§ 1 - Anbieter</h2>
 
-<p>Betreiber der Website: <strong>[FIRMENNAME]</strong>, [RECHTSFORM], Sitz in <strong>[ANSCHRIFT]</strong>, Registernummer <strong>[REGISTERNUMMER]</strong>. E-Mail: <strong>${email}</strong>. Telefon: <strong>[TELEFON]</strong>.</p>
+<p>Diese Website wird betrieben von <strong>[FIRMENNAME]</strong>, [RECHTSFORM] mit Sitz in Frankreich, <strong>[ANSCHRIFT]</strong>, Registernummer <strong>[REGISTERNUMMER]</strong>. E-Mail: <strong>${email}</strong>. Telefon: <strong>[TELEFON]</strong>.</p>
 
-<p>Der Kunde erklärt, diese AGB vor der Bestellung gelesen und akzeptiert zu haben. Mit dem Abschluss der Bestellung gelten die AGB als angenommen.</p>
-
-<h2 class="wp-block-heading">§ 1 - Grundsätze</h2>
-
-<p>Diese AGB regeln die Pflichten beider Parteien vollständig. Sie sind auf <strong>${shop}</strong> abrufbar und haben Vorrang vor abweichenden Fassungen oder widersprüchlichen Dokumenten.</p>
+<p>Mit dem Abschluss deiner Bestellung erkennst du diese AGB an.</p>
 
 <h2 class="wp-block-heading">§ 2 - Preise</h2>
 
-<p>Die Preise unserer Produkte sind in Euro angegeben. <strong>[UMSATZSTEUER: z. B. "inkl. gesetzlicher MwSt." oder Hinweis auf die Kleinunternehmerregelung nach § 19 UStG]</strong>. Die Preise enthalten keine Versandkosten; diese werden zusätzlich berechnet und vor Abschluss der Bestellung angezeigt. Wir können die Preise jederzeit ändern; berechnet wird jedoch der zum Zeitpunkt der Bestellung gültige Preis.</p>
+<p>Alle Preise sind Endpreise in Euro und enthalten die gesetzliche Umsatzsteuer. <em>[Oder Hinweis auf die Kleinunternehmerregelung.]</em> Versandkosten werden zusätzlich berechnet und vor Abschluss der Bestellung angezeigt.</p>
 
-<h2 class="wp-block-heading">§ 3 - Bestellung</h2>
+<h2 class="wp-block-heading">§ 3 - Bestellung und Vertragsschluss</h2>
 
-<p>Die Bestellung ist abgeschlossen, wenn der Kunde:</p>
-
-<ol start="1" class="wp-block-list">
-<li>seine Produkte auswählt,</li>
-<li>die Bestelldetails und den Gesamtpreis im Warenkorb prüft,</li>
-<li>die Bestellung bestätigt und die Zahlung vornimmt. Jede Bestellung gilt als Annahme der Preise und Produktbeschreibungen. <strong>${shop}</strong> bestätigt den Eingang der Bestellung per E-Mail.</li>
-</ol>
+<p>Du wählst deine Artikel aus, prüfst Warenkorb und Gesamtpreis, bestätigst die Bestellung und zahlst. Wir bestätigen den Eingang per E-Mail. Bei offensichtlichen Preisfehlern, Betrugsverdacht oder Nichtverfügbarkeit können wir die Bestellung ablehnen - du wirst dann vollständig erstattet.</p>
 
 <h2 class="wp-block-heading">§ 4 - Zahlung</h2>
 
-<p>Mit dem Abschluss der Bestellung entsteht die Pflicht zur Zahlung des angegebenen Preises. Die Zahlung erfolgt per Karte über das gesicherte System <strong>Stripe</strong>. Die Belastung der Karte erfolgt zum Zeitpunkt der Bestellung.</p>
+<p>Die Zahlung erfolgt per Karte zum Zeitpunkt der Bestellung über das gesicherte System <strong>Stripe</strong>. Wir erhalten und speichern deine vollständige Kartennummer nie.</p>
 
 <h2 class="wp-block-heading">§ 5 - Lieferung</h2>
 
-<p>Die Produkte werden an die im Bestellvorgang angegebene Lieferadresse geliefert. Die auf der Website genannten Lieferzeiten sind Richtwerte und entsprechen den durchschnittlichen Bearbeitungs- und Lieferzeiten. Bei einer Verzögerung des Versands informieren wir dich per E-Mail über die möglichen Auswirkungen auf die angegebene Lieferzeit. Bei einer Lieferverzögerung von mehr als 30 Tagen kannst du die Bestellung stornieren.</p>
+<p>Wir versenden aus Frankreich innerhalb der auf der Produktseite genannten Frist. Ist keine Frist angegeben, liefern wir innerhalb von <strong>30 Tagen</strong>. Verzögert sich der Versand, informieren wir dich per E-Mail; du kannst dann einer neuen Frist zustimmen oder die Bestellung stornieren.</p>
 
 <h2 class="wp-block-heading">§ 6 - Widerrufsrecht</h2>
 
-<p>Du hast <strong>14 Tage</strong> ab Erhalt der Produkte Zeit, deinen Widerruf zu erklären - ohne Angabe von Gründen und ohne Strafzahlung. [Dieses Recht folgt aus dem EU-Verbraucherrecht; für Märkte außerhalb der EU anzupassen.]</p>
+<p>Du hast das Recht, binnen <strong>14 Tagen</strong> ab dem Tag, an dem du die Waren in Besitz genommen hast, diesen Vertrag ohne Angabe von Gründen zu widerrufen.</p>
 
-<p><strong>Rücksendungen:</strong> Zurückgesendete Artikel müssen vollständig und im Originalzustand sein (Verpackung, Zubehör, Anleitung). Bis zum Eingang bei uns trägst du die Verantwortung; Schäden in diesem Zeitraum können dem Widerrufsrecht entgegenstehen.</p>
+<p><strong>So widerrufst du:</strong> Am einfachsten über unser <a href="/de/retractation"><strong>Online-Widerrufsformular</strong></a>, das dauerhaft und kostenlos verfügbar ist. Du kannst uns deine Entscheidung auch mit jeder anderen eindeutigen Erklärung mitteilen (E-Mail, Brief) oder das Muster-Widerrufsformular im Anhang verwenden.</p>
 
-<p><strong>Rückerstattung:</strong> Bei Ausübung des Widerrufsrechts erstattet <strong>[FIRMENNAME]</strong> die gezahlten Beträge innerhalb von 14 Tagen nach Erhalt deiner Erklärung über dasselbe Zahlungsmittel wie bei der Bestellung.</p>
+<p><strong>Folgen des Widerrufs:</strong> Wir erstatten alle Zahlungen einschließlich der Standard-Lieferkosten unverzüglich und spätestens binnen <strong>14 Tagen</strong> ab Eingang deiner Widerrufserklärung, über dasselbe Zahlungsmittel. Du sendest die Waren unverzüglich, spätestens binnen 14 Tagen zurück. <em>[Wer die Rücksendekosten trägt, muss hier klar benannt werden - andernfalls trägst du sie als Händler.]</em></p>
 
 <h2 class="wp-block-heading">§ 7 - Gesetzliche Gewährleistung</h2>
 
-<p>Für alle unsere Produkte gilt die gesetzliche Gewährleistung für Mängel. Du kannst gelieferte Produkte, die defekt oder nicht wie beschrieben sind, zurücksenden. [Die im Zielmarkt geltenden gesetzlichen Grundlagen hier konkret benennen.]</p>
+<p>Es gilt die gesetzliche Mängelhaftung. Zeigt sich innerhalb von <strong>2 Jahren</strong> ab Lieferung ein Mangel, hast du Anspruch auf Nacherfüllung (Reparatur oder Ersatz) und, unter den gesetzlichen Voraussetzungen, auf Rücktritt oder Minderung. Innerhalb der ersten <strong>12 Monate</strong> wird vermutet, dass der Mangel bereits bei Übergabe vorlag.</p>
 
 <h2 class="wp-block-heading">§ 8 - Personenbezogene Daten</h2>
 
-<p>Die erhobenen personenbezogenen Daten sind für die Abwicklung deiner Bestellung und die Rechnungsstellung erforderlich. Sie können an die Partner weitergegeben werden, die mit Ausführung, Bearbeitung, Verwaltung und Zahlung der Bestellungen befasst sind. Du hast jederzeit ein Recht auf Auskunft, Änderung, Berichtigung und Widerspruch bezüglich deiner Daten. Details findest du in unserer Datenschutzerklärung.</p>
+<p>Die Verarbeitung deiner Daten richtet sich nach der DSGVO. Details in unserer <a href="/de/politique-de-confidentialite">Datenschutzerklärung</a>.</p>
+
+<h2 class="wp-block-heading">§ 9 - Beschwerden und Streitbeilegung</h2>
+
+<p>Melde dich bitte zuerst bei uns: <strong>${email}</strong>. Als französisches Unternehmen gehören wir einer Verbraucherschlichtungsstelle an:</p>
+
+<p><strong>[NAME DER SCHLICHTUNGSSTELLE] - [ANSCHRIFT] - [WEBSITE]</strong></p>
+
+<p><em>Hinweis: Die europäische Online-Streitbeilegungsplattform (OS-Plattform) wurde am 20. Juli 2025 endgültig eingestellt. Ein Link darauf ist nicht mehr erforderlich - maßgeblich sind die nationalen Schlichtungsstellen.</em></p>
+
+<h2 class="wp-block-heading">§ 10 - Anwendbares Recht</h2>
+
+<p>Es gilt französisches Recht. Als Verbraucher mit Wohnsitz in Deutschland behältst du zusätzlich den Schutz der zwingenden Verbraucherschutzvorschriften des deutschen Rechts (Art. 6 Rom-I-VO).</p>
 
 <h2 class="wp-block-heading">Anhang - Muster-Widerrufsformular</h2>
 
-<p><em>(Bitte nur ausfüllen und zurücksenden, wenn du den Vertrag widerrufen möchtest.)</em></p>
+<p><em>(Wenn du den Vertrag widerrufen willst, füll dieses Formular aus und send es zurück - oder nutze einfach unser Online-Formular.)</em></p>
 
 <p><strong>An [FIRMENNAME], [ANSCHRIFT] - E-Mail: ${email}</strong></p>
 
