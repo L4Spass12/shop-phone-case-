@@ -386,12 +386,25 @@
   border-radius: 40em;
   overflow: hidden;
   font-family: inherit;
-  font-size: 1.0625rem;
+  font-size: 1rem;             /* aligné sur .btn-atc */
   font-weight: 600;
+  letter-spacing: .01em;
   color: #fff;
   cursor: pointer;
   background: transparent;
+  /* détache la pilule du fond blanc de la page */
+  box-shadow:
+    0 1px 2px rgba(20, 10, 50, .16),
+    0 10px 24px -12px rgba(90, 40, 160, .45);
+  transition: box-shadow .25s ease, transform .25s ease;
 }
+.btn-atc-blob:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(20, 10, 50, .14),
+    0 16px 30px -12px rgba(90, 40, 160, .55);
+}
+.btn-atc-blob:active { transform: translateY(0); }
 
 /* Couche verre : EN FLUX → c'est elle qui donne sa taille au bouton */
 .btn-atc-blob .ab-text {
@@ -402,11 +415,11 @@
   justify-content: center;
   gap: .5em;
   width: 100%;
-  padding: .95em 2.3em;
+  padding: .85em 2.1em;
   border-radius: 40em;
   background: linear-gradient(
-    rgba(255, 255, 255, 0.473),
-    rgba(150, 150, 150, 0.25)
+    rgba(255, 255, 255, 0.42),
+    rgba(150, 150, 150, 0.22)
   );
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -416,18 +429,19 @@
 .btn-atc-blob .ab-blob {
   position: absolute;
   z-index: -1;
-  width: 48%;
-  height: 130%;
+  width: 58%;
+  height: 170%;
   border-radius: 5em;
+  filter: blur(6px);   /* fond les blobs entre eux : dégradé continu, sans zone nue */
   transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
 /* nth-child(2..5) comme dans l'original : .ab-text est l'enfant 1 (un span
    lui aussi — nth-of-type serait décalé), les 4 blobs sont les enfants 2 à 5. */
-.btn-atc-blob .ab-blob:nth-child(2) { left: -6%; top: -15%; background: #ff930f; }
-.btn-atc-blob .ab-blob:nth-child(3) { left: 22%; top: 10%;  background: #bf0fff; }
-.btn-atc-blob .ab-blob:nth-child(4) { left: 50%; top: -40%; background: #ff1b6b; }
-.btn-atc-blob .ab-blob:nth-child(5) { left: 62%; top: 40%;  background: #0061ff; }
+.btn-atc-blob .ab-blob:nth-child(2) { left: -12%; top: -35%; background: #ff930f; }
+.btn-atc-blob .ab-blob:nth-child(3) { left: 16%;  top: 15%;  background: #bf0fff; }
+.btn-atc-blob .ab-blob:nth-child(4) { left: 42%;  top: -50%; background: #ff1b6b; }
+.btn-atc-blob .ab-blob:nth-child(5) { left: 58%;  top: 20%;  background: #0061ff; }
 
 .btn-atc-blob:hover .ab-blob:nth-child(2) { background: #0061ff; }
 .btn-atc-blob:hover .ab-blob:nth-child(3) { background: #ff1b6b; }
