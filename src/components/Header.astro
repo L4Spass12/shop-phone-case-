@@ -15,12 +15,22 @@ const stripped = lp ? pathname.replace(new RegExp(`^${lp}`), '') || '/' : pathna
 
 // Switcher de langue : pour chaque locale active, on calcule l'URL équivalente
 // dans cette locale. Affiché uniquement si > 1 locale active.
+//
+// `langSwitcherFallbackHome` : sur une page qui n'a pas d'équivalent traduit
+// (typiquement la 404), traduire le chemin courant produirait des liens vers
+// des URLs inexistantes (/en/404/…). Dans ce cas on renvoie vers l'accueil de
+// la locale, qui existe toujours.
+interface Props {
+  langSwitcherFallbackHome?: boolean;
+}
+const { langSwitcherFallbackHome = false } = Astro.props;
+
 const showLangSwitcher = ACTIVE_LOCALES.length > 1;
 const langSwitcherItems = ACTIVE_LOCALES.map(l => ({
   code: l,
   label: localeMeta(l).label,
   short: localeMeta(l).short,
-  href: localizeUrl(Astro.url.pathname, l),
+  href: langSwitcherFallbackHome ? `${localePrefix(l)}/` : localizeUrl(Astro.url.pathname, l),
   active: l === lang,
 }));
 

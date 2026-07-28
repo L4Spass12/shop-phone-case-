@@ -49,7 +49,10 @@ const currentLocaleMeta = localeMeta(currentLocale);
 // (le path sans préfixe locale est partagé). x-default pointe vers la locale par défaut.
 // Tant qu'une seule locale est active, on n'émet RIEN (Google ignore les hreflang
 // pointant vers la même page) — pas de pollution dans le head.
-const hreflangAlternates = ACTIVE_LOCALES.length > 1
+// Rien non plus sur une page `noindex` (ex. la 404) : annoncer des alternates
+// pour une page exclue de l'index n'a pas de sens et Search Console les
+// remonterait comme erreurs.
+const hreflangAlternates = ACTIVE_LOCALES.length > 1 && !noindex
   ? ACTIVE_LOCALES.map((lang) => ({
       hreflang: localeMeta(lang).htmlLang,
       href: new URL(localizeUrl(Astro.url.pathname, lang), SITE_URL).toString(),
@@ -186,7 +189,9 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
 
   </head>
   <body>
-    <Header />
+    {/* Sur une page noindex (404), le switcher de langue renvoie vers
+        l'accueil de la locale : le chemin courant n'a pas d'équivalent traduit. */}
+    <Header langSwitcherFallbackHome={noindex} />
     <main style="padding-top: var(--header-h);">
       <slot />
     </main>

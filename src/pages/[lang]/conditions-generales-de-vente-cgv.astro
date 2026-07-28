@@ -1,0 +1,176 @@
+---
+/**
+ * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
+ *
+ * Des CGV sont le document le PLUS dépendant du droit local : la version FR
+ * cite le Code de la consommation français (art. L.221-18, L.217-4…), qui ne
+ * s'applique pas ailleurs. Ces versions reprennent donc la STRUCTURE et les
+ * droits harmonisés au niveau UE (rétractation 14 jours, garantie légale de
+ * conformité), sans référence à des articles de loi français :
+ *   - EN : rédigé pour un acheteur consommateur dans l'UE.
+ *   - DE : « AGB », terminologie allemande (Widerrufsrecht, Gewährleistung).
+ * Pour vendre hors UE (UK, US, CH), il faut des CGV distinctes.
+ */
+import LegalPage from '../../components/LegalPage.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'en' | 'de' };
+const shop  = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+
+const content = {
+  en: {
+    heading: 'TERMS AND CONDITIONS OF SALE',
+    description: `Terms and conditions of sale for ${shop}: orders, prices, payment, delivery, right of withdrawal and legal guarantees.`,
+    html: `
+<h2 class="wp-block-heading">Preamble</h2>
+
+<p>These terms and conditions of sale apply to all sales concluded on the website <strong>${shop}</strong>.</p>
+
+<p>The site is published by: <strong>[COMPANY NAME]</strong>, [LEGAL FORM], registered office at <strong>[ADDRESS]</strong>, registration number <strong>[REGISTRATION NUMBER]</strong>. Email: <strong>${email}</strong>. Phone: <strong>[PHONE]</strong>.</p>
+
+<p>The customer declares having read and accepted these terms and conditions before placing their order. Validating an order therefore constitutes acceptance of these terms.</p>
+
+<h2 class="wp-block-heading">Article 1 - Principles</h2>
+
+<p>These terms set out the entirety of the obligations of the parties. They are available on <strong>${shop}</strong> and prevail over any other version or contradictory document.</p>
+
+<h2 class="wp-block-heading">Article 2 - Prices</h2>
+
+<p>Our product prices are shown in euros. <strong>[VAT STATUS: e.g. "VAT included" or "not VAT registered"]</strong>. Prices exclude delivery costs, which are charged in addition and shown before the order is confirmed. The seller may change prices at any time, but products are invoiced at the price in force when the order is validated.</p>
+
+<h2 class="wp-block-heading">Article 3 - Orders</h2>
+
+<p>An order is validated when the customer:</p>
+
+<ol start="1" class="wp-block-list">
+<li>Selects their products.</li>
+<li>Reviews the order details and total price (cart).</li>
+<li>Confirms the order and pays. Any order constitutes acceptance of the prices and descriptions of the products offered for sale. <strong>${shop}</strong> acknowledges receipt of the order by email.</li>
+</ol>
+
+<h2 class="wp-block-heading">Article 4 - Payment</h2>
+
+<p>Validating the order creates an obligation to pay the stated price. Purchases are paid by card through the secure <strong>Stripe</strong> system. The card is charged at the time of the order.</p>
+
+<h2 class="wp-block-heading">Article 5 - Delivery</h2>
+
+<p>Products are delivered to the delivery address given during the order process. Delivery times shown on the site are indicative and correspond to average processing and delivery times. If dispatch is delayed, you will be informed by email of any consequence for the delivery time given to you. Where delivery is delayed by more than 30 days, you may cancel the order.</p>
+
+<h2 class="wp-block-heading">Article 6 - Right of withdrawal</h2>
+
+<p>You have <strong>14 days</strong> from receipt of your products to exercise your right of withdrawal, without giving any reason and without penalty. [This right derives from EU consumer law; adapt it for markets outside the EU.]</p>
+
+<p><strong>Returns:</strong> returned items must be complete and in their original condition (packaging, accessories, instructions). You are responsible for the item until we receive it; any damage caused during this period may invalidate the right of withdrawal.</p>
+
+<p><strong>Refunds:</strong> where the right of withdrawal is exercised, <strong>[COMPANY NAME]</strong> will refund the amounts paid within 14 days of being notified of your request, using the same payment method as the original order.</p>
+
+<h2 class="wp-block-heading">Article 7 - Legal guarantees</h2>
+
+<p>All our products come with the legal guarantee of conformity and the guarantee against hidden defects, allowing you to return products delivered faulty or not as described. [Cite the specific statutory references applicable in your market.]</p>
+
+<h2 class="wp-block-heading">Article 8 - Personal data</h2>
+
+<p>The personal information collected is required to process your order and issue invoices. It may be shared with the partners responsible for fulfilling, processing, managing and taking payment for orders. Customers have a permanent right of access, modification, rectification and objection regarding their own data. See our privacy policy for details.</p>
+
+<h2 class="wp-block-heading">Appendix - Model withdrawal form</h2>
+
+<p><em>(Complete and return this form only if you wish to withdraw from the contract.)</em></p>
+
+<p><strong>To [COMPANY NAME], [ADDRESS] - Email: ${email}</strong></p>
+
+<p>I/We (*) hereby give notice that I/we (*) withdraw from my/our (*) contract of sale of the following goods (*) / for the provision of the following service (*):</p>
+
+<p>Ordered on (*) / received on (*): ..............................</p>
+<p>Order number: ..............................</p>
+<p>Name of consumer(s): ..............................</p>
+<p>Address of consumer(s): ..............................</p>
+<p>Signature of consumer(s) (only if this form is notified on paper):</p>
+<p>Date: ..............................</p>
+
+<p><em>(*) Delete as appropriate.</em></p>
+`,
+  },
+  de: {
+    heading: 'ALLGEMEINE GESCHÄFTSBEDINGUNGEN',
+    description: `AGB von ${shop}: Bestellung, Preise, Zahlung, Lieferung, Widerrufsrecht und gesetzliche Gewährleistung.`,
+    html: `
+<h2 class="wp-block-heading">Präambel</h2>
+
+<p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Verkäufe, die über die Website <strong>${shop}</strong> abgeschlossen werden.</p>
+
+<p>Betreiber der Website: <strong>[FIRMENNAME]</strong>, [RECHTSFORM], Sitz in <strong>[ANSCHRIFT]</strong>, Registernummer <strong>[REGISTERNUMMER]</strong>. E-Mail: <strong>${email}</strong>. Telefon: <strong>[TELEFON]</strong>.</p>
+
+<p>Der Kunde erklärt, diese AGB vor der Bestellung gelesen und akzeptiert zu haben. Mit dem Abschluss der Bestellung gelten die AGB als angenommen.</p>
+
+<h2 class="wp-block-heading">§ 1 - Grundsätze</h2>
+
+<p>Diese AGB regeln die Pflichten beider Parteien vollständig. Sie sind auf <strong>${shop}</strong> abrufbar und haben Vorrang vor abweichenden Fassungen oder widersprüchlichen Dokumenten.</p>
+
+<h2 class="wp-block-heading">§ 2 - Preise</h2>
+
+<p>Die Preise unserer Produkte sind in Euro angegeben. <strong>[UMSATZSTEUER: z. B. "inkl. gesetzlicher MwSt." oder Hinweis auf die Kleinunternehmerregelung nach § 19 UStG]</strong>. Die Preise enthalten keine Versandkosten; diese werden zusätzlich berechnet und vor Abschluss der Bestellung angezeigt. Wir können die Preise jederzeit ändern; berechnet wird jedoch der zum Zeitpunkt der Bestellung gültige Preis.</p>
+
+<h2 class="wp-block-heading">§ 3 - Bestellung</h2>
+
+<p>Die Bestellung ist abgeschlossen, wenn der Kunde:</p>
+
+<ol start="1" class="wp-block-list">
+<li>seine Produkte auswählt,</li>
+<li>die Bestelldetails und den Gesamtpreis im Warenkorb prüft,</li>
+<li>die Bestellung bestätigt und die Zahlung vornimmt. Jede Bestellung gilt als Annahme der Preise und Produktbeschreibungen. <strong>${shop}</strong> bestätigt den Eingang der Bestellung per E-Mail.</li>
+</ol>
+
+<h2 class="wp-block-heading">§ 4 - Zahlung</h2>
+
+<p>Mit dem Abschluss der Bestellung entsteht die Pflicht zur Zahlung des angegebenen Preises. Die Zahlung erfolgt per Karte über das gesicherte System <strong>Stripe</strong>. Die Belastung der Karte erfolgt zum Zeitpunkt der Bestellung.</p>
+
+<h2 class="wp-block-heading">§ 5 - Lieferung</h2>
+
+<p>Die Produkte werden an die im Bestellvorgang angegebene Lieferadresse geliefert. Die auf der Website genannten Lieferzeiten sind Richtwerte und entsprechen den durchschnittlichen Bearbeitungs- und Lieferzeiten. Bei einer Verzögerung des Versands informieren wir dich per E-Mail über die möglichen Auswirkungen auf die angegebene Lieferzeit. Bei einer Lieferverzögerung von mehr als 30 Tagen kannst du die Bestellung stornieren.</p>
+
+<h2 class="wp-block-heading">§ 6 - Widerrufsrecht</h2>
+
+<p>Du hast <strong>14 Tage</strong> ab Erhalt der Produkte Zeit, deinen Widerruf zu erklären - ohne Angabe von Gründen und ohne Strafzahlung. [Dieses Recht folgt aus dem EU-Verbraucherrecht; für Märkte außerhalb der EU anzupassen.]</p>
+
+<p><strong>Rücksendungen:</strong> Zurückgesendete Artikel müssen vollständig und im Originalzustand sein (Verpackung, Zubehör, Anleitung). Bis zum Eingang bei uns trägst du die Verantwortung; Schäden in diesem Zeitraum können dem Widerrufsrecht entgegenstehen.</p>
+
+<p><strong>Rückerstattung:</strong> Bei Ausübung des Widerrufsrechts erstattet <strong>[FIRMENNAME]</strong> die gezahlten Beträge innerhalb von 14 Tagen nach Erhalt deiner Erklärung über dasselbe Zahlungsmittel wie bei der Bestellung.</p>
+
+<h2 class="wp-block-heading">§ 7 - Gesetzliche Gewährleistung</h2>
+
+<p>Für alle unsere Produkte gilt die gesetzliche Gewährleistung für Mängel. Du kannst gelieferte Produkte, die defekt oder nicht wie beschrieben sind, zurücksenden. [Die im Zielmarkt geltenden gesetzlichen Grundlagen hier konkret benennen.]</p>
+
+<h2 class="wp-block-heading">§ 8 - Personenbezogene Daten</h2>
+
+<p>Die erhobenen personenbezogenen Daten sind für die Abwicklung deiner Bestellung und die Rechnungsstellung erforderlich. Sie können an die Partner weitergegeben werden, die mit Ausführung, Bearbeitung, Verwaltung und Zahlung der Bestellungen befasst sind. Du hast jederzeit ein Recht auf Auskunft, Änderung, Berichtigung und Widerspruch bezüglich deiner Daten. Details findest du in unserer Datenschutzerklärung.</p>
+
+<h2 class="wp-block-heading">Anhang - Muster-Widerrufsformular</h2>
+
+<p><em>(Bitte nur ausfüllen und zurücksenden, wenn du den Vertrag widerrufen möchtest.)</em></p>
+
+<p><strong>An [FIRMENNAME], [ANSCHRIFT] - E-Mail: ${email}</strong></p>
+
+<p>Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der folgenden Waren (*) / die Erbringung der folgenden Dienstleistung (*):</p>
+
+<p>Bestellt am (*) / erhalten am (*): ..............................</p>
+<p>Bestellnummer: ..............................</p>
+<p>Name des/der Verbraucher(s): ..............................</p>
+<p>Anschrift des/der Verbraucher(s): ..............................</p>
+<p>Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier):</p>
+<p>Datum: ..............................</p>
+
+<p><em>(*) Unzutreffendes streichen.</em></p>
+`,
+  },
+}[lang];
+---
+
+<LegalPage heading={content.heading} description={content.description} html={content.html} />

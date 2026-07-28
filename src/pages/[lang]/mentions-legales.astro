@@ -1,0 +1,116 @@
+---
+/**
+ * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
+ *
+ * Un texte juridique traduit n'est PAS un texte juridique valide dans l'autre
+ * juridiction. Ces pages fournissent la STRUCTURE attendue par chaque marché,
+ * pas un contenu opposable :
+ *   - EN : « Legal notice » générique (marché UK/US).
+ *   - DE : squelette d'« Impressum » conforme dans sa structure au §5 DDG
+ *          (ex-§5 TMG), qui impose des mentions précises en Allemagne.
+ * Remplace tous les [CROCHETS] et fais relire le tout.
+ */
+import LegalPage from '../../components/LegalPage.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'en' | 'de' };
+const shop  = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+
+const content = {
+  en: {
+    heading: 'LEGAL NOTICE',
+    description: `Legal notice for ${shop}: publisher, contact details, hosting provider and VAT information.`,
+    html: `
+<p><strong>Site publisher</strong> This website, accessible at <strong>${shop}</strong> (the "Site"), is published by:</p>
+
+<p><strong>[COMPANY NAME]</strong>, [LEGAL FORM], registered office at <strong>[ADDRESS]</strong>. Company registration number <strong>[REGISTRATION NUMBER]</strong>, registered in [CITY/REGISTRY].</p>
+
+<h2 class="wp-block-heading">Contact details</h2>
+
+<ul class="wp-block-list">
+<li>Email: <strong>${email}</strong></li>
+<li>Phone: <strong>[PHONE]</strong></li>
+<li>Postal address: [ADDRESS]</li>
+</ul>
+
+<h2 class="wp-block-heading">VAT</h2>
+
+<p>[VAT STATUS: e.g. "VAT number [VAT ID]" or "Not VAT registered".]</p>
+
+<h2 class="wp-block-heading">Person responsible for publication</h2>
+
+<p>[NAME OF THE PERSON RESPONSIBLE FOR PUBLICATION].</p>
+
+<h2 class="wp-block-heading">Hosting</h2>
+
+<p>The Site is hosted by <strong>[HOSTING PROVIDER + ADDRESS]</strong>, who can be reached at: [HOSTING PROVIDER CONTACT].</p>
+
+<h2 class="wp-block-heading">Intellectual property</h2>
+
+<p>Unless stated otherwise, all content on this Site (texts, images, logos, page structure) is the property of [COMPANY NAME] or is used with permission. Any reproduction without prior written consent is prohibited.</p>
+
+<h2 class="wp-block-heading">Online dispute resolution</h2>
+
+<p>[If you sell to consumers in the EU, add here the alternative dispute resolution body you are affiliated with, and its contact details.]</p>
+`,
+  },
+  de: {
+    heading: 'IMPRESSUM',
+    description: `Impressum von ${shop}: Anbieter, Kontakt, Hosting und Umsatzsteuer-Angaben.`,
+    html: `
+<p><strong>Angaben gemäß § 5 DDG</strong></p>
+
+<p><strong>[FIRMENNAME]</strong>, [RECHTSFORM]<br />
+[STRASSE UND HAUSNUMMER]<br />
+[PLZ] [ORT]<br />
+[LAND]</p>
+
+<h2 class="wp-block-heading">Vertreten durch</h2>
+
+<p>[NAME DES VERTRETUNGSBERECHTIGTEN / GESCHÄFTSFÜHRERS].</p>
+
+<h2 class="wp-block-heading">Kontakt</h2>
+
+<ul class="wp-block-list">
+<li>E-Mail: <strong>${email}</strong></li>
+<li>Telefon: <strong>[TELEFON]</strong></li>
+</ul>
+
+<h2 class="wp-block-heading">Registereintrag</h2>
+
+<p>Eingetragen im [REGISTER, z. B. Handelsregister] des [REGISTERGERICHT]<br />
+Registernummer: <strong>[REGISTERNUMMER]</strong></p>
+
+<h2 class="wp-block-heading">Umsatzsteuer-Identifikationsnummer</h2>
+
+<p>[USt-IdNr. gemäß § 27 a UStG: <strong>[USt-IdNr.]</strong> — oder Hinweis auf die Kleinunternehmerregelung nach § 19 UStG.]</p>
+
+<h2 class="wp-block-heading">Verantwortlich für den Inhalt</h2>
+
+<p>[NAME UND ANSCHRIFT DER VERANTWORTLICHEN PERSON].</p>
+
+<h2 class="wp-block-heading">Hosting</h2>
+
+<p>Diese Website wird gehostet von <strong>[HOSTING-ANBIETER + ANSCHRIFT]</strong>. Kontakt: [KONTAKT DES ANBIETERS].</p>
+
+<h2 class="wp-block-heading">Urheberrecht</h2>
+
+<p>Sofern nicht anders angegeben, sind alle Inhalte dieser Website (Texte, Bilder, Logos, Seitenstruktur) Eigentum von [FIRMENNAME] oder werden mit Erlaubnis verwendet. Eine Vervielfältigung ohne vorherige schriftliche Zustimmung ist untersagt.</p>
+
+<h2 class="wp-block-heading">Streitschlichtung</h2>
+
+<p>[Angabe, ob du zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle bereit oder verpflichtet bist, mit Name und Anschrift der Stelle.]</p>
+`,
+  },
+}[lang];
+---
+
+<LegalPage heading={content.heading} description={content.description} html={content.html} />

@@ -1,24 +1,13 @@
 ---
 // ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
 import siteConfig from '../../site.config.mjs';
 
 const title = "Livraisons et Retours";
 const description = `Toute commande passée sur ${siteConfig.name} est traitée avec soin. Nous expédions votre colis sous 24 à 48h ouvrées après réception du paiement.`;
 ---
 
-<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
-  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
-    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
-    <article class="prose prose-lg max-w-none
-      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
-      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
-      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
-      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
-      prose-strong:text-cream prose-strong:font-medium
-      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
-      prose-hr:border-white/[0.08]"
-      set:html={`
+<LegalPage heading={title} description={description} html={`
 <p>Toute commande passée sur <strong>${siteConfig.name}</strong> est traitée avec soin depuis nos locaux situés à <strong>[VILLE D&rsquo;EXPÉDITION]</strong>. Nous expédions votre colis sous <strong>24 à 48h ouvrées</strong> après réception du paiement. <em>(Si vous commandez le vendredi soir ou le week-end, votre commande partira le lundi suivant).</em></p>
 
 
@@ -110,7 +99,4 @@ const description = `Toute commande passée sur ${siteConfig.name} est traitée 
 
 
 <p>Si votre colis arrive abîmé ou ouvert, merci de <strong>prendre des photos immédiatement</strong> et de nous contacter au <strong>[TÉLÉPHONE]</strong> ou par e-mail à <strong>${siteConfig.forms.contactEmail}</strong>. Nous trouverons une solution immédiatement (renvoi d&rsquo;un nouveau produit ou remboursement).</p>
-`}
-    />
-  </div>
-</BaseLayout>
+`} />

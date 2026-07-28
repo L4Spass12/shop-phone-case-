@@ -27,9 +27,18 @@ npm run dev        # http://localhost:4321
    valeurs (`terracotta` = couleur d'accent de marque) sans toucher aux
    composants. Pour un thème sombre, inverse `dark`/`cream` et remets
    `white: '#FFFFFF'` (voir commentaires dans le fichier).
-4. **Pages légales** (`src/pages/mentions-legales.astro`, CGV, confidentialité,
-   livraisons) — remplace les placeholders `[NOM DE LA SOCIÉTÉ]`, `[SIRET]`, etc.
-   ⚠️ À faire relire avant mise en ligne.
+4. **Pages légales** — remplace les placeholders `[NOM DE LA SOCIÉTÉ]`,
+   `[SIRET]`, `[ADRESSE]`, etc. Elles existent dans les 3 langues :
+   - FR : `src/pages/{mentions-legales,conditions-generales-de-vente-cgv,politique-de-confidentialite,livraisons-et-retours}.astro`
+   - EN/DE : les mêmes noms sous `src/pages/[lang]/`
+   - Gabarit commun : `src/components/LegalPage.astro`
+
+   ⚠️ **Un texte juridique traduit n'est pas un texte juridique valide** dans une
+   autre juridiction. Les versions EN/DE fournissent la *structure* attendue par
+   chaque marché (la version DE est un squelette d'`Impressum` structuré selon
+   le §5 DDG, les CGV reprennent les droits harmonisés UE), mais **pas** un
+   contenu opposable. À faire valider par un juriste avant de vendre à
+   l'étranger — et à réécrire complètement pour un marché hors UE (UK, US, CH).
 
 ### Couleur d'accent (une seule couleur à changer)
 

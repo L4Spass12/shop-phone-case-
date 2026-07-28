@@ -1,0 +1,135 @@
+---
+/**
+ * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER AVANT MISE EN LIGNE.
+ * Les délais, tarifs et conditions de retour doivent correspondre à ta réalité
+ * logistique ET au droit du marché visé (le droit de rétractation de 14 jours
+ * est une règle UE ; hors UE, vérifie les obligations locales).
+ * Remplace tous les [CROCHETS].
+ */
+import LegalPage from '../../components/LegalPage.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'en' | 'de' };
+const shop  = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+
+const content = {
+  en: {
+    heading: 'SHIPPING & RETURNS',
+    description: `Shipping times, delivery costs and return policy for ${shop}. Dispatch within 24-48 business hours.`,
+    html: `
+<h2 class="wp-block-heading">1. Shipping</h2>
+
+<p>Every order placed on <strong>${shop}</strong> is prepared with care from our premises in <strong>[DISPATCH CITY]</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are dispatched the following Monday.)</em></p>
+
+<p><strong>Delivery options &amp; rates</strong></p>
+
+<ul class="wp-block-list">
+<li><strong>Standard delivery</strong>:
+<ul class="wp-block-list">
+<li>Delivery time: [X] to [X] business days.</li>
+<li>Cost: <strong>[X.XX] €</strong> <em>(or "calculated by weight at checkout")</em>.</li>
+<li><em>Free delivery on orders over [XX] €.</em> <em>(If you offer this, keep it prominent - it converts.)</em></li>
+</ul>
+</li>
+<li><strong>[OPTIONAL] Pickup point</strong>:
+<ul class="wp-block-list">
+<li>Delivery time: [X] to [X] business days.</li>
+<li>Cost: <strong>[X.XX] €</strong>.</li>
+</ul>
+</li>
+</ul>
+
+<p>Once your order ships, you automatically receive a <strong>tracking number</strong> by email so you can follow your parcel in real time.</p>
+
+<h2 class="wp-block-heading">2. Returns and exchanges</h2>
+
+<p><strong>Changed your mind?</strong> You have <strong>14 days</strong> from receiving your order to return it. [Adjust this period to the law applicable in your market.]</p>
+
+<p><strong>How to return an item</strong></p>
+
+<ol start="1" class="wp-block-list">
+<li>Email us at <strong>${email}</strong> with your order number to let us know.</li>
+<li>Pack the product carefully - it must be unused and in its original packaging.</li>
+<li>Ship the parcel to: <strong>[COMPANY NAME] (${shop})</strong>, <strong>[ADDRESS]</strong>.</li>
+</ol>
+
+<p><strong>Return shipping costs</strong></p>
+
+<ul class="wp-block-list">
+<li>If the product is faulty or we made a mistake: <strong>we cover the return costs</strong> and send you a prepaid label.</li>
+<li>If you simply changed your mind: return shipping is <strong>at your expense</strong>.</li>
+</ul>
+
+<p><strong>Refunds</strong> Once we receive and check the parcel, we refund you in full (product price + original delivery cost) within <strong>7 days</strong>, to the payment method used for the purchase.</p>
+
+<h2 class="wp-block-heading">3. A problem with your delivery?</h2>
+
+<p>If your parcel arrives damaged or already opened, please <strong>take photos immediately</strong> and contact us on <strong>[PHONE]</strong> or by email at <strong>${email}</strong>. We will sort it out straight away - replacement or refund.</p>
+`,
+  },
+  de: {
+    heading: 'VERSAND & RÜCKGABE',
+    description: `Versandzeiten, Lieferkosten und Rückgaberecht bei ${shop}. Versand innerhalb von 24-48 Werkstunden.`,
+    html: `
+<h2 class="wp-block-heading">1. Versand</h2>
+
+<p>Jede Bestellung bei <strong>${shop}</strong> wird sorgfältig in unseren Räumen in <strong>[VERSANDORT]</strong> vorbereitet. Wir versenden dein Paket innerhalb von <strong>24 bis 48 Werkstunden</strong> nach Zahlungseingang. <em>(Bestellungen von Freitagabend oder vom Wochenende gehen am folgenden Montag raus.)</em></p>
+
+<p><strong>Versandarten &amp; Preise</strong></p>
+
+<ul class="wp-block-list">
+<li><strong>Standardversand</strong>:
+<ul class="wp-block-list">
+<li>Lieferzeit: [X] bis [X] Werktage.</li>
+<li>Preis: <strong>[X,XX] €</strong> <em>(oder "wird im Warenkorb nach Gewicht berechnet")</em>.</li>
+<li><em>Versandkostenfrei ab [XX] € Einkaufswert.</em> <em>(Falls du das anbietest, stell es deutlich heraus - es verkauft.)</em></li>
+</ul>
+</li>
+<li><strong>[OPTIONAL] Paketshop</strong>:
+<ul class="wp-block-list">
+<li>Lieferzeit: [X] bis [X] Werktage.</li>
+<li>Preis: <strong>[X,XX] €</strong>.</li>
+</ul>
+</li>
+</ul>
+
+<p>Sobald deine Bestellung verschickt ist, erhältst du automatisch eine <strong>Sendungsnummer</strong> per E-Mail und kannst dein Paket in Echtzeit verfolgen.</p>
+
+<h2 class="wp-block-heading">2. Rückgabe und Umtausch</h2>
+
+<p><strong>Du hast es dir anders überlegt?</strong> Du hast <strong>14 Tage</strong> ab Erhalt deiner Bestellung Zeit, sie zurückzusenden. [Diese Frist an das im Zielmarkt geltende Recht anpassen - in der EU gilt das gesetzliche Widerrufsrecht.]</p>
+
+<p><strong>So sendest du zurück</strong></p>
+
+<ol start="1" class="wp-block-list">
+<li>Schreib uns kurz an <strong>${email}</strong> mit deiner Bestellnummer.</li>
+<li>Verpacke das Produkt sorgfältig - es muss unbenutzt und in der Originalverpackung sein.</li>
+<li>Schicke das Paket an: <strong>[FIRMENNAME] (${shop})</strong>, <strong>[ANSCHRIFT]</strong>.</li>
+</ol>
+
+<p><strong>Rücksendekosten</strong></p>
+
+<ul class="wp-block-list">
+<li>Bei einem defekten Produkt oder einem Fehler unsererseits: <strong>wir übernehmen die Rücksendekosten</strong> und schicken dir ein vorbezahltes Etikett.</li>
+<li>Wenn du es dir einfach anders überlegt hast: die Rücksendekosten <strong>trägst du</strong>.</li>
+</ul>
+
+<p><strong>Rückerstattung</strong> Sobald das Paket bei uns eingetroffen und geprüft ist, erstatten wir dir den vollen Betrag (Produktpreis + ursprüngliche Versandkosten) innerhalb von <strong>7 Tagen</strong> über das bei der Bestellung genutzte Zahlungsmittel.</p>
+
+<h2 class="wp-block-heading">3. Probleme bei der Lieferung?</h2>
+
+<p>Falls dein Paket beschädigt oder bereits geöffnet ankommt, mach bitte <strong>sofort Fotos</strong> und melde dich unter <strong>[TELEFON]</strong> oder per E-Mail an <strong>${email}</strong>. Wir finden umgehend eine Lösung - Ersatz oder Rückerstattung.</p>
+`,
+  },
+}[lang];
+---
+
+<LegalPage heading={content.heading} description={content.description} html={content.html} />

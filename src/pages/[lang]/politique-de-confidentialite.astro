@@ -1,0 +1,145 @@
+---
+/**
+ * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
+ * Structure alignée sur le RGPD (applicable dans toute l'UE, donc valable pour
+ * la version allemande / DSGVO). Pour une audience hors UE (UK GDPR, CCPA…),
+ * les mentions et les droits listés doivent être adaptés.
+ * Remplace tous les [CROCHETS] et la date de mise à jour.
+ */
+import LegalPage from '../../components/LegalPage.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'en' | 'de' };
+const shop  = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+
+const content = {
+  en: {
+    heading: 'PRIVACY POLICY',
+    description: `How ${shop} collects, uses and protects your personal data, in accordance with the GDPR.`,
+    html: `
+<p><strong>Last updated:</strong> [DATE]</p>
+
+<p><strong>${shop}</strong> takes the protection of personal data seriously. We are committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR).</p>
+
+<h2 class="wp-block-heading">1. Data controller</h2>
+
+<p>The controller of the data collected on ${shop} is: <strong>[COMPANY NAME]</strong>. Address: [ADDRESS]. Email: ${email}</p>
+
+<h2 class="wp-block-heading">2. Data we collect</h2>
+
+<p>We collect the following data when you place an order or contact us:</p>
+
+<ul class="wp-block-list">
+<li><strong>Identity:</strong> first name, last name, address, phone number.</li>
+<li><strong>Contact:</strong> email address.</li>
+<li><strong>Technical data:</strong> IP address, browser type (via cookies).</li>
+</ul>
+
+<h2 class="wp-block-heading">3. How we use your data</h2>
+
+<p>Your data is used solely to:</p>
+
+<ul class="wp-block-list">
+<li><strong>Process your order:</strong> shipping, invoicing, delivery tracking, after-sales service.</li>
+<li><strong>Take payment:</strong> secure transactions through our partner <strong>Stripe</strong>.</li>
+<li><strong>Reply to you:</strong> via the contact form or by email.</li>
+<li><strong>Meet legal obligations:</strong> retention of invoices ([X] years).</li>
+</ul>
+
+<h2 class="wp-block-heading">4. Data sharing</h2>
+
+<p>We never sell your personal data. It is shared only with the providers strictly required to fulfil your order:</p>
+
+<ul class="wp-block-list">
+<li><strong>Stripe (payment):</strong> your card details are entered directly in Stripe's secure interface. <strong>${shop} never has access to your full card number.</strong></li>
+<li><strong>Carriers:</strong> [CARRIER NAMES] to deliver your parcel.</li>
+<li><strong>[HOSTING PROVIDER + ADDRESS]:</strong> hosting of the site (data stored on secure servers).</li>
+</ul>
+
+<h2 class="wp-block-heading">5. Retention periods</h2>
+
+<ul class="wp-block-list">
+<li><strong>Order data:</strong> kept for the duration of the commercial relationship, then archived for accounting purposes ([X] years).</li>
+<li><strong>Prospect data (no purchase):</strong> kept for [X] years after the last contact.</li>
+</ul>
+
+<h2 class="wp-block-heading">6. Your rights</h2>
+
+<p>Under the GDPR you have the right to access, rectify, erase and port your data, as well as to object to and restrict its processing. To exercise these rights, email us at <strong>${email}</strong> or write to us at [ADDRESS]. You may also lodge a complaint with your national supervisory authority.</p>
+
+<h2 class="wp-block-heading">7. Cookies</h2>
+
+<p>While browsing ${shop}, cookies are stored on your computer, phone or tablet. Cookies strictly necessary for the site to work (shopping cart, session, language preference) do not require your consent. Third-party cookies (analytics, advertising) require your explicit consent via our cookie banner. You can change your preferences at any time.</p>
+`,
+  },
+  de: {
+    heading: 'DATENSCHUTZERKLÄRUNG',
+    description: `Wie ${shop} deine personenbezogenen Daten erhebt, verwendet und schützt - gemäß DSGVO.`,
+    html: `
+<p><strong>Letzte Aktualisierung:</strong> [DATUM]</p>
+
+<p><strong>${shop}</strong> nimmt den Schutz personenbezogener Daten ernst. Wir verpflichten uns, deine Daten gemäß der Datenschutz-Grundverordnung (DSGVO) zu schützen.</p>
+
+<h2 class="wp-block-heading">1. Verantwortlicher</h2>
+
+<p>Verantwortlich für die auf ${shop} erhobenen Daten ist: <strong>[FIRMENNAME]</strong>. Anschrift: [ANSCHRIFT]. E-Mail: ${email}</p>
+
+<h2 class="wp-block-heading">2. Erhobene Daten</h2>
+
+<p>Wenn du eine Bestellung aufgibst oder uns kontaktierst, erheben wir folgende Daten:</p>
+
+<ul class="wp-block-list">
+<li><strong>Identität:</strong> Vorname, Name, Anschrift, Telefonnummer.</li>
+<li><strong>Kontakt:</strong> E-Mail-Adresse.</li>
+<li><strong>Technische Daten:</strong> IP-Adresse, Browsertyp (über Cookies).</li>
+</ul>
+
+<h2 class="wp-block-heading">3. Verwendung deiner Daten</h2>
+
+<p>Deine Daten werden ausschließlich verwendet, um:</p>
+
+<ul class="wp-block-list">
+<li><strong>deine Bestellung abzuwickeln:</strong> Versand, Rechnungsstellung, Sendungsverfolgung, Kundendienst.</li>
+<li><strong>die Zahlung abzuwickeln:</strong> sichere Transaktionen über unseren Partner <strong>Stripe</strong>.</li>
+<li><strong>dir zu antworten:</strong> über das Kontaktformular oder per E-Mail.</li>
+<li><strong>gesetzliche Pflichten zu erfüllen:</strong> Aufbewahrung von Rechnungen ([X] Jahre).</li>
+</ul>
+
+<h2 class="wp-block-heading">4. Weitergabe von Daten</h2>
+
+<p>Wir verkaufen deine personenbezogenen Daten nie. Sie werden nur an die für die Bestellabwicklung zwingend erforderlichen Dienstleister weitergegeben:</p>
+
+<ul class="wp-block-list">
+<li><strong>Stripe (Zahlung):</strong> Deine Kartendaten werden direkt in der gesicherten Oberfläche von Stripe eingegeben. <strong>${shop} hat nie Zugriff auf deine vollständige Kartennummer.</strong></li>
+<li><strong>Versanddienstleister:</strong> [NAMEN DER DIENSTLEISTER], um dein Paket zu liefern.</li>
+<li><strong>[HOSTING-ANBIETER + ANSCHRIFT]:</strong> Hosting der Website (Daten auf gesicherten Servern).</li>
+</ul>
+
+<h2 class="wp-block-heading">5. Speicherdauer</h2>
+
+<ul class="wp-block-list">
+<li><strong>Bestelldaten:</strong> für die Dauer der Geschäftsbeziehung, danach aus buchhalterischen Gründen archiviert ([X] Jahre).</li>
+<li><strong>Daten von Interessenten (ohne Kauf):</strong> [X] Jahre nach dem letzten Kontakt.</li>
+</ul>
+
+<h2 class="wp-block-heading">6. Deine Rechte</h2>
+
+<p>Nach der DSGVO hast du das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit sowie das Recht auf Widerspruch und Einschränkung der Verarbeitung. Zur Ausübung dieser Rechte schreib uns an <strong>${email}</strong> oder per Post an [ANSCHRIFT]. Außerdem steht dir ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.</p>
+
+<h2 class="wp-block-heading">7. Cookies</h2>
+
+<p>Beim Besuch von ${shop} werden Cookies auf deinem Computer, Smartphone oder Tablet gespeichert. Für den Betrieb der Website unbedingt erforderliche Cookies (Warenkorb, Sitzung, Sprachauswahl) benötigen keine Zustimmung. Cookies von Dritten (Analyse, Werbung) erfordern deine ausdrückliche Einwilligung über unser Cookie-Banner. Du kannst deine Einstellungen jederzeit ändern.</p>
+`,
+  },
+}[lang];
+---
+
+<LegalPage heading={content.heading} description={content.description} html={content.html} />

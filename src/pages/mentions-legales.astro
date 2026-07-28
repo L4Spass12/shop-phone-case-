@@ -1,24 +1,13 @@
 ---
 // ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
 import siteConfig from '../../site.config.mjs';
 
 const title = "MENTIONS LÉGALES";
 const description = `Édition du site Le présent site, accessible à l’URL ${siteConfig.name} (le « Site »), est édité par :`;
 ---
 
-<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
-  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
-    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-10">{title}</h1>
-    <article class="prose prose-lg max-w-none
-      prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
-      prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
-      prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
-      prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
-      prose-strong:text-cream prose-strong:font-medium
-      prose-ul:font-light prose-ol:font-light prose-li:text-n-400
-      prose-hr:border-white/[0.08]"
-      set:html={`
+<LegalPage heading={title} description={description} html={`
 <p><strong>Édition du site</strong> Le présent site, accessible à l’URL <strong>${siteConfig.name}</strong> (le « Site »), est édité par :</p>
 
 
@@ -98,7 +87,4 @@ const description = `Édition du site Le présent site, accessible à l’URL ${
 <blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
 <p><strong>Contact :</strong> [TÉLÉPHONE] | ${siteConfig.forms.contactEmail} <strong>Liens :</strong> Mentions Légales | CGV | Politique de Confidentialité | Livraisons et Retours © [ANNÉE] ${siteConfig.name} &#8211; [NOM DE LA SOCIÉTÉ] ([FORME JURIDIQUE])</p>
 </blockquote>
-`}
-    />
-  </div>
-</BaseLayout>
+`} />
