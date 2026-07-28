@@ -1,5 +1,19 @@
 ---
-// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+/**
+ * ⚠️ PLACEHOLDER LÉGAL : compléter les [CROCHETS] et faire relire avant vente.
+ *
+ * Points de conformité intégrés :
+ *  - Art. L.221-21 : renvoi vers la fonctionnalité de rétractation en ligne
+ *    (/retractation), obligatoire depuis le 19 juin 2026. Son absence porte le
+ *    délai de rétractation à 12 mois et 14 jours.
+ *  - Art. L.616-1 / R.616-1 : coordonnées du médiateur de la consommation,
+ *    obligatoires DANS LES CGV (et non seulement sur le site).
+ *  - Garantie légale de conformité : réforme du 1er octobre 2022 — 2 ans,
+ *    présomption d'antériorité de 24 mois, prolongation de 6 mois en cas de
+ *    réparation (art. L.217-3 et suivants).
+ *  - AUCUNE mention de la plateforme européenne ODR : elle a fermé le
+ *    20 juillet 2025. Les modèles qui la citent encore sont obsolètes.
+ */
 import LegalPage from '../components/LegalPage.astro';
 import siteConfig from '../../site.config.mjs';
 
@@ -82,7 +96,9 @@ const description = `Les présentes conditions générales de vente s'appliquent
 
 
 
-<p>Conformément aux dispositions de l&rsquo;article L.221-18 du Code de la Consommation, vous disposez d&rsquo;un délai de <strong>14 jours</strong> à compter de la réception de vos produits pour exercer votre droit de rétractation sans avoir à justifier de motifs ni à payer de pénalité.</p>
+<p>Conformément à l&rsquo;article L.221-18 du Code de la consommation, vous disposez d&rsquo;un délai de <strong>14 jours</strong> à compter de la réception de vos produits pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalité.</p>
+
+<p><strong>Comment exercer ce droit :</strong> une fonctionnalité dédiée et gratuite est mise à votre disposition en permanence sur le Site, conformément à l&rsquo;article L.221-21 du Code de la consommation : <a href="/retractation"><strong>exercer mon droit de rétractation</strong></a>. Vous pouvez également nous notifier votre décision par tout autre moyen dénué d&rsquo;ambiguïté (e-mail, courrier), ou utiliser le formulaire type reproduit en annexe.</p>
 
 
 
@@ -98,17 +114,38 @@ const description = `Les présentes conditions générales de vente s'appliquent
 
 
 
-<p>Tous nos produits bénéficient de la garantie légale de conformité (articles L.217-4 et suivants du Code de la consommation) et de la garantie des vices cachés (articles 1641 et suivants du Code civil), permettant de renvoyer les produits livrés défectueux ou non conformes.</p>
+<p>Tous nos produits bénéficient, indépendamment de toute garantie commerciale, de la <strong>garantie légale de conformité</strong> (articles L.217-3 et suivants du Code de la consommation) et de la <strong>garantie des vices cachés</strong> (articles 1641 et suivants du Code civil).</p>
+
+<ul class="wp-block-list">
+<li>La garantie légale de conformité s&rsquo;applique pendant <strong>2 ans</strong> à compter de la délivrance du bien. Pendant ce délai, vous n&rsquo;avez pas à prouver l&rsquo;existence du défaut : il est présumé antérieur à la vente.</li>
+<li>Vous pouvez choisir entre la réparation et le remplacement du bien, sous réserve des conditions de coût prévues par la loi.</li>
+<li>En cas de réparation, la garantie légale de conformité est <strong>prolongée de 6 mois</strong>. Si vous optez pour la réparation et que celle-ci n&rsquo;est pas mise en œuvre, vous pouvez demander le remplacement.</li>
+<li>La garantie des vices cachés vous permet d&rsquo;agir dans un délai de <strong>2 ans à compter de la découverte du vice</strong>, pour obtenir la résolution de la vente ou une réduction du prix.</li>
+</ul>
 
 
 
-<h2 class="wp-block-heading">Article 9 &#8211; Données personnelles</h2>
+<h2 class="wp-block-heading">Article 8 &#8211; Données personnelles</h2>
 
 
 
 <p>Les informations nominatives collectées sont indispensables pour le traitement de votre commande et l&rsquo;établissement des factures. Elles peuvent être communiquées aux partenaires chargés de l&rsquo;exécution, du traitement, de la gestion et du paiement des commandes. Le client dispose d&rsquo;un droit d&rsquo;accès permanent, de modification, de rectification et d&rsquo;opposition s&rsquo;agissant des informations le concernant.</p>
 
 
+
+<h2 class="wp-block-heading">Article 9 &#8211; Réclamations et médiation de la consommation</h2>
+
+<p>Pour toute réclamation, contactez d&rsquo;abord notre service client : <strong>${siteConfig.forms.contactEmail}</strong> — <strong>[TÉLÉPHONE]</strong>.</p>
+
+<p>Conformément aux articles L.616-1 et R.616-1 du Code de la consommation, si votre réclamation écrite n&rsquo;a pas trouvé de solution satisfaisante, vous pouvez recourir <strong>gratuitement</strong> au médiateur de la consommation dont nous relevons :</p>
+
+<p><strong>[NOM DU MÉDIATEUR AGRÉÉ]</strong> — <strong>[ADRESSE]</strong> — <strong>[URL DU SITE DU MÉDIATEUR]</strong></p>
+
+<p><em>La médiation est un préalable facultatif à toute action judiciaire ; elle ne vous prive d&rsquo;aucun recours. Note : la plateforme européenne de règlement en ligne des litiges (RLL/ODR) a définitivement fermé le 20 juillet 2025 — les entités nationales de médiation, comme celle indiquée ci-dessus, restent la voie applicable.</em></p>
+
+<h2 class="wp-block-heading">Article 10 &#8211; Droit applicable</h2>
+
+<p>Les présentes conditions sont soumises au droit français. Si vous résidez dans un autre État membre de l&rsquo;Union européenne, vous conservez le bénéfice des dispositions impératives de protection des consommateurs de votre pays de résidence.</p>
 
 <p><strong>ANNEXE &#8211; MODÈLE DE FORMULAIRE DE RÉTRACTATION</strong></p>
 

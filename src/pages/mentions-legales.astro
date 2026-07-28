@@ -1,90 +1,89 @@
 ---
-// ⚠️ PLACEHOLDER LÉGAL : à faire relire/compléter avant mise en ligne.
+/**
+ * ⚠️ PLACEHOLDER LÉGAL : compléter tous les [CROCHETS] et faire relire avant
+ * mise en ligne. Non conforme tant que les champs ne sont pas remplis.
+ *
+ * Structure conforme à la loi LCEN du 21 juin 2004 (art. 1-1 et 1-2), telle que
+ * MODIFIÉE PAR LA LOI SREN du 21 mai 2024 — qui ajoute l'obligation d'indiquer
+ * les coordonnées de tout sous-traitant assurant le stockage des données du
+ * site (CDN, cloud), et pas seulement celles de l'hébergeur. La plupart des
+ * modèles en circulation ne contiennent pas encore cette mention.
+ *
+ * Sanction : jusqu'à 1 an d'emprisonnement et 375 000 € d'amende pour une
+ * personne morale (art. 6 VI LCEN).
+ *
+ * Sources : economie.gouv.fr (« Mentions sur votre site internet »),
+ * bpifrance-creation.fr, art. L.616-1 et R.616-1 du Code de la consommation.
+ */
 import LegalPage from '../components/LegalPage.astro';
 import siteConfig from '../../site.config.mjs';
 
-const title = "MENTIONS LÉGALES";
-const description = `Édition du site Le présent site, accessible à l’URL ${siteConfig.name} (le « Site »), est édité par :`;
+const title = 'MENTIONS LÉGALES';
+const description = `Mentions légales de ${siteConfig.name} : éditeur, coordonnées, hébergeur, propriété intellectuelle et médiateur de la consommation.`;
+const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 ---
 
 <LegalPage heading={title} description={description} html={`
-<p><strong>Édition du site</strong> Le présent site, accessible à l’URL <strong>${siteConfig.name}</strong> (le « Site »), est édité par :</p>
+<h2 class="wp-block-heading">Éditeur du site</h2>
 
+<p>Le présent site, accessible à l'adresse <strong>${siteConfig.url}</strong> (le « Site »), est édité par :</p>
 
+<p><strong>[NOM DE LA SOCIÉTÉ]</strong>, [FORME JURIDIQUE] au capital de <strong>[MONTANT] €</strong><br />
+Siège social : <strong>[ADRESSE COMPLÈTE]</strong><br />
+Immatriculée au R.C.S. de [VILLE] sous le numéro <strong>[RCS]</strong><br />
+Numéro SIRET : <strong>[SIRET]</strong> — inscription au R.N.E. : <strong>[NUMÉRO RNE]</strong><br />
+Numéro de TVA intracommunautaire : <strong>[N° TVA]</strong> <em>[ou : « Non assujetti à la TVA — franchise en base, art. 293 B du CGI »]</em></p>
 
-<p><strong>[NOM DE LA SOCIÉTÉ]</strong>, [FORME JURIDIQUE], situé au <strong>[ADRESSE]</strong>. Immatriculé sous le numéro <strong>[SIRET]</strong> au R.C.S. de [VILLE] (ou RM si artisan)</p>
+<p><em>Entrepreneur individuel : indiquez vos nom et prénom, votre adresse, votre numéro SIREN et la mention « EI ».</em></p>
 
-
-
-<p><strong>Coordonnées</strong></p>
-
-
+<h2 class="wp-block-heading">Contact</h2>
 
 <ul class="wp-block-list">
-<li>E-mail : <strong>${siteConfig.forms.contactEmail}</strong></li>
-
-
-
+<li>E-mail : <strong>${email}</strong></li>
 <li>Téléphone : <strong>[TÉLÉPHONE]</strong></li>
-
-
-
-<li>Adresse : [ADRESSE]</li>
+<li>Adresse postale : <strong>[ADRESSE COMPLÈTE]</strong></li>
 </ul>
 
+<h2 class="wp-block-heading">Directeur de la publication</h2>
 
+<p><strong>[NOM DU DIRECTEUR DE LA PUBLICATION]</strong>, joignable à l'adresse ${email}.</p>
 
-<p><strong>TVA Intracommunautaire</strong> [RÉGIME TVA : ex. « Franchise en base de TVA - TVA non applicable, art. 293 B du CGI » ou numéro de TVA intracommunautaire].</p>
+<h2 class="wp-block-heading">Hébergeur</h2>
 
+<p>Le Site est hébergé par :</p>
 
+<p><strong>[NOM / RAISON SOCIALE DE L'HÉBERGEUR]</strong><br />
+Adresse : <strong>[ADRESSE DE L'HÉBERGEUR]</strong><br />
+SIRET : [SIRET DE L'HÉBERGEUR] — Téléphone : <strong>[TÉLÉPHONE DE L'HÉBERGEUR]</strong></p>
 
-<p><strong>Directeur de la publication</strong> [NOM DU DIRECTEUR DE LA PUBLICATION].</p>
+<h2 class="wp-block-heading">Sous-traitants de stockage des données</h2>
 
-
-
-<p><strong>Hébergement</strong> Le Site est hébergé par <strong>[HÉBERGEUR + ADRESSE]</strong>. Joignable par le moyen suivant : [CONTACT HÉBERGEUR]</p>
-
-
-
-<h2 class="wp-block-heading">2. CLAUSES SPÉCIFIQUES POUR VOS CGV</h2>
-
-
-
-<p>Dans vos Conditions Générales de Vente, voici les paragraphes spécifiques à modifier pour coller à votre statut et vos infos :</p>
-
-
-
-<p><strong>Article &#8211; Prix</strong> Les prix de nos produits sont indiqués en euros. [RÉGIME TVA : précisez si les prix sont indiqués hors taxes (HT) ou toutes taxes comprises (TTC), et le régime de TVA applicable]. Les frais de traitement et d&rsquo;expédition sont facturés en supplément.</p>
-
-
-
-<p><strong>Article &#8211; Service Client</strong> Pour toute information ou question, notre service client est à votre disposition :</p>
-
-
+<p><em>Mention rendue obligatoire par la loi SREN du 21 mai 2024, en complément de l'identification de l'hébergeur.</em> Les données du Site sont également stockées ou mises en cache par les prestataires suivants :</p>
 
 <ul class="wp-block-list">
-<li>Par téléphone : <strong>[TÉLÉPHONE]</strong> (du lundi au vendredi de 9h à 18h <em>[Adaptez vos horaires]</em>)</li>
-
-
-
-<li>Par email : <strong>${siteConfig.forms.contactEmail}</strong></li>
-
-
-
-<li>Par courrier postal : [ADRESSE]</li>
+<li><strong>[NOM DU PRESTATAIRE — ex. CDN, cloud]</strong> — [ADRESSE] — [CONTACT]</li>
+<li><em>[Ajoutez chaque prestataire tiers concerné. Si aucun, indiquez-le explicitement.]</em></li>
 </ul>
 
+<h2 class="wp-block-heading">Médiateur de la consommation</h2>
 
+<p><em>Mention obligatoire : articles L.616-1 et R.616-1 du Code de la consommation.</em> Conformément à la réglementation, ${siteConfig.name} adhère à un dispositif de médiation de la consommation. En cas de litige n'ayant pas trouvé de solution auprès de notre service client, vous pouvez saisir gratuitement le médiateur suivant :</p>
 
-<h2 class="wp-block-heading">3. PIED DE PAGE (Footer) de votre site</h2>
+<p><strong>[NOM DU MÉDIATEUR AGRÉÉ]</strong><br />
+Adresse : <strong>[ADRESSE DU MÉDIATEUR]</strong><br />
+Site internet : <strong>[URL DU SITE DU MÉDIATEUR]</strong></p>
 
+<p><em>⚠️ Vous devez avoir souscrit auprès d'un médiateur agréé (service payant) avant la mise en ligne : la liste officielle est publiée par la Commission d'évaluation et de contrôle de la médiation de la consommation (CECMC). L'absence de cette mention est l'un des manquements les plus contrôlés par la DGCCRF.</em></p>
 
+<p>La saisine du médiateur n'est possible qu'après une réclamation écrite préalable auprès de nos services restée sans réponse satisfaisante.</p>
 
-<p>Pour rassurer vos clients et respecter la loi, votre pied de page sur <code>${siteConfig.name}</code> doit contenir ces liens et infos :</p>
+<h2 class="wp-block-heading">Propriété intellectuelle</h2>
 
+<p>Sauf mention contraire, l'ensemble des contenus du Site (textes, visuels, logos, structure des pages) est la propriété de [NOM DE LA SOCIÉTÉ] ou est utilisé avec l'autorisation de ses titulaires. Toute reproduction, représentation ou adaptation, totale ou partielle, sans autorisation écrite préalable est interdite.</p>
 
+<p><em>[Si vous utilisez des visuels ou des textes de tiers, créditez ici leurs auteurs ou leurs licences.]</em></p>
 
-<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
-<p><strong>Contact :</strong> [TÉLÉPHONE] | ${siteConfig.forms.contactEmail} <strong>Liens :</strong> Mentions Légales | CGV | Politique de Confidentialité | Livraisons et Retours © [ANNÉE] ${siteConfig.name} &#8211; [NOM DE LA SOCIÉTÉ] ([FORME JURIDIQUE])</p>
-</blockquote>
+<h2 class="wp-block-heading">Données personnelles et cookies</h2>
+
+<p>Le traitement de vos données personnelles est décrit dans notre <a href="/politique-de-confidentialite">politique de confidentialité</a>. Vous pouvez modifier vos préférences de cookies à tout moment depuis le bandeau dédié.</p>
 `} />
