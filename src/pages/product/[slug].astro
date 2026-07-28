@@ -472,15 +472,19 @@ const breadcrumbSchema = {
             data-item-price={Math.round(price * 100)}
             data-item-image={imageUrl}
           >
-            <span class="ab-text">
-              {inStock ? (
-                <>Ajouter au panier <span>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
-              ) : 'Indisponible'}
+            {/* .ab-clip porte la découpe arrondie : sur mobile, overflow+radius
+                ne clippe pas les blobs (couches compositées) — cf. global.css */}
+            <span class="ab-clip">
+              <span class="ab-text">
+                {inStock ? (
+                  <>Ajouter au panier <span>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+                ) : 'Indisponible'}
+              </span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
             </span>
-            <span class="ab-blob" aria-hidden="true"></span>
-            <span class="ab-blob" aria-hidden="true"></span>
-            <span class="ab-blob" aria-hidden="true"></span>
-            <span class="ab-blob" aria-hidden="true"></span>
           </button>
         ) : (
           <button

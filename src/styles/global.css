@@ -383,8 +383,7 @@
   display: inline-flex;
   border: none;
   padding: 0;
-  border-radius: 40em;
-  overflow: hidden;
+  border-radius: 999px;
   font-family: inherit;
   font-size: 1rem;             /* aligné sur .btn-atc */
   font-weight: 600;
@@ -405,6 +404,24 @@
     0 16px 30px -12px rgba(90, 40, 160, .55);
 }
 .btn-atc-blob:active { transform: translateY(0); }
+
+/* Couche de DÉCOUPE.
+   Pourquoi une couche dédiée plutôt qu'un simple overflow:hidden sur le
+   bouton : sur mobile (iOS Safari en particulier), `overflow:hidden` combiné
+   à `border-radius` NE CLIPPE PAS les enfants promus en couche compositée
+   (transform, filter…). Les blobs débordaient donc dans les coins et le
+   bouton paraissait rectangulaire sur téléphone alors qu'il était correct
+   sur ordinateur. `clip-path` clippe de façon fiable les couches compositées.
+   Elle est INTERNE au bouton pour que le clip ne rogne pas l'ombre portée
+   (clip-path s'applique aussi aux box-shadow de l'élément qui le porte). */
+.btn-atc-blob .ab-clip {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  clip-path: inset(0 round 999px);
+}
 
 /* Couche verre : EN FLUX → c'est elle qui donne sa taille au bouton */
 .btn-atc-blob .ab-text {
@@ -429,10 +446,13 @@
 .btn-atc-blob .ab-blob {
   position: absolute;
   z-index: -1;
-  width: 58%;
-  height: 170%;
+  width: 66%;
+  height: 200%;
   border-radius: 5em;
-  filter: blur(6px);   /* fond les blobs entre eux : dégradé continu, sans zone nue */
+  /* PAS de `filter` ici : un filtre promeut l'élément en couche compositée,
+     que le clip arrondi du parent n'appliquait plus sur mobile. Le flou du
+     verre (backdrop-filter sur .ab-text) suffit à fondre les couleurs ;
+     les blobs sont simplement plus grands et plus chevauchants. */
   transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
