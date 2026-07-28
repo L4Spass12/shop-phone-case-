@@ -1,0 +1,36 @@
+---
+/**
+ * Page de rétractation (FR) — obligation légale, voir RetractationForm.astro.
+ * Doit rester accessible en permanence : lien présent dans le footer du site.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RetractationForm from '../components/RetractationForm.astro';
+import siteConfig from '../../site.config.mjs';
+import { t } from '../lib/i18n';
+
+const lang = 'fr' as const;
+const title = t('retractation.title', lang);
+const description = t('retractation.subtitle', lang);
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-6">{title}</h1>
+    <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-4">{description}</p>
+    <p class="text-xs text-n-500 font-light leading-relaxed mb-10">{t('retractation.legalNote', lang)}</p>
+
+    <RetractationForm lang={lang} />
+
+    <section class="mt-14 pt-10 border-t border-white/[0.08]">
+      <h2 class="text-lg font-medium text-cream tracking-tight mb-5">{t('retractation.nextSteps', lang)}</h2>
+      <ol class="space-y-3 text-sm text-n-400 font-light">
+        {[t('retractation.step1', lang), t('retractation.step2', lang), t('retractation.step3', lang)].map((step, i) => (
+          <li class="flex gap-3">
+            <span class="shrink-0 w-6 h-6 rounded-full bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-[11px] text-cream font-medium">{i + 1}</span>
+            <span>{step}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</BaseLayout>

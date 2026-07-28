@@ -80,7 +80,8 @@
     "cgv": "CGV",
     "privacy": "Confidentialité",
     "legal": "Mentions Légales",
-    "contact": "Contact"
+    "contact": "Contact",
+    "retractation": "Me rétracter d'une commande"
   },
   "contact": {
     "title": "Contact",
@@ -169,5 +170,25 @@
     "view": "Voir en français",
     "dismiss": "Rester en {currentLabel}",
     "ariaClose": "Fermer"
+  },
+  "retractation": {
+    "title": "Exercer mon droit de rétractation",
+    "subtitle": "Vous disposez de 14 jours après réception de votre commande pour vous rétracter, sans avoir à vous justifier. Ce formulaire suffit : aucun courrier ni appel n'est nécessaire.",
+    "legalNote": "Formulaire mis à disposition en application de l'article L.221-21 du Code de la consommation. Vous restez libre de nous notifier votre rétractation par tout autre moyen sans ambiguïté (email, courrier).",
+    "orderNumber": "Numéro de commande",
+    "orderDate": "Date de commande",
+    "receiptDate": "Date de réception",
+    "items": "Produit(s) concerné(s)",
+    "itemsHint": "Indiquez « toute la commande » si vous vous rétractez intégralement.",
+    "reason": "Motif (facultatif)",
+    "reasonHint": "Vous n'avez aucune obligation de motiver votre rétractation.",
+    "submit": "Envoyer ma demande de rétractation",
+    "sending": "Envoi en cours…",
+    "success": "Votre demande de rétractation est enregistrée. Vous recevrez un accusé de réception par email, puis les instructions de retour.",
+    "error": "L'envoi a échoué. Contactez-nous directement par email pour que votre rétractation soit prise en compte dans les délais.",
+    "nextSteps": "Ce qui se passe ensuite",
+    "step1": "Nous vous envoyons un accusé de réception par email.",
+    "step2": "Vous nous renvoyez le produit dans son état d'origine, sous 14 jours.",
+    "step3": "Nous vous remboursons intégralement sous 14 jours à compter de la récupération du bien."
   }
 }

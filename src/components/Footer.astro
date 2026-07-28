@@ -92,12 +92,15 @@ const currentYear = new Date().getFullYear();
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/[0.04] text-[10px] text-n-500 font-light">
     <p>© {currentYear} {siteConfig.name}. {t('footer.rights', lang)}</p>
     <div class="flex gap-4 mt-4 md:mt-0">
-      {/* Pages légales : FR-only (droit français applicable). On pointe directement
-          vers la version FR pour éviter que Google flag des "Page avec redirection"
-          quand il crawle les versions /en/ et /de/ qui font ensuite un 302 vers FR. */}
-      <a href="/conditions-generales-de-vente-cgv" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.cgv', lang)}</a>
-      <a href="/politique-de-confidentialite" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.privacy', lang)}</a>
-      <a href="/mentions-legales" hreflang="fr" class="hover:text-n-400 transition-colors">{t('footer.legal', lang)}</a>
+      {/* Pages légales : une version par locale existe désormais (FR + EN/DE
+          adaptées à chaque juridiction), donc on localise les liens. */}
+      <a href={url('/conditions-generales-de-vente-cgv')} class="hover:text-n-400 transition-colors">{t('footer.cgv', lang)}</a>
+      <a href={url('/politique-de-confidentialite')} class="hover:text-n-400 transition-colors">{t('footer.privacy', lang)}</a>
+      <a href={url('/mentions-legales')} class="hover:text-n-400 transition-colors">{t('footer.legal', lang)}</a>
+      {/* ⚖️ Lien OBLIGATOIRE et permanent : art. L.221-21 du Code de la
+          consommation impose une fonctionnalité de rétractation « aisément
+          accessible » pendant toute la durée du délai. Ne pas retirer. */}
+      <a href={url('/retractation')} class="hover:text-n-400 transition-colors">{t('footer.retractation', lang)}</a>
       <a href={url('/contact')} class="hover:text-n-400 transition-colors">{t('footer.contact', lang)}</a>
     </div>
   </div>

@@ -1,0 +1,153 @@
+---
+/**
+ * Formulaire de rétractation / demande de retour.
+ *
+ * ⚖️ CONTEXTE JURIDIQUE (à connaître avant de modifier) :
+ * L'article L.221-21 du Code de la consommation (en vigueur depuis le
+ * 19 juin 2026) impose au professionnel français vendant à distance en ligne
+ * de mettre à disposition « une fonctionnalité gratuite, aisément accessible,
+ * identifiée de manière lisible et non ambiguë » permettant au consommateur
+ * d'exercer son droit de rétractation. À défaut, le délai de rétractation
+ * passe automatiquement de 14 jours à 12 MOIS ET 14 JOURS.
+ *
+ * Conséquences concrètes sur ce composant :
+ *   - la page doit rester accessible en permanence (lien footer sur tout le site) ;
+ *   - le libellé doit être explicite (pas de « Formulaire », pas d'ambiguïté) ;
+ *   - l'usage doit être gratuit et sans création de compte ;
+ *   - le consommateur garde le droit de se rétracter par tout autre moyen.
+ *
+ * ⚠️ US : il n'existe PAS de droit de rétractation fédéral pour les achats en
+ * ligne (le FTC Cooling-Off Rule ne couvre que le démarchage). La version EN
+ * est donc cadrée comme une demande de retour contractuelle — voir les
+ * libellés `retractation.*` dans src/i18n/en.json.
+ *
+ * ⚠️ À FAIRE À LA MISE EN PRODUCTION : le professionnel doit accuser réception
+ * de la rétractation sur un support durable. Active l'auto-répondeur de ton
+ * service de formulaire, ou traite les emails reçus sous 24 h.
+ */
+import siteConfig from '../../site.config.mjs';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+
+const web3formsKey = siteConfig.forms?.web3formsKey ?? '';
+const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+
+const field = 'w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors';
+const label = 'block text-xs text-n-400 font-medium mb-2';
+const hint  = 'text-[11px] text-n-500 font-light mt-1.5';
+---
+
+<form id="retract-form" class="space-y-5" novalidate>
+  <input type="hidden" name="access_key" value={web3formsKey} />
+  <input type="hidden" name="subject" value={`RÉTRACTATION / RETOUR - ${siteConfig.name}`} />
+  <input type="hidden" name="from_name" value={`Rétractation ${siteConfig.name}`} />
+  {/* Horodatage : sert de preuve de la date d'exercice du droit */}
+  <input type="hidden" name="demande_envoyee_le" id="retract-timestamp" value="" />
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div>
+      <label for="retract-order" class={label}>{t('retractation.orderNumber', lang)} <span class="text-cream">*</span></label>
+      <input type="text" id="retract-order" name="numero_commande" required class={field} />
+    </div>
+    <div>
+      <label for="retract-email" class={label}>{t('contact.email', lang)} <span class="text-cream">*</span></label>
+      <input type="email" id="retract-email" name="email" required autocomplete="email" class={field} />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div>
+      <label for="retract-name" class={label}>{t('contact.lastname', lang)} <span class="text-cream">*</span></label>
+      <input type="text" id="retract-name" name="nom" required autocomplete="name" class={field} />
+    </div>
+    <div>
+      <label for="retract-receipt" class={label}>{t('retractation.receiptDate', lang)} <span class="text-cream">*</span></label>
+      <input type="date" id="retract-receipt" name="date_reception" required class={field} />
+    </div>
+  </div>
+
+  <div>
+    <label for="retract-items" class={label}>{t('retractation.items', lang)} <span class="text-cream">*</span></label>
+    <textarea id="retract-items" name="produits" rows="3" required class={field}></textarea>
+    <p class={hint}>{t('retractation.itemsHint', lang)}</p>
+  </div>
+
+  <div>
+    <label for="retract-reason" class={label}>{t('retractation.reason', lang)}</label>
+    <textarea id="retract-reason" name="motif" rows="2" class={field}></textarea>
+    <p class={hint}>{t('retractation.reasonHint', lang)}</p>
+  </div>
+
+  <button
+    type="submit"
+    id="retract-submit"
+    class="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    <span data-submit-label
+      data-submit-label-default={t('retractation.submit', lang)}
+      data-submit-label-sending={t('retractation.sending', lang)}
+    >{t('retractation.submit', lang)}</span>
+    <svg data-submit-spinner class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+    </svg>
+  </button>
+
+  <div id="retract-success" class="hidden rounded-lg border border-sage/40 bg-sage/[0.08] px-4 py-3 text-sm text-cream" role="status">
+    {t('retractation.success', lang)}
+  </div>
+  <div id="retract-error" class="hidden rounded-lg border border-white/[0.12] bg-white/[0.04] px-4 py-3 text-sm text-cream" role="alert">
+    {t('retractation.error', lang)} <a href={`mailto:${contactEmail}`} class="underline underline-offset-4">{contactEmail}</a>
+  </div>
+</form>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('retract-form');
+    if (!form) return;
+    const submit = document.getElementById('retract-submit');
+    const label  = form.querySelector('[data-submit-label]');
+    const spin   = form.querySelector('[data-submit-spinner]');
+    const okBox  = document.getElementById('retract-success');
+    const errBox = document.getElementById('retract-error');
+    const stamp  = document.getElementById('retract-timestamp');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      okBox.classList.add('hidden');
+      errBox.classList.add('hidden');
+      // Date d'exercice du droit : information utile en cas de litige.
+      if (stamp) stamp.value = new Date().toISOString();
+      submit.disabled = true;
+      label.textContent = label.dataset.submitLabelSending || label.textContent;
+      spin.classList.remove('hidden');
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          okBox.classList.remove('hidden');
+          form.reset();
+        } else {
+          console.error('Web3Forms error', data);
+          errBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error('Submit error', err);
+        errBox.classList.remove('hidden');
+      } finally {
+        submit.disabled = false;
+        label.textContent = label.dataset.submitLabelDefault || label.textContent;
+        spin.classList.add('hidden');
+      }
+    });
+  })();
+</script>

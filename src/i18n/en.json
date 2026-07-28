@@ -80,7 +80,8 @@
     "cgv": "Terms",
     "privacy": "Privacy",
     "legal": "Legal notice",
-    "contact": "Contact"
+    "contact": "Contact",
+    "retractation": "Cancel an order"
   },
   "contact": {
     "title": "Contact",
@@ -169,5 +170,25 @@
     "view": "View in English",
     "dismiss": "Stay in {currentLabel}",
     "ariaClose": "Close"
+  },
+  "retractation": {
+    "title": "Cancel an order or request a return",
+    "subtitle": "Use this form to cancel an order that has not shipped yet, or to request a return under our returns policy.",
+    "legalNote": "This form implements our contractual returns policy. US federal law does not provide a general right to cancel online purchases, so the terms of our returns policy apply.",
+    "orderNumber": "Order number",
+    "orderDate": "Order date",
+    "receiptDate": "Delivery date",
+    "items": "Item(s) concerned",
+    "itemsHint": "Write \"entire order\" if you want to return everything.",
+    "reason": "Reason (optional)",
+    "reasonHint": "Telling us why helps us improve, but it is not required.",
+    "submit": "Send my request",
+    "sending": "Sending…",
+    "success": "Your request has been recorded. You will receive a confirmation by email, followed by return instructions.",
+    "error": "Sending failed. Please email us directly so your request is registered in time.",
+    "nextSteps": "What happens next",
+    "step1": "We send you a confirmation by email.",
+    "step2": "You ship the item back, unused and in its original packaging.",
+    "step3": "We refund you once we have received and checked the item."
   }
 }

@@ -80,7 +80,8 @@
     "cgv": "AGB",
     "privacy": "Datenschutz",
     "legal": "Impressum",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "retractation": "Bestellung widerrufen"
   },
   "contact": {
     "title": "Kontakt",
@@ -169,5 +170,25 @@
     "view": "Auf Deutsch anzeigen",
     "dismiss": "Bei {currentLabel} bleiben",
     "ariaClose": "Schließen"
+  },
+  "retractation": {
+    "title": "Widerruf ausüben",
+    "subtitle": "Du hast 14 Tage ab Erhalt deiner Bestellung Zeit, deinen Widerruf zu erklären - ohne Angabe von Gründen. Dieses Formular genügt: kein Brief, kein Anruf nötig.",
+    "legalNote": "Du kannst deinen Widerruf auch auf jede andere eindeutige Weise erklären (E-Mail, Brief). Dieses Formular dient deiner Erleichterung.",
+    "orderNumber": "Bestellnummer",
+    "orderDate": "Bestelldatum",
+    "receiptDate": "Erhalten am",
+    "items": "Betroffene Artikel",
+    "itemsHint": "Schreib \"gesamte Bestellung\", wenn du alles widerrufen möchtest.",
+    "reason": "Grund (optional)",
+    "reasonHint": "Du musst deinen Widerruf nicht begründen.",
+    "submit": "Widerruf absenden",
+    "sending": "Wird gesendet…",
+    "success": "Dein Widerruf ist erfasst. Du erhältst eine Bestätigung per E-Mail und anschließend die Rücksendehinweise.",
+    "error": "Das Senden ist fehlgeschlagen. Schreib uns bitte direkt per E-Mail, damit dein Widerruf fristgerecht erfasst wird.",
+    "nextSteps": "Wie es weitergeht",
+    "step1": "Wir senden dir eine Bestätigung per E-Mail.",
+    "step2": "Du schickst den Artikel unbenutzt und in Originalverpackung innerhalb von 14 Tagen zurück.",
+    "step3": "Wir erstatten dir den Betrag innerhalb von 14 Tagen nach Erhalt der Ware."
   }
 }

@@ -1,0 +1,49 @@
+---
+/**
+ * Page de rétractation / demande de retour (EN + DE).
+ *
+ * ⚠️ Le cadrage diffère selon le marché — c'est volontaire :
+ *   - DE : droit de rétractation légal de 14 jours (harmonisé UE), donc
+ *          « Widerruf ausüben ».
+ *   - EN (marché US) : AUCUN droit de rétractation fédéral pour les achats en
+ *          ligne → la page est une demande de retour au titre de notre
+ *          politique commerciale, pas un droit légal.
+ * Les libellés portent cette nuance (voir `retractation.*` dans src/i18n/).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RetractationForm from '../../components/RetractationForm.astro';
+import siteConfig from '../../../site.config.mjs';
+import { t, ACTIVE_LOCALES, type Locale } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const title = t('retractation.title', lang);
+const description = t('retractation.subtitle', lang);
+---
+
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-6">{title}</h1>
+    <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-4">{description}</p>
+    <p class="text-xs text-n-500 font-light leading-relaxed mb-10">{t('retractation.legalNote', lang)}</p>
+
+    <RetractationForm lang={lang} />
+
+    <section class="mt-14 pt-10 border-t border-white/[0.08]">
+      <h2 class="text-lg font-medium text-cream tracking-tight mb-5">{t('retractation.nextSteps', lang)}</h2>
+      <ol class="space-y-3 text-sm text-n-400 font-light">
+        {[t('retractation.step1', lang), t('retractation.step2', lang), t('retractation.step3', lang)].map((step, i) => (
+          <li class="flex gap-3">
+            <span class="shrink-0 w-6 h-6 rounded-full bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-[11px] text-cream font-medium">{i + 1}</span>
+            <span>{step}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</BaseLayout>
