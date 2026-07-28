@@ -165,12 +165,6 @@
     "learnMore": "Mehr erfahren",
     "ariaClose": "Banner schließen"
   },
-  "langSuggest": {
-    "msg": "Diese Seite ist auch auf Deutsch verfügbar.",
-    "view": "Auf Deutsch anzeigen",
-    "dismiss": "Bei {currentLabel} bleiben",
-    "ariaClose": "Schließen"
-  },
   "retractation": {
     "title": "Widerruf ausüben",
     "subtitle": "Du hast 14 Tage ab Erhalt deiner Bestellung Zeit, deinen Widerruf zu erklären - ohne Angabe von Gründen. Dieses Formular genügt: kein Brief, kein Anruf nötig.",

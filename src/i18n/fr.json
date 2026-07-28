@@ -165,12 +165,6 @@
     "learnMore": "En savoir plus",
     "ariaClose": "Fermer la bannière"
   },
-  "langSuggest": {
-    "msg": "Ce site est aussi disponible en français.",
-    "view": "Voir en français",
-    "dismiss": "Rester en {currentLabel}",
-    "ariaClose": "Fermer"
-  },
   "retractation": {
     "title": "Exercer mon droit de rétractation",
     "subtitle": "Vous disposez de 14 jours après réception de votre commande pour vous rétracter, sans avoir à vous justifier. Ce formulaire suffit : aucun courrier ni appel n'est nécessaire.",

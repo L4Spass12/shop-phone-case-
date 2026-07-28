@@ -3,7 +3,6 @@ import '../styles/global.css';
 import siteConfig from '../../site.config.mjs';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import LangSuggestBanner from '../components/LangSuggestBanner.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
 
@@ -196,7 +195,6 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       <slot />
     </main>
     <Footer />
-    <LangSuggestBanner />
     <CookieBanner />
   </body>
 </html>

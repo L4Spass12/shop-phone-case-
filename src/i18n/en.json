@@ -165,12 +165,6 @@
     "learnMore": "Learn more",
     "ariaClose": "Close banner"
   },
-  "langSuggest": {
-    "msg": "This site is also available in English.",
-    "view": "View in English",
-    "dismiss": "Stay in {currentLabel}",
-    "ariaClose": "Close"
-  },
   "retractation": {
     "title": "Cancel an order or request a return",
     "subtitle": "Use this form to cancel an order that has not shipped yet, or to request a return under our returns policy.",
