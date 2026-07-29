@@ -2,7 +2,7 @@
 title: "Article exemple : découvrez le blog du starter"
 description: "Un article de démonstration qui montre les conventions markdown, FAQ et i18n du starter. À remplacer par votre premier vrai contenu."
 pubDate: 2026-01-01
-author: "L'équipe MyShop"
+author: "L'équipe Vareska"
 category: "Guides"
 tags:
   - "exemple"
@@ -13,7 +13,7 @@ faq:
     a: "Dupliquez ce fichier dans src/content/blog/, changez le nom du fichier (il devient le slug de l'URL), puis remplissez le frontmatter et le contenu."
 ---
 
-Bienvenue sur le blog du starter MyShop. Cet article est un exemple : il montre comment un contenu est structuré, du frontmatter YAML jusqu'au corps en markdown. Remplacez-le par votre premier vrai article dès que votre boutique prend forme.
+Bienvenue sur le blog du starter Vareska. Cet article est un exemple : il montre comment un contenu est structuré, du frontmatter YAML jusqu'au corps en markdown. Remplacez-le par votre premier vrai article dès que votre boutique prend forme.
 
 ## Section exemple
 

@@ -10,14 +10,18 @@
  */
 const config = {
   // ─── Identité ────────────────────────────────────────────────────
-  name: 'MyShop',                     // TODO: nom du shop
-  url: 'https://example.com',         // TODO: domaine final (sans slash final)
+  name: 'Vareska',
+  // ⚠️ Sert de base aux URL canoniques, au sitemap et aux hreflang. Le domaine
+  // doit donc être enregistré et pointer sur le site avant l'indexation.
+  url: 'https://vareska.com',
 
-  // Logo textuel : affiché en deux parties (prefix + suffix accentué)
-  logoPrefix: 'My',                   // TODO
-  logoSuffix: 'Shop',                 // TODO
+  // Logo textuel : affiché en deux parties (prefix + suffix grisé).
+  // « Vares » en pleine couleur, « ka » en gris : la coupure tombe sur la
+  // syllabe finale, ce qui garde le mot lisible d'un bloc.
+  logoPrefix: 'Vares',
+  logoSuffix: 'ka',
   description:
-    'MyShop - boutique en ligne. Remplace cette description par le pitch du shop (150-160 caractères, utilisée en meta description).', // TODO
+    'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 
   // ─── Internationalisation ────────────────────────────────────────
   // Stratégie : sous-dossier, la locale par défaut n'a PAS de préfixe
@@ -85,7 +89,7 @@ const config = {
   // 1. Compte sur https://web3forms.com  2. Colle l'Access Key ici.
   forms: {
     web3formsKey: '',                    // TODO
-    contactEmail: 'contact@example.com', // TODO
+    contactEmail: 'contact@vareska.com', // TODO: créer la boîte chez ton hébergeur
   },
 
   // ─── Boutique ────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 ---
-title: "Beispielkategorie - MyShop Shop"
-metaDescription: "Beispiel-Kategorieseite aus dem MyShop-Starter. Ersetze diese Meta-Description durch einen Text mit 150 bis 160 Zeichen, der deine Kategorie beschreibt."
+title: "Beispielkategorie - Vareska Shop"
+metaDescription: "Beispiel-Kategorieseite aus dem Vareska-Starter. Ersetze diese Meta-Description durch einen Text mit 150 bis 160 Zeichen, der deine Kategorie beschreibt."
 intro: "Das ist die Einleitung der Beispielkategorie. Ersetze diesen Absatz durch eine kurze Vorstellung deines Sortiments."
 guideHeading: "Alles über die Beispielkategorie"
 keywords:

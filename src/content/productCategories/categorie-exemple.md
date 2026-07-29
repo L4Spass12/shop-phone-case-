@@ -1,6 +1,6 @@
 ---
-title: "Catégorie exemple - Boutique MyShop"
-metaDescription: "Page de catégorie exemple du starter MyShop. Remplacez cette meta description par un texte de 150 à 160 caractères décrivant votre catégorie."
+title: "Catégorie exemple - Boutique Vareska"
+metaDescription: "Page de catégorie exemple du starter Vareska. Remplacez cette meta description par un texte de 150 à 160 caractères décrivant votre catégorie."
 intro: "Ceci est l'introduction de la catégorie exemple. Remplacez ce paragraphe par une présentation courte de votre gamme de produits."
 guideHeading: "Tout savoir sur la catégorie exemple"
 keywords:
