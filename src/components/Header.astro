@@ -51,8 +51,17 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
   style="height: var(--header-h); z-index: 10000;"
 >
   <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-    <a href={url('/')} class="font-medium tracking-tightest text-lg text-cream shrink-0" aria-label={`${siteConfig.name} - ${t('nav.home', lang)}`}>
-      {siteConfig.logoPrefix}<span class="text-n-400">{siteConfig.logoSuffix}</span>
+    {/* Wordmark : capitales espacées, une seule couleur d'encre.
+        Le lettrage espacé est le code visuel des maisons (CELINE, POLENE) ;
+        une coupure bicolore du nom, à l'inverse, lit « startup » et brise la
+        lecture du mot. `logoSuffix` reste supporté pour les shops qui veulent
+        un accent de couleur — s'il est vide, rien n'est rendu. */}
+    <a
+      href={url('/')}
+      class="shrink-0 font-medium text-[15px] md:text-base uppercase tracking-[0.22em] text-cream hover:text-n-400 transition-colors"
+      aria-label={`${siteConfig.name} - ${t('nav.home', lang)}`}
+    >
+      {siteConfig.logoPrefix}{siteConfig.logoSuffix && <span class="text-n-400">{siteConfig.logoSuffix}</span>}
     </a>
 
     <!-- Desktop nav -->

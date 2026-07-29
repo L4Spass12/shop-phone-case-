@@ -15,11 +15,12 @@ const config = {
   // doit donc être enregistré et pointer sur le site avant l'indexation.
   url: 'https://vareska.com',
 
-  // Logo textuel : affiché en deux parties (prefix + suffix grisé).
-  // « Vares » en pleine couleur, « ka » en gris : la coupure tombe sur la
-  // syllabe finale, ce qui garde le mot lisible d'un bloc.
-  logoPrefix: 'Vares',
-  logoSuffix: 'ka',
+  // Logo textuel, rendu en capitales espacées par le Header.
+  // `logoSuffix` permet un accent de couleur sur la fin du nom ; laissé VIDE
+  // ici volontairement : un nom coupé en deux teintes lit « startup » et casse
+  // la lecture du mot, à l'opposé du registre maison visé.
+  logoPrefix: 'Vareska',
+  logoSuffix: '',
   description:
     'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 
