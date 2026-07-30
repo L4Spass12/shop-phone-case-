@@ -71,7 +71,6 @@ const payload = {
   brands: brands.map((b) => ({ id: b.id, label: b.label })),
   i18n: {
     popular: t('model.popular', lang),
-    allBrands: t('model.allBrands', lang),
     empty: t('model.empty', lang),
     emptyHelp: t('model.emptyHelp', lang),
     placeholder: t('model.placeholder', lang),
@@ -149,8 +148,11 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         {/* Filtres par marque. « Toutes » est actif par défaut : c'est la
             recherche, pas la marque, qui est le chemin principal. */}
         <div class="mp-brands" data-mp-brands role="tablist" aria-label={t('model.allBrands', lang)}>
+          {/* Libellé court : « Tous » suffit dans une rangée de marques et tient
+              beaucoup moins de place. L'aria-label du groupe ci-dessus porte le
+              texte complet, c'est lui qui sera annoncé en y entrant. */}
           <button type="button" class="mp-brand is-active" data-mp-brand="" role="tab" aria-selected="true">
-            {t('model.allBrands', lang)}
+            {t('model.allShort', lang)}
           </button>
           {brands.map((b) => (
             <button type="button" class="mp-brand" data-mp-brand={b.id} role="tab" aria-selected="false">

@@ -192,6 +192,7 @@
     "search": "Rechercher : iPhone 15, S24, Pixel…",
     "popular": "Les plus demandés",
     "allBrands": "Toutes les marques",
+    "allShort": "Tous",
     "empty": "Aucun modèle ne correspond à « {q} ».",
     "emptyHelp": "Vérifiez l’orthographe, ou parcourez les marques ci-dessus.",
     "close": "Fermer",
