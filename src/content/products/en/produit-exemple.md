@@ -2,7 +2,7 @@
 name: "Example product"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
-imageAlt: "Example product on a neutral background"
+imageAlt: "Clear phone case with raised pink cherry blossom detailing"
 categories: ["categorie-exemple"]
 shortDescription: "A demo product to replace with your first real product."
 featured: true

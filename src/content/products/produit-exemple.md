@@ -2,7 +2,7 @@
 name: "Produit exemple"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
-imageAlt: "Produit exemple sur fond neutre"
+imageAlt: "Coque de téléphone transparente ornée de fleurs de cerisier rose en relief"
 categories: ["categorie-exemple"]
 shortDescription: "Un produit de démonstration à remplacer par votre premier vrai produit."
 featured: true

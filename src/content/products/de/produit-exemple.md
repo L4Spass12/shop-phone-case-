@@ -2,7 +2,7 @@
 name: "Beispielprodukt"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
-imageAlt: "Beispielprodukt auf neutralem Hintergrund"
+imageAlt: "Transparente Handyhülle mit erhabenen rosa Kirschblüten"
 categories: ["categorie-exemple"]
 shortDescription: "Ein Demo-Produkt, das du durch dein erstes echtes Produkt ersetzt."
 featured: true

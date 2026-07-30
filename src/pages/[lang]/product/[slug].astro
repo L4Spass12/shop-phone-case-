@@ -130,6 +130,8 @@ const breadcrumbSchema = {
   title={seoTitle}
   description={seoDescription}
   image={image}
+  imageWidth={1200}
+  imageHeight={1500}
   jsonLd={[productSchema, breadcrumbSchema]}
   noindex={(categories ?? []).length === 0}
 >
@@ -147,7 +149,7 @@ const breadcrumbSchema = {
         const slides = Array.from(new Set([image, ...(gallery || [])]));
         return (
         <div class="product-gallery" data-gallery data-slide-count={slides.length}>
-          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/3] group">
+          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/5] group">
             <div class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full" data-gallery-track>
               {slides.map((src, i) => (
                 <div class="flex-none w-full h-full snap-start snap-always">
@@ -158,7 +160,7 @@ const breadcrumbSchema = {
                     sizes="(max-width: 1024px) 100vw, 560px"
                     alt={i === 0 ? (imageAlt ?? name) : `${name} - ${i + 1}`}
                     class="w-full h-full object-cover"
-                    width="1200" height="900"
+                    width="1200" height="1500"
                     fetchpriority={i === 0 ? 'high' : 'auto'}
                     loading={i === 0 ? 'eager' : 'lazy'}
                     decoding="async"
@@ -182,8 +184,8 @@ const breadcrumbSchema = {
           {slides.length > 1 && (
             <div class="hidden md:grid grid-cols-5 gap-2 mt-3">
               {slides.slice(0, 10).map((g, i) => (
-                <button type="button" data-gallery-thumb={i} class={`gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}>
-                  <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                <button type="button" data-gallery-thumb={i} class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}>
+                  <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-contain" />
                 </button>
               ))}
             </div>
@@ -523,12 +525,12 @@ const breadcrumbSchema = {
         <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
           {related.map((p: any) => (
             <a href={productHref(p.slug)} class="slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block">
-              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
+              <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
                 <img src={p.data.image} srcset={unsplashSrcset(p.data.image)}
                   sizes="(max-width: 640px) 72vw, (max-width: 768px) 45vw, (max-width: 1024px) 32vw, 300px"
                   alt={p.data.imageAlt ?? p.data.name}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  width="800" height="600" loading="lazy" decoding="async"/>
+                  width="800" height="1000" loading="lazy" decoding="async"/>
                 {p.data.compareAtPrice && (
                   <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
                     -{Math.round((1 - p.data.price / p.data.compareAtPrice) * 100)}%
@@ -578,7 +580,7 @@ const breadcrumbSchema = {
       const count  = parseInt(root.dataset.slideCount || '0', 10);
       let current  = 0;
       const paint = () => {
-        thumbs.forEach((t, i) => { t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden border transition-colors ' + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30'); });
+        thumbs.forEach((t, i) => { t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ' + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30'); });
         if (prev) prev.disabled = current <= 0;
         if (next) next.disabled = current >= count - 1;
       };
