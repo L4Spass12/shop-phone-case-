@@ -79,7 +79,7 @@ const atcBlob = product.data.atcVariant === 'blob' && !hasVariations;
 // (contrairement à 'blob'). La classe est posée sur les TROIS CTA de la page —
 // principal + barres sticky mobile et desktop — sans quoi le bouton flottant
 // resterait violet en bas d'une page au CTA noir.
-const INK_VARIANTS = ['ink', 'ink-flat', 'ink-glow'] as const;
+const INK_VARIANTS = ['ink', 'ink-flat', 'ink-glow', 'ink-frame'] as const;
 const atcInk = (INK_VARIANTS as readonly string[]).includes(product.data.atcVariant)
   ? ` btn-atc--${product.data.atcVariant}`
   : '';

@@ -389,9 +389,17 @@
   border-color: transparent;
   border-radius: 12px;   /* coin plus serré : registre éditorial */
   opacity: 1;            /* la base est à .9, inutile ici */
-  box-shadow: none;
+  /* Le relief vient de la LUMIÈRE, pas d'un dégradé : le fond reste plat.
+     Une arête haute éclairée + une arête basse dans l'ombre donnent l'épaisseur,
+     et les deux ombres portées décollent le bouton de la page. */
+  box-shadow:
+    inset 0  1px 0 rgb(255 255 255 / .16),
+    inset 0 -1px 0 rgb(0 0 0 / .55),
+    0 1px 2px  rgb(0 0 0 / .18),
+    0 8px 18px -10px rgb(0 0 0 / .40);
   transition:
     background-color .22s ease,
+    box-shadow .25s ease,
     transform .18s cubic-bezier(.34, 1.56, .64, 1);
 }
 /* L'icône panier cède la place à une flèche : le reflet (::after), inutile
@@ -419,18 +427,114 @@
   -webkit-mask-position: center;
   transition: transform .25s cubic-bezier(.22, .61, .36, 1);
 }
-/* Pas de soulèvement ni de halo : le seul mouvement est la flèche. */
+/* Pas de soulèvement : le bouton ne bouge pas, seule la flèche avance. Au
+   survol l'ombre s'étend, ce qui suffit à donner l'impression qu'il se
+   rapproche. */
 .btn-atc.btn-atc--ink-flat:hover {
   background-color: #26262c;
   transform: none;
-  box-shadow: none;
+  box-shadow:
+    inset 0  1px 0 rgb(255 255 255 / .20),
+    inset 0 -1px 0 rgb(0 0 0 / .55),
+    0 2px 4px  rgb(0 0 0 / .16),
+    0 12px 24px -10px rgb(0 0 0 / .48);
 }
 .btn-atc.btn-atc--ink-flat:hover::after { transform: translateX(3px); }
 .btn-atc.btn-atc--ink-flat:active { transform: scale(.985); }
 /* Rupture de stock : .btn-atc:disabled repose sur un background-image gris,
    qui recouvre bien le noir puisqu'il est opaque. On remet quand même la
-   couleur de fond à zéro pour ne pas dépendre de cette opacité. */
-.btn-atc.btn-atc--ink-flat:disabled { background-color: transparent; }
+   couleur de fond à zéro pour ne pas dépendre de cette opacité — et le relief
+   à zéro, car .btn-atc:disabled ne réinitialise pas box-shadow. */
+.btn-atc.btn-atc--ink-flat:disabled {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* ─── --ink-frame : biseau intérieur + cadre qui se dessine ──────────────
+   Adapté d'un bouton Uiverse (AqFox). Ce qui est repris : le biseau clair en
+   relief, et les quatre filets qui poussent depuis les coins au survol pour
+   former un cadre. Ce qui a été refait, et pourquoi :
+
+   · Taille fixe 130×40 abandonnée — le CTA doit rester fluide et passer en
+     pleine largeur sur mobile ; on hérite donc des dimensions de .btn-atc.
+   · Dégradé turquoise→bleu remplacé par de l'encre en diagonale (315deg,
+     l'angle de l'original), pour rester dans la palette de la marque.
+   · Police 'Lato' abandonnée : elle n'est pas chargée sur le site, la
+     déclarer n'aurait fait que provoquer un repli silencieux.
+   · L'original grandit ses filets sur `span:hover` — le survol de l'enfant,
+     pas du bouton. Ça marche par accident (l'enfant remplit le bouton) mais
+     casse dès qu'on ajoute du padding. Ici tout est piloté par :hover.
+   · Surtout : l'original a besoin d'un <span> enfant pour porter deux des
+     quatre filets. Or le sélecteur de variantes réécrit l'innerHTML du
+     bouton et détruirait ce span — même écueil que la variante blob. Les
+     quatre filets sont donc dessinés sur le SEUL ::after, en quatre couches
+     de background ancrées dans les coins et animées par background-size.
+   · Le survol de l'original permute deux dégradés : les dégradés ne
+     s'interpolant pas, la bascule est sèche. Ici la bande claire est large
+     de 220% et c'est sa POSITION qui est animée — donc un vrai glissement.
+
+   Rayon volontairement petit (6px, proche des 5px de l'original) : des
+   filets droits sur un coin très arrondi seraient rognés par overflow:hidden
+   et laisseraient des trous aux angles. */
+.btn-atc.btn-atc--ink-frame {
+  background: none;
+  /* Bande claire diagonale de 220% : au repos elle est en haut à gauche, au
+     survol elle a traversé le bouton. C'est la position qui bouge, pas le
+     dégradé — seule façon d'obtenir un mouvement fluide. */
+  background-image: linear-gradient(315deg, #0a0a0d 0%, #26262f 50%, #0a0a0d 100%);
+  background-size: 220% 220%;
+  background-position: 0% 0%;
+  border-color: transparent;
+  border-radius: 6px;
+  opacity: 1;
+  /* Biseau : arête haut-gauche éclairée, arête bas-droite dans l'ombre. */
+  box-shadow:
+    inset  1px  1px 0 rgb(255 255 255 / .18),
+    inset -1px -1px 0 rgb(0 0 0 / .55),
+    0 2px 4px rgb(0 0 0 / .18),
+    0 10px 22px -12px rgb(0 0 0 / .45);
+  transition:
+    background-position .5s cubic-bezier(.22, .61, .36, 1),
+    box-shadow .3s ease,
+    transform .18s cubic-bezier(.34, 1.56, .64, 1);
+}
+/* Les quatre filets du cadre, sur un seul pseudo-élément : quatre couches de
+   background ancrées chacune dans un coin, de taille nulle au repos. Elles
+   poussent depuis les coins haut-gauche et bas-droite, en miroir. */
+.btn-atc.btn-atc--ink-frame::after {
+  inset: 0;
+  transform: none;   /* annule le translateX(-115%) du reflet de base */
+  background-image:
+    linear-gradient(rgb(255 255 255 / .5), rgb(255 255 255 / .5)),
+    linear-gradient(rgb(255 255 255 / .5), rgb(255 255 255 / .5)),
+    linear-gradient(rgb(255 255 255 / .5), rgb(255 255 255 / .5)),
+    linear-gradient(rgb(255 255 255 / .5), rgb(255 255 255 / .5));
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;  /* haut, droite, bas, gauche */
+  background-size: 0 1px, 1px 0, 0 1px, 1px 0;
+  transition: background-size .45s cubic-bezier(.22, .61, .36, 1);
+}
+.btn-atc.btn-atc--ink-frame:hover {
+  background-position: 100% 100%;
+  transform: none;   /* le mouvement, c'est le cadre — pas un soulèvement */
+  box-shadow:
+    inset  1px  1px 0 rgb(255 255 255 / .22),
+    inset -1px -1px 0 rgb(0 0 0 / .55),
+    0 2px 4px rgb(0 0 0 / .16),
+    0 14px 28px -12px rgb(0 0 0 / .5);
+}
+.btn-atc.btn-atc--ink-frame:hover::after {
+  transform: none;   /* neutralise le balayage du reflet de base */
+  background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
+}
+.btn-atc.btn-atc--ink-frame:active { transform: scale(.985); }
+/* .btn-atc:disabled ne remet PAS box-shadow à zéro (seul son :hover le fait) :
+   sans cette règle, le biseau clair resterait sur un bouton gris désactivé.
+   On ne touche surtout pas au background ici : la déclaration de
+   .btn-atc:disabled est plus loin dans le fichier et l'emporte donc à
+   spécificité égale, ce qui applique bien le dégradé gris. Le redéclarer avec
+   une spécificité plus forte laisserait le bouton transparent. */
+.btn-atc.btn-atc--ink-frame:disabled { box-shadow: none; }
 
 /* L'anneau de focus reprend --atc-fill-top (gris foncé) : suffisant sur le
    fond clair de la page, et cohérent avec le bouton. */

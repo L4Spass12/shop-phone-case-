@@ -82,8 +82,9 @@ const products = defineCollection({
     // Style du bouton "Ajouter au panier" (test A/B) :
     //  - 'gradient' (défaut) : bouton dégradé accent .btn-atc
     //  - 'ink'               : le MÊME bouton en noir
-    //  - 'ink-flat'          : noir plat, sans relief, flèche qui glisse
+    //  - 'ink-flat'          : noir plat, relief léger, flèche qui glisse
     //  - 'ink-glow'          : noir avec une lueur qui suit le curseur
+    //  - 'ink-frame'         : biseau + cadre qui se dessine au survol
     //  - 'blob'              : bouton glassmorphism .btn-atc-blob
     // ⚠️ 'blob' repose sur des éléments enfants (blobs + couche verre) : il
     // n'est appliqué QU'AUX produits SANS variations, car le JS du sélecteur
@@ -93,7 +94,7 @@ const products = defineCollection({
     // ⚠️ Cette liste est volontairement longue le temps du test A/B : ne garder
     // que le style retenu une fois le choix fait.
     atcVariant: z
-      .enum(['gradient', 'ink', 'ink-flat', 'ink-glow', 'blob'])
+      .enum(['gradient', 'ink', 'ink-flat', 'ink-glow', 'ink-frame', 'blob'])
       .default('gradient'),
     // ─── Variantes ───
     attributes: z.array(attribute).default([]),
