@@ -75,11 +75,17 @@ const inStock = hasVariations ? variations.some(v => v.inStock) : (stock == null
 // détruirait ces enfants. Avec variations → repli silencieux sur 'gradient'.
 const atcBlob = product.data.atcVariant === 'blob' && !hasVariations;
 
-// Variante 'ink' : simple jeu de variables CSS, donc compatible avec les
-// variations (contrairement à 'blob'). La classe est posée sur les TROIS CTA
-// de la page — principal + barres sticky mobile et desktop — sans quoi le
-// bouton flottant resterait violet en bas d'une page au CTA noir.
-const atcInk = product.data.atcVariant === 'ink' ? ' btn-atc--ink' : '';
+// Variantes 'ink*' : simples classes CSS, donc compatibles avec les variations
+// (contrairement à 'blob'). La classe est posée sur les TROIS CTA de la page —
+// principal + barres sticky mobile et desktop — sans quoi le bouton flottant
+// resterait violet en bas d'une page au CTA noir.
+const INK_VARIANTS = ['ink', 'ink-flat', 'ink-glow'] as const;
+const atcInk = (INK_VARIANTS as readonly string[]).includes(product.data.atcVariant)
+  ? ` btn-atc--${product.data.atcVariant}`
+  : '';
+// Seule 'ink-glow' a besoin de JS (suivi du curseur) : on n'injecte le script
+// que sur les pages concernées.
+const atcGlow = product.data.atcVariant === 'ink-glow';
 
 // ─── SEO : titre court + meta description unique par produit ──────────
 // Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
@@ -1100,4 +1106,45 @@ const breadcrumbSchema = {
 
     })();
   `} />
+
+{/* Suivi du curseur pour la variante 'ink-glow' (test A/B). Bloc séparé et
+    conditionnel : rien n'est envoyé sur les pages qui n'utilisent pas ce style.
+    Le CSS a des valeurs par défaut pour --mx/--my, donc le bouton reste correct
+    si ce script ne tourne pas (mobile, JS désactivé). */}
+{atcGlow && (
+  <script is:inline>
+    (function () {
+      // Pointeur grossier (tactile) : pas de curseur à suivre, on garde la
+      // lueur statique du CSS et on évite d'écouter des événements pour rien.
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+      document.querySelectorAll('.btn-atc--ink-glow').forEach(function (btn) {
+        var raf = null;
+        var pending = null;
+
+        function apply() {
+          raf = null;
+          btn.style.setProperty('--mx', pending.x + 'px');
+          btn.style.setProperty('--my', pending.y + 'px');
+        }
+
+        btn.addEventListener('pointermove', function (e) {
+          var r = btn.getBoundingClientRect();
+          pending = { x: Math.round(e.clientX - r.left), y: Math.round(e.clientY - r.top) };
+          // Un pointermove peut arriver plusieurs fois par frame : on coalesce
+          // les écritures de style pour ne toucher le DOM qu'une fois par frame.
+          if (raf === null) raf = requestAnimationFrame(apply);
+        });
+
+        // Au départ du curseur, on rend la main aux valeurs par défaut du CSS
+        // plutôt que de figer la lueur là où le pointeur a quitté le bouton.
+        btn.addEventListener('pointerleave', function () {
+          if (raf !== null) { cancelAnimationFrame(raf); raf = null; }
+          btn.style.removeProperty('--mx');
+          btn.style.removeProperty('--my');
+        });
+      });
+    })();
+  </script>
+)}
 </BaseLayout>

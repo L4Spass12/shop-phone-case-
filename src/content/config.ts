@@ -81,14 +81,20 @@ const products = defineCollection({
     updatedDate: z.coerce.date().optional(),
     // Style du bouton "Ajouter au panier" (test A/B) :
     //  - 'gradient' (défaut) : bouton dégradé accent .btn-atc
-    //  - 'ink'               : le MÊME bouton en noir (.btn-atc--ink)
+    //  - 'ink'               : le MÊME bouton en noir
+    //  - 'ink-flat'          : noir plat, sans relief, flèche qui glisse
+    //  - 'ink-glow'          : noir avec une lueur qui suit le curseur
     //  - 'blob'              : bouton glassmorphism .btn-atc-blob
     // ⚠️ 'blob' repose sur des éléments enfants (blobs + couche verre) : il
     // n'est appliqué QU'AUX produits SANS variations, car le JS du sélecteur
     // de variantes réécrit l'innerHTML du bouton et détruirait ces enfants.
-    // 'ink' n'a pas cette limite : c'est un simple jeu de variables CSS posé
-    // sur le bouton lui-même, que la réécriture de l'innerHTML ne touche pas.
-    atcVariant: z.enum(['gradient', 'ink', 'blob']).default('gradient'),
+    // Les variantes 'ink*' n'ont pas cette limite : ce sont de simples classes
+    // CSS posées sur le bouton, que la réécriture de l'innerHTML ne touche pas.
+    // ⚠️ Cette liste est volontairement longue le temps du test A/B : ne garder
+    // que le style retenu une fois le choix fait.
+    atcVariant: z
+      .enum(['gradient', 'ink', 'ink-flat', 'ink-glow', 'blob'])
+      .default('gradient'),
     // ─── Variantes ───
     attributes: z.array(attribute).default([]),
     variations: z.array(variation).default([]),

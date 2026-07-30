@@ -320,17 +320,26 @@
    recommandé de 44px pour une cible tactile. */
 .btn-atc--block.btn-atc--sm { padding-block: 13px; }
 
-/* ─── Variante noire (test A/B, atcVariant: ink) ──────────────────────
-   Le bouton dégradé décliné en noir : mêmes formes, mêmes animations, on ne
-   redéfinit QUE les 5 variables de couleur. Aucune règle dupliquée, donc rien
-   à maintenir en double si le bouton évolue.
-   Sélecteur doublé (.btn-atc.btn-atc--ink) pour l'emporter sur les valeurs
+/* ═══ VARIANTES NOIRES (test A/B) ═════════════════════════════════════
+   Trois déclinaisons en encre, de la plus démonstrative à la plus sobre :
+     --ink       dégradé + reflet, comme la version violette
+     --ink-glow  dégradé + lueur qui suit le curseur
+     --ink-flat  noir plat, aucun relief, flèche qui glisse
+
+   Aucune ne duplique les règles de .btn-atc (formes, tailles, modificateurs,
+   état désactivé) : elles n'en redéfinissent que la couleur ou l'interaction.
+   Sélecteurs doublés (.btn-atc.btn-atc--x) pour l'emporter sur les valeurs
    déclarées dans .btn-atc quel que soit l'ordre des règles.
 
-   Le noir pur (#000) rendrait le dégradé et le liseré invisibles : on part
-   donc d'un noir légèrement bleuté et on éclaircit vers le haut, comme sur la
-   version violette. */
-.btn-atc.btn-atc--ink {
+   À l'issue du test : ne garder que la variante retenue.
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Palette d'encre commune. Le noir pur (#000) rendrait dégradé et liseré
+   invisibles : on part d'un noir légèrement bleuté et on éclaircit vers le
+   haut, comme sur la version violette. */
+.btn-atc.btn-atc--ink,
+.btn-atc.btn-atc--ink-glow,
+.btn-atc.btn-atc--ink-flat {
   --atc-fill-bottom: #0c0c0f;
   --atc-fill-top:    #34343d;
   --atc-ring-bottom: #000;
@@ -339,8 +348,10 @@
   --atc-ring-top:    rgb(255 255 255 / .28);
   --atc-glow:        rgb(0 0 0 / .38);
 }
-/* Le reflet de survol est atténué : à .45 d'opacité sur du noir il lisait
-   comme une bande grise franche, alors qu'il reste discret sur du violet. */
+
+/* ─── --ink : reflet balayant, atténué ─────────────────────────────────
+   À .45 d'opacité (valeur de la version violette) le reflet lisait comme une
+   bande grise franche sur du noir. */
 .btn-atc.btn-atc--ink::after {
   background: linear-gradient(105deg,
     transparent 25%,
@@ -349,6 +360,78 @@
     rgb(255 255 255 / .10) 55%,
     transparent 75%);
 }
+
+/* ─── --ink-glow : lueur qui suit le curseur ────────────────────────────
+   Une tache lumineuse radiale ajoutée comme première couche du background,
+   positionnée par --mx/--my que le JS met à jour au pointermove.
+
+   Valeurs par défaut « 50% -10% » = lueur haute et centrée : c'est le rendu
+   au repos, et le SEUL rendu sur mobile (pas de curseur). L'effet doit donc
+   être beau statiquement, pas seulement en mouvement. */
+.btn-atc.btn-atc--ink-glow {
+  background:
+    radial-gradient(9rem circle at var(--mx, 50%) var(--my, -10%),
+      rgb(255 255 255 / .30), transparent 65%) padding-box,
+    linear-gradient(to top, var(--atc-fill-bottom), var(--atc-fill-top)) padding-box,
+    linear-gradient(to top, var(--atc-ring-bottom), var(--atc-ring-top)) border-box;
+}
+/* Le reflet balayant est désactivé : deux effets lumineux simultanés se
+   parasitent, on ne garde que la lueur. */
+.btn-atc.btn-atc--ink-glow::after { content: none; }
+
+/* ─── --ink-flat : noir plat ────────────────────────────────────────────
+   On abandonne le montage padding-box/border-box (inutile sans liseré) au
+   profit d'un background-color simple : contrairement à un dégradé, une
+   couleur unie s'interpole, donc le survol peut être animé. */
+.btn-atc.btn-atc--ink-flat {
+  background: none;
+  background-color: #111113;
+  border-color: transparent;
+  border-radius: 12px;   /* coin plus serré : registre éditorial */
+  opacity: 1;            /* la base est à .9, inutile ici */
+  box-shadow: none;
+  transition:
+    background-color .22s ease,
+    transform .18s cubic-bezier(.34, 1.56, .64, 1);
+}
+/* L'icône panier cède la place à une flèche : le reflet (::after), inutile
+   sur un fond plat, est recyclé en flèche plutôt que d'ajouter un élément au
+   DOM — que la réécriture de l'innerHTML supprimerait. */
+.btn-atc.btn-atc--ink-flat::before { display: none; }
+.btn-atc.btn-atc--ink-flat::after {
+  position: static;      /* n'est plus une couche en surimpression… */
+  inset: auto;
+  z-index: auto;
+  order: 1;              /* …mais un enfant flex, placé après le libellé */
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  transform: none;
+  background-color: currentColor;
+  background-image: none;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: transform .25s cubic-bezier(.22, .61, .36, 1);
+}
+/* Pas de soulèvement ni de halo : le seul mouvement est la flèche. */
+.btn-atc.btn-atc--ink-flat:hover {
+  background-color: #26262c;
+  transform: none;
+  box-shadow: none;
+}
+.btn-atc.btn-atc--ink-flat:hover::after { transform: translateX(3px); }
+.btn-atc.btn-atc--ink-flat:active { transform: scale(.985); }
+/* Rupture de stock : .btn-atc:disabled repose sur un background-image gris,
+   qui recouvre bien le noir puisqu'il est opaque. On remet quand même la
+   couleur de fond à zéro pour ne pas dépendre de cette opacité. */
+.btn-atc.btn-atc--ink-flat:disabled { background-color: transparent; }
+
 /* L'anneau de focus reprend --atc-fill-top (gris foncé) : suffisant sur le
    fond clair de la page, et cohérent avec le bouton. */
 
