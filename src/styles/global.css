@@ -514,6 +514,21 @@
   background-size: 0 1px, 1px 0, 0 1px, 1px 0;
   transition: background-size .45s cubic-bezier(.22, .61, .36, 1);
 }
+/* Flèche à droite au lieu de l'icône panier, comme sur --ink-flat. Ici c'est
+   ::before qui porte l'icône (::after est pris par les filets du cadre) : on
+   remplace donc son masque et on le renvoie en fin de ligne avec `order`,
+   plutôt que d'ajouter un élément que la réécriture de l'innerHTML par le
+   sélecteur de variantes supprimerait. */
+.btn-atc.btn-atc--ink-frame::before {
+  order: 1;
+  width: 1.05em;
+  height: 1.05em;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+}
+/* Le mouvement hérité de la base (léger bond + agrandissement) était dessiné
+   pour un panier ; sur une flèche il faut un glissement latéral. */
+.btn-atc.btn-atc--ink-frame:hover::before { transform: translateX(3px); }
 .btn-atc.btn-atc--ink-frame:hover {
   background-position: 100% 100%;
   transform: none;   /* le mouvement, c'est le cadre — pas un soulèvement */
