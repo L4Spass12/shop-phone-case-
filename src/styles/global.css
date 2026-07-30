@@ -194,6 +194,7 @@
        <span class="opacity-70 font-normal">19,90 €</span></button>
 
    Modificateurs : .btn-atc--sm (compact)  .btn-atc--block (pleine largeur)
+                   .btn-atc--ink (noir au lieu de l'accent)
 
    ⚠️ REBRANDING : les 4 variables ci-dessous sont les SEULES couleurs à
    changer pour adapter le bouton à ta marque.
@@ -318,6 +319,38 @@
    hauteur à ~50px, la version --sm seule (43px) étant sous le minimum
    recommandé de 44px pour une cible tactile. */
 .btn-atc--block.btn-atc--sm { padding-block: 13px; }
+
+/* ─── Variante noire (test A/B, atcVariant: ink) ──────────────────────
+   Le bouton dégradé décliné en noir : mêmes formes, mêmes animations, on ne
+   redéfinit QUE les 5 variables de couleur. Aucune règle dupliquée, donc rien
+   à maintenir en double si le bouton évolue.
+   Sélecteur doublé (.btn-atc.btn-atc--ink) pour l'emporter sur les valeurs
+   déclarées dans .btn-atc quel que soit l'ordre des règles.
+
+   Le noir pur (#000) rendrait le dégradé et le liseré invisibles : on part
+   donc d'un noir légèrement bleuté et on éclaircit vers le haut, comme sur la
+   version violette. */
+.btn-atc.btn-atc--ink {
+  --atc-fill-bottom: #0c0c0f;
+  --atc-fill-top:    #34343d;
+  --atc-ring-bottom: #000;
+  /* Liseré supérieur clair = arête éclairée : c'est lui qui donne le relief,
+     un liseré noir sur fond noir ne se verrait pas. */
+  --atc-ring-top:    rgb(255 255 255 / .28);
+  --atc-glow:        rgb(0 0 0 / .38);
+}
+/* Le reflet de survol est atténué : à .45 d'opacité sur du noir il lisait
+   comme une bande grise franche, alors qu'il reste discret sur du violet. */
+.btn-atc.btn-atc--ink::after {
+  background: linear-gradient(105deg,
+    transparent 25%,
+    rgb(255 255 255 / .10) 45%,
+    rgb(255 255 255 / .17) 50%,
+    rgb(255 255 255 / .10) 55%,
+    transparent 75%);
+}
+/* L'anneau de focus reprend --atc-fill-top (gris foncé) : suffisant sur le
+   fond clair de la page, et cohérent avec le bouton. */
 
 /* Sur mobile, le CTA principal passe en pleine largeur : sinon sa largeur
    dépend de la longueur du libellé et il s'arrête à quelques dizaines de px

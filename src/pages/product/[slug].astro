@@ -75,6 +75,12 @@ const inStock = hasVariations ? variations.some(v => v.inStock) : (stock == null
 // détruirait ces enfants. Avec variations → repli silencieux sur 'gradient'.
 const atcBlob = product.data.atcVariant === 'blob' && !hasVariations;
 
+// Variante 'ink' : simple jeu de variables CSS, donc compatible avec les
+// variations (contrairement à 'blob'). La classe est posée sur les TROIS CTA
+// de la page — principal + barres sticky mobile et desktop — sans quoi le
+// bouton flottant resterait violet en bas d'une page au CTA noir.
+const atcInk = product.data.atcVariant === 'ink' ? ' btn-atc--ink' : '';
+
 // ─── SEO : titre court + meta description unique par produit ──────────
 // Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
 // sinon juste "Nom du produit" (sans le nom du site).
@@ -461,7 +467,8 @@ const breadcrumbSchema = {
         )}
 
         <!-- Bouton d'achat (Atelier) — style piloté par `atcVariant` du produit :
-             'gradient' (défaut, .btn-atc) ou 'blob' (.btn-atc-blob, cf. global.css). -->
+             'gradient' (défaut, .btn-atc), 'ink' (le même en noir) ou 'blob'
+             (.btn-atc-blob) — cf. global.css. -->
         {atcBlob ? (
           <button
             id="buy-button"
@@ -489,7 +496,7 @@ const breadcrumbSchema = {
         ) : (
           <button
             id="buy-button"
-            class="buy-button btn-atc self-start"
+            class={`buy-button btn-atc self-start${atcInk}`}
             disabled={!inStock}
             data-item-id={sku ?? product.slug}
             data-item-name={name}
@@ -630,7 +637,7 @@ const breadcrumbSchema = {
         </p>
         <button
           id="sticky-atc-btn"
-          class="buy-button btn-atc btn-atc--block btn-atc--sm"
+          class={`buy-button btn-atc btn-atc--block btn-atc--sm${atcInk}`}
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
@@ -660,7 +667,7 @@ const breadcrumbSchema = {
         </div>
         <button
           id="sticky-atc-btn-desk"
-          class="buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0"
+          class={`buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0${atcInk}`}
           disabled={!inStock}
           data-item-id={sku ?? product.slug}
           data-item-name={name}
