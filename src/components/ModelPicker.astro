@@ -23,9 +23,9 @@
  *     sélecteur au lieu d'ajouter. Une commande sans modèle est une commande
  *     impossible à honorer — donc un retour, donc une perte.
  *
- *  Présentation : panneau ancré sous le déclencheur sur ordinateur, feuille
- *  remontant du bas sur mobile. Même balisage, la mise en forme seule change
- *  (cf. .mp-* dans global.css) — rien n'est dupliqué.
+ *  Présentation : tiroir latéral glissant depuis la droite sur ordinateur,
+ *  feuille remontant du bas sur mobile. Même balisage, la mise en forme seule
+ *  change (cf. .mp-* dans global.css) — rien n'est dupliqué.
  *
  *  Le catalogue est transmis au JS via un <script type="application/json">
  *  plutôt qu'inséré dans le code du script : aucun risque d'échappement, et
@@ -316,17 +316,19 @@ const popularCount = catalogue.filter((m) => m.popular).length;
 
         // ─── Ouverture / fermeture ────────────────────────────────────────
         function isOpen() { return !panel.hasAttribute('hidden'); }
-        // Même point de bascule que le CSS (cf. .mp-panel dans global.css).
-        function isSheet() { return window.matchMedia('(max-width: 640px)').matches; }
 
         function open() {
           if (isOpen()) return;
           panel.removeAttribute('hidden');
           backdrop.removeAttribute('hidden');
           trigger.setAttribute('aria-expanded', 'true');
-          // Verrou de défilement réservé à la feuille mobile : sur le panneau
-          // ancré du bureau, figer la page serait un effet de bord indésirable.
-          if (isSheet()) document.documentElement.style.overflow = 'hidden';
+          // Le tiroir comme la feuille sont modaux : la page ne doit pas défiler
+          // derrière. Masquer l'ascenseur élargit la zone visible d'autant, ce qui
+          // décalerait tout le contenu vers la droite — on réserve donc sa largeur
+          // en marge avant de le supprimer.
+          var gutter = window.innerWidth - document.documentElement.clientWidth;
+          if (gutter > 0) document.documentElement.style.paddingRight = gutter + 'px';
+          document.documentElement.style.overflow = 'hidden';
           render();
           // Sur mobile, ouvrir le clavier d'emblée masquerait la liste : on ne
           // met la recherche au point que sur pointeur fin.
@@ -340,6 +342,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           backdrop.setAttribute('hidden', '');
           trigger.setAttribute('aria-expanded', 'false');
           document.documentElement.style.overflow = '';
+          document.documentElement.style.paddingRight = '';
           search.value = '';
           document.removeEventListener('pointerdown', onOutside, true);
           if (refocus) trigger.focus();

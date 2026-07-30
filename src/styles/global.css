@@ -746,7 +746,7 @@
 
    Un seul balisage pour deux présentations :
      · ≤ 640px : feuille qui remonte du bas (fixed), avec voile
-     · > 640px : panneau ancré sous le déclencheur (absolute)
+     · > 640px : tiroir latéral glissant depuis la droite (fixed)
    Le point de bascule est le SEUL endroit qui diffère — aucune règle dupliquée.
    ═══════════════════════════════════════════════════════════════════════ */
 .mp { position: relative; }
@@ -794,7 +794,7 @@
   color: #C2410C;
 }
 
-/* ─── Voile (mobile uniquement, cf. media query) ───────────────────── */
+/* ─── Voile ────────────────────────────────────────────────────────── */
 .mp-backdrop {
   position: fixed;
   inset: 0;
@@ -803,7 +803,6 @@
      au sommet d une modale. La barre ATC collante (z-40) passe bien dessous. */
   z-index: 10001;
   background: rgb(0 0 0 / .38);
-  display: none;
 }
 
 /* ─── Panneau ──────────────────────────────────────────────────────── */
@@ -935,8 +934,6 @@
 @media (prefers-reduced-motion: reduce) {
   .mp-brand:active { transform: none; }
 }
-.mp-brand:hover { border-color: #C9C9CF; color: #111113; }
-.mp-brand.is-active { background: #111113; border-color: #111113; color: #fff; }
 
 /* ─── Résultats ────────────────────────────────────────────────────── */
 .mp-results {
@@ -998,23 +995,32 @@
   background: #fff; font: inherit; font-size: 16px; color: #111113;
 }
 
-/* ─── > 640px : panneau ancré sous le déclencheur ──────────────────── */
+/* ─── > 640px : tiroir latéral (glisse depuis la droite) ───────────── */
 @media (min-width: 641px) {
   .mp-panel {
-    position: absolute;
+    position: fixed;
     /* Cf. .mp-backdrop : le header fixe est à 10000. */
     z-index: 10002;
-    top: calc(100% + 6px);
-    left: 0;
+    top: 0;
     right: 0;
-    max-height: 22rem;
+    bottom: 0;
+    left: auto;
+    width: min(400px, 92vw);
+    max-height: none;      /* pleine hauteur : annule le plafond de la base */
+    /* Arrondi et bordure du seul côté visible — le bord droit touche l'écran. */
+    border-radius: 18px 0 0 18px;
+    border-right: 0;
+    /* Ombre projetée vers la GAUCHE, d'où vient la lumière du reste du site. */
+    box-shadow: -1px 0 1px rgb(0 0 0 / .04), -28px 0 56px -28px rgb(0 0 0 / .3);
+    animation: mp-drawer-in .3s cubic-bezier(.22, .61, .36, 1);
   }
-  /* Le titre reste dans le DOM (aria-labelledby y renvoie) mais n'occupe plus
-     de place : au-dessus du déclencheur, le libellé du champ suffit.
-     display:none priverait la boîte de dialogue de son nom accessible. */
-  .mp-panel-title,
-  .mp-close { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .mp-panel-head { padding-top: 10px; }
+  @keyframes mp-drawer-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  /* Le titre et la croix redeviennent VISIBLES : ils étaient masqués quand le
+     panneau était ancré sous son déclencheur, le libellé du champ suffisant
+     alors à l'identifier. Un tiroir plein écran sans sortie visible est un
+     piège — et il n'est plus rattaché visuellement à son champ. */
+  .mp-panel-head { padding: 16px 16px 0; }
+  .mp-results { padding: 6px 10px 14px; }
 }
 
 /* ─── ≤ 640px : feuille remontant du bas ───────────────────────────── */
