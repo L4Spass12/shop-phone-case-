@@ -870,18 +870,35 @@
 }
 .mp-brands::-webkit-scrollbar { display: none; }
 .mp-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
   flex: none;
-  padding: 6px 12px;
+  padding: 5px 11px;
   border: 1px solid #E5E5E8;
   border-radius: 999px;
   background: #fff;
   font: inherit;
-  font-size: .8125rem;
   color: #52525B;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
+/* La silhouette porte la reconnaissance ; le nom passe donc en retrait, plus
+   petit et davantage espace — il confirme au lieu d annoncer. */
+.mp-brand-label { font-size: .75rem; letter-spacing: .01em; }
+.mp-brand-icon { flex: none; width: 16px; height: 16px; opacity: .75; }
+.mp-brand.is-active .mp-brand-icon { opacity: 1; }
+/* Nombre de modèles : information utile, poids visuel minimal. Pas de seuil de
+   masquage — la rangée de puces défile horizontalement, donc la place ne manque
+   jamais. Un premier jet le cachait sous 380px, ce qui privait de l information
+   la majorité des iPhone (375px de large). */
+.mp-brand-count {
+  font-size: .625rem;
+  font-variant-numeric: tabular-nums;
+  color: #A1A1AA;
+}
+.mp-brand.is-active .mp-brand-count { color: rgb(255 255 255 / .55); }
 .mp-brand:hover { border-color: #C9C9CF; color: #111113; }
 .mp-brand.is-active { background: #111113; border-color: #111113; color: #fff; }
 

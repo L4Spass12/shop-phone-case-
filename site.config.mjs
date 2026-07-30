@@ -97,6 +97,16 @@ const config = {
   // modèle listé mais non fournissable = commande impossible à honorer.
   // `popular: true` remonte le modèle dans la liste courte affichée par
   // défaut (le chemin rapide pour la majorité des visiteurs).
+  //
+  // ICÔNES DE MARQUE. Chaque marque affiche par défaut une silhouette
+  // d'appareil dessinée dans ModelPicker.astro, dont la découpe caméra change
+  // d'une famille à l'autre. Ce n'est PAS un choix esthétique : « Apple »,
+  // « Samsung » et « Google » sont des marques déposées, et les règles d'usage
+  // d'Apple interdisent à un tiers d'afficher leur logo pour signaler une
+  // compatibilité — le nom est autorisé, le logotype non.
+  // Pour utiliser un autre visuel malgré tout, ajoute `icon` à la marque avec
+  // le CONTENU d'un SVG en viewBox 0 0 24 24 (sans la balise <svg>), p. ex. :
+  //   { id: 'apple', label: 'iPhone', icon: '<path d="…"/>', models: [...] }
   phoneModels: {
     // Ordre d'affichage des marques dans le sélecteur.
     brands: [

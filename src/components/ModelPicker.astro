@@ -81,6 +81,56 @@ const payload = {
 };
 
 const popularCount = catalogue.filter((m) => m.popular).length;
+
+// Nombre de modèles par marque : affiché dans la puce. L'information est
+// gratuite et évite d'ouvrir une marque pour découvrir qu'elle a trois entrées.
+const countByBrand = Object.fromEntries(
+  brands.map((b) => [b.id, b.models.length])
+);
+
+/**
+ * Silhouettes d'appareil, une par famille.
+ *
+ * ⚠️ POURQUOI PAS LES VRAIS LOGOS. « Apple », « Samsung » et « Google » sont
+ * des marques déposées. Les règles d'usage des marques Apple interdisent à un
+ * tiers d'afficher le logo Apple pour signaler une compatibilité : le NOM est
+ * autorisé (usage nominatif), le logotype non. Samsung et Google encadrent
+ * l'usage de la même façon.
+ *
+ * Ces silhouettes contournent le problème tout en restant informatives — et
+ * elles le sont réellement pour une boutique de coques, puisque le MODULE
+ * CAMÉRA ARRIÈRE est justement ce que la coque doit dégager :
+ *   iPhone  → module carré à trois objectifs
+ *   Galaxy  → trois objectifs alignés, sans module
+ *   Pixel   → barre caméra sur toute la largeur
+ *   Xiaomi  → gros objectif circulaire unique
+ *
+ * Première version abandonnée : elle montrait la FACE AVANT (îlot, poinçon).
+ * À la taille d'une puce, l'îlot de l'iPhone et le poinçon du Galaxy sont tous
+ * deux un petit point centré — indistinguables. Les quatre géométries de dos
+ * (carré / trois points / barre / cercle) restent, elles, différenciées.
+ * La forme intérieure est PLEINE et le contour tracé : à cette taille, c'est
+ * le seul moyen de garder du contraste.
+ *
+ * Pour utiliser un autre visuel, ajoute `icon: '<svg…>'` à la marque dans
+ * site.config.mjs : il prendra le pas sur la silhouette (cf. le rendu).
+ */
+const SILHOUETTES: Record<string, string> = {
+  // Module carré à trois objectifs.
+  apple:
+    '<rect x="8.6" y="4.2" width="4.6" height="4.6" rx="1.1" fill="currentColor" stroke="none"/>',
+  // Trois objectifs alignés verticalement, sans module — signature de la série S.
+  samsung:
+    '<circle cx="10.2" cy="4.9" r=".85" fill="currentColor" stroke="none"/>' +
+    '<circle cx="10.2" cy="7.2" r=".85" fill="currentColor" stroke="none"/>' +
+    '<circle cx="10.2" cy="9.5" r=".85" fill="currentColor" stroke="none"/>',
+  // Barre caméra sur toute la largeur — signature Pixel.
+  google:
+    '<rect x="6.5" y="5.1" width="11" height="2.4" rx="1.2" fill="currentColor" stroke="none"/>',
+  // Gros objectif circulaire unique.
+  xiaomi:
+    '<circle cx="10.9" cy="6.5" r="2.5" fill="currentColor" stroke="none"/>',
+};
 ---
 
 {catalogue.length > 0 && (
@@ -154,7 +204,23 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           </button>
           {brands.map((b) => (
             <button type="button" class="mp-brand" data-mp-brand={b.id} role="tab" aria-selected="false">
-              {b.label}
+              {/* Une icône fournie en config l'emporte sur la silhouette. */}
+              {(b.icon || SILHOUETTES[b.id]) && (
+                <svg
+                  class="mp-brand-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  aria-hidden="true"
+                  focusable="false"
+                  set:html={b.icon
+                    ? b.icon
+                    : '<rect x="7" y="2" width="10" height="20" rx="2.6"/>' + SILHOUETTES[b.id]}
+                />
+              )}
+              <span class="mp-brand-label">{b.label}</span>
+              <span class="mp-brand-count" aria-hidden="true">{countByBrand[b.id]}</span>
             </button>
           ))}
         </div>
