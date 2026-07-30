@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Icon from '../../../components/Icon.astro';
 import FabricationSection from '../../../components/FabricationSection.astro';
+import ModelPicker from '../../../components/ModelPicker.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../../../site.config.mjs';
 import { unsplashSrcset } from '../../../lib/image';
@@ -238,6 +239,10 @@ const breadcrumbSchema = {
           <span class={`w-1.5 h-1.5 rounded-full ${inStock ? 'bg-sage' : 'bg-n-500'}`}></span>
           <span>{inStock ? t('shop.inStock', lang) : t('shop.outOfStock', lang)}</span>
         </div>
+
+        {/* Choix du modèle de téléphone. Placé avant les variantes : c'est la
+            première question que se pose l'acheteur, et le seul champ requis. */}
+        <ModelPicker lang={lang} />
 
         {hasVariations && attributes.length > 0 && (
           <div id="variant-selector" class="space-y-6 mb-8">

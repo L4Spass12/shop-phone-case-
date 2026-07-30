@@ -85,6 +85,115 @@ const config = {
     { slug: 'categorie-exemple', label: 'Catégorie exemple' },
   ],
 
+  // ─── Modèles de téléphone compatibles ────────────────────────────
+  // Le modèle n'est PAS une variation produit (comme la couleur) mais une
+  // CONFIGURATION : même coque, même prix, même stock, moule différent. Le
+  // mettre en variation obligerait à écrire 3 coloris × 50 modèles = 150
+  // lignes dans CHAQUE fiche. Il vit donc ici, une seule fois, et le choix
+  // du client est transmis au panier avec la commande.
+  //
+  // ⚠️ À VÉRIFIER AVANT MISE EN LIGNE. Cette liste est un point de départ :
+  // ne garde QUE les modèles pour lesquels tu as réellement le moule. Un
+  // modèle listé mais non fournissable = commande impossible à honorer.
+  // `popular: true` remonte le modèle dans la liste courte affichée par
+  // défaut (le chemin rapide pour la majorité des visiteurs).
+  phoneModels: {
+    // Ordre d'affichage des marques dans le sélecteur.
+    brands: [
+      {
+        id: 'apple',
+        label: 'iPhone',
+        // Du plus récent au plus ancien : un visiteur a plus de chances
+        // d'avoir un téléphone récent, autant lui éviter de faire défiler.
+        models: [
+          { label: 'iPhone 17 Pro Max' },
+          { label: 'iPhone 17 Pro' },
+          { label: 'iPhone 17', popular: true },
+          { label: 'iPhone 16 Pro Max', popular: true },
+          { label: 'iPhone 16 Pro', popular: true },
+          { label: 'iPhone 16 Plus' },
+          { label: 'iPhone 16', popular: true },
+          { label: 'iPhone 15 Pro Max' },
+          { label: 'iPhone 15 Pro', popular: true },
+          { label: 'iPhone 15 Plus' },
+          { label: 'iPhone 15', popular: true },
+          { label: 'iPhone 14 Pro Max' },
+          { label: 'iPhone 14 Pro' },
+          { label: 'iPhone 14 Plus' },
+          { label: 'iPhone 14', popular: true },
+          { label: 'iPhone 13 Pro Max' },
+          { label: 'iPhone 13 Pro' },
+          { label: 'iPhone 13', popular: true },
+          { label: 'iPhone 13 mini' },
+          { label: 'iPhone 12 Pro Max' },
+          { label: 'iPhone 12 Pro' },
+          { label: 'iPhone 12' },
+          { label: 'iPhone 12 mini' },
+          { label: 'iPhone 11 Pro Max' },
+          { label: 'iPhone 11 Pro' },
+          { label: 'iPhone 11', popular: true },
+          { label: 'iPhone SE (2022)' },
+          { label: 'iPhone XR' },
+          { label: 'iPhone XS Max' },
+          { label: 'iPhone XS' },
+        ],
+      },
+      {
+        id: 'samsung',
+        label: 'Samsung Galaxy',
+        models: [
+          { label: 'Galaxy S25 Ultra', popular: true },
+          { label: 'Galaxy S25+' },
+          { label: 'Galaxy S25' },
+          { label: 'Galaxy S24 Ultra', popular: true },
+          { label: 'Galaxy S24+' },
+          { label: 'Galaxy S24', popular: true },
+          { label: 'Galaxy S23 Ultra' },
+          { label: 'Galaxy S23+' },
+          { label: 'Galaxy S23' },
+          { label: 'Galaxy S22 Ultra' },
+          { label: 'Galaxy S22+' },
+          { label: 'Galaxy S22' },
+          { label: 'Galaxy A56' },
+          { label: 'Galaxy A55' },
+          { label: 'Galaxy A36' },
+          { label: 'Galaxy A35' },
+          { label: 'Galaxy A26' },
+          { label: 'Galaxy A25' },
+          { label: 'Galaxy A16' },
+          { label: 'Galaxy A15' },
+        ],
+      },
+      {
+        id: 'google',
+        label: 'Google Pixel',
+        models: [
+          { label: 'Pixel 9 Pro XL' },
+          { label: 'Pixel 9 Pro' },
+          { label: 'Pixel 9', popular: true },
+          { label: 'Pixel 8 Pro' },
+          { label: 'Pixel 8' },
+          { label: 'Pixel 8a' },
+          { label: 'Pixel 7 Pro' },
+          { label: 'Pixel 7' },
+          { label: 'Pixel 7a' },
+        ],
+      },
+      {
+        id: 'xiaomi',
+        label: 'Xiaomi',
+        models: [
+          { label: 'Xiaomi 15' },
+          { label: 'Xiaomi 14' },
+          { label: 'Redmi Note 14 Pro' },
+          { label: 'Redmi Note 14' },
+          { label: 'Redmi Note 13 Pro' },
+          { label: 'Redmi Note 13' },
+        ],
+      },
+    ],
+  },
+
   // ─── Formulaires (Web3Forms) ─────────────────────────────────────
   // Service gratuit, 100% côté client, aucun backend requis.
   // 1. Compte sur https://web3forms.com  2. Colle l'Access Key ici.

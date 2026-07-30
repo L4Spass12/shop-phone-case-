@@ -184,5 +184,20 @@
     "step1": "Nous vous envoyons un accusé de réception par email.",
     "step2": "Vous nous renvoyez le produit dans son état d'origine, sous 14 jours.",
     "step3": "Nous vous remboursons intégralement sous 14 jours à compter de la récupération du bien."
+  },
+  "model": {
+    "label": "Modèle de téléphone",
+    "placeholder": "Choisir mon modèle",
+    "dialogTitle": "Quel est votre téléphone ?",
+    "search": "Rechercher : iPhone 15, S24, Pixel…",
+    "popular": "Les plus demandés",
+    "allBrands": "Toutes les marques",
+    "empty": "Aucun modèle ne correspond à « {q} ».",
+    "emptyHelp": "Vérifiez l’orthographe, ou parcourez les marques ci-dessus.",
+    "close": "Fermer",
+    "change": "Changer",
+    "required": "Choisissez d’abord votre modèle de téléphone.",
+    "saved": "Modèle mémorisé pour vos prochaines visites.",
+    "resultsCount": "{n} modèles"
   }
 }

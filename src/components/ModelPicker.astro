@@ -1,0 +1,467 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ *  SÉLECTEUR DE MODÈLE DE TÉLÉPHONE
+ * ═══════════════════════════════════════════════════════════════════════
+ *  Trouver son modèle parmi ~70 est LE goulot d'étranglement d'une boutique
+ *  de coques. Quatre décisions guident ce composant :
+ *
+ *  1. RECHERCHE EN PREMIER. Celui qui connaît son modèle tape « 15 pro » et
+ *     a fini en deux secondes, sans choisir de marque au préalable. La
+ *     comparaison est insensible aux accents, à la casse, aux espaces et aux
+ *     tirets : « s24ultra », « S24 Ultra » et « galaxy s24 ultra » trouvent.
+ *
+ *  2. LISTE COURTE PAR DÉFAUT. Sans recherche, on n'affiche que les modèles
+ *     marqués `popular` dans site.config.mjs. Une liste de 70 entrées d'un
+ *     bloc fait fuir ; une douzaine couvre la majorité des visiteurs.
+ *
+ *  3. LE CHOIX EST MÉMORISÉ (localStorage). C'est le gain le plus important
+ *     et le plus rarement implémenté : le visiteur ne choisit son téléphone
+ *     QU'UNE FOIS pour toute la boutique, pas à chaque fiche produit.
+ *
+ *  4. LE MODÈLE EST OBLIGATOIRE. Sans choix, le bouton d'ajout ouvre le
+ *     sélecteur au lieu d'ajouter. Une commande sans modèle est une commande
+ *     impossible à honorer — donc un retour, donc une perte.
+ *
+ *  Présentation : panneau ancré sous le déclencheur sur ordinateur, feuille
+ *  remontant du bas sur mobile. Même balisage, la mise en forme seule change
+ *  (cf. .mp-* dans global.css) — rien n'est dupliqué.
+ *
+ *  Le catalogue est transmis au JS via un <script type="application/json">
+ *  plutôt qu'inséré dans le code du script : aucun risque d'échappement, et
+ *  le JSON reste lisible dans la source.
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+import siteConfig from '../../site.config.mjs';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  lang?: Locale;
+  /** id du champ, si plusieurs sélecteurs coexistent sur une page */
+  id?: string;
+}
+const { lang = 'fr', id = 'model-picker' } = Astro.props;
+
+const brands = siteConfig.phoneModels?.brands ?? [];
+
+// Aplatit le catalogue pour le JS : une entrée par modèle, avec sa marque et
+// une forme normalisée pré-calculée côté serveur (rien à recalculer à chaque
+// frappe côté client).
+const normalize = (s: string) =>
+  s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')  // accents
+    .replace(/[\s\-_+()]/g, '');                        // espaces, tirets, parenthèses
+
+const catalogue = brands.flatMap((b) =>
+  b.models.map((m) => ({
+    label: m.label,
+    brand: b.id,
+    brandLabel: b.label,
+    popular: m.popular === true,
+    // `q` sert à la recherche : libellé + libellé de marque + identifiant de
+    // marque, tous normalisés. L'identifiant est indispensable pour qu'« apple
+    // 15 » trouve quelque chose : la marque s'affiche « iPhone », le mot
+    // « apple » n'apparaît nulle part ailleurs.
+    q: normalize(m.label + ' ' + b.label + ' ' + b.id),
+  }))
+);
+
+const payload = {
+  models: catalogue,
+  brands: brands.map((b) => ({ id: b.id, label: b.label })),
+  i18n: {
+    popular: t('model.popular', lang),
+    allBrands: t('model.allBrands', lang),
+    empty: t('model.empty', lang),
+    emptyHelp: t('model.emptyHelp', lang),
+    placeholder: t('model.placeholder', lang),
+    saved: t('model.saved', lang),
+    change: t('model.change', lang),
+  },
+};
+
+const popularCount = catalogue.filter((m) => m.popular).length;
+---
+
+{catalogue.length > 0 && (
+  <div class="mp mb-6" data-model-picker id={id}>
+    <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium" for={`${id}-trigger`}>
+      {t('model.label', lang)}
+    </label>
+
+    {/* Le déclencheur affiche l'état : « Choisir mon modèle » ou le modèle
+        retenu. C'est aussi lui qui reçoit le focus au retour du panneau. */}
+    <button
+      type="button"
+      id={`${id}-trigger`}
+      class="mp-trigger"
+      data-mp-trigger
+      aria-haspopup="dialog"
+      aria-expanded="false"
+    >
+      <span class="mp-trigger-value" data-mp-current>{t('model.placeholder', lang)}</span>
+      <span class="mp-trigger-action" data-mp-action aria-hidden="true"></span>
+    </button>
+
+    {/* Message d'erreur si on tente d'ajouter au panier sans modèle.
+        aria-live pour que les lecteurs d'écran l'annoncent. */}
+    <p class="mp-error" data-mp-error role="alert" hidden>{t('model.required', lang)}</p>
+
+    <div class="mp-backdrop" data-mp-backdrop hidden></div>
+
+    <div
+      class="mp-panel"
+      data-mp-panel
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`${id}-title`}
+      hidden
+    >
+      <div class="mp-panel-head">
+        {/* Poignée décorative : signale « ça se tire vers le bas » sur mobile. */}
+        <span class="mp-grip" aria-hidden="true"></span>
+        <div class="mp-panel-titlebar">
+          <h2 class="mp-panel-title" id={`${id}-title`}>{t('model.dialogTitle', lang)}</h2>
+          <button type="button" class="mp-close" data-mp-close aria-label={t('model.close', lang)}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="mp-search-wrap">
+          <svg class="mp-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+          </svg>
+          <input
+            type="search"
+            class="mp-search"
+            data-mp-search
+            placeholder={t('model.search', lang)}
+            aria-label={t('model.search', lang)}
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls={`${id}-results`}
+          />
+        </div>
+
+        {/* Filtres par marque. « Toutes » est actif par défaut : c'est la
+            recherche, pas la marque, qui est le chemin principal. */}
+        <div class="mp-brands" data-mp-brands role="tablist" aria-label={t('model.allBrands', lang)}>
+          <button type="button" class="mp-brand is-active" data-mp-brand="" role="tab" aria-selected="true">
+            {t('model.allBrands', lang)}
+          </button>
+          {brands.map((b) => (
+            <button type="button" class="mp-brand" data-mp-brand={b.id} role="tab" aria-selected="false">
+              {b.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Résultats. Rendu côté client : la liste change à chaque frappe, la
+          pré-rendre entièrement n'apporterait rien et alourdirait le HTML.
+          Le repli sans JS est assuré par le <noscript> plus bas. */}
+      <div class="mp-results" data-mp-results id={`${id}-results`} role="listbox" aria-label={t('model.label', lang)}></div>
+    </div>
+
+    {/* Sans JavaScript, la recherche et la feuille ne fonctionnent pas : on
+        expose alors un <select> natif, qui suffit à passer commande. */}
+    <noscript>
+      <select class="mp-native" name="phone-model" aria-label={t('model.label', lang)}>
+        <option value="">{t('model.placeholder', lang)}</option>
+        {brands.map((b) => (
+          <optgroup label={b.label}>
+            {b.models.map((m) => <option value={m.label}>{m.label}</option>)}
+          </optgroup>
+        ))}
+      </select>
+    </noscript>
+
+    <script type="application/json" data-mp-data set:html={JSON.stringify(payload)} />
+    <script type="application/json" data-mp-meta set:html={JSON.stringify({ popularCount })} />
+
+    {/* Le JS est écrit directement, sans accolades d'expression : dans une
+        balise <script>, Astro n'évalue pas les expressions et les émettrait
+        comme du texte — le code ne s'exécuterait jamais, silencieusement.
+        Toutes les données viennent donc des deux <script type="application/json">
+        ci-dessus, lus depuis le DOM. */}
+    <script is:inline>
+      (function () {
+        var root = document.currentScript.closest('[data-model-picker]');
+        if (!root) return;
+
+        var data = JSON.parse(root.querySelector('[data-mp-data]').textContent);
+        var MODELS = data.models;
+        var BRANDS = data.brands;
+        var T = data.i18n;
+
+        var trigger = root.querySelector('[data-mp-trigger]');
+        var current = root.querySelector('[data-mp-current]');
+        var action = root.querySelector('[data-mp-action]');
+        var panel = root.querySelector('[data-mp-panel]');
+        var backdrop = root.querySelector('[data-mp-backdrop]');
+        var search = root.querySelector('[data-mp-search]');
+        var results = root.querySelector('[data-mp-results]');
+        var errorEl = root.querySelector('[data-mp-error]');
+        var closeBtn = root.querySelector('[data-mp-close]');
+
+        // Clé portant le nom du site : deux boutiques sur le même domaine local
+        // (ou un sous-domaine partagé) ne se marchent pas dessus.
+        var STORE_KEY = 'vareska:phone-model';
+
+        var chosen = null;
+        var brandFilter = '';
+        var cursor = -1;      // index de l'option surlignée au clavier
+        var shown = [];       // options actuellement affichées, dans l'ordre
+
+        // ─── Normalisation ────────────────────────────────────────────────
+        // Même traitement que côté serveur : insensible aux accents, à la
+        // casse, aux espaces et aux tirets. « s24ultra » trouve « Galaxy S24
+        // Ultra », « iphone15pro » trouve « iPhone 15 Pro ».
+        function norm(s) {
+          return s.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[\s\-_+()]/g, '');
+        }
+
+        // ─── Rendu de la liste ────────────────────────────────────────────
+        function render() {
+          var raw = search.value.trim();
+          // Un jeton par mot saisi, chacun normalisé. « samsung s24 » donne
+          // ['samsung','s24'] et les deux doivent se retrouver dans m.q — sans
+          // contrainte d'ordre, contrairement à une recherche de sous-chaîne.
+          var tokens = raw.split(/\s+/).map(norm).filter(Boolean);
+          var list;
+
+          if (tokens.length) {
+            // Recherche : on ignore le filtre de marque. Quelqu'un qui tape
+            // « pixel » ne doit pas avoir un résultat vide parce qu'Apple
+            // était sélectionné.
+            list = MODELS.filter(function (m) {
+              return tokens.every(function (tk) { return m.q.indexOf(tk) !== -1; });
+            });
+          } else if (brandFilter) {
+            list = MODELS.filter(function (m) { return m.brand === brandFilter; });
+          } else {
+            // État par défaut : la liste courte. 70 entrées d'un coup
+            // découragent ; une douzaine couvre la plupart des visiteurs.
+            list = MODELS.filter(function (m) { return m.popular; });
+          }
+
+          shown = list;
+          results.innerHTML = '';
+
+          if (!list.length) {
+            var p = document.createElement('p');
+            p.className = 'mp-empty';
+            p.textContent = T.empty.replace('{q}', raw);
+            var s = document.createElement('span');
+            s.textContent = T.emptyHelp;
+            p.appendChild(s);
+            results.appendChild(p);
+            cursor = -1;
+            return;
+          }
+
+          // Titres de groupe : « Les plus demandés » dans l'état par défaut,
+          // sinon le nom de la marque — et seulement quand il change, pour ne
+          // pas répéter « iPhone » trente fois.
+          var lastGroup = null;
+          var defaultView = !tokens.length && !brandFilter;
+
+          list.forEach(function (m, i) {
+            var group = defaultView ? T.popular : m.brandLabel;
+            if (group !== lastGroup) {
+              var h = document.createElement('div');
+              h.className = 'mp-group';
+              h.textContent = group;
+              results.appendChild(h);
+              lastGroup = group;
+            }
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'mp-option';
+            b.setAttribute('role', 'option');
+            b.setAttribute('aria-selected', m.label === chosen ? 'true' : 'false');
+            b.id = results.id + '-opt-' + i;
+            b.dataset.index = String(i);
+            b.appendChild(document.createTextNode(m.label));
+            results.appendChild(b);
+          });
+
+          // Le curseur clavier se pose sur le modèle déjà retenu s'il est
+          // visible, sinon sur la première option : Entrée fait alors le
+          // choix le plus probable.
+          var sel = list.findIndex(function (m) { return m.label === chosen; });
+          setCursor(sel !== -1 ? sel : 0, false);
+        }
+
+        function optionEls() {
+          return Array.prototype.slice.call(results.querySelectorAll('.mp-option'));
+        }
+
+        function setCursor(i, scroll) {
+          var els = optionEls();
+          if (!els.length) { cursor = -1; return; }
+          cursor = Math.max(0, Math.min(i, els.length - 1));
+          els.forEach(function (el, n) { el.classList.toggle('is-cursor', n === cursor); });
+          var el = els[cursor];
+          if (el) {
+            search.setAttribute('aria-activedescendant', el.id || '');
+            if (scroll) el.scrollIntoView({ block: 'nearest' });
+          }
+        }
+
+        // ─── Ouverture / fermeture ────────────────────────────────────────
+        function isOpen() { return !panel.hasAttribute('hidden'); }
+        // Même point de bascule que le CSS (cf. .mp-panel dans global.css).
+        function isSheet() { return window.matchMedia('(max-width: 640px)').matches; }
+
+        function open() {
+          if (isOpen()) return;
+          panel.removeAttribute('hidden');
+          backdrop.removeAttribute('hidden');
+          trigger.setAttribute('aria-expanded', 'true');
+          // Verrou de défilement réservé à la feuille mobile : sur le panneau
+          // ancré du bureau, figer la page serait un effet de bord indésirable.
+          if (isSheet()) document.documentElement.style.overflow = 'hidden';
+          render();
+          // Sur mobile, ouvrir le clavier d'emblée masquerait la liste : on ne
+          // met la recherche au point que sur pointeur fin.
+          if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) search.focus();
+          document.addEventListener('pointerdown', onOutside, true);
+        }
+
+        function close(refocus) {
+          if (!isOpen()) return;
+          panel.setAttribute('hidden', '');
+          backdrop.setAttribute('hidden', '');
+          trigger.setAttribute('aria-expanded', 'false');
+          document.documentElement.style.overflow = '';
+          search.value = '';
+          document.removeEventListener('pointerdown', onOutside, true);
+          if (refocus) trigger.focus();
+        }
+
+        function onOutside(e) {
+          if (!root.contains(e.target)) close(false);
+        }
+
+        // ─── Sélection ────────────────────────────────────────────────────
+        function select(label, persist) {
+          chosen = label;
+          current.textContent = label;
+          action.textContent = T.change;
+          root.setAttribute('data-mp-chosen', '');
+          root.removeAttribute('data-mp-invalid');
+          errorEl.hidden = true;
+          if (persist) {
+            try { localStorage.setItem(STORE_KEY, label); } catch (e) { /* mode privé */ }
+          }
+          syncButtons();
+          // Permet à d'autres composants de réagir sans les coupler à celui-ci.
+          root.dispatchEvent(new CustomEvent('model:change', { bubbles: true, detail: { model: label } }));
+        }
+
+        // Écrit le modèle sur tous les boutons d'achat de la page. On ne touche
+        // PAS à data-item-name ici : le sélecteur de variantes le réécrit de
+        // son côté et l'un effacerait l'autre. La composition finale se fait
+        // au clic (cf. plus bas).
+        function syncButtons() {
+          var btns = document.querySelectorAll('.buy-button');
+          Array.prototype.forEach.call(btns, function (b) {
+            if (chosen) b.dataset.itemModel = chosen;
+            else delete b.dataset.itemModel;
+          });
+        }
+
+        // ─── Restauration du choix précédent ──────────────────────────────
+        // Le cœur du dispositif : le visiteur ne choisit son téléphone qu'une
+        // fois pour toute la boutique, pas à chaque fiche produit.
+        (function restore() {
+          var saved = null;
+          try { saved = localStorage.getItem(STORE_KEY); } catch (e) { /* mode privé */ }
+          if (!saved) return;
+          // On vérifie que le modèle existe toujours au catalogue : il a pu
+          // être retiré depuis la dernière visite.
+          var ok = MODELS.some(function (m) { return m.label === saved; });
+          if (ok) select(saved, false);
+          else { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+        })();
+
+        // ─── Événements ───────────────────────────────────────────────────
+        trigger.addEventListener('click', function () { isOpen() ? close(true) : open(); });
+        closeBtn.addEventListener('click', function () { close(true); });
+        backdrop.addEventListener('click', function () { close(true); });
+        search.addEventListener('input', render);
+
+        results.addEventListener('click', function (e) {
+          var opt = e.target.closest('.mp-option');
+          if (!opt) return;
+          var m = shown[parseInt(opt.dataset.index, 10)];
+          if (!m) return;
+          select(m.label, true);
+          close(true);
+        });
+
+        root.querySelectorAll('[data-mp-brand]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            brandFilter = btn.dataset.mpBrand;
+            root.querySelectorAll('[data-mp-brand]').forEach(function (b) {
+              var on = b === btn;
+              b.classList.toggle('is-active', on);
+              b.setAttribute('aria-selected', on ? 'true' : 'false');
+            });
+            // Choisir une marque annule la recherche, sinon le filtre semble
+            // ne rien faire (la recherche est prioritaire dans render()).
+            search.value = '';
+            render();
+          });
+        });
+
+        panel.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
+          if (e.key === 'ArrowDown') { e.preventDefault(); setCursor(cursor + 1, true); return; }
+          if (e.key === 'ArrowUp') { e.preventDefault(); setCursor(cursor - 1, true); return; }
+          if (e.key === 'Home') { e.preventDefault(); setCursor(0, true); return; }
+          if (e.key === 'End') { e.preventDefault(); setCursor(optionEls().length - 1, true); return; }
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            var m = shown[cursor];
+            if (m) { select(m.label, true); close(true); }
+          }
+        });
+
+        // ─── Modèle obligatoire ───────────────────────────────────────────
+        // En phase de CAPTURE sur document : ce gestionnaire passe avant celui
+        // du widget de paiement, qu'il soit posé sur le bouton ou délégué.
+        //  · sans modèle → on bloque et on ouvre le sélecteur ;
+        //  · avec modèle → on compose data-item-name juste avant l'envoi, ce
+        //    qui reste correct quel que soit l'état du sélecteur de variantes.
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest ? e.target.closest('.buy-button') : null;
+          if (!btn || btn.disabled) return;
+
+          if (!chosen) {
+            e.preventDefault();
+            e.stopPropagation();
+            root.setAttribute('data-mp-invalid', '');
+            errorEl.hidden = false;
+            open();
+            trigger.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            return;
+          }
+
+          var base = btn.dataset.itemName || '';
+          // Idempotent : un second clic ne doit pas empiler les suffixes.
+          base = base.replace(/ — [^—]*$/, '');
+          btn.dataset.itemName = base + ' — ' + chosen;
+        }, true);
+
+        syncButtons();
+      })();
+    </script>
+  </div>
+)}

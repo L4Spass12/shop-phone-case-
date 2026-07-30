@@ -184,5 +184,20 @@
     "step1": "We send you a confirmation by email.",
     "step2": "You ship the item back, unused and in its original packaging.",
     "step3": "We refund you once we have received and checked the item."
+  },
+  "model": {
+    "label": "Phone model",
+    "placeholder": "Choose my model",
+    "dialogTitle": "Which phone do you have?",
+    "search": "Search: iPhone 15, S24, Pixel…",
+    "popular": "Most requested",
+    "allBrands": "All brands",
+    "empty": "No model matches “{q}”.",
+    "emptyHelp": "Check the spelling, or browse the brands above.",
+    "close": "Close",
+    "change": "Change",
+    "required": "Please choose your phone model first.",
+    "saved": "Model saved for your next visits.",
+    "resultsCount": "{n} models"
   }
 }

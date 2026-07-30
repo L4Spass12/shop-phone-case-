@@ -184,5 +184,20 @@
     "step1": "Wir senden dir eine Bestätigung per E-Mail.",
     "step2": "Du schickst den Artikel unbenutzt und in Originalverpackung innerhalb von 14 Tagen zurück.",
     "step3": "Wir erstatten dir den Betrag innerhalb von 14 Tagen nach Erhalt der Ware."
+  },
+  "model": {
+    "label": "Handymodell",
+    "placeholder": "Modell auswählen",
+    "dialogTitle": "Welches Handy haben Sie?",
+    "search": "Suchen: iPhone 15, S24, Pixel…",
+    "popular": "Am häufigsten gefragt",
+    "allBrands": "Alle Marken",
+    "empty": "Kein Modell passt zu „{q}“.",
+    "emptyHelp": "Prüfen Sie die Schreibweise oder wählen Sie oben eine Marke.",
+    "close": "Schließen",
+    "change": "Ändern",
+    "required": "Bitte wählen Sie zuerst Ihr Handymodell.",
+    "saved": "Modell für Ihre nächsten Besuche gespeichert.",
+    "resultsCount": "{n} Modelle"
   }
 }
