@@ -197,8 +197,15 @@ html[data-theme='heritage'] .btn-atc > span { letter-spacing: 0.06em; }
    titres de colonnes en petites capitales espacées (le serif Didone est trop
    chargé à cette taille). Donne un pied de page « éditorial de musée ». */
 html[data-theme='heritage'] footer {
-  background: rgb(var(--c-panel));
+  background: #2c0a09;   /* bordeaux profond (oxblood) */
   border-top: 3px solid rgb(var(--accent-rgb));
+  /* Le footer devient une surface SOMBRE : on re-mappe les variables de
+     couleur juste ici pour que tout le texte (text-cream, text-n-500, les
+     bordures border-white/…) bascule automatiquement en clair. */
+  --c-cream: 244 238 226;   /* texte principal -> crème clair */
+  --c-n400:  214 201 188;   /* texte courant -> beige clair */
+  --c-n500:  188 170 156;   /* texte secondaire -> beige grisé */
+  --c-white: 244 238 226;   /* voiles / bordures -> encre CLAIRE translucide */
 }
 html[data-theme='heritage'] footer [data-footer-brand] {
   font-family: var(--font-script);
@@ -215,10 +222,15 @@ html[data-theme='heritage'] footer h2 {
   font-size: 0.66rem;
   color: rgb(var(--accent-rgb));
 }
+/* Champ newsletter : garde un fond crème clair avec du texte sombre pour
+   rester un champ de saisie lisible sur le footer sombre. */
 html[data-theme='heritage'] footer input {
   border-radius: 2px;
-  background: rgb(var(--c-dark));
+  background: #f4eee2;
+  color: #241310;
+  border-color: rgba(36, 19, 16, 0.15);
 }
+html[data-theme='heritage'] footer input::placeholder { color: #9c8e7e; }
 html[data-theme='heritage'] footer button[type='submit'] {
   border-radius: 2px;
   background: rgb(var(--accent-rgb));
