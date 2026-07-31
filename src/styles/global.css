@@ -312,6 +312,47 @@ html[data-theme='heritage'] .mp-brand.is-active:hover {
   color: #fff;
   box-shadow: none;
 }
+/* Halo de focus : en encre (le vermillon-sur-vermillon de la puce active
+   ressemblait à un bug). */
+html[data-theme='heritage'] .mp-brand:focus-visible,
+html[data-theme='heritage'] .mp-option:focus-visible {
+  outline: 2px solid rgb(var(--c-cream));
+  outline-offset: 2px;
+}
+
+/* Entête du panneau séparé par un filet chaud + filet vermillon sous le titre */
+html[data-theme='heritage'] .mp-panel-head { border-bottom-color: rgb(var(--c-beige)); }
+html[data-theme='heritage'] .mp-search-icon { color: rgb(var(--c-n500)); }
+html[data-theme='heritage'] .mp-close:hover { background: rgb(var(--c-panel)); color: rgb(var(--c-cream)); }
+
+/* Intitulé de groupe : encre, souligné d'un filet (cartel de section) */
+html[data-theme='heritage'] .mp-group {
+  color: rgb(var(--c-cream));
+  margin: 6px 6px 2px;
+  padding: 8px 4px 7px;
+  border-bottom: 1px solid rgb(var(--c-cream) / 0.14);
+}
+
+/* Liste de modèles : filets fins entre les lignes (esprit index de
+   catalogue), survol et sélection teintés vermillon, coche vermillon. */
+html[data-theme='heritage'] .mp-option {
+  border-radius: 2px;
+  color: rgb(var(--c-cream));
+  border-bottom: 1px solid rgb(var(--c-cream) / 0.07);
+}
+html[data-theme='heritage'] .mp-option:hover,
+html[data-theme='heritage'] .mp-option.is-cursor {
+  background: rgb(var(--accent-rgb) / 0.08);
+  color: rgb(var(--accent-dark-rgb));
+}
+html[data-theme='heritage'] .mp-option[aria-selected='true'] {
+  background: rgb(var(--accent-rgb) / 0.1);
+  color: rgb(var(--accent-dark-rgb));
+  box-shadow: inset 3px 0 0 rgb(var(--accent-rgb));
+  font-weight: 600;
+}
+html[data-theme='heritage'] .mp-empty span { color: rgb(var(--c-n500)); }
+html[data-theme='heritage'] .mp-grip { background: rgb(var(--c-beige)); }
 
 /* ─── Indicateur « En stock » retiré en heritage ─────────────────────────── */
 html[data-theme='heritage'] #product-stock { display: none; }
