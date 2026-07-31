@@ -58,6 +58,7 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
         un accent de couleur — s'il est vide, rien n'est rendu. */}
     <a
       href={url('/')}
+      data-logo
       class="shrink-0 font-medium text-[15px] md:text-base uppercase tracking-[0.22em] text-cream hover:text-n-400 transition-colors"
       aria-label={`${siteConfig.name} - ${t('nav.home', lang)}`}
     >
@@ -118,6 +119,23 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     </nav>
 
     <div class="flex items-center gap-5 shrink-0">
+      {/* ─── Bascule de thème (Défaut ⇄ Heritage) ───────────────────────
+          Permet de tester le thème « galerie d'art » sans perdre le thème
+          par défaut. Le choix est mémorisé (localStorage) et appliqué avant
+          le paint via le script inline du <head> (pas de flash). */}
+      <button
+        id="theme-toggle"
+        type="button"
+        class="theme-toggle"
+        role="switch"
+        aria-checked="false"
+        aria-label="Changer de thème visuel"
+        title="Changer de thème"
+      >
+        <span class="theme-toggle__track"><span class="theme-toggle__thumb"></span></span>
+        <span class="hidden sm:inline" data-theme-label>Heritage</span>
+      </button>
+
       {showLangSwitcher && (
         <details class="lang-switcher relative">
           <summary
@@ -305,5 +323,28 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
         document.cookie = `bp_lang=${code}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
       }
     });
+  });
+
+  // ─── Bascule de thème (Défaut ⇄ Heritage) ───────────────────────────
+  // L'état initial est déjà posé sur <html> par le script inline du <head>
+  // (anti-flash). Ici on ne gère que le clic + la synchro de l'ARIA/label.
+  const themeToggle = document.getElementById('theme-toggle');
+  const syncThemeToggle = () => {
+    const on = document.documentElement.getAttribute('data-theme') === 'heritage';
+    themeToggle?.setAttribute('aria-checked', String(on));
+    const label = themeToggle?.querySelector('[data-theme-label]');
+    if (label) label.textContent = on ? 'Défaut' : 'Heritage';
+  };
+  syncThemeToggle();
+  themeToggle?.addEventListener('click', () => {
+    const on = document.documentElement.getAttribute('data-theme') === 'heritage';
+    if (on) {
+      document.documentElement.removeAttribute('data-theme');
+      try { localStorage.setItem('site-theme', 'default'); } catch (e) {}
+    } else {
+      document.documentElement.setAttribute('data-theme', 'heritage');
+      try { localStorage.setItem('site-theme', 'heritage'); } catch (e) {}
+    }
+    syncThemeToggle();
   });
 </script>

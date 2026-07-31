@@ -31,17 +31,24 @@ export default {
          * SOMBRE (encre translucide) pour rester visible sur fond blanc.
          * En repassant en thème sombre, remets `white: '#FFFFFF'`.
          */
-        white:      '#111113',
-        dark:       '#FFFFFF',  // fond de page
-        panel:      '#F7F7F8',  // cards / sections
-        teal:       '#F0F0F2',  // variante panel
-        beige:      '#E5E5E8',  // bordures / tags
-        cream:      '#111113',  // texte principal / surfaces inversées
-        terracotta: '#111113',  // conservé pour compat : accent "encre" (boutons neutres)
-        sage:       '#16A34A',  // accent de statut (succès / en stock)
+        /**
+         * ⚠️ Les valeurs sont désormais pilotées par des variables CSS
+         * (`--c-*` dans src/styles/global.css) au format « canaux RVB » pour
+         * permettre le THEME-SWITCH via `data-theme` sur <html> ET garder les
+         * utilitaires d'opacité (`bg-white/[0.03]`, `border-white/[0.08]`…).
+         * Le thème par défaut reproduit à l'identique les anciennes valeurs.
+         */
+        white:      'rgb(var(--c-white) / <alpha-value>)',
+        dark:       'rgb(var(--c-dark) / <alpha-value>)',   // fond de page
+        panel:      'rgb(var(--c-panel) / <alpha-value>)',  // cards / sections
+        teal:       'rgb(var(--c-teal) / <alpha-value>)',   // variante panel
+        beige:      'rgb(var(--c-beige) / <alpha-value>)',  // bordures / tags
+        cream:      'rgb(var(--c-cream) / <alpha-value>)',  // texte principal
+        terracotta: 'rgb(var(--c-terracotta) / <alpha-value>)',
+        sage:       'rgb(var(--c-sage) / <alpha-value>)',   // statut succès
         /* Neutres complémentaires */
-        'n-500':    '#8A8A93',
-        'n-400':    '#52525B',
+        'n-500':    'rgb(var(--c-n500) / <alpha-value>)',
+        'n-400':    'rgb(var(--c-n400) / <alpha-value>)',
         /**
          * ─── ACCENT DE MARQUE ───────────────────────────────────────
          * Les valeurs viennent des variables `--accent-*-rgb` définies
@@ -56,10 +63,12 @@ export default {
         },
       },
       fontFamily: {
-        // Une seule police pour tout le site. `display` existe pour la compat
-        // avec les classes déjà en place et pointe aussi sur Inter.
-        display: ['Inter', 'system-ui', 'sans-serif'],
-        body:    ['Inter', 'system-ui', 'sans-serif'],
+        // Pilotées par variables CSS (voir global.css) pour permettre au
+        // thème « heritage » de basculer sur un serif Didone + un script,
+        // sans toucher aux composants. Le thème par défaut reste Inter.
+        display: ['var(--font-display)', 'Inter', 'system-ui', 'sans-serif'],
+        body:    ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
+        script:  ['var(--font-script)', 'cursive'],
       },
       letterSpacing: {
         'tightest': '-0.04em',

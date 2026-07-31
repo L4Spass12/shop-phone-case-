@@ -120,16 +120,22 @@ toujours avec `npm run build` avant de pousser.
 - Le workflow GitHub `Generate Article` peut tourner en cron (désactivé par
   défaut — voir `.github/workflows/generate-article.yml`).
 
-## 🚢 Déploiement (GitHub Actions → FTP)
+## 🚢 Déploiement (GitHub → branche `hostinger-deploy` → Hostinger)
 
-À chaque push sur `main` : build + upload FTP en 2 passes (assets par taille,
-HTML par date — évite les pages qui pointent vers du CSS purgé).
+Le déploiement se fait via l'**intégration Git de Hostinger (hPanel)**, branchée
+sur la branche **`hostinger-deploy`** qui contient le site **déjà compilé**.
+
+En bref : un push sur `main` déclenche le workflow `hostinger-branch.yml`, qui
+build le site et force-push le contenu de `dist/` sur `hostinger-deploy` ;
+Hostinger récupère cette branche dans `public_html`.
+
+👉 **Procédure complète, réglages hPanel et dépannage : voir [`DEPLOIEMENT.md`](./DEPLOIEMENT.md).**
 
 Secrets à configurer dans le repo GitHub (`Settings → Secrets → Actions`) :
 
 | Secret | Usage |
 |--------|-------|
-| `FTP_SERVER` / `FTP_USERNAME` / `FTP_PASSWORD` | Déploiement |
+| `FTP_SERVER` / `FTP_USERNAME` / `FTP_PASSWORD` | Repli FTP manuel (`deploy.yml`) |
 | `ANTHROPIC_API_KEY` | Génération d'articles + traductions (optionnel) |
 | `UNSPLASH_ACCESS_KEY` | Images des articles générés (optionnel) |
 

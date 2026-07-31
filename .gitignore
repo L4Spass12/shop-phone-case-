@@ -10,3 +10,6 @@ import/
 
 # Astro cache
 .astro/
+
+# Config locale outils (preview launch.json, etc.)
+.claude/

@@ -3,6 +3,15 @@
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
 
+/* Polices du thème « heritage » (musée / galerie d'art).
+   Chargées en permanence mais utilisées uniquement quand
+   <html data-theme="heritage"> est actif. */
+@import '@fontsource/pinyon-script/400.css';      /* logo script */
+@import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
+@import '@fontsource/bodoni-moda/500.css';
+@import '@fontsource/bodoni-moda/700.css';
+@import '@fontsource/bodoni-moda/900.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +19,27 @@
 :root {
   --header-h: 64px;
   color-scheme: light;
+
+  /* ═════════════════════════════════════════════════════════════════════
+     PALETTE — THÈME PAR DÉFAUT (neutre clair).
+     Reproduit à l'identique les anciennes valeurs hex, exprimées en canaux
+     RVB pour Tailwind. Le thème « heritage » plus bas surcharge ces vars.
+     ═════════════════════════════════════════════════════════════════════ */
+  --c-white:      17 17 19;      /* voile d'encre translucide */
+  --c-dark:       255 255 255;   /* fond de page */
+  --c-panel:      247 247 248;   /* cards / sections */
+  --c-teal:       240 240 242;   /* variante panel */
+  --c-beige:      229 229 232;   /* bordures / tags */
+  --c-cream:      17 17 19;      /* texte principal */
+  --c-terracotta: 17 17 19;      /* accent encre (boutons neutres) */
+  --c-sage:       22 163 74;     /* statut succès */
+  --c-n500:       138 138 147;   /* texte secondaire */
+  --c-n400:       82 82 91;      /* texte courant */
+
+  /* Familles typographiques (surchargées par le thème heritage) */
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-script:  'Inter', system-ui, sans-serif;
 
   /* ═════════════════════════════════════════════════════════════════════
      COULEUR D'ACCENT DE LA MARQUE — source unique de vérité.
@@ -27,6 +57,129 @@
 }
 @media (min-width: 768px) {
   :root { --header-h: 72px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THÈME « HERITAGE » — musée / galerie d'art (cf. moodboard).
+   Activé par <html data-theme="heritage"> (toggle dans le header).
+   Fond crème, encre chaude, accent orange vif, serif Didone, logo script,
+   et un cadre bordeaux tout autour de la page. Ne surcharge QUE des vars +
+   quelques règles décoratives : le thème par défaut reste intact.
+   ═══════════════════════════════════════════════════════════════════════ */
+html[data-theme='heritage'] {
+  --c-white:      46 12 11;      /* voile = encre bordeaux translucide */
+  --c-dark:       244 238 226;   /* fond = papier crème */
+  --c-panel:      237 230 216;   /* cards */
+  --c-teal:       231 222 205;   /* variante */
+  --c-beige:      219 207 184;   /* bordures / tags */
+  --c-cream:      36 19 16;      /* texte = encre espresso */
+  --c-terracotta: 36 19 16;      /* boutons encre */
+  --c-sage:       22 130 74;
+  --c-n500:       156 142 126;   /* texte secondaire chaud */
+  --c-n400:       110 95 82;     /* texte courant chaud */
+
+  /* Accent = rouge-orangé « vermillon » du moodboard */
+  --accent-rgb:        255 59 20;
+  --accent-light-rgb:  255 90 51;
+  --accent-dark-rgb:   214 46 12;
+
+  /* Typographies heritage */
+  --font-body:    'Inter', system-ui, sans-serif;   /* labels / paragraphes */
+  --font-display: 'Bodoni Moda', 'Times New Roman', serif;  /* titres Didone */
+  --font-script:  'Pinyon Script', cursive;         /* logo */
+
+  /* Couleur du cadre bordeaux qui encadre la page */
+  --frame: #2c0a09;
+}
+
+/* Cadre bordeaux autour de tout le viewport (uniquement en heritage) */
+html[data-theme='heritage'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  border: 14px solid var(--frame);
+  pointer-events: none;
+  z-index: 9998;
+}
+@media (min-width: 768px) {
+  html[data-theme='heritage'] body::before { border-width: 22px; }
+}
+
+/* Titres en serif Didone */
+html[data-theme='heritage'] h1,
+html[data-theme='heritage'] h2,
+html[data-theme='heritage'] h3,
+html[data-theme='heritage'] h4,
+html[data-theme='heritage'] .section-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* Le grand titre du hero : vermillon, serif, monumental (cf. moodboard) */
+html[data-theme='heritage'] .hero-section h1 {
+  color: rgb(var(--accent-rgb));
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+/* Logo « Vareska » en script calligraphique (au lieu des capitales espacées) */
+html[data-theme='heritage'] [data-logo] {
+  font-family: var(--font-script);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1;
+}
+@media (min-width: 768px) {
+  html[data-theme='heritage'] [data-logo] { font-size: 2.4rem; }
+}
+
+/* Bascule de thème : petit interrupteur dans le header */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--c-n400));
+  transition: color 0.2s ease;
+}
+.theme-toggle:hover { color: rgb(var(--c-cream)); }
+.theme-toggle__track {
+  position: relative;
+  width: 38px;
+  height: 20px;
+  border-radius: 9999px;
+  background: rgb(var(--c-cream) / 0.14);
+  border: 1px solid rgb(var(--c-cream) / 0.18);
+  transition: background 0.25s ease, border-color 0.25s ease;
+  flex-shrink: 0;
+}
+.theme-toggle__thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: rgb(var(--c-cream));
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+html[data-theme='heritage'] .theme-toggle__track {
+  background: rgb(var(--accent-rgb));
+  border-color: rgb(var(--accent-dark-rgb));
+}
+html[data-theme='heritage'] .theme-toggle__thumb {
+  transform: translateX(18px);
+  background: #fff;
 }
 
 @layer base {

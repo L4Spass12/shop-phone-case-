@@ -108,6 +108,19 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="format-detection" content="telephone=no" />
 
+    {/* Thème visuel : applique le choix mémorisé AVANT le paint (anti-flash).
+        Défaut = thème neutre clair ; 'heritage' = thème galerie d'art.
+        Bascule via le toggle du header. */}
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.getItem('site-theme') === 'heritage') {
+            document.documentElement.setAttribute('data-theme', 'heritage');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
     {preloadImages.map(img => (
       <link
