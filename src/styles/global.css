@@ -87,22 +87,6 @@ html[data-theme='heritage'] {
   --font-body:    'Inter', system-ui, sans-serif;   /* labels / paragraphes */
   --font-display: 'Bodoni Moda', 'Times New Roman', serif;  /* titres Didone */
   --font-script:  'Pinyon Script', cursive;         /* logo */
-
-  /* Couleur du cadre bordeaux qui encadre la page */
-  --frame: #2c0a09;
-}
-
-/* Cadre bordeaux autour de tout le viewport (uniquement en heritage) */
-html[data-theme='heritage'] body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  border: 14px solid var(--frame);
-  pointer-events: none;
-  z-index: 9998;
-}
-@media (min-width: 768px) {
-  html[data-theme='heritage'] body::before { border-width: 22px; }
 }
 
 /* Titres en serif Didone */
@@ -180,6 +164,69 @@ html[data-theme='heritage'] .theme-toggle__track {
 html[data-theme='heritage'] .theme-toggle__thumb {
   transform: translateX(18px);
   background: #fff;
+}
+
+/* ─── CTA « Ajouter au panier » version heritage ─────────────────────────
+   On aplatit le bouton brillant (Uiverse) en un bloc vermillon franc, coins
+   nets, libellé en capitales espacées : plus proche de la DA galerie d'art. */
+html[data-theme='heritage'] .btn-atc {
+  --atc-fill-bottom: rgb(var(--accent-rgb));
+  --atc-fill-top:    rgb(var(--accent-rgb));   /* fond plat (plus de dégradé) */
+  --atc-ring-bottom: rgb(var(--accent-dark-rgb));
+  --atc-ring-top:    rgb(var(--accent-dark-rgb));
+  --atc-glow:        rgb(var(--accent-rgb) / .3);
+  border-radius: 3px;
+  border-width: 1px;
+  opacity: 1;
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+html[data-theme='heritage'] .btn-atc--sm { border-radius: 3px; }
+html[data-theme='heritage'] .btn-atc::after { display: none; }  /* supprime le reflet */
+html[data-theme='heritage'] .btn-atc:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -10px var(--atc-glow);
+}
+html[data-theme='heritage'] .btn-atc > span { letter-spacing: 0.06em; }
+
+/* ─── Footer version heritage ────────────────────────────────────────────
+   Panneau crème plus chaud, filet vermillon en tête, marque en script, et
+   titres de colonnes en petites capitales espacées (le serif Didone est trop
+   chargé à cette taille). Donne un pied de page « éditorial de musée ». */
+html[data-theme='heritage'] footer {
+  background: rgb(var(--c-panel));
+  border-top: 3px solid rgb(var(--accent-rgb));
+}
+html[data-theme='heritage'] footer [data-footer-brand] {
+  font-family: var(--font-script);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+html[data-theme='heritage'] footer [data-footer-brand] span { display: none; }  /* pas de suffixe coloré */
+html[data-theme='heritage'] footer h2 {
+  font-family: var(--font-body);   /* pas de serif à cette petite taille */
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.66rem;
+  color: rgb(var(--accent-rgb));
+}
+html[data-theme='heritage'] footer input {
+  border-radius: 2px;
+  background: rgb(var(--c-dark));
+}
+html[data-theme='heritage'] footer button[type='submit'] {
+  border-radius: 2px;
+  background: rgb(var(--accent-rgb));
+  color: #fff;
+  border-color: rgb(var(--accent-dark-rgb));
+}
+html[data-theme='heritage'] footer button[type='submit']:hover {
+  background: rgb(var(--accent-dark-rgb));
 }
 
 @layer base {
