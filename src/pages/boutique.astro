@@ -105,7 +105,7 @@ const breadcrumbSchema = {
                   {featured.data.shortDescription}
                 </p>
                 <div class="flex items-baseline gap-3">
-                  <span class="text-2xl text-cream font-medium tracking-tight">{displayPrice(featured.data)}</span>
+                  <span class="price-amount text-2xl text-cream font-medium tracking-tight">{displayPrice(featured.data)}</span>
                   {featured.data.compareAtPrice && (
                     <span class="text-sm text-n-500 line-through font-light">{formatPrice(featured.data.compareAtPrice)}</span>
                   )}
@@ -195,7 +195,7 @@ const breadcrumbSchema = {
                   <p class="text-xs text-n-500 font-light truncate">{product.data.shortDescription}</p>
                 </div>
                 <div class="flex items-baseline gap-2 shrink-0">
-                  <span class="text-sm text-cream font-medium whitespace-nowrap">{displayPrice(product.data)}</span>
+                  <span class="price-amount text-sm text-cream font-medium whitespace-nowrap">{displayPrice(product.data)}</span>
                 </div>
               </div>
             </a>

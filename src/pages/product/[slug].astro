@@ -271,7 +271,7 @@ const breadcrumbSchema = {
 
         <!-- Prix -->
         <div class="flex items-baseline gap-3 mb-2">
-          <span id="product-price" class="text-xl md:text-2xl text-cream font-medium tracking-tight">
+          <span id="product-price" class="price-amount text-xl md:text-2xl text-cream font-medium tracking-tight">
             {priceRange && priceRange.min !== priceRange.max
               ? `Dès ${formatPrice(priceRange.min)}`
               : formatPrice(price)}

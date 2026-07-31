@@ -199,7 +199,7 @@ const faqSchema = {
                 {product.data.name}
               </h3>
               <div class="flex items-baseline gap-2 text-xs">
-                <span class="text-cream font-medium">{displayPrice(product.data)}</span>
+                <span class="price-amount text-cream font-medium">{displayPrice(product.data)}</span>
                 {product.data.compareAtPrice && (
                   <span class="text-n-500 line-through font-light">{formatPrice(product.data.compareAtPrice)}</span>
                 )}
@@ -280,7 +280,7 @@ const faqSchema = {
                 {p.data.name}
               </h3>
               <div class="flex items-baseline gap-2 text-xs">
-                <span class="text-cream font-medium">{displayPrice(p.data)}</span>
+                <span class="price-amount text-cream font-medium">{displayPrice(p.data)}</span>
                 {p.data.compareAtPrice && (
                   <span class="text-n-500 line-through font-light">{formatPrice(p.data.compareAtPrice)}</span>
                 )}

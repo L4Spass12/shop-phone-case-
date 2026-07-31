@@ -192,6 +192,59 @@ html[data-theme='heritage'] .btn-atc:hover {
 }
 html[data-theme='heritage'] .btn-atc > span { letter-spacing: 0.06em; }
 
+/* ─── Boutons génériques version heritage ────────────────────────────────
+   « Découvrir », « Personnaliser mon produit », etc. : mêmes codes que le CTA
+   (plats, coins nets, capitales espacées) pour une DA cohérente partout. */
+html[data-theme='heritage'] .btn-primary,
+html[data-theme='heritage'] .btn-outline {
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+/* Primaire : bloc encre qui révèle le vermillon au survol */
+html[data-theme='heritage'] .btn-primary:hover {
+  background: rgb(var(--accent-rgb));
+  color: #fff;
+}
+/* Secondaire : filet encre, se remplit d'encre au survol */
+html[data-theme='heritage'] .btn-outline {
+  border-color: rgb(var(--c-cream) / 0.35);
+}
+html[data-theme='heritage'] .btn-outline:hover {
+  background: rgb(var(--c-cream));
+  color: rgb(var(--c-dark));
+  border-color: rgb(var(--c-cream));
+}
+
+/* ─── Header en mode galerie ─────────────────────────────────────────────
+   Liens de nav et pastille « Catégories » en petites capitales espacées,
+   coins nets : l'esprit cartel de musée (« TICKETS », « SINCE 1957 »). */
+html[data-theme='heritage'] .nav-link {
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.72rem;
+}
+html[data-theme='heritage'] .nav-cat-trigger {
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.72rem;
+}
+
+/* ─── Prix en serif Didone (comme les titres) ────────────────────────────
+   Le prix devient un élément typographique fort, pas juste une donnée. */
+html[data-theme='heritage'] .price-amount {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+html[data-theme='heritage'] #product-price {
+  font-size: 2.15rem;
+  line-height: 1;
+}
+
 /* ─── Footer version heritage ────────────────────────────────────────────
    Panneau crème plus chaud, filet vermillon en tête, marque en script, et
    titres de colonnes en petites capitales espacées (le serif Didone est trop
