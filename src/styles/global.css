@@ -180,9 +180,9 @@ html[data-theme='heritage'] .btn-atc {
   opacity: 1;
   box-shadow: none;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   font-weight: 600;
-  font-size: 0.82rem;
+  /* Taille d'origine conservée (le bouton ne doit pas rétrécir) */
 }
 html[data-theme='heritage'] .btn-atc--sm { border-radius: 3px; }
 html[data-theme='heritage'] .btn-atc::after { display: none; }  /* supprime le reflet */
@@ -255,6 +255,66 @@ html[data-theme='heritage'] .product-breadcrumb {
   margin-bottom: 0.5rem;
   padding-bottom: 0;
 }
+
+/* ─── Coins nets sur TOUS les conteneurs et boutons ──────────────────────
+   La DA galerie est anguleuse : on carre cards, panneaux, dropdowns, champs
+   et pastilles. On NE touche PAS aux cercles (points de statut = <span>, le
+   toggle a ses propres classes), seulement aux liens/boutons/summary en
+   pilule et aux conteneurs arrondis. */
+html[data-theme='heritage'] .rounded-3xl,
+html[data-theme='heritage'] .rounded-2xl,
+html[data-theme='heritage'] .rounded-xl,
+html[data-theme='heritage'] .rounded-lg,
+html[data-theme='heritage'] .rounded-md,
+html[data-theme='heritage'] a.rounded-full,
+html[data-theme='heritage'] button.rounded-full,
+html[data-theme='heritage'] summary.rounded-full,
+html[data-theme='heritage'] .tag {
+  border-radius: 3px;
+}
+
+/* ─── Sélecteur de modèle de téléphone (styles codés en dur → à adapter) ── */
+html[data-theme='heritage'] .mp-trigger {
+  border-radius: 2px;
+  background: rgb(var(--c-dark));
+  border-color: rgb(var(--c-cream) / 0.28);
+  color: rgb(var(--c-cream));
+}
+html[data-theme='heritage'] .mp-trigger:hover { border-color: rgb(var(--c-cream) / 0.5); }
+html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger { border-color: rgb(var(--c-cream)); }
+html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); }
+html[data-theme='heritage'] .mp-panel {
+  border-radius: 3px;
+  background: rgb(var(--c-dark));
+  border-color: rgb(var(--c-beige));
+}
+html[data-theme='heritage'] .mp-search {
+  border-radius: 2px;
+  background: rgb(var(--c-panel));
+  border-color: rgb(var(--c-beige));
+  color: rgb(var(--c-cream));
+}
+html[data-theme='heritage'] .mp-search:focus { border-color: rgb(var(--c-cream)); background: rgb(var(--c-dark)); }
+html[data-theme='heritage'] .mp-close { border-radius: 2px; }
+html[data-theme='heritage'] .mp-brand {
+  border-radius: 2px;
+  box-shadow: none;
+  background: rgb(var(--c-dark));
+  border-color: rgb(var(--c-beige));
+  color: rgb(var(--c-n400));
+}
+html[data-theme='heritage'] .mp-brand:hover { border-color: rgb(var(--c-cream) / 0.5); color: rgb(var(--c-cream)); box-shadow: none; }
+/* Puce marque active : vermillon plat (au lieu de l'encre en relief) */
+html[data-theme='heritage'] .mp-brand.is-active,
+html[data-theme='heritage'] .mp-brand.is-active:hover {
+  background: rgb(var(--accent-rgb));
+  border-color: rgb(var(--accent-dark-rgb));
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ─── Indicateur « En stock » retiré en heritage ─────────────────────────── */
+html[data-theme='heritage'] #product-stock { display: none; }
 
 /* ─── Footer version heritage ────────────────────────────────────────────
    Panneau crème plus chaud, filet vermillon en tête, marque en script, et
