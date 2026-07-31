@@ -241,8 +241,19 @@ html[data-theme='heritage'] .price-amount {
   letter-spacing: 0;
 }
 html[data-theme='heritage'] #product-price {
-  font-size: 2.15rem;
+  font-size: 1.6rem;
   line-height: 1;
+}
+
+/* Fil d'Ariane heritage : un peu plus petit, et resserré (moins de vide
+   au-dessus et en dessous). */
+html[data-theme='heritage'] .product-shell {
+  padding-top: 0.6rem;
+}
+html[data-theme='heritage'] .product-breadcrumb {
+  font-size: 0.68rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 
 /* ─── Footer version heritage ────────────────────────────────────────────
