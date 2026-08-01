@@ -119,11 +119,39 @@ html[data-theme='heritage'] .hero-section h1 {
 .hero-section img.hero-bg-heritage { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block; }
+/* Image SOMBRE : voile sombre plus dense à gauche (où vit le texte), qui
+   s'efface vers la droite pour laisser voir la vitrine. */
 html[data-theme='heritage'] .hero-section::after {
   background: linear-gradient(to right,
-    rgba(244, 238, 226, 0.88),
-    rgba(244, 238, 226, 0.55) 42%,
-    rgba(244, 238, 226, 0.12));
+    rgba(16, 8, 7, 0.82),
+    rgba(16, 8, 7, 0.34) 44%,
+    rgba(16, 8, 7, 0) 78%);
+}
+/* Sur ce fond sombre, on éclaircit le sous-titre, la pastille et les boutons
+   (le titre reste vermillon, lisible tel quel). */
+html[data-theme='heritage'] .hero-section p {
+  color: rgba(244, 238, 226, 0.82);
+}
+html[data-theme='heritage'] .hero-section .tag {
+  color: rgba(244, 238, 226, 0.9);
+  border-color: rgba(244, 238, 226, 0.25);
+  background: rgba(244, 238, 226, 0.08);
+}
+html[data-theme='heritage'] .hero-section .btn-primary {
+  background: #f4eee2;   /* bouton crème qui ressort sur le sombre */
+  color: #241310;
+}
+html[data-theme='heritage'] .hero-section .btn-primary:hover {
+  background: rgb(var(--accent-rgb));   /* vermillon au survol */
+  color: #fff;
+}
+html[data-theme='heritage'] .hero-section .btn-outline {
+  color: rgba(244, 238, 226, 0.92);
+  border-color: rgba(244, 238, 226, 0.4);
+}
+html[data-theme='heritage'] .hero-section .btn-outline:hover {
+  background: rgba(244, 238, 226, 0.12);
+  color: #fff;
 }
 
 /* Logo « Vareska » en script calligraphique (au lieu des capitales espacées) */
