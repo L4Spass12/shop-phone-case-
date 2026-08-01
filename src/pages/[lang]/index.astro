@@ -164,6 +164,18 @@ const faqSchema = {
       width="2560"
       height="1086"
     />
+    {/* Bannière du thème « heritage » : vitrine de musée (masquée par défaut). */}
+    <img
+      src="/images/hero-heritage.webp"
+      srcset="/images/hero-heritage-800w.webp 800w, /images/hero-heritage-1280w.webp 1280w, /images/hero-heritage.webp 1536w"
+      sizes="100vw"
+      alt={t('home.heroTitle', lang)}
+      class="hero-img hero-bg-heritage"
+      loading="lazy"
+      decoding="async"
+      width="1536"
+      height="1024"
+    />
     <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-24 w-full flex flex-col justify-center">
       <span class="tag tag-status mb-6 self-start">{t('home.heroTag', lang)}</span>
       <h1 class="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-cream mb-4 leading-[1.1] max-w-2xl">

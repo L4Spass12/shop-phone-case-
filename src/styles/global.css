@@ -109,6 +109,23 @@ html[data-theme='heritage'] .hero-section h1 {
   text-transform: uppercase;
 }
 
+/* Bannière du hero en heritage : vitrine de musée. L'image du thème clair est
+   masquée, celle-ci prend sa place, et le voile s'éclaircit (crème au lieu de
+   blanc opaque) pour la laisser voir : plus dense à gauche où vit le texte,
+   quasi transparent à droite où se trouve la vitrine. */
+/* Spécificité renforcée (.hero-section img.hero-bg-*) pour battre la règle
+   scopée `.hero-img { display:block }` d'Astro, sinon la bannière s'affiche
+   aussi en thème Défaut. */
+.hero-section img.hero-bg-heritage { display: none; }
+html[data-theme='heritage'] .hero-section img.hero-bg { display: none; }
+html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block; }
+html[data-theme='heritage'] .hero-section::after {
+  background: linear-gradient(to right,
+    rgba(244, 238, 226, 0.88),
+    rgba(244, 238, 226, 0.55) 42%,
+    rgba(244, 238, 226, 0.12));
+}
+
 /* Logo « Vareska » en script calligraphique (au lieu des capitales espacées) */
 html[data-theme='heritage'] [data-logo] {
   font-family: var(--font-script);
