@@ -239,7 +239,6 @@ html[data-theme='heritage'] .nav-cat-trigger {
    header ; en thème Défaut aucune règle n'y réagit → header toujours visible. */
 html[data-theme='heritage'] #site-header {
   transition: transform 0.35s ease;
-  will-change: transform;
 }
 html[data-theme='heritage'] #site-header.header-hidden {
   transform: translateY(-100%);
@@ -296,21 +295,26 @@ html[data-theme='heritage'] .mp-trigger {
 html[data-theme='heritage'] .mp-trigger:hover { border-color: rgb(var(--c-cream) / 0.5); }
 html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger { border-color: rgb(var(--c-cream)); }
 html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); }
+/* ─── Surfaces sombres heritage (footer + drawer du sélecteur) ────────────
+   Même fond bordeaux que le reste du site, et une palette de TEXTE claire
+   commune : on re-mappe ici les variables pour que tout le contenu posé
+   dessus (text-cream, text-n-500, bordures border-white/…) bascule en clair.
+   Le déclencheur du sélecteur est hors du panneau : il garde son style clair. */
+html[data-theme='heritage'] footer,
+html[data-theme='heritage'] .mp-panel {
+  --c-cream: 244 238 226;   /* texte principal -> crème clair */
+  --c-n400:  214 201 188;   /* texte courant clair */
+  --c-n500:  188 170 156;   /* texte secondaire clair */
+  --c-white: 244 238 226;   /* voiles / filets clairs */
+}
 html[data-theme='heritage'] .mp-panel {
   border-radius: 3px;
-  background: #2c0a09;                       /* même bordeaux que le footer */
+  background: #2c0a09;
   border-color: rgba(244, 238, 226, 0.14);
-  /* Le drawer devient une surface SOMBRE : on re-mappe les variables de
-     couleur ici pour que tout son contenu (texte, champs, puces, filets)
-     bascule en clair, exactement comme le footer. Le déclencheur, lui, est
-     hors du panneau : il garde son style clair sur la page. */
-  --c-cream: 244 238 226;   /* texte -> crème clair */
-  --c-n400:  214 201 188;   /* texte courant clair */
-  --c-n500:  176 158 144;   /* texte secondaire clair */
-  --c-white: 244 238 226;   /* voiles / filets clairs */
-  --c-dark:  58 21 18;      /* surfaces internes (puces) un cran + clair */
-  --c-panel: 70 30 27;      /* champ de recherche */
-  --c-beige: 96 62 57;      /* bordures sur fond sombre */
+  /* Surfaces internes un cran plus claires que le fond du panneau. */
+  --c-dark:  58 21 18;   /* puces marques */
+  --c-panel: 70 30 27;   /* champ de recherche */
+  --c-beige: 96 62 57;   /* bordures */
 }
 html[data-theme='heritage'] .mp-panel-title { color: rgb(var(--c-cream)); }
 html[data-theme='heritage'] .mp-search::placeholder { color: rgb(var(--c-n500)); }
@@ -322,7 +326,7 @@ html[data-theme='heritage'] .mp-search {
   color: rgb(var(--c-cream));
 }
 html[data-theme='heritage'] .mp-search:focus { border-color: rgb(var(--c-cream)); background: rgb(var(--c-dark)); }
-/* Croix de fermeture : plus grande et dans un conteneur visible. */
+/* Croix de fermeture : plus grande et dans un conteneur visible, vermillon au survol. */
 html[data-theme='heritage'] .mp-close {
   width: 40px;
   height: 40px;
@@ -333,6 +337,11 @@ html[data-theme='heritage'] .mp-close {
   color: rgb(var(--c-cream));
 }
 html[data-theme='heritage'] .mp-close svg { width: 20px; height: 20px; }
+html[data-theme='heritage'] .mp-close:hover {
+  background: rgb(var(--accent-rgb));
+  border-color: rgb(var(--accent-dark-rgb));
+  color: #fff;
+}
 html[data-theme='heritage'] .mp-brand {
   border-radius: 2px;
   box-shadow: none;
@@ -357,14 +366,9 @@ html[data-theme='heritage'] .mp-option:focus-visible {
   outline-offset: 2px;
 }
 
-/* Entête du panneau séparé par un filet chaud + filet vermillon sous le titre */
+/* Entête du panneau : filet de séparation chaud, icône de recherche estompée. */
 html[data-theme='heritage'] .mp-panel-head { border-bottom-color: rgb(var(--c-beige)); }
 html[data-theme='heritage'] .mp-search-icon { color: rgb(var(--c-n500)); }
-html[data-theme='heritage'] .mp-close:hover {
-  background: rgb(var(--accent-rgb));
-  border-color: rgb(var(--accent-dark-rgb));
-  color: #fff;
-}
 
 /* Intitulé de groupe : encre, souligné d'un filet (cartel de section) */
 html[data-theme='heritage'] .mp-group {
@@ -403,15 +407,8 @@ html[data-theme='heritage'] #product-stock { display: none; }
    titres de colonnes en petites capitales espacées (le serif Didone est trop
    chargé à cette taille). Donne un pied de page « éditorial de musée ». */
 html[data-theme='heritage'] footer {
-  background: #2c0a09;   /* bordeaux profond (oxblood) */
+  background: #2c0a09;   /* bordeaux profond (oxblood), cf. « surfaces sombres » */
   border-top: 3px solid rgb(var(--accent-rgb));
-  /* Le footer devient une surface SOMBRE : on re-mappe les variables de
-     couleur juste ici pour que tout le texte (text-cream, text-n-500, les
-     bordures border-white/…) bascule automatiquement en clair. */
-  --c-cream: 244 238 226;   /* texte principal -> crème clair */
-  --c-n400:  214 201 188;   /* texte courant -> beige clair */
-  --c-n500:  188 170 156;   /* texte secondaire -> beige grisé */
-  --c-white: 244 238 226;   /* voiles / bordures -> encre CLAIRE translucide */
 }
 html[data-theme='heritage'] footer [data-footer-brand] {
   font-family: var(--font-script);
