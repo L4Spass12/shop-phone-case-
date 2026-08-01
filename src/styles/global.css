@@ -109,13 +109,11 @@ html[data-theme='heritage'] .hero-section h1 {
   text-transform: uppercase;
 }
 
-/* Bannière du hero en heritage : vitrine de musée. L'image du thème clair est
-   masquée, celle-ci prend sa place, et le voile s'éclaircit (crème au lieu de
-   blanc opaque) pour la laisser voir : plus dense à gauche où vit le texte,
-   quasi transparent à droite où se trouve la vitrine. */
-/* Spécificité renforcée (.hero-section img.hero-bg-*) pour battre la règle
-   scopée `.hero-img { display:block }` d'Astro, sinon la bannière s'affiche
-   aussi en thème Défaut. */
+/* Bannière du hero en heritage : vitrine de musée sombre. L'image du thème
+   clair est masquée, celle-ci prend sa place (le voile et le traitement du
+   texte, plus bas, sont réglés pour ce fond sombre). Spécificité renforcée
+   (.hero-section img.hero-bg-*) pour battre la règle scopée `.hero-img {
+   display:block }` d'Astro, sinon la bannière s'afficherait aussi en Défaut. */
 .hero-section img.hero-bg-heritage { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block; }
