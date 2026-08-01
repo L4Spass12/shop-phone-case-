@@ -185,7 +185,8 @@ html[data-theme='heritage'] .btn-atc {
   /* Taille d'origine conservée (le bouton ne doit pas rétrécir) */
 }
 html[data-theme='heritage'] .btn-atc--sm { border-radius: 3px; }
-html[data-theme='heritage'] .btn-atc::after { display: none; }  /* supprime le reflet */
+html[data-theme='heritage'] .btn-atc::after { display: none; }   /* supprime le reflet */
+html[data-theme='heritage'] .btn-atc::before { display: none; }  /* supprime l'icône panier */
 html[data-theme='heritage'] .btn-atc:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px -10px var(--atc-glow);
@@ -231,6 +232,17 @@ html[data-theme='heritage'] .nav-cat-trigger {
   text-transform: uppercase;
   letter-spacing: 0.13em;
   font-size: 0.72rem;
+}
+
+/* Header masquable au scroll (heritage) : glisse hors champ en descendant,
+   revient en remontant. La classe .header-hidden est posée par le JS du
+   header ; en thème Défaut aucune règle n'y réagit → header toujours visible. */
+html[data-theme='heritage'] #site-header {
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+html[data-theme='heritage'] #site-header.header-hidden {
+  transform: translateY(-100%);
 }
 
 /* ─── Prix en serif Didone (comme les titres) ────────────────────────────

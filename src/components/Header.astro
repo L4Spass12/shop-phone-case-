@@ -347,4 +347,30 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     }
     syncThemeToggle();
   });
+
+  // ─── Header masquable au scroll ─────────────────────────────────────
+  // On descend -> le header s'efface ; on remonte -> il revient. Le CSS ne
+  // réagit qu'en thème heritage (classe .header-hidden) ; en thème Défaut le
+  // header reste figé comme avant. On ne masque pas si le menu mobile est
+  // ouvert (il vit dans le header).
+  const header = document.getElementById('site-header');
+  if (header) {
+    let lastY = window.scrollY;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const menuOpen = nav ? !nav.classList.contains('hidden') : false;
+        if (!menuOpen && y > lastY && y > 100) {
+          header.classList.add('header-hidden');
+        } else {
+          header.classList.remove('header-hidden');
+        }
+        lastY = y;
+        ticking = false;
+      });
+    }, { passive: true });
+  }
 </script>
