@@ -136,8 +136,8 @@ const breadcrumbSchema = {
   jsonLd={[productSchema, breadcrumbSchema]}
   noindex={(categories ?? []).length === 0}
 >
-  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
-    <nav class="flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
+  <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
       <a href={url('/')} class="hover:text-cream transition-colors shrink-0">{t('nav.home', lang)}</a>
       <span class="shrink-0">/</span>
       <a href={url('/boutique')} class="hover:text-cream transition-colors shrink-0">{t('shop.breadcrumbShop', lang)}</a>

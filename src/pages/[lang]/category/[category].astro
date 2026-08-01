@@ -83,8 +83,8 @@ const blogCategories = siteConfig.categories as string[];
   description={`${cat}`}
   jsonLd={[collectionSchema, breadcrumbSchema]}
 >
-  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
-    <nav class="flex items-center gap-2 text-xs text-n-500 mb-6 font-light">
+  <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light">
       <a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a>
       <span>/</span>
       <a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a>

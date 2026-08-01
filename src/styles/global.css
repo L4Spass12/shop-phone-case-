@@ -245,12 +245,13 @@ html[data-theme='heritage'] #product-price {
   line-height: 1;
 }
 
-/* Fil d'Ariane heritage : un peu plus petit, et resserré (moins de vide
-   au-dessus et en dessous). */
-html[data-theme='heritage'] .product-shell {
+/* Fils d'Ariane heritage : un peu plus petits, et resserrés (moins de vide
+   au-dessus et en dessous). Appliqué à TOUS les fils d'Ariane du site via
+   les classes .crumbs-shell (conteneur) et .site-breadcrumb (le nav). */
+html[data-theme='heritage'] .crumbs-shell {
   padding-top: 0.6rem;
 }
-html[data-theme='heritage'] .product-breadcrumb {
+html[data-theme='heritage'] .site-breadcrumb {
   font-size: 0.68rem;
   margin-bottom: 0.5rem;
   padding-bottom: 0;
@@ -285,9 +286,23 @@ html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger { border-color: rgb(
 html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); }
 html[data-theme='heritage'] .mp-panel {
   border-radius: 3px;
-  background: rgb(var(--c-dark));
-  border-color: rgb(var(--c-beige));
+  background: #2c0a09;                       /* même bordeaux que le footer */
+  border-color: rgba(244, 238, 226, 0.14);
+  /* Le drawer devient une surface SOMBRE : on re-mappe les variables de
+     couleur ici pour que tout son contenu (texte, champs, puces, filets)
+     bascule en clair, exactement comme le footer. Le déclencheur, lui, est
+     hors du panneau : il garde son style clair sur la page. */
+  --c-cream: 244 238 226;   /* texte -> crème clair */
+  --c-n400:  214 201 188;   /* texte courant clair */
+  --c-n500:  176 158 144;   /* texte secondaire clair */
+  --c-white: 244 238 226;   /* voiles / filets clairs */
+  --c-dark:  58 21 18;      /* surfaces internes (puces) un cran + clair */
+  --c-panel: 70 30 27;      /* champ de recherche */
+  --c-beige: 96 62 57;      /* bordures sur fond sombre */
 }
+html[data-theme='heritage'] .mp-panel-title { color: rgb(var(--c-cream)); }
+html[data-theme='heritage'] .mp-search::placeholder { color: rgb(var(--c-n500)); }
+html[data-theme='heritage'] .mp-empty { color: rgb(var(--c-n400)); }
 html[data-theme='heritage'] .mp-search {
   border-radius: 2px;
   background: rgb(var(--c-panel));
@@ -295,7 +310,17 @@ html[data-theme='heritage'] .mp-search {
   color: rgb(var(--c-cream));
 }
 html[data-theme='heritage'] .mp-search:focus { border-color: rgb(var(--c-cream)); background: rgb(var(--c-dark)); }
-html[data-theme='heritage'] .mp-close { border-radius: 2px; }
+/* Croix de fermeture : plus grande et dans un conteneur visible. */
+html[data-theme='heritage'] .mp-close {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  border-radius: 2px;
+  background: rgb(var(--c-panel));
+  border: 1px solid rgb(var(--c-beige));
+  color: rgb(var(--c-cream));
+}
+html[data-theme='heritage'] .mp-close svg { width: 20px; height: 20px; }
 html[data-theme='heritage'] .mp-brand {
   border-radius: 2px;
   box-shadow: none;
@@ -323,7 +348,11 @@ html[data-theme='heritage'] .mp-option:focus-visible {
 /* Entête du panneau séparé par un filet chaud + filet vermillon sous le titre */
 html[data-theme='heritage'] .mp-panel-head { border-bottom-color: rgb(var(--c-beige)); }
 html[data-theme='heritage'] .mp-search-icon { color: rgb(var(--c-n500)); }
-html[data-theme='heritage'] .mp-close:hover { background: rgb(var(--c-panel)); color: rgb(var(--c-cream)); }
+html[data-theme='heritage'] .mp-close:hover {
+  background: rgb(var(--accent-rgb));
+  border-color: rgb(var(--accent-dark-rgb));
+  color: #fff;
+}
 
 /* Intitulé de groupe : encre, souligné d'un filet (cartel de section) */
 html[data-theme='heritage'] .mp-group {
@@ -342,12 +371,12 @@ html[data-theme='heritage'] .mp-option {
 }
 html[data-theme='heritage'] .mp-option:hover,
 html[data-theme='heritage'] .mp-option.is-cursor {
-  background: rgb(var(--accent-rgb) / 0.08);
-  color: rgb(var(--accent-dark-rgb));
+  background: rgb(var(--accent-rgb) / 0.18);
+  color: #fff;
 }
 html[data-theme='heritage'] .mp-option[aria-selected='true'] {
-  background: rgb(var(--accent-rgb) / 0.1);
-  color: rgb(var(--accent-dark-rgb));
+  background: rgb(var(--accent-rgb) / 0.22);
+  color: rgb(var(--accent-light-rgb));
   box-shadow: inset 3px 0 0 rgb(var(--accent-rgb));
   font-weight: 600;
 }

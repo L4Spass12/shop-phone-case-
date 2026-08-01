@@ -217,6 +217,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         var brandFilter = '';
         var cursor = -1;      // index de l'option surlignée au clavier
         var shown = [];       // options actuellement affichées, dans l'ordre
+        var scrollLockY = 0;  // position de défilement mémorisée à l'ouverture
 
         // ─── Normalisation ────────────────────────────────────────────────
         // Même traitement que côté serveur : insensible aux accents, à la
@@ -330,6 +331,16 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           // en marge avant de le supprimer.
           var gutter = window.innerWidth - document.documentElement.clientWidth;
           if (gutter > 0) document.documentElement.style.paddingRight = gutter + 'px';
+          // Verrou de défilement robuste, iOS COMPRIS : sur Safari mobile,
+          // `overflow: hidden` ne suffit pas (le fond continue de défiler
+          // derrière la feuille). On fige donc le body en `position: fixed` en
+          // mémorisant la position de défilement, restaurée à la fermeture.
+          scrollLockY = window.scrollY || window.pageYOffset || 0;
+          document.body.style.position = 'fixed';
+          document.body.style.top = -scrollLockY + 'px';
+          document.body.style.left = '0';
+          document.body.style.right = '0';
+          document.body.style.width = '100%';
           document.documentElement.style.overflow = 'hidden';
           render();
           // Sur mobile, ouvrir le clavier d'emblée masquerait la liste : on ne
@@ -345,6 +356,13 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           trigger.setAttribute('aria-expanded', 'false');
           document.documentElement.style.overflow = '';
           document.documentElement.style.paddingRight = '';
+          // Libère le body figé et restaure la position de défilement d'origine.
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.right = '';
+          document.body.style.width = '';
+          window.scrollTo(0, scrollLockY);
           search.value = '';
           document.removeEventListener('pointerdown', onOutside, true);
           if (refocus) trigger.focus();
