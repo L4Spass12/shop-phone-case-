@@ -348,29 +348,46 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     syncThemeToggle();
   });
 
-  // ─── Header masquable au scroll ─────────────────────────────────────
-  // On descend -> le header s'efface ; on remonte -> il revient. Le CSS ne
-  // réagit qu'en thème heritage (classe .header-hidden) ; en thème Défaut le
-  // header reste figé comme avant. On ne masque pas si le menu mobile est
-  // ouvert (il vit dans le header).
+  // ─── Comportements du header au scroll ──────────────────────────────
+  // Deux effets, pilotés par des classes que le CSS n'exploite qu'en thème
+  // heritage (en thème Défaut, le header reste figé comme avant) :
+  //   .header-over-hero : tant qu'on est SUR le hero (accueil), le header est
+  //                       transparent et se fond dans la bannière.
+  //   .header-hidden    : au-delà du hero, il s'efface quand on descend et
+  //                       revient quand on remonte.
+  // Le menu mobile ouvert (qui vit dans le header) fige les deux effets.
   const header = document.getElementById('site-header');
+  const hero = document.querySelector('.hero-section'); // présent sur l'accueil
   if (header) {
     let lastY = window.scrollY;
     let ticking = false;
+
+    // Seuil de bascule transparent -> plein : le bas du hero atteint le header.
+    const heroThreshold = () =>
+      hero ? Math.max(0, hero.offsetHeight - header.offsetHeight) : 0;
+
+    const update = () => {
+      const y = window.scrollY;
+      const menuOpen = nav ? !nav.classList.contains('hidden') : false;
+      const overHero = hero ? y < heroThreshold() : false;
+
+      if (hero) header.classList.toggle('header-over-hero', overHero);
+
+      // On ne masque pas le header tant qu'il est transparent sur le hero.
+      if (!menuOpen && !overHero && y > lastY && y > 100) {
+        header.classList.add('header-hidden');
+      } else {
+        header.classList.remove('header-hidden');
+      }
+      lastY = y;
+      ticking = false;
+    };
+
+    update(); // état initial (transparent en haut de l'accueil)
     window.addEventListener('scroll', () => {
       if (ticking) return;
       ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const menuOpen = nav ? !nav.classList.contains('hidden') : false;
-        if (!menuOpen && y > lastY && y > 100) {
-          header.classList.add('header-hidden');
-        } else {
-          header.classList.remove('header-hidden');
-        }
-        lastY = y;
-        ticking = false;
-      });
+      requestAnimationFrame(update);
     }, { passive: true });
   }
 </script>

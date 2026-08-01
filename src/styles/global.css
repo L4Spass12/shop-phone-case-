@@ -119,6 +119,27 @@ html[data-theme='heritage'] .hero-section h1 {
 .hero-section img.hero-bg-heritage { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg { display: none; }
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block; }
+/* Le hero remonte SOUS le header (transparent en haut) pour un effet
+   plein-cadre. Le padding-top compense pour que le contenu reste centré sous
+   la barre. `main` ayant un padding-top = --header-h, la marge négative l'annule
+   juste pour le hero. */
+html[data-theme='heritage'] .hero-section {
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: var(--header-h);
+}
+/* Dégradé sombre en haut du hero : garantit la lisibilité du header clair
+   (logo + nav) quelle que soit la zone d'image derrière. */
+html[data-theme='heritage'] .hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, rgba(16, 8, 7, 0.6), rgba(16, 8, 7, 0));
+  pointer-events: none;
+  z-index: 1;
+}
 /* Image SOMBRE : voile sombre plus dense à gauche (où vit le texte), qui
    s'efface vers la droite pour laisser voir la vitrine. */
 html[data-theme='heritage'] .hero-section::after {
@@ -283,10 +304,39 @@ html[data-theme='heritage'] .nav-cat-trigger {
    revient en remontant. La classe .header-hidden est posée par le JS du
    header ; en thème Défaut aucune règle n'y réagit → header toujours visible. */
 html[data-theme='heritage'] #site-header {
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 html[data-theme='heritage'] #site-header.header-hidden {
   transform: translateY(-100%);
+}
+
+/* Header transparent au-dessus du hero (heritage) : sur l'accueil, tant qu'on
+   est sur la bannière, le header se fond dans l'image (pas de fond, pas de
+   filet, contenu en clair). Passé le hero, il reprend son fond plein. La
+   classe .header-over-hero est posée par le JS ; en thème Défaut aucune règle
+   n'y réagit → header plein comme avant. */
+html[data-theme='heritage'] #site-header.header-over-hero {
+  background-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom-color: transparent;
+  /* Contenu du header éclairci sur la bannière sombre (remap des variables
+     utilisées par le logo, la nav catégories, le toggle, les switchers…). */
+  --c-cream: 244 238 226;
+  --c-n400:  222 210 196;
+  --c-n500:  200 186 172;
+  --c-white: 244 238 226;
+}
+/* Liens de nav (couleurs codées en dur dans le composant) → clairs. */
+html[data-theme='heritage'] #site-header.header-over-hero .nav-link {
+  color: rgba(244, 238, 226, 0.72);
+}
+html[data-theme='heritage'] #site-header.header-over-hero .nav-link:hover,
+html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active {
+  color: #fff;
+}
+html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active::after {
+  background: #fff;
 }
 
 /* ─── Prix en serif Didone (comme les titres) ────────────────────────────
