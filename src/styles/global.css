@@ -336,6 +336,17 @@ html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active {
 html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active::after {
   background: #fff;
 }
+/* Les popovers du header (dropdowns catégories/langue, menu mobile) sont des
+   surfaces claires PLEINES : leur contenu doit rester en encre, pas hériter du
+   remap clair du header transparent. On y rétablit la palette heritage de base. */
+html[data-theme='heritage'] #site-header.header-over-hero .nav-cat-panel,
+html[data-theme='heritage'] #site-header.header-over-hero .lang-panel,
+html[data-theme='heritage'] #site-header.header-over-hero #mobile-nav {
+  --c-cream: 36 19 16;
+  --c-n400:  110 95 82;
+  --c-n500:  156 142 126;
+  --c-white: 46 12 11;
+}
 
 /* ─── Prix en serif Didone (comme les titres) ────────────────────────────
    Le prix devient un élément typographique fort, pas juste une donnée. */
