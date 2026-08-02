@@ -86,8 +86,21 @@ Chemin : **hPanel → Sites web → `aquamarine-termite-481737.hostingersite.com
 - **Le build échoue sur `dist/index.html manquant` ou `dist/.htaccess
   manquant`** : le garde-fou du workflow a stoppé un build incomplet. Reproduire
   en local avec `npm run build` et corriger avant de repousser.
-- **Intégration Git HS** : basculer temporairement sur le repli FTP
-  (Actions → « Build & Deploy to Hostinger » → Run workflow).
+- **L'auto-déploiement Hostinger a décroché** (déjà vu) : le site reste bloqué
+  plusieurs commits en arrière alors que la branche `hostinger-deploy` est à
+  jour. Symptôme net : une page qui n'existait pas avant renvoie **404** en
+  ligne (`curl -I https://…/product/mon-nouveau-produit/`). Cause : Hostinger a
+  raté les webhooks de push. **Fix qui marche** : re-déclencher le build pour
+  forcer un nouveau push et ré-armer le webhook :
+  ```bash
+  gh workflow run hostinger-branch.yml
+  ```
+  (ou « Redéployer » dans hPanel → Git). Vérifier ensuite que la page 404
+  repasse en 200.
+- **Repli FTP** : ⚠️ INUTILISABLE en l'état — les secrets `FTP_SERVER` /
+  `FTP_USERNAME` / `FTP_PASSWORD` ne sont pas configurés sur ce repo. Pour s'en
+  servir, il faut d'abord les ajouter (Settings → Secrets → Actions), puis
+  Actions → « Build & Deploy to Hostinger » → Run workflow.
 - **Reconstruire à l'identique en local** :
   ```bash
   npm ci
