@@ -685,7 +685,11 @@ const breadcrumbSchema = {
           return k + ': ' + (pill ? pill.textContent.trim() : val);
         }).join(', ');
         buyBtn.disabled = !v.inStock;
-        buyBtn.dataset.itemId = v.id;
+        // Cle d'article UNIQUE PAR CONFIGURATION : l'id nu de la variation
+        // ("1", "2") entrerait en collision entre deux produits du meme
+        // shop, et c'est cette cle qui sert au mapping fournisseur cote
+        // Seamless (supplier_skus.store_key).
+        buyBtn.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
         buyBtn.dataset.itemPrice = Math.round(v.price * 100);
         buyBtn.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
         if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
@@ -695,7 +699,7 @@ const breadcrumbSchema = {
         if (stickyRefs) {
           stickyRefs.btns.forEach(b => {
             b.disabled = !v.inStock;
-            b.dataset.itemId = v.id;
+            b.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
             b.dataset.itemPrice = Math.round(v.price * 100);
             b.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
             if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;

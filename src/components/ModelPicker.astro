@@ -481,6 +481,15 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           // Idempotent : un second clic ne doit pas empiler les suffixes.
           base = base.replace(/ — [^—]*$/, '');
           btn.dataset.itemName = base + ' — ' + chosen;
+
+          // La clé d'article reçoit aussi le modèle (« <id>::<modèle> ») :
+          // c'est LA clé que le back-office associe au SKU AliExpress pour la
+          // commande fournisseur automatique — et elle distingue deux coques
+          // identiques pour des téléphones différents dans le panier.
+          // Même idempotence que le nom : on retire un éventuel suffixe avant
+          // d'ajouter le courant.
+          var baseId = (btn.dataset.itemId || '').split('::')[0];
+          btn.dataset.itemId = baseId + '::' + chosen;
         }, true);
 
         syncButtons();
