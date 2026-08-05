@@ -99,14 +99,24 @@ html[data-theme='heritage'] .section-title {
   letter-spacing: -0.01em;
 }
 
-/* Le grand titre du hero : vermillon, serif, monumental (cf. moodboard) */
+/* Le titre du hero : vermillon, serif Didone, capitales (cf. moodboard).
+ *
+ * La taille est fixée ICI et non par les classes Tailwind du markup : en
+ * capitales, Bodoni 900 occupe ~40 % de largeur en plus qu'Inter à taille
+ * égale. Au même corps que le thème Défaut, le titre partait sur 4 lignes et
+ * traversait la vitrine — le sujet même de la bannière. Le clamp le garde sur
+ * 2 lignes dans la colonne de 30rem, du mobile au grand écran. */
 html[data-theme='heritage'] .hero-section h1 {
   color: rgb(var(--accent-rgb));
   font-family: var(--font-display);
   font-weight: 900;
-  line-height: 0.98;
+  font-size: clamp(1.6rem, 2.55vw, 2.1rem);
+  line-height: 1.02;
   letter-spacing: -0.015em;
   text-transform: uppercase;
+  /* Équilibre les lignes : sans lui, le titre laissait « RELIEF » seul sur la
+     dernière ligne — un défaut très visible en capitales Didone. */
+  text-wrap: balance;
 }
 
 /* Bannière du hero en heritage : vitrine de musée sombre. L'image du thème
@@ -124,6 +134,35 @@ html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block;
 html[data-theme='heritage'] .hero-section {
   margin-top: calc(-1 * var(--header-h));
   padding-top: var(--header-h);
+
+  /* Sous 768px la hauteur suit le CONTENU (on neutralise le min-h-[70vh] du
+     markup) : à cette largeur le cliché est recadré si serré que la vitrine
+     n'est plus lisible, et un aplat sombre supplémentaire n'ajoute rien. */
+  min-height: 0;
+}
+@media (min-width: 768px) {
+  /* La colonne de texte se mesure en FRACTION du cadre, pas en pixels : la
+     vitrine étant cadrée en `cover`, sa position suit la largeur du viewport.
+     À 480px fixes, le texte restait à sa place tandis que la première coque
+     remontait vers lui — à 1024px le sous-titre lui passait dessus.
+     34vw place la fin de ligne juste avant le bord gauche de la vitrine, à
+     toutes les largeurs ; le plafond de 30rem évite une colonne démesurée sur
+     très grand écran. */
+  html[data-theme='heritage'] .hero-section .hero-copy {
+    max-width: min(30rem, 34vw);
+  }
+  /* Sur desktop la hauteur suit l'IMAGE, pas le texte. La vitrine occupe
+     presque toute la hauteur du cliché (ratio 1,82) : une bannière plus courte
+     que 55vw lui coupe le socle ou le haut du verre. Le `min()` plafonne à
+     84vh pour ne pas manger tout l'écran sur un écran large et bas. */
+  html[data-theme='heritage'] .hero-section {
+    min-height: min(84vh, 55vw);
+  }
+}
+/* Cadrage : on privilégie le haut du cliché, où vivent le verre et les coques,
+   plutôt que le sol de marbre. */
+html[data-theme='heritage'] .hero-section img.hero-bg-heritage {
+  object-position: center 42%;
 }
 /* Dégradé sombre en haut du hero : garantit la lisibilité du header clair
    (logo + nav) quelle que soit la zone d'image derrière. */
@@ -138,23 +177,54 @@ html[data-theme='heritage'] .hero-section::before {
   pointer-events: none;
   z-index: 1;
 }
-/* Image SOMBRE : voile sombre plus dense à gauche (où vit le texte), qui
-   s'efface vers la droite pour laisser voir la vitrine. */
+/* Image SOMBRE : voile dense sur la colonne de texte (les ~40 % de gauche),
+   qui s'efface ensuite VITE. L'ancienne rampe était encore à 0,34 au milieu du
+   cadre et grisait la vitrine, c'est-à-dire le produit. */
 html[data-theme='heritage'] .hero-section::after {
   background: linear-gradient(to right,
-    rgba(16, 8, 7, 0.82),
-    rgba(16, 8, 7, 0.34) 44%,
+    rgba(16, 8, 7, 0.9),
+    rgba(16, 8, 7, 0.78) 26%,
+    rgba(16, 8, 7, 0.34) 46%,
+    rgba(16, 8, 7, 0.06) 66%,
     rgba(16, 8, 7, 0) 78%);
+}
+/* Sous 768px le texte occupe TOUTE la largeur : un voile horizontal laisserait
+   sa fin de ligne sans fond. Il devient donc vertical. */
+@media (max-width: 767px) {
+  html[data-theme='heritage'] .hero-section::after {
+    background: linear-gradient(to bottom,
+      rgba(16, 8, 7, 0.8),
+      rgba(16, 8, 7, 0.68) 55%,
+      rgba(16, 8, 7, 0.5));
+  }
 }
 /* Sur ce fond sombre, on éclaircit le sous-titre, la pastille et les boutons
    (le titre reste vermillon, lisible tel quel). */
 html[data-theme='heritage'] .hero-section p {
   color: rgba(244, 238, 226, 0.82);
 }
+/* La ligne de réassurance sous le CTA : un filet discret, pas un second
+   message qui concurrence le sous-titre. */
+html[data-theme='heritage'] .hero-section .hero-note {
+  color: rgba(244, 238, 226, 0.62);
+  letter-spacing: 0.02em;
+}
+/* La pastille devient un CARTEL d'exposition : angles vifs, petites capitales
+   espacées. En pastille arrondie à point vert, elle affichait le vocabulaire
+   « statut applicatif » au milieu d'une vitrine de musée. */
 html[data-theme='heritage'] .hero-section .tag {
   color: rgba(244, 238, 226, 0.9);
-  border-color: rgba(244, 238, 226, 0.25);
-  background: rgba(244, 238, 226, 0.08);
+  border-color: rgba(244, 238, 226, 0.28);
+  background: rgba(244, 238, 226, 0.06);
+  border-radius: 0;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+html[data-theme='heritage'] .hero-section .tag-status::before {
+  display: none;
 }
 html[data-theme='heritage'] .hero-section .btn-primary {
   background: #f4eee2;   /* bouton crème qui ressort sur le sombre */

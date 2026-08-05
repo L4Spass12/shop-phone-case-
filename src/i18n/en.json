@@ -107,11 +107,11 @@
     "error": "Something went wrong. Please retry or email us at"
   },
   "home": {
-    "heroTag": "New 2026 collection",
-    "heroTitle": "Quality products, carefully selected",
-    "heroSubtitle": "Made for you. Built to last.",
-    "ctaDiscover": "Discover",
-    "ctaCustomize": "Customize my product",
+    "heroTag": "2026 edition",
+    "heroTitle": "Phone cases, made to be collected",
+    "heroSubtitle": "Patterns drawn and printed in France. For iPhone, Samsung, Pixel and Xiaomi.",
+    "heroNote": "Shipped within 48 h · 14-day returns",
+    "ctaDiscover": "View the collection",
     "featuredLabel": "Selection",
     "featuredTitle": "Featured products",
     "featuredBadge": "Top pick",

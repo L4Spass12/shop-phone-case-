@@ -171,25 +171,30 @@ const faqSchema = {
       sizes="100vw"
       alt={t('home.heroTitle', lang)}
       class="hero-img hero-bg-heritage"
-      loading="lazy"
+      {/* eager : c'est la bannière visible en heritage (cf. home FR) */}
+      loading="eager"
       decoding="async"
       width="1692"
       height="929"
     />
-    <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-24 w-full flex flex-col justify-center">
-      <span class="tag tag-status mb-6 self-start">{t('home.heroTag', lang)}</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-cream mb-4 leading-[1.1] max-w-2xl">
-        {t('home.heroTitle', lang)}
-      </h1>
-      <p class="text-base md:text-lg text-n-300 mb-8 max-w-xl font-light">
-        {t('home.heroSubtitle', lang)}
-      </p>
-      <div class="flex flex-col sm:flex-row items-start gap-3">
-        <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">
-          {t('home.ctaDiscover', lang)}
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </a>
-        <a href={url('/boutique')} class="btn-outline">{t('home.ctaCustomize', lang)}</a>
+    {/* Même structure que la home FR (src/pages/index.astro) : colonne de texte
+        étroite pour ne pas recouvrir la vitrine, un seul CTA + réassurance. */}
+    <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">
+      <div class="hero-copy max-w-[30rem]">
+        <span class="tag tag-status mb-5">{t('home.heroTag', lang)}</span>
+        <h1 class="text-[1.7rem] sm:text-3xl lg:text-[2.1rem] font-medium tracking-tight text-cream mb-3 leading-[1.15]">
+          {t('home.heroTitle', lang)}
+        </h1>
+        <p class="text-sm md:text-base text-n-300 mb-7 font-light leading-relaxed">
+          {t('home.heroSubtitle', lang)}
+        </p>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">
+            {t('home.ctaDiscover', lang)}
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+          <span class="hero-note text-xs text-n-400">{t('home.heroNote', lang)}</span>
+        </div>
       </div>
     </div>
   </section>
