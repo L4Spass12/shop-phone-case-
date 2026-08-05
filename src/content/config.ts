@@ -3,6 +3,65 @@ import siteConfig from '../../site.config.mjs';
 
 const categories = siteConfig.categories as [string, ...string[]];
 
+/**
+ * Le champ `category:` d'un article était validé par un `z.enum`, donc par
+ * égalité STRICTE avec siteConfig.categories. En pratique l'écart vient
+ * toujours de caractères qu'on ne voit pas : apostrophe typographique ’ au
+ * lieu de ', accent décomposé (e + ́ ) recopié depuis un traitement de texte,
+ * espace insécable, casse. Et le seul symptôme est un build cassé — donc plus
+ * AUCUN déploiement, puisque la branche hostinger-deploy n'est réécrite que si
+ * `npm run build` passe : une faute de frappe invisible gelait tout le site.
+ *
+ * On compare donc sur une forme normalisée. Les diacritiques sont retirés au
+ * passage : « Actualites » n'est pas invisible, mais c'est la même faute au
+ * même endroit, et la garde de collision ci-dessous rend l'opération sûre.
+ */
+const normalizeCategory = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[‘’ʼ´`]/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+/**
+ * Forme normalisée → libellé EXACT de la config.
+ *
+ * Le retour canonique n'est pas cosmétique : tout le site compare
+ * `post.data.category` par `===` à siteConfig.categories et s'en sert comme
+ * clé de `categorySlugs`. Accepter « actualités » sans le réécrire en
+ * « Actualités » ferait bâtir le site sans erreur mais l'article disparaîtrait
+ * de sa page de catégorie et du fil d'articles liés — une panne silencieuse,
+ * donc pire que le build cassé qu'on corrige ici.
+ */
+const canonicalCategory = new Map<string, string>();
+for (const label of categories) {
+  const key = normalizeCategory(label);
+  const clash = canonicalCategory.get(key);
+  if (clash) {
+    throw new Error(
+      `site.config.mjs → categories : « ${clash} » et « ${label} » sont ` +
+        `indistinguables une fois normalisés. Un article ne pourrait pas ` +
+        `désigner l'un plutôt que l'autre : renomme-en un.`,
+    );
+  }
+  canonicalCategory.set(key, label);
+}
+
+const category = z.string().transform((value, ctx) => {
+  const canonical = canonicalCategory.get(normalizeCategory(value));
+  if (canonical) return canonical;
+
+  ctx.addIssue({
+    code: z.ZodIssueCode.custom,
+    message:
+      `catégorie inconnue : « ${value} ». Valeurs autorisées ` +
+      `(site.config.mjs → categories) : ${categories.map((c) => `« ${c} »`).join(', ')}.`,
+  });
+  return z.NEVER;
+});
+
 const blog = defineCollection({
   type: 'content',
   schema: z.object({
@@ -11,7 +70,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: z.string().default(siteConfig.article.author),
-    category: z.enum(categories),
+    category,
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
     imageAlt: z.string().optional(),

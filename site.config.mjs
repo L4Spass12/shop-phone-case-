@@ -54,9 +54,12 @@ const config = {
   },
 
   // ─── Catégories du blog ──────────────────────────────────────────
-  // ⚠️ Ces valeurs alimentent un `z.enum` dans src/content/config.ts : le champ
-  // `category:` d'un article doit correspondre EXACTEMENT à l'une d'elles
-  // (attention aux apostrophes typographiques ’ vs droites ' — un écart casse le build).
+  // ⚠️ Ces valeurs sont la liste de référence du champ `category:` d'un article
+  // (validation dans src/content/config.ts). La comparaison est tolérante aux
+  // écarts invisibles — apostrophe typographique ’ vs droite ', accent
+  // décomposé, espace insécable, casse — et l'article hérite du libellé écrit
+  // ICI. Corollaire : deux catégories qui ne diffèrent QUE par ces caractères
+  // sont ambiguës et arrêtent le build.
   categories: ['Guides', 'Conseils', 'Actualités'],
 
   // Mapping explicite nom → slug d'URL (/category/<slug>/).

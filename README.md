@@ -93,12 +93,25 @@ Détails d'implémentation (à connaître avant de le modifier) :
 |------|-----|-------|
 | Produit | `src/content/products/<slug>.md` | Voir `produit-exemple.md` (schéma variantes inclus) |
 | Catégorie produit | 1) `site.config.mjs` → `productCategories` 2) (optionnel) `src/content/productCategories/<slug>.md` pour le contenu SEO | La page `/product-category/<slug>/` est générée automatiquement |
-| Article blog | `src/content/blog/<slug>.md` | `category:` doit correspondre **exactement** à `siteConfig.categories` (⚠️ apostrophes typographiques) |
+| Article blog | `src/content/blog/<slug>.md` | `category:` doit correspondre à une entrée de `siteConfig.categories` — à l'apostrophe, aux accents, aux espaces et à la casse près (voir ci-dessous) |
 | Traductions | `src/content/<collection>/<en|de>/<slug>.md` | Même slug que le fichier FR |
 
-**⚠️ Piège connu** : un frontmatter invalide (ex. mauvaise apostrophe dans
-`category:`) casse le build → **plus aucun déploiement ne passe**. Vérifie
-toujours avec `npm run build` avant de pousser.
+**⚠️ Un frontmatter invalide casse le build → plus aucun déploiement ne passe**
+(la branche `hostinger-deploy` n'est réécrite que si `npm run build` réussit).
+Vérifie donc toujours avec `npm run build` avant de pousser.
+
+Le cas le plus fréquent — le `category:` d'un article qui diffère de
+`siteConfig.categories` par un caractère qu'on ne voit pas — est désormais
+absorbé : `src/content/config.ts` compare sur une forme normalisée, donc
+apostrophe typographique `’` au lieu de `'`, accent décomposé, espace
+insécable, espaces en trop et différence de casse passent tous. La valeur est
+réécrite avec le libellé exact de la config, ce qui garde l'article sur sa page
+de catégorie. Une catégorie réellement inexistante échoue toujours, mais avec
+un message qui nomme le fichier et liste les valeurs autorisées.
+
+⚠️ Corollaire côté `site.config.mjs` : deux catégories qui ne diffèrent que par
+ces caractères-là (`Guide d'achat` et `Guide d’achat`) sont ambiguës et
+arrêtent le build avec un message explicite. Il faut en renommer une.
 
 ## 🌍 i18n
 
