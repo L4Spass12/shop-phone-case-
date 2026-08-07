@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseCustomizer from '../components/CaseCustomizer.astro';
+import siteConfig from '../../site.config.mjs';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Personnaliser', item: `${siteConfig.url}/personnaliser` },
+  ],
+};
+---
+
+<BaseLayout
+  title={`Personnaliser ma coque - ${siteConfig.name}`}
+  description="Créez votre coque de téléphone unique : ajoutez du texte, des stickers et vos photos, arrangez-les à votre goût. Studio de personnalisation en ligne."
+  jsonLd={breadcrumbSchema}
+>
+  <CaseCustomizer />
+</BaseLayout>
