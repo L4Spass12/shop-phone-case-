@@ -1,101 +1,150 @@
 ---
 /**
- * Studio de personnalisation de coque (facon Canva / Printify).
- * Editeur 100% client, sans dependance externe (CSP-safe) :
- *  - ajout de texte (police, couleur, taille), stickers (emoji) et photos importees
- *  - chaque element se deplace / redimensionne / pivote (souris ET tactile)
- *  - mise a l'echelle responsive via container-queries (unites cqw)
- * Le design final est serialise en JSON a l'ajout au panier (a brancher sur le
- * vrai checkout ensuite).
+ * ═══════════════════════════════════════════════════════════════════════
+ *  STUDIO DE PERSONNALISATION  (editeur de coque, facon Canva / Printify)
+ * ═══════════════════════════════════════════════════════════════════════
+ *  Editeur 100% client, sans dependance externe (compatible CSP du site).
+ *
+ *  Principes retenus :
+ *   1. UNE SEULE SOURCE DE VERITE. L'etat vit dans `state` (JSON serialisable) ;
+ *      le DOM en est le rendu. C'est ce qui rend possible, gratuitement,
+ *      l'annulation/retablissement, la sauvegarde automatique et l'envoi du
+ *      design au panier.
+ *   2. GESTES UNIFIES. Pointer Events : la meme logique sert la souris et le
+ *      tactile (deplacer / redimensionner / pivoter), avec aimantation au
+ *      centre et aux angles droits.
+ *   3. LE MODELE EST OBLIGATOIRE. On reutilise <ModelPicker> : il bloque deja
+ *      tout clic sur `.buy-button` tant qu'aucun modele n'est choisi, et
+ *      memorise le choix pour toute la boutique.
+ *   4. MOBILE D'ABORD. Panneaux en feuilles remontantes, grosses cibles
+ *      tactiles, barre d'action toujours atteignable.
+ * ═══════════════════════════════════════════════════════════════════════
  */
-const price = "29,90 €";
+import ModelPicker from './ModelPicker.astro';
+
+const price = '29,90 €';
 ---
 
 <section class="studio" data-studio aria-label="Studio de personnalisation">
-  <!-- En-tete -->
-  <header class="studio-top">
-    <div class="studio-head">
-      <h1 class="studio-title">Studio de personnalisation</h1>
-      <p class="studio-sub">Composez votre coque : texte, stickers et photos. Glissez, tournez, agrandissez.</p>
-    </div>
-    <div class="studio-cta">
-      <span class="studio-price price-amount">{price}</span>
-      <button type="button" class="btn-atc studio-add" data-add>Ajouter au panier</button>
-    </div>
+  <header class="studio-head">
+    <h1 class="studio-title">Studio de personnalisation</h1>
+    <p class="studio-sub">Composez votre coque : texte, stickers et vos photos. Glissez pour déplacer, pincez pour agrandir.</p>
   </header>
 
-  <div class="studio-body">
-    <!-- Scene : la coque -->
-    <div class="stage">
-      <div class="case" data-case>
-        <span class="case-camera" aria-hidden="true"></span>
-        <div class="design" data-design>
-          <p class="design-hint" data-hint>Touchez un outil ci-dessous pour commencer</p>
-        </div>
-        <!-- Barre contextuelle de l'element selectionne -->
-        <div class="ctx" data-ctx hidden>
-          <button type="button" data-act="edit" title="Modifier le texte" hidden>Éditer</button>
-          <button type="button" data-act="dup" title="Dupliquer" aria-label="Dupliquer">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-          </button>
-          <button type="button" data-act="back" title="Reculer" aria-label="Reculer">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
-          <button type="button" data-act="front" title="Avancer" aria-label="Avancer">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 15 6-6 6 6"/></svg>
-          </button>
-          <button type="button" data-act="del" title="Supprimer" aria-label="Supprimer" class="ctx-del">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Outils principaux -->
-    <nav class="toolbar" aria-label="Outils">
+  <div class="studio-grid">
+    <!-- ─── Outils ─────────────────────────────────────────────────── -->
+    <nav class="tools" aria-label="Outils de création">
       <button type="button" class="tool" data-tool="text">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg></span>
-        <span>Texte</span>
+        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg></span>
+        <span class="tool-lb">Texte</span>
       </button>
       <button type="button" class="tool" data-tool="sticker">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 15 9l7 .5-5.4 4.6L18.5 21 12 17l-6.5 4 1.9-6.9L2 9.5 9 9z"/></svg></span>
-        <span>Sticker</span>
+        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.6 14.8 9l6.9.5-5.3 4.5 1.7 6.7L12 17.1 5.9 20.7l1.7-6.7L2.3 9.5 9.2 9z"/></svg></span>
+        <span class="tool-lb">Sticker</span>
       </button>
       <button type="button" class="tool" data-tool="image">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg></span>
-        <span>Photo</span>
+        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg></span>
+        <span class="tool-lb">Photo</span>
       </button>
       <button type="button" class="tool" data-tool="bg">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/><circle cx="12" cy="15.5" r="1"/></svg></span>
-        <span>Couleur</span>
+        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="8.6" cy="10" r="1.1"/><circle cx="15.4" cy="10" r="1.1"/><circle cx="12" cy="15.4" r="1.1"/></svg></span>
+        <span class="tool-lb">Couleur</span>
       </button>
     </nav>
+
+    <!-- ─── Scène ──────────────────────────────────────────────────── -->
+    <div class="stage">
+      <div class="stage-bar">
+        <button type="button" class="sbtn" data-undo disabled aria-label="Annuler" title="Annuler">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+        </button>
+        <button type="button" class="sbtn" data-redo disabled aria-label="Rétablir" title="Rétablir">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
+        </button>
+        <span class="sbar-sep" aria-hidden="true"></span>
+        <button type="button" class="sbtn" data-reset aria-label="Tout effacer" title="Tout effacer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
+        </button>
+      </div>
+
+      <div class="case" data-case data-drop>
+        <span class="case-camera" aria-hidden="true"></span>
+        <div class="design" data-design>
+          <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
+          <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
+        </div>
+
+        <!-- Barre contextuelle de l'élément sélectionné -->
+        <div class="ctx" data-ctx hidden>
+          <button type="button" data-act="edit" hidden>Éditer</button>
+          <button type="button" data-act="dup" aria-label="Dupliquer" title="Dupliquer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
+          <button type="button" data-act="back" aria-label="Reculer" title="Reculer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <button type="button" data-act="front" aria-label="Avancer" title="Avancer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 15 6-6 6 6"/></svg>
+          </button>
+          <button type="button" data-act="del" class="ctx-del" aria-label="Supprimer" title="Supprimer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
+          </button>
+        </div>
+
+        <!-- État vide : on propose directement les 3 gestes de départ -->
+        <div class="empty" data-empty>
+          <p class="empty-t">Votre coque est vierge</p>
+          <div class="empty-actions">
+            <button type="button" data-tool="text">Ajouter un texte</button>
+            <button type="button" data-tool="sticker">Ajouter un sticker</button>
+            <button type="button" data-tool="image">Importer une photo</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="stage-tip" data-tip>Astuce : glissez pour déplacer, utilisez les poignées pour tourner et agrandir.</p>
+    </div>
+
+    <!-- ─── Panneau achat ──────────────────────────────────────────── -->
+    <aside class="panel" aria-label="Votre commande">
+      <ModelPicker id="studio-model" />
+
+      <div class="panel-buy">
+        <span class="panel-price price-amount">{price}</span>
+        <button type="button" class="btn-atc buy-button panel-add" data-add data-item-name="Coque personnalisée">
+          Ajouter au panier
+        </button>
+      </div>
+
+      <ul class="panel-reassure">
+        <li>Impression haute définition, encres durables</li>
+        <li>Expédition sous 48 h · Retour sous 14 jours</li>
+      </ul>
+    </aside>
   </div>
 
-  <!-- Feuilles (bottom sheets / panneaux) -->
+  <!-- ─── Feuilles ─────────────────────────────────────────────────── -->
   <div class="sheet-wrap" data-sheetwrap hidden>
     <div class="sheet-backdrop" data-sheetclose></div>
 
-    <!-- Stickers -->
     <div class="sheet" data-sheet="sticker" hidden>
       <div class="sheet-grip"></div>
       <div class="sheet-head"><h2>Stickers</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
+      <div class="chip-row" data-stickercats role="tablist" aria-label="Catégories de stickers"></div>
       <div class="sticker-grid" data-stickers></div>
     </div>
 
-    <!-- Couleur de la coque -->
     <div class="sheet" data-sheet="bg" hidden>
       <div class="sheet-grip"></div>
       <div class="sheet-head"><h2>Couleur de la coque</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
       <div class="swatch-row" data-casecolors></div>
     </div>
 
-    <!-- Mise en forme du texte selectionne -->
     <div class="sheet" data-sheet="text" hidden>
       <div class="sheet-grip"></div>
       <div class="sheet-head"><h2>Texte</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
-      <label class="sheet-label">Contenu</label>
-      <input type="text" class="text-input" data-textinput placeholder="Votre texte" maxlength="40" />
+      <label class="sheet-label" for="studio-text">Contenu</label>
+      <input id="studio-text" type="text" class="text-input" data-textinput placeholder="Votre texte" maxlength="40" autocomplete="off" />
       <label class="sheet-label">Police</label>
       <div class="font-row" data-fonts></div>
       <label class="sheet-label">Couleur</label>
@@ -103,196 +152,182 @@ const price = "29,90 €";
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" data-toast hidden></div>
-
+  <div class="toast" data-toast hidden role="status"></div>
   <input type="file" accept="image/*" hidden data-file />
 </section>
 
 <style>
-  .studio {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1.25rem 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-  .studio-top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .studio-title { font-size: 1.6rem; line-height: 1.1; }
-  .studio-sub { font-size: .85rem; margin-top: .35rem; }
-  .studio-cta { display: flex; align-items: center; gap: 1rem; flex: 1 1 auto; justify-content: flex-end; }
-  .studio-price { font-size: 1.5rem; font-weight: 600; white-space: nowrap; }
-  .studio-add { white-space: nowrap; }
-  /* Sur petit ecran l'entete passe en colonne : le prix et le CTA restent sur
-     une seule ligne, le CTA prend la largeur restante. */
-  @media (max-width: 640px) {
-    .studio-top { flex-direction: column; align-items: stretch; }
-    .studio-cta { width: 100%; }
-    .studio-add { flex: 1 1 auto; }
+  .studio { max-width: 1180px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+  .studio-head { margin-bottom: 1.25rem; }
+  .studio-title { font-size: 1.55rem; line-height: 1.15; }
+  .studio-sub { font-size: .875rem; margin-top: .35rem; max-width: 52ch; }
+
+  /* ── Grille : outils | scène | panneau ───────────────────────────── */
+  .studio-grid { display: flex; flex-direction: column; gap: 1.25rem; align-items: center; }
+  @media (min-width: 900px) {
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr) 300px;
+      gap: 1.75rem;
+      align-items: start;
+    }
   }
 
-  .studio-body { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
-  @media (min-width: 768px) {
-    .studio-body { flex-direction: row; align-items: center; justify-content: center; gap: 2.5rem; }
-    .studio-body .toolbar { order: -1; flex-direction: column; width: 116px; max-width: 116px; flex: none; align-self: center; }
-    .studio-body .stage { padding: 0; flex: none; width: auto; }
+  /* ── Outils ──────────────────────────────────────────────────────── */
+  .tools { display: flex; gap: .5rem; width: 100%; max-width: 460px; }
+  @media (min-width: 900px) { .tools { flex-direction: column; max-width: none; position: sticky; top: calc(var(--header-h) + 1rem); } }
+  .tool {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: .3rem;
+    padding: .7rem .25rem; border-radius: 12px; cursor: pointer; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .12); background: rgb(var(--c-cream) / .03);
+    font-size: .7rem; font-weight: 500;
+    transition: border-color .15s, background .15s, transform .08s;
   }
+  .tool:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .06); }
+  .tool:active { transform: scale(.96); }
+  .tool-ic { display: inline-flex; }
+  .tool-ic svg { width: 22px; height: 22px; }
 
-  /* ---- Scene + coque ---------------------------------------------------- */
-  .stage {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    border-radius: 20px;
-    background:
-      radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,0.06), transparent 60%);
+  /* ── Scène ───────────────────────────────────────────────────────── */
+  .stage { display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; }
+  .stage-bar {
+    display: flex; align-items: center; gap: .25rem;
+    padding: .25rem; border-radius: 10px;
+    border: 1px solid rgb(var(--c-cream) / .10); background: rgb(var(--c-cream) / .03);
   }
+  .sbtn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer; color: inherit;
+    transition: background .15s, opacity .15s;
+  }
+  .sbtn svg { width: 17px; height: 17px; }
+  .sbtn:hover:not(:disabled) { background: rgb(var(--c-cream) / .08); }
+  .sbtn:disabled { opacity: .3; cursor: default; }
+  .sbar-sep { width: 1px; height: 20px; background: rgb(var(--c-cream) / .15); margin: 0 .15rem; }
+
   .case {
     position: relative;
-    /* Largeur explicite : un conteneur `inline-size` ne peut pas deduire sa
-       largeur d'une hauteur + aspect-ratio (il rendrait une boite 0x0).
-       On dimensionne donc en largeur, la hauteur suit via l'aspect-ratio. */
-    width: min(268px, 72vw);
+    /* Largeur explicite (obligatoire pour un conteneur `inline-size`), mais
+       plafonnée aussi par la HAUTEUR de fenêtre : une coque fait 41/85, elle
+       débordait sinon de l'écran sur mobile et sur les petits portables. */
+    width: min(272px, 74vw, 26vh);   /* 26vh de large ≈ 54vh de haut (ratio 41/85) */
     aspect-ratio: 41 / 85;
     border-radius: 12% / 6%;
     background: var(--case-bg, #f4eee2);
-    box-shadow:
-      0 2px 4px rgba(0,0,0,.10),
-      0 30px 60px -25px rgba(0,0,0,.45),
-      inset 0 0 0 2px rgba(0,0,0,.06);
-    /* container-query : les unites cqw des elements suivent la largeur de la coque */
-    container-type: inline-size;
+    box-shadow: 0 2px 4px rgba(0,0,0,.10), 0 28px 56px -24px rgba(0,0,0,.42), inset 0 0 0 2px rgba(0,0,0,.06);
+    container-type: inline-size;   /* les unités cqw des éléments suivent cette largeur */
     touch-action: none;
   }
+  .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 6px; }
   .case-camera {
-    position: absolute;
-    top: 4%;
-    left: 6%;
-    width: 26%;
-    height: 12.5%;
-    border-radius: 22%;
-    background: rgba(0,0,0,.14);
-    box-shadow: inset 0 0 0 2px rgba(0,0,0,.10);
-    z-index: 5;
-    pointer-events: none;
+    position: absolute; top: 4%; left: 6%; width: 26%; height: 12.5%;
+    border-radius: 22%; background: rgba(0,0,0,.13);
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,.09); z-index: 6; pointer-events: none;
   }
-  .design {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
-    /* Pas de `container-type` ici : il transformerait .design en conteneur de
-       taille et casserait le positionnement en % de ses enfants. Les unites
-       cqw des elements se referent au conteneur .case (parent). */
-  }
-  .design-hint {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 12%;
-    font-size: 3.6cqw;
-    color: rgba(0,0,0,.4);
-    pointer-events: none;
-  }
-  .case[data-bg-dark] .design-hint { color: rgba(255,255,255,.55); }
+  .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 
-  /* ---- Elements posables ------------------------------------------------ */
-  /* NB : ces noeuds sont crees en JS, donc SANS l'attribut de scope Astro.
-     Leurs regles vivent dans le bloc <style is:global> plus bas. */
+  /* Repères d'alignement (affichés pendant l'aimantation) */
+  .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
+  .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
+  .guide-h { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
 
-  /* ---- Barre contextuelle ---------------------------------------------- */
+  .empty {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: .8rem; padding: 0 8%;
+    text-align: center; z-index: 4;
+  }
+  .empty[hidden] { display: none; }
+  .empty-t { font-size: 4cqw; color: rgba(0,0,0,.42); }
+  .case[data-bg-dark] .empty-t { color: rgba(255,255,255,.6); }
+  .empty-actions { display: flex; flex-direction: column; gap: .4rem; width: 100%; }
+  .empty-actions button {
+    padding: .55rem .5rem; border-radius: 7px; cursor: pointer;
+    font-size: 3.4cqw; font-weight: 500;
+    border: 1px solid rgba(0,0,0,.16); background: rgba(255,255,255,.55); color: rgba(0,0,0,.72);
+    transition: background .15s, border-color .15s;
+  }
+  .empty-actions button:hover { background: #fff; border-color: rgb(var(--accent-rgb)); }
+  .case[data-bg-dark] .empty-actions button { border-color: rgba(255,255,255,.28); background: rgba(255,255,255,.12); color: rgba(255,255,255,.9); }
+
+  .stage-tip { font-size: .75rem; opacity: .65; text-align: center; max-width: 34ch; }
+
+  /* ── Barre contextuelle ──────────────────────────────────────────── */
   .ctx {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 12px);
-    transform: translateX(-50%);
-    display: flex;
-    gap: 2px;
-    padding: 4px;
-    border-radius: 10px;
-    background: #1c1c1f;
-    box-shadow: 0 8px 24px -8px rgba(0,0,0,.5);
-    z-index: 20;
-  }
-  /* Sur mobile la barre passe SOUS la coque : au-dessus elle chevauchait le
-     bouton d'ajout au panier. */
-  @media (max-width: 767px) {
-    .ctx { top: calc(100% + 12px); bottom: auto; }
+    position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%);
+    display: flex; gap: 2px; padding: 4px; border-radius: 10px;
+    background: #1c1c1f; box-shadow: 0 8px 24px -8px rgba(0,0,0,.5); z-index: 40;
   }
   .ctx[hidden] { display: none; }
+  @media (max-width: 899px) { .ctx { top: calc(100% + 12px); bottom: auto; } }
   .ctx button {
     display: inline-flex; align-items: center; justify-content: center;
-    min-width: 34px; height: 34px; padding: 0 8px;
-    border-radius: 7px; color: #fff; background: transparent;
-    font-size: .78rem; cursor: pointer; transition: background .15s;
+    min-width: 38px; height: 38px; padding: 0 9px; border-radius: 7px;
+    color: #fff; background: transparent; font-size: .78rem; cursor: pointer; transition: background .15s;
   }
-  .ctx button:hover { background: rgba(255,255,255,.14); }
+  .ctx button svg { width: 18px; height: 18px; }
+  .ctx button:hover { background: rgba(255,255,255,.15); }
   .ctx .ctx-del:hover { background: #e11d48; }
 
-  /* ---- Outils ----------------------------------------------------------- */
-  .toolbar {
-    display: flex;
-    gap: .5rem;
-    width: 100%;
-    max-width: 520px;
-    justify-content: center;
+  /* ── Panneau achat ───────────────────────────────────────────────── */
+  .panel { width: 100%; max-width: 460px; }
+  @media (min-width: 900px) {
+    .panel {
+      max-width: none; padding: 1.1rem; border-radius: 14px;
+      border: 1px solid rgb(var(--c-cream) / .10); background: rgb(var(--c-cream) / .02);
+      position: sticky; top: calc(var(--header-h) + 1rem);
+    }
   }
-  .tool {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .35rem;
-    padding: .7rem .3rem;
-    border-radius: 12px;
-    border: 1px solid var(--tool-bd, rgba(0,0,0,.10));
-    background: var(--tool-bg, rgba(0,0,0,.02));
-    color: inherit;
-    font-size: .72rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color .15s, background .15s, transform .1s;
-  }
-  .tool:hover { border-color: var(--accent, #ff3b14); }
-  .tool:active { transform: scale(.97); }
-  .tool-ic { display: inline-flex; }
+  .panel-buy { display: flex; align-items: center; gap: .75rem; }
+  @media (min-width: 900px) { .panel-buy { flex-direction: column; align-items: stretch; gap: .6rem; } }
+  .panel-price { font-size: 1.45rem; font-weight: 600; white-space: nowrap; }
+  .panel-add { flex: 1 1 auto; }
+  .panel-reassure { list-style: none; margin-top: .9rem; display: grid; gap: .3rem; font-size: .72rem; opacity: .7; }
+  .panel-reassure li { position: relative; padding-left: .9rem; }
+  .panel-reassure li::before { content: "✓"; position: absolute; left: 0; color: rgb(var(--accent-rgb)); }
 
-  /* ---- Feuilles (sheets) ------------------------------------------------ */
+  /* Sur mobile, prix + achat restent en barre fixe : la coque est haute, le
+     bouton se retrouvait sinon loin sous la ligne de flottaison. */
+  @media (max-width: 899px) {
+    .studio { padding-bottom: 6rem; }
+    .panel-buy {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+      padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+      background: rgb(var(--c-dark));
+      border-top: 1px solid rgb(var(--c-cream) / .10);
+      box-shadow: 0 -8px 24px -14px rgba(0,0,0,.45);
+    }
+    .panel-price { font-size: 1.15rem; }
+    .panel-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; }
+  }
+
+  /* ── Feuilles ────────────────────────────────────────────────────── */
   .sheet-wrap { position: fixed; inset: 0; z-index: 10050; }
-  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.4); animation: fade .2s ease; }
+  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.42); animation: fade .2s ease; }
   .sheet {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    max-height: 72vh;
-    overflow-y: auto;
-    padding: 10px 18px calc(18px + env(safe-area-inset-bottom));
-    background: var(--sheet-bg, #fff);
-    color: var(--sheet-fg, #111113);
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -12px 40px -16px rgba(0,0,0,.5);
+    position: absolute; left: 0; right: 0; bottom: 0; max-height: 76vh; overflow-y: auto;
+    padding: 10px 18px calc(20px + env(safe-area-inset-bottom));
+    background: var(--sheet-bg, #fff); color: var(--sheet-fg, #111113);
+    border-radius: 16px 16px 0 0; box-shadow: 0 -12px 40px -16px rgba(0,0,0,.5);
     animation: sheet-in .26s cubic-bezier(.22,.61,.36,1);
   }
   @media (min-width: 768px) {
-    .sheet { left: 50%; right: auto; bottom: 24px; transform: translateX(-50%); width: 420px; border-radius: 16px; max-height: 70vh; }
+    .sheet { left: 50%; right: auto; bottom: 28px; transform: translateX(-50%); width: 430px; border-radius: 14px; max-height: 72vh; }
+    .sheet-grip { display: none; }
   }
   .sheet-grip { width: 40px; height: 4px; border-radius: 99px; background: rgba(0,0,0,.18); margin: 2px auto 10px; }
-  @media (min-width: 768px) { .sheet-grip { display: none; } }
-  .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
   .sheet-head h2 { font-size: 1rem; }
-  .sheet-x { font-size: 1.6rem; line-height: 1; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit; }
-  .sheet-x:hover { background: rgba(0,0,0,.06); }
-  .sheet-label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin: .9rem 0 .5rem; }
+  .sheet-x { font-size: 1.7rem; line-height: 1; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; color: inherit; }
+  .sheet-x:hover { background: rgba(0,0,0,.07); }
+  .sheet-label { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
+
+  .chip-row { display: flex; gap: .35rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: none; padding: .4rem .75rem; border-radius: 999px; cursor: pointer; font-size: .78rem; color: inherit;
+    border: 1px solid rgba(0,0,0,.12); background: rgba(0,0,0,.02); white-space: nowrap;
+  }
+  .chip[aria-selected="true"] { background: rgb(var(--accent-rgb)); border-color: rgb(var(--accent-rgb)); color: #fff; }
 
   .sticker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: .35rem; }
   @media (min-width: 768px) { .sticker-grid { grid-template-columns: repeat(7, 1fr); } }
@@ -301,222 +336,309 @@ const price = "29,90 €";
     display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.03);
     transition: background .12s, transform .1s;
   }
-  .sticker-grid button:hover { background: rgba(0,0,0,.08); }
+  .sticker-grid button:hover { background: rgba(0,0,0,.09); }
   .sticker-grid button:active { transform: scale(.9); }
 
   .swatch-row { display: flex; flex-wrap: wrap; gap: .55rem; }
-  .swatch {
-    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
-    transition: transform .1s;
-  }
+  .swatch { width: 36px; height: 36px; border-radius: 50%; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); transition: transform .1s; }
   .swatch:hover { transform: scale(1.08); }
-  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--sheet-bg,#fff), 0 0 0 4px var(--accent,#ff3b14); }
+  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--sheet-bg,#fff), 0 0 0 4px rgb(var(--accent-rgb)); }
 
   .font-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-chip {
-    padding: .5rem .85rem; border-radius: 8px; cursor: pointer; font-size: 1rem;
-    border: 1px solid rgba(0,0,0,.12); background: rgba(0,0,0,.02); color: inherit;
-    transition: border-color .12s, background .12s;
+    padding: .5rem .9rem; border-radius: 8px; cursor: pointer; font-size: 1.05rem; color: inherit;
+    border: 1px solid rgba(0,0,0,.12); background: rgba(0,0,0,.02);
   }
-  .font-chip[aria-pressed="true"] { border-color: var(--accent,#ff3b14); background: rgba(0,0,0,.04); }
+  .font-chip[aria-pressed="true"] { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .07); }
 
   .text-input {
-    width: 100%; padding: .7rem .8rem; border-radius: 8px; font-size: 1rem;
-    border: 1px solid rgba(0,0,0,.15); background: rgba(0,0,0,.02); color: inherit;
+    width: 100%; padding: .75rem .8rem; border-radius: 8px; font-size: 16px; color: inherit;
+    border: 1px solid rgba(0,0,0,.15); background: rgba(0,0,0,.02);
   }
-  .text-input:focus { outline: none; border-color: var(--accent,#ff3b14); }
+  .text-input:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
 
-  /* ---- Toast ------------------------------------------------------------ */
   .toast {
-    position: fixed;
-    left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
-    transform: translateX(-50%);
-    z-index: 10060;
-    padding: .7rem 1.1rem; border-radius: 999px;
+    position: fixed; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+    z-index: 10060; padding: .7rem 1.15rem; border-radius: 999px;
     background: #16a34a; color: #fff; font-size: .85rem; font-weight: 500;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,.5);
-    animation: toast-in .25s ease;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,.5); animation: toast-in .25s ease;
   }
+  .toast[data-kind="warn"] { background: #b45309; }
 
-  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes sheet-in { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  @media (min-width: 768px) { @keyframes sheet-in { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } } }
-  @keyframes toast-in { from { transform: translate(-50%, 16px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .sheet, .toast, .sheet-backdrop { animation: none; } }
+  @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes sheet-in { from { transform: translateY(100%) } to { transform: translateY(0) } }
+  @media (min-width: 768px) {
+    @keyframes sheet-in { from { transform: translate(-50%, 18px); opacity: 0 } to { transform: translate(-50%, 0); opacity: 1 } }
+  }
+  @keyframes toast-in { from { transform: translate(-50%, 14px); opacity: 0 } to { transform: translate(-50%, 0); opacity: 1 } }
+  @media (prefers-reduced-motion: reduce) { .sheet, .toast, .sheet-backdrop { animation: none } }
 </style>
 
-<!-- Styles des elements crees en JS : ils n'ont pas l'attribut de scope Astro,
-     il leur faut donc des regles globales (prefixees .studio pour rester
-     circonscrites a ce composant). -->
+<!-- Les éléments posés sont créés en JS : ils n'ont pas l'attribut de scope
+     Astro, leurs règles doivent donc être globales (préfixées .studio). -->
 <style is:global>
   .studio .el {
-    position: absolute;
-    left: 50%;
-    top: 50%;
+    position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
-    touch-action: none;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
+    touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
   }
   .studio .el:active { cursor: grabbing; }
-  .studio .el-content {
-    display: block;
-    line-height: 1.05;
-    white-space: nowrap;
-    pointer-events: none; /* les gestes passent par .el */
-  }
+  .studio .el-content { display: block; line-height: 1.05; white-space: nowrap; pointer-events: none; }
   .studio .el[data-type="image"] .el-content img { display: block; width: 100%; height: auto; pointer-events: none; }
-  .studio .el[data-type="text"] .el-content { padding: 0 .05em; }
+  .studio .el[data-type="text"] .el-content { padding: 0 .06em; }
   .studio .el[data-editing] { cursor: text; }
   .studio .el[data-editing] .el-content { pointer-events: auto; white-space: pre; outline: none; }
 
-  /* Gizmo de selection */
-  .studio .gizmo { position: absolute; inset: -6px; border: 1.5px solid var(--accent, #ff3b14); border-radius: 3px; display: none; }
+  .studio .gizmo { position: absolute; inset: -7px; border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px; display: none; }
   .studio .el.sel .gizmo { display: block; }
   .studio .h {
-    position: absolute;
-    width: 18px; height: 18px;
-    background: #fff;
-    border: 1.5px solid var(--accent, #ff3b14);
-    border-radius: 50%;
+    position: absolute; width: 22px; height: 22px; background: #fff;
+    border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0,0,0,.3);
   }
-  .studio .h-resize { right: -9px; bottom: -9px; cursor: nwse-resize; touch-action: none; }
-  .studio .h-rotate { left: 50%; top: -30px; transform: translateX(-50%); cursor: grab; touch-action: none; }
+  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
+  .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
   .studio .h-rotate::after {
-    content: ""; position: absolute; left: 50%; top: 100%;
-    width: 1.5px; height: 14px; background: var(--accent, #ff3b14); transform: translateX(-50%);
+    content: ""; position: absolute; left: 50%; top: 100%; width: 1.5px; height: 16px;
+    background: rgb(var(--accent-rgb)); transform: translateX(-50%);
   }
 </style>
 
 <script>
   (function () {
-    const root = document.querySelector('[data-studio]');
+    var root = document.querySelector('[data-studio]');
     if (!root) return;
 
-    const design = root.querySelector('[data-design]');
-    const caseEl = root.querySelector('[data-case]');
-    const hint = root.querySelector('[data-hint]');
-    const ctx = root.querySelector('[data-ctx]');
-    const sheetWrap = root.querySelector('[data-sheetwrap]');
-    const fileInput = root.querySelector('[data-file]');
-    const toastEl = root.querySelector('[data-toast]');
+    var design    = root.querySelector('[data-design]');
+    var caseEl    = root.querySelector('[data-case]');
+    var emptyEl   = root.querySelector('[data-empty]');
+    var ctx       = root.querySelector('[data-ctx]');
+    var sheetWrap = root.querySelector('[data-sheetwrap]');
+    var fileInput = root.querySelector('[data-file]');
+    var toastEl   = root.querySelector('[data-toast]');
+    var guideV    = root.querySelector('[data-guide-v]');
+    var guideH    = root.querySelector('[data-guide-h]');
+    var undoBtn   = root.querySelector('[data-undo]');
+    var redoBtn   = root.querySelector('[data-redo]');
 
-    const FONTS = [
-      { label: 'Aa', css: "'Inter', system-ui, sans-serif" },
-      { label: 'Aa', css: "'Bodoni Moda', Georgia, serif" },
-      { label: 'Aa', css: "'Pinyon Script', cursive" },
-      { label: 'Aa', css: "Georgia, 'Times New Roman', serif" },
-      { label: 'Aa', css: "'Courier New', monospace" },
-      { label: 'Aa', css: "'Trebuchet MS', system-ui, sans-serif" },
+    var STORE = 'vareska:studio-design';
+
+    var FONTS = [
+      { css: "'Inter', system-ui, sans-serif" },
+      { css: "'Bodoni Moda', Georgia, serif" },
+      { css: "'Pinyon Script', cursive" },
+      { css: "Georgia, 'Times New Roman', serif" },
+      { css: "'Courier New', monospace" },
+      { css: "'Trebuchet MS', system-ui, sans-serif" },
     ];
-    const TEXT_COLORS = ['#111113', '#ffffff', '#ff3b14', '#e11d48', '#f59e0b', '#16a34a', '#2563eb', '#7c3aed', '#db2777', '#8a6d3b'];
-    const CASE_COLORS = ['#f4eee2', '#ffffff', '#e7decf', '#c7b8a1', '#111113', '#2c0a09', '#8a9a5b', '#3b4a6b'];
-    const STICKERS = ['🌸','🌊','⭐','🔥','💖','🌙','☀️','🦋','🌿','⚡','👑','🍒','🐚','✨','🕊️','🌹','🖤','💫','🎀','🌴'];
+    var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
+    var CASE_COLORS = ['#f4eee2','#ffffff','#e7decf','#c7b8a1','#8a9a5b','#3b4a6b','#2c0a09','#111113'];
+    var STICKERS = {
+      'Nature':   ['🌸','🌿','🌊','🌙','☀️','🌴','🍒','🐚','🦋','🌹','🍃','⛰️'],
+      'Cœurs':    ['💖','🖤','💫','✨','💕','❤️‍🔥','🤍','💘'],
+      'Symboles': ['⭐','⚡','👑','🕊️','🔥','☯️','♡','✦','☾','✧'],
+      'Fun':      ['🎀','🍓','🧿','🎧','🛹','🪩','🌈','🍄','🐼','🎲'],
+    };
 
-    let els = [];          // { id, type, node, content, x, y, rot, size, ...props }
-    let selected = null;
-    let seq = 0;
-    let gesture = null;
-    let editing = null;
+    /* ── État : unique source de vérité ──────────────────────────── */
+    var state = { caseColor: CASE_COLORS[0], elements: [] };
+    var nodes = new Map();      // id -> {node, content}
+    var selectedId = null;
+    var seq = 0;
+    var gesture = null;
+    var editingId = null;
+    var history = [];
+    var hIndex = -1;
 
-    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+    var findEl = function (id) { for (var i = 0; i < state.elements.length; i++) if (state.elements[i].id === id) return state.elements[i]; return null; };
 
-    /* ---- Rendu d'un element -------------------------------------------- */
-    function apply(el) {
-      el.node.style.left = el.x + '%';
-      el.node.style.top = el.y + '%';
-      el.node.style.transform = `translate(-50%, -50%) rotate(${el.rot}deg)`;
+    /* ── Rendu ───────────────────────────────────────────────────── */
+    function applyStyles(el) {
+      var ref = nodes.get(el.id); if (!ref) return;
+      ref.node.style.left = el.x + '%';
+      ref.node.style.top = el.y + '%';
+      ref.node.style.transform = 'translate(-50%, -50%) rotate(' + el.rot + 'deg)';
       if (el.type === 'image') {
-        el.content.style.width = el.size + 'cqw';
+        ref.content.style.width = el.size + 'cqw';
       } else {
-        el.content.style.fontSize = el.size + 'cqw';
+        ref.content.style.fontSize = el.size + 'cqw';
         if (el.type === 'text') {
-          el.content.style.fontFamily = el.font;
-          el.content.style.color = el.color;
+          ref.content.style.fontFamily = el.font;
+          ref.content.style.color = el.color;
         }
       }
     }
 
-    function buildNode(el) {
-      const node = document.createElement('div');
+    function createNode(el) {
+      var node = document.createElement('div');
       node.className = 'el';
       node.dataset.type = el.type;
-      const content = document.createElement('div');
+      node.dataset.id = String(el.id);
+
+      var content = document.createElement('div');
       content.className = 'el-content';
       if (el.type === 'image') {
-        const img = document.createElement('img');
-        img.src = el.src; img.alt = 'Visuel importe'; img.draggable = false;
+        var img = document.createElement('img');
+        img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
         content.appendChild(img);
       } else {
         content.textContent = el.text;
       }
-      const gizmo = document.createElement('div');
+
+      var gizmo = document.createElement('div');
       gizmo.className = 'gizmo';
       gizmo.innerHTML = '<span class="h h-rotate" data-handle="rotate"></span><span class="h h-resize" data-handle="resize"></span>';
+
       node.append(content, gizmo);
-      el.node = node; el.content = content;
-      node.addEventListener('pointerdown', (e) => onDown(e, el));
-      if (el.type === 'text') node.addEventListener('dblclick', () => enterEdit(el));
+      node.addEventListener('pointerdown', function (e) { onDown(e, el.id); });
+      if (el.type === 'text') node.addEventListener('dblclick', function () { enterEdit(el.id); });
       design.appendChild(node);
-      apply(el);
+      nodes.set(el.id, { node: node, content: content });
+      applyStyles(el);
+    }
+
+    function renderAll() {
+      design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
+      nodes.clear();
+      state.elements.forEach(createNode);
+      setCaseColor(state.caseColor, true);
+      refreshEmpty();
+      if (selectedId && !findEl(selectedId)) selectedId = null;
+      applySelection();
+    }
+
+    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0; }
+
+    /* ── Historique + sauvegarde ─────────────────────────────────── */
+    function snapshot() { return JSON.stringify(state); }
+
+    function pushHistory() {
+      history = history.slice(0, hIndex + 1);
+      history.push(snapshot());
+      if (history.length > 60) history.shift();
+      hIndex = history.length - 1;
+      syncHistoryBtns();
+      save();
+    }
+    function syncHistoryBtns() {
+      undoBtn.disabled = hIndex <= 0;
+      redoBtn.disabled = hIndex >= history.length - 1;
+    }
+    function restoreFrom(json) {
+      state = JSON.parse(json);
+      seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id); }, 0);
+      renderAll();
+      save();
+    }
+    function undo() { if (hIndex > 0) { hIndex--; restoreFrom(history[hIndex]); syncHistoryBtns(); } }
+    function redo() { if (hIndex < history.length - 1) { hIndex++; restoreFrom(history[hIndex]); syncHistoryBtns(); } }
+
+    function save() {
+      // Le quota peut être dépassé si le client importe plusieurs photos :
+      // la sauvegarde est un confort, jamais un blocage.
+      try { localStorage.setItem(STORE, snapshot()); } catch (e) {}
+    }
+
+    undoBtn.addEventListener('click', undo);
+    redoBtn.addEventListener('click', redo);
+
+    root.querySelector('[data-reset]').addEventListener('click', function () {
+      if (!state.elements.length) return;
+      if (!window.confirm('Effacer tous les éléments de la coque ?')) return;
+      state.elements = []; selectedId = null;
+      renderAll(); pushHistory(); toast('Coque réinitialisée');
+    });
+
+    /* ── Ajout / suppression ─────────────────────────────────────── */
+    function addElement(data) {
+      // Léger décalage en escalier : deux éléments ajoutés d'affilée se
+      // superposaient exactement, on croyait n'en avoir ajouté qu'un.
+      var n = state.elements.length;
+      var el = Object.assign({
+        id: ++seq,
+        x: clamp(50 + (n % 3 - 1) * 9, 10, 90),
+        y: clamp(42 + (n % 4) * 8, 10, 90),
+        rot: 0,
+      }, data);
+      state.elements.push(el);
+      createNode(el);
+      refreshEmpty();
+      select(el.id);
+      pushHistory();
       return el;
     }
-
-    function addEl(el) {
-      el.id = ++seq;
-      el.x = el.x ?? 50; el.y = el.y ?? 46; el.rot = el.rot ?? 0;
-      els.push(buildNode(el));
-      updateHint();
-      select(el);
-      return el;
+    function removeElement(id) {
+      var ref = nodes.get(id);
+      if (ref) { ref.node.remove(); nodes.delete(id); }
+      state.elements = state.elements.filter(function (e) { return e.id !== id; });
+      if (selectedId === id) { selectedId = null; applySelection(); }
+      refreshEmpty(); pushHistory();
+    }
+    function duplicate(id) {
+      var el = findEl(id); if (!el) return;
+      var copy = Object.assign({}, el);
+      delete copy.id;
+      copy.x = clamp(el.x + 7, 4, 96);
+      copy.y = clamp(el.y + 7, 4, 96);
+      addElement(copy);
+    }
+    function reorder(id, dir) {
+      var i = state.elements.findIndex(function (e) { return e.id === id; });
+      var j = i + dir;
+      if (i < 0 || j < 0 || j >= state.elements.length) return;
+      var tmp = state.elements[i]; state.elements[i] = state.elements[j]; state.elements[j] = tmp;
+      state.elements.forEach(function (e) { design.appendChild(nodes.get(e.id).node); });
+      pushHistory();
     }
 
-    function updateHint() { hint.style.display = els.length ? 'none' : 'flex'; }
-
-    /* ---- Selection ------------------------------------------------------ */
-    function select(el) {
-      if (selected && selected !== el) selected.node.classList.remove('sel');
-      selected = el;
-      if (el) {
-        el.node.classList.add('sel');
-        // amener au premier plan dans le DOM (ordre = z-order)
-        design.appendChild(el.node);
-        els = els.filter(x => x !== el).concat(el);
-        showCtx(el);
-      } else {
-        hideCtx();
-      }
+    /* ── Sélection ───────────────────────────────────────────────── */
+    function select(id) { selectedId = id; applySelection(); }
+    function deselect() { if (editingId) exitEdit(); selectedId = null; applySelection(); }
+    function applySelection() {
+      nodes.forEach(function (ref, id) { ref.node.classList.toggle('sel', id === selectedId); });
+      var el = selectedId ? findEl(selectedId) : null;
+      ctx.hidden = !el;
+      if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
     }
-    function deselect() { if (editing) exitEdit(); if (selected) selected.node.classList.remove('sel'); selected = null; hideCtx(); }
 
-    function showCtx(el) {
-      ctx.hidden = false;
-      ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
-    }
-    function hideCtx() { ctx.hidden = true; }
+    ctx.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]');
+      if (!b || !selectedId) return;
+      var a = b.dataset.act;
+      if (a === 'del') removeElement(selectedId);
+      else if (a === 'dup') duplicate(selectedId);
+      else if (a === 'front') reorder(selectedId, 1);
+      else if (a === 'back') reorder(selectedId, -1);
+      else if (a === 'edit') openSheet('text');
+    });
 
-    /* ---- Gestes : deplacer / redimensionner / pivoter ------------------- */
-    function onDown(e, el) {
-      if (editing === el) return; // en edition texte : pas de drag
+    design.addEventListener('pointerdown', function (e) {
+      if (e.target === design || e.target === emptyEl || emptyEl.contains(e.target)) deselect();
+    });
+
+    /* ── Gestes : déplacer / redimensionner / pivoter ─────────────── */
+    var SNAP = 2.2;   // % — aimantation au centre
+
+    function onDown(e, id) {
+      if (editingId === id) return;
       e.preventDefault();
-      select(el);
-      const handle = e.target.dataset ? e.target.dataset.handle : null;
-      const mode = handle || 'drag';
-      const dRect = design.getBoundingClientRect();
-      const eRect = el.node.getBoundingClientRect();
-      const cx = eRect.left + eRect.width / 2;
-      const cy = eRect.top + eRect.height / 2;
+      select(id);
+      var el = findEl(id); if (!el) return;
+      var handle = e.target.dataset ? e.target.dataset.handle : null;
+      var dRect = design.getBoundingClientRect();
+      var eRect = nodes.get(id).node.getBoundingClientRect();
+      var cx = eRect.left + eRect.width / 2;
+      var cy = eRect.top + eRect.height / 2;
       gesture = {
-        el, mode,
+        el: el, mode: handle || 'drag',
         px: e.clientX, py: e.clientY,
         sx: el.x, sy: el.y, srot: el.rot, ssize: el.size,
-        cx, cy,
+        cx: cx, cy: cy,
         a0: Math.atan2(e.clientY - cy, e.clientX - cx),
         d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1,
         cw: dRect.width, ch: dRect.height,
+        moved: false,
       };
       try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
       window.addEventListener('pointermove', onMove);
@@ -526,199 +648,289 @@ const price = "29,90 €";
 
     function onMove(e) {
       if (!gesture) return;
-      const g = gesture;
+      var g = gesture; g.moved = true;
       if (g.mode === 'drag') {
-        g.el.x = clamp(g.sx + (e.clientX - g.px) / g.cw * 100, 0, 100);
-        g.el.y = clamp(g.sy + (e.clientY - g.py) / g.ch * 100, 0, 100);
+        var nx = g.sx + (e.clientX - g.px) / g.cw * 100;
+        var ny = g.sy + (e.clientY - g.py) / g.ch * 100;
+        var sv = Math.abs(nx - 50) < SNAP, sh = Math.abs(ny - 50) < SNAP;
+        if (sv) nx = 50;
+        if (sh) ny = 50;
+        guideV.style.display = sv ? 'block' : 'none';
+        guideH.style.display = sh ? 'block' : 'none';
+        g.el.x = clamp(nx, 0, 100);
+        g.el.y = clamp(ny, 0, 100);
       } else if (g.mode === 'rotate') {
-        const a = Math.atan2(e.clientY - g.cy, e.clientX - g.cx);
-        let deg = g.srot + (a - g.a0) * 180 / Math.PI;
-        if (Math.abs(deg % 90) < 4) deg = Math.round(deg / 90) * 90; // accroche 0/90/180
+        var a = Math.atan2(e.clientY - g.cy, e.clientX - g.cx);
+        var deg = g.srot + (a - g.a0) * 180 / Math.PI;
+        if (Math.abs(deg % 90) < 5) deg = Math.round(deg / 90) * 90;   // aimante aux angles droits
         g.el.rot = deg;
       } else if (g.mode === 'resize') {
-        const d = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
-        g.el.size = clamp(g.ssize * (d / g.d0), 4, 95);
+        var d = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
+        g.el.size = clamp(g.ssize * (d / g.d0), 4, 96);
       }
-      apply(g.el);
+      applyStyles(g.el);
     }
 
     function onUp() {
+      if (gesture && gesture.moved) pushHistory();
       gesture = null;
+      guideV.style.display = 'none';
+      guideH.style.display = 'none';
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
     }
 
-    /* ---- Edition de texte inline ---------------------------------------- */
-    function enterEdit(el) {
-      editing = el;
-      el.node.dataset.editing = '';
-      el.content.contentEditable = 'true';
-      el.content.focus();
-      document.getSelection().selectAllChildren(el.content);
+    /* ── Édition de texte en place ───────────────────────────────── */
+    function enterEdit(id) {
+      var ref = nodes.get(id); if (!ref) return;
+      editingId = id;
+      ref.node.dataset.editing = '';
+      ref.content.contentEditable = 'true';
+      ref.content.focus();
+      var sel = document.getSelection();
+      if (sel) sel.selectAllChildren(ref.content);
     }
     function exitEdit() {
-      if (!editing) return;
-      const el = editing;
-      el.content.contentEditable = 'false';
-      delete el.node.dataset.editing;
-      el.text = el.content.textContent.trim();
-      if (!el.text) removeEl(el);
-      editing = null;
-    }
-    design.addEventListener('input', () => { if (editing) syncTextSheet(); });
-
-    /* ---- Actions sur l'element ------------------------------------------ */
-    function removeEl(el) {
-      el.node.remove();
-      els = els.filter(x => x !== el);
-      if (selected === el) { selected = null; hideCtx(); }
-      updateHint();
-    }
-    function duplicate(el) {
-      const copy = { ...el, x: clamp(el.x + 8, 0, 100), y: clamp(el.y + 8, 0, 100) };
-      delete copy.node; delete copy.content; delete copy.id;
-      addEl(copy);
-    }
-    function reorder(el, dir) {
-      const i = els.indexOf(el);
-      if (dir > 0 && i < els.length - 1) { design.insertBefore(els[i + 1].node, el.node); els.splice(i, 1); els.splice(i + 1, 0, el); }
-      if (dir < 0 && i > 0) { design.insertBefore(el.node, els[i - 1].node); els.splice(i, 1); els.splice(i - 1, 0, el); }
+      if (!editingId) return;
+      var el = findEl(editingId), ref = nodes.get(editingId);
+      if (ref) { ref.content.contentEditable = 'false'; delete ref.node.dataset.editing; }
+      if (el && ref) {
+        var v = ref.content.textContent.trim();
+        if (!v) { var id = editingId; editingId = null; removeElement(id); return; }
+        if (v !== el.text) { el.text = v; pushHistory(); }
+      }
+      editingId = null;
     }
 
-    ctx.addEventListener('click', (e) => {
-      const act = e.target.closest('[data-act]');
-      if (!act || !selected) return;
-      const a = act.dataset.act;
-      if (a === 'del') removeEl(selected);
-      else if (a === 'dup') duplicate(selected);
-      else if (a === 'front') reorder(selected, 1);
-      else if (a === 'back') reorder(selected, -1);
-      else if (a === 'edit') { openSheet('text'); }
-    });
-
-    /* ---- Deselection au clic dans le vide ------------------------------- */
-    design.addEventListener('pointerdown', (e) => { if (e.target === design || e.target === hint) deselect(); });
-
-    /* ---- Feuilles (sheets) ---------------------------------------------- */
+    /* ── Feuilles ────────────────────────────────────────────────── */
     function openSheet(name) {
       sheetWrap.hidden = false;
-      sheetWrap.querySelectorAll('[data-sheet]').forEach(s => { s.hidden = s.dataset.sheet !== name; });
+      sheetWrap.querySelectorAll('[data-sheet]').forEach(function (s) { s.hidden = s.dataset.sheet !== name; });
       if (name === 'text') syncTextSheet();
     }
     function closeSheet() { sheetWrap.hidden = true; }
-    sheetWrap.querySelectorAll('[data-sheetclose]').forEach(b => b.addEventListener('click', closeSheet));
+    sheetWrap.querySelectorAll('[data-sheetclose]').forEach(function (b) { b.addEventListener('click', closeSheet); });
 
-    /* ---- Barre d'outils ------------------------------------------------- */
-    root.querySelectorAll('[data-tool]').forEach(btn => btn.addEventListener('click', () => {
-      const t = btn.dataset.tool;
-      if (t === 'text') {
-        const el = addEl({ type: 'text', text: 'Votre texte', font: FONTS[1].css, color: TEXT_COLORS[0], size: 11 });
-        openSheet('text');
-        setTimeout(() => root.querySelector('[data-textinput]').focus(), 60);
-      } else if (t === 'sticker') openSheet('sticker');
-      else if (t === 'image') fileInput.click();
-      else if (t === 'bg') openSheet('bg');
-    }));
+    /* ── Outils (barre + état vide) ──────────────────────────────── */
+    root.querySelectorAll('[data-tool]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var t = btn.dataset.tool;
+        if (t === 'text') {
+          addElement({ type: 'text', text: 'Votre texte', font: FONTS[1].css, color: TEXT_COLORS[0], size: 11 });
+          openSheet('text');
+          setTimeout(function () { root.querySelector('[data-textinput]').focus(); }, 80);
+        } else if (t === 'sticker') openSheet('sticker');
+        else if (t === 'image') fileInput.click();
+        else if (t === 'bg') openSheet('bg');
+      });
+    });
 
-    /* ---- Import photo --------------------------------------------------- */
-    fileInput.addEventListener('change', () => {
-      const f = fileInput.files && fileInput.files[0];
-      if (!f) return;
-      const reader = new FileReader();
-      reader.onload = () => addEl({ type: 'image', src: reader.result, size: 45 });
-      reader.readAsDataURL(f);
+    /* ── Import d'images : fichier, glisser-déposer, coller ──────── */
+    function importFile(file) {
+      if (!file || !/^image\//.test(file.type)) { toast('Choisissez un fichier image.', 'warn'); return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          // Redimensionnement avant stockage : une photo de 4000px sature la
+          // mémoire et fait exploser le quota localStorage pour rien.
+          var max = 1400, w = img.width, h = img.height;
+          if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
+          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+          var out;
+          try { out = cv.toDataURL('image/webp', 0.85); } catch (_) { out = ''; }
+          if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', 0.85);
+          addElement({ type: 'image', src: out, size: 46 });
+          toast('Photo ajoutée');
+        };
+        img.onerror = function () { toast('Image illisible.', 'warn'); };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);
       fileInput.value = '';
     });
 
-    /* ---- Contenus des feuilles ------------------------------------------ */
-    // Stickers
-    const stickerGrid = root.querySelector('[data-stickers]');
-    STICKERS.forEach(emo => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.textContent = emo;
-      b.addEventListener('click', () => { addEl({ type: 'sticker', text: emo, size: 22 }); closeSheet(); });
-      stickerGrid.appendChild(b);
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.setAttribute('data-over', ''); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.removeAttribute('data-over'); });
+    });
+    caseEl.addEventListener('drop', function (e) {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) importFile(e.dataTransfer.files[0]);
+    });
+    document.addEventListener('paste', function (e) {
+      if (!e.clipboardData) return;
+      var items = e.clipboardData.items;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') === 0) { importFile(items[i].getAsFile()); break; }
+      }
     });
 
-    // Couleur de la coque
-    const caseColors = root.querySelector('[data-casecolors]');
-    function setCaseColor(c) {
-      caseEl.style.setProperty('--case-bg', c);
-      const dark = isDark(c);
-      caseEl.toggleAttribute('data-bg-dark', dark);
-      caseColors.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-pressed', String(s.dataset.c === c)));
+    /* ── Contenu des feuilles ────────────────────────────────────── */
+    // Stickers, par catégorie
+    var catRow = root.querySelector('[data-stickercats]');
+    var stickerGrid = root.querySelector('[data-stickers]');
+    function renderStickers(cat) {
+      stickerGrid.innerHTML = '';
+      STICKERS[cat].forEach(function (emo) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = emo; b.setAttribute('aria-label', 'Sticker ' + emo);
+        b.addEventListener('click', function () { addElement({ type: 'sticker', text: emo, size: 22 }); closeSheet(); });
+        stickerGrid.appendChild(b);
+      });
+      catRow.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-selected', String(c.dataset.cat === cat)); });
     }
-    CASE_COLORS.forEach(c => {
-      const s = document.createElement('button');
+    Object.keys(STICKERS).forEach(function (cat, i) {
+      var c = document.createElement('button');
+      c.type = 'button'; c.className = 'chip'; c.textContent = cat; c.dataset.cat = cat;
+      c.setAttribute('role', 'tab');
+      c.addEventListener('click', function () { renderStickers(cat); });
+      catRow.appendChild(c);
+      if (i === 0) setTimeout(function () { renderStickers(cat); }, 0);
+    });
+
+    // Couleur de coque
+    var caseColorsRow = root.querySelector('[data-casecolors]');
+    function isDark(hex) {
+      var c = hex.replace('#', '');
+      var r = parseInt(c.substr(0, 2), 16), g = parseInt(c.substr(2, 2), 16), b = parseInt(c.substr(4, 2), 16);
+      return (0.299 * r + 0.587 * g + 0.114 * b) < 140;
+    }
+    function setCaseColor(c, silent) {
+      state.caseColor = c;
+      caseEl.style.setProperty('--case-bg', c);
+      caseEl.toggleAttribute('data-bg-dark', isDark(c));
+      caseColorsRow.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === c)); });
+      if (!silent) pushHistory();
+    }
+    CASE_COLORS.forEach(function (c) {
+      var s = document.createElement('button');
       s.type = 'button'; s.className = 'swatch'; s.dataset.c = c; s.style.background = c;
-      s.setAttribute('aria-label', 'Couleur ' + c);
-      s.addEventListener('click', () => setCaseColor(c));
-      caseColors.appendChild(s);
+      s.setAttribute('aria-label', 'Coque ' + c);
+      s.addEventListener('click', function () { setCaseColor(c); });
+      caseColorsRow.appendChild(s);
     });
 
     // Texte : contenu / police / couleur
-    const textInput = root.querySelector('[data-textinput]');
-    const fontRow = root.querySelector('[data-fonts]');
-    const textColors = root.querySelector('[data-textcolors]');
-    FONTS.forEach(f => {
-      const c = document.createElement('button');
-      c.type = 'button'; c.className = 'font-chip'; c.textContent = f.label; c.style.fontFamily = f.css; c.dataset.f = f.css;
-      c.addEventListener('click', () => { if (selected && selected.type === 'text') { selected.font = f.css; apply(selected); syncTextSheet(); } });
+    var textInput = root.querySelector('[data-textinput]');
+    var fontRow = root.querySelector('[data-fonts]');
+    var textColors = root.querySelector('[data-textcolors]');
+    var textTimer = null;
+
+    FONTS.forEach(function (f) {
+      var c = document.createElement('button');
+      c.type = 'button'; c.className = 'font-chip'; c.textContent = 'Aa';
+      c.style.fontFamily = f.css; c.dataset.f = f.css;
+      c.addEventListener('click', function () {
+        var el = selectedId && findEl(selectedId);
+        if (el && el.type === 'text') { el.font = f.css; applyStyles(el); syncTextSheet(); pushHistory(); }
+      });
       fontRow.appendChild(c);
     });
-    TEXT_COLORS.forEach(col => {
-      const s = document.createElement('button');
+    TEXT_COLORS.forEach(function (col) {
+      var s = document.createElement('button');
       s.type = 'button'; s.className = 'swatch'; s.dataset.c = col; s.style.background = col;
-      s.setAttribute('aria-label', 'Couleur ' + col);
-      s.addEventListener('click', () => { if (selected && selected.type === 'text') { selected.color = col; apply(selected); syncTextSheet(); } });
+      s.setAttribute('aria-label', 'Texte ' + col);
+      s.addEventListener('click', function () {
+        var el = selectedId && findEl(selectedId);
+        if (el && el.type === 'text') { el.color = col; applyStyles(el); syncTextSheet(); pushHistory(); }
+      });
       textColors.appendChild(s);
     });
-    textInput.addEventListener('input', () => {
-      if (selected && selected.type === 'text') { selected.text = textInput.value; selected.content.textContent = textInput.value; }
+    textInput.addEventListener('input', function () {
+      var el = selectedId && findEl(selectedId);
+      if (!el || el.type !== 'text') return;
+      el.text = textInput.value;
+      nodes.get(el.id).content.textContent = textInput.value;
+      clearTimeout(textTimer);
+      textTimer = setTimeout(pushHistory, 500);   // un historique par saisie, pas par frappe
     });
     function syncTextSheet() {
-      if (!selected || selected.type !== 'text') return;
-      textInput.value = selected.text;
-      fontRow.querySelectorAll('.font-chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === selected.font)));
-      textColors.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-pressed', String(s.dataset.c === selected.color)));
+      var el = selectedId && findEl(selectedId);
+      if (!el || el.type !== 'text') return;
+      textInput.value = el.text;
+      fontRow.querySelectorAll('.font-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.f === el.font)); });
+      textColors.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === el.color)); });
     }
 
-    /* ---- Utilitaires ---------------------------------------------------- */
-    function isDark(hex) {
-      const c = hex.replace('#', '');
-      const r = parseInt(c.substr(0, 2), 16), g = parseInt(c.substr(2, 2), 16), b = parseInt(c.substr(4, 2), 16);
-      return (0.299 * r + 0.587 * g + 0.114 * b) < 140;
-    }
-    function toast(msg) {
-      toastEl.textContent = msg; toastEl.hidden = false;
-      clearTimeout(toast._t); toast._t = setTimeout(() => { toastEl.hidden = true; }, 2600);
+    /* ── Clavier ─────────────────────────────────────────────────── */
+    document.addEventListener('keydown', function (e) {
+      if (editingId) {
+        if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); exitEdit(); }
+        return;
+      }
+      var tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
+        e.preventDefault(); e.shiftKey ? redo() : undo(); return;
+      }
+      if (!selectedId) return;
+      var el = findEl(selectedId); if (!el) return;
+
+      if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeElement(selectedId); return; }
+      if (e.key === 'Escape') { deselect(); return; }
+      var step = e.shiftKey ? 5 : 1;
+      var moved = true;
+      if (e.key === 'ArrowLeft') el.x = clamp(el.x - step, 0, 100);
+      else if (e.key === 'ArrowRight') el.x = clamp(el.x + step, 0, 100);
+      else if (e.key === 'ArrowUp') el.y = clamp(el.y - step, 0, 100);
+      else if (e.key === 'ArrowDown') el.y = clamp(el.y + step, 0, 100);
+      else moved = false;
+      if (moved) { e.preventDefault(); applyStyles(el); clearTimeout(textTimer); textTimer = setTimeout(pushHistory, 400); }
+    });
+
+    /* ── Divers ──────────────────────────────────────────────────── */
+    function toast(msg, kind) {
+      toastEl.textContent = msg;
+      if (kind) toastEl.dataset.kind = kind; else delete toastEl.dataset.kind;
+      toastEl.hidden = false;
+      clearTimeout(toast._t);
+      toast._t = setTimeout(function () { toastEl.hidden = true; }, 2600);
     }
 
-    /* ---- Ajouter au panier (serialise le design) ------------------------ */
-    root.querySelector('[data-add]').addEventListener('click', () => {
-      if (!els.length) { toast('Ajoutez au moins un element a votre coque.'); return; }
-      const design = {
-        caseColor: caseEl.style.getPropertyValue('--case-bg') || '#f4eee2',
-        elements: els.map(e => ({
-          type: e.type, x: e.x, y: e.y, rot: e.rot, size: e.size,
-          text: e.text, font: e.font, color: e.color,
-          src: e.type === 'image' ? '[image importee]' : undefined,
-        })),
-      };
-      try { localStorage.setItem('vareska:custom-design', JSON.stringify(design)); } catch (_) {}
-      // TODO: brancher sur le vrai checkout (widget Atelier / Stripe) avec l'image rendue.
-      toast('Design ajoute au panier !');
+    /* ── Ajout au panier ─────────────────────────────────────────── */
+    // <ModelPicker> intercepte déjà le clic sur .buy-button tant qu'aucun
+    // modèle n'est choisi : ici on ne gère que le cas « design vide ».
+    root.querySelector('[data-add]').addEventListener('click', function (e) {
+      if (!state.elements.length) {
+        e.preventDefault(); e.stopPropagation();
+        toast('Ajoutez au moins un élément à votre coque.', 'warn');
+        return;
+      }
+      var model = '';
+      try { model = localStorage.getItem('vareska:phone-model') || ''; } catch (_) {}
+      if (!model) return;   // le sélecteur de modèle prend la main
+      save();
+      // TODO checkout : générer le rendu (canvas → PNG) et le joindre à la commande.
+      toast('Design ajouté au panier !');
       deselect();
     });
 
-    /* ---- Init ----------------------------------------------------------- */
-    setCaseColor(CASE_COLORS[0]);
-    // Suppr. clavier de l'element selectionne
-    document.addEventListener('keydown', (e) => {
-      if (editing) { if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); exitEdit(); } return; }
-      if (selected && (e.key === 'Delete' || e.key === 'Backspace')) { e.preventDefault(); removeEl(selected); }
-      if (e.key === 'Escape') deselect();
-    });
+    /* ── Démarrage ───────────────────────────────────────────────── */
+    (function init() {
+      var saved = null;
+      try { saved = localStorage.getItem(STORE); } catch (_) {}
+      if (saved) {
+        try {
+          var data = JSON.parse(saved);
+          if (data && Array.isArray(data.elements)) {
+            state = data;
+            seq = state.elements.reduce(function (m, el) { return Math.max(m, el.id || 0); }, 0);
+          }
+        } catch (_) {}
+      }
+      renderAll();
+      history = [snapshot()];
+      hIndex = 0;
+      syncHistoryBtns();
+    })();
   })();
 </script>

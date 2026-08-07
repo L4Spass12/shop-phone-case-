@@ -178,15 +178,16 @@ const faqSchema = {
           Samsung, Pixel ou Xiaomi.
         </p>
 
-        {/* Un seul bouton : les deux CTA pointaient vers /boutique, donc le
-            second ne faisait que diluer le premier. La ligne de réassurance
-            prend sa place — elle répond à l'objection au lieu de la répéter. */}
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+        {/* Deux CTA, deux destinations RÉELLEMENT différentes : acheter une
+            coque existante, ou créer la sienne dans le studio. (Le second
+            bouton avait été retiré quand les deux menaient à /boutique.) */}
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
           <a href="/boutique" class="btn-primary inline-flex items-center gap-2">
             Voir la collection
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
           </a>
-          <span class="hero-note text-xs text-n-400">Expédition sous 48 h · Retour sous 14 jours</span>
+          <a href="/personnaliser" class="btn-outline">Créer ma coque</a>
+          <span class="hero-note text-xs text-n-400 w-full sm:w-auto">Expédition sous 48 h · Retour sous 14 jours</span>
         </div>
       </div>
     </div>
