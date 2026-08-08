@@ -57,7 +57,8 @@ const price = '29,90 €';
       <div class="bar-r">
         <span class="bar-price price-amount">{price}</span>
         <button type="button" class="btn-atc buy-button bar-add" data-add data-item-name="Coque personnalisée">
-          Ajouter au panier
+          <span class="add-full">Ajouter au panier</span>
+          <span class="add-mini">Ajouter</span>
         </button>
       </div>
     </header>
@@ -170,7 +171,15 @@ const price = '29,90 €';
         <span class="side side-l" aria-hidden="true"></span>
         <span class="side side-r" aria-hidden="true"></span>
 
-        <div class="ctx" data-ctx hidden>
+        <div class="empty" data-empty>
+          <p>Votre coque est vierge</p>
+          <span>Choisissez un outil pour commencer</span>
+        </div>
+      </div>
+
+      <!-- Barre d'actions : ancrée au plan de travail et non à la coque, qui
+           devient trop étroite quand un panneau est ouvert en mobile. -->
+      <div class="ctx" data-ctx hidden>
           <button type="button" data-act="edit" hidden>Éditer</button>
           <button type="button" data-act="dup" aria-label="Dupliquer" title="Dupliquer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -184,12 +193,6 @@ const price = '29,90 €';
           <button type="button" data-act="del" class="ctx-del" aria-label="Supprimer" title="Supprimer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
           </button>
-        </div>
-
-        <div class="empty" data-empty>
-          <p>Votre coque est vierge</p>
-          <span>Choisissez un outil pour commencer</span>
-        </div>
       </div>
     </main>
   </div>
@@ -201,17 +204,31 @@ const price = '29,90 €';
 <style>
   .studio { --rail: 78px; --panel: 272px; }
 
+  /* ── Mobile : une application à hauteur fixe ─────────────────────
+     Colonne barre / plan de travail / panneau / rail. Le panneau est DANS
+     le flux (et non posé par-dessus) : quand il s'ouvre, le plan de travail
+     se réduit et la coque reste visible — on voit ce qu'on est en train de
+     modifier, ce qui n'était pas le cas avec une feuille en surimpression. */
   .builder {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas: "bar" "canvas" "rail";
-    min-height: calc(100dvh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--header-h));
+    overflow: hidden;
   }
+  .builder > .bar    { flex: none; order: 0; }
+  .builder > .canvas { flex: 1 1 auto; min-height: 0; order: 1; }
+  .builder > .panel  { flex: none; order: 2; }
+  .builder > .rail   { flex: none; order: 3; }
+
   @media (min-width: 1024px) {
     .builder {
+      display: grid;
+      height: auto;
+      overflow: visible;
       grid-template-columns: var(--rail) auto minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
       grid-template-areas: "bar bar bar" "rail panel canvas";
+      min-height: calc(100dvh - var(--header-h));
     }
   }
 
@@ -222,8 +239,11 @@ const price = '29,90 €';
     padding: .55rem .9rem;
     border-bottom: 1px solid rgb(var(--c-cream) / .10);
     background: rgb(var(--c-dark));
-    position: sticky; top: var(--header-h); z-index: 60;
+    z-index: 60;
   }
+  /* En mobile la barre est déjà figée par la colonne à hauteur fixe ;
+     le `sticky` ne sert que sur desktop, où la page défile. */
+  @media (min-width: 1024px) { .bar { position: sticky; top: var(--header-h); } }
   .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
   .sbtn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -239,8 +259,19 @@ const price = '29,90 €';
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw;
   }
   @media (max-width: 520px) { .bar-model { display: none; } }
+  /* Sur les très petits écrans, le prix cède la place au bouton d'achat. */
+  @media (max-width: 359px) { .bar-price { display: none; } }
   .bar-price { font-size: 1.1rem; font-weight: 600; white-space: nowrap; }
   .bar-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; white-space: nowrap; }
+  /* Le libellé long ne tient pas à 375 px à côté du prix et des annulations :
+     on bascule sur « Ajouter » (l'intitulé reste explicite en contexte).
+     `font-size: 1em` annule la réduction que .btn-atc applique à ses <span>. */
+  .bar-add .add-full, .bar-add .add-mini { font-size: 1em; font-weight: inherit; }
+  .bar-add .add-mini { display: none; }
+  @media (max-width: 700px) {
+    .bar-add .add-full { display: none; }
+    .bar-add .add-mini { display: inline; }
+  }
   @media (min-width: 1024px) { .bar-price { font-size: 1.3rem; } .bar-add { font-size: .8rem; } }
 
   /* ── Rail ────────────────────────────────────────────────────── */
@@ -250,13 +281,12 @@ const price = '29,90 €';
     padding: .35rem .5rem calc(.35rem + env(safe-area-inset-bottom));
     background: rgb(var(--c-dark));
     border-top: 1px solid rgb(var(--c-cream) / .10);
-    position: sticky; bottom: 0; z-index: 60;
+    z-index: 60;
   }
   @media (min-width: 1024px) {
     .rail {
       flex-direction: column; padding: .6rem .5rem;
       border-top: 0; border-right: 1px solid rgb(var(--c-cream) / .10);
-      position: static;
     }
   }
   .rbtn {
@@ -281,11 +311,11 @@ const price = '29,90 €';
   }
   @media (max-width: 1023px) {
     .panel {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
-      max-height: 62dvh; overflow-y: auto;
-      padding: .5rem 1rem calc(1rem + env(safe-area-inset-bottom) + 62px);
+      max-height: 48dvh; overflow-y: auto;
+      overscroll-behavior: contain;          /* le défilement ne fuit pas vers la page */
+      padding: .4rem 1rem .9rem;
       border-radius: 16px 16px 0 0;
-      box-shadow: 0 -14px 40px -18px rgba(0,0,0,.55);
+      box-shadow: 0 -14px 34px -20px rgba(0,0,0,.4);
       border-top: 1px solid rgb(var(--c-cream) / .12);
       animation: sheet-in .24s cubic-bezier(.22,.61,.36,1);
     }
@@ -317,7 +347,8 @@ const price = '29,90 €';
   .chip-row { display: flex; gap: .3rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
   .chip-row::-webkit-scrollbar { display: none; }
   .sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3rem; }
-  @media (max-width: 1023px) { .sticker-grid { grid-template-columns: repeat(7, 1fr); } }
+  /* 6 colonnes plutôt que 7 : ~52 px par cible, au-dessus du minimum tactile. */
+  @media (max-width: 1023px) { .sticker-grid { grid-template-columns: repeat(6, 1fr); gap: .35rem; } }
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
@@ -350,6 +381,10 @@ const price = '29,90 €';
     display: flex; align-items: center; justify-content: center;
     padding: 1.25rem 1rem; min-height: 0;
     background: rgb(var(--c-panel) / .5);
+    /* Un glissement sur le plan de travail compose, il ne fait pas défiler
+       la page derrière (indispensable au confort tactile). */
+    touch-action: none;
+    overscroll-behavior: contain;
   }
   .canvas::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -359,8 +394,9 @@ const price = '29,90 €';
       radial-gradient(42% 30% at 62% 78%, rgba(150,180,140,.16), transparent 72%),
       radial-gradient(30% 24% at 30% 82%, rgba(200,160,100,.14), transparent 70%);
     filter: blur(6px);
+    z-index: 0;   /* le décor reste sous la coque et la barre d'actions, qui
+                     sont positionnées et peintes après lui */
   }
-  .canvas > * { position: relative; }
 
   /* ── La coque ────────────────────────────────────────────────── */
   .case {
@@ -454,10 +490,10 @@ const price = '29,90 €';
   .case[data-dark] .empty span { color: rgba(255,255,255,.48); }
 
   /* ── Barre contextuelle ──────────────────────────────────────── */
-  /* Flottante À L'INTÉRIEUR de la coque, en bas : au-dessus elle sortait du
-     cadre et passait sous la barre supérieure quand la coque est haute. */
+  /* Flottante en bas du PLAN DE TRAVAIL : rattachée à la coque, elle
+     débordait dès que celle-ci rétrécissait (panneau ouvert en mobile). */
   .ctx {
-    position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%);
+    position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
     display: flex; gap: 2px; padding: 4px; border-radius: 10px;
     background: rgba(24,24,27,.88); backdrop-filter: blur(6px);
     box-shadow: 0 10px 26px -10px rgba(0,0,0,.6); z-index: 40;
@@ -834,7 +870,11 @@ const price = '29,90 €';
       var maxH = Math.max(220, r.height - 56);
       caseEl.style.width = Math.round(Math.min(maxW, maxH * fam.ratio, 300)) + 'px';
     }
-    window.addEventListener('resize', fitCase);
+    // Le plan de travail change de taille à chaque ouverture/fermeture de
+    // panneau (mobile), rotation ou apparition du clavier : on observe la
+    // boîte plutôt que de rappeler fitCase() à chaque endroit concerné.
+    if (window.ResizeObserver) new ResizeObserver(fitCase).observe(canvasEl);
+    else window.addEventListener('resize', fitCase);
 
     function applyFinish() {
       if (state.finish === 'clear') {
@@ -1149,7 +1189,8 @@ const price = '29,90 €';
       selectedId = null;
       renderAll(); pushHistory();
       toast('Design « ' + t.name + ' » appliqué');
-      if (!window.matchMedia('(min-width: 1024px)').matches) closePane();
+      // On garde le panneau ouvert : la coque restant visible en mobile, on
+      // peut comparer plusieurs designs sans faire d'aller-retour.
     }
 
     /* ── Stickers ───────────────────────────────────────────────── */
