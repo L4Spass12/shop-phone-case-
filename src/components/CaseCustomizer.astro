@@ -1,23 +1,21 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════════════════
- *  STUDIO DE PERSONNALISATION  (editeur de coque, facon Canva / Printify)
+ *  STUDIO — builder de coque personnalisée (esprit Canva / Printify)
  * ═══════════════════════════════════════════════════════════════════════
- *  Editeur 100% client, sans dependance externe (compatible CSP du site).
+ *  Organisation : rail d'icônes → panneau contextuel → plan de travail.
+ *  Sur mobile le rail passe en bas, le panneau devient une feuille.
  *
- *  Principes retenus :
- *   1. UNE SEULE SOURCE DE VERITE. L'etat vit dans `state` (JSON serialisable) ;
- *      le DOM en est le rendu. C'est ce qui rend possible, gratuitement,
- *      l'annulation/retablissement, la sauvegarde automatique et l'envoi du
- *      design au panier.
- *   2. GESTES UNIFIES. Pointer Events : la meme logique sert la souris et le
- *      tactile (deplacer / redimensionner / pivoter), avec aimantation au
- *      centre et aux angles droits.
- *   3. LE MODELE EST OBLIGATOIRE. On reutilise <ModelPicker> : il bloque deja
- *      tout clic sur `.buy-button` tant qu'aucun modele n'est choisi, et
- *      memorise le choix pour toute la boutique.
- *   4. MOBILE D'ABORD. Panneaux en feuilles remontantes, grosses cibles
- *      tactiles, barre d'action toujours atteignable.
+ *  Choix structurants :
+ *   1. UN SEUL ÉTAT SÉRIALISABLE (`state`) ; le DOM n'en est que le rendu.
+ *      D'où, gratuitement : annuler/rétablir, sauvegarde auto, envoi au panier.
+ *   2. LA COQUE SUIT LE MODÈLE. Chaque famille d'appareils a son gabarit
+ *      (proportions, rayon des angles, découpe caméra) : changer de modèle
+ *      change réellement la coque affichée, pas seulement une étiquette.
+ *   3. RENDU RÉALISTE. La coque est transparente par défaut : on voit le
+ *      téléphone au travers, le TPU a une épaisseur et un reflet. C'est ce qui
+ *      permet au client de juger son visuel avant d'acheter.
+ *   4. GESTES UNIFIÉS souris + tactile (Pointer Events).
  * ═══════════════════════════════════════════════════════════════════════
  */
 import ModelPicker from './ModelPicker.astro';
@@ -26,55 +24,122 @@ const price = '29,90 €';
 ---
 
 <section class="studio" data-studio aria-label="Studio de personnalisation">
-  <header class="studio-head">
-    <h1 class="studio-title">Studio de personnalisation</h1>
-    <p class="studio-sub">Composez votre coque : texte, stickers et vos photos. Glissez pour déplacer, pincez pour agrandir.</p>
-  </header>
+  <div class="builder">
 
-  <div class="studio-grid">
-    <!-- ─── Outils ─────────────────────────────────────────────────── -->
-    <nav class="tools" aria-label="Outils de création">
-      <button type="button" class="tool" data-tool="text">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg></span>
-        <span class="tool-lb">Texte</span>
-      </button>
-      <button type="button" class="tool" data-tool="sticker">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.6 14.8 9l6.9.5-5.3 4.5 1.7 6.7L12 17.1 5.9 20.7l1.7-6.7L2.3 9.5 9.2 9z"/></svg></span>
-        <span class="tool-lb">Sticker</span>
-      </button>
-      <button type="button" class="tool" data-tool="image">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg></span>
-        <span class="tool-lb">Photo</span>
-      </button>
-      <button type="button" class="tool" data-tool="bg">
-        <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="8.6" cy="10" r="1.1"/><circle cx="15.4" cy="10" r="1.1"/><circle cx="12" cy="15.4" r="1.1"/></svg></span>
-        <span class="tool-lb">Couleur</span>
-      </button>
-    </nav>
-
-    <!-- ─── Scène ──────────────────────────────────────────────────── -->
-    <div class="stage">
-      <div class="stage-bar">
-        <button type="button" class="sbtn" data-undo disabled aria-label="Annuler" title="Annuler">
+    <!-- ─── Barre supérieure ─────────────────────────────────────── -->
+    <header class="bar">
+      <div class="bar-l">
+        <button type="button" class="sbtn" data-undo disabled aria-label="Annuler" title="Annuler (Ctrl+Z)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
         </button>
         <button type="button" class="sbtn" data-redo disabled aria-label="Rétablir" title="Rétablir">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
         </button>
-        <span class="sbar-sep" aria-hidden="true"></span>
+        <span class="bar-sep" aria-hidden="true"></span>
         <button type="button" class="sbtn" data-reset aria-label="Tout effacer" title="Tout effacer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
         </button>
+        <span class="bar-model" data-barmodel>Choisissez un modèle</span>
+      </div>
+      <div class="bar-r">
+        <span class="bar-price price-amount">{price}</span>
+        <button type="button" class="btn-atc buy-button bar-add" data-add data-item-name="Coque personnalisée">
+          Ajouter au panier
+        </button>
+      </div>
+    </header>
+
+    <!-- ─── Rail d'outils ────────────────────────────────────────── -->
+    <nav class="rail" aria-label="Outils">
+      <button type="button" class="rbtn" data-panel="model" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 5.5h2"/></svg>
+        <span>Modèle</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="text" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg>
+        <span>Texte</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="sticker" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.6 14.8 9l6.9.5-5.3 4.5 1.7 6.7L12 17.1 5.9 20.7l1.7-6.7L2.3 9.5 9.2 9z"/></svg>
+        <span>Stickers</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="photo" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>
+        <span>Photos</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="finish" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="8.6" cy="10" r="1.1"/><circle cx="15.4" cy="10" r="1.1"/><circle cx="12" cy="15.4" r="1.1"/></svg>
+        <span>Coque</span>
+      </button>
+    </nav>
+
+    <!-- ─── Panneau contextuel ───────────────────────────────────── -->
+    <aside class="panel" data-panelwrap hidden>
+      <div class="panel-grip" data-panelclose aria-hidden="true"></div>
+      <div class="panel-head">
+        <h2 data-paneltitle>Panneau</h2>
+        <button type="button" class="panel-x" data-panelclose aria-label="Fermer le panneau">&times;</button>
       </div>
 
-      <div class="case" data-case data-drop>
-        <span class="case-camera" aria-hidden="true"></span>
+      <!-- Modèle -->
+      <div class="pane" data-pane="model" hidden>
+        <p class="pane-hint">La coque affichée s'adapte au modèle choisi.</p>
+        <ModelPicker id="studio-model" />
+      </div>
+
+      <!-- Texte -->
+      <div class="pane" data-pane="text" hidden>
+        <button type="button" class="pane-cta" data-addtext>+ Ajouter un texte</button>
+        <div data-textedit hidden>
+          <label class="pane-label" for="studio-text">Contenu</label>
+          <input id="studio-text" type="text" class="field" data-textinput placeholder="Votre texte" maxlength="40" autocomplete="off" />
+          <label class="pane-label">Police</label>
+          <div class="font-row" data-fonts></div>
+          <label class="pane-label">Couleur du texte</label>
+          <div class="swatch-row" data-textcolors></div>
+        </div>
+        <p class="pane-empty" data-textempty>Sélectionnez un texte sur la coque pour le modifier.</p>
+      </div>
+
+      <!-- Stickers -->
+      <div class="pane" data-pane="sticker" hidden>
+        <div class="chip-row" data-stickercats role="tablist" aria-label="Catégories"></div>
+        <div class="sticker-grid" data-stickers></div>
+      </div>
+
+      <!-- Photos -->
+      <div class="pane" data-pane="photo" hidden>
+        <button type="button" class="dropzone" data-pick>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <strong>Importer une photo</strong>
+          <span>ou glissez-la sur la coque · JPG, PNG, WebP</span>
+        </button>
+        <p class="pane-hint">Astuce : vous pouvez aussi coller une image (Ctrl+V).</p>
+      </div>
+
+      <!-- Coque -->
+      <div class="pane" data-pane="finish" hidden>
+        <label class="pane-label">Finition</label>
+        <div class="swatch-row" data-finishes></div>
+        <label class="pane-label">Couleur du téléphone</label>
+        <div class="swatch-row" data-devices></div>
+        <p class="pane-hint">La finition transparente laisse voir votre téléphone.</p>
+      </div>
+    </aside>
+
+    <!-- ─── Plan de travail ──────────────────────────────────────── -->
+    <main class="canvas" data-canvas>
+      <div class="case" data-case data-finish="clear">
+        <div class="device" data-device></div>
         <div class="design" data-design>
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
           <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
         </div>
+        <div class="cam" data-cam aria-hidden="true"></div>
+        <div class="shell" aria-hidden="true"><span class="sheen"></span></div>
+        <span class="side side-l" aria-hidden="true"></span>
+        <span class="side side-r" aria-hidden="true"></span>
 
-        <!-- Barre contextuelle de l'élément sélectionné -->
         <div class="ctx" data-ctx hidden>
           <button type="button" data-act="edit" hidden>Éditer</button>
           <button type="button" data-act="dup" aria-label="Dupliquer" title="Dupliquer">
@@ -91,65 +156,12 @@ const price = '29,90 €';
           </button>
         </div>
 
-        <!-- État vide : on propose directement les 3 gestes de départ -->
         <div class="empty" data-empty>
-          <p class="empty-t">Votre coque est vierge</p>
-          <div class="empty-actions">
-            <button type="button" data-tool="text">Ajouter un texte</button>
-            <button type="button" data-tool="sticker">Ajouter un sticker</button>
-            <button type="button" data-tool="image">Importer une photo</button>
-          </div>
+          <p>Votre coque est vierge</p>
+          <span>Choisissez un outil pour commencer</span>
         </div>
       </div>
-
-      <p class="stage-tip" data-tip>Astuce : glissez pour déplacer, utilisez les poignées pour tourner et agrandir.</p>
-    </div>
-
-    <!-- ─── Panneau achat ──────────────────────────────────────────── -->
-    <aside class="panel" aria-label="Votre commande">
-      <ModelPicker id="studio-model" />
-
-      <div class="panel-buy">
-        <span class="panel-price price-amount">{price}</span>
-        <button type="button" class="btn-atc buy-button panel-add" data-add data-item-name="Coque personnalisée">
-          Ajouter au panier
-        </button>
-      </div>
-
-      <ul class="panel-reassure">
-        <li>Impression haute définition, encres durables</li>
-        <li>Expédition sous 48 h · Retour sous 14 jours</li>
-      </ul>
-    </aside>
-  </div>
-
-  <!-- ─── Feuilles ─────────────────────────────────────────────────── -->
-  <div class="sheet-wrap" data-sheetwrap hidden>
-    <div class="sheet-backdrop" data-sheetclose></div>
-
-    <div class="sheet" data-sheet="sticker" hidden>
-      <div class="sheet-grip"></div>
-      <div class="sheet-head"><h2>Stickers</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
-      <div class="chip-row" data-stickercats role="tablist" aria-label="Catégories de stickers"></div>
-      <div class="sticker-grid" data-stickers></div>
-    </div>
-
-    <div class="sheet" data-sheet="bg" hidden>
-      <div class="sheet-grip"></div>
-      <div class="sheet-head"><h2>Couleur de la coque</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
-      <div class="swatch-row" data-casecolors></div>
-    </div>
-
-    <div class="sheet" data-sheet="text" hidden>
-      <div class="sheet-grip"></div>
-      <div class="sheet-head"><h2>Texte</h2><button type="button" class="sheet-x" data-sheetclose aria-label="Fermer">&times;</button></div>
-      <label class="sheet-label" for="studio-text">Contenu</label>
-      <input id="studio-text" type="text" class="text-input" data-textinput placeholder="Votre texte" maxlength="40" autocomplete="off" />
-      <label class="sheet-label">Police</label>
-      <div class="font-row" data-fonts></div>
-      <label class="sheet-label">Couleur</label>
-      <div class="swatch-row" data-textcolors></div>
-    </div>
+    </main>
   </div>
 
   <div class="toast" data-toast hidden role="status"></div>
@@ -157,226 +169,324 @@ const price = '29,90 €';
 </section>
 
 <style>
-  .studio { max-width: 1180px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
-  .studio-head { margin-bottom: 1.25rem; }
-  .studio-title { font-size: 1.55rem; line-height: 1.15; }
-  .studio-sub { font-size: .875rem; margin-top: .35rem; max-width: 52ch; }
+  .studio { --rail: 78px; --panel: 272px; }
 
-  /* ── Grille : outils | scène | panneau ───────────────────────────── */
-  .studio-grid { display: flex; flex-direction: column; gap: 1.25rem; align-items: center; }
-  @media (min-width: 900px) {
-    .studio-grid {
-      display: grid;
-      grid-template-columns: 96px minmax(0, 1fr) 300px;
-      gap: 1.75rem;
-      align-items: start;
+  .builder {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: "bar" "canvas" "rail";
+    min-height: calc(100dvh - var(--header-h));
+  }
+  @media (min-width: 1024px) {
+    .builder {
+      grid-template-columns: var(--rail) auto minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-areas: "bar bar bar" "rail panel canvas";
     }
   }
 
-  /* ── Outils ──────────────────────────────────────────────────────── */
-  .tools { display: flex; gap: .5rem; width: 100%; max-width: 460px; }
-  @media (min-width: 900px) { .tools { flex-direction: column; max-width: none; position: sticky; top: calc(var(--header-h) + 1rem); } }
-  .tool {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: .3rem;
-    padding: .7rem .25rem; border-radius: 12px; cursor: pointer; color: inherit;
-    border: 1px solid rgb(var(--c-cream) / .12); background: rgb(var(--c-cream) / .03);
-    font-size: .7rem; font-weight: 500;
-    transition: border-color .15s, background .15s, transform .08s;
+  /* ── Barre ───────────────────────────────────────────────────── */
+  .bar {
+    grid-area: bar;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: .55rem .9rem;
+    border-bottom: 1px solid rgb(var(--c-cream) / .10);
+    background: rgb(var(--c-dark));
+    position: sticky; top: var(--header-h); z-index: 60;
   }
-  .tool:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .06); }
-  .tool:active { transform: scale(.96); }
-  .tool-ic { display: inline-flex; }
-  .tool-ic svg { width: 22px; height: 22px; }
-
-  /* ── Scène ───────────────────────────────────────────────────────── */
-  .stage { display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; }
-  .stage-bar {
-    display: flex; align-items: center; gap: .25rem;
-    padding: .25rem; border-radius: 10px;
-    border: 1px solid rgb(var(--c-cream) / .10); background: rgb(var(--c-cream) / .03);
-  }
+  .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
   .sbtn {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 36px; height: 36px; border-radius: 8px; cursor: pointer; color: inherit;
+    width: 38px; height: 38px; border-radius: 9px; cursor: pointer; color: inherit;
     transition: background .15s, opacity .15s;
   }
-  .sbtn svg { width: 17px; height: 17px; }
+  .sbtn svg { width: 18px; height: 18px; }
   .sbtn:hover:not(:disabled) { background: rgb(var(--c-cream) / .08); }
-  .sbtn:disabled { opacity: .3; cursor: default; }
-  .sbar-sep { width: 1px; height: 20px; background: rgb(var(--c-cream) / .15); margin: 0 .15rem; }
+  .sbtn:disabled { opacity: .28; cursor: default; }
+  .bar-sep { width: 1px; height: 20px; background: rgb(var(--c-cream) / .15); margin: 0 .2rem; }
+  .bar-model {
+    font-size: .74rem; opacity: .65; margin-left: .4rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw;
+  }
+  @media (max-width: 520px) { .bar-model { display: none; } }
+  .bar-price { font-size: 1.1rem; font-weight: 600; white-space: nowrap; }
+  .bar-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; white-space: nowrap; }
+  @media (min-width: 1024px) { .bar-price { font-size: 1.3rem; } .bar-add { font-size: .8rem; } }
 
+  /* ── Rail ────────────────────────────────────────────────────── */
+  .rail {
+    grid-area: rail;
+    display: flex; gap: .25rem;
+    padding: .35rem .5rem calc(.35rem + env(safe-area-inset-bottom));
+    background: rgb(var(--c-dark));
+    border-top: 1px solid rgb(var(--c-cream) / .10);
+    position: sticky; bottom: 0; z-index: 60;
+  }
+  @media (min-width: 1024px) {
+    .rail {
+      flex-direction: column; padding: .6rem .5rem;
+      border-top: 0; border-right: 1px solid rgb(var(--c-cream) / .10);
+      position: static;
+    }
+  }
+  .rbtn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: .25rem;
+    padding: .55rem .2rem; border-radius: 10px; cursor: pointer; color: inherit;
+    font-size: .64rem; font-weight: 500; transition: background .15s, color .15s;
+  }
+  .rbtn svg { width: 21px; height: 21px; }
+  .rbtn:hover { background: rgb(var(--c-cream) / .06); }
+  .rbtn[aria-pressed="true"] { background: rgb(var(--accent-rgb) / .12); color: rgb(var(--accent-dark-rgb)); }
+
+  /* ── Panneau ─────────────────────────────────────────────────── */
+  .panel { grid-area: panel; background: rgb(var(--c-dark)); }
+  .panel[hidden] { display: none; }
+  @media (min-width: 1024px) {
+    .panel {
+      width: var(--panel); padding: 1rem;
+      border-right: 1px solid rgb(var(--c-cream) / .10);
+      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - 52px);
+    }
+    .panel-grip { display: none; }
+  }
+  @media (max-width: 1023px) {
+    .panel {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+      max-height: 62dvh; overflow-y: auto;
+      padding: .5rem 1rem calc(1rem + env(safe-area-inset-bottom) + 62px);
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -14px 40px -18px rgba(0,0,0,.55);
+      border-top: 1px solid rgb(var(--c-cream) / .12);
+      animation: sheet-in .24s cubic-bezier(.22,.61,.36,1);
+    }
+  }
+  .panel-grip { width: 40px; height: 4px; border-radius: 99px; background: rgb(var(--c-cream) / .18); margin: 2px auto 8px; cursor: pointer; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
+  .panel-head h2 { font-size: .95rem; }
+  .panel-x { font-size: 1.6rem; line-height: 1; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit; }
+  .panel-x:hover { background: rgb(var(--c-cream) / .08); }
+  @media (min-width: 1024px) { .panel-x { display: none; } }
+  .pane[hidden] { display: none; }
+  .pane-label { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
+  .pane-hint { font-size: .72rem; opacity: .6; margin-top: .7rem; line-height: 1.45; }
+  .pane-empty { font-size: .75rem; opacity: .6; margin-top: .8rem; }
+  .pane-cta {
+    width: 100%; padding: .7rem; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .82rem;
+    border: 1px dashed rgb(var(--c-cream) / .3); background: rgb(var(--c-cream) / .03); color: inherit;
+  }
+  .pane-cta:hover { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-dark-rgb)); }
+
+  .field {
+    width: 100%; padding: .7rem .75rem; border-radius: 8px; font-size: 16px; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .18); background: rgb(var(--c-cream) / .03);
+  }
+  .field:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
+
+  /* NB : chips, pastilles de couleur et boutons de stickers sont créés en JS —
+     leurs règles vivent dans le bloc <style is:global>. */
+  .chip-row { display: flex; gap: .3rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3rem; }
+  @media (max-width: 1023px) { .sticker-grid { grid-template-columns: repeat(7, 1fr); } }
+  .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+  .dropzone {
+    width: 100%; display: flex; flex-direction: column; align-items: center; gap: .35rem;
+    padding: 1.5rem 1rem; border-radius: 12px; cursor: pointer; color: inherit; text-align: center;
+    border: 1.5px dashed rgb(var(--c-cream) / .28); background: rgb(var(--c-cream) / .03);
+  }
+  .dropzone:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .05); }
+  .dropzone svg { width: 26px; height: 26px; opacity: .7; }
+  .dropzone strong { font-size: .85rem; }
+  .dropzone span { font-size: .7rem; opacity: .6; }
+
+  /* ── Plan de travail ─────────────────────────────────────────── */
+  .canvas {
+    grid-area: canvas;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.25rem 1rem; min-height: 0;
+    background:
+      radial-gradient(80% 60% at 50% 0%, rgb(var(--c-cream) / .05), transparent 70%),
+      rgb(var(--c-panel) / .35);
+  }
+
+  /* ── La coque ────────────────────────────────────────────────── */
   .case {
     position: relative;
-    /* Largeur explicite (obligatoire pour un conteneur `inline-size`), mais
-       plafonnée aussi par la HAUTEUR de fenêtre : une coque fait 41/85, elle
-       débordait sinon de l'écran sur mobile et sur les petits portables. */
-    width: min(272px, 74vw, 26vh);   /* 26vh de large ≈ 54vh de haut (ratio 41/85) */
-    aspect-ratio: 41 / 85;
-    border-radius: 12% / 6%;
-    background: var(--case-bg, #f4eee2);
-    box-shadow: 0 2px 4px rgba(0,0,0,.10), 0 28px 56px -24px rgba(0,0,0,.42), inset 0 0 0 2px rgba(0,0,0,.06);
-    container-type: inline-size;   /* les unités cqw des éléments suivent cette largeur */
+    width: 250px;                     /* recalculé par fitCase() */
+    aspect-ratio: var(--ratio, .476);
+    border-radius: var(--radius, 13%) / calc(var(--radius, 13%) / 2.1);
+    container-type: inline-size;
     touch-action: none;
+    filter: drop-shadow(0 26px 40px rgba(0,0,0,.35));
   }
-  .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 6px; }
-  .case-camera {
-    position: absolute; top: 4%; left: 6%; width: 26%; height: 12.5%;
-    border-radius: 22%; background: rgba(0,0,0,.13);
-    box-shadow: inset 0 0 0 2px rgba(0,0,0,.09); z-index: 6; pointer-events: none;
+  .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 8px; }
+
+  /* Le téléphone, vu au travers de la coque transparente */
+  .device {
+    position: absolute; inset: 0; border-radius: inherit;
+    background: var(--device, linear-gradient(158deg, #3c3c42, #17171b 46%, #2b2b31));
   }
+  /* Finition opaque : un fond couvrant masque le téléphone */
+  .case[data-finish="solid"] .device { background: var(--caseColor, #f4eee2); }
+
   .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 
-  /* Repères d'alignement (affichés pendant l'aimantation) */
   .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
   .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
   .guide-h { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
 
+  /* Module caméra : dessiné par le JS selon la famille d'appareils */
+  .cam { position: absolute; z-index: 6; pointer-events: none; }
+  /* NB : le contenu du module caméra est injecté en JS — ses règles vivent
+     dans le bloc <style is:global> (pas d'attribut de scope Astro). */
+
+  /* La coque elle-même : épaisseur du TPU + reflet */
+  /* La coque : un rebord de TPU translucide, nettement visible, qui déborde
+     du téléphone — c'est lui qui fait lire « coque » et pas « téléphone nu ». */
+  .shell {
+    position: absolute; inset: -3.2%; border-radius: inherit; z-index: 8; pointer-events: none;
+    border: 1px solid rgba(255,255,255,.55);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.38),
+      inset 0 0 0 7px rgba(255,255,255,.13),   /* épaisseur du plastique */
+      inset 0 0 0 8px rgba(255,255,255,.30),   /* arête intérieure */
+      inset 0 0 20px 8px rgba(255,255,255,.13),
+      inset 0 2px 4px rgba(255,255,255,.45),
+      0 0 0 1px rgba(0,0,0,.10);
+  }
+  .case[data-finish="solid"] .shell {
+    border-color: rgba(255,255,255,.28);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), inset 0 2px 3px rgba(255,255,255,.22);
+  }
+  .sheen {
+    position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(112deg,
+      rgba(255,255,255,.26) 0%, rgba(255,255,255,.05) 22%,
+      rgba(255,255,255,0) 46%, rgba(255,255,255,0) 66%,
+      rgba(255,255,255,.16) 82%, rgba(255,255,255,.02) 100%);
+  }
+  /* Boutons latéraux moulés dans la coque */
+  .side { position: absolute; width: 2.4%; border-radius: 2px; background: rgba(255,255,255,.30); box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); z-index: 9; }
+  .side-l { left: -1.6%; top: 20%; height: 7%; }
+  .side-r { right: -1.6%; top: 26%; height: 11%; }
+
   .empty {
     position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: .8rem; padding: 0 8%;
-    text-align: center; z-index: 4;
+    align-items: center; justify-content: center; gap: .3rem; text-align: center;
+    z-index: 4; pointer-events: none; padding: 0 10%;
   }
   .empty[hidden] { display: none; }
-  .empty-t { font-size: 4cqw; color: rgba(0,0,0,.42); }
-  .case[data-bg-dark] .empty-t { color: rgba(255,255,255,.6); }
-  .empty-actions { display: flex; flex-direction: column; gap: .4rem; width: 100%; }
-  .empty-actions button {
-    padding: .55rem .5rem; border-radius: 7px; cursor: pointer;
-    font-size: 3.4cqw; font-weight: 500;
-    border: 1px solid rgba(0,0,0,.16); background: rgba(255,255,255,.55); color: rgba(0,0,0,.72);
-    transition: background .15s, border-color .15s;
-  }
-  .empty-actions button:hover { background: #fff; border-color: rgb(var(--accent-rgb)); }
-  .case[data-bg-dark] .empty-actions button { border-color: rgba(255,255,255,.28); background: rgba(255,255,255,.12); color: rgba(255,255,255,.9); }
+  .empty p { font-size: 4.2cqw; color: rgba(255,255,255,.72); }
+  .empty span { font-size: 3.2cqw; color: rgba(255,255,255,.45); }
+  .case[data-finish="solid"] .empty p { color: rgba(0,0,0,.45); }
+  .case[data-finish="solid"] .empty span { color: rgba(0,0,0,.32); }
 
-  .stage-tip { font-size: .75rem; opacity: .65; text-align: center; max-width: 34ch; }
-
-  /* ── Barre contextuelle ──────────────────────────────────────────── */
+  /* ── Barre contextuelle ──────────────────────────────────────── */
+  /* Flottante À L'INTÉRIEUR de la coque, en bas : au-dessus elle sortait du
+     cadre et passait sous la barre supérieure quand la coque est haute. */
   .ctx {
-    position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%);
+    position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%);
     display: flex; gap: 2px; padding: 4px; border-radius: 10px;
-    background: #1c1c1f; box-shadow: 0 8px 24px -8px rgba(0,0,0,.5); z-index: 40;
+    background: rgba(24,24,27,.88); backdrop-filter: blur(6px);
+    box-shadow: 0 10px 26px -10px rgba(0,0,0,.6); z-index: 40;
   }
   .ctx[hidden] { display: none; }
-  @media (max-width: 899px) { .ctx { top: calc(100% + 12px); bottom: auto; } }
   .ctx button {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 38px; height: 38px; padding: 0 9px; border-radius: 7px;
-    color: #fff; background: transparent; font-size: .78rem; cursor: pointer; transition: background .15s;
+    color: #fff; background: transparent; font-size: .78rem; cursor: pointer;
   }
   .ctx button svg { width: 18px; height: 18px; }
   .ctx button:hover { background: rgba(255,255,255,.15); }
   .ctx .ctx-del:hover { background: #e11d48; }
 
-  /* ── Panneau achat ───────────────────────────────────────────────── */
-  .panel { width: 100%; max-width: 460px; }
-  @media (min-width: 900px) {
-    .panel {
-      max-width: none; padding: 1.1rem; border-radius: 14px;
-      border: 1px solid rgb(var(--c-cream) / .10); background: rgb(var(--c-cream) / .02);
-      position: sticky; top: calc(var(--header-h) + 1rem);
-    }
-  }
-  .panel-buy { display: flex; align-items: center; gap: .75rem; }
-  @media (min-width: 900px) { .panel-buy { flex-direction: column; align-items: stretch; gap: .6rem; } }
-  .panel-price { font-size: 1.45rem; font-weight: 600; white-space: nowrap; }
-  .panel-add { flex: 1 1 auto; }
-  .panel-reassure { list-style: none; margin-top: .9rem; display: grid; gap: .3rem; font-size: .72rem; opacity: .7; }
-  .panel-reassure li { position: relative; padding-left: .9rem; }
-  .panel-reassure li::before { content: "✓"; position: absolute; left: 0; color: rgb(var(--accent-rgb)); }
-
-  /* Sur mobile, prix + achat restent en barre fixe : la coque est haute, le
-     bouton se retrouvait sinon loin sous la ligne de flottaison. */
-  @media (max-width: 899px) {
-    .studio { padding-bottom: 6rem; }
-    .panel-buy {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
-      padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
-      background: rgb(var(--c-dark));
-      border-top: 1px solid rgb(var(--c-cream) / .10);
-      box-shadow: 0 -8px 24px -14px rgba(0,0,0,.45);
-    }
-    .panel-price { font-size: 1.15rem; }
-    .panel-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; }
-  }
-
-  /* ── Feuilles ────────────────────────────────────────────────────── */
-  .sheet-wrap { position: fixed; inset: 0; z-index: 10050; }
-  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.42); animation: fade .2s ease; }
-  .sheet {
-    position: absolute; left: 0; right: 0; bottom: 0; max-height: 76vh; overflow-y: auto;
-    padding: 10px 18px calc(20px + env(safe-area-inset-bottom));
-    background: var(--sheet-bg, #fff); color: var(--sheet-fg, #111113);
-    border-radius: 16px 16px 0 0; box-shadow: 0 -12px 40px -16px rgba(0,0,0,.5);
-    animation: sheet-in .26s cubic-bezier(.22,.61,.36,1);
-  }
-  @media (min-width: 768px) {
-    .sheet { left: 50%; right: auto; bottom: 28px; transform: translateX(-50%); width: 430px; border-radius: 14px; max-height: 72vh; }
-    .sheet-grip { display: none; }
-  }
-  .sheet-grip { width: 40px; height: 4px; border-radius: 99px; background: rgba(0,0,0,.18); margin: 2px auto 10px; }
-  .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
-  .sheet-head h2 { font-size: 1rem; }
-  .sheet-x { font-size: 1.7rem; line-height: 1; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; color: inherit; }
-  .sheet-x:hover { background: rgba(0,0,0,.07); }
-  .sheet-label { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
-
-  .chip-row { display: flex; gap: .35rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
-  .chip-row::-webkit-scrollbar { display: none; }
-  .chip {
-    flex: none; padding: .4rem .75rem; border-radius: 999px; cursor: pointer; font-size: .78rem; color: inherit;
-    border: 1px solid rgba(0,0,0,.12); background: rgba(0,0,0,.02); white-space: nowrap;
-  }
-  .chip[aria-selected="true"] { background: rgb(var(--accent-rgb)); border-color: rgb(var(--accent-rgb)); color: #fff; }
-
-  .sticker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: .35rem; }
-  @media (min-width: 768px) { .sticker-grid { grid-template-columns: repeat(7, 1fr); } }
-  .sticker-grid button {
-    aspect-ratio: 1; font-size: 1.5rem; border-radius: 10px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.03);
-    transition: background .12s, transform .1s;
-  }
-  .sticker-grid button:hover { background: rgba(0,0,0,.09); }
-  .sticker-grid button:active { transform: scale(.9); }
-
-  .swatch-row { display: flex; flex-wrap: wrap; gap: .55rem; }
-  .swatch { width: 36px; height: 36px; border-radius: 50%; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); transition: transform .1s; }
-  .swatch:hover { transform: scale(1.08); }
-  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--sheet-bg,#fff), 0 0 0 4px rgb(var(--accent-rgb)); }
-
-  .font-row { display: flex; flex-wrap: wrap; gap: .5rem; }
-  .font-chip {
-    padding: .5rem .9rem; border-radius: 8px; cursor: pointer; font-size: 1.05rem; color: inherit;
-    border: 1px solid rgba(0,0,0,.12); background: rgba(0,0,0,.02);
-  }
-  .font-chip[aria-pressed="true"] { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .07); }
-
-  .text-input {
-    width: 100%; padding: .75rem .8rem; border-radius: 8px; font-size: 16px; color: inherit;
-    border: 1px solid rgba(0,0,0,.15); background: rgba(0,0,0,.02);
-  }
-  .text-input:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
-
   .toast {
-    position: fixed; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+    position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom)); transform: translateX(-50%);
     z-index: 10060; padding: .7rem 1.15rem; border-radius: 999px;
     background: #16a34a; color: #fff; font-size: .85rem; font-weight: 500;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,.5); animation: toast-in .25s ease;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,.5);
   }
   .toast[data-kind="warn"] { background: #b45309; }
+  @media (min-width: 1024px) { .toast { bottom: 26px; } }
 
-  @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
   @keyframes sheet-in { from { transform: translateY(100%) } to { transform: translateY(0) } }
-  @media (min-width: 768px) {
-    @keyframes sheet-in { from { transform: translate(-50%, 18px); opacity: 0 } to { transform: translate(-50%, 0); opacity: 1 } }
-  }
-  @keyframes toast-in { from { transform: translate(-50%, 14px); opacity: 0 } to { transform: translate(-50%, 0); opacity: 1 } }
-  @media (prefers-reduced-motion: reduce) { .sheet, .toast, .sheet-backdrop { animation: none } }
+  @media (prefers-reduced-motion: reduce) { .panel { animation: none } }
 </style>
 
-<!-- Les éléments posés sont créés en JS : ils n'ont pas l'attribut de scope
-     Astro, leurs règles doivent donc être globales (préfixées .studio). -->
+<!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
 <style is:global>
+  /* ── Contrôles des panneaux (créés en JS) ──────────────────────── */
+  .studio .chip {
+    flex: none; padding: .35rem .7rem; border-radius: 999px; cursor: pointer; font-size: .74rem; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .18); background: transparent; white-space: nowrap;
+  }
+  .studio .chip[aria-selected="true"] { background: rgb(var(--accent-rgb)); border-color: rgb(var(--accent-rgb)); color: #fff; }
+
+  .studio .sticker-grid button {
+    aspect-ratio: 1; font-size: 1.4rem; border-radius: 9px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: rgb(var(--c-cream) / .05); transition: background .12s, transform .1s;
+  }
+  .studio .sticker-grid button:hover { background: rgb(var(--c-cream) / .12); }
+  .studio .sticker-grid button:active { transform: scale(.9); }
+
+  .studio .swatch {
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgb(var(--c-cream) / .3); transition: transform .1s;
+  }
+  .studio .swatch:hover { transform: scale(1.08); }
+  .studio .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px rgb(var(--c-dark)), 0 0 0 4px rgb(var(--accent-rgb)); }
+  .studio .swatch--clear {
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.2)),
+      repeating-conic-gradient(#d8d8dc 0% 25%, #f4f4f6 0% 50%) 50% / 10px 10px;
+  }
+
+  .studio .font-chip {
+    padding: .45rem .8rem; border-radius: 8px; cursor: pointer; font-size: 1rem; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .18); background: transparent;
+  }
+  .studio .font-chip[aria-pressed="true"] { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .1); }
+
+  /* ── Module caméra (injecté en JS) ──────────────────────────────
+     Il doit TRANCHER sur le dos du téléphone : sombre sur sombre, il
+     disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
+  .studio .cam-island {
+    position: absolute; inset: 0; border-radius: 26%;
+    background: linear-gradient(150deg, #43434d, #1d1d24 60%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.30),
+      inset 0 0 0 1px rgba(255,255,255,.18),
+      0 2px 6px rgba(0,0,0,.55);
+  }
+  .studio .cam-bar {
+    position: absolute; inset: 0; border-radius: 999px;
+    background: linear-gradient(160deg, #3e3e48, #16161c 60%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1px rgba(255,255,255,.18), 0 2px 6px rgba(0,0,0,.5);
+  }
+  /* aspect-ratio plutôt qu'une hauteur en % : la boîte du module n'est pas
+     carrée (colonne étroite chez Galaxy, barre large chez Pixel), les
+     objectifs sortaient donc ovales. */
+  .studio .lens {
+    position: absolute; border-radius: 50%; aspect-ratio: 1;
+    background: radial-gradient(circle at 34% 28%, #8ea0bb 0%, #2d3442 42%, #07070b 78%);
+    box-shadow:
+      0 0 0 1.5px rgba(214,222,235,.65),   /* bague métallique */
+      0 0 0 3px rgba(0,0,0,.55),
+      inset 0 0 4px rgba(0,0,0,.9);
+  }
+  .studio .lens::after {
+    content: ""; position: absolute; left: 22%; top: 18%; width: 30%; height: 30%;
+    border-radius: 50%; background: rgba(255,255,255,.75); filter: blur(.4px);
+  }
+  .studio .flash {
+    position: absolute; border-radius: 50%; aspect-ratio: 1;
+    background: radial-gradient(circle at 40% 35%, #fff7de, #d9b169 70%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.45), 0 0 6px rgba(255,236,180,.5);
+  }
+
   .studio .el {
     position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
@@ -394,7 +504,7 @@ const price = '29,90 €';
   .studio .h {
     position: absolute; width: 22px; height: 22px; background: #fff;
     border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,.35);
   }
   .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
   .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
@@ -409,87 +519,169 @@ const price = '29,90 €';
     var root = document.querySelector('[data-studio]');
     if (!root) return;
 
-    var design    = root.querySelector('[data-design]');
-    var caseEl    = root.querySelector('[data-case]');
-    var emptyEl   = root.querySelector('[data-empty]');
-    var ctx       = root.querySelector('[data-ctx]');
-    var sheetWrap = root.querySelector('[data-sheetwrap]');
-    var fileInput = root.querySelector('[data-file]');
-    var toastEl   = root.querySelector('[data-toast]');
-    var guideV    = root.querySelector('[data-guide-v]');
-    var guideH    = root.querySelector('[data-guide-h]');
-    var undoBtn   = root.querySelector('[data-undo]');
-    var redoBtn   = root.querySelector('[data-redo]');
+    var design   = root.querySelector('[data-design]');
+    var caseEl   = root.querySelector('[data-case]');
+    var canvasEl = root.querySelector('[data-canvas]');
+    var camEl    = root.querySelector('[data-cam]');
+    var deviceEl = root.querySelector('[data-device]');
+    var emptyEl  = root.querySelector('[data-empty]');
+    var ctx      = root.querySelector('[data-ctx]');
+    var panel    = root.querySelector('[data-panelwrap]');
+    var fileInput= root.querySelector('[data-file]');
+    var toastEl  = root.querySelector('[data-toast]');
+    var guideV   = root.querySelector('[data-guide-v]');
+    var guideH   = root.querySelector('[data-guide-h]');
+    var undoBtn  = root.querySelector('[data-undo]');
+    var redoBtn  = root.querySelector('[data-redo]');
+    var barModel = root.querySelector('[data-barmodel]');
 
     var STORE = 'vareska:studio-design';
+    var MODEL_KEY = 'vareska:phone-model';
 
-    var FONTS = [
-      { css: "'Inter', system-ui, sans-serif" },
-      { css: "'Bodoni Moda', Georgia, serif" },
-      { css: "'Pinyon Script', cursive" },
-      { css: "Georgia, 'Times New Roman', serif" },
-      { css: "'Courier New', monospace" },
-      { css: "'Trebuchet MS', system-ui, sans-serif" },
+    /* ── Gabarits par famille d'appareils ───────────────────────────
+       Ce sont ces différences (proportions, angles, découpe caméra) qui
+       font qu'on RECONNAÎT son téléphone dans l'aperçu. */
+    var FAMILIES = {
+      'iphone-pro':   { ratio: .476, radius: 13, cam: 'island3' },
+      'iphone':       { ratio: .479, radius: 13, cam: 'island2' },
+      'galaxy-ultra': { ratio: .463, radius: 5,  cam: 'lenses3' },
+      'galaxy':       { ratio: .474, radius: 10, cam: 'lenses3' },
+      'pixel':        { ratio: .472, radius: 12, cam: 'bar' },
+      'xiaomi':       { ratio: .470, radius: 11, cam: 'islandBig' },
+    };
+    function familyOf(label) {
+      var l = (label || '').toLowerCase();
+      if (/iphone/.test(l)) return /pro|max/.test(l) ? 'iphone-pro' : 'iphone';
+      if (/galaxy|samsung/.test(l)) return /ultra/.test(l) ? 'galaxy-ultra' : 'galaxy';
+      if (/pixel/.test(l)) return 'pixel';
+      if (/xiaomi|redmi|poco/.test(l)) return 'xiaomi';
+      return 'iphone-pro';
+    }
+
+    var FINISHES = [
+      { id: 'clear', label: 'Transparente' },
+      { id: '#f4eee2', label: 'Crème' }, { id: '#ffffff', label: 'Blanc' },
+      { id: '#e7decf', label: 'Sable' },  { id: '#c7b8a1', label: 'Grège' },
+      { id: '#8a9a5b', label: 'Olive' },  { id: '#3b4a6b', label: 'Bleu nuit' },
+      { id: '#2c0a09', label: 'Bordeaux' }, { id: '#111113', label: 'Noir' },
     ];
-    var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
-    var CASE_COLORS = ['#f4eee2','#ffffff','#e7decf','#c7b8a1','#8a9a5b','#3b4a6b','#2c0a09','#111113'];
+    var DEVICES = [
+      { id: 'linear-gradient(158deg,#3c3c42,#17171b 46%,#2b2b31)', label: 'Noir' },
+      { id: 'linear-gradient(158deg,#e6e6ea,#b9b9c2 48%,#d7d7dd)', label: 'Argent' },
+      { id: 'linear-gradient(158deg,#e8d9bd,#bda079 48%,#dcc9a6)', label: 'Or' },
+      { id: 'linear-gradient(158deg,#9fb3cd,#4d6a80 48%,#7f97b4)', label: 'Bleu' },
+    ];
+    var FONTS = [
+      "'Inter', system-ui, sans-serif",
+      "'Bodoni Moda', Georgia, serif",
+      "'Pinyon Script', cursive",
+      "Georgia, 'Times New Roman', serif",
+      "'Courier New', monospace",
+      "'Trebuchet MS', system-ui, sans-serif",
+    ];
+    var TEXT_COLORS = ['#ffffff','#111113','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
     var STICKERS = {
       'Nature':   ['🌸','🌿','🌊','🌙','☀️','🌴','🍒','🐚','🦋','🌹','🍃','⛰️'],
-      'Cœurs':    ['💖','🖤','💫','✨','💕','❤️‍🔥','🤍','💘'],
+      'Cœurs':    ['💖','🖤','💫','✨','💕','🤍','💘','❤️‍🔥'],
       'Symboles': ['⭐','⚡','👑','🕊️','🔥','☯️','♡','✦','☾','✧'],
       'Fun':      ['🎀','🍓','🧿','🎧','🛹','🪩','🌈','🍄','🐼','🎲'],
     };
 
-    /* ── État : unique source de vérité ──────────────────────────── */
-    var state = { caseColor: CASE_COLORS[0], elements: [] };
-    var nodes = new Map();      // id -> {node, content}
-    var selectedId = null;
-    var seq = 0;
-    var gesture = null;
-    var editingId = null;
-    var history = [];
-    var hIndex = -1;
+    /* ── État ────────────────────────────────────────────────────── */
+    var state = { finish: 'clear', device: DEVICES[0].id, model: '', elements: [] };
+    var nodes = new Map();
+    var selectedId = null, seq = 0, gesture = null, editingId = null;
+    var history = [], hIndex = -1, activePane = null;
 
     var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
     var findEl = function (id) { for (var i = 0; i < state.elements.length; i++) if (state.elements[i].id === id) return state.elements[i]; return null; };
 
-    /* ── Rendu ───────────────────────────────────────────────────── */
+    /* ── Coque : gabarit + caméra ───────────────────────────────── */
+    // Seule la largeur est donnée : la hauteur suit via aspect-ratio: 1.
+    function lens(l, t, w) { return '<span class="lens" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
+    function flash(l, t, w) { return '<span class="flash" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
+
+    function renderCase() {
+      var fam = FAMILIES[familyOf(state.model)] || FAMILIES['iphone-pro'];
+      caseEl.style.setProperty('--ratio', String(fam.ratio));
+      caseEl.style.setProperty('--radius', fam.radius + '%');
+
+      var s = camEl.style, html = '';
+      if (fam.cam === 'island3' || fam.cam === 'islandBig') {
+        var big = fam.cam === 'islandBig';
+        s.left = '6%'; s.top = '3.2%'; s.width = big ? '42%' : '39%'; s.height = big ? '20.5%' : '19%';
+        html = '<span class="cam-island"></span>'
+             + lens(9, 8, 36) + lens(53, 8, 36) + lens(9, 52, 36)
+             + flash(60, 58, 18);
+      } else if (fam.cam === 'island2') {
+        s.left = '6%'; s.top = '3.2%'; s.width = '30%'; s.height = '14.5%';
+        html = '<span class="cam-island"></span>'
+             + lens(8, 10, 40) + lens(52, 48, 40);
+      } else if (fam.cam === 'lenses3') {
+        // Galaxy : pas d'îlot, des objectifs posés à même le dos
+        s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = '30%';
+        html = lens(12, 2, 78) + lens(12, 36, 78) + lens(12, 70, 78);
+      } else if (fam.cam === 'bar') {
+        // Pixel : barre horizontale traversante
+        s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
+        html = '<span class="cam-bar"></span>'
+             + lens(8, 12, 9) + lens(20, 12, 9)
+             + flash(33, 34, 4.5);
+      }
+      camEl.innerHTML = html;
+      fitCase();
+    }
+
+    // La coque doit tenir dans le plan de travail : on calcule sa largeur à
+    // partir de la place disponible (une largeur explicite est indispensable
+    // au conteneur `inline-size` qui pilote les unités cqw des éléments).
+    function fitCase() {
+      var fam = FAMILIES[familyOf(state.model)] || FAMILIES['iphone-pro'];
+      var r = canvasEl.getBoundingClientRect();
+      var maxW = Math.max(160, r.width - 40);
+      var maxH = Math.max(220, r.height - 56);
+      caseEl.style.width = Math.round(Math.min(maxW, maxH * fam.ratio, 300)) + 'px';
+    }
+    window.addEventListener('resize', fitCase);
+
+    function applyFinish() {
+      if (state.finish === 'clear') {
+        caseEl.dataset.finish = 'clear';
+      } else {
+        caseEl.dataset.finish = 'solid';
+        caseEl.style.setProperty('--caseColor', state.finish);
+      }
+      deviceEl.style.setProperty('--device', state.device);
+      root.querySelectorAll('[data-finishes] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.finish)); });
+      root.querySelectorAll('[data-devices] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.device)); });
+    }
+
+    /* ── Rendu des éléments ─────────────────────────────────────── */
     function applyStyles(el) {
       var ref = nodes.get(el.id); if (!ref) return;
       ref.node.style.left = el.x + '%';
       ref.node.style.top = el.y + '%';
-      ref.node.style.transform = 'translate(-50%, -50%) rotate(' + el.rot + 'deg)';
-      if (el.type === 'image') {
-        ref.content.style.width = el.size + 'cqw';
-      } else {
+      ref.node.style.transform = 'translate(-50%,-50%) rotate(' + el.rot + 'deg)';
+      if (el.type === 'image') ref.content.style.width = el.size + 'cqw';
+      else {
         ref.content.style.fontSize = el.size + 'cqw';
-        if (el.type === 'text') {
-          ref.content.style.fontFamily = el.font;
-          ref.content.style.color = el.color;
-        }
+        if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; }
       }
     }
 
     function createNode(el) {
       var node = document.createElement('div');
-      node.className = 'el';
-      node.dataset.type = el.type;
-      node.dataset.id = String(el.id);
-
+      node.className = 'el'; node.dataset.type = el.type; node.dataset.id = String(el.id);
       var content = document.createElement('div');
       content.className = 'el-content';
       if (el.type === 'image') {
         var img = document.createElement('img');
         img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
         content.appendChild(img);
-      } else {
-        content.textContent = el.text;
-      }
-
+      } else content.textContent = el.text;
       var gizmo = document.createElement('div');
       gizmo.className = 'gizmo';
       gizmo.innerHTML = '<span class="h h-rotate" data-handle="rotate"></span><span class="h h-resize" data-handle="resize"></span>';
-
       node.append(content, gizmo);
       node.addEventListener('pointerdown', function (e) { onDown(e, el.id); });
       if (el.type === 'text') node.addEventListener('dblclick', function () { enterEdit(el.id); });
@@ -502,97 +694,63 @@ const price = '29,90 €';
       design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
       nodes.clear();
       state.elements.forEach(createNode);
-      setCaseColor(state.caseColor, true);
-      refreshEmpty();
+      renderCase(); applyFinish(); refreshEmpty();
       if (selectedId && !findEl(selectedId)) selectedId = null;
       applySelection();
     }
-
     function refreshEmpty() { emptyEl.hidden = state.elements.length > 0; }
 
-    /* ── Historique + sauvegarde ─────────────────────────────────── */
+    /* ── Historique + sauvegarde ────────────────────────────────── */
     function snapshot() { return JSON.stringify(state); }
-
     function pushHistory() {
       history = history.slice(0, hIndex + 1);
       history.push(snapshot());
       if (history.length > 60) history.shift();
       hIndex = history.length - 1;
-      syncHistoryBtns();
-      save();
+      syncHistory(); save();
     }
-    function syncHistoryBtns() {
-      undoBtn.disabled = hIndex <= 0;
-      redoBtn.disabled = hIndex >= history.length - 1;
-    }
-    function restoreFrom(json) {
-      state = JSON.parse(json);
-      seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id); }, 0);
-      renderAll();
-      save();
-    }
-    function undo() { if (hIndex > 0) { hIndex--; restoreFrom(history[hIndex]); syncHistoryBtns(); } }
-    function redo() { if (hIndex < history.length - 1) { hIndex++; restoreFrom(history[hIndex]); syncHistoryBtns(); } }
-
-    function save() {
-      // Le quota peut être dépassé si le client importe plusieurs photos :
-      // la sauvegarde est un confort, jamais un blocage.
-      try { localStorage.setItem(STORE, snapshot()); } catch (e) {}
-    }
+    function syncHistory() { undoBtn.disabled = hIndex <= 0; redoBtn.disabled = hIndex >= history.length - 1; }
+    function restore(json) { state = JSON.parse(json); seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id); }, 0); renderAll(); save(); }
+    function undo() { if (hIndex > 0) { hIndex--; restore(history[hIndex]); syncHistory(); } }
+    function redo() { if (hIndex < history.length - 1) { hIndex++; restore(history[hIndex]); syncHistory(); } }
+    function save() { try { localStorage.setItem(STORE, snapshot()); } catch (e) {} }
 
     undoBtn.addEventListener('click', undo);
     redoBtn.addEventListener('click', redo);
-
     root.querySelector('[data-reset]').addEventListener('click', function () {
       if (!state.elements.length) return;
       if (!window.confirm('Effacer tous les éléments de la coque ?')) return;
-      state.elements = []; selectedId = null;
-      renderAll(); pushHistory(); toast('Coque réinitialisée');
+      state.elements = []; selectedId = null; renderAll(); pushHistory(); toast('Coque réinitialisée');
     });
 
-    /* ── Ajout / suppression ─────────────────────────────────────── */
+    /* ── Ajout / suppression ────────────────────────────────────── */
     function addElement(data) {
-      // Léger décalage en escalier : deux éléments ajoutés d'affilée se
-      // superposaient exactement, on croyait n'en avoir ajouté qu'un.
       var n = state.elements.length;
-      var el = Object.assign({
-        id: ++seq,
-        x: clamp(50 + (n % 3 - 1) * 9, 10, 90),
-        y: clamp(42 + (n % 4) * 8, 10, 90),
-        rot: 0,
-      }, data);
-      state.elements.push(el);
-      createNode(el);
-      refreshEmpty();
-      select(el.id);
-      pushHistory();
+      var el = Object.assign({ id: ++seq, x: clamp(50 + (n % 3 - 1) * 9, 12, 88), y: clamp(46 + (n % 4) * 7, 26, 88), rot: 0 }, data);
+      state.elements.push(el); createNode(el); refreshEmpty(); select(el.id); pushHistory();
       return el;
     }
     function removeElement(id) {
-      var ref = nodes.get(id);
-      if (ref) { ref.node.remove(); nodes.delete(id); }
+      var ref = nodes.get(id); if (ref) { ref.node.remove(); nodes.delete(id); }
       state.elements = state.elements.filter(function (e) { return e.id !== id; });
       if (selectedId === id) { selectedId = null; applySelection(); }
       refreshEmpty(); pushHistory();
     }
     function duplicate(id) {
       var el = findEl(id); if (!el) return;
-      var copy = Object.assign({}, el);
-      delete copy.id;
-      copy.x = clamp(el.x + 7, 4, 96);
-      copy.y = clamp(el.y + 7, 4, 96);
-      addElement(copy);
+      var c = Object.assign({}, el); delete c.id;
+      c.x = clamp(el.x + 7, 6, 94); c.y = clamp(el.y + 7, 6, 94);
+      addElement(c);
     }
     function reorder(id, dir) {
       var i = state.elements.findIndex(function (e) { return e.id === id; });
-      var j = i + dir;
-      if (i < 0 || j < 0 || j >= state.elements.length) return;
-      var tmp = state.elements[i]; state.elements[i] = state.elements[j]; state.elements[j] = tmp;
+      var j = i + dir; if (i < 0 || j < 0 || j >= state.elements.length) return;
+      var t = state.elements[i]; state.elements[i] = state.elements[j]; state.elements[j] = t;
       state.elements.forEach(function (e) { design.appendChild(nodes.get(e.id).node); });
       pushHistory();
     }
 
-    /* ── Sélection ───────────────────────────────────────────────── */
+    /* ── Sélection ──────────────────────────────────────────────── */
     function select(id) { selectedId = id; applySelection(); }
     function deselect() { if (editingId) exitEdit(); selectedId = null; applySelection(); }
     function applySelection() {
@@ -600,96 +758,76 @@ const price = '29,90 €';
       var el = selectedId ? findEl(selectedId) : null;
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
+      syncTextPane();
     }
-
     ctx.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-act]');
-      if (!b || !selectedId) return;
+      var b = e.target.closest('[data-act]'); if (!b || !selectedId) return;
       var a = b.dataset.act;
       if (a === 'del') removeElement(selectedId);
       else if (a === 'dup') duplicate(selectedId);
       else if (a === 'front') reorder(selectedId, 1);
       else if (a === 'back') reorder(selectedId, -1);
-      else if (a === 'edit') openSheet('text');
+      else if (a === 'edit') openPane('text');
     });
+    design.addEventListener('pointerdown', function (e) { if (e.target === design) deselect(); });
 
-    design.addEventListener('pointerdown', function (e) {
-      if (e.target === design || e.target === emptyEl || emptyEl.contains(e.target)) deselect();
-    });
-
-    /* ── Gestes : déplacer / redimensionner / pivoter ─────────────── */
-    var SNAP = 2.2;   // % — aimantation au centre
-
+    /* ── Gestes ─────────────────────────────────────────────────── */
+    var SNAP = 2.2;
     function onDown(e, id) {
       if (editingId === id) return;
-      e.preventDefault();
-      select(id);
+      e.preventDefault(); select(id);
       var el = findEl(id); if (!el) return;
       var handle = e.target.dataset ? e.target.dataset.handle : null;
-      var dRect = design.getBoundingClientRect();
-      var eRect = nodes.get(id).node.getBoundingClientRect();
-      var cx = eRect.left + eRect.width / 2;
-      var cy = eRect.top + eRect.height / 2;
+      var d = design.getBoundingClientRect(), b = nodes.get(id).node.getBoundingClientRect();
+      var cx = b.left + b.width / 2, cy = b.top + b.height / 2;
       gesture = {
-        el: el, mode: handle || 'drag',
-        px: e.clientX, py: e.clientY,
-        sx: el.x, sy: el.y, srot: el.rot, ssize: el.size,
-        cx: cx, cy: cy,
+        el: el, mode: handle || 'drag', px: e.clientX, py: e.clientY,
+        sx: el.x, sy: el.y, srot: el.rot, ssize: el.size, cx: cx, cy: cy,
         a0: Math.atan2(e.clientY - cy, e.clientX - cx),
         d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1,
-        cw: dRect.width, ch: dRect.height,
-        moved: false,
+        cw: d.width, ch: d.height, moved: false,
       };
       try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
       window.addEventListener('pointermove', onMove);
       window.addEventListener('pointerup', onUp);
       window.addEventListener('pointercancel', onUp);
     }
-
     function onMove(e) {
       if (!gesture) return;
       var g = gesture; g.moved = true;
       if (g.mode === 'drag') {
-        var nx = g.sx + (e.clientX - g.px) / g.cw * 100;
-        var ny = g.sy + (e.clientY - g.py) / g.ch * 100;
+        var nx = g.sx + (e.clientX - g.px) / g.cw * 100, ny = g.sy + (e.clientY - g.py) / g.ch * 100;
         var sv = Math.abs(nx - 50) < SNAP, sh = Math.abs(ny - 50) < SNAP;
-        if (sv) nx = 50;
-        if (sh) ny = 50;
+        if (sv) nx = 50; if (sh) ny = 50;
         guideV.style.display = sv ? 'block' : 'none';
         guideH.style.display = sh ? 'block' : 'none';
-        g.el.x = clamp(nx, 0, 100);
-        g.el.y = clamp(ny, 0, 100);
+        g.el.x = clamp(nx, 0, 100); g.el.y = clamp(ny, 0, 100);
       } else if (g.mode === 'rotate') {
         var a = Math.atan2(e.clientY - g.cy, e.clientX - g.cx);
         var deg = g.srot + (a - g.a0) * 180 / Math.PI;
-        if (Math.abs(deg % 90) < 5) deg = Math.round(deg / 90) * 90;   // aimante aux angles droits
+        if (Math.abs(deg % 90) < 5) deg = Math.round(deg / 90) * 90;
         g.el.rot = deg;
       } else if (g.mode === 'resize') {
-        var d = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
-        g.el.size = clamp(g.ssize * (d / g.d0), 4, 96);
+        var dd = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
+        g.el.size = clamp(g.ssize * (dd / g.d0), 4, 96);
       }
       applyStyles(g.el);
     }
-
     function onUp() {
       if (gesture && gesture.moved) pushHistory();
       gesture = null;
-      guideV.style.display = 'none';
-      guideH.style.display = 'none';
+      guideV.style.display = 'none'; guideH.style.display = 'none';
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
     }
 
-    /* ── Édition de texte en place ───────────────────────────────── */
+    /* ── Édition de texte en place ──────────────────────────────── */
     function enterEdit(id) {
       var ref = nodes.get(id); if (!ref) return;
-      editingId = id;
-      ref.node.dataset.editing = '';
-      ref.content.contentEditable = 'true';
-      ref.content.focus();
-      var sel = document.getSelection();
-      if (sel) sel.selectAllChildren(ref.content);
+      editingId = id; ref.node.dataset.editing = '';
+      ref.content.contentEditable = 'true'; ref.content.focus();
+      var s = document.getSelection(); if (s) s.selectAllChildren(ref.content);
     }
     function exitEdit() {
       if (!editingId) return;
@@ -703,134 +841,45 @@ const price = '29,90 €';
       editingId = null;
     }
 
-    /* ── Feuilles ────────────────────────────────────────────────── */
-    function openSheet(name) {
-      sheetWrap.hidden = false;
-      sheetWrap.querySelectorAll('[data-sheet]').forEach(function (s) { s.hidden = s.dataset.sheet !== name; });
-      if (name === 'text') syncTextSheet();
+    /* ── Panneaux ───────────────────────────────────────────────── */
+    var TITLES = { model: 'Modèle', text: 'Texte', sticker: 'Stickers', photo: 'Photos', finish: 'Coque' };
+    function openPane(name) {
+      activePane = name;
+      panel.hidden = false;
+      root.querySelector('[data-paneltitle]').textContent = TITLES[name] || '';
+      panel.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.dataset.pane !== name; });
+      root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.panel === name)); });
+      if (name === 'text') syncTextPane();
+      fitCase();
     }
-    function closeSheet() { sheetWrap.hidden = true; }
-    sheetWrap.querySelectorAll('[data-sheetclose]').forEach(function (b) { b.addEventListener('click', closeSheet); });
-
-    /* ── Outils (barre + état vide) ──────────────────────────────── */
-    root.querySelectorAll('[data-tool]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var t = btn.dataset.tool;
-        if (t === 'text') {
-          addElement({ type: 'text', text: 'Votre texte', font: FONTS[1].css, color: TEXT_COLORS[0], size: 11 });
-          openSheet('text');
-          setTimeout(function () { root.querySelector('[data-textinput]').focus(); }, 80);
-        } else if (t === 'sticker') openSheet('sticker');
-        else if (t === 'image') fileInput.click();
-        else if (t === 'bg') openSheet('bg');
-      });
-    });
-
-    /* ── Import d'images : fichier, glisser-déposer, coller ──────── */
-    function importFile(file) {
-      if (!file || !/^image\//.test(file.type)) { toast('Choisissez un fichier image.', 'warn'); return; }
-      var reader = new FileReader();
-      reader.onload = function () {
-        var img = new Image();
-        img.onload = function () {
-          // Redimensionnement avant stockage : une photo de 4000px sature la
-          // mémoire et fait exploser le quota localStorage pour rien.
-          var max = 1400, w = img.width, h = img.height;
-          if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
-          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-          cv.getContext('2d').drawImage(img, 0, 0, w, h);
-          var out;
-          try { out = cv.toDataURL('image/webp', 0.85); } catch (_) { out = ''; }
-          if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', 0.85);
-          addElement({ type: 'image', src: out, size: 46 });
-          toast('Photo ajoutée');
-        };
-        img.onerror = function () { toast('Image illisible.', 'warn'); };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(file);
+    function closePane() {
+      activePane = null; panel.hidden = true;
+      root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      fitCase();
     }
+    root.querySelectorAll('.rbtn').forEach(function (b) {
+      b.addEventListener('click', function () { activePane === b.dataset.panel ? closePane() : openPane(b.dataset.panel); });
+    });
+    panel.querySelectorAll('[data-panelclose]').forEach(function (b) { b.addEventListener('click', closePane); });
 
-    fileInput.addEventListener('change', function () {
-      if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);
-      fileInput.value = '';
-    });
-
-    ['dragenter', 'dragover'].forEach(function (ev) {
-      caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.setAttribute('data-over', ''); });
-    });
-    ['dragleave', 'drop'].forEach(function (ev) {
-      caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.removeAttribute('data-over'); });
-    });
-    caseEl.addEventListener('drop', function (e) {
-      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) importFile(e.dataTransfer.files[0]);
-    });
-    document.addEventListener('paste', function (e) {
-      if (!e.clipboardData) return;
-      var items = e.clipboardData.items;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') === 0) { importFile(items[i].getAsFile()); break; }
-      }
-    });
-
-    /* ── Contenu des feuilles ────────────────────────────────────── */
-    // Stickers, par catégorie
-    var catRow = root.querySelector('[data-stickercats]');
-    var stickerGrid = root.querySelector('[data-stickers]');
-    function renderStickers(cat) {
-      stickerGrid.innerHTML = '';
-      STICKERS[cat].forEach(function (emo) {
-        var b = document.createElement('button');
-        b.type = 'button'; b.textContent = emo; b.setAttribute('aria-label', 'Sticker ' + emo);
-        b.addEventListener('click', function () { addElement({ type: 'sticker', text: emo, size: 22 }); closeSheet(); });
-        stickerGrid.appendChild(b);
-      });
-      catRow.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-selected', String(c.dataset.cat === cat)); });
-    }
-    Object.keys(STICKERS).forEach(function (cat, i) {
-      var c = document.createElement('button');
-      c.type = 'button'; c.className = 'chip'; c.textContent = cat; c.dataset.cat = cat;
-      c.setAttribute('role', 'tab');
-      c.addEventListener('click', function () { renderStickers(cat); });
-      catRow.appendChild(c);
-      if (i === 0) setTimeout(function () { renderStickers(cat); }, 0);
-    });
-
-    // Couleur de coque
-    var caseColorsRow = root.querySelector('[data-casecolors]');
-    function isDark(hex) {
-      var c = hex.replace('#', '');
-      var r = parseInt(c.substr(0, 2), 16), g = parseInt(c.substr(2, 2), 16), b = parseInt(c.substr(4, 2), 16);
-      return (0.299 * r + 0.587 * g + 0.114 * b) < 140;
-    }
-    function setCaseColor(c, silent) {
-      state.caseColor = c;
-      caseEl.style.setProperty('--case-bg', c);
-      caseEl.toggleAttribute('data-bg-dark', isDark(c));
-      caseColorsRow.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === c)); });
-      if (!silent) pushHistory();
-    }
-    CASE_COLORS.forEach(function (c) {
-      var s = document.createElement('button');
-      s.type = 'button'; s.className = 'swatch'; s.dataset.c = c; s.style.background = c;
-      s.setAttribute('aria-label', 'Coque ' + c);
-      s.addEventListener('click', function () { setCaseColor(c); });
-      caseColorsRow.appendChild(s);
-    });
-
-    // Texte : contenu / police / couleur
+    /* ── Textes ─────────────────────────────────────────────────── */
     var textInput = root.querySelector('[data-textinput]');
     var fontRow = root.querySelector('[data-fonts]');
     var textColors = root.querySelector('[data-textcolors]');
+    var textEdit = root.querySelector('[data-textedit]');
+    var textEmpty = root.querySelector('[data-textempty]');
     var textTimer = null;
 
+    root.querySelector('[data-addtext]').addEventListener('click', function () {
+      addElement({ type: 'text', text: 'Votre texte', font: FONTS[1], color: TEXT_COLORS[0], size: 11 });
+      setTimeout(function () { textInput.focus(); textInput.select(); }, 60);
+    });
     FONTS.forEach(function (f) {
       var c = document.createElement('button');
-      c.type = 'button'; c.className = 'font-chip'; c.textContent = 'Aa';
-      c.style.fontFamily = f.css; c.dataset.f = f.css;
+      c.type = 'button'; c.className = 'font-chip'; c.textContent = 'Aa'; c.style.fontFamily = f; c.dataset.f = f;
       c.addEventListener('click', function () {
         var el = selectedId && findEl(selectedId);
-        if (el && el.type === 'text') { el.font = f.css; applyStyles(el); syncTextSheet(); pushHistory(); }
+        if (el && el.type === 'text') { el.font = f; applyStyles(el); syncTextPane(); pushHistory(); }
       });
       fontRow.appendChild(c);
     });
@@ -840,45 +889,124 @@ const price = '29,90 €';
       s.setAttribute('aria-label', 'Texte ' + col);
       s.addEventListener('click', function () {
         var el = selectedId && findEl(selectedId);
-        if (el && el.type === 'text') { el.color = col; applyStyles(el); syncTextSheet(); pushHistory(); }
+        if (el && el.type === 'text') { el.color = col; applyStyles(el); syncTextPane(); pushHistory(); }
       });
       textColors.appendChild(s);
     });
     textInput.addEventListener('input', function () {
-      var el = selectedId && findEl(selectedId);
-      if (!el || el.type !== 'text') return;
+      var el = selectedId && findEl(selectedId); if (!el || el.type !== 'text') return;
       el.text = textInput.value;
       nodes.get(el.id).content.textContent = textInput.value;
-      clearTimeout(textTimer);
-      textTimer = setTimeout(pushHistory, 500);   // un historique par saisie, pas par frappe
+      clearTimeout(textTimer); textTimer = setTimeout(pushHistory, 500);
     });
-    function syncTextSheet() {
+    function syncTextPane() {
       var el = selectedId && findEl(selectedId);
-      if (!el || el.type !== 'text') return;
+      var isText = !!(el && el.type === 'text');
+      textEdit.hidden = !isText; textEmpty.hidden = isText;
+      if (!isText) return;
       textInput.value = el.text;
       fontRow.querySelectorAll('.font-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.f === el.font)); });
       textColors.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === el.color)); });
     }
 
-    /* ── Clavier ─────────────────────────────────────────────────── */
+    /* ── Stickers ───────────────────────────────────────────────── */
+    var catRow = root.querySelector('[data-stickercats]');
+    var grid = root.querySelector('[data-stickers]');
+    function renderStickers(cat) {
+      grid.innerHTML = '';
+      STICKERS[cat].forEach(function (emo) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = emo; b.setAttribute('aria-label', 'Sticker ' + emo);
+        b.addEventListener('click', function () { addElement({ type: 'sticker', text: emo, size: 22 }); });
+        grid.appendChild(b);
+      });
+      catRow.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-selected', String(c.dataset.cat === cat)); });
+    }
+    Object.keys(STICKERS).forEach(function (cat, i) {
+      var c = document.createElement('button');
+      c.type = 'button'; c.className = 'chip'; c.textContent = cat; c.dataset.cat = cat; c.setAttribute('role', 'tab');
+      c.addEventListener('click', function () { renderStickers(cat); });
+      catRow.appendChild(c);
+      if (i === 0) renderStickers(cat);
+    });
+
+    /* ── Finition + téléphone ───────────────────────────────────── */
+    var finishRow = root.querySelector('[data-finishes]');
+    var deviceRow = root.querySelector('[data-devices]');
+    FINISHES.forEach(function (f) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'swatch' + (f.id === 'clear' ? ' swatch--clear' : '');
+      b.dataset.v = f.id; if (f.id !== 'clear') b.style.background = f.id;
+      b.title = f.label; b.setAttribute('aria-label', 'Finition ' + f.label);
+      b.addEventListener('click', function () { state.finish = f.id; applyFinish(); pushHistory(); });
+      finishRow.appendChild(b);
+    });
+    DEVICES.forEach(function (d) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'swatch'; b.dataset.v = d.id; b.style.background = d.id;
+      b.title = d.label; b.setAttribute('aria-label', 'Téléphone ' + d.label);
+      b.addEventListener('click', function () { state.device = d.id; applyFinish(); pushHistory(); });
+      deviceRow.appendChild(b);
+    });
+
+    /* ── Photos ─────────────────────────────────────────────────── */
+    root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
+    function importFile(file) {
+      if (!file || !/^image\//.test(file.type)) { toast('Choisissez un fichier image.', 'warn'); return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          // Redimensionnement avant stockage : une photo de 4000 px sature la
+          // mémoire et fait exploser le quota de sauvegarde pour rien.
+          var max = 1400, w = img.width, h = img.height;
+          if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
+          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+          var out; try { out = cv.toDataURL('image/webp', .85); } catch (_) { out = ''; }
+          if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
+          addElement({ type: 'image', src: out, size: 46 });
+          toast('Photo ajoutée');
+        };
+        img.onerror = function () { toast('Image illisible.', 'warn'); };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);
+      fileInput.value = '';
+    });
+    ['dragenter', 'dragover'].forEach(function (ev) { caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.setAttribute('data-over', ''); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.removeAttribute('data-over'); }); });
+    caseEl.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) importFile(e.dataTransfer.files[0]); });
+    document.addEventListener('paste', function (e) {
+      if (!e.clipboardData) return;
+      var it = e.clipboardData.items;
+      for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image') === 0) { importFile(it[i].getAsFile()); break; }
+    });
+
+    /* ── Modèle ─────────────────────────────────────────────────── */
+    function setModel(label) {
+      state.model = label || '';
+      barModel.textContent = label ? label : 'Choisissez un modèle';
+      renderCase();
+    }
+    document.addEventListener('model:change', function (e) {
+      if (e.detail && e.detail.model) { setModel(e.detail.model); pushHistory(); }
+    });
+
+    /* ── Clavier ────────────────────────────────────────────────── */
     document.addEventListener('keydown', function (e) {
-      if (editingId) {
-        if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); exitEdit(); }
-        return;
-      }
+      if (editingId) { if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); exitEdit(); } return; }
       var tag = (e.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea') return;
-
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
-        e.preventDefault(); e.shiftKey ? redo() : undo(); return;
-      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
       if (!selectedId) return;
       var el = findEl(selectedId); if (!el) return;
-
       if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeElement(selectedId); return; }
       if (e.key === 'Escape') { deselect(); return; }
-      var step = e.shiftKey ? 5 : 1;
-      var moved = true;
+      var step = e.shiftKey ? 5 : 1, moved = true;
       if (e.key === 'ArrowLeft') el.x = clamp(el.x - step, 0, 100);
       else if (e.key === 'ArrowRight') el.x = clamp(el.x + step, 0, 100);
       else if (e.key === 'ArrowUp') el.y = clamp(el.y - step, 0, 100);
@@ -887,50 +1015,46 @@ const price = '29,90 €';
       if (moved) { e.preventDefault(); applyStyles(el); clearTimeout(textTimer); textTimer = setTimeout(pushHistory, 400); }
     });
 
-    /* ── Divers ──────────────────────────────────────────────────── */
     function toast(msg, kind) {
       toastEl.textContent = msg;
       if (kind) toastEl.dataset.kind = kind; else delete toastEl.dataset.kind;
       toastEl.hidden = false;
-      clearTimeout(toast._t);
-      toast._t = setTimeout(function () { toastEl.hidden = true; }, 2600);
+      clearTimeout(toast._t); toast._t = setTimeout(function () { toastEl.hidden = true; }, 2600);
     }
 
-    /* ── Ajout au panier ─────────────────────────────────────────── */
-    // <ModelPicker> intercepte déjà le clic sur .buy-button tant qu'aucun
-    // modèle n'est choisi : ici on ne gère que le cas « design vide ».
+    /* ── Panier ─────────────────────────────────────────────────── */
+    // <ModelPicker> bloque déjà le clic tant qu'aucun modèle n'est choisi :
+    // ici on ne traite que le cas « coque vide ».
     root.querySelector('[data-add]').addEventListener('click', function (e) {
       if (!state.elements.length) {
         e.preventDefault(); e.stopPropagation();
         toast('Ajoutez au moins un élément à votre coque.', 'warn');
+        openPane('sticker');
         return;
       }
-      var model = '';
-      try { model = localStorage.getItem('vareska:phone-model') || ''; } catch (_) {}
-      if (!model) return;   // le sélecteur de modèle prend la main
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      if (!m) return;   // le sélecteur de modèle prend la main
       save();
       // TODO checkout : générer le rendu (canvas → PNG) et le joindre à la commande.
       toast('Design ajouté au panier !');
       deselect();
     });
 
-    /* ── Démarrage ───────────────────────────────────────────────── */
+    /* ── Démarrage ──────────────────────────────────────────────── */
     (function init() {
-      var saved = null;
-      try { saved = localStorage.getItem(STORE); } catch (_) {}
+      var saved = null; try { saved = localStorage.getItem(STORE); } catch (_) {}
       if (saved) {
         try {
-          var data = JSON.parse(saved);
-          if (data && Array.isArray(data.elements)) {
-            state = data;
-            seq = state.elements.reduce(function (m, el) { return Math.max(m, el.id || 0); }, 0);
-          }
+          var d = JSON.parse(saved);
+          if (d && Array.isArray(d.elements)) { state = Object.assign(state, d); seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id || 0); }, 0); }
         } catch (_) {}
       }
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      if (m) state.model = m;
+      setModel(state.model);
       renderAll();
-      history = [snapshot()];
-      hIndex = 0;
-      syncHistoryBtns();
+      history = [snapshot()]; hIndex = 0; syncHistory();
+      if (window.matchMedia('(min-width: 1024px)').matches) openPane(state.model ? 'text' : 'model');
     })();
   })();
 </script>
