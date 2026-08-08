@@ -119,18 +119,25 @@ const price = '29,90 €';
 
       <!-- Coque -->
       <div class="pane" data-pane="finish" hidden>
+        <label class="pane-label">Aperçu</label>
+        <div class="seg" data-mounts role="group" aria-label="Type d'aperçu">
+          <button type="button" data-mount-v="alone" aria-pressed="true">Coque seule</button>
+          <button type="button" data-mount-v="phone" aria-pressed="false">Sur le téléphone</button>
+        </div>
         <label class="pane-label">Finition</label>
         <div class="swatch-row" data-finishes></div>
-        <label class="pane-label">Couleur du téléphone</label>
-        <div class="swatch-row" data-devices></div>
-        <p class="pane-hint">La finition transparente laisse voir votre téléphone.</p>
+        <div data-devicewrap hidden>
+          <label class="pane-label">Couleur du téléphone</label>
+          <div class="swatch-row" data-devices></div>
+        </div>
+        <p class="pane-hint">La finition transparente laisse voir le décor au travers : c'est le rendu réel d'une coque en TPU cristal.</p>
       </div>
     </aside>
 
     <!-- ─── Plan de travail ──────────────────────────────────────── -->
     <main class="canvas" data-canvas>
-      <div class="case" data-case data-finish="clear">
-        <div class="device" data-device></div>
+      <div class="case" data-case data-finish="clear" data-mount="alone">
+        <div class="phone" data-phone></div>
         <div class="design" data-design>
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
           <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
@@ -291,6 +298,13 @@ const price = '29,90 €';
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
+  .seg { display: flex; gap: .25rem; padding: .2rem; border-radius: 10px; background: rgb(var(--c-cream) / .05); }
+  .seg button {
+    flex: 1; padding: .45rem .3rem; border-radius: 8px; cursor: pointer; color: inherit;
+    font-size: .74rem; font-weight: 500; transition: background .15s, color .15s;
+  }
+  .seg button[aria-pressed="true"] { background: rgb(var(--accent-rgb)); color: #fff; }
+
   .dropzone {
     width: 100%; display: flex; flex-direction: column; align-items: center; gap: .35rem;
     padding: 1.5rem 1rem; border-radius: 12px; cursor: pointer; color: inherit; text-align: center;
@@ -302,14 +316,25 @@ const price = '29,90 €';
   .dropzone span { font-size: .7rem; opacity: .6; }
 
   /* ── Plan de travail ─────────────────────────────────────────── */
+  /* Le plan de travail porte un décor doux : c'est en le voyant AU TRAVERS
+     de la coque qu'on comprend qu'elle est transparente. */
   .canvas {
     grid-area: canvas;
+    position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     padding: 1.25rem 1rem; min-height: 0;
-    background:
-      radial-gradient(80% 60% at 50% 0%, rgb(var(--c-cream) / .05), transparent 70%),
-      rgb(var(--c-panel) / .35);
+    background: rgb(var(--c-panel) / .5);
   }
+  .canvas::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(38% 28% at 22% 24%, rgb(var(--accent-rgb) / .16), transparent 70%),
+      radial-gradient(34% 26% at 78% 30%, rgba(90,130,200,.16), transparent 70%),
+      radial-gradient(42% 30% at 62% 78%, rgba(150,180,140,.16), transparent 72%),
+      radial-gradient(30% 24% at 30% 82%, rgba(200,160,100,.14), transparent 70%);
+    filter: blur(6px);
+  }
+  .canvas > * { position: relative; }
 
   /* ── La coque ────────────────────────────────────────────────── */
   .case {
@@ -323,13 +348,15 @@ const price = '29,90 €';
   }
   .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 8px; }
 
-  /* Le téléphone, vu au travers de la coque transparente */
-  .device {
-    position: absolute; inset: 0; border-radius: inherit;
+  /* Le téléphone : affiché seulement en aperçu « sur le téléphone ». Par
+     défaut la coque est présentée seule, comme sur une photo produit. */
+  .phone {
+    position: absolute; inset: 0; border-radius: inherit; display: none;
     background: var(--device, linear-gradient(158deg, #3c3c42, #17171b 46%, #2b2b31));
   }
-  /* Finition opaque : un fond couvrant masque le téléphone */
-  .case[data-finish="solid"] .device { background: var(--caseColor, #f4eee2); }
+  .case[data-mount="phone"] .phone { display: block; }
+  /* Finition opaque : la coque est teintée, elle masque alors le téléphone. */
+  .case[data-finish="solid"] .phone { display: block; background: var(--caseColor, #f4eee2); }
 
   .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 
@@ -343,18 +370,35 @@ const price = '29,90 €';
      dans le bloc <style is:global> (pas d'attribut de scope Astro). */
 
   /* La coque elle-même : épaisseur du TPU + reflet */
-  /* La coque : un rebord de TPU translucide, nettement visible, qui déborde
-     du téléphone — c'est lui qui fait lire « coque » et pas « téléphone nu ». */
+  /* La coque elle-même. En finition transparente elle ne pose AUCUN fond :
+     on voit le plan de travail au travers — c'est ça qui fait lire « coque
+     transparente » plutôt que « téléphone noir ». Seules les arêtes du TPU,
+     sa paroi et les reflets sont dessinés. */
   .shell {
-    position: absolute; inset: -3.2%; border-radius: inherit; z-index: 8; pointer-events: none;
-    border: 1px solid rgba(255,255,255,.55);
+    position: absolute; inset: 0; border-radius: inherit; z-index: 8; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 42%, rgba(255,255,255,.09));
+    border: 1px solid rgba(255,255,255,.8);
     box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,.38),
-      inset 0 0 0 7px rgba(255,255,255,.13),   /* épaisseur du plastique */
-      inset 0 0 0 8px rgba(255,255,255,.30),   /* arête intérieure */
-      inset 0 0 20px 8px rgba(255,255,255,.13),
-      inset 0 2px 4px rgba(255,255,255,.45),
-      0 0 0 1px rgba(0,0,0,.10);
+      inset 0 0 0 1.5px rgba(255,255,255,.55),   /* arête extérieure */
+      inset 0 0 0 9px  rgba(255,255,255,.09),    /* paroi (épaisseur du TPU) */
+      inset 0 0 0 10px rgba(255,255,255,.5),     /* arête intérieure */
+      inset 0 3px 7px rgba(255,255,255,.4),      /* lumière du haut */
+      inset 0 -3px 7px rgba(255,255,255,.22),
+      0 1px 1px rgba(255,255,255,.5),
+      0 22px 44px -20px rgba(0,0,0,.4);
+  }
+  /* Montée sur un téléphone : le dos opaque reprend le dessus, on adoucit
+     donc les reflets pour ne pas voiler le visuel. */
+  .case[data-mount="phone"] .shell,
+  .case[data-finish="solid"] .shell {
+    background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,0) 45%, rgba(255,255,255,.06));
+    border-color: rgba(255,255,255,.5);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.35),
+      inset 0 0 0 9px rgba(255,255,255,.06),
+      inset 0 0 0 10px rgba(255,255,255,.28),
+      inset 0 3px 6px rgba(255,255,255,.28),
+      0 22px 44px -20px rgba(0,0,0,.45);
   }
   .case[data-finish="solid"] .shell {
     border-color: rgba(255,255,255,.28);
@@ -378,10 +422,10 @@ const price = '29,90 €';
     z-index: 4; pointer-events: none; padding: 0 10%;
   }
   .empty[hidden] { display: none; }
-  .empty p { font-size: 4.2cqw; color: rgba(255,255,255,.72); }
-  .empty span { font-size: 3.2cqw; color: rgba(255,255,255,.45); }
-  .case[data-finish="solid"] .empty p { color: rgba(0,0,0,.45); }
-  .case[data-finish="solid"] .empty span { color: rgba(0,0,0,.32); }
+  .empty p { font-size: 4.2cqw; color: rgba(0,0,0,.48); }
+  .empty span { font-size: 3.2cqw; color: rgba(0,0,0,.34); }
+  .case[data-dark] .empty p { color: rgba(255,255,255,.75); }
+  .case[data-dark] .empty span { color: rgba(255,255,255,.48); }
 
   /* ── Barre contextuelle ──────────────────────────────────────── */
   /* Flottante À L'INTÉRIEUR de la coque, en bas : au-dessus elle sortait du
@@ -453,6 +497,24 @@ const price = '29,90 €';
   /* ── Module caméra (injecté en JS) ──────────────────────────────
      Il doit TRANCHER sur le dos du téléphone : sombre sur sombre, il
      disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
+  /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
+     plastique qui borde le trou — on doit voir le décor au travers. */
+  .studio .cam-cut {
+    position: absolute; inset: 0; border-radius: 26%;
+    background: rgba(255,255,255,.05);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.75),
+      inset 0 0 0 5px rgba(255,255,255,.12),
+      0 0 0 1px rgba(0,0,0,.06);
+  }
+  .studio .cam-cut.is-pill { border-radius: 999px; }
+  .studio .cam-hole {
+    position: absolute; aspect-ratio: 1; border-radius: 22%;
+    background: rgba(255,255,255,.05);
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.75), inset 0 0 0 4px rgba(255,255,255,.12);
+  }
+  .studio .cam-hole.is-round { border-radius: 50%; }
+
   .studio .cam-island {
     position: absolute; inset: 0; border-radius: 26%;
     background: linear-gradient(150deg, #43434d, #1d1d24 60%);
@@ -523,7 +585,7 @@ const price = '29,90 €';
     var caseEl   = root.querySelector('[data-case]');
     var canvasEl = root.querySelector('[data-canvas]');
     var camEl    = root.querySelector('[data-cam]');
-    var deviceEl = root.querySelector('[data-device]');
+    var phoneEl  = root.querySelector('[data-phone]');
     var emptyEl  = root.querySelector('[data-empty]');
     var ctx      = root.querySelector('[data-ctx]');
     var panel    = root.querySelector('[data-panelwrap]');
@@ -566,10 +628,10 @@ const price = '29,90 €';
       { id: '#2c0a09', label: 'Bordeaux' }, { id: '#111113', label: 'Noir' },
     ];
     var DEVICES = [
-      { id: 'linear-gradient(158deg,#3c3c42,#17171b 46%,#2b2b31)', label: 'Noir' },
-      { id: 'linear-gradient(158deg,#e6e6ea,#b9b9c2 48%,#d7d7dd)', label: 'Argent' },
-      { id: 'linear-gradient(158deg,#e8d9bd,#bda079 48%,#dcc9a6)', label: 'Or' },
-      { id: 'linear-gradient(158deg,#9fb3cd,#4d6a80 48%,#7f97b4)', label: 'Bleu' },
+      { id: 'linear-gradient(158deg,#3c3c42,#17171b 46%,#2b2b31)', label: 'Noir',   dark: true },
+      { id: 'linear-gradient(158deg,#e6e6ea,#b9b9c2 48%,#d7d7dd)', label: 'Argent', dark: false },
+      { id: 'linear-gradient(158deg,#e8d9bd,#bda079 48%,#dcc9a6)', label: 'Or',     dark: false },
+      { id: 'linear-gradient(158deg,#9fb3cd,#4d6a80 48%,#7f97b4)', label: 'Bleu',   dark: true },
     ];
     var FONTS = [
       "'Inter', system-ui, sans-serif",
@@ -579,7 +641,7 @@ const price = '29,90 €';
       "'Courier New', monospace",
       "'Trebuchet MS', system-ui, sans-serif",
     ];
-    var TEXT_COLORS = ['#ffffff','#111113','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
+    var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
     var STICKERS = {
       'Nature':   ['🌸','🌿','🌊','🌙','☀️','🌴','🍒','🐚','🦋','🌹','🍃','⛰️'],
       'Cœurs':    ['💖','🖤','💫','✨','💕','🤍','💘','❤️‍🔥'],
@@ -588,7 +650,7 @@ const price = '29,90 €';
     };
 
     /* ── État ────────────────────────────────────────────────────── */
-    var state = { finish: 'clear', device: DEVICES[0].id, model: '', elements: [] };
+    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', elements: [] };
     var nodes = new Map();
     var selectedId = null, seq = 0, gesture = null, editingId = null;
     var history = [], hIndex = -1, activePane = null;
@@ -600,33 +662,43 @@ const price = '29,90 €';
     // Seule la largeur est donnée : la hauteur suit via aspect-ratio: 1.
     function lens(l, t, w) { return '<span class="lens" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
     function flash(l, t, w) { return '<span class="flash" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
+    function hole(l, t, w, round) {
+      return '<span class="cam-hole' + (round ? ' is-round' : '') + '" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>';
+    }
 
     function renderCase() {
       var fam = FAMILIES[familyOf(state.model)] || FAMILIES['iphone-pro'];
       caseEl.style.setProperty('--ratio', String(fam.ratio));
       caseEl.style.setProperty('--radius', fam.radius + '%');
 
+      // Coque seule → la découpe est un TROU (on voit au travers).
+      // Coque montée → on dessine le module photo du téléphone.
+      var onPhone = state.mount === 'phone';
       var s = camEl.style, html = '';
+
       if (fam.cam === 'island3' || fam.cam === 'islandBig') {
         var big = fam.cam === 'islandBig';
         s.left = '6%'; s.top = '3.2%'; s.width = big ? '42%' : '39%'; s.height = big ? '20.5%' : '19%';
-        html = '<span class="cam-island"></span>'
-             + lens(9, 8, 36) + lens(53, 8, 36) + lens(9, 52, 36)
-             + flash(60, 58, 18);
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(9, 8, 36) + lens(53, 8, 36) + lens(9, 52, 36) + flash(60, 58, 18)
+          : '<span class="cam-cut"></span>';
       } else if (fam.cam === 'island2') {
         s.left = '6%'; s.top = '3.2%'; s.width = '30%'; s.height = '14.5%';
-        html = '<span class="cam-island"></span>'
-             + lens(8, 10, 40) + lens(52, 48, 40);
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(8, 10, 40) + lens(52, 48, 40)
+          : '<span class="cam-cut"></span>';
       } else if (fam.cam === 'lenses3') {
-        // Galaxy : pas d'îlot, des objectifs posés à même le dos
+        // Galaxy : pas d'îlot, trois découpes rondes séparées
         s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = '30%';
-        html = lens(12, 2, 78) + lens(12, 36, 78) + lens(12, 70, 78);
+        html = onPhone
+          ? lens(12, 2, 78) + lens(12, 36, 78) + lens(12, 70, 78)
+          : hole(12, 2, 78, true) + hole(12, 36, 78, true) + hole(12, 70, 78, true);
       } else if (fam.cam === 'bar') {
         // Pixel : barre horizontale traversante
         s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
-        html = '<span class="cam-bar"></span>'
-             + lens(8, 12, 9) + lens(20, 12, 9)
-             + flash(33, 34, 4.5);
+        html = onPhone
+          ? '<span class="cam-bar"></span>' + lens(8, 12, 9) + lens(20, 12, 9) + flash(33, 34, 4.5)
+          : '<span class="cam-cut is-pill"></span>';
       }
       camEl.innerHTML = html;
       fitCase();
@@ -651,9 +723,20 @@ const price = '29,90 €';
         caseEl.dataset.finish = 'solid';
         caseEl.style.setProperty('--caseColor', state.finish);
       }
-      deviceEl.style.setProperty('--device', state.device);
+      caseEl.dataset.mount = state.mount;
+      phoneEl.style.setProperty('--device', state.device);
+      // Fond sombre derrière le visuel ? Sert à choisir la couleur des
+      // libellés de l'état vide pour qu'ils restent lisibles.
+      var dev = DEVICES.filter(function (d) { return d.id === state.device; })[0];
+      var darkBack = state.finish !== 'clear'
+        ? isDark(state.finish)
+        : (state.mount === 'phone' && dev && dev.dark);
+      caseEl.toggleAttribute('data-dark', !!darkBack);
+      // La couleur du téléphone n'a de sens que si on le voit.
+      root.querySelector('[data-devicewrap]').hidden = !(state.mount === 'phone' && state.finish === 'clear');
       root.querySelectorAll('[data-finishes] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.finish)); });
       root.querySelectorAll('[data-devices] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.device)); });
+      root.querySelectorAll('[data-mounts] button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mountV === state.mount)); });
     }
 
     /* ── Rendu des éléments ─────────────────────────────────────── */
@@ -940,6 +1023,12 @@ const price = '29,90 €';
       b.title = f.label; b.setAttribute('aria-label', 'Finition ' + f.label);
       b.addEventListener('click', function () { state.finish = f.id; applyFinish(); pushHistory(); });
       finishRow.appendChild(b);
+    });
+    root.querySelectorAll('[data-mounts] button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.mount = b.dataset.mountV;
+        applyFinish(); renderCase(); pushHistory();
+      });
     });
     DEVICES.forEach(function (d) {
       var b = document.createElement('button');
