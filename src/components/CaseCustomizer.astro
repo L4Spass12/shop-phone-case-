@@ -20,6 +20,19 @@
  */
 import ModelPicker from './ModelPicker.astro';
 
+/* Polices de personnalisation — importées ICI et non dans global.css :
+   elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
+   du site. Un seul graisse/subset latin par famille. */
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/abril-fatface/400.css';
+import '@fontsource/bebas-neue/400.css';
+import '@fontsource/anton/400.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/oswald/400.css';
+import '@fontsource/dancing-script/400.css';
+import '@fontsource/caveat/400.css';
+import '@fontsource/space-mono/400.css';
+
 const price = '29,90 €';
 ---
 
@@ -51,6 +64,10 @@ const price = '29,90 €';
 
     <!-- ─── Rail d'outils ────────────────────────────────────────── -->
     <nav class="rail" aria-label="Outils">
+      <button type="button" class="rbtn" data-panel="design" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 4 1.6 3.4L19 9l-3.4 1.6L14 14l-1.6-3.4L9 9l3.4-1.6z"/><path d="M6 14.5 6.9 16.4 9 17.3l-2.1.9L6 20.1l-.9-1.9L3 17.3l2.1-.9z"/></svg>
+        <span>Designs</span>
+      </button>
       <button type="button" class="rbtn" data-panel="model" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 5.5h2"/></svg>
         <span>Modèle</span>
@@ -79,6 +96,12 @@ const price = '29,90 €';
       <div class="panel-head">
         <h2 data-paneltitle>Panneau</h2>
         <button type="button" class="panel-x" data-panelclose aria-label="Fermer le panneau">&times;</button>
+      </div>
+
+      <!-- Designs prêts à l'emploi -->
+      <div class="pane" data-pane="design" hidden>
+        <p class="pane-hint" style="margin-top:0">Partez d'une base, puis modifiez tout : textes, couleurs, positions.</p>
+        <div class="tpl-grid" data-templates></div>
       </div>
 
       <!-- Modèle -->
@@ -298,6 +321,9 @@ const price = '29,90 €';
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
+  .tpl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  @media (max-width: 1023px) { .tpl-grid { grid-template-columns: repeat(3, 1fr); } }
+
   .seg { display: flex; gap: .25rem; padding: .2rem; border-radius: 10px; background: rgb(var(--c-cream) / .05); }
   .seg button {
     flex: 1; padding: .45rem .3rem; border-radius: 8px; cursor: pointer; color: inherit;
@@ -461,6 +487,28 @@ const price = '29,90 €';
 
 <!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
 <style is:global>
+  /* ── Vignettes de designs (créées en JS) ───────────────────────── */
+  .studio .tpl {
+    display: flex; flex-direction: column; gap: .35rem; padding: .4rem;
+    border-radius: 10px; cursor: pointer; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .12); background: rgb(var(--c-cream) / .02);
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .studio .tpl:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .05); }
+  .studio .tpl:active { transform: scale(.97); }
+  .studio .tpl-thumb {
+    position: relative; display: block; width: 100%; aspect-ratio: .476;
+    border-radius: 9px; overflow: hidden;
+    container-type: inline-size;             /* les cqw des éléments suivent la vignette */
+    background: linear-gradient(150deg, #f6f2ea, #e9e3d7);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
+  }
+  .studio .tel {
+    position: absolute; left: 50%; top: 50%;
+    white-space: nowrap; line-height: 1.05; pointer-events: none;
+  }
+  .studio .tpl-name { font-size: .68rem; text-align: center; opacity: .75; }
+
   /* ── Contrôles des panneaux (créés en JS) ──────────────────────── */
   .studio .chip {
     flex: none; padding: .35rem .7rem; border-radius: 999px; cursor: pointer; font-size: .74rem; color: inherit;
@@ -633,21 +681,93 @@ const price = '29,90 €';
       { id: 'linear-gradient(158deg,#e8d9bd,#bda079 48%,#dcc9a6)', label: 'Or',     dark: false },
       { id: 'linear-gradient(158deg,#9fb3cd,#4d6a80 48%,#7f97b4)', label: 'Bleu',   dark: true },
     ];
+    // id → utilisé par les templates ; css → appliqué à l'élément.
     var FONTS = [
-      "'Inter', system-ui, sans-serif",
-      "'Bodoni Moda', Georgia, serif",
-      "'Pinyon Script', cursive",
-      "Georgia, 'Times New Roman', serif",
-      "'Courier New', monospace",
-      "'Trebuchet MS', system-ui, sans-serif",
+      { id: 'bodoni',   label: 'Bodoni',    css: "'Bodoni Moda', Georgia, serif" },
+      { id: 'playfair', label: 'Playfair',  css: "'Playfair Display', Georgia, serif" },
+      { id: 'abril',    label: 'Abril',     css: "'Abril Fatface', Georgia, serif" },
+      { id: 'pinyon',   label: 'Pinyon',    css: "'Pinyon Script', cursive" },
+      { id: 'dancing',  label: 'Dancing',   css: "'Dancing Script', cursive" },
+      { id: 'caveat',   label: 'Caveat',    css: "'Caveat', cursive" },
+      { id: 'bebas',    label: 'Bebas',     css: "'Bebas Neue', Impact, sans-serif" },
+      { id: 'anton',    label: 'Anton',     css: "'Anton', Impact, sans-serif" },
+      { id: 'oswald',   label: 'Oswald',    css: "'Oswald', Impact, sans-serif" },
+      { id: 'montserrat', label: 'Montserrat', css: "'Montserrat', system-ui, sans-serif" },
+      { id: 'inter',    label: 'Inter',     css: "'Inter', system-ui, sans-serif" },
+      { id: 'mono',     label: 'Mono',      css: "'Space Mono', 'Courier New', monospace" },
+      { id: 'georgia',  label: 'Georgia',   css: "Georgia, 'Times New Roman', serif" },
+      { id: 'trebuchet', label: 'Trebuchet', css: "'Trebuchet MS', system-ui, sans-serif" },
     ];
+    function F(id) {
+      for (var i = 0; i < FONTS.length; i++) if (FONTS[i].id === id) return FONTS[i].css;
+      return FONTS[0].css;
+    }
     var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
     var STICKERS = {
-      'Nature':   ['🌸','🌿','🌊','🌙','☀️','🌴','🍒','🐚','🦋','🌹','🍃','⛰️'],
-      'Cœurs':    ['💖','🖤','💫','✨','💕','🤍','💘','❤️‍🔥'],
-      'Symboles': ['⭐','⚡','👑','🕊️','🔥','☯️','♡','✦','☾','✧'],
-      'Fun':      ['🎀','🍓','🧿','🎧','🛹','🪩','🌈','🍄','🐼','🎲'],
+      'Nature':   ['🌸','🌺','🌻','🌼','🌷','🌹','🥀','🌿','🍃','🍀','🌱','🪴','🌵','🌴','🌳','🍁','🍂','🌾','🌊','🏔️','⛰️','🌋','🏝️','🪨'],
+      'Cœurs':    ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💖','💕','💗','💓','💞','💘','💝','❤️‍🔥','❣️','♥️','💌'],
+      'Ciel':     ['⭐','🌟','✨','💫','☄️','🌙','🌜','🌛','🌝','☀️','🌤️','⛅','☁️','🌈','⚡','❄️','🔥','🌪️','🪐','🚀'],
+      'Symboles': ['👑','💎','🔱','☯️','♾️','✦','✧','☾','♡','⚜️','🕊️','🦅','🗝️','🧿','🔮','🪬','⚓','🏹','⚔️','🎯'],
+      'Animaux':  ['🦋','🐝','🐞','🕊️','🦢','🦉','🐺','🦊','🐱','🐶','🐼','🐨','🦁','🐯','🦄','🐬','🐳','🦈','🐢','🦎'],
+      'Gourmand': ['🍓','🍒','🍑','🍊','🍋','🍉','🍇','🥑','🍰','🧁','🍩','🍪','🍫','🍦','☕','🍵','🥂','🍸','🍕','🥐'],
+      'Voyage':   ['✈️','🗺️','🧳','🏖️','🌍','🌎','🌏','🗼','🗽','🏰','⛵','🚲','🛵','🚐','📍','🧭','📷','🎒','🏕️','🎡'],
+      'Fun':      ['🎀','🪩','🎧','🎸','🎹','🎤','🛹','🏄','⚽','🏀','🎮','🎲','🎨','🎭','🪄','🧸','🍄','👾','💿','📻'],
     };
+
+    /* ── Designs prêts à l'emploi ───────────────────────────────────
+       Point de départ éditable : on pose des éléments normaux, que le
+       client déplace/modifie ensuite comme s'il les avait ajoutés. */
+    var TEMPLATES = [
+      { id: 'prenom', name: 'Prénom', els: [
+        { type: 'text', text: 'Camille', font: F('pinyon'), color: '#111113', size: 20, x: 50, y: 50, rot: 0 },
+      ]},
+      { id: 'monogramme', name: 'Monogramme', els: [
+        { type: 'text', text: 'A M', font: F('bodoni'), color: '#111113', size: 30, x: 50, y: 46, rot: 0 },
+        { type: 'text', text: 'DEPUIS 2024', font: F('montserrat'), color: '#6e5f52', size: 5, x: 50, y: 60, rot: 0 },
+      ]},
+      // NB : on garde les éléments hors de la zone caméra (haut-gauche).
+      { id: 'floral', name: 'Floral', els: [
+        { type: 'sticker', text: '🌸', size: 20, x: 27, y: 37, rot: -12 },
+        { type: 'sticker', text: '🌿', size: 17, x: 76, y: 34, rot: 14 },
+        { type: 'text', text: 'Bloom', font: F('dancing'), color: '#111113', size: 18, x: 50, y: 52, rot: 0 },
+        { type: 'sticker', text: '🌷', size: 18, x: 30, y: 74, rot: 8 },
+        { type: 'sticker', text: '🍃', size: 15, x: 72, y: 78, rot: -16 },
+      ]},
+      { id: 'celeste', name: 'Céleste', els: [
+        { type: 'sticker', text: '🌙', size: 26, x: 52, y: 38, rot: 0 },
+        { type: 'sticker', text: '✨', size: 12, x: 25, y: 34, rot: 0 },
+        { type: 'sticker', text: '⭐', size: 10, x: 78, y: 26, rot: 0 },
+        { type: 'sticker', text: '✨', size: 9, x: 72, y: 52, rot: 0 },
+        { type: 'text', text: 'STAY WILD', font: F('bebas'), color: '#111113', size: 12, x: 50, y: 66, rot: 0 },
+      ]},
+      { id: 'citation', name: 'Citation', els: [
+        { type: 'text', text: 'CARPE', font: F('anton'), color: '#ff3b14', size: 22, x: 50, y: 42, rot: 0 },
+        { type: 'text', text: 'DIEM', font: F('anton'), color: '#111113', size: 22, x: 50, y: 56, rot: 0 },
+      ]},
+      { id: 'tropical', name: 'Tropical', els: [
+        { type: 'sticker', text: '🌴', size: 30, x: 34, y: 40, rot: -8 },
+        { type: 'sticker', text: '🌺', size: 18, x: 70, y: 60, rot: 12 },
+        { type: 'text', text: 'Été', font: F('caveat'), color: '#16a34a', size: 18, x: 52, y: 78, rot: -4 },
+      ]},
+      { id: 'vague', name: 'Vague', els: [
+        { type: 'sticker', text: '🌊', size: 34, x: 50, y: 58, rot: 0 },
+        { type: 'text', text: 'OCÉAN', font: F('oswald'), color: '#2563eb', size: 13, x: 50, y: 34, rot: 0 },
+      ]},
+      { id: 'coeur', name: 'Cœur', els: [
+        { type: 'sticker', text: '🤍', size: 30, x: 50, y: 44, rot: 0 },
+        { type: 'text', text: 'love you', font: F('dancing'), color: '#e11d48', size: 14, x: 50, y: 64, rot: -3 },
+      ]},
+      { id: 'minimal', name: 'Minimal', els: [
+        { type: 'text', text: '·', font: F('inter'), color: '#111113', size: 22, x: 50, y: 40, rot: 0 },
+        { type: 'text', text: 'less is more', font: F('mono'), color: '#111113', size: 7, x: 50, y: 52, rot: 0 },
+      ]},
+      { id: 'fete', name: 'Fête', els: [
+        { type: 'sticker', text: '🪩', size: 26, x: 50, y: 36, rot: 0 },
+        { type: 'sticker', text: '🎀', size: 13, x: 26, y: 60, rot: -14 },
+        { type: 'sticker', text: '✨', size: 11, x: 74, y: 58, rot: 10 },
+        { type: 'text', text: 'good vibes', font: F('caveat'), color: '#7c3aed', size: 14, x: 50, y: 72, rot: 0 },
+      ]},
+    ];
 
     /* ── État ────────────────────────────────────────────────────── */
     var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', elements: [] };
@@ -925,7 +1045,7 @@ const price = '29,90 €';
     }
 
     /* ── Panneaux ───────────────────────────────────────────────── */
-    var TITLES = { model: 'Modèle', text: 'Texte', sticker: 'Stickers', photo: 'Photos', finish: 'Coque' };
+    var TITLES = { design: 'Designs', model: 'Modèle', text: 'Texte', sticker: 'Stickers', photo: 'Photos', finish: 'Coque' };
     function openPane(name) {
       activePane = name;
       panel.hidden = false;
@@ -954,15 +1074,17 @@ const price = '29,90 €';
     var textTimer = null;
 
     root.querySelector('[data-addtext]').addEventListener('click', function () {
-      addElement({ type: 'text', text: 'Votre texte', font: FONTS[1], color: TEXT_COLORS[0], size: 11 });
+      addElement({ type: 'text', text: 'Votre texte', font: F('bodoni'), color: TEXT_COLORS[0], size: 11 });
       setTimeout(function () { textInput.focus(); textInput.select(); }, 60);
     });
     FONTS.forEach(function (f) {
       var c = document.createElement('button');
-      c.type = 'button'; c.className = 'font-chip'; c.textContent = 'Aa'; c.style.fontFamily = f; c.dataset.f = f;
+      c.type = 'button'; c.className = 'font-chip';
+      c.textContent = f.label;              // le nom rendu DANS la police : on choisit à l'œil
+      c.style.fontFamily = f.css; c.dataset.f = f.css; c.title = f.label;
       c.addEventListener('click', function () {
         var el = selectedId && findEl(selectedId);
-        if (el && el.type === 'text') { el.font = f; applyStyles(el); syncTextPane(); pushHistory(); }
+        if (el && el.type === 'text') { el.font = f.css; applyStyles(el); syncTextPane(); pushHistory(); }
       });
       fontRow.appendChild(c);
     });
@@ -990,6 +1112,44 @@ const price = '29,90 €';
       textInput.value = el.text;
       fontRow.querySelectorAll('.font-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.f === el.font)); });
       textColors.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === el.color)); });
+    }
+
+    /* ── Designs prêts à l'emploi ───────────────────────────────── */
+    // La vignette est une mini-coque : comme les éléments se dimensionnent en
+    // cqw (unité du conteneur), le même jeu de valeurs sert à l'aperçu et à
+    // la coque réelle, sans facteur d'échelle à maintenir.
+    var tplGrid = root.querySelector('[data-templates]');
+    TEMPLATES.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', 'Design ' + t.name);
+      var thumb = document.createElement('span');
+      thumb.className = 'tpl-thumb';
+      t.els.forEach(function (e) {
+        var s = document.createElement('span');
+        s.className = 'tel';
+        s.textContent = e.text;
+        s.style.left = e.x + '%';
+        s.style.top = e.y + '%';
+        s.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
+        s.style.fontSize = e.size + 'cqw';
+        if (e.type === 'text') { s.style.fontFamily = e.font; s.style.color = e.color; }
+        thumb.appendChild(s);
+      });
+      var nm = document.createElement('span');
+      nm.className = 'tpl-name'; nm.textContent = t.name;
+      b.append(thumb, nm);
+      b.addEventListener('click', function () { applyTemplate(t); });
+      tplGrid.appendChild(b);
+    });
+
+    function applyTemplate(t) {
+      if (state.elements.length &&
+          !window.confirm('Remplacer votre composition actuelle par le design « ' + t.name + ' » ?')) return;
+      state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
+      selectedId = null;
+      renderAll(); pushHistory();
+      toast('Design « ' + t.name + ' » appliqué');
+      if (!window.matchMedia('(min-width: 1024px)').matches) closePane();
     }
 
     /* ── Stickers ───────────────────────────────────────────────── */
@@ -1143,7 +1303,9 @@ const price = '29,90 €';
       setModel(state.model);
       renderAll();
       history = [snapshot()]; hIndex = 0; syncHistory();
-      if (window.matchMedia('(min-width: 1024px)').matches) openPane(state.model ? 'text' : 'model');
+      // On ouvre d'emblée le panneau le plus utile : le modèle s'il manque,
+      // sinon les designs (démarrer d'une base plutôt que d'une page blanche).
+      if (window.matchMedia('(min-width: 1024px)').matches) openPane(state.model ? 'design' : 'model');
     })();
   })();
 </script>
