@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import siteConfig from '../../site.config.mjs';
 import Header from '../components/Header.astro';
+import Marquee from '../components/Marquee.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
@@ -114,8 +115,11 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     <script is:inline>
       (function () {
         try {
-          if (localStorage.getItem('site-theme') === 'heritage') {
-            document.documentElement.setAttribute('data-theme', 'heritage');
+          var t = localStorage.getItem('site-theme');
+          // « default » = absence d'attribut. La liste blanche évite qu'une
+          // valeur périmée en stockage active un thème inexistant.
+          if (t === 'heritage' || t === 'sunfreaks') {
+            document.documentElement.setAttribute('data-theme', t);
           }
         } catch (e) {}
       })();
@@ -217,8 +221,11 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
   <body>
     {/* Sur une page noindex (404), le switcher de langue renvoie vers
         l'accueil de la locale : le chemin courant n'a pas d'équivalent traduit. */}
+    <Marquee />
     <Header langSwitcherFallbackHome={noindex} />
-    <main style="padding-top: var(--header-h);">
+    {/* Le décalage tient compte du bandeau, qui n'existe qu'en thème
+        sunfreaks (--marquee-h vaut 0 ailleurs). */}
+    <main class="site-main">
       <slot />
     </main>
     <Footer />

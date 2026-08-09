@@ -6,6 +6,7 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
+@import '@fontsource/alfa-slab-one/400.css';      /* thème sunfreaks : slab rétro */
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -617,6 +618,184 @@ html[data-theme='heritage'] footer button[type='submit'] {
 html[data-theme='heritage'] footer button[type='submit']:hover {
   background: rgb(var(--accent-dark-rgb));
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THÈME « SUNFREAKS » — rétro solaire (réf. forsunfreaks.com)
+   Bandeau rose défilant, jaune électrique, crème chaud, slab épais des
+   années 70. Activé par <html data-theme="sunfreaks">.
+   ═══════════════════════════════════════════════════════════════════════ */
+html[data-theme='sunfreaks'] {
+  --c-white:      60 26 12;      /* voile = encre brune translucide */
+  --c-dark:       255 244 224;   /* fond = crème solaire */
+  --c-panel:      252 233 201;   /* cards */
+  --c-teal:       250 226 188;   /* variante */
+  --c-beige:      232 199 152;   /* bordures / tags */
+  --c-cream:      60 26 12;      /* texte = brun cacao */
+  --c-terracotta: 60 26 12;
+  --c-sage:       22 130 74;
+  --c-n500:       154 116 80;    /* texte secondaire */
+  --c-n400:       116 78 48;     /* texte courant */
+
+  /* Accent = rose bonbon ; le jaune sert de second accent (boutons) */
+  --accent-rgb:        255 61 158;
+  --accent-light-rgb:  255 110 186;
+  --accent-dark-rgb:   214 26 122;
+  --sun-yellow:        #ffe800;
+
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-display: 'Alfa Slab One', Georgia, serif;
+  --font-script:  'Alfa Slab One', Georgia, serif;
+}
+
+/* Titres : slab épais, serrés, très années 70 */
+html[data-theme='sunfreaks'] h1,
+html[data-theme='sunfreaks'] h2,
+html[data-theme='sunfreaks'] h3,
+html[data-theme='sunfreaks'] h4,
+html[data-theme='sunfreaks'] .section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+html[data-theme='sunfreaks'] .hero-section h1 {
+  color: rgb(var(--c-dark));
+  text-transform: uppercase;
+  /* Contour brun : le titre reste lisible sur une photo claire. */
+  text-shadow: 3px 3px 0 rgb(var(--c-cream)), -1px -1px 0 rgb(var(--c-cream)),
+               1px -1px 0 rgb(var(--c-cream)), -1px 1px 0 rgb(var(--c-cream));
+}
+/* Logo en slab, pas en script */
+html[data-theme='sunfreaks'] [data-logo],
+html[data-theme='sunfreaks'] footer [data-footer-brand] {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.6rem; }
+}
+html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
+
+/* ─── Bandeau défilant ─────────────────────────────────────────────────
+   Il coiffe le header (fixe) : on le fixe lui aussi et on décale le header
+   d'autant. `--marquee-h` vaut 0 hors de ce thème, donc rien ne bouge
+   ailleurs. */
+html[data-theme='sunfreaks'] { --marquee-h: 28px; }
+html[data-theme='sunfreaks'] .marquee {
+  display: block;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--marquee-h);
+  z-index: 10001;              /* au-dessus du header (10000) */
+}
+html[data-theme='sunfreaks'] #site-header { top: var(--marquee-h); }
+
+/* ─── Boutons : jaune électrique, texte brun, coins francs ───────────── */
+html[data-theme='sunfreaks'] .btn-primary,
+html[data-theme='sunfreaks'] .btn-atc,
+html[data-theme='sunfreaks'] footer button[type='submit'] {
+  background: var(--sun-yellow);
+  color: rgb(var(--c-cream));
+  border-radius: 4px;
+  border: 2px solid rgb(var(--c-cream));
+  box-shadow: 3px 3px 0 rgb(var(--c-cream));
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  opacity: 1;
+}
+html[data-theme='sunfreaks'] .btn-atc { background-image: none; }
+html[data-theme='sunfreaks'] .btn-atc::before,
+html[data-theme='sunfreaks'] .btn-atc::after { display: none; }
+html[data-theme='sunfreaks'] .btn-primary:hover,
+html[data-theme='sunfreaks'] .btn-atc:hover,
+html[data-theme='sunfreaks'] footer button[type='submit']:hover {
+  background: rgb(var(--accent-rgb));
+  color: #fff;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 rgb(var(--c-cream));
+}
+html[data-theme='sunfreaks'] .btn-outline {
+  border: 2px solid rgb(var(--c-cream));
+  border-radius: 4px;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 rgb(var(--c-cream));
+}
+html[data-theme='sunfreaks'] .btn-outline:hover {
+  background: var(--sun-yellow);
+  color: rgb(var(--c-cream));
+}
+
+/* ─── Header et nav ─────────────────────────────────────────────────── */
+html[data-theme='sunfreaks'] .nav-link {
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+html[data-theme='sunfreaks'] .nav-cat-trigger {
+  border-radius: 4px;
+  border: 2px solid rgb(var(--c-cream));
+  font-weight: 600;
+}
+html[data-theme='sunfreaks'] #site-header {
+  border-bottom: 2px solid rgb(var(--c-cream));
+}
+
+/* ─── Prix ──────────────────────────────────────────────────────────── */
+html[data-theme='sunfreaks'] .price-amount {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* ─── Coins francs sur les conteneurs ───────────────────────────────── */
+html[data-theme='sunfreaks'] .rounded-3xl,
+html[data-theme='sunfreaks'] .rounded-2xl,
+html[data-theme='sunfreaks'] .rounded-xl,
+html[data-theme='sunfreaks'] .rounded-lg,
+html[data-theme='sunfreaks'] .rounded-md,
+html[data-theme='sunfreaks'] a.rounded-full,
+html[data-theme='sunfreaks'] button.rounded-full,
+html[data-theme='sunfreaks'] summary.rounded-full,
+html[data-theme='sunfreaks'] .tag {
+  border-radius: 4px;
+}
+/* Tags : liseré brun plein, esprit sticker */
+html[data-theme='sunfreaks'] .tag {
+  border: 2px solid rgb(var(--c-cream));
+  background: var(--sun-yellow);
+  color: rgb(var(--c-cream));
+  font-weight: 700;
+}
+
+/* ─── Footer : rose bonbon ──────────────────────────────────────────── */
+html[data-theme='sunfreaks'] footer {
+  background: rgb(var(--accent-rgb));
+  border-top: 3px solid rgb(var(--c-cream));
+  --c-n400: 60 26 12;
+  --c-n500: 92 48 26;
+}
+html[data-theme='sunfreaks'] footer h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  color: rgb(var(--c-cream));
+}
+html[data-theme='sunfreaks'] footer input {
+  border-radius: 4px;
+  background: rgb(var(--c-dark));
+  color: rgb(var(--c-cream));
+  border: 2px solid rgb(var(--c-cream));
+}
+
+/* Décalage sous le header fixe, bandeau compris quand il existe.
+   (Auparavant en style inline sur <main>, ce qui empêchait de l'ajuster
+   depuis un thème.) */
+.site-main { padding-top: calc(var(--header-h) + var(--marquee-h, 0px)); }
 
 @layer base {
   html {

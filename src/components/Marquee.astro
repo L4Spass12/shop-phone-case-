@@ -1,0 +1,70 @@
+---
+/**
+ * Bandeau défilant du thème « sunfreaks » (réf. forsunfreaks.com).
+ * Masqué par défaut : seul `html[data-theme="sunfreaks"]` l'affiche
+ * (règle dans global.css), donc les autres thèmes ne paient rien.
+ */
+import siteConfig from '../../site.config.mjs';
+
+const messages = [
+  'Coques imprimées en France',
+  'Expédition sous 48 h',
+  'Retour sous 14 jours',
+  'iPhone · Samsung · Pixel · Xiaomi',
+  'Créez la vôtre au studio',
+];
+// Deux passes identiques : la seconde prend le relais quand la première
+// sort du cadre, ce qui donne un défilement sans raccord.
+const track = [...messages, ...messages];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {track.map(m => (
+      <span class="marquee-item">
+        <span class="marquee-sun">☀</span>
+        {m}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    display: none;              /* activé par le thème sunfreaks */
+    position: relative;
+    overflow: hidden;
+    background: rgb(var(--accent-rgb));
+    border-bottom: 2px solid rgb(var(--c-cream));
+    padding: 0.3rem 0;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-slide 38s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-right: 1.6rem;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: rgb(var(--c-cream));
+  }
+  .marquee-sun { font-size: 0.7rem; }
+
+  /* La piste contient deux passes : on ne translate que de la moitié,
+     l'animation reboucle donc exactement là où elle a commencé. */
+  @keyframes marquee-slide {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

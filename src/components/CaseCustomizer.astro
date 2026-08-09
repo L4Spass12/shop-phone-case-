@@ -212,7 +212,7 @@ const price = '29,90 €';
   .builder {
     display: flex;
     flex-direction: column;
-    height: calc(100dvh - var(--header-h));
+    height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px));
     overflow: hidden;
   }
   .builder > .bar    { flex: none; order: 0; }
@@ -228,7 +228,7 @@ const price = '29,90 €';
       grid-template-columns: var(--rail) auto minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
       grid-template-areas: "bar bar bar" "rail panel canvas";
-      min-height: calc(100dvh - var(--header-h));
+      min-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px));
     }
   }
 
@@ -243,7 +243,7 @@ const price = '29,90 €';
   }
   /* En mobile la barre est déjà figée par la colonne à hauteur fixe ;
      le `sticky` ne sert que sur desktop, où la page défile. */
-  @media (min-width: 1024px) { .bar { position: sticky; top: var(--header-h); } }
+  @media (min-width: 1024px) { .bar { position: sticky; top: calc(var(--header-h) + var(--marquee-h, 0px)); } }
   .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
   .sbtn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -313,7 +313,7 @@ const price = '29,90 €';
     .panel {
       width: var(--panel); padding: 1rem;
       border-right: 1px solid rgb(var(--c-cream) / .10);
-      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - 52px);
+      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 52px);
     }
     .panel-grip { display: none; }
   }
