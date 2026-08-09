@@ -637,45 +637,57 @@ html[data-theme='sunfreaks'] {
   --c-n400:       116 78 48;     /* texte courant */
 
   /* Accent = rose bonbon ; le jaune sert de second accent (boutons) */
-  --accent-rgb:        255 61 158;
-  --accent-light-rgb:  255 110 186;
-  --accent-dark-rgb:   214 26 122;
-  --sun-yellow:        #ffe800;
+  --accent-rgb:        249 88 168;
+  --accent-light-rgb:  255 138 197;
+  --accent-dark-rgb:   214 46 130;
+  --sun-yellow:        #ffe14d;
 
+  /* Le rétro vient de la COULEUR et du bandeau, pas d'un slab partout : le
+     slab reste cantonné au logotype, les titres prennent un serif à fort
+     contraste — c'est ce qui distingue « soigné » de « criard ». */
   --font-body:    'Inter', system-ui, sans-serif;
-  --font-display: 'Alfa Slab One', Georgia, serif;
-  --font-script:  'Alfa Slab One', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-logo:    'Alfa Slab One', Georgia, serif;
+  --font-script:  'Playfair Display', Georgia, serif;
 }
 
-/* Titres : slab épais, serrés, très années 70 */
 html[data-theme='sunfreaks'] h1,
 html[data-theme='sunfreaks'] h2,
 html[data-theme='sunfreaks'] h3,
 html[data-theme='sunfreaks'] h4,
 html[data-theme='sunfreaks'] .section-title {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
 }
+/* Titre du hero : encre pleine, sans contour. L'ancien contour à quatre
+   ombres bavait sur les lettres et faisait « fait maison ». */
 html[data-theme='sunfreaks'] .hero-section h1 {
-  color: rgb(var(--c-dark));
-  text-transform: uppercase;
-  /* Contour brun : le titre reste lisible sur une photo claire. */
-  text-shadow: 3px 3px 0 rgb(var(--c-cream)), -1px -1px 0 rgb(var(--c-cream)),
-               1px -1px 0 rgb(var(--c-cream)), -1px 1px 0 rgb(var(--c-cream));
+  color: rgb(var(--c-cream));
+  text-transform: none;
 }
-/* Logo en slab, pas en script */
+/* Voile « coucher de soleil » : l'image neutre par défaut laissait le hero
+   blanc et vide sur sa droite. Le dégradé rose/jaune l'habille sans exiger
+   de nouveau visuel. */
+html[data-theme='sunfreaks'] .hero-section::after {
+  background: linear-gradient(102deg,
+    rgba(255, 244, 224, .97) 0%,
+    rgba(255, 244, 224, .80) 38%,
+    rgba(255, 225, 77, .30) 68%,
+    rgba(249, 88, 168, .34) 100%);
+}
+/* Le logotype, lui, garde le slab : c'est sa signature. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
-  font-family: var(--font-display);
+  font-family: var(--font-logo);
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  font-size: 1.35rem;
+  letter-spacing: 0.005em;
+  font-size: 1.25rem;
   line-height: 1;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.6rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.45rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
@@ -693,20 +705,24 @@ html[data-theme='sunfreaks'] .marquee {
 }
 html[data-theme='sunfreaks'] #site-header { top: var(--marquee-h); }
 
-/* ─── Boutons : jaune électrique, texte brun, coins francs ───────────── */
+/* ─── Boutons : jaune plat, libellé en italique ───────────────────────
+   Le liseré épais doublé d'une ombre décalée faisait « sticker » : on
+   revient à un aplat franc, comme la référence. */
 html[data-theme='sunfreaks'] .btn-primary,
 html[data-theme='sunfreaks'] .btn-atc,
 html[data-theme='sunfreaks'] footer button[type='submit'] {
   background: var(--sun-yellow);
   color: rgb(var(--c-cream));
-  border-radius: 4px;
-  border: 2px solid rgb(var(--c-cream));
-  box-shadow: 3px 3px 0 rgb(var(--c-cream));
-  font-family: var(--font-body);
+  border-radius: 5px;
+  border: 0;
+  box-shadow: none;
+  font-family: var(--font-display);
+  font-style: italic;
   font-weight: 700;
   text-transform: none;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   opacity: 1;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
 }
 html[data-theme='sunfreaks'] .btn-atc { background-image: none; }
 html[data-theme='sunfreaks'] .btn-atc::before,
@@ -714,20 +730,23 @@ html[data-theme='sunfreaks'] .btn-atc::after { display: none; }
 html[data-theme='sunfreaks'] .btn-primary:hover,
 html[data-theme='sunfreaks'] .btn-atc:hover,
 html[data-theme='sunfreaks'] footer button[type='submit']:hover {
-  background: rgb(var(--accent-rgb));
-  color: #fff;
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 rgb(var(--c-cream));
+  background: rgb(var(--c-cream));
+  color: var(--sun-yellow);
+  transform: translateY(-1px);
+  box-shadow: none;
 }
 html[data-theme='sunfreaks'] .btn-outline {
-  border: 2px solid rgb(var(--c-cream));
-  border-radius: 4px;
+  border: 1px solid rgb(var(--c-cream) / .45);
+  border-radius: 5px;
+  font-family: var(--font-display);
+  font-style: italic;
   font-weight: 700;
-  box-shadow: 3px 3px 0 rgb(var(--c-cream));
+  box-shadow: none;
 }
 html[data-theme='sunfreaks'] .btn-outline:hover {
-  background: var(--sun-yellow);
-  color: rgb(var(--c-cream));
+  background: rgb(var(--c-cream));
+  color: rgb(var(--c-dark));
+  border-color: rgb(var(--c-cream));
 }
 
 /* ─── Header et nav ─────────────────────────────────────────────────── */
@@ -736,12 +755,16 @@ html[data-theme='sunfreaks'] .nav-link {
   font-size: 0.82rem;
 }
 html[data-theme='sunfreaks'] .nav-cat-trigger {
-  border-radius: 4px;
-  border: 2px solid rgb(var(--c-cream));
+  border-radius: 999px;
+  border: 1px solid rgb(var(--c-cream) / .3);
   font-weight: 600;
 }
+html[data-theme='sunfreaks'] .nav-cat-trigger:hover {
+  border-color: rgb(var(--c-cream) / .6);
+  background: rgb(var(--c-cream) / .05);
+}
 html[data-theme='sunfreaks'] #site-header {
-  border-bottom: 2px solid rgb(var(--c-cream));
+  border-bottom: 1px solid rgb(var(--c-cream) / .18);
 }
 
 /* ─── Prix ──────────────────────────────────────────────────────────── */
@@ -763,33 +786,35 @@ html[data-theme='sunfreaks'] summary.rounded-full,
 html[data-theme='sunfreaks'] .tag {
   border-radius: 4px;
 }
-/* Tags : liseré brun plein, esprit sticker */
+/* Tags : aplat jaune sans liseré, plus net à petite taille */
 html[data-theme='sunfreaks'] .tag {
-  border: 2px solid rgb(var(--c-cream));
+  border: 0;
   background: var(--sun-yellow);
   color: rgb(var(--c-cream));
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 /* ─── Footer : rose bonbon ──────────────────────────────────────────── */
 html[data-theme='sunfreaks'] footer {
   background: rgb(var(--accent-rgb));
-  border-top: 3px solid rgb(var(--c-cream));
+  border-top: 0;
   --c-n400: 60 26 12;
   --c-n500: 92 48 26;
 }
 html[data-theme='sunfreaks'] footer h2 {
   font-family: var(--font-display);
-  text-transform: uppercase;
-  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 0.95rem;
   letter-spacing: 0;
   color: rgb(var(--c-cream));
 }
 html[data-theme='sunfreaks'] footer input {
-  border-radius: 4px;
+  border-radius: 5px;
   background: rgb(var(--c-dark));
   color: rgb(var(--c-cream));
-  border: 2px solid rgb(var(--c-cream));
+  border: 1px solid rgb(var(--c-cream) / .25);
 }
 
 /* Décalage sous le header fixe, bandeau compris quand il existe.
