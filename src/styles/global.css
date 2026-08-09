@@ -6,7 +6,6 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
-@import '@fontsource/alfa-slab-one/400.css';      /* thème sunfreaks : slab rétro */
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -625,16 +624,18 @@ html[data-theme='heritage'] footer button[type='submit']:hover {
    années 70. Activé par <html data-theme="sunfreaks">.
    ═══════════════════════════════════════════════════════════════════════ */
 html[data-theme='sunfreaks'] {
-  --c-white:      60 26 12;      /* voile = encre brune translucide */
-  --c-dark:       255 244 224;   /* fond = crème solaire */
-  --c-panel:      252 233 201;   /* cards */
-  --c-teal:       250 226 188;   /* variante */
-  --c-beige:      232 199 152;   /* bordures / tags */
-  --c-cream:      60 26 12;      /* texte = brun cacao */
-  --c-terracotta: 60 26 12;
+  --c-white:      47 26 22;      /* voile = encre brune translucide */
+  /* Blanc chaud très légèrement rosé plutôt qu'un crème jaune : le jaune
+     tirait vers le « papier vieilli » et alourdissait toutes les pages. */
+  --c-dark:       255 250 246;   /* fond de page */
+  --c-panel:      255 242 236;   /* cards */
+  --c-teal:       253 236 229;   /* variante */
+  --c-beige:      240 216 205;   /* bordures / tags */
+  --c-cream:      47 26 22;      /* texte = brun profond */
+  --c-terracotta: 47 26 22;
   --c-sage:       22 130 74;
-  --c-n500:       154 116 80;    /* texte secondaire */
-  --c-n400:       116 78 48;     /* texte courant */
+  --c-n500:       150 116 106;   /* texte secondaire */
+  --c-n400:       112 80 70;     /* texte courant */
 
   /* Accent = rose bonbon ; le jaune sert de second accent (boutons) */
   --accent-rgb:        249 88 168;
@@ -642,12 +643,12 @@ html[data-theme='sunfreaks'] {
   --accent-dark-rgb:   214 46 130;
   --sun-yellow:        #ffe14d;
 
-  /* Le rétro vient de la COULEUR et du bandeau, pas d'un slab partout : le
-     slab reste cantonné au logotype, les titres prennent un serif à fort
-     contraste — c'est ce qui distingue « soigné » de « criard ». */
+  /* Le rétro vient de la COULEUR et du bandeau, pas d'une graisse énorme.
+     Le slab du logotype faisait bloc : on garde le serif à fort contraste
+     partout, en italique pour la marque — la même lettre que les boutons. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Alfa Slab One', Georgia, serif;
+  --font-logo:    'Playfair Display', Georgia, serif;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -677,17 +678,19 @@ html[data-theme='sunfreaks'] .hero-section::after {
     rgba(255, 225, 77, .30) 68%,
     rgba(249, 88, 168, .34) 100%);
 }
-/* Le logotype, lui, garde le slab : c'est sa signature. */
+/* Logotype : serif italique, la lettre des boutons. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
-  text-transform: uppercase;
-  letter-spacing: 0.005em;
-  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-size: 1.45rem;
   line-height: 1;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.45rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.7rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
@@ -776,18 +779,39 @@ html[data-theme='sunfreaks'] #site-header {
 html[data-theme='sunfreaks'] [class*="blur-["],
 html[data-theme='sunfreaks'] .slider-glow { display: none; }
 
-html[data-theme='sunfreaks'] main > section:nth-of-type(even) {
-  background: rgb(var(--accent-rgb) / .06);
-  border-top: 1px solid rgb(var(--accent-rgb) / .16);
-}
-html[data-theme='sunfreaks'] main > section:nth-of-type(odd) {
+/* Toutes les sections sur le même fond : le lavis rose à 6 % d'une section
+   sur deux donnait un gris sale, pas un rythme. La respiration vient des
+   filets et du contenu, comme sur la référence. */
+html[data-theme='sunfreaks'] main > section {
   background: rgb(var(--c-dark));
-  border-top: 1px solid rgb(var(--c-cream) / .1);
+  border-top: 1px solid rgb(var(--c-cream) / .09);
 }
-/* Le hero garde son visuel : il n'entre pas dans l'alternance. */
 html[data-theme='sunfreaks'] main > section.hero-section {
   background: transparent;
   border-top: 0;
+}
+/* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
+   c'est ce contraste net qui structure, pas une teinte diluée. */
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
+  background: rgb(var(--accent-rgb));
+  border-top: 0;
+  --c-cream: 255 250 246;        /* titres et textes en clair */
+  --c-n400:  255 240 232;
+  --c-n500:  255 226 214;
+}
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) span.uppercase {
+  color: var(--sun-yellow);
+}
+/* Le bouton, lui, reste sur fond jaune : son libellé doit rester brun. Sans
+   ça il héritait du --c-cream éclairci de la section et devenait illisible. */
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary,
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc {
+  color: #2f1a16;
+}
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary:hover,
+html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc:hover {
+  background: #2f1a16;
+  color: var(--sun-yellow);
 }
 
 /* Intertitres de section : petites capitales franches plutôt que le gris
