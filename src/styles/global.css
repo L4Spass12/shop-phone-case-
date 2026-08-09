@@ -639,12 +639,13 @@ html[data-theme='heritage'] footer button[type='submit']:hover {
    ═══════════════════════════════════════════════════════════════════════ */
 html[data-theme='sunfreaks'] {
   --c-white:      47 26 22;      /* voile = encre brune translucide */
-  /* Blanc chaud très légèrement rosé plutôt qu'un crème jaune : le jaune
-     tirait vers le « papier vieilli » et alourdissait toutes les pages. */
-  --c-dark:       255 250 246;   /* fond de page */
-  --c-panel:      255 242 236;   /* cards */
-  --c-teal:       253 236 229;   /* variante */
-  --c-beige:      240 216 205;   /* bordures / tags */
+  /* Blanc pur : c'est ce qui détache le mieux les photos produit et les
+     aplats rose/jaune. Les surfaces secondaires prennent un gris très léger
+     pour rester lisibles sur ce fond. */
+  --c-dark:       255 255 255;   /* fond de page */
+  --c-panel:      250 247 245;   /* cards */
+  --c-teal:       247 243 241;   /* variante */
+  --c-beige:      230 222 218;   /* bordures / tags */
   --c-cream:      47 26 22;      /* texte = brun profond */
   --c-terracotta: 47 26 22;
   --c-sage:       22 130 74;
@@ -687,10 +688,10 @@ html[data-theme='sunfreaks'] .hero-section h1 {
    de nouveau visuel. */
 html[data-theme='sunfreaks'] .hero-section::after {
   background: linear-gradient(102deg,
-    rgba(255, 244, 224, .97) 0%,
-    rgba(255, 244, 224, .80) 38%,
-    rgba(255, 225, 77, .30) 68%,
-    rgba(249, 88, 168, .34) 100%);
+    rgba(255, 255, 255, .97) 0%,
+    rgba(255, 255, 255, .82) 38%,
+    rgba(255, 225, 77, .28) 68%,
+    rgba(249, 88, 168, .32) 100%);
 }
 /* Logotype : géométrique rétro (affiche 70s), en capitales légèrement
    espacées — ni le slab qui faisait bloc, ni le serif italique. */
@@ -816,7 +817,7 @@ html[data-theme='sunfreaks'] main > section.hero-section {
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
   background: rgb(var(--accent-rgb));
   border-top: 0;
-  --c-cream: 255 250 246;        /* titres et textes en clair */
+  --c-cream: 255 255 255;        /* titres et textes en clair */
   --c-n400:  255 240 232;
   --c-n500:  255 226 214;
 }
