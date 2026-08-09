@@ -378,9 +378,12 @@ html[data-theme='heritage'] .nav-cat-trigger {
 .marquee {
   transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
-html.header-hidden #site-header,
-html.header-hidden .marquee {
-  transform: translateY(-100%);
+html.header-hidden .marquee { transform: translateY(-100%); }
+/* Le header est décalé du bandeau quand celui-ci existe : le translater de sa
+   seule hauteur laissait dépasser une bande égale à --marquee-h. On remonte
+   donc de sa hauteur PLUS ce décalage. */
+html.header-hidden #site-header {
+  transform: translateY(calc(-100% - var(--marquee-h, 0px)));
 }
 /* Sauf dans l'éditeur en mobile : la page n'y défile pas, le header doit
    rester en place. */
@@ -729,15 +732,17 @@ html[data-theme='sunfreaks'] footer button[type='submit'] {
   background: var(--sun-yellow);
   color: rgb(var(--c-cream));
   border-radius: 5px;
-  border: 0;
-  box-shadow: none;
+  /* Un liseré fin et une ombre basse : sur le fond clair, l'aplat jaune seul
+     se fondait un peu. C'est le détachement sans revenir au « sticker ». */
+  border: 1.5px solid rgb(var(--c-cream));
+  box-shadow: 0 2px 0 rgb(var(--c-cream) / .55), 0 6px 14px -8px rgb(var(--c-cream) / .5);
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 700;
   text-transform: none;
   letter-spacing: 0;
   opacity: 1;
-  transition: background .18s ease, color .18s ease, transform .18s ease;
+  transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 html[data-theme='sunfreaks'] .btn-atc { background-image: none; }
 html[data-theme='sunfreaks'] .btn-atc::before,
@@ -748,7 +753,7 @@ html[data-theme='sunfreaks'] footer button[type='submit']:hover {
   background: rgb(var(--c-cream));
   color: var(--sun-yellow);
   transform: translateY(-1px);
-  box-shadow: none;
+  box-shadow: 0 2px 0 rgb(var(--c-cream) / .35), 0 10px 18px -10px rgb(var(--c-cream) / .6);
 }
 html[data-theme='sunfreaks'] .btn-outline {
   border: 1px solid rgb(var(--c-cream) / .45);
