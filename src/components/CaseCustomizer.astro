@@ -295,6 +295,14 @@ const price = '29,90 €';
     font-size: .64rem; font-weight: 500; transition: background .15s, color .15s;
   }
   .rbtn svg { width: 21px; height: 21px; }
+  /* Barre et rail compactés en mobile : chaque pixel gagné va au plan de
+     travail, qui est la partie utile. */
+  @media (max-width: 1023px) {
+    .bar { padding: .35rem .7rem; }
+    .sbtn { width: 34px; height: 34px; }
+    .rbtn { padding: .4rem .2rem; font-size: .6rem; gap: .15rem; }
+    .rbtn svg { width: 19px; height: 19px; }
+  }
   .rbtn:hover { background: rgb(var(--c-cream) / .06); }
   .rbtn[aria-pressed="true"] { background: rgb(var(--accent-rgb) / .12); color: rgb(var(--accent-dark-rgb)); }
 
@@ -311,7 +319,9 @@ const price = '29,90 €';
   }
   @media (max-width: 1023px) {
     .panel {
-      max-height: 48dvh; overflow-y: auto;
+      /* Plafonné en % de l'éditeur (et non du viewport) : le plan de travail
+         garde toujours sa part, quelle que soit la hauteur d'écran. */
+      max-height: min(46dvh, 45%); overflow-y: auto;
       overscroll-behavior: contain;          /* le défilement ne fuit pas vers la page */
       padding: .4rem 1rem .9rem;
       border-radius: 16px 16px 0 0;
@@ -523,6 +533,20 @@ const price = '29,90 €';
 
 <!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
 <style is:global>
+  /* ── L'éditeur est une APPLICATION plein écran en mobile ──────────
+     Sans ça la page défilait de plusieurs centaines de pixels (le pied de
+     page vit sous l'éditeur) : on perdait la barre d'outils en glissant, ce
+     qui rendait l'édition pénible. Le drapeau est posé par le script du
+     studio, donc ces règles ne touchent que cette page. */
+  @media (max-width: 1023px) {
+    html[data-studio-app], html[data-studio-app] body { overflow: hidden; height: 100%; }
+    html[data-studio-app] footer { display: none; }
+    /* Le header ne doit pas se dérober : la page ne défile plus. */
+    html[data-studio-app] #site-header.header-hidden { transform: none; }
+  }
+</style>
+
+<style is:global>
   /* ── Vignettes de designs (créées en JS) ───────────────────────── */
   .studio .tpl {
     display: flex; flex-direction: column; gap: .35rem; padding: .4rem;
@@ -687,21 +711,86 @@ const price = '29,90 €';
     /* ── Gabarits par famille d'appareils ───────────────────────────
        Ce sont ces différences (proportions, angles, découpe caméra) qui
        font qu'on RECONNAÎT son téléphone dans l'aperçu. */
+    /* ── Dimensions réelles des appareils (largeur × hauteur, en mm) ──
+       Ce sont elles qui donnent les PROPORTIONS de la coque : sans ça, un
+       S25 Ultra et un iPhone 13 mini s'affichaient à l'identique.
+       ⚠️ Ces cotes servent l'aperçu. Avant production, elles doivent être
+       recoupées avec la fiche technique du fournisseur de coques. */
+    var MM = {
+      // Apple
+      'iPhone 17 Pro Max': [78.0, 163.4], 'iPhone 17 Pro': [71.9, 150.0], 'iPhone 17': [71.5, 147.6],
+      'iPhone 16 Pro Max': [77.6, 163.0], 'iPhone 16 Pro': [71.5, 149.6], 'iPhone 16 Plus': [77.8, 160.9], 'iPhone 16': [71.6, 147.6],
+      'iPhone 15 Pro Max': [76.7, 159.9], 'iPhone 15 Pro': [70.6, 146.6], 'iPhone 15 Plus': [77.8, 160.9], 'iPhone 15': [71.6, 147.6],
+      'iPhone 14 Pro Max': [77.6, 160.7], 'iPhone 14 Pro': [71.5, 147.5], 'iPhone 14 Plus': [78.1, 160.8], 'iPhone 14': [71.5, 146.7],
+      'iPhone 13 Pro Max': [78.1, 160.8], 'iPhone 13 Pro': [71.5, 146.7], 'iPhone 13': [71.5, 146.7], 'iPhone 13 mini': [64.2, 131.5],
+      'iPhone 12 Pro Max': [78.1, 160.8], 'iPhone 12 Pro': [71.5, 146.7], 'iPhone 12': [71.5, 146.7], 'iPhone 12 mini': [64.2, 131.5],
+      'iPhone 11 Pro Max': [77.8, 158.0], 'iPhone 11 Pro': [71.4, 144.0], 'iPhone 11': [75.7, 150.9],
+      'iPhone SE (2022)': [67.3, 138.4], 'iPhone XR': [75.7, 150.9], 'iPhone XS Max': [77.4, 157.5], 'iPhone XS': [70.9, 143.6],
+      // Samsung
+      'Galaxy S25 Ultra': [77.6, 162.8], 'Galaxy S25+': [75.8, 158.4], 'Galaxy S25': [70.5, 146.9],
+      'Galaxy S24 Ultra': [79.0, 162.3], 'Galaxy S24+': [75.9, 158.5], 'Galaxy S24': [70.6, 147.0],
+      'Galaxy S23 Ultra': [78.1, 163.4], 'Galaxy S23+': [76.2, 157.8], 'Galaxy S23': [70.9, 146.3],
+      'Galaxy S22 Ultra': [77.9, 163.3], 'Galaxy S22+': [75.8, 157.4], 'Galaxy S22': [70.6, 146.0],
+      'Galaxy A56': [77.5, 162.2], 'Galaxy A55': [76.5, 161.1], 'Galaxy A36': [77.9, 162.9],
+      'Galaxy A35': [78.0, 161.7], 'Galaxy A26': [77.9, 164.0], 'Galaxy A25': [76.5, 161.0],
+      'Galaxy A16': [77.9, 164.4], 'Galaxy A15': [76.8, 160.1],
+      // Google
+      'Pixel 9 Pro XL': [76.6, 162.8], 'Pixel 9 Pro': [72.0, 152.8], 'Pixel 9': [72.0, 152.8],
+      'Pixel 8 Pro': [76.5, 162.6], 'Pixel 8': [70.8, 150.5], 'Pixel 8a': [72.7, 152.1],
+      'Pixel 7 Pro': [76.6, 162.9], 'Pixel 7': [73.2, 155.6], 'Pixel 7a': [72.9, 152.0],
+      // Xiaomi
+      'Xiaomi 15': [71.2, 152.3], 'Xiaomi 14': [71.5, 152.8],
+      'Redmi Note 14 Pro': [74.4, 162.4], 'Redmi Note 14': [74.0, 161.4],
+      'Redmi Note 13 Pro': [74.2, 161.4], 'Redmi Note 13': [75.5, 161.1],
+    };
+
+    // Angles et module photo : propres à chaque génération, pas aux cotes.
     var FAMILIES = {
       'iphone-pro':   { ratio: .476, radius: 13, cam: 'island3' },
-      'iphone':       { ratio: .479, radius: 13, cam: 'island2' },
-      'galaxy-ultra': { ratio: .463, radius: 5,  cam: 'lenses3' },
-      'galaxy':       { ratio: .474, radius: 10, cam: 'lenses3' },
-      'pixel':        { ratio: .472, radius: 12, cam: 'bar' },
-      'xiaomi':       { ratio: .470, radius: 11, cam: 'islandBig' },
+      'iphone':       { ratio: .485, radius: 13, cam: 'island2' },
+      'iphone-11pro': { ratio: .492, radius: 13, cam: 'island3' },
+      'iphone-11':    { ratio: .502, radius: 13, cam: 'island2' },
+      'iphone-se':    { ratio: .486, radius: 8,  cam: 'single' },
+      'iphone-xr':    { ratio: .502, radius: 13, cam: 'single' },
+      'iphone-xs':    { ratio: .494, radius: 13, cam: 'dualv' },
+      'galaxy-ultra': { ratio: .477, radius: 4,  cam: 'lenses4' },
+      'galaxy':       { ratio: .480, radius: 9,  cam: 'lenses3' },
+      'galaxy-a':     { ratio: .475, radius: 9,  cam: 'lenses3' },
+      'pixel-pro':    { ratio: .471, radius: 12, cam: 'bar3' },
+      'pixel':        { ratio: .471, radius: 12, cam: 'bar2' },
+      'xiaomi':       { ratio: .468, radius: 11, cam: 'islandBig' },
     };
     function familyOf(label) {
       var l = (label || '').toLowerCase();
-      if (/iphone/.test(l)) return /pro|max/.test(l) ? 'iphone-pro' : 'iphone';
-      if (/galaxy|samsung/.test(l)) return /ultra/.test(l) ? 'galaxy-ultra' : 'galaxy';
-      if (/pixel/.test(l)) return 'pixel';
+      if (/iphone/.test(l)) {
+        if (/\bse\b/.test(l)) return 'iphone-se';
+        if (/xr/.test(l)) return 'iphone-xr';
+        if (/xs/.test(l)) return 'iphone-xs';
+        if (/11 pro/.test(l)) return 'iphone-11pro';
+        if (/\b11\b/.test(l)) return 'iphone-11';
+        if (/pro|max/.test(l)) return 'iphone-pro';
+        return 'iphone';
+      }
+      if (/galaxy|samsung/.test(l)) {
+        if (/ultra/.test(l)) return 'galaxy-ultra';
+        if (/galaxy a/.test(l)) return 'galaxy-a';
+        return 'galaxy';
+      }
+      if (/pixel/.test(l)) return /pro/.test(l) ? 'pixel-pro' : 'pixel';
       if (/xiaomi|redmi|poco/.test(l)) return 'xiaomi';
       return 'iphone-pro';
+    }
+    // Proportions issues des cotes réelles quand on les connaît, repli sur la
+    // famille sinon (un modèle ajouté au catalogue reste ainsi affichable).
+    function specOf(label) {
+      var fam = FAMILIES[familyOf(label)] || FAMILIES['iphone-pro'];
+      var mm = MM[label];
+      return {
+        ratio: mm ? mm[0] / mm[1] : fam.ratio,
+        radius: fam.radius,
+        cam: fam.cam,
+        mm: mm || null,
+      };
     }
 
     var FINISHES = [
@@ -823,8 +912,8 @@ const price = '29,90 €';
     }
 
     function renderCase() {
-      var fam = FAMILIES[familyOf(state.model)] || FAMILIES['iphone-pro'];
-      caseEl.style.setProperty('--ratio', String(fam.ratio));
+      var fam = specOf(state.model);
+      caseEl.style.setProperty('--ratio', fam.ratio.toFixed(4));
       caseEl.style.setProperty('--radius', fam.radius + '%');
 
       // Coque seule → la découpe est un TROU (on voit au travers).
@@ -843,18 +932,31 @@ const price = '29,90 €';
         html = onPhone
           ? '<span class="cam-island"></span>' + lens(8, 10, 40) + lens(52, 48, 40)
           : '<span class="cam-cut"></span>';
-      } else if (fam.cam === 'lenses3') {
-        // Galaxy : pas d'îlot, trois découpes rondes séparées
-        s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = '30%';
-        html = onPhone
-          ? lens(12, 2, 78) + lens(12, 36, 78) + lens(12, 70, 78)
-          : hole(12, 2, 78, true) + hole(12, 36, 78, true) + hole(12, 70, 78, true);
-      } else if (fam.cam === 'bar') {
-        // Pixel : barre horizontale traversante
+      } else if (fam.cam === 'lenses3' || fam.cam === 'lenses4') {
+        // Galaxy : pas d'îlot, des découpes rondes séparées (4 sur les Ultra)
+        var four = fam.cam === 'lenses4';
+        s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = four ? '38%' : '30%';
+        var tops = four ? [1, 26, 51, 76] : [2, 36, 70];
+        html = tops.map(function (t) {
+          return onPhone ? lens(12, t, 78) : hole(12, t, 78, true);
+        }).join('');
+      } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
+        // Pixel : barre horizontale traversante (3 objectifs sur les Pro)
         s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
         html = onPhone
-          ? '<span class="cam-bar"></span>' + lens(8, 12, 9) + lens(20, 12, 9) + flash(33, 34, 4.5)
+          ? '<span class="cam-bar"></span>' + lens(8, 12, 9) + lens(20, 12, 9)
+            + (fam.cam === 'bar3' ? lens(32, 12, 9) : '') + flash(fam.cam === 'bar3' ? 45 : 33, 34, 4.5)
           : '<span class="cam-cut is-pill"></span>';
+      } else if (fam.cam === 'single') {
+        // iPhone SE / XR : un seul objectif, pas d'îlot
+        s.left = '7%'; s.top = '3.5%'; s.width = '15%'; s.height = '9%';
+        html = onPhone ? lens(0, 0, 100) : hole(0, 0, 100, true);
+      } else if (fam.cam === 'dualv') {
+        // iPhone XS : deux objectifs alignés verticalement dans un îlot
+        s.left = '6%'; s.top = '3.4%'; s.width = '16%'; s.height = '17%';
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(11, 4, 78) + lens(11, 52, 78)
+          : '<span class="cam-cut"></span>';
       }
       camEl.innerHTML = html;
       fitCase();
@@ -864,11 +966,15 @@ const price = '29,90 €';
     // partir de la place disponible (une largeur explicite est indispensable
     // au conteneur `inline-size` qui pilote les unités cqw des éléments).
     function fitCase() {
-      var fam = FAMILIES[familyOf(state.model)] || FAMILIES['iphone-pro'];
+      var spec = specOf(state.model);
       var r = canvasEl.getBoundingClientRect();
-      var maxW = Math.max(160, r.width - 40);
-      var maxH = Math.max(220, r.height - 56);
-      caseEl.style.width = Math.round(Math.min(maxW, maxH * fam.ratio, 300)) + 'px';
+      if (!r.height) return;
+      // Aucun plancher élevé ici : un minimum de 220 px de haut empêchait la
+      // coque de rétrécir quand un panneau s'ouvre en mobile, et elle
+      // débordait alors du plan de travail par le haut.
+      var maxW = Math.max(70, r.width - 28);
+      var maxH = Math.max(110, r.height - 20);
+      caseEl.style.width = Math.round(Math.min(maxW, maxH * spec.ratio, 300)) + 'px';
     }
     // Le plan de travail change de taille à chaque ouverture/fermeture de
     // panneau (mobile), rotation ou apparition du clavier : on observe la
@@ -1332,6 +1438,9 @@ const price = '29,90 €';
 
     /* ── Démarrage ──────────────────────────────────────────────── */
     (function init() {
+      // Signale que cette page est l'éditeur : verrouille le défilement et
+      // masque le pied de page en mobile (cf. <style is:global>).
+      document.documentElement.setAttribute('data-studio-app', '');
       var saved = null; try { saved = localStorage.getItem(STORE); } catch (_) {}
       if (saved) {
         try {
