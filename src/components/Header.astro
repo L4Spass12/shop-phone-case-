@@ -422,9 +422,11 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
 
       // On ne masque pas le header tant qu'il est transparent sur le hero.
       if (!menuOpen && !overHero && y > lastY && y > 100) {
-        header.classList.add('header-hidden');
+        // Posée sur <html> et non sur le header : le bandeau du thème
+        // sunfreaks, qui coiffe le header, doit s'escamoter avec lui.
+        document.documentElement.classList.add('header-hidden');
       } else {
-        header.classList.remove('header-hidden');
+        document.documentElement.classList.remove('header-hidden');
       }
       lastY = y;
       ticking = false;

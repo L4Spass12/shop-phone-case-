@@ -6,6 +6,7 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
+@import '@fontsource/righteous/400.css';          /* sunfreaks : logotype rétro */
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -368,14 +369,24 @@ html[data-theme='heritage'] .nav-cat-trigger {
   font-size: 0.72rem;
 }
 
-/* Header masquable au scroll (heritage) : glisse hors champ en descendant,
-   revient en remontant. La classe .header-hidden est posée par le JS du
-   header ; en thème Défaut aucune règle n'y réagit → header toujours visible. */
-html[data-theme='heritage'] #site-header {
+/* Header masquable au scroll : il glisse hors champ quand on descend et
+   revient dès qu'on remonte. La classe est posée sur <html> par le JS du
+   header, ce qui permet d'emmener aussi le bandeau du thème sunfreaks.
+   Comportement commun à TOUS les thèmes (il était limité à heritage, et
+   disparaissait donc sur les autres). */
+#site-header,
+.marquee {
   transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
-html[data-theme='heritage'] #site-header.header-hidden {
+html.header-hidden #site-header,
+html.header-hidden .marquee {
   transform: translateY(-100%);
+}
+/* Sauf dans l'éditeur en mobile : la page n'y défile pas, le header doit
+   rester en place. */
+html[data-studio-app].header-hidden #site-header,
+html[data-studio-app].header-hidden .marquee {
+  transform: none;
 }
 
 /* Header transparent au-dessus du hero (heritage) : sur l'accueil, tant qu'on
@@ -648,7 +659,7 @@ html[data-theme='sunfreaks'] {
      partout, en italique pour la marque — la même lettre que les boutons. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Playfair Display', Georgia, serif;
+  --font-logo:    'Righteous', system-ui, sans-serif;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -678,19 +689,20 @@ html[data-theme='sunfreaks'] .hero-section::after {
     rgba(255, 225, 77, .30) 68%,
     rgba(249, 88, 168, .34) 100%);
 }
-/* Logotype : serif italique, la lettre des boutons. */
+/* Logotype : géométrique rétro (affiche 70s), en capitales légèrement
+   espacées — ni le slab qui faisait bloc, ni le serif italique. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
-  font-style: italic;
-  font-weight: 700;
-  text-transform: none;
-  letter-spacing: -0.01em;
-  font-size: 1.45rem;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1.3rem;
   line-height: 1;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.7rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.5rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
@@ -778,6 +790,10 @@ html[data-theme='sunfreaks'] #site-header {
       une section sur deux prend un lavis rose très léger. */
 html[data-theme='sunfreaks'] [class*="blur-["],
 html[data-theme='sunfreaks'] .slider-glow { display: none; }
+/* La section fabrication pose une grille bleutée (effet « atelier tech »)
+   en style inline : sur le fond chaud elle vire au gris-bleu sale. On la
+   neutralise ; le décor viendra du contenu. */
+html[data-theme='sunfreaks'] section [style*="linear-gradient(rgba(80,120,255"] { display: none; }
 
 /* Toutes les sections sur le même fond : le lavis rose à 6 % d'une section
    sur deux donnait un gris sale, pas un rythme. La respiration vient des
