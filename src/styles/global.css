@@ -767,6 +767,37 @@ html[data-theme='sunfreaks'] #site-header {
   border-bottom: 1px solid rgb(var(--c-cream) / .18);
 }
 
+/* ─── Sections ──────────────────────────────────────────────────────────
+   1. Les halos décoratifs de l'accueil sont réglés pour le thème clair
+      (bleu, gris, ambre) : posés sur le crème chaud, ils virent au sale.
+      On les neutralise ici plutôt que de les corriger un à un.
+   2. À la place, un rythme par aplats — c'est ce qui structure la référence :
+      une section sur deux prend un lavis rose très léger. */
+html[data-theme='sunfreaks'] [class*="blur-["],
+html[data-theme='sunfreaks'] .slider-glow { display: none; }
+
+html[data-theme='sunfreaks'] main > section:nth-of-type(even) {
+  background: rgb(var(--accent-rgb) / .06);
+  border-top: 1px solid rgb(var(--accent-rgb) / .16);
+}
+html[data-theme='sunfreaks'] main > section:nth-of-type(odd) {
+  background: rgb(var(--c-dark));
+  border-top: 1px solid rgb(var(--c-cream) / .1);
+}
+/* Le hero garde son visuel : il n'entre pas dans l'alternance. */
+html[data-theme='sunfreaks'] main > section.hero-section {
+  background: transparent;
+  border-top: 0;
+}
+
+/* Intertitres de section : petites capitales franches plutôt que le gris
+   très pâle du thème clair, qui disparaissait sur le crème. */
+html[data-theme='sunfreaks'] main > section > div > span:first-child,
+html[data-theme='sunfreaks'] main > section span.uppercase {
+  color: rgb(var(--accent-dark-rgb));
+  font-weight: 700;
+}
+
 /* ─── Prix ──────────────────────────────────────────────────────────── */
 html[data-theme='sunfreaks'] .price-amount {
   font-family: var(--font-display);
