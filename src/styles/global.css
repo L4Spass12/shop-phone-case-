@@ -6,7 +6,8 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
-@import '@fontsource/archivo-black/400.css';      /* sunfreaks : logotype */
+@import '@fontsource/syne/700.css';               /* sunfreaks : logotype artistique */
+@import '@fontsource/syne/800.css';
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -652,18 +653,18 @@ html[data-theme='sunfreaks'] {
   --c-n500:       150 116 106;   /* texte secondaire */
   --c-n400:       112 80 70;     /* texte courant */
 
-  /* Accent = rose bonbon ; le jaune sert de second accent (boutons) */
-  --accent-rgb:        249 88 168;
-  --accent-light-rgb:  255 138 197;
-  --accent-dark-rgb:   214 46 130;
+  /* Accent = orange solaire (le rose faisait trop « fille »). Avec le jaune,
+     ça donne un duo chaud, rétro et mixte. */
+  --accent-rgb:        255 106 44;
+  --accent-light-rgb:  255 143 92;
+  --accent-dark-rgb:   211 71 18;
   --sun-yellow:        #ffe14d;
 
-  /* Le rétro vient de la COULEUR et du bandeau, pas d'une graisse énorme.
-     Le slab du logotype faisait bloc : on garde le serif à fort contraste
-     partout, en italique pour la marque — la même lettre que les boutons. */
+  /* Logotype confié à Syne, une police à forte personnalité (univers
+     art/design) : c'est elle qui porte le côté « créatif », pas un bricolage. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Archivo Black', system-ui, sans-serif;
+  --font-logo:    'Syne', system-ui, sans-serif;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -690,40 +691,38 @@ html[data-theme='sunfreaks'] .hero-section::after {
   background: linear-gradient(102deg,
     rgba(255, 255, 255, .97) 0%,
     rgba(255, 255, 255, .82) 38%,
-    rgba(255, 225, 77, .28) 68%,
-    rgba(249, 88, 168, .32) 100%);
+    rgba(255, 225, 77, .30) 66%,
+    rgba(255, 106, 44, .34) 100%);
 }
-/* Logotype : grotesque très gras, capitales SERRÉES, plus un point d'accent.
-   C'est le resserrement et ce détail qui font lire « marque dessinée »
-   plutôt que « nom écrit dans une police ». */
+/* Logotype : Syne extra-gras en bas-de-casse, légèrement resserré. Sa lettre
+   très caractérisée (contreformes ouvertes, jonctions marquées) donne l'aspect
+   « dessiné » et artistique, sans casse ni bricolage. Une virgule d'accent
+   colorée après le nom signe la marque. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
   font-style: normal;
-  font-weight: 400;              /* Archivo Black : la graisse est dans la fonte */
-  text-transform: uppercase;
-  letter-spacing: -0.035em;
-  font-size: 1.24rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+  font-size: 1.34rem;
   line-height: 1;
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
 }
 html[data-theme='sunfreaks'] [data-logo]::after,
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
-  content: "";
-  width: .26em;
-  height: .26em;
-  border-radius: 50%;
-  background: rgb(var(--accent-rgb));
-  margin-left: .22em;
-  flex: none;
+  content: ".";
+  color: rgb(var(--accent-rgb));
+  margin-left: .02em;
+  font-weight: 800;
 }
-/* Sur le footer rose, le point passe en jaune pour rester visible. */
+/* Sur le footer coloré, l'accent passe en jaune pour rester visible. */
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
-  background: var(--sun-yellow);
+  color: var(--sun-yellow);
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.42rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.52rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
@@ -749,7 +748,7 @@ html[data-theme='sunfreaks'] .btn-atc,
 html[data-theme='sunfreaks'] footer button[type='submit'] {
   background: var(--sun-yellow);
   color: rgb(var(--c-cream));
-  border-radius: 5px;
+  border-radius: 14px;
   /* Un liseré fin et une ombre basse : sur le fond clair, l'aplat jaune seul
      se fondait un peu. C'est le détachement sans revenir au « sticker ». */
   border: 1.5px solid rgb(var(--c-cream));
@@ -775,7 +774,7 @@ html[data-theme='sunfreaks'] footer button[type='submit']:hover {
 }
 html[data-theme='sunfreaks'] .btn-outline {
   border: 1px solid rgb(var(--c-cream) / .45);
-  border-radius: 5px;
+  border-radius: 14px;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 700;
@@ -825,31 +824,51 @@ html[data-theme='sunfreaks'] main > section {
   background: rgb(var(--c-dark));
   border-top: 1px solid rgb(var(--c-cream) / .09);
 }
+/* Hero : panneau flottant à grand rayon, détaché des bords. C'est ce qui
+   donne le côté « moderne arrondi » demandé. overflow:hidden pour que l'image
+   et le voile suivent l'arrondi. */
 html[data-theme='sunfreaks'] main > section.hero-section {
   background: transparent;
   border-top: 0;
+  margin: 14px 14px 0;
+  border-radius: 30px;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] main > section.hero-section {
+    margin: 18px 22px 0;
+    border-radius: 40px;
+  }
 }
 /* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
    c'est ce contraste net qui structure, pas une teinte diluée. */
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
   background: rgb(var(--accent-rgb));
   border-top: 0;
-  --c-cream: 255 255 255;        /* titres et textes en clair */
-  --c-n400:  255 240 232;
-  --c-n500:  255 226 214;
+  margin: 8px 14px;
+  border-radius: 30px;
+  overflow: hidden;
+  /* Corps de texte en bruns foncés (comme le footer) : le brun moyen par
+     défaut ne rendait que 2,4:1 sur l'orange. */
+  --c-n400: 60 26 12;
+  --c-n500: 92 48 26;
 }
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
+    margin: 12px 22px;
+    border-radius: 40px;
+  }
+}
+/* Texte brun (l'encre par défaut du thème) plutôt que blanc : sur l'orange
+   vif, le blanc ne rendait que 2,9:1 (paragraphe 2,6), sous le seuil lisible.
+   Le brun foncé donne 4,7:1 et s'accorde au bandeau et au footer, eux aussi
+   en brun sur l'accent. */
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) span.uppercase {
-  color: var(--sun-yellow);
-}
-/* Le bouton, lui, reste sur fond jaune : son libellé doit rester brun. Sans
-   ça il héritait du --c-cream éclairci de la section et devenait illisible. */
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary,
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc {
-  color: #2f1a16;
+  color: rgb(var(--c-cream));
 }
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary:hover,
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc:hover {
-  background: #2f1a16;
+  background: rgb(var(--c-cream));
   color: var(--sun-yellow);
 }
 
@@ -868,31 +887,30 @@ html[data-theme='sunfreaks'] .price-amount {
   letter-spacing: 0;
 }
 
-/* ─── Coins francs sur les conteneurs ───────────────────────────────── */
-html[data-theme='sunfreaks'] .rounded-3xl,
-html[data-theme='sunfreaks'] .rounded-2xl,
-html[data-theme='sunfreaks'] .rounded-xl,
-html[data-theme='sunfreaks'] .rounded-lg,
-html[data-theme='sunfreaks'] .rounded-md,
-html[data-theme='sunfreaks'] a.rounded-full,
-html[data-theme='sunfreaks'] button.rounded-full,
-html[data-theme='sunfreaks'] summary.rounded-full,
-html[data-theme='sunfreaks'] .tag {
-  border-radius: 4px;
-}
-/* Tags : aplat jaune sans liseré, plus net à petite taille */
+/* ─── Coins arrondis généreux ────────────────────────────────────────
+   Le thème passe à un langage « bulles » moderne : cartes, images et
+   conteneurs prennent de larges rayons plutôt que les coins francs
+   précédents. */
+html[data-theme='sunfreaks'] .rounded-3xl { border-radius: 30px; }
+html[data-theme='sunfreaks'] .rounded-2xl { border-radius: 24px; }
+html[data-theme='sunfreaks'] .rounded-xl  { border-radius: 20px; }
+html[data-theme='sunfreaks'] .rounded-lg  { border-radius: 16px; }
+html[data-theme='sunfreaks'] .rounded-md  { border-radius: 12px; }
+/* Tags : pilule jaune, sans liseré */
 html[data-theme='sunfreaks'] .tag {
   border: 0;
+  border-radius: 999px;
   background: var(--sun-yellow);
   color: rgb(var(--c-cream));
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
-/* ─── Footer : rose bonbon ──────────────────────────────────────────── */
+/* ─── Footer : panneau orange à coins hauts arrondis ────────────────── */
 html[data-theme='sunfreaks'] footer {
   background: rgb(var(--accent-rgb));
   border-top: 0;
+  border-radius: 34px 34px 0 0;
   --c-n400: 60 26 12;
   --c-n500: 92 48 26;
 }
@@ -905,7 +923,7 @@ html[data-theme='sunfreaks'] footer h2 {
   color: rgb(var(--c-cream));
 }
 html[data-theme='sunfreaks'] footer input {
-  border-radius: 5px;
+  border-radius: 14px;
   background: rgb(var(--c-dark));
   color: rgb(var(--c-cream));
   border: 1px solid rgb(var(--c-cream) / .25);
