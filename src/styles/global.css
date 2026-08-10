@@ -748,7 +748,10 @@ html[data-theme='sunfreaks'] .btn-primary,
 html[data-theme='sunfreaks'] .btn-atc,
 html[data-theme='sunfreaks'] footer button[type='submit'] {
   background: var(--sun-yellow);
-  color: rgb(var(--c-cream));
+  /* Encre FIXE et sombre : le bouton est toujours jaune, donc son libellé doit
+     rester sombre. Utiliser --c-cream le faisait virer au blanc sur les blocs
+     violets (footer, CTA), d'où un jaune illisible. */
+  color: #2a1147;
   border-radius: 14px;
   /* Un liseré fin et une ombre basse : sur le fond clair, l'aplat jaune seul
      se fondait un peu. C'est le détachement sans revenir au « sticker ». */
@@ -768,10 +771,12 @@ html[data-theme='sunfreaks'] .btn-atc::after { display: none; }
 html[data-theme='sunfreaks'] .btn-primary:hover,
 html[data-theme='sunfreaks'] .btn-atc:hover,
 html[data-theme='sunfreaks'] footer button[type='submit']:hover {
-  background: rgb(var(--c-cream));
+  /* Fond FIXE sombre au survol (même raison : --c-cream vire au blanc sur les
+     blocs violets, ce qui donnait jaune sur blanc). */
+  background: #2a1147;
   color: var(--sun-yellow);
   transform: translateY(-1px);
-  box-shadow: 0 2px 0 rgb(var(--c-cream) / .35), 0 10px 18px -10px rgb(var(--c-cream) / .6);
+  box-shadow: 0 2px 0 rgb(42 17 71 / .25), 0 10px 18px -10px rgb(42 17 71 / .6);
 }
 html[data-theme='sunfreaks'] .btn-outline {
   border: 1px solid rgb(var(--c-cream) / .45);
@@ -791,6 +796,12 @@ html[data-theme='sunfreaks'] .btn-outline:hover {
 html[data-theme='sunfreaks'] .nav-link {
   font-weight: 600;
   font-size: 0.82rem;
+  /* Le gris clair par défaut du lien inactif tombait à 2,5:1. Le brun du thème
+     donne 7:1 tout en restant plus discret que le lien actif (quasi noir). */
+  color: rgb(var(--c-n400));
+}
+html[data-theme='sunfreaks'] .nav-link.nav-active {
+  color: rgb(var(--c-cream));
 }
 html[data-theme='sunfreaks'] .nav-cat-trigger {
   border-radius: 999px;
@@ -866,22 +877,19 @@ html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) span.uppercase {
   color: var(--sun-yellow);
 }
-/* Le survol des boutons du thème passe globalement en fond --c-cream : ici il
-   vaut blanc, ce qui donnerait un libellé jaune sur blanc illisible. On force
-   un fond violet foncé. */
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary:hover,
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc:hover {
-  background: #2a1147;
-  color: var(--sun-yellow);
-}
 
 /* Intertitres de section : petites capitales franches plutôt que le gris
-   très pâle du thème clair, qui disparaissait sur le crème. */
-html[data-theme='sunfreaks'] main > section > div > span:first-child,
-html[data-theme='sunfreaks'] main > section span.uppercase {
+   très pâle du thème clair, qui disparaissait sur le crème.
+   `:not([class*="bg-"])` en exclut les badges (Promo, Bestseller, remises…) :
+   ceux-ci ont leur propre fond et gardaient sinon un texte violet foncé
+   illisible dessus (1,6 à 1,8:1). */
+html[data-theme='sunfreaks'] main > section > div > span:first-child:not([class*="bg-"]),
+html[data-theme='sunfreaks'] main > section span.uppercase:not([class*="bg-"]) {
   color: rgb(var(--accent-dark-rgb));
   font-weight: 700;
 }
+/* Filet de sécurité : tout badge posé sur l'accent garde un texte blanc. */
+html[data-theme='sunfreaks'] .bg-accent { color: #ffffff; }
 
 /* ─── Prix ──────────────────────────────────────────────────────────── */
 html[data-theme='sunfreaks'] .price-amount {
@@ -934,12 +942,6 @@ html[data-theme='sunfreaks'] footer input {
   background: #ffffff;
   color: #2a1147;
   border: 1px solid rgb(255 255 255 / .35);
-}
-/* Même raison que pour le bloc CTA : le survol global met un fond --c-cream,
-   ici blanc → jaune sur blanc. On force un fond violet foncé. */
-html[data-theme='sunfreaks'] footer button[type='submit']:hover {
-  background: #2a1147;
-  color: var(--sun-yellow);
 }
 
 /* Décalage sous le header fixe, bandeau compris quand il existe.
