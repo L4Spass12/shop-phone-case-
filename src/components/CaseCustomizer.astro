@@ -396,14 +396,19 @@ const price = '29,90 €';
     touch-action: none;
     overscroll-behavior: contain;
   }
+  /* Fond « craft » : une grille type papier millimétré / tapis de découpe.
+     Deux échelles (fine + large) posées sur le panneau clair. La coque étant
+     transparente, on voit la grille au travers, ce qui souligne la matière. */
   .canvas::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(38% 28% at 22% 24%, rgb(var(--accent-rgb) / .16), transparent 70%),
-      radial-gradient(34% 26% at 78% 30%, rgba(90,130,200,.16), transparent 70%),
-      radial-gradient(42% 30% at 62% 78%, rgba(150,180,140,.16), transparent 72%),
-      radial-gradient(30% 24% at 30% 82%, rgba(200,160,100,.14), transparent 70%);
-    filter: blur(6px);
+    background-color: rgb(var(--c-panel));
+    background-image:
+      linear-gradient(rgb(var(--accent-rgb) / .09) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent-rgb) / .09) 1px, transparent 1px),
+      linear-gradient(rgb(var(--accent-rgb) / .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent-rgb) / .045) 1px, transparent 1px);
+    background-size: 104px 104px, 104px 104px, 26px 26px, 26px 26px;
+    background-position: center;
     z-index: 0;   /* le décor reste sous la coque et la barre d'actions, qui
                      sont positionnées et peintes après lui */
   }
@@ -1118,7 +1123,14 @@ const price = '29,90 €';
       else if (a === 'back') reorder(selectedId, -1);
       else if (a === 'edit') openPane('text');
     });
-    design.addEventListener('pointerdown', function (e) { if (e.target === design) deselect(); });
+    // Cliquer n'importe où sur le plan de travail — coque OU fond autour —
+    // désélectionne. Seuls un élément (.el, poignées comprises) et la barre
+    // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
+    // qu'on vient de faire, ou l'action qu'on s'apprête à déclencher.
+    canvasEl.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.el') || e.target.closest('[data-ctx]')) return;
+      deselect();
+    });
 
     /* ── Gestes ─────────────────────────────────────────────────── */
     var SNAP = 2.2;

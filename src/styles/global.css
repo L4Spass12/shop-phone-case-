@@ -6,6 +6,7 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
+@import '@fontsource/kaushan-script/400.css';     /* sunfreaks : logotype manuscrit */
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -658,12 +659,11 @@ html[data-theme='sunfreaks'] {
   --accent-dark-rgb:   91 33 182;
   --sun-yellow:        #ffe14d;
 
-  /* Logotype dans la lettre des boutons ATC : Playfair Display italique.
-     Le côté créatif vient de l'italique haute-contraste et de l'accent
-     coloré, pas d'une police tierce. */
+  /* Logotype manuscrit : Kaushan Script, une écriture au pinceau qui donne le
+     côté « fait main » et créatif demandé. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Playfair Display', Georgia, serif;
+  --font-logo:    'Kaushan Script', cursive;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -693,34 +693,29 @@ html[data-theme='sunfreaks'] .hero-section::after {
     rgba(255, 225, 77, .26) 64%,
     rgba(124, 58, 237, .30) 100%);
 }
-/* Logotype : Playfair Display italique, la lettre des boutons ATC. L'italique
-   à fort contraste porte le côté créatif ; un point d'accent coloré signe la
-   marque. */
+/* Logotype manuscrit (Kaushan Script). L'écriture au pinceau porte à elle
+   seule le côté créatif : ni italique forcée ni capitales, et une taille plus
+   généreuse car les scripts ont une hauteur d'x faible. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
-  font-style: italic;
-  font-weight: 700;
+  font-style: normal;
+  font-weight: 400;
   text-transform: none;
-  letter-spacing: -0.01em;
-  font-size: 1.5rem;
+  letter-spacing: 0;
+  font-size: 1.6rem;
   line-height: 1;
   display: inline-flex;
   align-items: baseline;
 }
+/* Pas de point d'accent : après une signature manuscrite, il lisait « fin de
+   phrase ». */
 html[data-theme='sunfreaks'] [data-logo]::after,
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
-  content: ".";
-  font-style: italic;
-  color: rgb(var(--accent-rgb));
-  margin-left: .02em;
-}
-/* Sur le footer violet, l'accent passe en jaune pour rester visible. */
-html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
-  color: var(--sun-yellow);
+  content: none;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.7rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.9rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
