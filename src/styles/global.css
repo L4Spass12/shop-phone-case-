@@ -6,8 +6,7 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
-@import '@fontsource/kaushan-script/400.css';     /* sunfreaks : logotype manuscrit */
-@import '@fontsource/pinyon-script/400.css';      /* logo script */
+@import '@fontsource/pinyon-script/400.css';      /* logo script (heritage + sunfreaks) */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
 @import '@fontsource/bodoni-moda/700.css';
@@ -659,11 +658,11 @@ html[data-theme='sunfreaks'] {
   --accent-dark-rgb:   91 33 182;
   --sun-yellow:        #ffe14d;
 
-  /* Logotype manuscrit : Kaushan Script, une écriture au pinceau qui donne le
-     côté « fait main » et créatif demandé. */
+  /* Logotype : le script calligraphique du thème heritage (Pinyon Script),
+     que l'utilisateur préfère. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Kaushan Script', cursive;
+  --font-logo:    'Pinyon Script', cursive;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -693,9 +692,8 @@ html[data-theme='sunfreaks'] .hero-section::after {
     rgba(255, 225, 77, .26) 64%,
     rgba(124, 58, 237, .30) 100%);
 }
-/* Logotype manuscrit (Kaushan Script). L'écriture au pinceau porte à elle
-   seule le côté créatif : ni italique forcée ni capitales, et une taille plus
-   généreuse car les scripts ont une hauteur d'x faible. */
+/* Logotype : script calligraphique repris du thème heritage (Pinyon Script),
+   mêmes tailles. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
@@ -703,19 +701,17 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
-  font-size: 1.6rem;
+  font-size: 2rem;
   line-height: 1;
-  display: inline-flex;
-  align-items: baseline;
 }
-/* Pas de point d'accent : après une signature manuscrite, il lisait « fin de
-   phrase ». */
+html[data-theme='sunfreaks'] footer [data-footer-brand] { font-size: 2.1rem; }
+/* Pas de point d'accent après le nom manuscrit. */
 html[data-theme='sunfreaks'] [data-logo]::after,
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
   content: none;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.9rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 2.4rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
