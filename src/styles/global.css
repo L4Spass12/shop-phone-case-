@@ -6,8 +6,6 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
-@import '@fontsource/syne/700.css';               /* sunfreaks : logotype artistique */
-@import '@fontsource/syne/800.css';
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -653,18 +651,19 @@ html[data-theme='sunfreaks'] {
   --c-n500:       150 116 106;   /* texte secondaire */
   --c-n400:       112 80 70;     /* texte courant */
 
-  /* Accent = orange solaire (le rose faisait trop « fille »). Avec le jaune,
-     ça donne un duo chaud, rétro et mixte. */
-  --accent-rgb:        255 106 44;
-  --accent-light-rgb:  255 143 92;
-  --accent-dark-rgb:   211 71 18;
+  /* Accent = violet électrique. Avec le jaune conservé (complémentaire),
+     ça donne un duo vif et graphique. */
+  --accent-rgb:        124 58 237;
+  --accent-light-rgb:  155 107 242;
+  --accent-dark-rgb:   91 33 182;
   --sun-yellow:        #ffe14d;
 
-  /* Logotype confié à Syne, une police à forte personnalité (univers
-     art/design) : c'est elle qui porte le côté « créatif », pas un bricolage. */
+  /* Logotype dans la lettre des boutons ATC : Playfair Display italique.
+     Le côté créatif vient de l'italique haute-contraste et de l'accent
+     coloré, pas d'une police tierce. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Syne', system-ui, sans-serif;
+  --font-logo:    'Playfair Display', Georgia, serif;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -691,21 +690,20 @@ html[data-theme='sunfreaks'] .hero-section::after {
   background: linear-gradient(102deg,
     rgba(255, 255, 255, .97) 0%,
     rgba(255, 255, 255, .82) 38%,
-    rgba(255, 225, 77, .30) 66%,
-    rgba(255, 106, 44, .34) 100%);
+    rgba(255, 225, 77, .26) 64%,
+    rgba(124, 58, 237, .30) 100%);
 }
-/* Logotype : Syne extra-gras en bas-de-casse, légèrement resserré. Sa lettre
-   très caractérisée (contreformes ouvertes, jonctions marquées) donne l'aspect
-   « dessiné » et artistique, sans casse ni bricolage. Une virgule d'accent
-   colorée après le nom signe la marque. */
+/* Logotype : Playfair Display italique, la lettre des boutons ATC. L'italique
+   à fort contraste porte le côté créatif ; un point d'accent coloré signe la
+   marque. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
-  font-style: normal;
-  font-weight: 800;
-  text-transform: lowercase;
-  letter-spacing: -0.02em;
-  font-size: 1.34rem;
+  font-style: italic;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-size: 1.5rem;
   line-height: 1;
   display: inline-flex;
   align-items: baseline;
@@ -713,16 +711,16 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] {
 html[data-theme='sunfreaks'] [data-logo]::after,
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
   content: ".";
+  font-style: italic;
   color: rgb(var(--accent-rgb));
   margin-left: .02em;
-  font-weight: 800;
 }
-/* Sur le footer coloré, l'accent passe en jaune pour rester visible. */
+/* Sur le footer violet, l'accent passe en jaune pour rester visible. */
 html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
   color: var(--sun-yellow);
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.52rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.7rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
@@ -737,6 +735,9 @@ html[data-theme='sunfreaks'] .marquee {
   top: 0; left: 0; right: 0;
   height: var(--marquee-h);
   z-index: 10001;              /* au-dessus du header (10000) */
+  /* Texte clair : sur le violet, le brun par défaut du bandeau ne rendait
+     que 2,6:1. */
+  --c-cream: 255 255 255;
 }
 html[data-theme='sunfreaks'] #site-header { top: var(--marquee-h); }
 
@@ -848,10 +849,11 @@ html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
   margin: 8px 14px;
   border-radius: 30px;
   overflow: hidden;
-  /* Corps de texte en bruns foncés (comme le footer) : le brun moyen par
-     défaut ne rendait que 2,4:1 sur l'orange. */
-  --c-n400: 60 26 12;
-  --c-n500: 92 48 26;
+  /* Texte clair : le violet est assez foncé pour porter du blanc (~5,7:1),
+     contrairement à l'orange précédent. */
+  --c-cream: 255 255 255;
+  --c-n400: 236 230 250;
+  --c-n500: 210 198 238;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
@@ -859,16 +861,17 @@ html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
     border-radius: 40px;
   }
 }
-/* Texte brun (l'encre par défaut du thème) plutôt que blanc : sur l'orange
-   vif, le blanc ne rendait que 2,9:1 (paragraphe 2,6), sous le seuil lisible.
-   Le brun foncé donne 4,7:1 et s'accorde au bandeau et au footer, eux aussi
-   en brun sur l'accent. */
+/* Intertitre en jaune : franc sur le violet (~4,6:1) et rappel de l'accent
+   secondaire. */
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) span.uppercase {
-  color: rgb(var(--c-cream));
+  color: var(--sun-yellow);
 }
+/* Le survol des boutons du thème passe globalement en fond --c-cream : ici il
+   vaut blanc, ce qui donnerait un libellé jaune sur blanc illisible. On force
+   un fond violet foncé. */
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-primary:hover,
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) .btn-atc:hover {
-  background: rgb(var(--c-cream));
+  background: #2a1147;
   color: var(--sun-yellow);
 }
 
@@ -906,13 +909,15 @@ html[data-theme='sunfreaks'] .tag {
   letter-spacing: 0.02em;
 }
 
-/* ─── Footer : panneau orange à coins hauts arrondis ────────────────── */
+/* ─── Footer : panneau violet à coins hauts arrondis ────────────────── */
 html[data-theme='sunfreaks'] footer {
   background: rgb(var(--accent-rgb));
   border-top: 0;
   border-radius: 34px 34px 0 0;
-  --c-n400: 60 26 12;
-  --c-n500: 92 48 26;
+  /* Texte clair sur le violet. */
+  --c-cream: 255 255 255;
+  --c-n400: 236 230 250;
+  --c-n500: 208 196 236;
 }
 html[data-theme='sunfreaks'] footer h2 {
   font-family: var(--font-display);
@@ -922,11 +927,19 @@ html[data-theme='sunfreaks'] footer h2 {
   letter-spacing: 0;
   color: rgb(var(--c-cream));
 }
+/* Le champ garde un fond blanc : son texte doit rester sombre (le --c-cream
+   local vaut blanc, d'où l'override explicite). */
 html[data-theme='sunfreaks'] footer input {
   border-radius: 14px;
-  background: rgb(var(--c-dark));
-  color: rgb(var(--c-cream));
-  border: 1px solid rgb(var(--c-cream) / .25);
+  background: #ffffff;
+  color: #2a1147;
+  border: 1px solid rgb(255 255 255 / .35);
+}
+/* Même raison que pour le bloc CTA : le survol global met un fond --c-cream,
+   ici blanc → jaune sur blanc. On force un fond violet foncé. */
+html[data-theme='sunfreaks'] footer button[type='submit']:hover {
+  background: #2a1147;
+  color: var(--sun-yellow);
 }
 
 /* Décalage sous le header fixe, bandeau compris quand il existe.
