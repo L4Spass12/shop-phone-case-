@@ -6,7 +6,7 @@
 /* Polices du thème « heritage » (musée / galerie d'art).
    Chargées en permanence mais utilisées uniquement quand
    <html data-theme="heritage"> est actif. */
-@import '@fontsource/righteous/400.css';          /* sunfreaks : logotype rétro */
+@import '@fontsource/archivo-black/400.css';      /* sunfreaks : logotype */
 @import '@fontsource/pinyon-script/400.css';      /* logo script */
 @import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
 @import '@fontsource/bodoni-moda/500.css';
@@ -663,7 +663,7 @@ html[data-theme='sunfreaks'] {
      partout, en italique pour la marque — la même lettre que les boutons. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-logo:    'Righteous', system-ui, sans-serif;
+  --font-logo:    'Archivo Black', system-ui, sans-serif;
   --font-script:  'Playfair Display', Georgia, serif;
 }
 
@@ -693,20 +693,37 @@ html[data-theme='sunfreaks'] .hero-section::after {
     rgba(255, 225, 77, .28) 68%,
     rgba(249, 88, 168, .32) 100%);
 }
-/* Logotype : géométrique rétro (affiche 70s), en capitales légèrement
-   espacées — ni le slab qui faisait bloc, ni le serif italique. */
+/* Logotype : grotesque très gras, capitales SERRÉES, plus un point d'accent.
+   C'est le resserrement et ce détail qui font lire « marque dessinée »
+   plutôt que « nom écrit dans une police ». */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
   font-family: var(--font-logo);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400;              /* Archivo Black : la graisse est dans la fonte */
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 1.3rem;
+  letter-spacing: -0.035em;
+  font-size: 1.24rem;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+html[data-theme='sunfreaks'] [data-logo]::after,
+html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
+  content: "";
+  width: .26em;
+  height: .26em;
+  border-radius: 50%;
+  background: rgb(var(--accent-rgb));
+  margin-left: .22em;
+  flex: none;
+}
+/* Sur le footer rose, le point passe en jaune pour rester visible. */
+html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
+  background: var(--sun-yellow);
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.5rem; }
+  html[data-theme='sunfreaks'] [data-logo] { font-size: 1.42rem; }
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
