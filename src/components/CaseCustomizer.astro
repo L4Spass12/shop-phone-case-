@@ -161,6 +161,10 @@ const price = '29,90 €';
     <!-- ─── Plan de travail ──────────────────────────────────────── -->
     <main class="canvas" data-canvas>
       <div class="case" data-case data-finish="clear" data-mount="alone">
+        <!-- Verre dépoli : floute et voile légèrement le décor DERRIÈRE la
+             coque (finition transparente). Placé avant le design pour que les
+             stickers/textes restent nets par-dessus. -->
+        <div class="frost" data-frost aria-hidden="true"></div>
         <div class="phone" data-phone></div>
         <div class="design" data-design>
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
@@ -421,7 +425,10 @@ const price = '29,90 €';
     border-radius: var(--radius, 13%) / calc(var(--radius, 13%) / 2.1);
     container-type: inline-size;
     touch-action: none;
-    filter: drop-shadow(0 26px 40px rgba(0,0,0,.35));
+    /* Ombre portée en box-shadow (et non filter) : un ancêtre avec `filter`
+       désactive le backdrop-filter du verre dépoli à l'intérieur. box-shadow
+       suit tout autant le rayon arrondi. */
+    box-shadow: 0 24px 40px -6px rgba(0,0,0,.34);
   }
   .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 8px; }
 
@@ -434,6 +441,21 @@ const price = '29,90 €';
   .case[data-mount="phone"] .phone { display: block; }
   /* Finition opaque : la coque est teintée, elle masque alors le téléphone. */
   .case[data-finish="solid"] .phone { display: block; background: var(--caseColor, #f4eee2); }
+
+  /* Verre dépoli de la coque transparente : floute le décor derrière + un
+     voile blanc très léger. Sous le design, donc les éléments restent nets.
+     Si backdrop-filter n'est pas supporté, le voile suffit à adoucir. */
+  .frost {
+    position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+    pointer-events: none;
+    background: rgba(255,255,255,.18);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+  /* Finition opaque ou montée sur téléphone : le dos n'est plus transparent,
+     il n'y a rien à flouter. */
+  .case[data-finish="solid"] .frost,
+  .case[data-mount="phone"] .frost { display: none; }
 
   .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 
