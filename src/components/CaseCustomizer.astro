@@ -448,9 +448,9 @@ const price = '29,90 €';
   .frost {
     position: absolute; inset: 0; border-radius: inherit; z-index: 0;
     pointer-events: none;
-    background: rgba(255,255,255,.18);
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
+    background: rgba(255,255,255,.34);
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
   }
   /* Finition opaque ou montée sur téléphone : le dos n'est plus transparent,
      il n'y a rien à flouter. */
@@ -1192,7 +1192,11 @@ const price = '29,90 €';
         g.el.rot = deg;
       } else if (g.mode === 'resize') {
         var dd = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
-        g.el.size = clamp(g.ssize * (dd / g.d0), 4, 96);
+        // Les images peuvent déborder très largement la coque : le design est
+        // en overflow:hidden, donc le débord est rogné proprement au bord et
+        // on ne voit aucune coupure. Plafond bien plus haut que pour le texte.
+        var maxSize = g.el.type === 'image' ? 400 : 96;
+        g.el.size = clamp(g.ssize * (dd / g.d0), 4, maxSize);
       }
       applyStyles(g.el);
     }
