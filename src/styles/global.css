@@ -443,16 +443,21 @@ html[data-theme='heritage'] #product-price {
   line-height: 1;
 }
 
-/* Fils d'Ariane heritage : un peu plus petits, et resserrés (moins de vide
-   au-dessus et en dessous). Appliqué à TOUS les fils d'Ariane du site via
-   les classes .crumbs-shell (conteneur) et .site-breadcrumb (le nav). */
-html[data-theme='heritage'] .crumbs-shell {
-  padding-top: 0.6rem;
+/* Fils d'Ariane : resserrés et discrets sur TOUTES les pages et TOUS les
+   thèmes (classes .crumbs-shell = conteneur, .site-breadcrumb = le nav).
+   Règle non scopée → elle bat les utilitaires Tailwind (pt-6, mb-4…), qui
+   sont en @layer. */
+.crumbs-shell.crumbs-shell {
+  padding-top: 0.35rem;
 }
-html[data-theme='heritage'] .site-breadcrumb {
-  font-size: 0.68rem;
-  margin-bottom: 0.5rem;
+@media (min-width: 768px) {
+  .crumbs-shell.crumbs-shell { padding-top: 0.5rem; }
+}
+.site-breadcrumb.site-breadcrumb {
+  font-size: 0.66rem;
+  margin-bottom: 0.4rem;
   padding-bottom: 0;
+  opacity: 0.7;   /* plus effacé */
 }
 
 /* ─── Coins nets sur TOUS les conteneurs et boutons ──────────────────────
