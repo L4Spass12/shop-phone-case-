@@ -150,7 +150,7 @@ const breadcrumbSchema = {
         const slides = Array.from(new Set([image, ...(gallery || [])]));
         return (
         <div class="product-gallery" data-gallery data-slide-count={slides.length}>
-          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/5] group">
+          <div class="gallery-viewport relative overflow-hidden bg-panel aspect-[4/5] group md:rounded-2xl md:border md:border-white/[0.05]">
             <div class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full" data-gallery-track>
               {slides.map((src, i) => (
                 <div class="flex-none w-full h-full snap-start snap-always">
@@ -179,6 +179,14 @@ const breadcrumbSchema = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
               </>
+            )}
+
+            {slides.length > 1 && (
+              <div class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10" data-gallery-dots>
+                {slides.map((_, i) => (
+                  <button type="button" data-gallery-dot={i} aria-label={`Voir l'image ${i + 1}`} class="gallery-dot"></button>
+                ))}
+              </div>
             )}
           </div>
 
@@ -568,6 +576,11 @@ const breadcrumbSchema = {
     .product-slider .slider-track::-webkit-scrollbar { display: none; }
     .gallery-track { scrollbar-width: none; -ms-overflow-style: none; }
     .gallery-track::-webkit-scrollbar { display: none; }
+    @media (max-width: 767px) {
+      .gallery-viewport { margin-left: -1.5rem; margin-right: -1.5rem; border-radius: 0; }
+    }
+    .gallery-dot { width: 6px; height: 6px; border-radius: 9999px; background: rgba(255,255,255,.5); transition: width .2s ease, background .2s ease; }
+    .gallery-dot[aria-current="true"] { width: 16px; background: #fff; }
     .product-toggle summary::-webkit-details-marker { display: none; }
     .product-toggle summary::marker { content: ''; }
     .below-fold-defer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
@@ -580,12 +593,14 @@ const breadcrumbSchema = {
       if (!root) return null;
       const track  = root.querySelector('[data-gallery-track]');
       const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const dots   = Array.from(root.querySelectorAll('[data-gallery-dot]'));
       const prev   = root.querySelector('[data-gallery-prev]');
       const next   = root.querySelector('[data-gallery-next]');
       const count  = parseInt(root.dataset.slideCount || '0', 10);
       let current  = 0;
       const paint = () => {
         thumbs.forEach((t, i) => { t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ' + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30'); });
+        dots.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
         if (prev) prev.disabled = current <= 0;
         if (next) next.disabled = current >= count - 1;
       };
@@ -597,6 +612,7 @@ const breadcrumbSchema = {
       prev?.addEventListener('click', () => goTo(current - 1));
       next?.addEventListener('click', () => goTo(current + 1));
       thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
       paint();
       return { goTo, getMainSlide: () => root.querySelector('[data-gallery-slide="0"]'), getMainThumb: () => root.querySelector('[data-gallery-thumb="0"] img') };
     }

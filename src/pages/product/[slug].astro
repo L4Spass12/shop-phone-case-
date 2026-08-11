@@ -180,7 +180,7 @@ const breadcrumbSchema = {
         <div class="product-gallery" data-gallery data-slide-count={slides.length}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
-          <div class="relative rounded-2xl overflow-hidden bg-panel border border-white/[0.05] aspect-[4/5] group">
+          <div class="gallery-viewport relative overflow-hidden bg-panel aspect-[4/5] group md:rounded-2xl md:border md:border-white/[0.05]">
             <div
               class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
               data-gallery-track
@@ -224,6 +224,25 @@ const breadcrumbSchema = {
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
               </>
+            )}
+
+            <!-- Dots : MOBILE uniquement (le desktop a flèches + thumbs).
+                 Sur un chip translucide pour rester visibles quelle que soit
+                 l'image dessous. -->
+            {slides.length > 1 && (
+              <div
+                class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10"
+                data-gallery-dots
+              >
+                {slides.map((_, i) => (
+                  <button
+                    type="button"
+                    data-gallery-dot={i}
+                    aria-label={`Voir l'image ${i + 1}`}
+                    class="gallery-dot"
+                  ></button>
+                ))}
+              </div>
             )}
           </div>
 
@@ -780,6 +799,26 @@ const breadcrumbSchema = {
         /* Galerie : masque scrollbar horizontale sur le track */
         .gallery-track { scrollbar-width: none; -ms-overflow-style: none; }
         .gallery-track::-webkit-scrollbar { display: none; }
+        /* Mobile : la galerie sort du conteneur (px-6) pour occuper toute la
+           largeur de l'écran, bord à bord — comme la plupart des e-commerces.
+           width:100vw + margin/translate = plein cadre quel que soit le
+           parent (ici une grille). */
+        @media (max-width: 767px) {
+          .gallery-viewport {
+            /* annule exactement le px-6 (1.5rem) du conteneur des deux côtés :
+               l'item de grille s'étire alors jusqu'aux bords de l'écran. */
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            border-radius: 0;
+          }
+        }
+        /* Dots de navigation (mobile) */
+        .gallery-dot {
+          width: 6px; height: 6px; border-radius: 9999px;
+          background: rgba(255,255,255,.5);
+          transition: width .2s ease, background .2s ease;
+        }
+        .gallery-dot[aria-current="true"] { width: 16px; background: #fff; }
         /* Toggles produit : masque le marker natif des <summary> */
         .product-toggle summary::-webkit-details-marker { display: none; }
         .product-toggle summary::marker { content: ''; }
@@ -814,6 +853,7 @@ const breadcrumbSchema = {
       if (!root) return null;
       const track  = root.querySelector('[data-gallery-track]');
       const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const dots   = Array.from(root.querySelectorAll('[data-gallery-dot]'));
       const prev   = root.querySelector('[data-gallery-prev]');
       const next   = root.querySelector('[data-gallery-next]');
       const count  = parseInt(root.dataset.slideCount || '0', 10);
@@ -824,6 +864,7 @@ const breadcrumbSchema = {
           t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors '
             + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30');
         });
+        dots.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
         if (prev) prev.disabled = current <= 0;
         if (next) next.disabled = current >= count - 1;
       };
@@ -848,6 +889,7 @@ const breadcrumbSchema = {
       prev?.addEventListener('click', () => goTo(current - 1));
       next?.addEventListener('click', () => goTo(current + 1));
       thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
       root.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
         if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }

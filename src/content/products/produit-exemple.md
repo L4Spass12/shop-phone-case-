@@ -3,6 +3,11 @@ name: "Produit exemple"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
 imageAlt: "Coque de téléphone transparente ornée de fleurs de cerisier rose en relief"
+# Galerie de démonstration (plusieurs images) : sert à tester le swipe et les
+# dots. À remplacer par de vraies photos de votre produit.
+gallery:
+  - "/images/products/produit-exemple-b.webp"
+  - "/images/products/produit-exemple-c.webp"
 categories: ["categorie-exemple"]
 shortDescription: "Un produit de démonstration à remplacer par votre premier vrai produit."
 featured: true
