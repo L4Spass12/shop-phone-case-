@@ -14,6 +14,9 @@
 name: "Produit test - bouton noir a cadre"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
+gallery:
+  - "/images/products/produit-exemple-b.webp"
+  - "/images/products/produit-exemple-c.webp"
 imageAlt: "Produit de démonstration du bouton noir à cadre"
 categories: []
 shortDescription: "Page de test A/B : bouton noir en relief dont un cadre fin se dessine depuis les coins au survol."

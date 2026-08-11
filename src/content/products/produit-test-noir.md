@@ -14,6 +14,9 @@
 name: "Produit test - bouton noir"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
+gallery:
+  - "/images/products/produit-exemple-b.webp"
+  - "/images/products/produit-exemple-c.webp"
 imageAlt: "Produit de démonstration du bouton noir"
 categories: []
 shortDescription: "Page de test A/B : bouton « Ajouter au panier » en noir, à comparer à la version violette."

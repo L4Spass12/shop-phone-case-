@@ -12,6 +12,9 @@
 name: "Produit test - bouton noir a lueur"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
+gallery:
+  - "/images/products/produit-exemple-b.webp"
+  - "/images/products/produit-exemple-c.webp"
 imageAlt: "Produit de démonstration du bouton noir à lueur"
 categories: []
 shortDescription: "Page de test A/B : bouton noir dont la lueur suit le curseur au survol."
