@@ -169,7 +169,7 @@ const breadcrumbSchema = {
       <span class="text-n-400 truncate">{name}</span>
     </nav>
 
-    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+    <div class="grid lg:grid-cols-2 gap-5 lg:gap-16">
       <!-- ═══════════════════════════ GALERIE ═══════════════════════════ -->
       {(() => {
         // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
@@ -284,12 +284,12 @@ const breadcrumbSchema = {
         <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
           {name}
         </h1>
-        <p class="text-sm md:text-base text-n-400 leading-relaxed mb-6 font-light">
+        <p class="text-sm md:text-base text-n-400 leading-relaxed mb-4 font-light">
           {shortDescription}
         </p>
 
         <!-- Prix -->
-        <div class="flex items-baseline gap-3 mb-2">
+        <div class="flex items-baseline gap-3 mb-5">
           <span id="product-price" class="price-amount text-xl md:text-2xl text-cream font-medium tracking-tight">
             {priceRange && priceRange.min !== priceRange.max
               ? `Dès ${formatPrice(priceRange.min)}`
@@ -306,13 +306,6 @@ const breadcrumbSchema = {
             </span>
           )}
         </div>
-        <div class="mb-8"></div>
-
-        <!-- Stock -->
-        <div id="product-stock" class={`flex items-center gap-2 mb-6 text-sm font-light ${inStock ? 'text-sage' : 'text-n-500'}`}>
-          <span class={`w-1.5 h-1.5 rounded-full ${inStock ? 'bg-sage' : 'bg-n-500'}`}></span>
-          <span>{inStock ? 'En stock' : 'Rupture de stock'}</span>
-        </div>
 
         {/* Choix du modèle de téléphone. Placé avant les variantes : c'est la
             première question que se pose l'acheteur, et le seul champ requis. */}
@@ -320,7 +313,7 @@ const breadcrumbSchema = {
 
         <!-- Sélecteurs de variantes -->
         {hasVariations && attributes.length > 0 && (
-          <div id="variant-selector" class="space-y-6 mb-8">
+          <div id="variant-selector" class="space-y-5 mb-6">
             {attributes.map(attr => {
               // Détecte si l'attribut est une dimension ("45 × 35 cm", "90x40 cm"…).
               // Si oui → cards avec visualisation SVG. Sinon → pills classiques.
@@ -542,7 +535,7 @@ const breadcrumbSchema = {
         )}
 
         <!-- Garanties -->
-        <div class="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/[0.08]">
+        <div class="grid grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/[0.08]">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
               <Icon name="shield-check" size={16} strokeWidth={1.5} />
