@@ -1,0 +1,218 @@
+---
+/**
+ * Mur de vidéos UGC (réassurance) — « des clients se filment avec la coque ».
+ * Format vertical 9:16 façon Reels/TikTok. Lecture muette en autoplay quand la
+ * carte entre à l'écran (IntersectionObserver), son au tap. Carrousel swipe.
+ *
+ * Les clips ci-dessous sont des DÉMOS générés depuis les visuels produit :
+ * à remplacer par de vrais clients (déposez vos .mp4 dans /public/videos et
+ * les posters dans /public/images/ugc, puis éditez le tableau `clips`).
+ */
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  subtitle?: string;
+}
+const {
+  title = 'En vrai, chez nos clients',
+  eyebrow = "Ils l'ont adoptée",
+  subtitle = 'Des milliers de coques déjà entre de bonnes mains. Voici les vôtres.',
+} = Astro.props;
+
+const clips = [
+  { src: '/videos/ugc-1.mp4', poster: '/images/ugc/ugc-1.jpg', name: 'Camille', handle: '@camille.k', rating: 5, caption: 'La qualité est vraiment dingue 😍' },
+  { src: '/videos/ugc-2.mp4', poster: '/images/ugc/ugc-2.jpg', name: 'Léa',     handle: '@lea.mmz',   rating: 5, caption: 'Reçue en 3 jours, je valide !' },
+  { src: '/videos/ugc-3.mp4', poster: '/images/ugc/ugc-3.jpg', name: 'Inès',    handle: '@ines.prl',  rating: 5, caption: 'Encore plus belle en vrai ✨' },
+  { src: '/videos/ugc-4.mp4', poster: '/images/ugc/ugc-4.jpg', name: 'Manon',   handle: '@manon.p',   rating: 4, caption: 'Je recommande à 100 %' },
+];
+const avgRating = 4.9;
+const reviewCount = 1200;
+---
+
+<section class="ugc" aria-label="Avis vidéo de clients">
+  <div class="ugc-head">
+    <span class="ugc-eyebrow">{eyebrow}</span>
+    <h2 class="ugc-title">{title}</h2>
+    <p class="ugc-sub">{subtitle}</p>
+    <div class="ugc-rating" aria-label={`Note moyenne ${avgRating} sur 5`}>
+      <span class="ugc-rating-stars" aria-hidden="true">★★★★★</span>
+      <span class="ugc-rating-text"><strong>{avgRating}/5</strong> · {reviewCount.toLocaleString('fr-FR')}+ avis clients</span>
+    </div>
+  </div>
+
+  <div class="ugc-track" data-ugc-track>
+    {clips.map((c) => (
+      <article class="ugc-card">
+        <video
+          class="ugc-video"
+          src={c.src}
+          poster={c.poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          data-ugc-video
+        ></video>
+
+        <button type="button" class="ugc-sound" data-ugc-sound aria-label="Activer le son">
+          <svg class="ugc-ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H2v6h4l5 4z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+          <svg class="ugc-ic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+          </svg>
+        </button>
+
+        <div class="ugc-overlay">
+          <div class="ugc-stars" aria-hidden="true">{'★★★★★'.slice(0, c.rating)}<span class="ugc-stars-off">{'★★★★★'.slice(c.rating)}</span></div>
+          <p class="ugc-caption">{c.caption}</p>
+          <div class="ugc-user">
+            <span class="ugc-avatar" aria-hidden="true">{c.name.charAt(0)}</span>
+            <span class="ugc-user-meta">
+              <span class="ugc-name">{c.name}
+                <svg class="ugc-verified" viewBox="0 0 24 24" fill="currentColor" aria-label="Achat vérifié"><path d="m12 2 2.4 1.8 3 .1 1 2.8 2.4 1.8-.9 2.9.9 2.9-2.4 1.8-1 2.8-3 .1L12 22l-2.4-1.8-3-.1-1-2.8L3.2 15.4l.9-2.9-.9-2.9 2.4-1.8 1-2.8 3-.1z"/><path d="m9 12 2 2 4-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="ugc-handle">{c.handle}</span>
+            </span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .ugc { margin-top: 3.5rem; }
+  .ugc-head { max-width: 42rem; }
+  .ugc-eyebrow {
+    display: block; font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: rgb(var(--accent-dark-rgb, var(--accent-rgb))); margin-bottom: 0.5rem;
+  }
+  .ugc-title {
+    font-size: 1.5rem; line-height: 1.15; font-weight: 500;
+    letter-spacing: -0.01em; color: rgb(var(--c-cream));
+  }
+  @media (min-width: 768px) { .ugc-title { font-size: 1.9rem; } }
+  .ugc-sub { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 300; color: rgb(var(--c-n400)); }
+  .ugc-rating { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; font-size: 0.82rem; color: rgb(var(--c-n400)); }
+  .ugc-rating-stars { color: #f5b301; letter-spacing: 1px; }
+  .ugc-rating-text strong { color: rgb(var(--c-cream)); font-weight: 600; }
+
+  /* Carrousel horizontal, swipe natif, scrollbar masquée */
+  .ugc-track {
+    display: flex; gap: 0.9rem; margin-top: 1.5rem;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none; -ms-overflow-style: none;
+    /* déborde légèrement des marges du conteneur pour un vrai effet « mur » */
+    scroll-padding-left: 0;
+  }
+  .ugc-track::-webkit-scrollbar { display: none; }
+
+  .ugc-card {
+    position: relative; flex: 0 0 auto;
+    width: 62vw; max-width: 260px; aspect-ratio: 9 / 16;
+    border-radius: 18px; overflow: hidden;
+    scroll-snap-align: start;
+    background: rgb(var(--c-panel));
+    box-shadow: 0 10px 30px -18px rgba(0,0,0,.55);
+  }
+  @media (min-width: 640px) { .ugc-card { width: 40vw; } }
+  @media (min-width: 1024px) { .ugc-card { width: auto; flex: 1 1 0; } }
+
+  .ugc-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+
+  /* Bouton son */
+  .ugc-sound {
+    position: absolute; top: 0.6rem; right: 0.6rem; z-index: 3;
+    width: 34px; height: 34px; border-radius: 999px;
+    display: grid; place-items: center; cursor: pointer;
+    color: #fff; background: rgba(0,0,0,.4);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,.25);
+    transition: background .15s;
+  }
+  .ugc-sound:hover { background: rgba(0,0,0,.6); }
+  .ugc-sound svg { width: 17px; height: 17px; }
+  .ugc-ic-on { display: none; }
+  .ugc-card[data-sound="on"] .ugc-ic-muted { display: none; }
+  .ugc-card[data-sound="on"] .ugc-ic-on { display: block; }
+
+  /* Overlay bas : dégradé + infos client */
+  .ugc-overlay {
+    position: absolute; inset: auto 0 0 0; z-index: 2;
+    padding: 2.6rem 0.85rem 0.85rem;
+    background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,.35) 55%, transparent);
+    color: #fff;
+  }
+  .ugc-stars { font-size: 0.8rem; letter-spacing: 1px; color: #f5b301; }
+  .ugc-stars-off { color: rgba(255,255,255,.45); }
+  .ugc-caption {
+    margin: 0.3rem 0 0.55rem; font-size: 0.86rem; font-weight: 500;
+    line-height: 1.3; text-shadow: 0 1px 3px rgba(0,0,0,.4);
+  }
+  .ugc-user { display: flex; align-items: center; gap: 0.5rem; }
+  .ugc-avatar {
+    width: 28px; height: 28px; border-radius: 999px; flex: none;
+    display: grid; place-items: center; font-size: 0.8rem; font-weight: 700;
+    color: #fff; background: rgb(var(--accent-rgb));
+    border: 1.5px solid rgba(255,255,255,.7);
+  }
+  .ugc-user-meta { display: flex; flex-direction: column; line-height: 1.15; }
+  .ugc-name { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; }
+  .ugc-verified { width: 13px; height: 13px; color: #3897f0; }
+  .ugc-handle { font-size: 0.7rem; opacity: 0.8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ugc-video { /* pas d'autoplay : le poster reste affiché (géré en JS) */ }
+  }
+</style>
+
+<script>
+  (function () {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.ugc-card'));
+    if (!cards.length) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Autoplay muet quand la carte est visible ; pause sinon (économe).
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const v = e.target.querySelector('video') as HTMLVideoElement | null;
+          if (!v) return;
+          if (e.isIntersecting) { v.play().catch(() => {}); }
+          else { v.pause(); }
+        });
+      }, { threshold: 0.35 });
+      cards.forEach((c) => io.observe(c));
+    }
+
+    // Tap = son. Un seul clip sonore à la fois.
+    cards.forEach((card) => {
+      const v = card.querySelector('video') as HTMLVideoElement | null;
+      const btn = card.querySelector<HTMLButtonElement>('[data-ugc-sound]');
+      if (!v || !btn) return;
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const turnOn = v.muted;
+        if (turnOn) {
+          cards.forEach((other) => {
+            if (other === card) return;
+            const ov = other.querySelector('video') as HTMLVideoElement | null;
+            if (ov) { ov.muted = true; other.removeAttribute('data-sound'); }
+          });
+          v.muted = false; v.play().catch(() => {});
+          card.setAttribute('data-sound', 'on');
+          btn.setAttribute('aria-label', 'Couper le son');
+        } else {
+          v.muted = true; card.removeAttribute('data-sound');
+          btn.setAttribute('aria-label', 'Activer le son');
+        }
+      });
+    });
+  })();
+</script>
