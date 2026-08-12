@@ -1,0 +1,111 @@
+---
+/**
+ * Grille « feed Instagram » — bandeau de photos lifestyle en bas de fiche
+ * produit, pour ajouter du visuel et renforcer la marque.
+ *
+ * Photos de DÉMONSTRATION (recadrages carrés des visuels produit) : à
+ * remplacer par vos vraies photos (déposez-les dans /public/images/insta).
+ * Le lien pointe vers siteConfig.socials.instagram s'il est renseigné.
+ */
+import siteConfig from '../../site.config.mjs';
+
+interface Props {
+  handle?: string;
+}
+const { handle = 'vareska' } = Astro.props;
+const igUrl = (siteConfig.socials && siteConfig.socials.instagram) || `https://instagram.com/${handle}`;
+
+const photos = [
+  '/images/insta/insta-1.webp',
+  '/images/insta/insta-2.webp',
+  '/images/insta/insta-3.webp',
+  '/images/insta/insta-4.webp',
+  '/images/insta/insta-5.webp',
+  '/images/insta/insta-6.webp',
+];
+---
+
+<section class="insta below-fold-defer" aria-label="Photos Instagram">
+  <div class="insta-head">
+    <a class="insta-handle" href={igUrl} target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+        <circle cx="12" cy="12" r="4.2"/>
+        <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>@{handle}</span>
+    </a>
+    <a class="insta-follow" href={igUrl} target="_blank" rel="noopener noreferrer">Suivez-nous</a>
+  </div>
+
+  <div class="insta-grid">
+    {photos.map((src, i) => (
+      <a
+        class="insta-tile"
+        href={igUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Voir sur Instagram (photo ${i + 1})`}
+      >
+        <img src={src} alt="" loading="lazy" decoding="async" width="640" height="640" />
+        <span class="insta-tile-ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+            <circle cx="12" cy="12" r="4.2"/>
+            <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .insta {
+    max-width: 80rem; margin: 0 auto;
+    padding: 3rem 1.5rem 3.5rem;
+    border-top: 1px solid rgb(var(--c-cream) / .08);
+  }
+  .insta-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; margin-bottom: 1rem;
+  }
+  .insta-handle {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 1rem; font-weight: 600; color: rgb(var(--c-cream));
+    transition: opacity .15s;
+  }
+  .insta-handle:hover { opacity: 0.75; }
+  .insta-handle svg { width: 22px; height: 22px; }
+  .insta-follow {
+    font-size: 0.8rem; font-weight: 600;
+    color: rgb(var(--accent-dark-rgb, var(--accent-rgb)));
+    transition: opacity .15s;
+  }
+  .insta-follow:hover { opacity: 0.7; }
+
+  .insta-grid {
+    display: grid; gap: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 768px) { .insta-grid { grid-template-columns: repeat(6, 1fr); gap: 0.6rem; } }
+
+  .insta-tile {
+    position: relative; display: block;
+    aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden;
+    background: rgb(var(--c-panel));
+  }
+  .insta-tile img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .35s ease;
+  }
+  .insta-tile:hover img { transform: scale(1.06); }
+  .insta-tile-ic {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    color: #fff; background: rgba(0,0,0,.28);
+    opacity: 0; transition: opacity .2s ease;
+  }
+  .insta-tile-ic svg { width: 26px; height: 26px; }
+  .insta-tile:hover .insta-tile-ic,
+  .insta-tile:focus-visible .insta-tile-ic { opacity: 1; }
+</style>

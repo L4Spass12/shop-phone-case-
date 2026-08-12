@@ -4,6 +4,7 @@ import Icon from '../../components/Icon.astro';
 import FabricationSection from '../../components/FabricationSection.astro';
 import ModelPicker from '../../components/ModelPicker.astro';
 import UgcVideos from '../../components/UgcVideos.astro';
+import InstaGrid from '../../components/InstaGrid.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../../site.config.mjs';
 import { unsplashSrcset } from '../../lib/image';
@@ -834,6 +835,9 @@ const breadcrumbSchema = {
       </style>
     </section>
   )}
+
+  <!-- Grille « feed Instagram » — visuels lifestyle en bas de fiche -->
+  <InstaGrid />
 
   <!-- ═══════════════════════════ JS PRODUIT ═══════════════════════════
        Trois modules indépendants, tous différés via requestIdleCallback :
