@@ -213,6 +213,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         data-locale={currentLocale}
         data-language={currentLocale}
         data-currency={currencyForLocale(currentLocale)}
+        data-logo={new URL('/logo-checkout.png', Astro.site ?? SITE_URL).toString()}
         defer
       ></script>
     )}

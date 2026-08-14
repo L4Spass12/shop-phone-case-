@@ -841,6 +841,9 @@ html[data-theme='sunfreaks'] #site-header > div {
     padding-bottom: 10px;
   }
 }
+/* L'îlot est dimensionné par son padding : la barre ne doit pas imposer la
+   hauteur fixe --header-h (sinon l'îlot devient trop haut). */
+html[data-theme='sunfreaks'] .header-bar { height: auto; min-height: 40px; }
 
 /* ─── Sections ──────────────────────────────────────────────────────────
    1. Les halos décoratifs de l'accueil sont réglés pour le thème clair
