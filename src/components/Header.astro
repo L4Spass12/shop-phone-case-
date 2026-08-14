@@ -91,52 +91,31 @@ const THEMES = [
       <div class="header-menu-inner">
         <div class="header-menu-content">
 
-          <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+          {/* Colonne 1 : navigation */}
+          <div class="hdr-col">
+            <span class="hdr-section-label">Navigation</span>
+            <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+            {siteConfig.shop?.enabled && (
+              <a href={url('/boutique')} class={`hdr-link ${isShop ? 'is-active' : ''}`} aria-current={isShop ? 'page' : undefined}>{t('nav.shop', lang)}</a>
+            )}
+            <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+          </div>
 
-          {siteConfig.shop?.enabled && (
-            <a
-              href={url('/boutique')}
-              class={`my-1 flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl border transition-colors ${isShop ? 'bg-cream text-dark border-cream font-medium' : 'border-white/[0.12] bg-white/[0.03] text-cream hover:border-white/25 hover:bg-white/[0.07]'}`}
-              aria-current={isShop ? 'page' : undefined}
-            >
-              <span class="text-sm">{t('nav.shop', lang)}</span>
-              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-                <path d="M3 6h18"/>
-                <path d="M16 10a4 4 0 0 1-8 0"/>
-              </svg>
-            </a>
-          )}
-
+          {/* Colonne 2 : catégories (listées directement, pas d'accordéon) */}
           {siteConfig.shop?.enabled && cats.length > 0 && (
-            <details class="mobile-cat-details my-1">
-              <summary class="flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl border border-white/[0.12] bg-white/[0.03] text-cream cursor-pointer list-none select-none hover:border-white/25 hover:bg-white/[0.07] transition-colors">
-                <span class="text-sm">{t('nav.categories', lang)}</span>
-                <svg class="w-4 h-4 mobile-cat-chevron text-n-400 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </summary>
-              <div class="mt-1 pl-3 py-1 space-y-0.5 border-l border-white/[0.08] ml-2">
-                {cats.map(c => {
-                  const active = stripped === `/product-category/${c.slug}`;
-                  return (
-                    <a
-                      href={url(`/product-category/${c.slug}`)}
-                      class={`block py-2 px-2 text-xs rounded-md transition-colors ${active ? 'text-cream font-medium' : 'text-n-500 hover:text-cream hover:bg-white/[0.04]'}`}
-                      aria-current={active ? 'page' : undefined}
-                    >
-                      {c.label}
-                    </a>
-                  );
-                })}
-              </div>
-            </details>
+            <div class="hdr-col">
+              <span class="hdr-section-label">{t('nav.categories', lang)}</span>
+              {cats.map(c => {
+                const active = stripped === `/product-category/${c.slug}`;
+                return (
+                  <a href={url(`/product-category/${c.slug}`)} class={`hdr-link ${active ? 'is-active' : ''}`} aria-current={active ? 'page' : undefined}>{c.label}</a>
+                );
+              })}
+            </div>
           )}
 
-          <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
-
-          {/* Thème (le wrapper .theme-switcher est requis par le JS) */}
-          <div class="theme-switcher hdr-section">
+          {/* Colonne 3 : thème (le wrapper .theme-switcher est requis par le JS) */}
+          <div class="theme-switcher hdr-col">
             <span class="hdr-section-label">Thème</span>
             {THEMES.map(th => (
               <button type="button" data-theme-choice={th.id} class="hdr-choice">
@@ -151,8 +130,9 @@ const THEMES = [
             ))}
           </div>
 
+          {/* Colonne 4 : langue */}
           {showLangSwitcher && (
-            <div class="hdr-section">
+            <div class="hdr-col">
               <span class="hdr-section-label">Langue</span>
               {langSwitcherItems.map(item => (
                 <a
@@ -208,47 +188,48 @@ const THEMES = [
   #site-header.menu-open .header-menu { grid-template-rows: 1fr; }
   .header-menu-inner { overflow: hidden; min-height: 0; }
 
+  /* Contenu du menu : grille pleine largeur (méga-menu). Chaque section
+     (Navigation, Catégories, Thème, Langue) est une colonne. */
   .header-menu-content {
-    max-width: 26rem; margin: 0 auto;
-    padding: .5rem 0 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem 2.5rem;
+    padding: 1.1rem 0 1.4rem;
     border-top: 1px solid rgb(var(--c-cream) / .08);
     /* léger fondu + glissé du contenu, en plus de l'ouverture en hauteur */
     opacity: 0; transform: translateY(-6px);
     transition: opacity .25s ease .04s, transform .34s cubic-bezier(.4,0,.2,1) .02s;
     pointer-events: none;
   }
+  @media (min-width: 640px)  { .header-menu-content { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .header-menu-content { grid-template-columns: repeat(4, 1fr); } }
   #site-header.menu-open .header-menu-content { opacity: 1; transform: none; pointer-events: auto; }
 
-  /* Liens simples du menu */
+  .hdr-col { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+  .hdr-section-label {
+    display: block; font-size: 10.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: rgb(var(--c-n500)); margin-bottom: .55rem;
+  }
+
+  /* Liens de section */
   .hdr-link {
-    display: block; padding: .6rem .25rem;
+    display: block; padding: .4rem .25rem; font-size: .9rem;
     color: rgb(var(--c-n400)); transition: color .15s;
   }
   .hdr-link:hover { color: rgb(var(--c-cream)); }
-  .hdr-link.is-active { color: rgb(var(--c-cream)); font-weight: 500; }
+  .hdr-link.is-active { color: rgb(var(--c-cream)); font-weight: 600; }
 
-  /* Sections thème / langue */
-  .hdr-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgb(var(--c-cream) / .08); }
-  .hdr-section-label {
-    display: block; font-size: 11px; font-weight: 500;
-    text-transform: uppercase; letter-spacing: .11em;
-    color: rgb(var(--c-n500)); margin-bottom: .5rem;
-  }
+  /* Choix (thème / langue) */
   .hdr-choice {
     width: 100%; display: flex; align-items: center; justify-content: space-between;
-    gap: .75rem; padding: .5rem .75rem; border-radius: .6rem;
+    gap: .75rem; padding: .45rem .6rem; border-radius: .6rem;
     font-size: 12px; color: rgb(var(--c-n400));
     transition: background .15s, color .15s;
   }
   .hdr-choice:hover { background: rgb(var(--c-cream) / .05); color: rgb(var(--c-cream)); }
   .hdr-choice.is-active { background: rgb(var(--c-cream)); color: rgb(var(--c-dark)); font-weight: 500; }
   .theme-check { transition: opacity .15s ease; }
-
-  /* Accordéon catégories */
-  .mobile-cat-details summary { list-style: none; }
-  .mobile-cat-details summary::-webkit-details-marker { display: none; }
-  .mobile-cat-details[open] .mobile-cat-chevron { transform: rotate(180deg); }
-  .mobile-cat-chevron { transition: transform .2s ease; }
 
   @media (prefers-reduced-motion: reduce) {
     .header-menu, .header-menu-content, .hdr-burger span { transition: none; }
