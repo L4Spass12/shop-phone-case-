@@ -15,13 +15,18 @@ interface Props {
 const { handle = 'vareska' } = Astro.props;
 const igUrl = (siteConfig.socials && siteConfig.socials.instagram) || `https://instagram.com/${handle}`;
 
+// `?v=N` = cache-bust : Hostinger sert les images avec un cache immuable
+// (max-age 1 an). Sans changer ce suffixe, remplacer un fichier au même nom
+// continue de servir l'ancienne version. À incrémenter à chaque changement
+// d'image.
+const V = 2;
 const photos = [
-  '/images/insta/insta-1.webp',
-  '/images/insta/insta-2.webp',
-  '/images/insta/insta-3.webp',
-  '/images/insta/insta-4.webp',
-  '/images/insta/insta-5.webp',
-  '/images/insta/insta-6.webp',
+  `/images/insta/insta-1.webp?v=${V}`,
+  `/images/insta/insta-2.webp?v=${V}`,
+  `/images/insta/insta-3.webp?v=${V}`,
+  `/images/insta/insta-4.webp?v=${V}`,
+  `/images/insta/insta-5.webp?v=${V}`,
+  `/images/insta/insta-6.webp?v=${V}`,
 ];
 ---
 
