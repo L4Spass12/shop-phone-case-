@@ -212,8 +212,8 @@ const config = {
     // Identifiants du widget Atelier. Tant que shopId est vide, AUCUN widget
     // n'est injecté (le site fonctionne en vitrine sans checkout).
     atelier: {
-      widgetUrl: '',       // TODO: URL du script widget.js de ton instance
-      shopId: '',          // TODO: ID de ton shop Atelier
+      widgetUrl: 'https://tanstack-start-app.seamless-cart.workers.dev/api/public/widget.js',
+      shopId: '7fa02d12-6ebc-47ae-85ad-7767ebba8cf7',
     },
     currency: 'EUR',
     // Slug de la page catalogue. DOIT correspondre au nom des fichiers
