@@ -50,170 +50,47 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
   class="fixed top-0 left-0 right-0 backdrop-blur-xl bg-dark/80 border-b border-white/[0.08]"
   style="height: var(--header-h); z-index: 10000;"
 >
-  <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-    {/* Wordmark : capitales espacées, une seule couleur d'encre.
-        Le lettrage espacé est le code visuel des maisons (CELINE, POLENE) ;
-        une coupure bicolore du nom, à l'inverse, lit « startup » et brise la
-        lecture du mot. `logoSuffix` reste supporté pour les shops qui veulent
-        un accent de couleur — s'il est vide, rien n'est rendu. */}
+  <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between relative">
+    {/* ─── Gauche : bouton menu (burger), affiché en mobile ET desktop ─── */}
+    <button
+      id="menu-btn"
+      class="text-n-400 hover:text-cream transition-colors flex items-center justify-center -ml-1 shrink-0"
+      aria-label={t('nav.menu', lang)}
+      aria-expanded="false"
+    >
+      <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    {/* ─── Centre : logo (positionné en absolu pour un centrage parfait) ─── */}
     <a
       href={url('/')}
       data-logo
-      class="shrink-0 font-medium text-[15px] md:text-base uppercase tracking-[0.22em] text-cream hover:text-n-400 transition-colors"
+      class="absolute left-1/2 -translate-x-1/2 font-medium text-[15px] md:text-base uppercase tracking-[0.22em] text-cream hover:text-n-400 transition-colors whitespace-nowrap"
       aria-label={`${siteConfig.name} - ${t('nav.home', lang)}`}
     >
       {siteConfig.logoPrefix}{siteConfig.logoSuffix && <span class="text-n-400">{siteConfig.logoSuffix}</span>}
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-7 font-body text-sm" aria-label="Navigation">
-      <a href={url('/')} class={`nav-link ${isHome ? 'nav-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
-
-      {siteConfig.shop?.enabled && (
-        <a href={url('/boutique')} class={`nav-link ${isShop ? 'nav-active' : ''}`} aria-current={isShop ? 'page' : undefined}>{t('nav.shop', lang)}</a>
-      )}
-
-      {siteConfig.shop?.enabled && cats.length > 0 && (
-        <details class="nav-dropdown relative">
-          <summary
-            class="nav-cat-trigger inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-white/[0.03] text-cream cursor-pointer hover:border-white/25 hover:bg-white/[0.07] transition-colors select-none"
-            aria-label={t('nav.openCategoryMenu', lang)}
-          >
-            <span>{t('nav.categories', lang)}</span>
-            <svg class="w-3.5 h-3.5 nav-cat-chevron text-n-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </summary>
-          <div class="nav-cat-panel absolute top-full left-1/2 -translate-x-1/2 mt-3 min-w-[300px] rounded-2xl border border-white/[0.12] bg-panel shadow-2xl p-2 z-30" role="menu">
-            <a href={url('/boutique')} class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors" role="menuitem">
-              <span>{t('nav.categoriesAll', lang)}</span>
-              <span class="text-[10px] text-n-500 uppercase tracking-widest">{t('nav.shop', lang)}</span>
-            </a>
-            <div class="h-px bg-white/[0.06] my-2 mx-2"></div>
-            {cats.map(c => {
-              const active = stripped === `/product-category/${c.slug}`;
-              return (
-                <a
-                  href={url(`/product-category/${c.slug}`)}
-                  class={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${active ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
-                  aria-current={active ? 'page' : undefined}
-                  role="menuitem"
-                >
-                  <span>{c.label}</span>
-                  {active && (
-                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  )}
-                </a>
-              );
-            })}
-          </div>
-        </details>
-      )}
-
-      {/* Le blog n'est pas dans la nav principale (volontairement) : il reste
-          accessible depuis le footer, pour garder le header focalisé sur le
-          parcours d'achat. */}
-      <a href={url('/contact')} class={`nav-link ${isContact ? 'nav-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
-    </nav>
-
-    <div class="flex items-center gap-5 shrink-0">
-      {/* ─── Sélecteur de thème ─────────────────────────────────────────
-          Une bascule à deux états ne suffisait plus avec trois thèmes : on
-          passe sur un menu, même grammaire que le switcher de langue. Le
-          choix est mémorisé (localStorage) et appliqué avant le paint par le
-          script inline du <head> (pas de flash). */}
-      <details class="theme-switcher relative">
-        <summary
-          class="theme-switcher-trigger inline-flex items-center gap-1.5 text-xs font-medium text-n-400 hover:text-cream cursor-pointer select-none transition-colors"
-          aria-label="Changer de thème visuel"
-        >
-          <span class="theme-dot" aria-hidden="true"></span>
-          <span class="hidden sm:inline" data-theme-label>Défaut</span>
-          <svg class="w-3 h-3 theme-chevron text-n-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </summary>
-        <div class="theme-panel absolute top-full right-0 mt-3 min-w-[190px] rounded-xl border border-white/[0.12] bg-panel shadow-2xl p-1.5 z-30" role="menu">
-          {[
-            { id: 'default',   name: 'Défaut',    desc: 'Épuré, clair' },
-            { id: 'heritage',  name: 'Heritage',  desc: 'Galerie d’art' },
-            { id: 'sunfreaks', name: 'Sunfreaks', desc: 'Rétro solaire' },
-          ].map(t => (
-            <button
-              type="button"
-              data-theme-choice={t.id}
-              class="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-xs text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors"
-              role="menuitem"
-            >
-              <span class="text-left">
-                <span class="block font-medium">{t.name}</span>
-                <span class="block text-[10px] opacity-60">{t.desc}</span>
-              </span>
-              <svg class="w-4 h-4 shrink-0 theme-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
-          ))}
-        </div>
-      </details>
-
-      {showLangSwitcher && (
-        <details class="lang-switcher relative">
-          <summary
-            class="lang-switcher-trigger inline-flex items-center gap-1 text-xs font-medium text-n-400 hover:text-cream cursor-pointer select-none transition-colors"
-            aria-label="Choisir la langue / Choose language / Sprache wählen"
-          >
-            <span>{localeMeta(lang).short}</span>
-            <svg class="w-3 h-3 lang-chevron text-n-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </summary>
-          <div class="lang-panel absolute top-full right-0 mt-3 min-w-[140px] rounded-xl border border-white/[0.12] bg-panel shadow-2xl p-1.5 z-30" role="menu">
-            {langSwitcherItems.map(item => (
-              <a
-                href={item.href}
-                hreflang={item.code}
-                class={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-xs transition-colors ${item.active ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
-                role="menuitem"
-                aria-current={item.active ? 'true' : undefined}
-                data-lang-link={item.code}
-              >
-                <span>{item.label}</span>
-                <span class="text-[10px] tracking-widest opacity-60">{item.short}</span>
-              </a>
-            ))}
-          </div>
-        </details>
-      )}
+    <div class="flex items-center justify-end shrink-0">
       {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && (
         <div data-atelier-cart-icon class="flex items-center"></div>
       )}
 
-      <!-- Mobile menu button -->
-      <button
-        id="menu-btn"
-        class="md:hidden text-n-400 hover:text-cream transition-colors flex items-center justify-center"
-        aria-label={t('nav.menu', lang)}
-        aria-expanded="false"
-      >
-        <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
     </div>
   </div>
 
-  <!-- Mobile nav -->
+  <!-- Menu (mobile ET desktop) : ouvert par le burger -->
   <nav
     id="mobile-nav"
-    class="hidden md:hidden bg-dark border-t border-white/[0.08] px-6 py-4 flex-col gap-1 font-body text-sm"
+    class="hidden bg-dark border-t border-white/[0.08] px-6 py-5 flex-col gap-1 font-body text-sm"
     aria-label={t('nav.menu', lang)}
   >
+    <div class="max-w-md mx-auto w-full flex flex-col gap-1">
     <a href={url('/')} class={`block py-2.5 transition-colors ${isHome ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
     {siteConfig.shop?.enabled && (
       <a
@@ -257,6 +134,49 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     )}
 
     <a href={url('/contact')} class={`block py-2.5 transition-colors ${isContact ? 'text-cream font-medium' : 'text-n-400 hover:text-cream'}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+
+    {/* ─── Thème (le wrapper .theme-switcher est requis par le JS) ─── */}
+    <div class="theme-switcher mt-4 pt-4 border-t border-white/[0.08]">
+      <span class="block text-[11px] uppercase tracking-widest text-n-500 mb-2 font-medium">Thème</span>
+      {[
+        { id: 'default',   name: 'Défaut',    desc: 'Épuré, clair' },
+        { id: 'heritage',  name: 'Heritage',  desc: 'Galerie d’art' },
+        { id: 'sunfreaks', name: 'Sunfreaks', desc: 'Rétro solaire' },
+      ].map(th => (
+        <button
+          type="button"
+          data-theme-choice={th.id}
+          class="w-full flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-xs text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors"
+        >
+          <span class="text-left">
+            <span class="block font-medium">{th.name}</span>
+            <span class="block text-[10px] opacity-60">{th.desc}</span>
+          </span>
+          <svg class="w-4 h-4 shrink-0 theme-check opacity-0 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
+      ))}
+    </div>
+
+    {showLangSwitcher && (
+      <div class="mt-4 pt-4 border-t border-white/[0.08]">
+        <span class="block text-[11px] uppercase tracking-widest text-n-500 mb-2 font-medium">Langue</span>
+        {langSwitcherItems.map(item => (
+          <a
+            href={item.href}
+            hreflang={item.code}
+            data-lang-link={item.code}
+            aria-current={item.active ? 'true' : undefined}
+            class={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-xs transition-colors ${item.active ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
+          >
+            <span>{item.label}</span>
+            <span class="text-[10px] tracking-widest opacity-60">{item.short}</span>
+          </a>
+        ))}
+      </div>
+    )}
+    </div>
   </nav>
 </header>
 
