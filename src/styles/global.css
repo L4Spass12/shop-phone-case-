@@ -448,7 +448,10 @@ html[data-theme='heritage'] #product-price {
    Règle non scopée → elle bat les utilitaires Tailwind (pt-6, mb-4…), qui
    sont en @layer. */
 .crumbs-shell.crumbs-shell {
-  padding-top: 0.35rem;
+  /* En mobile, l'îlot flottant (sunfreaks) descend un peu plus bas que le
+     décalage prévu par --header-h et venait chevaucher le fil d'Ariane. On
+     dégage ce recouvrement + un petit espace. */
+  padding-top: 1.25rem;
 }
 @media (min-width: 768px) {
   .crumbs-shell.crumbs-shell { padding-top: 0.5rem; }
