@@ -93,10 +93,13 @@ const price = '29,90 €';
 
     <!-- ─── Panneau contextuel ───────────────────────────────────── -->
     <aside class="panel" data-panelwrap hidden>
-      <div class="panel-grip" data-panelclose aria-hidden="true"></div>
       <div class="panel-head">
         <h2 data-paneltitle>Panneau</h2>
-        <button type="button" class="panel-x" data-panelclose aria-label="Fermer le panneau">&times;</button>
+        <button type="button" class="panel-x" data-panelclose aria-label="Fermer le panneau">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6 18 18M18 6 6 18"/>
+          </svg>
+        </button>
       </div>
 
       <!-- Designs prêts à l'emploi -->
@@ -233,6 +236,16 @@ const price = '29,90 €';
   .builder > .panel  { flex: none; order: 2; }
   .builder > .rail   { flex: none; order: 3; }
 
+  /* En thème sunfreaks (mobile), l'îlot flottant du header descend un peu plus
+     bas que --header-h ne le prévoit et chevauchait la barre d'action (ATC).
+     On décale la colonne vers le bas et on réduit d'autant sa hauteur. */
+  @media (max-width: 1023px) {
+    html[data-theme='sunfreaks'] .builder {
+      margin-top: 12px;
+      height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 12px);
+    }
+  }
+
   @media (min-width: 1024px) {
     .builder {
       display: grid;
@@ -328,38 +341,43 @@ const price = '29,90 €';
       border-right: 1px solid rgb(var(--c-cream) / .10);
       overflow-y: auto; max-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 52px);
     }
-    .panel-grip { display: none; }
   }
   @media (max-width: 1023px) {
+    /* Feuille du bas. Fermée = hauteur 0 ; ouverte = .panel--open. La bascule
+       de max-height s'anime → ouverture ET fermeture lentes et fluides (le
+       plan de travail se réajuste doucement en même temps). */
     .panel {
-      /* Plafonné en % de l'éditeur (et non du viewport) : le plan de travail
-         garde toujours sa part, quelle que soit la hauteur d'écran. */
-      max-height: min(46dvh, 45%); overflow-y: auto;
+      max-height: 0; overflow-y: auto;
       overscroll-behavior: contain;          /* le défilement ne fuit pas vers la page */
-      padding: .4rem 1rem .9rem;
+      padding: 0 1rem;
       border-radius: 16px 16px 0 0;
       box-shadow: 0 -14px 34px -20px rgba(0,0,0,.4);
       border-top: 1px solid rgb(var(--c-cream) / .12);
-      animation: sheet-in .24s cubic-bezier(.22,.61,.36,1);
+      transition: max-height .45s cubic-bezier(.33, 1, .68, 1),
+                  padding .45s cubic-bezier(.33, 1, .68, 1);
     }
-  }
-  .panel-grip { width: 40px; height: 4px; border-radius: 99px; background: rgb(var(--c-cream) / .18); margin: 2px auto 8px; cursor: pointer; }
-  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
-  .panel-head h2 { font-size: .95rem; }
-  .panel-x { font-size: 1.6rem; line-height: 1; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit; display: flex; align-items: center; justify-content: center; }
-  .panel-x:hover { background: rgb(var(--c-cream) / .14); }
-  @media (min-width: 1024px) { .panel-x { display: none; } }
-  /* Mobile : l'en-tête (titre + croix) reste collé en haut du drawer pendant
-     qu'on scrolle → la croix est toujours visible. Elle reçoit aussi un fond
-     permanent pour bien ressortir. */
-  @media (max-width: 1023px) {
+    .panel.panel--open { max-height: 46dvh; padding: 0 1rem .9rem; }
+
+    /* Le header (titre + croix) reste collé en haut pendant le scroll, avec un
+       fond, pour que la croix soit toujours visible. */
     .panel-head {
       position: sticky; top: 0; z-index: 6;
       background: rgb(var(--c-dark));
-      margin: 0 -1rem .4rem; padding: .35rem 1rem .5rem;
+      margin: 0 -1rem .4rem; padding: .55rem 1rem .5rem;
     }
     .panel-x { background: rgb(var(--c-cream) / .08); }
   }
+
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
+  .panel-head h2 { font-size: .95rem; }
+  .panel-x {
+    width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit;
+    display: flex; align-items: center; justify-content: center; flex: none;
+    transition: background .15s;
+  }
+  .panel-x svg { width: 17px; height: 17px; }
+  .panel-x:hover { background: rgb(var(--c-cream) / .14); }
+  @media (min-width: 1024px) { .panel-x { display: none; } }
   .pane[hidden] { display: none; }
   .pane-label { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
   .pane-hint { font-size: .72rem; opacity: .6; margin-top: .7rem; line-height: 1.45; }
@@ -574,8 +592,7 @@ const price = '29,90 €';
   .toast[data-kind="warn"] { background: #b45309; }
   @media (min-width: 1024px) { .toast { bottom: 26px; } }
 
-  @keyframes sheet-in { from { transform: translateY(100%) } to { transform: translateY(0) } }
-  @media (prefers-reduced-motion: reduce) { .panel { animation: none } }
+  @media (prefers-reduced-motion: reduce) { .panel { transition: none } }
 </style>
 
 <!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
@@ -1283,18 +1300,35 @@ const price = '29,90 €';
 
     /* ── Panneaux ───────────────────────────────────────────────── */
     var TITLES = { design: 'Designs', model: 'Modèle', text: 'Texte', sticker: 'Stickers', photo: 'Photos', finish: 'Coque' };
+    var paneCloseTimer = null;
     function openPane(name) {
       activePane = name;
+      if (paneCloseTimer) { clearTimeout(paneCloseTimer); paneCloseTimer = null; }
       panel.hidden = false;
       root.querySelector('[data-paneltitle]').textContent = TITLES[name] || '';
       panel.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.dataset.pane !== name; });
       root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.panel === name)); });
       if (name === 'text') syncTextPane();
+      // Déclenche l'animation d'ouverture : on force un reflow (état fermé
+      // max-height:0 committé) PUIS on ajoute la classe, pour que la transition
+      // de max-height se joue. (Plus fiable que requestAnimationFrame.)
+      void panel.offsetHeight;
+      panel.classList.add('panel--open');
       fitCase();
     }
     function closePane() {
-      activePane = null; panel.hidden = true;
+      activePane = null;
       root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      panel.classList.remove('panel--open');
+      // Mobile : on laisse l'animation de fermeture se jouer avant de masquer.
+      // Desktop : pas de transition → on masque tout de suite.
+      var animated = window.matchMedia('(max-width: 1023px)').matches;
+      if (animated) {
+        if (paneCloseTimer) clearTimeout(paneCloseTimer);
+        paneCloseTimer = setTimeout(function () { panel.hidden = true; paneCloseTimer = null; fitCase(); }, 470);
+      } else {
+        panel.hidden = true;
+      }
       fitCase();
     }
     root.querySelectorAll('.rbtn').forEach(function (b) {
