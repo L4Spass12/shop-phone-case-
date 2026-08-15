@@ -179,6 +179,15 @@ const price = '29,90 €';
           <p>Votre coque est vierge</p>
           <span>Choisissez un outil pour commencer</span>
         </div>
+
+        <!-- Cadre de sélection : calque UNIQUE hors du .design (qui, lui, rogne
+             l'image à la coque). Ainsi le cadre et ses poignées restent
+             visibles et attrapables même quand l'élément déborde de la coque,
+             alors que l'image reste rognée au bord. -->
+        <div class="gizmo" data-gizmo hidden aria-hidden="true">
+          <span class="h h-rotate" data-handle="rotate"></span>
+          <span class="h h-resize" data-handle="resize"></span>
+        </div>
       </div>
 
       <!-- Barre d'actions : ancrée au plan de travail et non à la coque, qui
@@ -337,9 +346,20 @@ const price = '29,90 €';
   .panel-grip { width: 40px; height: 4px; border-radius: 99px; background: rgb(var(--c-cream) / .18); margin: 2px auto 8px; cursor: pointer; }
   .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
   .panel-head h2 { font-size: .95rem; }
-  .panel-x { font-size: 1.6rem; line-height: 1; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit; }
-  .panel-x:hover { background: rgb(var(--c-cream) / .08); }
+  .panel-x { font-size: 1.6rem; line-height: 1; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit; display: flex; align-items: center; justify-content: center; }
+  .panel-x:hover { background: rgb(var(--c-cream) / .14); }
   @media (min-width: 1024px) { .panel-x { display: none; } }
+  /* Mobile : l'en-tête (titre + croix) reste collé en haut du drawer pendant
+     qu'on scrolle → la croix est toujours visible. Elle reçoit aussi un fond
+     permanent pour bien ressortir. */
+  @media (max-width: 1023px) {
+    .panel-head {
+      position: sticky; top: 0; z-index: 6;
+      background: rgb(var(--c-dark));
+      margin: 0 -1rem .4rem; padding: .35rem 1rem .5rem;
+    }
+    .panel-x { background: rgb(var(--c-cream) / .08); }
+  }
   .pane[hidden] { display: none; }
   .pane-label { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
   .pane-hint { font-size: .72rem; opacity: .6; margin-top: .7rem; line-height: 1.45; }
@@ -696,12 +716,22 @@ const price = '29,90 €';
   .studio .el[data-editing] { cursor: text; }
   .studio .el[data-editing] .el-content { pointer-events: auto; white-space: pre; outline: none; }
 
-  .studio .gizmo { position: absolute; inset: -7px; border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px; display: none; }
-  .studio .el.sel .gizmo { display: block; }
+  /* Cadre de sélection : calque unique, positionné par le JS pour coïncider
+     avec l'élément sélectionné. Hors du .design (donc non rogné) : le cadre et
+     ses poignées restent visibles même quand l'image déborde de la coque.
+     Le cadre lui-même ne capte pas les clics (pointer-events: none) — seules
+     les poignées le font — pour ne pas bloquer le glisser de l'image dessous. */
+  .studio .gizmo {
+    position: absolute; left: 50%; top: 50%;
+    border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px;
+    z-index: 20; pointer-events: none;
+  }
+  .studio .gizmo[hidden] { display: none; }
   .studio .h {
     position: absolute; width: 22px; height: 22px; background: #fff;
     border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
+    pointer-events: auto;
   }
   .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
   .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
@@ -728,6 +758,7 @@ const price = '29,90 €';
     var toastEl  = root.querySelector('[data-toast]');
     var guideV   = root.querySelector('[data-guide-v]');
     var guideH   = root.querySelector('[data-guide-h]');
+    var gizmoEl  = root.querySelector('[data-gizmo]');
     var undoBtn  = root.querySelector('[data-undo]');
     var redoBtn  = root.querySelector('[data-redo]');
     var barModel = root.querySelector('[data-barmodel]');
@@ -1002,6 +1033,8 @@ const price = '29,90 €';
       var maxW = Math.max(70, r.width - 28);
       var maxH = Math.max(110, r.height - 20);
       caseEl.style.width = Math.round(Math.min(maxW, maxH * spec.ratio, 300)) + 'px';
+      // La coque a changé de taille : recale le cadre de sélection.
+      if (selectedId != null) { var s = findEl(selectedId); if (s) positionGizmo(s); }
     }
     // Le plan de travail change de taille à chaque ouverture/fermeture de
     // panneau (mobile), rotation ou apparition du clavier : on observe la
@@ -1043,6 +1076,19 @@ const price = '29,90 €';
         ref.content.style.fontSize = el.size + 'cqw';
         if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; }
       }
+      if (el.id === selectedId) positionGizmo(el);
+    }
+
+    // Cale le cadre de sélection (calque hors du clip) sur l'élément : même
+    // centre (x/y %), même taille (mesurée sur le nœud) et même rotation, avec
+    // 7px de marge tout autour comme l'ancien cadre.
+    function positionGizmo(el) {
+      var ref = nodes.get(el.id); if (!ref) { gizmoEl.hidden = true; return; }
+      gizmoEl.style.left = el.x + '%';
+      gizmoEl.style.top = el.y + '%';
+      gizmoEl.style.width = (ref.node.offsetWidth + 14) + 'px';
+      gizmoEl.style.height = (ref.node.offsetHeight + 14) + 'px';
+      gizmoEl.style.transform = 'translate(-50%,-50%) rotate(' + el.rot + 'deg)';
     }
 
     function createNode(el) {
@@ -1055,10 +1101,7 @@ const price = '29,90 €';
         img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
         content.appendChild(img);
       } else content.textContent = el.text;
-      var gizmo = document.createElement('div');
-      gizmo.className = 'gizmo';
-      gizmo.innerHTML = '<span class="h h-rotate" data-handle="rotate"></span><span class="h h-resize" data-handle="resize"></span>';
-      node.append(content, gizmo);
+      node.append(content);
       node.addEventListener('pointerdown', function (e) { onDown(e, el.id); });
       if (el.type === 'text') node.addEventListener('dblclick', function () { enterEdit(el.id); });
       design.appendChild(node);
@@ -1132,6 +1175,7 @@ const price = '29,90 €';
     function applySelection() {
       nodes.forEach(function (ref, id) { ref.node.classList.toggle('sel', id === selectedId); });
       var el = selectedId ? findEl(selectedId) : null;
+      if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
       syncTextPane();
@@ -1150,8 +1194,17 @@ const price = '29,90 €';
     // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
     // qu'on vient de faire, ou l'action qu'on s'apprête à déclencher.
     canvasEl.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('.el') || e.target.closest('[data-ctx]')) return;
+      if (e.target.closest('.el') || e.target.closest('[data-gizmo]') || e.target.closest('[data-ctx]')) return;
       deselect();
+    });
+
+    // Poignées du cadre (redimensionner / pivoter) : elles vivent sur le calque
+    // hors du clip, donc leur pointerdown doit déclencher le geste sur
+    // l'élément sélectionné.
+    gizmoEl.addEventListener('pointerdown', function (e) {
+      var handle = e.target && e.target.dataset ? e.target.dataset.handle : null;
+      if (!handle || selectedId == null) return;
+      onDown(e, selectedId);
     });
 
     /* ── Gestes ─────────────────────────────────────────────────── */
