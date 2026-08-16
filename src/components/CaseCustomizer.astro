@@ -19,6 +19,7 @@
  * ═══════════════════════════════════════════════════════════════════════
  */
 import ModelPicker from './ModelPicker.astro';
+import siteConfig from '../../site.config.mjs';
 
 /* Polices de personnalisation — importées ICI et non dans global.css :
    elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
@@ -33,10 +34,30 @@ import '@fontsource/dancing-script/400.css';
 import '@fontsource/caveat/400.css';
 import '@fontsource/space-mono/400.css';
 
-const price = '29,90 €';
+/* Prix de la coque personnalisée. En CENTIMES : c'est l'unité attendue par le
+   panier et par Stripe, et le libellé affiché en découle. Une seule source
+   évite que la vitrine et le paiement divergent. */
+const PRICE_CENTS = 2990;
+const SKU = 'coque-personnalisee';
+const price = (PRICE_CENTS / 100).toFixed(2).replace('.', ',') + ' €';
+
+/* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les
+   fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
+   la ligne avec l'identifiant reçu. Il lui faut donc l'URL de l'API et le
+   shop_id en clair. */
+const atelier = siteConfig.shop?.atelier ?? {};
+const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 ---
 
-<section class="studio" data-studio aria-label="Studio de personnalisation">
+<section
+  class="studio"
+  data-studio
+  aria-label="Studio de personnalisation"
+  data-shop-id={atelier.shopId ?? ''}
+  data-api={apiOrigin}
+  data-sku={SKU}
+  data-price={String(PRICE_CENTS)}
+>
   <div class="builder">
 
     <!-- ─── Barre supérieure ─────────────────────────────────────── -->
@@ -1543,10 +1564,207 @@ const price = '29,90 €';
       clearTimeout(toast._t); toast._t = setTimeout(function () { toastEl.hidden = true; }, 2600);
     }
 
-    /* ── Panier ─────────────────────────────────────────────────── */
-    // <ModelPicker> bloque déjà le clic tant qu'aucun modèle n'est choisi :
-    // ici on ne traite que le cas « coque vide ».
-    root.querySelector('[data-add]').addEventListener('click', function (e) {
+    /* ── Rendu pour la production ───────────────────────────────────
+       Le studio compose en CSS ; l'atelier a besoin d'un fichier. On rejoue
+       donc l'état sur un canvas, aux dimensions RÉELLES de la coque (les cotes
+       en mm servent déjà aux proportions de l'aperçu).
+
+       Deux sorties, volontairement :
+        · l'aperçu, léger, affiché dans le panier et sur la fiche commande ;
+        · le fichier d'impression à 300 dpi, celui qu'on envoie à l'imprimeur.
+       Les découpes (caméra, boutons) ne sont PAS percées ici : le fichier est
+       à fond perdu et c'est la production qui découpe. */
+    var PRINT_DPI = 300;
+    var PREVIEW_W = 520;
+    var DEFAULT_MM = [71.5, 147.6];
+    var EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+    function caseMm() { return specOf(state.model).mm || DEFAULT_MM; }
+    function printWidthPx() { return Math.round(caseMm()[0] * PRINT_DPI / 25.4); }
+
+    // Contour arrondi repris du CSS : rayon horizontal en % de la LARGEUR,
+    // rayon vertical 2,1 fois plus plat, rapporté à la HAUTEUR.
+    function casePath(g, w, h, radiusPct) {
+      var rx = w * radiusPct / 100;
+      var ry = h * (radiusPct / 2.1) / 100;
+      var HALF = Math.PI / 2;
+      g.beginPath();
+      g.moveTo(rx, 0);
+      g.lineTo(w - rx, 0);
+      g.ellipse(w - rx, ry, rx, ry, 0, -HALF, 0);
+      g.lineTo(w, h - ry);
+      g.ellipse(w - rx, h - ry, rx, ry, 0, 0, HALF);
+      g.lineTo(rx, h);
+      g.ellipse(rx, h - ry, rx, ry, 0, HALF, Math.PI);
+      g.lineTo(0, ry);
+      g.ellipse(rx, ry, rx, ry, 0, Math.PI, Math.PI + HALF);
+      g.closePath();
+    }
+
+    // Les images sont des data URL : elles doivent être décodées AVANT le
+    // dessin, sinon le canvas sort vide sans lever d'erreur.
+    function loadImages() {
+      var jobs = state.elements.filter(function (e) { return e.type === 'image' && e.src; });
+      return Promise.all(jobs.map(function (el) {
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.onload = function () { resolve({ id: el.id, img: img }); };
+          img.onerror = function () { resolve(null); };
+          img.src = el.src;
+        });
+      })).then(function (list) {
+        var map = {};
+        list.forEach(function (r) { if (r) map[r.id] = r.img; });
+        return map;
+      });
+    }
+
+    // Idem pour les polices : une police pas encore chargée est remplacée en
+    // silence par la police par défaut sur le canvas.
+    function loadFonts(scale) {
+      if (!document.fonts || !document.fonts.load) return Promise.resolve();
+      var jobs = state.elements
+        .filter(function (e) { return e.type === 'text' && e.font; })
+        .map(function (e) {
+          return document.fonts.load(Math.round(e.size * scale) + 'px ' + e.font, e.text || 'A')
+            .catch(function () {});
+        });
+      return Promise.all(jobs);
+    }
+
+    /**
+     * Dessine la coque courante.
+     * @param opts.width      largeur de sortie en pixels
+     * @param opts.background couleur de fond pleine page (aperçu JPEG), sinon
+     *                        le hors-coque reste transparent (fichier PNG)
+     */
+    function renderDesign(opts) {
+      var mm = caseMm();
+      var w = Math.round(opts.width);
+      var h = Math.round(w * mm[1] / mm[0]);
+      var scale = w / 100;                    // 1 cqw = 1 % de la largeur
+      var cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      var g = cv.getContext('2d');
+
+      return Promise.all([loadImages(), loadFonts(scale)]).then(function (out) {
+        var images = out[0];
+
+        // Le fond pleine page vient AVANT le détourage : en JPEG il n'y a pas
+        // de transparence, sans lui le hors-coque virerait au noir.
+        if (opts.background) { g.fillStyle = opts.background; g.fillRect(0, 0, w, h); }
+
+        g.save();
+        casePath(g, w, h, specOf(state.model).radius);
+        g.clip();
+
+        if (state.finish !== 'clear') { g.fillStyle = state.finish; g.fillRect(0, 0, w, h); }
+        else if (opts.background) {
+          // Coque transparente : sur l'aperçu on pose un voile clair, sinon le
+          // design flotterait sur le fond et se lirait mal.
+          g.fillStyle = 'rgba(255,255,255,.72)';
+          g.fillRect(0, 0, w, h);
+        }
+
+        state.elements.forEach(function (el) {
+          g.save();
+          g.translate(el.x * w / 100, el.y * h / 100);
+          g.rotate(el.rot * Math.PI / 180);
+          if (el.type === 'image') {
+            var img = images[el.id];
+            if (img && img.naturalWidth) {
+              var iw = el.size * scale;
+              var ih = iw * (img.naturalHeight / img.naturalWidth);
+              g.drawImage(img, -iw / 2, -ih / 2, iw, ih);
+            }
+          } else {
+            var fs = el.size * scale;
+            g.font = fs + 'px ' + (el.type === 'text' ? el.font : EMOJI_FONT);
+            g.textAlign = 'center';
+            g.textBaseline = 'middle';
+            g.fillStyle = el.type === 'text' ? el.color : '#111113';
+            g.fillText(el.text || '', 0, 0);
+          }
+          g.restore();
+        });
+
+        g.restore();
+        return cv;
+      });
+    }
+
+    /* ── Panier ─────────────────────────────────────────────────────
+       Le studio n'utilise pas les attributs data-item-* des fiches produit :
+       il doit d'abord envoyer le design au serveur, puis ajouter la ligne avec
+       l'identifiant reçu. D'où l'appel direct à l'API du widget. */
+    var SHOP_ID = root.dataset.shopId || '';
+    var API = root.dataset.api || '';
+    var SKU = root.dataset.sku || 'coque-personnalisee';
+    var PRICE_CENTS = parseInt(root.dataset.price, 10) || 0;
+    // Au-delà, on n'embarque pas les photos dans la composition sauvegardée :
+    // la commande reste juste (le PNG fait foi), seule la réédition perd les
+    // images. Mieux que de faire échouer l'envoi.
+    var STATE_MAX = 4 * 1024 * 1024;
+
+    var addBtn = root.querySelector('[data-add]');
+    var uploading = false;
+    // Un même design ne remonte qu'une fois : recliquer sur « Ajouter » sans
+    // rien changer réutilise l'identifiant au lieu d'empiler des doublons.
+    var lastUpload = { hash: '', id: '', previewUrl: '' };
+
+    function exportState() {
+      var full = JSON.parse(snapshot());
+      if (JSON.stringify(full).length <= STATE_MAX) return full;
+      full.elements = full.elements.map(function (e) {
+        if (e.type !== 'image') return e;
+        var copy = Object.assign({}, e);
+        delete copy.src;
+        return copy;
+      });
+      full.imagesStripped = true;
+      return full;
+    }
+
+    function uploadDesign() {
+      var hash = snapshot();
+      if (lastUpload.hash === hash && lastUpload.id) return Promise.resolve(lastUpload);
+      if (!API || !SHOP_ID) return Promise.reject(new Error('Panier non configuré.'));
+
+      return Promise.all([
+        renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
+        renderDesign({ width: printWidthPx() }),
+      ]).then(function (canvases) {
+        return fetch(API + '/api/public/design', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            shop_id: SHOP_ID,
+            model: state.model,
+            finish: state.finish,
+            state: exportState(),
+            preview: canvases[0].toDataURL('image/jpeg', 0.82),
+            print: canvases[1].toDataURL('image/png'),
+          }),
+        });
+      }).then(function (r) {
+        if (!r.ok) return r.json().then(function (e) { throw new Error(e.error || 'HTTP ' + r.status); });
+        return r.json();
+      }).then(function (res) {
+        lastUpload = { hash: hash, id: res.id, previewUrl: res.previewUrl };
+        return lastUpload;
+      });
+    }
+
+    function setUploading(on) {
+      uploading = on;
+      addBtn.disabled = on;
+      addBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+    }
+
+    // <ModelPicker> bloque déjà le clic tant qu'aucun modèle n'est choisi (il
+    // écoute en phase de capture) : ici on ne traite que le cas « coque vide ».
+    addBtn.addEventListener('click', function (e) {
+      if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
       if (!state.elements.length) {
         e.preventDefault(); e.stopPropagation();
         toast('Ajoutez au moins un élément à votre coque.', 'warn');
@@ -1555,11 +1773,76 @@ const price = '29,90 €';
       }
       var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
       if (!m) return;   // le sélecteur de modèle prend la main
+
+      e.preventDefault();
       save();
-      // TODO checkout : générer le rendu (canvas → PNG) et le joindre à la commande.
-      toast('Design ajouté au panier !');
       deselect();
+      setUploading(true);
+      toast('Préparation de votre coque…');
+
+      uploadDesign().then(function (up) {
+        if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
+          throw new Error('Panier indisponible.');
+        }
+        window.AtelierCheckout.add({
+          product: {
+            // L'identifiant du design rend la ligne unique : deux coques
+            // différentes ne fusionnent pas en « quantité 2 ».
+            id: 'custom::' + up.id,
+            name: 'Coque personnalisée — ' + (state.model || m),
+            price: PRICE_CENTS,
+            image: up.previewUrl,
+            // Ce que l'atelier lit pour savoir quoi imprimer, et sur quel moule.
+            meta: { design_id: up.id, model: state.model || m, finish: state.finish, sku: SKU },
+          },
+          quantity: 1,
+        });
+        toast('Design ajouté au panier !');
+      }).catch(function (err) {
+        console.error('[studio] ajout au panier', err);
+        toast("Ajout impossible pour l'instant. Réessayez.", 'warn');
+      }).then(function () {
+        setUploading(false);
+      });
     });
+
+    /* ── Réédition d'un design déjà au panier ───────────────────────
+       Le panier renvoie ici avec ?design=<id>. On récupère la composition
+       côté serveur : la copie locale peut avoir été écrasée depuis (autre
+       appareil, autre design commencé entre-temps). */
+    var DESIGN_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    function restoreFromUrl() {
+      var id = '';
+      try { id = new URL(window.location.href).searchParams.get('design') || ''; } catch (_) {}
+      if (!id || !DESIGN_ID_RE.test(id) || !API) return;
+
+      fetch(API + '/api/public/design/' + id)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || !d.state || !Array.isArray(d.state.elements)) return;
+          state = Object.assign(state, d.state);
+          seq = state.elements.reduce(function (mx, e) { return Math.max(mx, e.id || 0); }, 0);
+          if (d.model) {
+            state.model = d.model;
+            try { localStorage.setItem(MODEL_KEY, d.model); } catch (_) {}
+            setModel(d.model);
+          }
+          renderAll();
+          save();
+          history = [snapshot()]; hIndex = 0; syncHistory();
+          // Le design rechargé EST celui déjà au panier : on mémorise son
+          // identifiant pour qu'un « Ajouter » sans modification ne crée pas
+          // un second exemplaire côté serveur.
+          lastUpload = { hash: snapshot(), id: d.id, previewUrl: API + '/api/public/design/' + d.id + '/preview' };
+          if (d.state.imagesStripped) {
+            toast('Composition rechargée, sauf les photos importées.', 'warn');
+          } else {
+            toast('Composition rechargée.');
+          }
+        })
+        .catch(function () {});
+    }
 
     /* ── Démarrage ──────────────────────────────────────────────── */
     (function init() {
@@ -1578,6 +1861,10 @@ const price = '29,90 €';
       setModel(state.model);
       renderAll();
       history = [snapshot()]; hIndex = 0; syncHistory();
+      // Réédition depuis le panier (/personnaliser?design=<id>) : on recharge
+      // la composition telle qu'elle a été envoyée. Asynchrone, donc posé
+      // APRÈS le premier rendu pour ne pas retarder l'affichage.
+      restoreFromUrl();
       // On ouvre d'emblée le panneau le plus utile : le modèle s'il manque,
       // sinon les designs (démarrer d'une base plutôt que d'une page blanche).
       if (window.matchMedia('(min-width: 1024px)').matches) openPane(state.model ? 'design' : 'model');

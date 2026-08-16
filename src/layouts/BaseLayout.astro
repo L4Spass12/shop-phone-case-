@@ -205,7 +205,10 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         Le widget DOIT lire ces attributs et localiser ses labels + son
         format de prix en conséquence. Si les labels restent en FR malgré
         data-locale, c'est que le widget côté worker n'a pas encore l'i18n
-        implémentée — fix à faire dans le repo du widget. */}
+        implémentée — fix à faire dans le repo du widget.
+        data-design-edit-path : chemin du studio, pour rouvrir un design depuis
+        une ligne de panier personnalisée. Non localisé, le studio n'existe
+        qu'en français pour l'instant. */}
     {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && siteConfig.shop?.atelier?.shopId && (
       <script
         src={siteConfig.shop.atelier.widgetUrl}
@@ -214,6 +217,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         data-language={currentLocale}
         data-currency={currencyForLocale(currentLocale)}
         data-logo={new URL('/logo-checkout.png', Astro.site ?? SITE_URL).toString()}
+        data-design-edit-path="/personnaliser/"
         defer
       ></script>
     )}
