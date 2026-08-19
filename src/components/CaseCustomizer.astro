@@ -1574,7 +1574,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         · le fichier d'impression à 300 dpi, celui qu'on envoie à l'imprimeur.
        Les découpes (caméra, boutons) ne sont PAS percées ici : le fichier est
        à fond perdu et c'est la production qui découpe. */
-    var PRINT_DPI = 300;
+    // 600 dpi : la xTool O1 Omni sort en 720x1440 dpi, mais c'est la
+    // résolution des têtes, pas celle attendue du fichier. 600 dpi donne des
+    // lettrages et des liserés nets sans quadrupler inutilement le poids.
+    var PRINT_DPI = 600;
     var PREVIEW_W = 520;
     var DEFAULT_MM = [71.5, 147.6];
     var EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
@@ -1584,21 +1587,97 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     // Contour arrondi repris du CSS : rayon horizontal en % de la LARGEUR,
     // rayon vertical 2,1 fois plus plat, rapporté à la HAUTEUR.
-    function casePath(g, w, h, radiusPct) {
-      var rx = w * radiusPct / 100;
-      var ry = h * (radiusPct / 2.1) / 100;
+    function roundedRect(g, x, y, w, h, rx, ry) {
+      rx = Math.min(rx, w / 2); ry = Math.min(ry, h / 2);
       var HALF = Math.PI / 2;
       g.beginPath();
-      g.moveTo(rx, 0);
-      g.lineTo(w - rx, 0);
-      g.ellipse(w - rx, ry, rx, ry, 0, -HALF, 0);
-      g.lineTo(w, h - ry);
-      g.ellipse(w - rx, h - ry, rx, ry, 0, 0, HALF);
-      g.lineTo(rx, h);
-      g.ellipse(rx, h - ry, rx, ry, 0, HALF, Math.PI);
-      g.lineTo(0, ry);
-      g.ellipse(rx, ry, rx, ry, 0, Math.PI, Math.PI + HALF);
+      g.moveTo(x + rx, y);
+      g.lineTo(x + w - rx, y);
+      g.ellipse(x + w - rx, y + ry, rx, ry, 0, -HALF, 0);
+      g.lineTo(x + w, y + h - ry);
+      g.ellipse(x + w - rx, y + h - ry, rx, ry, 0, 0, HALF);
+      g.lineTo(x + rx, y + h);
+      g.ellipse(x + rx, y + h - ry, rx, ry, 0, HALF, Math.PI);
+      g.lineTo(x, y + ry);
+      g.ellipse(x + rx, y + ry, rx, ry, 0, Math.PI, Math.PI + HALF);
       g.closePath();
+    }
+
+    function casePath(g, w, h, radiusPct) {
+      roundedRect(g, 0, 0, w, h, w * radiusPct / 100, h * (radiusPct / 2.1) / 100);
+    }
+
+    /* ── Découpe caméra ─────────────────────────────────────────────
+       Le trou de l'objectif ne doit RIEN recevoir : la coque imprimée est
+       percée, une encre posée là finirait sur le plateau de la machine. On
+       reprend donc exactement la géométrie de renderCase(), en fractions de
+       la coque, pour l'évider du fichier.
+       Repères : le conteneur .cam est placé en % de la coque, et les formes
+       à l'intérieur en % de ce conteneur. */
+    function camShapes(fam) {
+      var box, shapes = [];
+      function rrect(radiusPct) {
+        shapes.push({ kind: 'rrect', box: box, radius: radiusPct });
+      }
+      // Cercles répartis dans le conteneur (Galaxy, objectif unique) : la
+      // largeur donne le diamètre, la hauteur suit (aspect-ratio: 1).
+      function circles(leftPct, tops, sizePct) {
+        tops.forEach(function (t) {
+          shapes.push({ kind: 'circle', box: box, left: leftPct, top: t, size: sizePct });
+        });
+      }
+
+      if (fam.cam === 'island3' || fam.cam === 'islandBig') {
+        var big = fam.cam === 'islandBig';
+        box = { l: 6, t: 3.2, w: big ? 42 : 39, h: big ? 20.5 : 19 };
+        rrect(26);
+      } else if (fam.cam === 'island2') {
+        box = { l: 6, t: 3.2, w: 30, h: 14.5 };
+        rrect(26);
+      } else if (fam.cam === 'lenses3' || fam.cam === 'lenses4') {
+        var four = fam.cam === 'lenses4';
+        box = { l: 7, t: 3.5, w: 16, h: four ? 38 : 30 };
+        circles(12, four ? [1, 26, 51, 76] : [2, 36, 70], 78);
+      } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
+        box = { l: 4, t: 6.5, w: 92, h: 8.2 };
+        rrect(null);            // pilule : rayon = demi-hauteur
+      } else if (fam.cam === 'single') {
+        box = { l: 7, t: 3.5, w: 15, h: 9 };
+        circles(0, [0], 100);
+      } else if (fam.cam === 'dualv') {
+        box = { l: 6, t: 3.4, w: 16, h: 17 };
+        rrect(26);
+      }
+      return shapes;
+    }
+
+    /**
+     * Évide (ou remplit) la zone caméra.
+     * @param fill couleur pour l'aperçu ; null = découpe réelle pour l'impression
+     */
+    function punchCamera(g, w, h, fam, fill) {
+      var shapes = camShapes(fam);
+      if (!shapes.length) return;
+      g.save();
+      if (fill) g.fillStyle = fill;
+      else g.globalCompositeOperation = 'destination-out';
+      shapes.forEach(function (sh) {
+        var bx = sh.box.l * w / 100, by = sh.box.t * h / 100;
+        var bw = sh.box.w * w / 100, bh = sh.box.h * h / 100;
+        if (sh.kind === 'rrect') {
+          var rx = sh.radius === null ? bh / 2 : bw * sh.radius / 100;
+          var ry = sh.radius === null ? bh / 2 : bh * sh.radius / 100;
+          roundedRect(g, bx, by, bw, bh, rx, ry);
+        } else {
+          var d = sh.size * bw / 100;
+          var cx = bx + sh.left * bw / 100 + d / 2;
+          var cy = by + sh.top * bh / 100 + d / 2;
+          g.beginPath();
+          g.ellipse(cx, cy, d / 2, d / 2, 0, 0, Math.PI * 2);
+        }
+        g.fill();
+      });
+      g.restore();
     }
 
     // Les images sont des data URL : elles doivent être décodées AVANT le
@@ -1689,8 +1768,62 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         });
 
         g.restore();
+        // Après le détourage : l'évidement de la caméra vaut aussi pour
+        // l'aperçu, pour que le client voie ce qui sera réellement imprimé.
+        punchCamera(g, w, h, specOf(state.model), opts.background || null);
         return cv;
       });
+    }
+
+    /* ── Taille physique du PNG (chunk pHYs) ────────────────────────
+       Un PNG sans pHYs s'ouvre à 72 dpi : la coque arriverait à ~14 cm de
+       large dans le logiciel d'impression, et il faudrait la remettre à
+       l'échelle à la main à chaque commande. On inscrit donc la résolution
+       réelle dans le fichier, en pixels par mètre. */
+    function pngWithDpi(dataUrl, dpi) {
+      var b64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
+      var bin = atob(b64);
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+
+      // Table CRC32, exigée par le format pour chaque chunk.
+      var table = pngWithDpi._t;
+      if (!table) {
+        table = pngWithDpi._t = new Uint32Array(256);
+        for (var n = 0; n < 256; n++) {
+          var c = n;
+          for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+      }
+      function crc32(buf) {
+        var c = 0xFFFFFFFF;
+        for (var i = 0; i < buf.length; i++) c = table[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+        return (c ^ 0xFFFFFFFF) >>> 0;
+      }
+
+      var ppm = Math.round(dpi / 0.0254);   // pixels par mètre
+      var chunk = new Uint8Array(21);       // 4 taille + 4 type + 9 donnees + 4 crc
+      var dv = new DataView(chunk.buffer);
+      dv.setUint32(0, 9);
+      chunk.set([0x70, 0x48, 0x59, 0x73], 4);   // « pHYs »
+      dv.setUint32(8, ppm);
+      dv.setUint32(12, ppm);
+      chunk[16] = 1;                             // unite : le metre
+      dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+
+      // Le chunk se place juste apres IHDR (signature 8 o + 25 o d'IHDR).
+      var at = 33;
+      var out = new Uint8Array(bytes.length + chunk.length);
+      out.set(bytes.subarray(0, at), 0);
+      out.set(chunk, at);
+      out.set(bytes.subarray(at), at + chunk.length);
+
+      var str = '';
+      for (var j = 0; j < out.length; j += 8192) {
+        str += String.fromCharCode.apply(null, out.subarray(j, j + 8192));
+      }
+      return 'data:image/png;base64,' + btoa(str);
     }
 
     /* ── Panier ─────────────────────────────────────────────────────
@@ -1743,7 +1876,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             finish: state.finish,
             state: exportState(),
             preview: canvases[0].toDataURL('image/jpeg', 0.82),
-            print: canvases[1].toDataURL('image/png'),
+            print: pngWithDpi(canvases[1].toDataURL('image/png'), PRINT_DPI),
           }),
         });
       }).then(function (r) {
