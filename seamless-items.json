@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "key": "produit-exemple-2",
+      "label": "Coque Vague",
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-3",
+      "label": "Coque Marbre",
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-4",
+      "label": "Coque Onyx",
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-5",
+      "label": "Coque Ivoire",
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple",
+      "label": "Produit exemple",
+      "image": "/images/products/produit-exemple.webp"
+    }
+  ]
+}
