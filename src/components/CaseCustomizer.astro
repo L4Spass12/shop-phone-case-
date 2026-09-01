@@ -60,6 +60,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   data-api={apiOrigin}
   data-sku={SKU}
   data-price={String(PRICE_CENTS)}
+  data-inset-mm={String(siteConfig.shop?.printInsetMm ?? 0)}
 >
   <div class="builder">
 
@@ -1583,6 +1584,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var PRINT_DPI = 600;
     var PREVIEW_W = 520;
     var DEFAULT_MM = [71.5, 147.6];
+    var INSET_MM = parseFloat(root.dataset.insetMm) || 0;
     var EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 
     function caseMm() { return specOf(state.model).mm || DEFAULT_MM; }
@@ -1606,8 +1608,16 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       g.closePath();
     }
 
-    function casePath(g, w, h, radiusPct) {
-      roundedRect(g, 0, 0, w, h, w * radiusPct / 100, h * (radiusPct / 2.1) / 100);
+    // `inset` en pixels : bande périphérique laissée SANS encre. Les bords de
+    // la coque s'arrondissent, l'encre y accroche mal ; la valeur se calibre
+    // dans site.config.mjs après une première impression.
+    function casePath(g, w, h, radiusPct, inset) {
+      inset = inset || 0;
+      roundedRect(
+        g, inset, inset, w - 2 * inset, h - 2 * inset,
+        Math.max(0, w * radiusPct / 100 - inset),
+        Math.max(0, h * (radiusPct / 2.1) / 100 - inset)
+      );
     }
 
     /* ── Découpe caméra ─────────────────────────────────────────────
@@ -1737,7 +1747,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         if (opts.background) { g.fillStyle = opts.background; g.fillRect(0, 0, w, h); }
 
         g.save();
-        casePath(g, w, h, specOf(state.model).radius);
+        casePath(g, w, h, specOf(state.model).radius, INSET_MM * (w / mm[0]));
         g.clip();
 
         if (state.finish !== 'clear') { g.fillStyle = state.finish; g.fillRect(0, 0, w, h); }

@@ -221,6 +221,13 @@ const config = {
     // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser
     // un prix falsifié. Le changer ici suffit.
     customCasePriceCents: 2990,
+    // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
+    // d'impression. Les coques vierges sont transparentes et imprimées à plat :
+    // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y
+    // accroche mal. 0 = à fond perdu.
+    // ⚠️ À CALIBRER : imprime une coque, regarde jusqu'où l'encre tient
+    // proprement, et mets la valeur ici. C'est le seul chiffre à changer.
+    printInsetMm: 0,
     // Slug de la page catalogue. DOIT correspondre au nom des fichiers
     // src/pages/<path>.astro et src/pages/[lang]/<path>.astro.
     path: 'boutique',
