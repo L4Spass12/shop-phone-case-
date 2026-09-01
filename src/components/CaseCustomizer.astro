@@ -35,10 +35,13 @@ import '@fontsource/caveat/400.css';
 import '@fontsource/space-mono/400.css';
 
 /* Prix de la coque personnalisée. En CENTIMES : c'est l'unité attendue par le
-   panier et par Stripe, et le libellé affiché en découle. Une seule source
-   évite que la vitrine et le paiement divergent. */
-const PRICE_CENTS = 2990;
-const SKU = 'coque-personnalisee';
+   panier et par Stripe, et le libellé affiché en découle. Défini dans
+   site.config.mjs, qui alimente AUSSI le manifeste /seamless-items.json sur
+   lequel le serveur de paiement s'appuie pour refuser un prix falsifié. */
+const PRICE_CENTS = siteConfig.shop?.customCasePriceCents ?? 2990;
+/* Clé d'article. Doit correspondre à l'entrée du manifeste : le serveur coupe
+   l'identifiant de panier au « :: » (custom::<design_id>) pour la retrouver. */
+const SKU = 'custom';
 const price = (PRICE_CENTS / 100).toFixed(2).replace('.', ',') + ' €';
 
 /* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les

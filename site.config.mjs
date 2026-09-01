@@ -216,6 +216,11 @@ const config = {
       shopId: '7fa02d12-6ebc-47ae-85ad-7767ebba8cf7',
     },
     currency: 'EUR',
+    // Prix de la coque personnalisée du studio, en CENTIMES.
+    // Source unique : le studio l'affiche, le manifeste /seamless-items.json le
+    // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser
+    // un prix falsifié. Le changer ici suffit.
+    customCasePriceCents: 2990,
     // Slug de la page catalogue. DOIT correspondre au nom des fichiers
     // src/pages/<path>.astro et src/pages/[lang]/<path>.astro.
     path: 'boutique',

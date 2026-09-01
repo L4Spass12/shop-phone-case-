@@ -1,7 +1,18 @@
-// Manifeste des configurations ACHETABLES de la boutique, consommé par le
-// back-office Seamless pour proposer un menu déroulant à l'écran « Fournisseur »
-// (au lieu de faire saisir une clé à la main, que l'opérateur ne peut pas
-// deviner puisque c'est la vitrine qui la fabrique).
+// Manifeste des configurations ACHETABLES de la boutique. Il sert à deux
+// choses, et la seconde est la plus importante :
+//
+//  1. le menu déroulant de l'écran « Fournisseur » du back-office (au lieu de
+//     faire saisir une clé à la main, que l'opérateur ne peut pas deviner
+//     puisque c'est la vitrine qui la fabrique) ;
+//  2. le PRIX FAISANT FOI. Le panier envoie un prix au serveur de paiement,
+//     mais un prix venu du navigateur se modifie dans les outils de
+//     développement : sans référence côté serveur, on pouvait payer une coque
+//     un centime. Le serveur relit donc le prix ICI avant d'encaisser.
+//
+// Corollaire du point 2 : un article absent de ce manifeste devient
+// INACHETABLE. Tout ce que la boutique vend doit y figurer, produits de test
+// internes compris — d'où leur présence, signalée par un libellé préfixé
+// plutôt qu'exclue.
 //
 // Pourquoi un manifeste et pas un scraping du HTML : les clés de variante sont
 // écrites par le JS au clic (le sélecteur réécrit data-item-id), donc une lecture
@@ -18,6 +29,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { parseEntrySlug } from '../lib/i18n';
+import siteConfig from '../../site.config.mjs';
 
 export const GET: APIRoute = async () => {
   const products = await getCollection('products');
@@ -26,13 +38,17 @@ export const GET: APIRoute = async () => {
     // Une seule locale : la clé d'article ne dépend pas de la langue, énumérer
     // les traductions produirait des doublons.
     .filter((p) => parseEntrySlug(p.slug).lang === 'fr')
-    // Les produits de test internes n'ont pas à apparaître dans un back-office.
-    .filter((p) => !p.slug.startsWith('produit-test-'))
     .flatMap((p) => {
       const { name, image, variations, attributes } = p.data;
+      // Les produits de test restent achetables (cf. en-tête) mais se
+      // reconnaissent au premier coup d'œil dans le menu du back-office.
+      const prefix = p.slug.startsWith('produit-test-') ? '[test] ' : '';
+      // En centimes, comme le panier et Stripe. Les prix du contenu sont en
+      // euros : une conversion unique ici évite les écarts d'arrondi.
+      const cents = (v: number) => Math.round(v * 100);
 
       if (!variations?.length) {
-        return [{ key: p.slug, label: name, image: image ?? null }];
+        return [{ key: p.slug, label: prefix + name, price: cents(p.data.price), image: image ?? null }];
       }
 
       // Libellé lisible de la variation : « Noir », « Noir / XL »… reconstruit
@@ -47,10 +63,24 @@ export const GET: APIRoute = async () => {
 
       return variations.map((v) => ({
         key: `${p.slug}-v${v.id}`,
-        label: labelFor(v),
+        label: prefix + labelFor(v),
+        price: cents(v.price),
         image: v.image ?? image ?? null,
       }));
     });
+
+  // La coque personnalisée n'est pas un produit du catalogue : elle est
+  // fabriquée au clic dans le studio. Sans cette entrée, le serveur la
+  // refuserait. La clé « custom » est celle que le studio place devant le
+  // design (custom::<design_id>), et que le serveur retrouve en coupant au « :: ».
+  if (siteConfig.shop?.customCasePriceCents) {
+    items.push({
+      key: 'custom',
+      label: 'Coque personnalisée',
+      price: siteConfig.shop.customCasePriceCents,
+      image: null,
+    });
+  }
 
   return new Response(JSON.stringify({ items }, null, 2), {
     headers: {
