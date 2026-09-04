@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BlogPreview from '../components/BlogPreview.astro';
 import Icon from '../components/Icon.astro';
+import InstaGrid from '../components/InstaGrid.astro';
 import siteConfig from '../../site.config.mjs';
 import { getCollection } from 'astro:content';
 import { inlineMd } from '../lib/inline-md';
@@ -9,15 +9,6 @@ import { parseEntrySlug } from '../lib/i18n';
 import { unsplashSrcset } from '../lib/image';
 
 // ─── Données ──────────────────────────────────────────────────────────────
-const allPosts = await getCollection('blog');
-// Homepage FR : on ne montre que les articles FR (les EN/DE remontaient
-// dans la liste "Articles récents" car getCollection ramène toutes les
-// locales confondues).
-const recentPosts = allPosts
-  .filter(p => parseEntrySlug(p.slug).lang === 'fr')
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
-
 const allProducts = await getCollection('products');
 // Homepage FR : produits FR uniquement, hors internes/tests (catégorie vide).
 const sortedProducts = allProducts
@@ -509,8 +500,12 @@ const faqSchema = {
     })();
   </script>
 
-  <!-- ═══════════════════════════ BLOG PREVIEW ═══════════════════════════ -->
-  {recentPosts.length > 0 && <div class="below-fold-defer"><BlogPreview posts={recentPosts} lang="fr" /></div>}
+  <!-- ═══════════════════════════ INSTAGRAM ═══════════════════════════ -->
+  {/* Même composant que le bas des fiches produit. Placé APRÈS la
+      personnalisation et avant la FAQ : il montre le produit porté, ce qui
+      prolonge l'envie née de la section studio, puis la FAQ vient lever les
+      dernières objections. */}
+  <InstaGrid />
 
   <!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
   <section class="py-20 md:py-24 px-6 border-t border-white/[0.04] bg-panel below-fold-defer">
