@@ -822,6 +822,48 @@ html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
+/* ─── Bannière « sur-mesure » ──────────────────────────────────────────
+   Construite comme la bannière du haut : panneau pleine largeur, image en
+   `cover`, texte posé dessus. Le bloc violet plein qu'elle remplace n'existait
+   que faute de visuel. */
+.studio-section {
+  min-height: 62vh;
+}
+.studio-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Le sujet et les annotations vivent au CENTRE et en HAUT de l'image ; le
+     bas n'est que le plan de travail. On privilégie donc le haut. */
+  object-position: center 22%;
+  z-index: 0;
+}
+.studio-copy { z-index: 1; }
+/* Encre SOMBRE : la section portait un aplat violet, donc du texte blanc. Elle
+   porte maintenant une photo claire, où ce blanc tombait à 1,5:1. On reprend
+   exactement l'encre de la bannière du haut. */
+.studio-copy span { color: rgb(47 26 22); }
+.studio-copy h2 { color: rgb(47 26 22); }
+.studio-copy p { color: rgb(61 42 36); }
+/* Le texte se pose sur une photo claire et chargée : halo clair derrière les
+   lettres, comme sur la bannière du haut, plutôt qu'un voile qui masquerait le
+   visuel. */
+.studio-copy h2,
+.studio-copy p,
+.studio-copy span {
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, .95),
+    0 0 18px rgba(255, 255, 255, .85);
+}
+@media (min-width: 768px) {
+  .studio-section { min-height: 68vh; }
+  /* Desktop : le plan de travail occupe le bas de l'image, on remonte donc le
+     texte au niveau du sujet plutôt que de le coller au bord. */
+  .studio-section { align-items: center; }
+}
+
 /* ─── Bandeau défilant : retiré ────────────────────────────────────────
    Le composant <Marquee> reste dans le layout mais n'est plus affiché : il est
    en `display: none` par défaut et seul ce thème l'activait. `--marquee-h`
@@ -1053,16 +1095,14 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-
 /* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
    c'est ce contraste net qui structure, pas une teinte diluée. */
 html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
-  background: rgb(var(--accent-rgb));
+  /* Plus d'aplat violet : la section porte désormais une photo pleine largeur
+     (cf. .studio-section). On garde la géométrie de panneau flottant, qui est
+     ce qui donne le rythme avec la bannière du haut. */
+  background: transparent;
   border-top: 0;
   margin: 8px 14px;
   border-radius: 30px;
   overflow: hidden;
-  /* Texte clair : le violet est assez foncé pour porter du blanc (~5,7:1),
-     contrairement à l'orange précédent. */
-  --c-cream: 255 255 255;
-  --c-n400: 236 230 250;
-  --c-n500: 210 198 238;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
@@ -1070,11 +1110,7 @@ html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
     border-radius: 40px;
   }
 }
-/* Intertitre en jaune : franc sur le violet (~4,6:1) et rappel de l'accent
-   secondaire. */
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) span.uppercase {
-  color: var(--sun-yellow);
-}
+
 
 /* Intertitres de section : petites capitales franches plutôt que le gris
    très pâle du thème clair, qui disparaissait sur le crème.

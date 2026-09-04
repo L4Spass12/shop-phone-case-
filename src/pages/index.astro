@@ -249,49 +249,34 @@ const faqSchema = {
   )}
 
   <!-- ═══════════════════════════ PERSONNALISATION ═══════════════════════════ -->
-  <section class="relative py-20 md:py-24 px-6 border-t border-white/[0.04] bg-gradient-to-br from-teal via-panel to-dark overflow-hidden below-fold-defer">
-    <!-- Accents chauds (amber/coral) pour la vibe créative -->
-    <div class="absolute top-1/2 left-10 -translate-y-1/2 w-[400px] h-[400px] bg-[#ff9b5c]/[0.05] blur-[140px] rounded-full pointer-events-none"></div>
-    <div class="absolute bottom-0 right-20 w-[500px] h-[250px] bg-[#ff5c7a]/[0.04] blur-[140px] rounded-full pointer-events-none"></div>
-    {/* Le visuel PORTE déjà son propre discours (« Ajoute tes images »,
-        « Choisis tes éléments », la légende Texte/Images/Stickers/Couleurs) :
-        superposer le titre par-dessus ferait doublon et brouillerait les deux.
-        Il occupe donc toute la largeur, lisible, et le texte se place DESSOUS.
-        L'image entière est cliquable : c'est elle qui donne envie, pas le
-        bouton seul. */}
-    <div class="relative max-w-5xl mx-auto">
-      <a href="/personnaliser" class="studio-banner block overflow-hidden rounded-2xl md:rounded-3xl" aria-label="Créer ma coque personnalisée dans le studio">
-        <img
-          src="/images/studio-banner.webp"
-          srcset="/images/studio-banner-800w.webp 800w, /images/studio-banner-1280w.webp 1280w, /images/studio-banner.webp 1666w"
-          sizes="(min-width: 1024px) 64rem, 100vw"
-          alt="Un plan de travail où l'on compose sa coque : photos, stickers et texte assemblés, la coque transparente imprimée à côté"
-          width="1666"
-          height="944"
-          loading="lazy"
-          decoding="async"
-          class="block w-full h-auto"
-        />
+  {/* Même traitement que la bannière du haut : le visuel occupe toute la
+      largeur du panneau et le texte se pose dessus. Le <img> en `cover` plutôt
+      qu'un background-image pour garder srcset et chargement différé. */}
+  <section class="studio-section relative px-6 overflow-hidden below-fold-defer flex items-end">
+    <img
+      src="/images/studio-banner.webp"
+      srcset="/images/studio-banner-800w.webp 800w, /images/studio-banner-1280w.webp 1280w, /images/studio-banner.webp 1666w"
+      sizes="100vw"
+      alt="Un plan de travail où l'on compose sa coque : photos, stickers et texte assemblés, la coque transparente imprimée à côté"
+      width="1666"
+      height="944"
+      loading="lazy"
+      decoding="async"
+      class="studio-bg"
+    />
+    <div class="studio-copy relative max-w-7xl mx-auto w-full py-10 md:py-12">
+      <span class="text-[10px] font-medium uppercase tracking-widest mb-3 block">Sur-mesure</span>
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-cream mb-3 leading-[1.15]">
+        Votre idée, votre coque.
+      </h2>
+      <p class="text-sm md:text-base font-light max-w-[19rem] mb-6 leading-relaxed">
+        Vos photos, vos stickers, votre texte. Composez-la à l'écran, on
+        l'imprime et on vous l'envoie.
+      </p>
+      <a href="/personnaliser" class="btn-primary inline-flex items-center gap-2">
+        Je personnalise
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </a>
-
-      {/* Desktop : le texte tient à gauche et le bouton à droite, sur une seule
-          ligne — un pied de bannière, pas un second bloc centré qui rallongerait
-          la page. Mobile : tout empilé et centré. */}
-      <div class="studio-cta mt-6 md:mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-5 text-center md:text-left">
-        <div>
-          <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-3 block">Sur-mesure</span>
-          <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-cream mb-3 leading-[1.15]">
-            Votre idée, votre coque.
-          </h2>
-          <p class="text-sm md:text-base text-n-400 font-light max-w-xl mx-auto md:mx-0 leading-relaxed">
-            Vos photos, vos stickers, votre texte. Composez-la à l'écran, on l'imprime et on vous l'envoie.
-          </p>
-        </div>
-        <a href="/personnaliser" class="btn-primary inline-flex items-center justify-center gap-2 shrink-0 self-center md:self-auto">
-          Je personnalise
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </a>
-      </div>
     </div>
   </section>
 
