@@ -153,20 +153,27 @@ const faqSchema = {
           la vitrine, au centre du cadre : au-delà de ~30rem le titre passait
           par-dessus les coques et les deux se neutralisaient. */}
       <div class="hero-copy max-w-[30rem]">
-        <span class="tag tag-status mb-5">Collection 2026</span>
+        {/* La pastille porte une PREUVE, pas une étiquette de saison :
+            « Collection 2026 » ne disait rien et vieillira mal, alors que
+            l'impression en France est l'argument que la concurrence à bas prix
+            ne peut pas copier. */}
+        <span class="tag tag-status mb-5">Imprimées en France</span>
 
-        {/* Registre : une boutique, pas un musée — le décor de vitrine suffit à
-            porter le premium, le texte n'a pas à le redire. Donc une promesse
-            client (on remarque la coque) plutôt qu'un cartel d'exposition, et
-            un sous-titre qui invite à chercher son modèle. Le mot-clé « coques
-            de téléphone » reste en tête de titre. */}
+        {/* Le titre porte la PROMESSE, le sous-titre porte l'OFFRE. Le titre
+            ne parle volontairement pas de personnalisation : elle a sa propre
+            section plus bas, la répéter ici affaiblirait les deux. Le mot-clé
+            « coques de téléphone » reste en tête de titre.
+            Le sous-titre, lui, annonce les DEUX façons d'acheter, ce qui
+            explique les deux boutons juste en dessous. « Motifs dessinés » a
+            sauté : rien ne garantit que les motifs sont dessinés en interne, et
+            une promesse invérifiable en page d'accueil est un risque inutile. */}
         <h1 class="text-[1.7rem] sm:text-3xl lg:text-[2.1rem] font-medium tracking-tight text-cream mb-3 leading-[1.15]">
           Des coques de téléphone que l'on remarque
         </h1>
 
         <p class="text-sm md:text-base text-n-300 mb-7 font-light leading-relaxed">
-          Motifs dessinés et imprimés en France. Trouvez le vôtre pour iPhone,
-          Samsung, Pixel ou Xiaomi.
+          Choisissez un motif ou créez le vôtre. Imprimées à l'unité pour
+          iPhone, Samsung, Pixel et Xiaomi.
         </p>
 
         {/* Deux CTA, deux destinations RÉELLEMENT différentes : acheter une
