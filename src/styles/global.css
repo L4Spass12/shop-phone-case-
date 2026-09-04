@@ -847,6 +847,7 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 .studio-b {
   min-height: 58vh;
 }
+
 .studio-b-bg {
   position: absolute;
   inset: 0;
@@ -873,6 +874,30 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
     aspect-ratio: 1696 / 960;
   }
 }
+/* Mobile : on renonce à la superposition. En portrait, `cover` rogne 484 px sur
+   les CÔTÉS — la rangée de coques finies sortait du cadre, et tout cadrage
+   ramenant les coques faisait retomber le titre dessus. Aucun réglage ne
+   sauvait les deux.
+   L'image est donc montrée ENTIÈRE, sans rognage, et le texte descend sous
+   elle sur un fond plein : la scène est complète, le texte parfaitement
+   lisible. La superposition reste le parti pris sur desktop, où la largeur le
+   permet. */
+@media (max-width: 767px) {
+  .studio-b {
+    display: block;
+    min-height: 0;
+  }
+  .studio-b-bg {
+    position: static;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+  }
+  .studio-b-copy {
+    background: #fff;
+  }
+}
+
 
 /* ─── Bandeau défilant : retiré ────────────────────────────────────────
    Le composant <Marquee> reste dans le layout mais n'est plus affiché : il est
