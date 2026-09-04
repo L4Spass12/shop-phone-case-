@@ -195,17 +195,17 @@ html[data-theme='heritage'] .hero-section {
 .hero-section img.hero-bg {
   object-position: center 18%;
 }
-/* Le texte se lit à même la photo, sans voile par-dessus. On pose donc un halo
-   clair derrière les LETTRES seules : le visuel reste intact et le texte tient
-   sur n'importe quelle zone.
-   Nécessaire aux DEUX tailles depuis que le bloc est ancré en bas à gauche :
-   il y tombe sur le bitume et sur une coque rose, où le contraste mesuré
-   s'effondrait à 1,0 — le fond y a exactement la luminosité de l'encre. */
-html[data-theme='sunfreaks'] .hero-section h1,
-html[data-theme='sunfreaks'] .hero-section p {
-  text-shadow:
-    0 0 6px rgba(255, 255, 255, .95),
-    0 0 18px rgba(255, 255, 255, .85);
+/* Mobile : l'écran est plus haut que large, donc `cover` rogne les CÔTÉS et le
+   texte se retrouve forcément sur le mannequin. Plutôt qu'un voile qui
+   délaverait la photo, on pose un halo clair derrière les LETTRES seules : le
+   visuel reste intact, le texte décolle du fond. */
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] .hero-section h1,
+  html[data-theme='sunfreaks'] .hero-section p {
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, .95),
+      0 0 18px rgba(255, 255, 255, .85);
+  }
 }
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage {
   object-position: center 42%;
@@ -753,20 +753,13 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
   border-color: rgb(47 26 22 / .3);
 }
 
-/* Le bloc de texte est ancré EN BAS À GAUCHE, à toutes les tailles : la photo
-   occupe le regard, le texte se lit comme une légende posée dessus plutôt que
-   comme un pavé centré qui coupe l'image en deux. */
-html[data-theme='sunfreaks'] .hero-section {
-  align-items: flex-end;
-}
-@media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-section > .relative {
-    padding-bottom: 3rem;
-  }
-}
-/* Mobile : en plus de l'ancrage, on resserre. Le titre reste le seul élément
-   appuyé, le sous-titre passe en retrait. */
+/* Mobile : le bloc de texte descend EN BAS de la bannière et se resserre, pour
+   laisser la photo occuper le regard. Le titre reste le seul élément appuyé ;
+   le sous-titre et la mention passent en retrait. */
 @media (max-width: 767px) {
+  html[data-theme='sunfreaks'] .hero-section {
+    align-items: flex-end;
+  }
   html[data-theme='sunfreaks'] .hero-section > .relative {
     padding-top: 0.75rem;
     padding-bottom: 1.5rem;
