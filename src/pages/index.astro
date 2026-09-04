@@ -115,8 +115,8 @@ const faqSchema = {
   description="Découvrez notre collection de produits de qualité : sélection soignée, livraison rapide et service client attentif."
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-vareska.webp',
-      imagesrcset: '/images/hero-vareska-800w.webp 800w, /images/hero-vareska-1280w.webp 1280w, /images/hero-vareska.webp 1696w',
+    { href: '/images/hero-vareska.webp?v=2',
+      imagesrcset: '/images/hero-vareska-800w.webp?v=2 800w, /images/hero-vareska-1280w.webp?v=2 1280w, /images/hero-vareska.webp?v=2 1696w',
       imagesizes: '100vw' },
   ]}
 >
@@ -127,8 +127,8 @@ const faqSchema = {
   <section class="hero-section relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
     <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
     <img
-      src="/images/hero-vareska.webp"
-      srcset="/images/hero-vareska-800w.webp 800w, /images/hero-vareska-1280w.webp 1280w, /images/hero-vareska.webp 1696w"
+      src="/images/hero-vareska.webp?v=2"
+      srcset="/images/hero-vareska-800w.webp?v=2 800w, /images/hero-vareska-1280w.webp?v=2 1280w, /images/hero-vareska.webp?v=2 1696w"
       sizes="100vw"
       alt="Coques Vareska personnalisables présentées en studio"
       class="hero-img hero-bg"
@@ -384,12 +384,19 @@ const faqSchema = {
       content-visibility: auto;
       contain-intrinsic-size: auto 800px;
     }
-    /* Voile sombre en ::after : z-index 1 pour passer SOUS le contenu texte */
+    /* Fondu de lisibilité, en ::after : z-index 1 pour passer SOUS le texte.
+       Il ne couvre plus toute la bannière — l'ancien voile blanc à 92 % avait
+       été conçu pour une image neutre et délavait la photo. Il s'arrête à
+       mi-largeur : le texte reste lisible à gauche, le sujet (mannequin et
+       coques) reste intact à droite. */
     .hero-section::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to right, rgba(255,255,255,0.92), rgba(255,255,255,0.72) 55%, rgba(255,255,255,0.35));
+      background: linear-gradient(to right,
+        rgba(255,255,255,0.88) 0%,
+        rgba(255,255,255,0.62) 26%,
+        rgba(255,255,255,0) 52%);
       pointer-events: none;
       z-index: 1;
     }

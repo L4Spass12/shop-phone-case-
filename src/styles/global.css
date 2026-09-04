@@ -168,6 +168,18 @@ html[data-theme='heritage'] .hero-section {
 .hero-section img.hero-bg {
   object-position: center 18%;
 }
+/* Mobile : l'écran est plus haut que large, donc `cover` rogne les CÔTÉS et le
+   texte se retrouve forcément sur le mannequin. Plutôt qu'un voile qui
+   délaverait la photo, on pose un halo clair derrière les LETTRES seules : le
+   visuel reste intact, le texte décolle du fond. */
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] .hero-section h1,
+  html[data-theme='sunfreaks'] .hero-section p {
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, .95),
+      0 0 18px rgba(255, 255, 255, .85);
+  }
+}
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage {
   object-position: center 42%;
 }
@@ -700,12 +712,17 @@ html[data-theme='sunfreaks'] .hero-section h1 {
 /* Voile « coucher de soleil » : l'image neutre par défaut laissait le hero
    blanc et vide sur sa droite. Le dégradé rose/jaune l'habille sans exiger
    de nouveau visuel. */
+/* Plus de voile devant la photo : le visuel se suffit à lui-même, et le dégradé
+   rose/violet n'existait que pour habiller l'ancienne image neutre. */
 html[data-theme='sunfreaks'] .hero-section::after {
-  background: linear-gradient(102deg,
-    rgba(255, 255, 255, .97) 0%,
-    rgba(255, 255, 255, .82) 38%,
-    rgba(255, 225, 77, .26) 64%,
-    rgba(124, 58, 237, .30) 100%);
+  background: none;
+}
+/* Contrepartie : le texte se lit désormais DIRECTEMENT sur l'image. Le gris
+   clair du gabarit tombait à 3,3:1 sur les zones de ciel, sous le seuil AA.
+   Assombri juste ce qu'il faut — mesuré 5,4:1 sur le pixel le plus défavorable,
+   tout en restant visiblement plus léger que le titre. */
+html[data-theme='sunfreaks'] .hero-section p {
+  color: rgb(61 42 36);
 }
 /* Logotype : script calligraphique repris du thème heritage (Pinyon Script),
    mêmes tailles. */
