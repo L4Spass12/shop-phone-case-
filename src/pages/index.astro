@@ -249,31 +249,34 @@ const faqSchema = {
   )}
 
   <!-- ═══════════════════════════ PERSONNALISATION ═══════════════════════════ -->
-  {/* Même traitement que la bannière du haut : le visuel occupe toute la
-      largeur du panneau et le texte se pose dessus. Le <img> en `cover` plutôt
-      qu'un background-image pour garder srcset et chargement différé. */}
-  <section class="studio-section relative px-6 overflow-hidden below-fold-defer flex items-end">
-    <img
-      src="/images/studio-banner.webp"
-      srcset="/images/studio-banner-800w.webp 800w, /images/studio-banner-1280w.webp 1280w, /images/studio-banner.webp 1666w"
-      sizes="100vw"
-      alt="Un plan de travail où l'on compose sa coque : photos, stickers et texte assemblés, la coque transparente imprimée à côté"
-      width="1666"
-      height="944"
-      loading="lazy"
-      decoding="async"
-      class="studio-bg"
-    />
-    <div class="studio-copy relative max-w-7xl mx-auto w-full py-10 md:py-12">
-      <span class="text-[10px] font-medium uppercase tracking-widest mb-3 block">Sur-mesure</span>
-      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-cream mb-3 leading-[1.15]">
-        Votre idée, votre coque.
-      </h2>
-      <p class="text-sm md:text-base font-light max-w-[19rem] mb-6 leading-relaxed">
-        Vos photos, vos stickers, votre texte. Composez-la à l'écran, on
-        l'imprime et on vous l'envoie.
-      </p>
-      <a href="/personnaliser" class="btn-primary inline-flex items-center gap-2">
+  {/* Le visuel est une illustration AUTONOME : il porte déjà ses propres
+      annotations (« Ajoute tes images », « Choisis tes éléments », la légende
+      Texte/Images/Stickers/Couleurs) réparties sur toute sa surface. Il n'y a
+      aucune zone libre pour du texte, et toute superposition s'y lisait mal.
+      On le laisse donc parler seul, en pleine largeur, et l'appel à l'action
+      vient DESSOUS dans une barre pleine. Une carte, deux étages. */}
+  <section class="studio-section relative overflow-hidden below-fold-defer">
+    <a href="/personnaliser" class="block" aria-label="Créer ma coque personnalisée dans le studio">
+      <img
+        src="/images/studio-banner.webp"
+        srcset="/images/studio-banner-800w.webp 800w, /images/studio-banner-1280w.webp 1280w, /images/studio-banner.webp 1666w"
+        sizes="100vw"
+        alt="Un plan de travail où l'on compose sa coque : photos, stickers et texte assemblés, la coque transparente imprimée à côté"
+        width="1666"
+        height="944"
+        loading="lazy"
+        decoding="async"
+        class="studio-img"
+      />
+    </a>
+    <div class="studio-bar flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-6 md:px-10 md:py-7 text-center sm:text-left">
+      <div>
+        <span class="block text-[10px] font-medium uppercase tracking-widest mb-1.5">Sur-mesure</span>
+        <h2 class="text-xl md:text-2xl font-medium tracking-tight leading-tight">
+          Votre idée, votre coque.
+        </h2>
+      </div>
+      <a href="/personnaliser" class="btn-primary inline-flex items-center justify-center gap-2 shrink-0 self-center sm:self-auto">
         Je personnalise
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </a>

@@ -823,46 +823,21 @@ html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
 /* ─── Bannière « sur-mesure » ──────────────────────────────────────────
-   Construite comme la bannière du haut : panneau pleine largeur, image en
-   `cover`, texte posé dessus. Le bloc violet plein qu'elle remplace n'existait
-   que faute de visuel. */
-.studio-section {
-  min-height: 62vh;
-}
-.studio-bg {
-  position: absolute;
-  inset: 0;
+   Une carte à deux étages : le visuel seul en haut, la barre d'action en bas.
+   Le visuel est une illustration autonome (elle porte ses propres annotations
+   sur toute sa surface) : y superposer du titre se lisait mal quel que soit le
+   cadrage. Il garde donc ses proportions naturelles, sans rognage, et le texte
+   descend sur un fond plein où sa lisibilité ne dépend plus de la photo. */
+.studio-img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Le sujet et les annotations vivent au CENTRE et en HAUT de l'image ; le
-     bas n'est que le plan de travail. On privilégie donc le haut. */
-  object-position: center 22%;
-  z-index: 0;
+  height: auto;
 }
-.studio-copy { z-index: 1; }
-/* Encre SOMBRE : la section portait un aplat violet, donc du texte blanc. Elle
-   porte maintenant une photo claire, où ce blanc tombait à 1,5:1. On reprend
-   exactement l'encre de la bannière du haut. */
-.studio-copy span { color: rgb(47 26 22); }
-.studio-copy h2 { color: rgb(47 26 22); }
-.studio-copy p { color: rgb(61 42 36); }
-/* Le texte se pose sur une photo claire et chargée : halo clair derrière les
-   lettres, comme sur la bannière du haut, plutôt qu'un voile qui masquerait le
-   visuel. */
-.studio-copy h2,
-.studio-copy p,
-.studio-copy span {
-  text-shadow:
-    0 0 6px rgba(255, 255, 255, .95),
-    0 0 18px rgba(255, 255, 255, .85);
+.studio-bar {
+  background: rgb(var(--accent-rgb));
+  color: #fff;
 }
-@media (min-width: 768px) {
-  .studio-section { min-height: 68vh; }
-  /* Desktop : le plan de travail occupe le bas de l'image, on remonte donc le
-     texte au niveau du sujet plutôt que de le coller au bord. */
-  .studio-section { align-items: center; }
-}
+.studio-bar span { color: var(--sun-yellow); }
 
 /* ─── Bandeau défilant : retiré ────────────────────────────────────────
    Le composant <Marquee> reste dans le layout mais n'est plus affiché : il est
