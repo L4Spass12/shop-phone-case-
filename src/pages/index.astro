@@ -115,8 +115,8 @@ const faqSchema = {
   description="Découvrez notre collection de produits de qualité : sélection soignée, livraison rapide et service client attentif."
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/placeholder.webp',
-      imagesrcset: '/images/placeholder.webp 2560w',
+    { href: '/images/hero-vareska.webp',
+      imagesrcset: '/images/hero-vareska-800w.webp 800w, /images/hero-vareska-1280w.webp 1280w, /images/hero-vareska.webp 1696w',
       imagesizes: '100vw' },
   ]}
 >
@@ -127,16 +127,16 @@ const faqSchema = {
   <section class="hero-section relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
     <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
     <img
-      src="/images/placeholder.webp"
-      srcset="/images/placeholder.webp 2560w"
+      src="/images/hero-vareska.webp"
+      srcset="/images/hero-vareska-800w.webp 800w, /images/hero-vareska-1280w.webp 1280w, /images/hero-vareska.webp 1696w"
       sizes="100vw"
-      alt="Visuel de présentation de la boutique"
+      alt="Coques Vareska personnalisables présentées en studio"
       class="hero-img hero-bg"
       fetchpriority="high"
       loading="eager"
       decoding="async"
-      width="2560"
-      height="1086"
+      width="1696"
+      height="960"
     />
     {/* Bannière du thème « heritage » : vitrine de musée. Masquée par défaut,
         affichée uniquement quand data-theme=heritage (cf. global.css). */}

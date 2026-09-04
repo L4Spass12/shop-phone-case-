@@ -161,6 +161,13 @@ html[data-theme='heritage'] .hero-section {
 }
 /* Cadrage : on privilégie le haut du cliché, où vivent le verre et les coques,
    plutôt que le sol de marbre. */
+/* Bannière par défaut : le sujet est en HAUT de l'image (visage, mains, coques
+   qui flottent). En cadrage centré, `cover` rognait le crâne du mannequin sur
+   un écran large. On tire donc le cadrage vers le haut ; ce qui se perd en bas
+   n'est que le prolongement du fond. */
+.hero-section img.hero-bg {
+  object-position: center 18%;
+}
 html[data-theme='heritage'] .hero-section img.hero-bg-heritage {
   object-position: center 42%;
 }
