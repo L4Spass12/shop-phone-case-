@@ -129,7 +129,10 @@ const faqSchema = {
     <img
       src="/images/hero-vareska.webp?v=2"
       srcset="/images/hero-vareska-800w.webp?v=2 800w, /images/hero-vareska-1280w.webp?v=2 1280w, /images/hero-vareska.webp?v=2 1696w"
-      sizes="100vw"
+      {/* 126vw sur desktop et non 100vw : la bannière y est agrandie de 26 %
+          (cf. global.css). Sans ça le navigateur choisissait une source calée
+          sur la largeur de l'écran, puis l'agrandissait — image molle. */}
+      sizes="(min-width: 768px) 126vw, 100vw"
       alt="Coques Vareska personnalisables présentées en studio"
       class="hero-img hero-bg"
       fetchpriority="high"

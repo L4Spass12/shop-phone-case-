@@ -738,6 +738,23 @@ html[data-theme='sunfreaks'] .hero-section h1 {
 html[data-theme='sunfreaks'] .hero-section::after {
   background: none;
 }
+/* Recadrage de la bannière sur desktop.
+   Constat de départ : à cette largeur, `cover` affiche la TOTALITÉ de la
+   largeur de l'image (0 px rogné horizontalement, 63 px verticalement). Un
+   simple object-position horizontal n'y produit donc strictement rien — il
+   fallait d'abord zoomer pour créer de la marge, puis recadrer dedans.
+   Le zoom pousse le mannequin vers la droite et dégage du ciel uni sous la
+   colonne de texte ; le décalage vertical repousse le bitume et la coque rose
+   hors du bloc. Contraste du texte mesuré à 7,4:1 après, contre 3,3:1 avant
+   pour le sous-titre.
+   Non appliqué en mobile : l'écran y rogne déjà les côtés, un zoom
+   supplémentaire couperait le sujet. */
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] .hero-section img.hero-bg {
+    transform: scale(1.26) translate(7%, 5%);
+  }
+}
+
 /* Bouton secondaire de la bannière : en contour translucide sur une photo, il
    disparaissait purement et simplement (fond transparent, filet à 45 %). On lui
    donne une vraie surface blanche — il reste secondaire face au jaune, mais il
