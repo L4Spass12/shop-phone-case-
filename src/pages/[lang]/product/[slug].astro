@@ -127,6 +127,9 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 3, name, item: productUrl },
   ],
 };
+// Libellé affiché par la barre d'achat tant qu'aucun modèle n'est choisi.
+const pickModelLabel = t('model.placeholder', lang);
+
 ---
 
 <BaseLayout
@@ -587,6 +590,8 @@ const breadcrumbSchema = {
   </style>
 
   <script is:inline set:html={`
+    // Repli du libellé de la barre d'achat tant qu'aucun modèle n'est choisi.
+    const PICK_MODEL_LABEL = ${JSON.stringify(pickModelLabel)};
     (function() {
     function initGallery() {
       const root = document.querySelector('[data-gallery]');
@@ -724,8 +729,7 @@ const breadcrumbSchema = {
           const sizeLabel = dimPill
             ? (dimPill.querySelector('.text-cream')?.textContent.trim() || variantDesc)
             : variantDesc;
-          if (stickyRefs.sizeMobile) stickyRefs.sizeMobile.textContent = sizeLabel;
-          if (stickyRefs.sizeDesk)   stickyRefs.sizeDesk.textContent   = sizeLabel;
+          if (stickyRefs.setVariantLabel) stickyRefs.setVariantLabel(sizeLabel);
           if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
           if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
         }
@@ -787,8 +791,32 @@ const breadcrumbSchema = {
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
       syncBar();
+
+      // Libellé de la barre : ce que le client a réellement choisi.
+      // Sur ces fiches, le choix structurant est le MODÈLE de téléphone, pas la
+      // variante — beaucoup de produits n'ont d'ailleurs aucune variante, et la
+      // barre restait alors bloquée sur le tiret de gabarit. Le modèle vient du
+      // sélecteur (événement model:change) ou du dernier choix mémorisé, et
+      // la variante s'y ajoute quand le produit en a une.
+      const labelMobile = document.getElementById('sticky-atc-size-mobile');
+      const labelDesk   = document.getElementById('sticky-atc-size');
+      let variantLabel = '';
+      let modelLabel = '';
+      try { modelLabel = localStorage.getItem('vareska:phone-model') || ''; } catch (e) {}
+      const paintLabel = () => {
+        const text = [variantLabel, modelLabel].filter(Boolean).join(' · ');
+        if (labelMobile) labelMobile.textContent = text || PICK_MODEL_LABEL;
+        if (labelDesk)   labelDesk.textContent   = text || PICK_MODEL_LABEL;
+      };
+      const setVariantLabel = (label) => { variantLabel = label || ''; paintLabel(); };
+      document.addEventListener('model:change', (e) => {
+        if (e.detail && e.detail.model) { modelLabel = e.detail.model; paintLabel(); }
+      });
+      paintLabel();
+
       return {
         btns: [document.getElementById('sticky-atc-btn'), document.getElementById('sticky-atc-btn-desk')].filter(Boolean),
+        setVariantLabel,
         sizeMobile: document.getElementById('sticky-atc-size-mobile'),
         sizeDesk:   document.getElementById('sticky-atc-size'),
         priceMobile: document.getElementById('sticky-atc-price-mobile'),
