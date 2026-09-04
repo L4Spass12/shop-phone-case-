@@ -839,6 +839,41 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 }
 .studio-bar span { color: var(--sun-yellow); }
 
+/* ─── Bannière « sur-mesure » — VARIANTE B ─────────────────────────────
+   À départager avec la variante ci-dessus, l'une des deux partira.
+   Ici le texte est posé SUR l'image : ce visuel-là s'y prête, son plan de
+   travail blanc occupe tout le bas à gauche et n'a rien à masquer. Le cadrage
+   privilégie donc ce bas de table plutôt que le ciel. */
+.studio-b {
+  min-height: 58vh;
+}
+.studio-b-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  z-index: 0;
+}
+.studio-b-copy {
+  z-index: 1;
+  /* Encre sombre : le plan de travail est blanc. */
+  color: rgb(47 26 22);
+}
+.studio-b-copy h2 { color: rgb(47 26 22); }
+.studio-b-copy p { color: rgb(61 42 36); }
+@media (min-width: 768px) {
+  /* Aucun rognage sur desktop : la section adopte les proportions de l'image.
+     En `cover` sur une hauteur imposée, la bande d'herbe remontait sous le
+     titre (contraste mesuré à 1,0) ; à ratio exact, le plan de travail blanc
+     occupe tout le bas et le bloc de texte s'y pose entièrement. */
+  .studio-b {
+    min-height: 0;
+    aspect-ratio: 1696 / 960;
+  }
+}
+
 /* ─── Bandeau défilant : retiré ────────────────────────────────────────
    Le composant <Marquee> reste dans le layout mais n'est plus affiché : il est
    en `display: none` par défaut et seul ce thème l'activait. `--marquee-h`
@@ -1069,7 +1104,8 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-
 }
 /* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
    c'est ce contraste net qui structure, pas une teinte diluée. */
-html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
+html[data-theme='sunfreaks'] main > section:nth-of-type(3),
+html[data-theme='sunfreaks'] main > section.studio-b {
   /* Plus d'aplat violet : la section porte désormais une photo pleine largeur
      (cf. .studio-section). On garde la géométrie de panneau flottant, qui est
      ce qui donne le rythme avec la bannière du haut. */
@@ -1080,7 +1116,8 @@ html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
   overflow: hidden;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] main > section:nth-of-type(3) {
+  html[data-theme='sunfreaks'] main > section:nth-of-type(3),
+  html[data-theme='sunfreaks'] main > section.studio-b {
     margin: 12px 22px;
     border-radius: 40px;
   }
