@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import siteConfig from '../../site.config.mjs';
 import Header from '../components/Header.astro';
-import Marquee from '../components/Marquee.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
@@ -226,7 +225,10 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
   <body>
     {/* Sur une page noindex (404), le switcher de langue renvoie vers
         l'accueil de la locale : le chemin courant n'a pas d'équivalent traduit. */}
-    <Marquee />
+    {/* Le bandeau défilant n'est plus rendu : il n'était affiché que par le
+        thème sunfreaks, qui ne l'utilise plus. Le composant reste sur disque
+        (src/components/Marquee.astro) pour pouvoir le remettre, mais on cesse
+        d'expédier son balisage masqué sur les 56 pages du site. */}
     <Header langSwitcherFallbackHome={noindex} />
     {/* Le décalage tient compte du bandeau, qui n'existe qu'en thème
         sunfreaks (--marquee-h vaut 0 ailleurs). */}

@@ -249,12 +249,6 @@ html[data-theme='heritage'] .hero-section::after {
 html[data-theme='heritage'] .hero-section p {
   color: rgba(244, 238, 226, 0.82);
 }
-/* La ligne de réassurance sous le CTA : un filet discret, pas un second
-   message qui concurrence le sous-titre. */
-html[data-theme='heritage'] .hero-section .hero-note {
-  color: rgba(244, 238, 226, 0.62);
-  letter-spacing: 0.02em;
-}
 /* La pastille devient un CARTEL d'exposition : angles vifs, petites capitales
    espacées. En pastille arrondie à point vert, elle affichait le vocabulaire
    « statut applicatif » au milieu d'une vitrine de musée. */
@@ -778,9 +772,6 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
     font-size: 0.8125rem;
     margin-bottom: 1rem;
     line-height: 1.45;
-  }
-  html[data-theme='sunfreaks'] .hero-section .hero-note {
-    margin-top: 0.15rem;
   }
 }
 

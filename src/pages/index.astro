@@ -182,18 +182,13 @@ const faqSchema = {
             coque existante, ou créer la sienne dans le studio. (Le second
             bouton avait été retiré quand les deux menaient à /boutique.) */}
         {/* Les deux boutons forment un groupe INSÉCABLE : ils restent côte à
-            côte à toutes les largeurs. La mention de livraison, elle, garde le
-            droit de passer à la ligne — d'où le conteneur extérieur qui
-            enveloppe encore. */}
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <div class="hero-cta flex items-center gap-3 sm:gap-4">
-            <a href="/boutique" class="btn-primary inline-flex items-center gap-2">
-              Voir la collection
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-            <a href="/personnaliser" class="btn-outline">Créer ma coque</a>
-          </div>
-          <span class="hero-note text-xs text-n-400 w-full sm:w-auto">Expédition sous 48 h · Retour sous 14 jours</span>
+            côte à toutes les largeurs (cf. .hero-cta dans global.css). */}
+        <div class="hero-cta flex items-center gap-3 sm:gap-4">
+          <a href="/boutique" class="btn-primary inline-flex items-center gap-2">
+            Voir la collection
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+          <a href="/personnaliser" class="btn-outline">Créer ma coque</a>
         </div>
       </div>
     </div>
