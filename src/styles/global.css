@@ -161,6 +161,33 @@ html[data-theme='heritage'] .hero-section {
 }
 /* Cadrage : on privilégie le haut du cliché, où vivent le verre et les coques,
    plutôt que le sol de marbre. */
+/* Boutons de la bannière : une SEULE ligne, quelle que soit la largeur.
+   Ils passaient à la ligne sous ~400px, ce qui poussait le second bouton sous
+   le premier et déséquilibrait le bloc. On empêche le retour à la ligne et on
+   resserre l'habillage en dessous de 480px : le texte tient, la cible de clic
+   reste confortable. */
+.hero-cta > * { white-space: nowrap; }
+/* Sous 420px, l'habillage se resserre pour que les deux libellés tiennent
+   côte à côte : mesuré 293px occupés pour 312 disponibles sur un 360px. */
+@media (max-width: 419px) {
+  .hero-cta { gap: 0.5rem; }
+  .hero-cta .btn-primary,
+  .hero-cta .btn-outline {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.75rem;
+    gap: 0.3rem;
+  }
+}
+/* Sous 340px, en revanche, il faudrait rapetisser le texte au point de le
+   rendre pénible à lire ou à viser. On les laisse donc repasser l'un sous
+   l'autre, en pleine largeur — mieux vaut deux lignes lisibles qu'une ligne
+   tronquée. */
+@media (max-width: 339px) {
+  .hero-cta { flex-wrap: wrap; }
+  .hero-cta > * { width: 100%; justify-content: center; }
+}
+
 /* Bannière par défaut : le sujet est en HAUT de l'image (visage, mains, coques
    qui flottent). En cadrage centré, `cover` rognait le crâne du mannequin sur
    un écran large. On tire donc le cadrage vers le haut ; ce qui se perd en bas
@@ -747,22 +774,11 @@ html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
 }
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
-/* ─── Bandeau défilant ─────────────────────────────────────────────────
-   Il coiffe le header (fixe) : on le fixe lui aussi et on décale le header
-   d'autant. `--marquee-h` vaut 0 hors de ce thème, donc rien ne bouge
-   ailleurs. */
-html[data-theme='sunfreaks'] { --marquee-h: 28px; }
-html[data-theme='sunfreaks'] .marquee {
-  display: block;
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: var(--marquee-h);
-  z-index: 10001;              /* au-dessus du header (10000) */
-  /* Texte clair : sur le violet, le brun par défaut du bandeau ne rendait
-     que 2,6:1. */
-  --c-cream: 255 255 255;
-}
-html[data-theme='sunfreaks'] #site-header { top: var(--marquee-h); }
+/* ─── Bandeau défilant : retiré ────────────────────────────────────────
+   Le composant <Marquee> reste dans le layout mais n'est plus affiché : il est
+   en `display: none` par défaut et seul ce thème l'activait. `--marquee-h`
+   retombe donc à 0, et tous les décalages qui l'utilisent (position du header,
+   padding de `main`, remontée de la bannière) s'ajustent d'eux-mêmes. */
 
 /* ─── Boutons : jaune plat, libellé en italique ───────────────────────
    Le liseré épais doublé d'une ombre décalée faisait « sticker » : on
@@ -942,6 +958,28 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero .header-bar {
 html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-icon] {
   color: rgb(47 26 22) !important;
 }
+/* Menu ouvert : le header retrouve sa surface, même s'il est encore sur la
+   bannière. Sans ça le menu se déployait sur un fond transparent et son
+   contenu devenait illisible par-dessus la photo. Réglé en CSS et non dans le
+   JS de bascule : la classe .header-over-hero n'est recalculée qu'au défilement,
+   donc ouvrir le menu sans avoir scrollé ne l'aurait pas mise à jour. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open > div {
+  background: rgb(255 255 255 / .97);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .5);
+}
+/* Surface retrouvée = plus besoin des béquilles de lisibilité sur la photo. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open #menu-btn,
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-atelier-header-icon] {
+  background: transparent !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-logo] {
+  filter: none;
+}
+
 /* Le logo, large et posé sur le ciel, tient avec un simple halo. */
 html[data-theme='sunfreaks'] #site-header.header-over-hero [data-logo] {
   filter: drop-shadow(0 1px 5px rgba(255, 255, 255, .9));
