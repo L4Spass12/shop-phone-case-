@@ -874,12 +874,38 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
     aspect-ratio: 1696 / 960;
   }
 }
-/* Mobile : la superposition tient une fois le bloc réduit au titre et au
-   bouton. Le sous-titre et l'intertitre ont sauté — l'un faisait doublon avec
-   le titre, l'autre, minuscule, tombait immanquablement sur le bord de la
-   coque blanche (2,4:1). Ce qui reste tient entièrement sur le plan de travail. */
+/* Mobile : image ENTIÈRE, non rognée, et le texte dessous. En portrait, `cover`
+   sacrifiait la rangée de coques imprimées, qui est justement ce que la section
+   doit montrer.
+   La bande de texte ne prend PAS un fond blanc : le blanc tranchait net sous la
+   photo. Elle reprend la teinte relevée sur le bas de l'image (rgb 190 198 193,
+   moyenne de sa dernière ligne de pixels), si bien qu'elle prolonge le plan de
+   travail au lieu de le couper. Encre sombre dessus : 9:1.
+   Habillage resserré, la bande ne doit pas voler la vedette à l'image. */
 @media (max-width: 767px) {
-  .studio-b { min-height: 52vh; }
+  .studio-b {
+    display: block;
+    min-height: 0;
+  }
+  .studio-b-bg {
+    position: static;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+  }
+  .studio-b-copy {
+    background: rgb(190 198 193);
+    padding-top: 0.85rem;
+    padding-bottom: 1rem;
+  }
+  .studio-b-copy h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.7rem;
+  }
+  .studio-b-copy .btn-primary {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
 }
 
 
