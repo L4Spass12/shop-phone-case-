@@ -1153,7 +1153,9 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-
 }
 /* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
    c'est ce contraste net qui structure, pas une teinte diluée. */
-html[data-theme='sunfreaks'] main > section:nth-of-type(3),
+/* Ciblé par CLASSE et non par rang : `nth-of-type(3)` désignait la bonne
+   section par coïncidence, et se serait déplacé au premier ajout ou retrait
+   de section — ce qui vient justement d'arriver. */
 html[data-theme='sunfreaks'] main > section.studio-b {
   /* Plus d'aplat violet : la section porte désormais une photo pleine largeur
      (cf. .studio-section). On garde la géométrie de panneau flottant, qui est
@@ -1165,7 +1167,6 @@ html[data-theme='sunfreaks'] main > section.studio-b {
   overflow: hidden;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] main > section:nth-of-type(3),
   html[data-theme='sunfreaks'] main > section.studio-b {
     margin: 12px 22px;
     border-radius: 40px;
