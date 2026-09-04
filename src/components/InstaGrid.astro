@@ -33,14 +33,15 @@ const photos = [
 <section class="insta below-fold-defer" aria-label="Photos Instagram">
   <div class="insta-head">
     <a class="insta-handle" href={igUrl} target="_blank" rel="noopener noreferrer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-        <circle cx="12" cy="12" r="4.2"/>
-        <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
-      </svg>
-      <span>@{handle}</span>
+      <span class="insta-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+          <circle cx="12" cy="12" r="4.2"/>
+          <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span>Suivez-nous @{handle}</span>
     </a>
-    <a class="insta-follow" href={igUrl} target="_blank" rel="noopener noreferrer">Suivez-nous</a>
   </div>
 
   <div class="insta-grid">
@@ -66,40 +67,58 @@ const photos = [
 </section>
 
 <style>
+  /* Bandeau pleine largeur, calé sur les codes des boutiques de coques : un
+     en-tête centré, puis une bande de photos JOINTIVES qui touche les deux
+     bords de l'écran. Pas de conteneur centré ni de gouttières : c'est ce
+     débord qui donne l'impression d'un fil qui continue. */
   .insta {
-    max-width: 80rem; margin: 0 auto;
-    padding: 3rem 1.5rem 3.5rem;
+    padding: 0;
     border-top: 1px solid rgb(var(--c-cream) / .08);
   }
   .insta-head {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem; margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.25rem 1.5rem;
   }
   .insta-handle {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+    display: inline-flex; align-items: center; gap: 0.85rem;
     font-size: 1rem; font-weight: 600; color: rgb(var(--c-cream));
     transition: opacity .15s;
   }
+  @media (min-width: 768px) { .insta-handle { font-size: 1.15rem; } }
   .insta-handle:hover { opacity: 0.75; }
-  .insta-handle svg { width: 22px; height: 22px; }
-  .insta-follow {
-    font-size: 0.8rem; font-weight: 600;
-    color: rgb(var(--accent-dark-rgb, var(--accent-rgb)));
-    transition: opacity .15s;
+  .insta-badge {
+    display: grid; place-items: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgb(var(--c-cream)); color: rgb(var(--c-dark));
+    flex: none;
   }
-  .insta-follow:hover { opacity: 0.7; }
+  .insta-badge svg { width: 22px; height: 22px; }
 
+  /* Défilement horizontal : les vignettes gardent une largeur fixe, donc la
+     dernière est coupée par le bord. C'est volontaire — une rangée qui se
+     termine pile au bord se lit comme une grille figée, pas comme un fil. */
   .insta-grid {
-    display: grid; gap: 0.5rem;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  @media (min-width: 768px) { .insta-grid { grid-template-columns: repeat(6, 1fr); gap: 0.6rem; } }
+  .insta-grid::-webkit-scrollbar { display: none; }
 
   .insta-tile {
-    position: relative; display: block;
-    aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden;
+    position: relative;
+    display: block;
+    flex: 0 0 42vw;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    scroll-snap-align: start;
     background: rgb(var(--c-panel));
   }
+  @media (min-width: 768px) { .insta-tile { flex-basis: 18.5vw; } }
   .insta-tile img {
     width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform .35s ease;
