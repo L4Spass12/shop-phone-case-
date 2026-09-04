@@ -249,48 +249,10 @@ const faqSchema = {
   )}
 
   <!-- ═══════════════════════════ PERSONNALISATION ═══════════════════════════ -->
-  {/* Le visuel est une illustration AUTONOME : il porte déjà ses propres
-      annotations (« Ajoute tes images », « Choisis tes éléments », la légende
-      Texte/Images/Stickers/Couleurs) réparties sur toute sa surface. Il n'y a
-      aucune zone libre pour du texte, et toute superposition s'y lisait mal.
-      On le laisse donc parler seul, en pleine largeur, et l'appel à l'action
-      vient DESSOUS dans une barre pleine. Une carte, deux étages. */}
-  <section class="studio-section relative overflow-hidden below-fold-defer">
-    <a href="/personnaliser" class="block" aria-label="Créer ma coque personnalisée dans le studio">
-      <img
-        src="/images/studio-banner.webp"
-        srcset="/images/studio-banner-800w.webp 800w, /images/studio-banner-1280w.webp 1280w, /images/studio-banner.webp 1666w"
-        sizes="100vw"
-        alt="Un plan de travail où l'on compose sa coque : photos, stickers et texte assemblés, la coque transparente imprimée à côté"
-        width="1666"
-        height="944"
-        loading="lazy"
-        decoding="async"
-        class="studio-img"
-      />
-    </a>
-    <div class="studio-bar flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-6 md:px-10 md:py-7 text-center sm:text-left">
-      <div>
-        <span class="block text-[10px] font-medium uppercase tracking-widest mb-1.5">Sur-mesure</span>
-        <h2 class="text-xl md:text-2xl font-medium tracking-tight leading-tight">
-          Votre idée, votre coque.
-        </h2>
-      </div>
-      <a href="/personnaliser" class="btn-primary inline-flex items-center justify-center gap-2 shrink-0 self-center sm:self-auto">
-        Je personnalise
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══════════════════ PERSONNALISATION — VARIANTE B (à départager) ══════════════════ -->
-  {/* Deuxième proposition, à comparer avec celle du dessus. UNE DES DEUX EST À
-      SUPPRIMER : garder les deux en production ferait deux appels à l'action
-      identiques à la suite.
-      Parti pris opposé : ici le texte est POSÉ SUR l'image, ce qui n'était pas
-      possible avec le visuel précédent (annotations partout, aucune zone
-      libre). Celui-ci offre un grand plan de travail blanc et uni en bas à
-      gauche — le texte s'y installe sans rien masquer d'utile. */}
+  {/* Le texte est posé SUR l'image : celle-ci offre un grand plan de travail
+      blanc et uni en bas à gauche, où le bloc s'installe sans rien masquer
+      d'utile. Réduit au titre et au bouton — l'intertitre et le sous-titre
+      faisaient doublon et ne tenaient pas la lisibilité à cette taille. */}
   <section class="studio-b relative overflow-hidden below-fold-defer flex items-end">
     <img
       src="/images/studio-banner-b.webp"

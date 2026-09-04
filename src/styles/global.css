@@ -823,25 +823,7 @@ html[data-theme='sunfreaks'] footer [data-footer-brand]::after {
 html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 
 /* ─── Bannière « sur-mesure » ──────────────────────────────────────────
-   Une carte à deux étages : le visuel seul en haut, la barre d'action en bas.
-   Le visuel est une illustration autonome (elle porte ses propres annotations
-   sur toute sa surface) : y superposer du titre se lisait mal quel que soit le
-   cadrage. Il garde donc ses proportions naturelles, sans rognage, et le texte
-   descend sur un fond plein où sa lisibilité ne dépend plus de la photo. */
-.studio-img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.studio-bar {
-  background: rgb(var(--accent-rgb));
-  color: #fff;
-}
-.studio-bar span { color: var(--sun-yellow); }
-
-/* ─── Bannière « sur-mesure » — VARIANTE B ─────────────────────────────
-   À départager avec la variante ci-dessus, l'une des deux partira.
-   Ici le texte est posé SUR l'image : ce visuel-là s'y prête, son plan de
+   Le texte est posé SUR l'image : ce visuel-là s'y prête, son plan de
    travail blanc occupe tout le bas à gauche et n'a rien à masquer. Le cadrage
    privilégie donc ce bas de table plutôt que le ciel. */
 .studio-b {
@@ -894,9 +876,41 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
     object-fit: fill;
   }
   .studio-b-copy {
+    /* Ni blanc ni aplat gris : la bande porte une COPIE FLOUTÉE du bas de
+       l'image, cadrée sur sa dernière bande. Elle en reprend donc les teintes
+       exactes et leur dégradé gauche-droite, et se lit comme le prolongement
+       du plan de travail plutôt que comme un bandeau rapporté.
+       L'aplat reste dessous en repli, le temps que l'image se charge. */
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     background: rgb(190 198 193);
     padding-top: 0.85rem;
     padding-bottom: 1rem;
+  }
+  .studio-b-copy::before {
+    content: "";
+    position: absolute;
+    /* Débordement : un flou rogné au ras du bloc laisse des bords délavés. */
+    inset: -30px;
+    z-index: -1;
+    background-image: url("/images/studio-banner-b-800w.webp");
+    background-size: cover;
+    background-position: center bottom;
+    filter: blur(22px) saturate(1.15);
+    transform: scaleY(-1);   /* miroir : la table poursuit sa fuite vers le bas */
+  }
+  /* Raccord : un fin dégradé au sommet de la bande efface la couture avec la
+     photo au-dessus. */
+  .studio-b-copy::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgb(215 224 222), rgb(215 224 222 / 0));
   }
   .studio-b-copy h2 {
     font-size: 1.25rem;
