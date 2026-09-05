@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "key": "produit-exemple-2",
+      "label": "Coque Vague",
+      "price": 2490,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-3",
+      "label": "Coque Marbre",
+      "price": 2290,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-4",
+      "label": "Coque Onyx",
+      "price": 2690,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple-5",
+      "label": "Coque Ivoire",
+      "price": 2190,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-exemple",
+      "label": "Produit exemple",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-blob",
+      "label": "[test] Produit test - bouton blob",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v1",
+      "label": "[test] Produit test - bouton noir a cadre — Noir",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v2",
+      "label": "[test] Produit test - bouton noir a cadre — Blanc",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v1",
+      "label": "[test] Produit test - bouton noir a lueur — Noir",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v2",
+      "label": "[test] Produit test - bouton noir a lueur — Blanc",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v1",
+      "label": "[test] Produit test - bouton noir plat — Noir",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v2",
+      "label": "[test] Produit test - bouton noir plat — Blanc",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-v1",
+      "label": "[test] Produit test - bouton noir — Noir",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "produit-test-noir-v2",
+      "label": "[test] Produit test - bouton noir — Blanc",
+      "price": 1990,
+      "image": "/images/products/produit-exemple.webp"
+    },
+    {
+      "key": "custom",
+      "label": "Coque personnalisée",
+      "price": 2990,
+      "image": null
+    }
+  ]
+}
