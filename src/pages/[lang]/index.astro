@@ -164,19 +164,6 @@ const faqSchema = {
       width="1696"
       height="960"
     />
-    {/* Bannière du thème « heritage » : vitrine de musée (masquée par défaut). */}
-    <img
-      src="/images/hero-heritage.webp?v=2"
-      srcset="/images/hero-heritage-800w.webp?v=2 800w, /images/hero-heritage-1280w.webp?v=2 1280w, /images/hero-heritage.webp?v=2 1692w"
-      sizes="100vw"
-      alt={t('home.heroTitle', lang)}
-      class="hero-img hero-bg-heritage"
-      {/* eager : c'est la bannière visible en heritage (cf. home FR) */}
-      loading="eager"
-      decoding="async"
-      width="1692"
-      height="929"
-    />
     {/* Même structure que la home FR (src/pages/index.astro) : colonne de texte
         étroite pour ne pas recouvrir la vitrine, un seul CTA + réassurance. */}
     <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">

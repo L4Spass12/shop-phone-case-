@@ -129,24 +129,6 @@ const faqSchema = {
       width="1696"
       height="960"
     />
-    {/* Bannière du thème « heritage » : vitrine de musée. Masquée par défaut,
-        affichée uniquement quand data-theme=heritage (cf. global.css). */}
-    <img
-      src="/images/hero-heritage.webp?v=2"
-      srcset="/images/hero-heritage-800w.webp?v=2 800w, /images/hero-heritage-1280w.webp?v=2 1280w, /images/hero-heritage.webp?v=2 1692w"
-      sizes="100vw"
-      alt="Coques Vareska exposées comme des œuvres dans une vitrine de musée"
-      class="hero-img hero-bg-heritage"
-      {/* `eager` et non `lazy` : cette image EST la bannière en heritage, elle
-          est dans le viewport au chargement. En lazy, le hero restait un
-          rectangle gris le temps du chargement — soit précisément le moment où
-          le visiteur regarde. Pas de fetchpriority : la priorité haute reste
-          au preload du thème Défaut, qu'on ne veut pas dégrader. */}
-      loading="eager"
-      decoding="async"
-      width="1692"
-      height="929"
-    />
 
     <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">
       {/* Colonne de texte volontairement ÉTROITE. Le sujet de la bannière est

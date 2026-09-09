@@ -3,13 +3,8 @@
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
 
-/* Polices du thème « heritage » (musée / galerie d'art).
-   Chargées en permanence mais utilisées uniquement quand
-   <html data-theme="heritage"> est actif. */
-@import '@fontsource/pinyon-script/400.css';      /* logo script (heritage + sunfreaks) */
-@import '@fontsource/bodoni-moda/400.css';        /* serif Didone — titres */
-@import '@fontsource/bodoni-moda/500.css';
-@import '@fontsource/bodoni-moda/700.css';
+/* Logotype calligraphique du thème « sunfreaks ». */
+@import '@fontsource/pinyon-script/400.css';
 @import '@fontsource/bodoni-moda/900.css';
 
 @tailwind base;
@@ -23,7 +18,7 @@
   /* ═════════════════════════════════════════════════════════════════════
      PALETTE — THÈME PAR DÉFAUT (neutre clair).
      Reproduit à l'identique les anciennes valeurs hex, exprimées en canaux
-     RVB pour Tailwind. Le thème « heritage » plus bas surcharge ces vars.
+     RVB pour Tailwind. Le thème « sunfreaks » surcharge ces vars.
      ═════════════════════════════════════════════════════════════════════ */
   --c-white:      17 17 19;      /* voile d'encre translucide */
   --c-dark:       255 255 255;   /* fond de page */
@@ -36,7 +31,7 @@
   --c-n500:       138 138 147;   /* texte secondaire */
   --c-n400:       82 82 91;      /* texte courant */
 
-  /* Familles typographiques (surchargées par le thème heritage) */
+  /* Familles typographiques (surchargées par le thème sunfreaks) */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Inter', system-ui, sans-serif;
   --font-script:  'Inter', system-ui, sans-serif;
@@ -59,87 +54,10 @@
   :root { --header-h: 72px; }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   THÈME « HERITAGE » — musée / galerie d'art (cf. moodboard).
-   Activé par <html data-theme="heritage"> (toggle dans le header).
-   Fond crème, encre chaude, accent orange vif, serif Didone, logo script,
-   et un cadre bordeaux tout autour de la page. Ne surcharge QUE des vars +
-   quelques règles décoratives : le thème par défaut reste intact.
-   ═══════════════════════════════════════════════════════════════════════ */
-html[data-theme='heritage'] {
-  --c-white:      46 12 11;      /* voile = encre bordeaux translucide */
-  --c-dark:       244 238 226;   /* fond = papier crème */
-  --c-panel:      237 230 216;   /* cards */
-  --c-teal:       231 222 205;   /* variante */
-  --c-beige:      219 207 184;   /* bordures / tags */
-  --c-cream:      36 19 16;      /* texte = encre espresso */
-  --c-terracotta: 36 19 16;      /* boutons encre */
-  --c-sage:       22 130 74;
-  --c-n500:       156 142 126;   /* texte secondaire chaud */
-  --c-n400:       110 95 82;     /* texte courant chaud */
-
-  /* Accent = rouge-orangé « vermillon » du moodboard */
-  --accent-rgb:        255 59 20;
-  --accent-light-rgb:  255 90 51;
-  --accent-dark-rgb:   214 46 12;
-
-  /* Typographies heritage */
-  --font-body:    'Inter', system-ui, sans-serif;   /* labels / paragraphes */
-  --font-display: 'Bodoni Moda', 'Times New Roman', serif;  /* titres Didone */
-  --font-script:  'Pinyon Script', cursive;         /* logo */
-}
-
-/* Titres en serif Didone */
-html[data-theme='heritage'] h1,
-html[data-theme='heritage'] h2,
-html[data-theme='heritage'] h3,
-html[data-theme='heritage'] h4,
-html[data-theme='heritage'] .section-title {
-  font-family: var(--font-display);
-  letter-spacing: -0.01em;
-}
-
-/* Le titre du hero : vermillon, serif Didone, capitales (cf. moodboard).
- *
- * La taille est fixée ICI et non par les classes Tailwind du markup : en
- * capitales, Bodoni 900 occupe ~40 % de largeur en plus qu'Inter à taille
- * égale. Au même corps que le thème Défaut, le titre partait sur 4 lignes et
- * traversait la vitrine — le sujet même de la bannière. Le clamp le garde sur
- * 2 lignes dans la colonne de 30rem, du mobile au grand écran. */
-html[data-theme='heritage'] .hero-section h1 {
-  color: rgb(var(--accent-rgb));
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(1.6rem, 2.55vw, 2.1rem);
-  line-height: 1.02;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  /* Équilibre les lignes : sans lui, le titre laissait « RELIEF » seul sur la
-     dernière ligne — un défaut très visible en capitales Didone. */
-  text-wrap: balance;
-}
-
-/* Bannière du hero en heritage : vitrine de musée sombre. L'image du thème
-   clair est masquée, celle-ci prend sa place (le voile et le traitement du
-   texte, plus bas, sont réglés pour ce fond sombre). Spécificité renforcée
-   (.hero-section img.hero-bg-*) pour battre la règle scopée `.hero-img {
-   display:block }` d'Astro, sinon la bannière s'afficherait aussi en Défaut. */
-.hero-section img.hero-bg-heritage { display: none; }
-html[data-theme='heritage'] .hero-section img.hero-bg { display: none; }
-html[data-theme='heritage'] .hero-section img.hero-bg-heritage { display: block; }
 /* Le hero remonte SOUS le header (transparent en haut) pour un effet
    plein-cadre. Le padding-top compense pour que le contenu reste centré sous
    la barre. `main` ayant un padding-top = --header-h, la marge négative l'annule
    juste pour le hero. */
-html[data-theme='heritage'] .hero-section {
-  margin-top: calc(-1 * var(--header-h));
-  padding-top: var(--header-h);
-
-  /* Sous 768px la hauteur suit le CONTENU (on neutralise le min-h-[70vh] du
-     markup) : à cette largeur le cliché est recadré si serré que la vitrine
-     n'est plus lisible, et un aplat sombre supplémentaire n'ajoute rien. */
-  min-height: 0;
-}
 @media (min-width: 768px) {
   /* La colonne de texte se mesure en FRACTION du cadre, pas en pixels : la
      vitrine étant cadrée en `cover`, sa position suit la largeur du viewport.
@@ -148,16 +66,10 @@ html[data-theme='heritage'] .hero-section {
      34vw place la fin de ligne juste avant le bord gauche de la vitrine, à
      toutes les largeurs ; le plafond de 30rem évite une colonne démesurée sur
      très grand écran. */
-  html[data-theme='heritage'] .hero-section .hero-copy {
-    max-width: min(30rem, 34vw);
-  }
   /* Sur desktop la hauteur suit l'IMAGE, pas le texte. La vitrine occupe
      presque toute la hauteur du cliché (ratio 1,82) : une bannière plus courte
      que 55vw lui coupe le socle ou le haut du verre. Le `min()` plafonne à
      84vh pour ne pas manger tout l'écran sur un écran large et bas. */
-  html[data-theme='heritage'] .hero-section {
-    min-height: min(84vh, 55vw);
-  }
 }
 /* Cadrage : on privilégie le haut du cliché, où vivent le verre et les coques,
    plutôt que le sol de marbre. */
@@ -207,93 +119,23 @@ html[data-theme='heritage'] .hero-section {
       0 0 18px rgba(255, 255, 255, .85);
   }
 }
-html[data-theme='heritage'] .hero-section img.hero-bg-heritage {
-  object-position: center 42%;
-}
 /* Dégradé sombre en haut du hero : garantit la lisibilité du header clair
    (logo + nav) quelle que soit la zone d'image derrière. */
-html[data-theme='heritage'] .hero-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, rgba(16, 8, 7, 0.6), rgba(16, 8, 7, 0));
-  pointer-events: none;
-  z-index: 1;
-}
 /* Image SOMBRE : voile dense sur la colonne de texte (les ~40 % de gauche),
    qui s'efface ensuite VITE. L'ancienne rampe était encore à 0,34 au milieu du
    cadre et grisait la vitrine, c'est-à-dire le produit. */
-html[data-theme='heritage'] .hero-section::after {
-  background: linear-gradient(to right,
-    rgba(16, 8, 7, 0.9),
-    rgba(16, 8, 7, 0.78) 26%,
-    rgba(16, 8, 7, 0.34) 46%,
-    rgba(16, 8, 7, 0.06) 66%,
-    rgba(16, 8, 7, 0) 78%);
-}
 /* Sous 768px le texte occupe TOUTE la largeur : un voile horizontal laisserait
    sa fin de ligne sans fond. Il devient donc vertical. */
 @media (max-width: 767px) {
-  html[data-theme='heritage'] .hero-section::after {
-    background: linear-gradient(to bottom,
-      rgba(16, 8, 7, 0.8),
-      rgba(16, 8, 7, 0.68) 55%,
-      rgba(16, 8, 7, 0.5));
-  }
 }
 /* Sur ce fond sombre, on éclaircit le sous-titre, la pastille et les boutons
    (le titre reste vermillon, lisible tel quel). */
-html[data-theme='heritage'] .hero-section p {
-  color: rgba(244, 238, 226, 0.82);
-}
 /* La pastille devient un CARTEL d'exposition : angles vifs, petites capitales
    espacées. En pastille arrondie à point vert, elle affichait le vocabulaire
    « statut applicatif » au milieu d'une vitrine de musée. */
-html[data-theme='heritage'] .hero-section .tag {
-  color: rgba(244, 238, 226, 0.9);
-  border-color: rgba(244, 238, 226, 0.28);
-  background: rgba(244, 238, 226, 0.06);
-  border-radius: 0;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-html[data-theme='heritage'] .hero-section .tag-status::before {
-  display: none;
-}
-html[data-theme='heritage'] .hero-section .btn-primary {
-  background: #f4eee2;   /* bouton crème qui ressort sur le sombre */
-  color: #241310;
-}
-html[data-theme='heritage'] .hero-section .btn-primary:hover {
-  background: rgb(var(--accent-rgb));   /* vermillon au survol */
-  color: #fff;
-}
-html[data-theme='heritage'] .hero-section .btn-outline {
-  color: rgba(244, 238, 226, 0.92);
-  border-color: rgba(244, 238, 226, 0.4);
-}
-html[data-theme='heritage'] .hero-section .btn-outline:hover {
-  background: rgba(244, 238, 226, 0.12);
-  color: #fff;
-}
 
 /* Logo « Vareska » en script calligraphique (au lieu des capitales espacées) */
-html[data-theme='heritage'] [data-logo] {
-  font-family: var(--font-script);
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 1;
-}
 @media (min-width: 768px) {
-  html[data-theme='heritage'] [data-logo] { font-size: 2.4rem; }
 }
 
 /* Bascule de thème : petit interrupteur dans le header */
@@ -331,88 +173,10 @@ html[data-theme='heritage'] [data-logo] {
   background: rgb(var(--c-cream));
   transition: transform 0.25s ease, background 0.25s ease;
 }
-html[data-theme='heritage'] .theme-toggle__track {
-  background: rgb(var(--accent-rgb));
-  border-color: rgb(var(--accent-dark-rgb));
-}
-html[data-theme='heritage'] .theme-toggle__thumb {
-  transform: translateX(18px);
-  background: #fff;
-}
-
-/* ─── CTA « Ajouter au panier » version heritage ─────────────────────────
-   On aplatit le bouton brillant (Uiverse) en un bloc vermillon franc, coins
-   nets, libellé en capitales espacées : plus proche de la DA galerie d'art. */
-html[data-theme='heritage'] .btn-atc {
-  --atc-fill-bottom: rgb(var(--accent-rgb));
-  --atc-fill-top:    rgb(var(--accent-rgb));   /* fond plat (plus de dégradé) */
-  --atc-ring-bottom: rgb(var(--accent-dark-rgb));
-  --atc-ring-top:    rgb(var(--accent-dark-rgb));
-  --atc-glow:        rgb(var(--accent-rgb) / .3);
-  border-radius: 3px;
-  border-width: 1px;
-  opacity: 1;
-  box-shadow: none;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  /* Taille d'origine conservée (le bouton ne doit pas rétrécir) */
-}
-html[data-theme='heritage'] .btn-atc--sm { border-radius: 3px; }
-html[data-theme='heritage'] .btn-atc::after { display: none; }   /* supprime le reflet */
-html[data-theme='heritage'] .btn-atc::before { display: none; }  /* supprime l'icône panier */
-html[data-theme='heritage'] .btn-atc:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px -10px var(--atc-glow);
-}
-html[data-theme='heritage'] .btn-atc > span { letter-spacing: 0.06em; }
-
-/* ─── Boutons génériques version heritage ────────────────────────────────
-   « Découvrir », « Personnaliser mon produit », etc. : mêmes codes que le CTA
-   (plats, coins nets, capitales espacées) pour une DA cohérente partout. */
-html[data-theme='heritage'] .btn-primary,
-html[data-theme='heritage'] .btn-outline {
-  border-radius: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-weight: 600;
-  font-size: 0.78rem;
-}
-/* Primaire : bloc encre qui révèle le vermillon au survol */
-html[data-theme='heritage'] .btn-primary:hover {
-  background: rgb(var(--accent-rgb));
-  color: #fff;
-}
-/* Secondaire : filet encre, se remplit d'encre au survol */
-html[data-theme='heritage'] .btn-outline {
-  border-color: rgb(var(--c-cream) / 0.35);
-}
-html[data-theme='heritage'] .btn-outline:hover {
-  background: rgb(var(--c-cream));
-  color: rgb(var(--c-dark));
-  border-color: rgb(var(--c-cream));
-}
-
-/* ─── Header en mode galerie ─────────────────────────────────────────────
-   Liens de nav et pastille « Catégories » en petites capitales espacées,
-   coins nets : l'esprit cartel de musée (« TICKETS », « SINCE 1957 »). */
-html[data-theme='heritage'] .nav-link {
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  font-size: 0.72rem;
-}
-html[data-theme='heritage'] .nav-cat-trigger {
-  border-radius: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  font-size: 0.72rem;
-}
 
 /* Header masquable au scroll : il glisse hors champ quand on descend et
    revient dès qu'on remonte. La classe est posée sur <html> par le JS du
-   header, ce qui permet d'emmener aussi le bandeau du thème sunfreaks.
-   Comportement commun à TOUS les thèmes (il était limité à heritage, et
-   disparaissait donc sur les autres). */
+   header, ce qui permet d'emmener aussi le bandeau du thème sunfreaks. */
 #site-header,
 .marquee {
   transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
@@ -429,58 +193,6 @@ html.header-hidden #site-header {
 html[data-studio-app].header-hidden #site-header,
 html[data-studio-app].header-hidden .marquee {
   transform: none;
-}
-
-/* Header transparent au-dessus du hero (heritage) : sur l'accueil, tant qu'on
-   est sur la bannière, le header se fond dans l'image (pas de fond, pas de
-   filet, contenu en clair). Passé le hero, il reprend son fond plein. La
-   classe .header-over-hero est posée par le JS ; en thème Défaut aucune règle
-   n'y réagit → header plein comme avant. */
-html[data-theme='heritage'] #site-header.header-over-hero {
-  background-color: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  border-bottom-color: transparent;
-  /* Contenu du header éclairci sur la bannière sombre (remap des variables
-     utilisées par le logo, la nav catégories, le toggle, les switchers…). */
-  --c-cream: 244 238 226;
-  --c-n400:  222 210 196;
-  --c-n500:  200 186 172;
-  --c-white: 244 238 226;
-}
-/* Liens de nav (couleurs codées en dur dans le composant) → clairs. */
-html[data-theme='heritage'] #site-header.header-over-hero .nav-link {
-  color: rgba(244, 238, 226, 0.72);
-}
-html[data-theme='heritage'] #site-header.header-over-hero .nav-link:hover,
-html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active {
-  color: #fff;
-}
-html[data-theme='heritage'] #site-header.header-over-hero .nav-link.nav-active::after {
-  background: #fff;
-}
-/* Les popovers du header (dropdowns catégories/langue, menu mobile) sont des
-   surfaces claires PLEINES : leur contenu doit rester en encre, pas hériter du
-   remap clair du header transparent. On y rétablit la palette heritage de base. */
-html[data-theme='heritage'] #site-header.header-over-hero .nav-cat-panel,
-html[data-theme='heritage'] #site-header.header-over-hero .lang-panel,
-html[data-theme='heritage'] #site-header.header-over-hero #mobile-nav {
-  --c-cream: 36 19 16;
-  --c-n400:  110 95 82;
-  --c-n500:  156 142 126;
-  --c-white: 46 12 11;
-}
-
-/* ─── Prix en serif Didone (comme les titres) ────────────────────────────
-   Le prix devient un élément typographique fort, pas juste une donnée. */
-html[data-theme='heritage'] .price-amount {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: 0;
-}
-html[data-theme='heritage'] #product-price {
-  font-size: 1.6rem;
-  line-height: 1;
 }
 
 /* Fils d'Ariane : resserrés et discrets sur TOUTES les pages et TOUS les
@@ -501,182 +213,6 @@ html[data-theme='heritage'] #product-price {
   margin-bottom: 0.4rem;
   padding-bottom: 0;
   opacity: 0.7;   /* plus effacé */
-}
-
-/* ─── Coins nets sur TOUS les conteneurs et boutons ──────────────────────
-   La DA galerie est anguleuse : on carre cards, panneaux, dropdowns, champs
-   et pastilles. On NE touche PAS aux cercles (points de statut = <span>, le
-   toggle a ses propres classes), seulement aux liens/boutons/summary en
-   pilule et aux conteneurs arrondis. */
-html[data-theme='heritage'] .rounded-3xl,
-html[data-theme='heritage'] .rounded-2xl,
-html[data-theme='heritage'] .rounded-xl,
-html[data-theme='heritage'] .rounded-lg,
-html[data-theme='heritage'] .rounded-md,
-html[data-theme='heritage'] a.rounded-full,
-html[data-theme='heritage'] button.rounded-full,
-html[data-theme='heritage'] summary.rounded-full,
-html[data-theme='heritage'] .tag {
-  border-radius: 3px;
-}
-
-/* ─── Sélecteur de modèle de téléphone (styles codés en dur → à adapter) ── */
-html[data-theme='heritage'] .mp-trigger {
-  border-radius: 2px;
-  background: rgb(var(--c-dark));
-  border-color: rgb(var(--c-cream) / 0.28);
-  color: rgb(var(--c-cream));
-}
-html[data-theme='heritage'] .mp-trigger:hover { border-color: rgb(var(--c-cream) / 0.5); }
-html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger { border-color: rgb(var(--c-cream)); }
-html[data-theme='heritage'] .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); }
-/* ─── Surfaces sombres heritage (footer + drawer du sélecteur) ────────────
-   Même fond bordeaux que le reste du site, et une palette de TEXTE claire
-   commune : on re-mappe ici les variables pour que tout le contenu posé
-   dessus (text-cream, text-n-500, bordures border-white/…) bascule en clair.
-   Le déclencheur du sélecteur est hors du panneau : il garde son style clair. */
-html[data-theme='heritage'] footer,
-html[data-theme='heritage'] .mp-panel {
-  --c-cream: 244 238 226;   /* texte principal -> crème clair */
-  --c-n400:  214 201 188;   /* texte courant clair */
-  --c-n500:  188 170 156;   /* texte secondaire clair */
-  --c-white: 244 238 226;   /* voiles / filets clairs */
-}
-html[data-theme='heritage'] .mp-panel {
-  border-radius: 3px;
-  background: #2c0a09;
-  border-color: rgba(244, 238, 226, 0.14);
-  /* Surfaces internes un cran plus claires que le fond du panneau. */
-  --c-dark:  58 21 18;   /* puces marques */
-  --c-panel: 70 30 27;   /* champ de recherche */
-  --c-beige: 96 62 57;   /* bordures */
-}
-html[data-theme='heritage'] .mp-panel-title { color: rgb(var(--c-cream)); }
-html[data-theme='heritage'] .mp-search::placeholder { color: rgb(var(--c-n500)); }
-html[data-theme='heritage'] .mp-empty { color: rgb(var(--c-n400)); }
-html[data-theme='heritage'] .mp-search {
-  border-radius: 2px;
-  background: rgb(var(--c-panel));
-  border-color: rgb(var(--c-beige));
-  color: rgb(var(--c-cream));
-}
-html[data-theme='heritage'] .mp-search:focus { border-color: rgb(var(--c-cream)); background: rgb(var(--c-dark)); }
-/* Croix de fermeture : plus grande et dans un conteneur visible, vermillon au survol. */
-html[data-theme='heritage'] .mp-close {
-  width: 40px;
-  height: 40px;
-  margin: 0;
-  border-radius: 2px;
-  background: rgb(var(--c-panel));
-  border: 1px solid rgb(var(--c-beige));
-  color: rgb(var(--c-cream));
-}
-html[data-theme='heritage'] .mp-close svg { width: 20px; height: 20px; }
-html[data-theme='heritage'] .mp-close:hover {
-  background: rgb(var(--accent-rgb));
-  border-color: rgb(var(--accent-dark-rgb));
-  color: #fff;
-}
-html[data-theme='heritage'] .mp-brand {
-  border-radius: 2px;
-  box-shadow: none;
-  background: rgb(var(--c-dark));
-  border-color: rgb(var(--c-beige));
-  color: rgb(var(--c-n400));
-}
-html[data-theme='heritage'] .mp-brand:hover { border-color: rgb(var(--c-cream) / 0.5); color: rgb(var(--c-cream)); box-shadow: none; }
-/* Puce marque active : vermillon plat (au lieu de l'encre en relief) */
-html[data-theme='heritage'] .mp-brand.is-active,
-html[data-theme='heritage'] .mp-brand.is-active:hover {
-  background: rgb(var(--accent-rgb));
-  border-color: rgb(var(--accent-dark-rgb));
-  color: #fff;
-  box-shadow: none;
-}
-/* Halo de focus : en encre (le vermillon-sur-vermillon de la puce active
-   ressemblait à un bug). */
-html[data-theme='heritage'] .mp-brand:focus-visible,
-html[data-theme='heritage'] .mp-option:focus-visible {
-  outline: 2px solid rgb(var(--c-cream));
-  outline-offset: 2px;
-}
-
-/* Entête du panneau : filet de séparation chaud, icône de recherche estompée. */
-html[data-theme='heritage'] .mp-panel-head { border-bottom-color: rgb(var(--c-beige)); }
-html[data-theme='heritage'] .mp-search-icon { color: rgb(var(--c-n500)); }
-
-/* Intitulé de groupe : encre, souligné d'un filet (cartel de section) */
-html[data-theme='heritage'] .mp-group {
-  color: rgb(var(--c-cream));
-  margin: 6px 6px 2px;
-  padding: 8px 4px 7px;
-  border-bottom: 1px solid rgb(var(--c-cream) / 0.14);
-}
-
-/* Liste de modèles : filets fins entre les lignes (esprit index de
-   catalogue), survol et sélection teintés vermillon, coche vermillon. */
-html[data-theme='heritage'] .mp-option {
-  border-radius: 2px;
-  color: rgb(var(--c-cream));
-  border-bottom: 1px solid rgb(var(--c-cream) / 0.07);
-}
-html[data-theme='heritage'] .mp-option:hover,
-html[data-theme='heritage'] .mp-option.is-cursor {
-  background: rgb(var(--accent-rgb) / 0.18);
-  color: #fff;
-}
-html[data-theme='heritage'] .mp-option[aria-selected='true'] {
-  background: rgb(var(--accent-rgb) / 0.22);
-  color: rgb(var(--accent-light-rgb));
-  box-shadow: inset 3px 0 0 rgb(var(--accent-rgb));
-  font-weight: 600;
-}
-html[data-theme='heritage'] .mp-empty span { color: rgb(var(--c-n500)); }
-html[data-theme='heritage'] .mp-grip { background: rgb(var(--c-beige)); }
-
-/* ─── Indicateur « En stock » retiré en heritage ─────────────────────────── */
-html[data-theme='heritage'] #product-stock { display: none; }
-
-/* ─── Footer version heritage ────────────────────────────────────────────
-   Panneau crème plus chaud, filet vermillon en tête, marque en script, et
-   titres de colonnes en petites capitales espacées (le serif Didone est trop
-   chargé à cette taille). Donne un pied de page « éditorial de musée ». */
-html[data-theme='heritage'] footer {
-  background: #2c0a09;   /* bordeaux profond (oxblood), cf. « surfaces sombres » */
-  border-top: 3px solid rgb(var(--accent-rgb));
-}
-html[data-theme='heritage'] footer [data-footer-brand] {
-  font-family: var(--font-script);
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 2.1rem;
-  line-height: 1;
-}
-html[data-theme='heritage'] footer [data-footer-brand] span { display: none; }  /* pas de suffixe coloré */
-html[data-theme='heritage'] footer h2 {
-  font-family: var(--font-body);   /* pas de serif à cette petite taille */
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.66rem;
-  color: rgb(var(--accent-rgb));
-}
-/* Champ newsletter : garde un fond crème clair avec du texte sombre pour
-   rester un champ de saisie lisible sur le footer sombre. */
-html[data-theme='heritage'] footer input {
-  border-radius: 2px;
-  background: #f4eee2;
-  color: #241310;
-  border-color: rgba(36, 19, 16, 0.15);
-}
-html[data-theme='heritage'] footer input::placeholder { color: #9c8e7e; }
-html[data-theme='heritage'] footer button[type='submit'] {
-  border-radius: 2px;
-  background: rgb(var(--accent-rgb));
-  color: #fff;
-  border-color: rgb(var(--accent-dark-rgb));
-}
-html[data-theme='heritage'] footer button[type='submit']:hover {
-  background: rgb(var(--accent-dark-rgb));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -706,7 +242,7 @@ html[data-theme='sunfreaks'] {
   --accent-dark-rgb:   91 33 182;
   --sun-yellow:        #ffe14d;
 
-  /* Logotype : le script calligraphique du thème heritage (Pinyon Script),
+  /* Logotype : le script calligraphique (Pinyon Script),
      que l'utilisateur préfère. */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Playfair Display', Georgia, serif;
@@ -799,7 +335,7 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
 html[data-theme='sunfreaks'] .hero-section p {
   color: rgb(61 42 36);
 }
-/* Logotype : script calligraphique repris du thème heritage (Pinyon Script),
+/* Logotype : script calligraphique (Pinyon Script),
    mêmes tailles. */
 html[data-theme='sunfreaks'] [data-logo],
 html[data-theme='sunfreaks'] footer [data-footer-brand] {
@@ -1063,7 +599,7 @@ html[data-theme='sunfreaks'] main > section {
 html[data-theme='sunfreaks'] main > section.hero-section {
   background: transparent;
   border-top: 0;
-  /* La bannière REMONTE sous le header, comme en heritage : `main` porte un
+  /* La bannière REMONTE sous le header : `main` porte un
      padding-top de --header-h, la marge négative l'annule pour cette seule
      section, et le padding-top la rétablit à l'intérieur pour que le texte
      reste centré sous la barre. Résultat : la photo passe derrière le header,
@@ -1097,8 +633,8 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero > div {
   box-shadow: none;
 }
 /* Sans sa surface, le contenu du header se lit à même la photo. La bannière
-   étant claire (ciel), on garde une encre SOMBRE — l'inverse d'heritage, dont
-   le cliché est sombre. L'icône panier était le point faible : le widget lui
+   étant claire (ciel), on garde une encre SOMBRE plutôt que le clair d'usage
+   sur une photo. L'icône panier était le point faible : le widget lui
    pose sa couleur en style inline, d'où le !important, seul moyen de la
    reprendre (mesurée à 1,6:1 sur le ciel). */
 html[data-theme='sunfreaks'] #site-header.header-over-hero .header-bar {

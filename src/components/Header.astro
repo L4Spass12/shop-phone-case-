@@ -40,10 +40,11 @@ const isContact = stripped === '/contact';
 // Ordre des catégories produit dans le menu
 const cats = (siteConfig.productCategories || []) as {slug:string; label:string}[];
 
+/* « sunfreaks » est le thème par défaut (attribut posé dans BaseLayout) ;
+   « default » est le thème neutre d'origine, gardé de côté. */
 const THEMES = [
-  { id: 'default',   name: 'Défaut',    desc: 'Épuré, clair' },
-  { id: 'heritage',  name: 'Heritage',  desc: 'Galerie d’art' },
   { id: 'sunfreaks', name: 'Sunfreaks', desc: 'Rétro solaire' },
+  { id: 'default',   name: 'Épuré',     desc: 'Neutre, clair' },
 ];
 ---
 

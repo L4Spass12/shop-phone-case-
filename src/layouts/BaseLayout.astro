@@ -100,7 +100,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
 ---
 
 <!doctype html>
-<html lang={currentLocaleMeta.htmlLang}>
+<html lang={currentLocaleMeta.htmlLang} data-theme="sunfreaks">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -109,16 +109,19 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     <meta name="format-detection" content="telephone=no" />
 
     {/* Thème visuel : applique le choix mémorisé AVANT le paint (anti-flash).
-        Défaut = thème neutre clair ; 'heritage' = thème galerie d'art.
-        Bascule via le toggle du header. */}
+        « sunfreaks » est la direction artistique de la boutique : l'attribut
+        est donc écrit directement dans le HTML servi. Le thème neutre reste
+        accessible depuis le toggle du header ; il est mémorisé sous la valeur
+        « default » et se traduit par l'ABSENCE d'attribut. */}
     <script is:inline>
       (function () {
         try {
-          var t = localStorage.getItem('site-theme');
-          // « default » = absence d'attribut. La liste blanche évite qu'une
-          // valeur périmée en stockage active un thème inexistant.
-          if (t === 'heritage' || t === 'sunfreaks') {
-            document.documentElement.setAttribute('data-theme', t);
+          // L'attribut est posé dans le HTML servi, donc le thème tient même
+          // sans JavaScript. Ce script ne fait que le RETIRER pour qui a
+          // explicitement choisi le thème neutre. Une valeur périmée en
+          // stockage (l'ancien thème « heritage ») retombe sur sunfreaks.
+          if (localStorage.getItem('site-theme') === 'default') {
+            document.documentElement.removeAttribute('data-theme');
           }
         } catch (e) {}
       })();
