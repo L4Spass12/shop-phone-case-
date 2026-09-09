@@ -317,7 +317,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .builder {
     display: flex;
     flex-direction: column;
-    height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px));
+    height: 100%;
     overflow: hidden;
   }
   .builder > .bar    { flex: none; order: 0; }
@@ -328,22 +328,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* En thème sunfreaks (mobile), l'îlot flottant du header descend un peu plus
      bas que --header-h ne le prévoit et chevauchait la barre d'action (ATC).
      On décale la colonne vers le bas et on réduit d'autant sa hauteur. */
-  @media (max-width: 1023px) {
-    html[data-theme='sunfreaks'] .builder {
-      margin-top: 12px;
-      height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 12px);
-    }
-  }
-
   @media (min-width: 1024px) {
     .builder {
       display: grid;
-      height: auto;
-      overflow: visible;
       grid-template-columns: var(--rail) auto minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
       grid-template-areas: "bar bar bar" "rail panel canvas";
-      min-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px));
+      height: 100%;
+      overflow: hidden;
     }
   }
 
@@ -429,13 +421,24 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       rgb(var(--c-dark) / .95) 0%, rgb(var(--c-dark) / .82) 34%, rgb(var(--c-dark) / .12) 72%, transparent 100%);
   }
 
-  /* La figure occupe le haut de la carte, là où la photo de fond vivra. Sans
-     photo, elle porte à elle seule la lisibilité de la carte. */
+  /* La figure est une PASTILLE posée sur la photo, pas un filigrane : un
+     schéma en trait fin se perdait dans une photo chargée. Son fond dépoli lui
+     garantit un contraste constant, quelle que soit l'image derrière. */
   .mode-figwrap {
-    position: absolute; left: 0; right: 0; top: 0; bottom: 38%;
+    position: absolute; left: 1.1rem; top: 1.1rem;
     display: flex; align-items: center; justify-content: center;
+    padding: .5rem .7rem;
+    border-radius: 14px;
+    background: rgb(var(--c-dark) / .8);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    backdrop-filter: blur(10px) saturate(1.3);
+    border: 1px solid rgb(var(--c-cream) / .1);
   }
-  .mode-fig { width: min(52%, 190px); height: auto; color: rgb(var(--c-cream) / .55); }
+  .mode-fig { width: 84px; height: auto; color: rgb(var(--c-cream) / .8); }
+  @media (min-width: 768px) {
+    .mode-figwrap { left: 1.5rem; top: 1.5rem; padding: .6rem .85rem; border-radius: 16px; }
+    .mode-fig { width: 104px; }
+  }
 
   .mode-body {
     position: relative; display: flex; flex-direction: column; gap: .3rem;
@@ -477,33 +480,26 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
 
   /* ── Barre ───────────────────────────────────────────────────────
-     Même îlot flottant que le rail et que le header : sinon un bandeau plein
-     coincé entre deux surfaces détachées, et la page se lit comme trois
-     empilements différents. */
+     Bandeau plein, à la différence du rail et du panneau : en îlot, ses marges
+     et son ombre coûtaient une vingtaine de pixels de hauteur au plan de
+     travail, qui est la partie utile de l'écran.
+     PAS de backdrop-filter non plus : un filtre fait de l'élément le BLOC
+     CONTENEUR de ses descendants en `position: fixed`. Le tiroir du sélecteur
+     de modèle, qui vit dans cette barre, s'ancrait alors sur la barre au lieu
+     du viewport, et la feuille mobile s'ouvrait à cheval sur le haut. */
   .bar {
     grid-area: bar;
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    margin: 8px 10px 0;
-    padding: .4rem .5rem .4rem .55rem;
-    /* PAS de backdrop-filter ici, contrairement au rail et au panneau : un
-       filtre fait de l'élément le BLOC CONTENEUR de ses descendants en
-       `position: fixed`. Le tiroir du sélecteur de modèle, qui vit dans cette
-       barre, se retrouvait alors ancré sur la barre au lieu du viewport — la
-       feuille mobile s'ouvrait à cheval sur le haut de l'écran. Un fond
-       presque opaque donne le même îlot sans ce piège. */
-    background: rgb(var(--c-dark) / .95);
-    border: 1px solid rgb(var(--c-cream) / .1);
-    border-radius: 20px;
-    box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
-                0 1px 0 rgb(255 255 255 / .5) inset;
+    display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+    padding: .35rem .7rem;
+    background: rgb(var(--c-dark));
+    border-bottom: 1px solid rgb(var(--c-cream) / .1);
     z-index: 60;
   }
   @media (min-width: 1024px) {
-    .bar { margin: 12px 12px 0; padding: .45rem .55rem .45rem .6rem; border-radius: 22px; }
+    .bar { padding: .4rem .9rem; }
   }
   /* Le tiroir du sélecteur de modèle est un enfant de la barre. Or la barre
-     porte un z-index (et, sur desktop, `position: sticky`) : elle crée donc un
-     CONTEXTE D'EMPILEMENT, dans lequel le z-index 10002 du tiroir ne vaut plus
+     porte un z-index : elle crée donc un CONTEXTE D'EMPILEMENT, dans lequel le z-index 10002 du tiroir ne vaut plus
      rien face au header, qui est à 10000 dans le contexte racine. Le tiroir
      s'ouvrait derrière lui.
      Tant qu'il est ouvert, on hisse la barre entière au-dessus du header ; le
@@ -512,9 +508,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      les menus déroulants de celui-ci la recouvrent comme avant. */
   .bar:has(.mp-panel:not([hidden])) { z-index: 10005; }
 
-  /* En mobile la barre est déjà figée par la colonne à hauteur fixe ;
-     le `sticky` ne sert que sur desktop, où la page défile. */
-  @media (min-width: 1024px) { .bar { position: sticky; top: calc(var(--header-h) + var(--marquee-h, 0px)); } }
+  /* Plus de `position: sticky` : la page ne défile plus, c'est la grille qui
+     tient la barre en haut. Le `top: var(--header-h)` de l'ancienne règle la
+     décalait de 72 px vers le bas, par-dessus le panneau. */
   .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
   .bar-l { min-width: 0; flex: 1 1 auto; }
   .bar-r { flex: none; }
@@ -621,10 +617,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   @media (min-width: 1024px) {
     .rbtn { flex: none; padding: .55rem .25rem; font-size: .64rem; gap: .3rem; }
   }
-  /* Barre compactée en mobile : chaque pixel gagné va au plan de travail,
-     qui est la partie utile. */
+  /* Compacté en mobile : chaque pixel gagné va au plan de travail, qui est la
+     partie utile. */
   @media (max-width: 1023px) {
-    .bar { padding: .35rem .45rem; }
     .sbtn { width: 34px; height: 34px; }
     .rbtn { padding: .42rem .2rem; font-size: .61rem; gap: .2rem; }
     .rbtn svg { width: 20px; height: 20px; }
@@ -647,7 +642,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       border-radius: 22px;
       box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
                   0 1px 0 rgb(255 255 255 / .5) inset;
-      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 76px);
+      /* La rangée de la grille borne déjà la hauteur ; `align-self: start`
+         empêche l'étirement, et 100% de la rangée moins les marges donne la
+         limite de défilement. */
+      overflow-y: auto; max-height: calc(100% - 24px);
     }
     /* L'entête collant doit masquer le contenu qui défile dessous : sur une
        surface translucide, un fond translucide ne masque rien. */
@@ -907,17 +905,39 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
 <!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
 <style is:global>
-  /* ── L'éditeur est une APPLICATION plein écran en mobile ──────────
-     Sans ça la page défilait de plusieurs centaines de pixels (le pied de
-     page vit sous l'éditeur) : on perdait la barre d'outils en glissant, ce
-     qui rendait l'édition pénible. Le drapeau est posé par le script du
-     studio, donc ces règles ne touchent que cette page. */
-  @media (max-width: 1023px) {
-    html[data-studio-app], html[data-studio-app] body { overflow: hidden; height: 100%; }
-    html[data-studio-app] footer { display: none; }
-    /* Le header ne doit pas se dérober : la page ne défile plus. */
-    /* (le maintien du header dans l'éditeur est géré dans global.css) */
+  /* ── L'éditeur est une APPLICATION plein écran ────────────────────
+     Sans ça la page défile de plusieurs centaines de pixels (le pied de page
+     vit sous l'éditeur) : on perd la barre d'outils en glissant, ce qui rend
+     l'édition pénible. Le drapeau est posé par le script du studio, donc ces
+     règles ne touchent que cette page.
+
+     Verrou étendu au DESKTOP : la mise en îlots du rail et du panneau a
+     introduit des marges qui débordaient de quelques pixels, et la page se
+     mettait à défiler pour rien. Un éditeur ne défile pas — ce sont ses
+     panneaux qui défilent, chacun chez lui. */
+  html[data-studio-app], html[data-studio-app] body {
+    overflow: hidden;
+    height: 100%;
+    /* iOS ignore overflow:hidden sur <html> quand le geste part d'une zone
+       non défilable ; la position fixe, elle, tient. */
+    overscroll-behavior: none;
   }
+  html[data-studio-app] footer { display: none; }
+  /* Le plan de travail se cale sur la hauteur RÉELLE restante, sans calcul.
+     `calc(100dvh - var(--header-h))` se trompait de six pixels : en thème
+     sunfreaks le header flotte, son îlot occupe un peu plus que --header-h, et
+     le bas de la coque se retrouvait coupé. Ici `main` remplit la page, son
+     padding haut est compris dans sa hauteur (border-box), et l'éditeur prend
+     ce qui reste — quelle que soit la hauteur du header. */
+  html[data-studio-app] .site-main {
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  /* La chaîne des hauteurs doit être continue : une seule hauteur `auto` sur
+     le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
+     son contenu — soit 1440 px de haut et une grille écrasée. */
+  html[data-studio-app] .studio { height: 100%; }
 </style>
 
 <style is:global>
