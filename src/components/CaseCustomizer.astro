@@ -298,7 +298,20 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <span class="step-total-l">Total</span>
         <span class="step-total-v" data-steptotal>{price}</span>
       </span>
-      <button type="button" class="btn-atc buy-button step-add" data-add>Ajouter au panier</button>
+      <button type="button" class="btn-atc buy-button step-add" data-add>
+        <span class="step-add-l">Ajouter au panier</span>
+      </button>
+    </div>
+
+    {/* Voile de travail. La préparation dure quelques secondes — un rendu en
+        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien
+        dire. On annonce l'étape en cours plutôt qu'un sablier muet. */}
+    <div class="busy" data-busy hidden>
+      <div class="busy-card">
+        <span class="busy-ring" aria-hidden="true"></span>
+        <p class="busy-msg" data-busymsg role="status">Préparation…</p>
+        <p class="busy-sub">Quelques secondes, ne fermez pas la page.</p>
+      </div>
     </div>
   </section>
 
@@ -474,6 +487,36 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .step-total-l { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: rgb(var(--c-n500)); }
   .step-total-v { font-size: 1.35rem; font-weight: 700; white-space: nowrap; }
   .step-add { flex: 0 1 auto; padding-left: 1.6rem; padding-right: 1.6rem; }
+
+  /* ── Voile de travail ────────────────────────────────────────────
+     Posé DANS l'étape, donc au-dessus des deux cartes et de la barre d'action :
+     pendant la préparation, plus rien n'est cliquable, et ça se voit. */
+  .busy {
+    position: absolute; inset: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    background: rgb(var(--c-dark) / .78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .busy[hidden] { display: none; }
+  .busy-card {
+    display: flex; flex-direction: column; align-items: center; gap: .55rem;
+    padding: 1.5rem 1.8rem; max-width: 20rem; text-align: center;
+    border-radius: 20px;
+    background: rgb(var(--c-dark));
+    border: 1px solid rgb(var(--c-cream) / .1);
+    box-shadow: 0 18px 40px -22px rgb(var(--c-cream) / .4);
+  }
+  .busy-ring {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 3px solid rgb(var(--accent-rgb) / .22);
+    border-top-color: rgb(var(--accent-rgb));
+    animation: busy-spin .8s linear infinite;
+  }
+  @keyframes busy-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .busy-ring { animation-duration: 2.4s; } }
+  .busy-msg { font-size: .95rem; font-weight: 600; }
+  .busy-sub { font-size: .76rem; color: rgb(var(--c-n500)); line-height: 1.45; }
   @media (min-width: 768px) {
     .step-foot { padding: 1rem 1.4rem; }
     .step-total-v { font-size: 1.5rem; }
@@ -938,6 +981,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
      son contenu — soit 1440 px de haut et une grille écrasée. */
   html[data-studio-app] .studio { height: 100%; }
+  /* En sunfreaks le header est un ÎLOT : il flotte 9 px sous le haut de page,
+     donc son bas dépasse --header-h d'autant. `main` se décalait de
+     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils —
+     visible surtout sur mobile, où le bouton d'achat passait dessous. */
+  html[data-theme='sunfreaks'][data-studio-app] .site-main {
+    padding-top: calc(var(--header-h) + 18px);
+  }
 </style>
 
 <style is:global>
@@ -2184,15 +2234,32 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return full;
     }
 
-    function uploadDesign() {
+    /* Rend la main au navigateur le temps d'un vrai rendu. Le tracé du fichier
+       d'impression bloque le fil principal une seconde ou deux : sans cette
+       pause, le voile de chargement n'est peint qu'APRÈS, donc jamais vu. */
+    function paintPause() {
+      return new Promise(function (done) {
+        requestAnimationFrame(function () { requestAnimationFrame(function () { done(); }); });
+      });
+    }
+
+    function uploadDesign(step) {
+      var say = step || function () {};
       var hash = snapshot();
       if (lastUpload.hash === hash && lastUpload.id) return Promise.resolve(lastUpload);
       if (!API || !SHOP_ID) return Promise.reject(new Error('Panier non configuré.'));
 
-      return Promise.all([
-        renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
-        renderDesign({ width: printWidthPx() }),
-      ]).then(function (canvases) {
+      say('Rendu de votre visuel…');
+      return paintPause().then(function () {
+        return Promise.all([
+          renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
+          renderDesign({ width: printWidthPx() }),
+        ]);
+      }).then(function (canvases) {
+        say('Préparation du fichier d\u2019impression…');
+        return paintPause().then(function () { return canvases; });
+      }).then(function (canvases) {
+        say('Envoi à l\u2019atelier…');
         return fetch(API + '/api/public/design', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2214,10 +2281,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       });
     }
 
-    function setUploading(on) {
+    var busyEl  = root.querySelector('[data-busy]');
+    var busyMsg = root.querySelector('[data-busymsg]');
+
+    function setUploading(on, msg) {
       uploading = on;
       addBtn.disabled = on;
       addBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+      if (msg) busyMsg.textContent = msg;
+      busyEl.hidden = !on;
     }
 
     /* ── Étape 2 : mode d'impression ────────────────────────────────
@@ -2290,14 +2362,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
       var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
       e.preventDefault();
-      setUploading(true);
-      toast('Préparation de votre coque…');
+      setUploading(true, 'Préparation de votre coque…');
 
       var mode = printMode;
       var sku = mode === 'relief' ? RELIEF_SKU : SKU;
       var cents = modePrice();
 
-      uploadDesign().then(function (up) {
+      uploadDesign(function (m) { busyMsg.textContent = m; }).then(function (up) {
+        busyMsg.textContent = 'Ajout au panier…';
         if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
           throw new Error('Panier indisponible.');
         }
