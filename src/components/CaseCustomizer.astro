@@ -116,10 +116,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>
         <span>Photos</span>
       </button>
-      <button type="button" class="rbtn" data-panel="finish" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="8.6" cy="10" r="1.1"/><circle cx="15.4" cy="10" r="1.1"/><circle cx="12" cy="15.4" r="1.1"/></svg>
-        <span>Coque</span>
-      </button>
     </nav>
 
     <!-- ─── Panneau contextuel ───────────────────────────────────── -->
@@ -163,21 +159,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <p class="pane-hint">Astuce : vous pouvez aussi coller une image (Ctrl+V).</p>
       </div>
 
-      <!-- Coque -->
-      <div class="pane" data-pane="finish" hidden>
-        <label class="pane-label">Aperçu</label>
-        <div class="seg" data-mounts role="group" aria-label="Type d'aperçu">
-          <button type="button" data-mount-v="alone" aria-pressed="true">Coque seule</button>
-          <button type="button" data-mount-v="phone" aria-pressed="false">Sur le téléphone</button>
-        </div>
-        <label class="pane-label">Finition</label>
-        <div class="swatch-row" data-finishes></div>
-        <div data-devicewrap hidden>
-          <label class="pane-label">Couleur du téléphone</label>
-          <div class="swatch-row" data-devices></div>
-        </div>
-        <p class="pane-hint">La finition transparente laisse voir le décor au travers : c'est le rendu réel d'une coque en TPU cristal.</p>
-      </div>
     </aside>
 
     <!-- ─── Plan de travail ──────────────────────────────────────── -->
@@ -304,13 +285,28 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     </div>
 
     {/* Voile de travail. La préparation dure quelques secondes — un rendu en
-        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien
-        dire. On annonce l'étape en cours plutôt qu'un sablier muet. */}
+        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien dire.
+        L'anneau est une VRAIE progression, pas un sablier : il avance d'un
+        quart à chaque étape franchie. Un tourniquet sans fin ne dit pas si on
+        en est au début ou à la fin. */}
     <div class="busy" data-busy hidden>
-      <div class="busy-card">
-        <span class="busy-ring" aria-hidden="true"></span>
+      <div class="busy-card" data-busycard>
+        <span class="busy-viz" aria-hidden="true">
+          <svg class="busy-ring" viewBox="0 0 48 48">
+            <circle class="busy-track" cx="24" cy="24" r="20" />
+            <circle class="busy-arc" cx="24" cy="24" r="20" data-busyarc />
+          </svg>
+          <svg class="busy-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12.5 4.5 4.5L19 7.5" />
+          </svg>
+        </span>
         <p class="busy-msg" data-busymsg role="status">Préparation…</p>
-        <p class="busy-sub">Quelques secondes, ne fermez pas la page.</p>
+        <p class="busy-sub" data-busysub>Quelques secondes, ne fermez pas la page.</p>
+        <div class="busy-actions" data-busyactions hidden>
+          <button type="button" class="busy-cart" data-opencart>Voir mon panier</button>
+          <button type="button" class="busy-more" data-busyclose>Créer une autre coque</button>
+        </div>
       </div>
     </div>
   </section>
@@ -507,16 +503,63 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     border: 1px solid rgb(var(--c-cream) / .1);
     box-shadow: 0 18px 40px -22px rgb(var(--c-cream) / .4);
   }
+  /* L'anneau : une piste discrète, un arc qui avance par étapes, et une
+     rotation lente par-dessus pour que ça respire même entre deux étapes. */
+  .busy-viz { position: relative; display: block; width: 62px; height: 62px; }
   .busy-ring {
-    width: 34px; height: 34px; border-radius: 50%;
-    border: 3px solid rgb(var(--accent-rgb) / .22);
-    border-top-color: rgb(var(--accent-rgb));
-    animation: busy-spin .8s linear infinite;
+    width: 100%; height: 100%;
+    transform: rotate(-90deg);        /* départ à midi */
+    animation: busy-breathe 3.2s linear infinite;
   }
-  @keyframes busy-spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .busy-ring { animation-duration: 2.4s; } }
-  .busy-msg { font-size: .95rem; font-weight: 600; }
-  .busy-sub { font-size: .76rem; color: rgb(var(--c-n500)); line-height: 1.45; }
+  @keyframes busy-breathe { to { transform: rotate(270deg); } }
+  .busy-track {
+    fill: none; stroke: rgb(var(--c-cream) / .1); stroke-width: 4;
+  }
+  .busy-arc {
+    fill: none; stroke: rgb(var(--accent-rgb)); stroke-width: 4; stroke-linecap: round;
+    /* 2πr avec r = 20 */
+    stroke-dasharray: 125.66;
+    stroke-dashoffset: 125.66;
+    transition: stroke-dashoffset .5s cubic-bezier(.22,.61,.36,1), stroke .3s;
+  }
+  .busy-tick {
+    position: absolute; inset: 0; margin: auto;
+    width: 30px; height: 30px; color: rgb(var(--accent-rgb));
+    opacity: 0; transform: scale(.5);
+    transition: opacity .25s, transform .4s cubic-bezier(.34,1.7,.5,1);
+  }
+  /* Fin de course : l'anneau se fige plein et la coche éclôt au centre. */
+  .busy-card[data-done] .busy-ring { animation: none; }
+  .busy-card[data-done] .busy-tick { opacity: 1; transform: none; }
+  .busy-card[data-done] .busy-viz::after {
+    content: ""; position: absolute; inset: -6px;
+    border-radius: 50%; border: 2px solid rgb(var(--accent-rgb) / .45);
+    animation: busy-pulse .7s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes busy-pulse {
+    from { opacity: .9; transform: scale(.82); }
+    to   { opacity: 0;  transform: scale(1.28); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .busy-ring { animation: none; }
+    .busy-card[data-done] .busy-viz::after { animation: none; opacity: 0; }
+  }
+
+  .busy-msg { font-size: 1rem; font-weight: 700; }
+  .busy-sub { font-size: .78rem; color: rgb(var(--c-n500)); line-height: 1.45; }
+
+  .busy-actions { display: flex; flex-direction: column; gap: .45rem; width: 100%; margin-top: .5rem; }
+  .busy-actions[hidden] { display: none; }
+  .busy-cart, .busy-more {
+    padding: .6rem 1rem; border-radius: 12px; cursor: pointer;
+    font-size: .84rem; font-weight: 600; transition: background .15s, border-color .15s;
+  }
+  .busy-cart { background: rgb(var(--accent-rgb)); color: #fff; }
+  .busy-cart:hover { background: rgb(var(--accent-dark-rgb)); }
+  .busy-more {
+    border: 1px solid rgb(var(--c-cream) / .18); color: rgb(var(--c-cream) / .8);
+  }
+  .busy-more:hover { border-color: rgb(var(--c-cream) / .4); color: rgb(var(--c-cream)); }
   @media (min-width: 768px) {
     .step-foot { padding: 1rem 1.4rem; }
     .step-total-v { font-size: 1.5rem; }
@@ -1481,11 +1524,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         ? isDark(state.finish)
         : (state.mount === 'phone' && dev && dev.dark);
       caseEl.toggleAttribute('data-dark', !!darkBack);
-      // La couleur du téléphone n'a de sens que si on le voit.
-      root.querySelector('[data-devicewrap]').hidden = !(state.mount === 'phone' && state.finish === 'clear');
-      root.querySelectorAll('[data-finishes] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.finish)); });
-      root.querySelectorAll('[data-devices] .swatch').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.device)); });
-      root.querySelectorAll('[data-mounts] button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mountV === state.mount)); });
     }
 
     /* ── Rendu des éléments ─────────────────────────────────────── */
@@ -1705,7 +1743,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
 
     /* ── Panneaux ───────────────────────────────────────────────── */
-    var TITLES = { design: 'Designs', text: 'Texte', photo: 'Photos', finish: 'Coque' };
+    var TITLES = { design: 'Designs', text: 'Texte', photo: 'Photos' };
     var paneCloseTimer = null;
     function openPane(name) {
       activePane = name;
@@ -1830,30 +1868,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // peut comparer plusieurs designs sans faire d'aller-retour.
     }
 
-    /* ── Finition + téléphone ───────────────────────────────────── */
-    var finishRow = root.querySelector('[data-finishes]');
-    var deviceRow = root.querySelector('[data-devices]');
-    FINISHES.forEach(function (f) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'swatch' + (f.id === 'clear' ? ' swatch--clear' : '');
-      b.dataset.v = f.id; if (f.id !== 'clear') b.style.background = f.id;
-      b.title = f.label; b.setAttribute('aria-label', 'Finition ' + f.label);
-      b.addEventListener('click', function () { state.finish = f.id; applyFinish(); pushHistory(); });
-      finishRow.appendChild(b);
-    });
-    root.querySelectorAll('[data-mounts] button').forEach(function (b) {
-      b.addEventListener('click', function () {
-        state.mount = b.dataset.mountV;
-        applyFinish(); renderCase(); pushHistory();
-      });
-    });
-    DEVICES.forEach(function (d) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'swatch'; b.dataset.v = d.id; b.style.background = d.id;
-      b.title = d.label; b.setAttribute('aria-label', 'Téléphone ' + d.label);
-      b.addEventListener('click', function () { state.device = d.id; applyFinish(); pushHistory(); });
-      deviceRow.appendChild(b);
-    });
+    /* ── Finition + téléphone ───────────────────────────────────────
+       Plus d'interface : la boutique n'imprime que sur coque transparente, et
+       l'aperçu reste « coque seule ». L'état et le rendu gardent les champs
+       (`finish`, `device`, `mount`) — un design déjà enregistré avec une autre
+       finition continue de se rouvrir correctement, et rouvrir le choix plus
+       tard ne demandera que de remettre les boutons. */
 
     /* ── Photos ─────────────────────────────────────────────────── */
     root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
@@ -2281,16 +2301,60 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       });
     }
 
-    var busyEl  = root.querySelector('[data-busy]');
-    var busyMsg = root.querySelector('[data-busymsg]');
+    var busyEl   = root.querySelector('[data-busy]');
+    var busyCard = root.querySelector('[data-busycard]');
+    var busyMsg  = root.querySelector('[data-busymsg]');
+    var busySub  = root.querySelector('[data-busysub]');
+    var busyArc  = root.querySelector('[data-busyarc]');
+    var busyActs = root.querySelector('[data-busyactions]');
+    var RING = 125.66;                 // 2πr, r = 20
+    var STEPS = 4;                     // rendu, fichier, envoi, panier
+
+    /* Avance l'anneau. Une progression par étapes plutôt qu'un pourcentage
+       inventé : les quatre étapes sont réelles et de durées comparables, donc
+       le quart franchi veut dire quelque chose. */
+    function busyStep(n, msg) {
+      if (msg) busyMsg.textContent = msg;
+      busyArc.style.strokeDashoffset = String(RING * (1 - Math.min(n, STEPS) / STEPS));
+    }
 
     function setUploading(on, msg) {
       uploading = on;
       addBtn.disabled = on;
       addBtn.setAttribute('aria-busy', on ? 'true' : 'false');
-      if (msg) busyMsg.textContent = msg;
+      if (on) {
+        busyCard.removeAttribute('data-done');
+        busyActs.hidden = true;
+        busySub.textContent = 'Quelques secondes, ne fermez pas la page.';
+        busyArc.style.strokeDashoffset = String(RING);
+        if (msg) busyMsg.textContent = msg;
+      }
       busyEl.hidden = !on;
     }
+
+    /* Succès : on NE referme pas tout seul. Voir la coche, lire « ajouté » et
+       décider soi-même entre le panier et une nouvelle création vaut mieux
+       qu'un écran qui disparaît avant d'avoir été lu. */
+    function showSuccess(label) {
+      busyStep(STEPS);
+      busyCard.setAttribute('data-done', '');
+      busyMsg.textContent = 'Ajouté au panier !';
+      busySub.textContent = label;
+      busyActs.hidden = false;
+      addBtn.disabled = false;
+      addBtn.setAttribute('aria-busy', 'false');
+      uploading = false;
+    }
+
+    root.querySelector('[data-opencart]').addEventListener('click', function () {
+      busyEl.hidden = true;
+      closeStep();
+      if (window.AtelierCheckout && window.AtelierCheckout.open) window.AtelierCheckout.open();
+    });
+    root.querySelector('[data-busyclose]').addEventListener('click', function () {
+      busyEl.hidden = true;
+      closeStep();
+    });
 
     /* ── Étape 2 : mode d'impression ────────────────────────────────
        Le mode change le PRIX, donc la clé d'article : « custom » à plat,
@@ -2368,8 +2432,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var sku = mode === 'relief' ? RELIEF_SKU : SKU;
       var cents = modePrice();
 
-      uploadDesign(function (m) { busyMsg.textContent = m; }).then(function (up) {
-        busyMsg.textContent = 'Ajout au panier…';
+      var done = 0;
+      uploadDesign(function (m) { busyStep(done++, m); }).then(function (up) {
+        busyStep(3, 'Ajout au panier…');
         if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
           throw new Error('Panier indisponible.');
         }
@@ -2394,13 +2459,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           },
           quantity: 1,
         });
-        closeStep();
-        toast('Design ajouté au panier !');
+        showSuccess('Coque ' + (mode === 'relief' ? 'en relief' : 'à plat')
+                    + ' — ' + (state.model || m));
       }).catch(function (err) {
         console.error('[studio] ajout au panier', err);
-        toast("Ajout impossible pour l'instant. Réessayez.", 'warn');
-      }).then(function () {
         setUploading(false);
+        toast("Ajout impossible pour l'instant. Réessayez.", 'warn');
       });
     });
 
