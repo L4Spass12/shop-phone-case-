@@ -77,7 +77,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <button type="button" class="sbtn" data-reset aria-label="Tout effacer" title="Tout effacer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
         </button>
-        <span class="bar-model" data-barmodel>Choisissez un modèle</span>
+        <!-- Le choix du modèle vit dans la barre plutôt que dans le rail : c'est
+             une décision qu'on prend UNE fois, avant de dessiner, pas un outil
+             qu'on rouvre en travaillant. Le rail ne garde que ce qui sert à
+             composer. -->
+        <div class="bar-mp"><ModelPicker id="studio-model" /></div>
       </div>
       <div class="bar-r">
         <span class="bar-price price-amount">{price}</span>
@@ -94,17 +98,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 4 1.6 3.4L19 9l-3.4 1.6L14 14l-1.6-3.4L9 9l3.4-1.6z"/><path d="M6 14.5 6.9 16.4 9 17.3l-2.1.9L6 20.1l-.9-1.9L3 17.3l2.1-.9z"/></svg>
         <span>Designs</span>
       </button>
-      <button type="button" class="rbtn" data-panel="model" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 5.5h2"/></svg>
-        <span>Modèle</span>
-      </button>
       <button type="button" class="rbtn" data-panel="text" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg>
         <span>Texte</span>
-      </button>
-      <button type="button" class="rbtn" data-panel="sticker" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.6 14.8 9l6.9.5-5.3 4.5 1.7 6.7L12 17.1 5.9 20.7l1.7-6.7L2.3 9.5 9.2 9z"/></svg>
-        <span>Stickers</span>
       </button>
       <button type="button" class="rbtn" data-panel="photo" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>
@@ -133,12 +129,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <div class="tpl-grid" data-templates></div>
       </div>
 
-      <!-- Modèle -->
-      <div class="pane" data-pane="model" hidden>
-        <p class="pane-hint">La coque affichée s'adapte au modèle choisi.</p>
-        <ModelPicker id="studio-model" />
-      </div>
-
       <!-- Texte -->
       <div class="pane" data-pane="text" hidden>
         <button type="button" class="pane-cta" data-addtext>+ Ajouter un texte</button>
@@ -151,12 +141,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           <div class="swatch-row" data-textcolors></div>
         </div>
         <p class="pane-empty" data-textempty>Sélectionnez un texte sur la coque pour le modifier.</p>
-      </div>
-
-      <!-- Stickers -->
-      <div class="pane" data-pane="sticker" hidden>
-        <div class="chip-row" data-stickercats role="tablist" aria-label="Catégories"></div>
-        <div class="sticker-grid" data-stickers></div>
       </div>
 
       <!-- Photos -->
@@ -296,6 +280,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      le `sticky` ne sert que sur desktop, où la page défile. */
   @media (min-width: 1024px) { .bar { position: sticky; top: calc(var(--header-h) + var(--marquee-h, 0px)); } }
   .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
+  .bar-l { min-width: 0; flex: 1 1 auto; }
+  .bar-r { flex: none; }
   .sbtn {
     display: inline-flex; align-items: center; justify-content: center;
     width: 38px; height: 38px; border-radius: 9px; cursor: pointer; color: inherit;
@@ -310,8 +296,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw;
   }
   @media (max-width: 520px) { .bar-model { display: none; } }
-  /* Sur les très petits écrans, le prix cède la place au bouton d'achat. */
-  @media (max-width: 359px) { .bar-price { display: none; } }
+  /* Sous 420 px, la barre ne tient plus : annuler, rétablir, effacer, modèle,
+     prix et bouton d'achat se disputent 375 px. Plutôt que de sacrifier un
+     élément, on resserre les cibles secondaires — le prix et l'achat, eux,
+     gardent leur taille. */
+  @media (max-width: 420px) {
+    .sbtn { width: 30px; height: 30px; }
+    .bar-sep { margin: 0; }
+    .bar-l { gap: .15rem; }
+    .bar-add { padding-left: .7rem; padding-right: .7rem; }
+  }
+  /* Sur mobile, le prix cède sa place au nom du modèle.
+     Arbitrage assumé : le prix est fixe et déjà connu du visiteur (il vient
+     d'une page qui l'annonce, et le panier le redonne), alors que le modèle
+     est le seul réglage obligatoire et celui qu'on vérifie du regard avant
+     d'acheter. Tronqué à « iPhon… », il ne servait à rien. */
+  @media (max-width: 560px) { .bar-price { display: none; } }
   .bar-price { font-size: 1.1rem; font-weight: 600; white-space: nowrap; }
   .bar-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; white-space: nowrap; }
   /* Le libellé long ne tient pas à 375 px à côté du prix et des annulations :
@@ -325,37 +325,79 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   @media (min-width: 1024px) { .bar-price { font-size: 1.3rem; } .bar-add { font-size: .8rem; } }
 
-  /* ── Rail ────────────────────────────────────────────────────── */
+  /* ── Rail d'outils ───────────────────────────────────────────────
+     Quatre outils seulement depuis que le modèle est remonté dans la barre :
+     chaque cible respire, et l'outil actif se lit d'un coup d'œil. En mobile
+     c'est une barre basse posée sur un fond translucide ; en desktop une
+     colonne à gauche. Même balisage, deux mises en forme. */
   .rail {
     grid-area: rail;
-    display: flex; gap: .25rem;
-    padding: .35rem .5rem calc(.35rem + env(safe-area-inset-bottom));
-    background: rgb(var(--c-dark));
-    border-top: 1px solid rgb(var(--c-cream) / .10);
+    display: flex; gap: .3rem;
+    padding: .4rem .6rem calc(.4rem + env(safe-area-inset-bottom));
+    background: rgb(var(--c-dark) / .92);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid rgb(var(--c-cream) / .12);
     z-index: 60;
   }
   @media (min-width: 1024px) {
     .rail {
-      flex-direction: column; padding: .6rem .5rem;
+      flex-direction: column; gap: .35rem;
+      padding: .7rem .55rem;
       border-top: 0; border-right: 1px solid rgb(var(--c-cream) / .10);
+      /* Les outils se rangent en haut : une colonne étirée sur toute la
+         hauteur éloignerait le dernier bouton du plan de travail. */
+      justify-content: flex-start;
     }
   }
+
   .rbtn {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: .25rem;
-    padding: .55rem .2rem; border-radius: 10px; cursor: pointer; color: inherit;
-    font-size: .64rem; font-weight: 500; transition: background .15s, color .15s;
+    position: relative;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .3rem; padding: .55rem .2rem;
+    border-radius: 12px; cursor: pointer;
+    color: rgb(var(--c-cream) / .62);
+    font-size: .63rem; font-weight: 500; letter-spacing: .02em;
+    transition: background .18s, color .18s, transform .12s;
   }
-  .rbtn svg { width: 21px; height: 21px; }
+  .rbtn svg { width: 22px; height: 22px; transition: transform .18s; }
+  .rbtn:hover { background: rgb(var(--c-cream) / .07); color: rgb(var(--c-cream) / .9); }
+  .rbtn:active { transform: scale(.94); }
+
+  /* Outil actif : pastille pleine plutôt qu'un simple voile. Le rail est
+     posé sur un fond sombre où un aplat à 12 % d'opacité se distinguait à
+     peine du survol. */
+  .rbtn[aria-pressed="true"] {
+    background: rgb(var(--accent-rgb) / .18);
+    color: rgb(var(--c-cream));
+  }
+  .rbtn[aria-pressed="true"] svg { transform: translateY(-1px); }
+  /* Trait d'accent : le bord actif touche le plan de travail. En bas sur
+     mobile où le rail est sous le canevas, à droite sur desktop où il est à
+     gauche de celui-ci. */
+  .rbtn[aria-pressed="true"]::after {
+    content: ""; position: absolute;
+    left: 50%; transform: translateX(-50%);
+    top: 3px; width: 18px; height: 2px;
+    border-radius: 2px; background: rgb(var(--accent-rgb));
+  }
+  @media (min-width: 1024px) {
+    .rbtn { flex: none; padding: .6rem .2rem; font-size: .64rem; gap: .32rem; }
+    .rbtn[aria-pressed="true"]::after {
+      top: 50%; left: auto; right: -.55rem;
+      transform: translateY(-50%);
+      width: 2px; height: 20px;
+    }
+  }
+
   /* Barre et rail compactés en mobile : chaque pixel gagné va au plan de
      travail, qui est la partie utile. */
   @media (max-width: 1023px) {
     .bar { padding: .35rem .7rem; }
     .sbtn { width: 34px; height: 34px; }
-    .rbtn { padding: .4rem .2rem; font-size: .6rem; gap: .15rem; }
-    .rbtn svg { width: 19px; height: 19px; }
+    .rbtn { padding: .45rem .2rem; font-size: .61rem; gap: .22rem; }
+    .rbtn svg { width: 20px; height: 20px; }
   }
-  .rbtn:hover { background: rgb(var(--c-cream) / .06); }
-  .rbtn[aria-pressed="true"] { background: rgb(var(--accent-rgb) / .12); color: rgb(var(--accent-dark-rgb)); }
 
   /* ── Panneau ─────────────────────────────────────────────────── */
   .panel { grid-area: panel; background: rgb(var(--c-dark)); }
@@ -419,13 +461,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .field:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
 
-  /* NB : chips, pastilles de couleur et boutons de stickers sont créés en JS —
-     leurs règles vivent dans le bloc <style is:global>. */
-  .chip-row { display: flex; gap: .3rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
-  .chip-row::-webkit-scrollbar { display: none; }
-  .sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .3rem; }
-  /* 6 colonnes plutôt que 7 : ~52 px par cible, au-dessus du minimum tactile. */
-  @media (max-width: 1023px) { .sticker-grid { grid-template-columns: repeat(6, 1fr); gap: .35rem; } }
+  /* NB : polices et pastilles de couleur sont créées en JS — leurs règles
+     vivent dans le bloc <style is:global>. */
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
@@ -636,6 +673,55 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 </style>
 
 <style is:global>
+  /* ── <ModelPicker> posé dans la barre du studio ──────────────────
+     Le composant est conçu pour une fiche produit : étiquette au-dessus,
+     champ pleine largeur, marge basse. Dans une barre d'outils il doit se
+     réduire à une pastille. On ne touche PAS au composant lui-même — sa
+     feuille et sa logique servent aussi aux fiches produit — on ne fait que
+     le remettre en forme ici. */
+  .studio .bar-mp { min-width: 0; flex: 0 1 auto; margin-left: .3rem; }
+  .studio .bar-mp .mp { margin-bottom: 0; }
+  .studio .bar-mp .mp > label { display: none; }
+  .studio .bar-mp .mp-trigger {
+    width: auto; min-width: 0; max-width: 46vw;
+    min-height: 34px;
+    gap: .45rem; padding: .3rem .7rem;
+    border-radius: 999px; font-size: .74rem;
+    border-color: rgb(var(--c-cream) / .22);
+    background: rgb(var(--c-cream) / .06);
+    color: rgb(var(--c-cream));
+    transition: border-color .15s, background .15s;
+  }
+  .studio .bar-mp .mp-trigger:hover { border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .1); }
+  .studio .bar-mp .mp-trigger-value {
+    color: rgb(var(--c-cream) / .6);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* Modèle choisi : la pastille s'allume. C'est le seul réglage obligatoire
+     de la page, son état doit se lire sans chercher. */
+  .studio .bar-mp .mp[data-mp-chosen] .mp-trigger {
+    border-color: rgb(var(--accent-rgb) / .55);
+    background: rgb(var(--accent-rgb) / .14);
+  }
+  .studio .bar-mp .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); font-weight: 500; }
+  .studio .bar-mp .mp-error { display: none; }
+  /* Petits écrans : le libellé complet « Choisir mon modèle » mangeait la
+     place du prix et du bouton d'achat. Tant qu'aucun modèle n'est retenu on
+     n'affiche que « Modèle » ; dès qu'il l'est, c'est son nom qui compte et
+     il reprend toute la largeur disponible. Texte en dur : le studio n'existe
+     qu'en français (cf. data-design-edit-path dans BaseLayout). */
+  @media (max-width: 560px) {
+    .studio .bar-mp .mp:not([data-mp-chosen]) .mp-trigger-value { display: none; }
+    .studio .bar-mp .mp:not([data-mp-chosen]) .mp-trigger::before { content: "Modèle"; }
+    /* Le mot « CHANGER » du composant coûte 60 px pour une information que la
+       pastille donne déjà : elle est cliquable, donc elle se change. */
+    .studio .bar-mp .mp[data-mp-chosen] .mp-trigger-action { display: none; }
+    .studio .bar-mp .mp-trigger { max-width: 46vw; padding: .3rem .6rem; }
+  }
+  @media (min-width: 1024px) {
+    .studio .bar-mp .mp-trigger { max-width: 260px; min-height: 38px; font-size: .78rem; padding: .35rem .85rem; }
+  }
+
   /* ── Vignettes de designs (créées en JS) ───────────────────────── */
   .studio .tpl {
     display: flex; flex-direction: column; gap: .35rem; padding: .4rem;
@@ -659,19 +745,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .studio .tpl-name { font-size: .68rem; text-align: center; opacity: .75; }
 
   /* ── Contrôles des panneaux (créés en JS) ──────────────────────── */
-  .studio .chip {
-    flex: none; padding: .35rem .7rem; border-radius: 999px; cursor: pointer; font-size: .74rem; color: inherit;
-    border: 1px solid rgb(var(--c-cream) / .18); background: transparent; white-space: nowrap;
-  }
-  .studio .chip[aria-selected="true"] { background: rgb(var(--accent-rgb)); border-color: rgb(var(--accent-rgb)); color: #fff; }
 
-  .studio .sticker-grid button {
-    aspect-ratio: 1; font-size: 1.4rem; border-radius: 9px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    background: rgb(var(--c-cream) / .05); transition: background .12s, transform .1s;
-  }
-  .studio .sticker-grid button:hover { background: rgb(var(--c-cream) / .12); }
-  .studio .sticker-grid button:active { transform: scale(.9); }
 
   .studio .swatch {
     width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
@@ -803,7 +877,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var gizmoEl  = root.querySelector('[data-gizmo]');
     var undoBtn  = root.querySelector('[data-undo]');
     var redoBtn  = root.querySelector('[data-redo]');
-    var barModel = root.querySelector('[data-barmodel]');
 
     var STORE = 'vareska:studio-design';
     var MODEL_KEY = 'vareska:phone-model';
@@ -928,16 +1001,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return FONTS[0].css;
     }
     var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
-    var STICKERS = {
-      'Nature':   ['🌸','🌺','🌻','🌼','🌷','🌹','🥀','🌿','🍃','🍀','🌱','🪴','🌵','🌴','🌳','🍁','🍂','🌾','🌊','🏔️','⛰️','🌋','🏝️','🪨'],
-      'Cœurs':    ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💖','💕','💗','💓','💞','💘','💝','❤️‍🔥','❣️','♥️','💌'],
-      'Ciel':     ['⭐','🌟','✨','💫','☄️','🌙','🌜','🌛','🌝','☀️','🌤️','⛅','☁️','🌈','⚡','❄️','🔥','🌪️','🪐','🚀'],
-      'Symboles': ['👑','💎','🔱','☯️','♾️','✦','✧','☾','♡','⚜️','🕊️','🦅','🗝️','🧿','🔮','🪬','⚓','🏹','⚔️','🎯'],
-      'Animaux':  ['🦋','🐝','🐞','🕊️','🦢','🦉','🐺','🦊','🐱','🐶','🐼','🐨','🦁','🐯','🦄','🐬','🐳','🦈','🐢','🦎'],
-      'Gourmand': ['🍓','🍒','🍑','🍊','🍋','🍉','🍇','🥑','🍰','🧁','🍩','🍪','🍫','🍦','☕','🍵','🥂','🍸','🍕','🥐'],
-      'Voyage':   ['✈️','🗺️','🧳','🏖️','🌍','🌎','🌏','🗼','🗽','🏰','⛵','🚲','🛵','🚐','📍','🧭','📷','🎒','🏕️','🎡'],
-      'Fun':      ['🎀','🪩','🎧','🎸','🎹','🎤','🛹','🏄','⚽','🏀','🎮','🎲','🎨','🎭','🪄','🧸','🍄','👾','💿','📻'],
-    };
 
     /* ── Designs prêts à l'emploi ───────────────────────────────────
        Point de départ éditable : on pose des éléments normaux, que le
@@ -1324,7 +1387,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
 
     /* ── Panneaux ───────────────────────────────────────────────── */
-    var TITLES = { design: 'Designs', model: 'Modèle', text: 'Texte', sticker: 'Stickers', photo: 'Photos', finish: 'Coque' };
+    var TITLES = { design: 'Designs', text: 'Texte', photo: 'Photos', finish: 'Coque' };
     var paneCloseTimer = null;
     function openPane(name) {
       activePane = name;
@@ -1449,27 +1512,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // peut comparer plusieurs designs sans faire d'aller-retour.
     }
 
-    /* ── Stickers ───────────────────────────────────────────────── */
-    var catRow = root.querySelector('[data-stickercats]');
-    var grid = root.querySelector('[data-stickers]');
-    function renderStickers(cat) {
-      grid.innerHTML = '';
-      STICKERS[cat].forEach(function (emo) {
-        var b = document.createElement('button');
-        b.type = 'button'; b.textContent = emo; b.setAttribute('aria-label', 'Sticker ' + emo);
-        b.addEventListener('click', function () { addElement({ type: 'sticker', text: emo, size: 22 }); });
-        grid.appendChild(b);
-      });
-      catRow.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-selected', String(c.dataset.cat === cat)); });
-    }
-    Object.keys(STICKERS).forEach(function (cat, i) {
-      var c = document.createElement('button');
-      c.type = 'button'; c.className = 'chip'; c.textContent = cat; c.dataset.cat = cat; c.setAttribute('role', 'tab');
-      c.addEventListener('click', function () { renderStickers(cat); });
-      catRow.appendChild(c);
-      if (i === 0) renderStickers(cat);
-    });
-
     /* ── Finition + téléphone ───────────────────────────────────── */
     var finishRow = root.querySelector('[data-finishes]');
     var deviceRow = root.querySelector('[data-devices]');
@@ -1534,8 +1576,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     /* ── Modèle ─────────────────────────────────────────────────── */
     function setModel(label) {
+      // Le libellé est affiché par <ModelPicker> lui-même, désormais posé dans
+      // la barre : rien à recopier ici.
       state.model = label || '';
-      barModel.textContent = label ? label : 'Choisissez un modèle';
       renderCase();
     }
     document.addEventListener('model:change', function (e) {
@@ -1914,7 +1957,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (!state.elements.length) {
         e.preventDefault(); e.stopPropagation();
         toast('Ajoutez au moins un élément à votre coque.', 'warn');
-        openPane('sticker');
+        openPane('design');
         return;
       }
       var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
@@ -2011,9 +2054,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // la composition telle qu'elle a été envoyée. Asynchrone, donc posé
       // APRÈS le premier rendu pour ne pas retarder l'affichage.
       restoreFromUrl();
-      // On ouvre d'emblée le panneau le plus utile : le modèle s'il manque,
-      // sinon les designs (démarrer d'une base plutôt que d'une page blanche).
-      if (window.matchMedia('(min-width: 1024px)').matches) openPane(state.model ? 'design' : 'model');
+      // On ouvre d'emblée les designs : démarrer d'une base plutôt que d'une
+      // page blanche. Le modèle, lui, se choisit dans la barre du haut.
+      if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
     })();
   })();
 </script>
