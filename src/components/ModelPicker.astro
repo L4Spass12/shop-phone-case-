@@ -490,7 +490,10 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             root.setAttribute('data-mp-invalid', '');
             errorEl.hidden = false;
             open();
-            trigger.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            // Pas de scrollIntoView vers le déclencheur : la feuille le
+            // recouvre de toute façon, et depuis qu'on ne fige plus le
+            // document sur tactile, ce défilement se voyait vraiment — la page
+            // glissait derrière la feuille au moment même où elle s'ouvrait.
             return;
           }
 
