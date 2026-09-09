@@ -1782,7 +1782,13 @@ html[data-theme='sunfreaks'] footer input {
     position: fixed;
     z-index: 10002;   /* cf. .mp-backdrop */
     left: 0; right: 0; bottom: 0;
-    max-height: 85vh;
+    /* `dvh` et non `vh` : sur iOS, `vh` mesure le viewport SANS la barre
+       d'adresse. Une feuille de 85vh ancrée en bas dépassait donc la zone
+       réellement visible, et son bord haut — coins arrondis et poignée
+       compris — remontait sous le header. `dvh` suit la hauteur affichée.
+       Et 68 plutôt que 85 : une feuille de sélection n'a pas à occuper
+       presque tout l'écran, on doit voir qu'on est resté sur sa page. */
+    max-height: 68dvh;
     /* Au-dessus de la barre d'accueil des téléphones sans bouton physique. */
     padding-bottom: env(safe-area-inset-bottom);
     border-radius: 18px 18px 0 0;
