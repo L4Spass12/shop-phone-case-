@@ -42,7 +42,13 @@ const PRICE_CENTS = siteConfig.shop?.customCasePriceCents ?? 2990;
 /* Clé d'article. Doit correspondre à l'entrée du manifeste : le serveur coupe
    l'identifiant de panier au « :: » (custom::<design_id>) pour la retrouver. */
 const SKU = 'custom';
-const price = (PRICE_CENTS / 100).toFixed(2).replace('.', ',') + ' €';
+/* Impression en relief : seconde configuration achetable, seconde clé. C'est la
+   clé qui porte le prix faisant foi côté serveur (cf. seamless-items.json), donc
+   un « relief » vendu au tarif du plat ne peut pas passer. */
+const RELIEF_PRICE_CENTS = siteConfig.shop?.customCaseReliefPriceCents ?? PRICE_CENTS;
+const fmt = (c) => (c / 100).toFixed(2).replace('.', ',') + ' €';
+const price = fmt(PRICE_CENTS);
+const reliefPrice = fmt(RELIEF_PRICE_CENTS);
 
 /* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les
    fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
@@ -60,6 +66,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   data-api={apiOrigin}
   data-sku={SKU}
   data-price={String(PRICE_CENTS)}
+  data-relief-price={String(RELIEF_PRICE_CENTS)}
   data-inset-mm={String(siteConfig.shop?.printInsetMm ?? 0)}
 >
   <div class="builder">
@@ -85,9 +92,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       </div>
       <div class="bar-r">
         <span class="bar-price price-amount">{price}</span>
-        <button type="button" class="btn-atc buy-button bar-add" data-add data-item-name="Coque personnalisée">
-          <span class="add-full">Ajouter au panier</span>
-          <span class="add-mini">Ajouter</span>
+        {/* « Continuer » et non « Ajouter » : le mode d'impression se choisit
+            à l'étape suivante, et il change le prix. Annoncer l'ajout ici
+            reviendrait à cacher une décision qui coûte 5 €. */}
+        <button type="button" class="btn-atc buy-button bar-add" data-next>
+          <span class="add-full">Continuer</span>
+          <span class="add-mini">Continuer</span>
         </button>
       </div>
     </header>
@@ -222,6 +232,76 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     </main>
   </div>
 
+
+  {/* ─── Étape 2 : mode d'impression ─────────────────────────────────
+      Posée par-dessus l'éditeur plutôt que sur une autre page : changer d'URL
+      ferait perdre la composition en cours, et il faudrait la re-téléverser
+      pour revenir en arrière. Ici, « Retour » ramène au dessin intact. */}
+  <section class="step" data-step hidden aria-label="Choix du mode d'impression">
+    <header class="step-bar">
+      <button type="button" class="step-back" data-stepback>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        Retour
+      </button>
+      <p class="step-title">Comment imprimer votre coque&nbsp;?</p>
+      <span class="step-spacer" aria-hidden="true"></span>
+    </header>
+
+    <div class="step-grid" role="radiogroup" aria-label="Mode d'impression">
+      <button type="button" class="mode" data-mode="flat" role="radio" aria-checked="true">
+        <span class="mode-bg" aria-hidden="true"></span>
+        {/* Coupe transversale, centrée dans la carte : c'est elle qui explique
+            la différence d'épaisseur, une photo la montre mais ne la mesure
+            pas. Elle tient aussi lieu d'illustration tant que la photo de fond
+            n'est pas fournie. */}
+        <span class="mode-figwrap" aria-hidden="true">
+          <svg class="mode-fig" viewBox="0 0 120 56" fill="none">
+            <rect x="8" y="30" width="104" height="14" rx="5" fill="currentColor" opacity=".16"/>
+            <rect x="8" y="26" width="104" height="5" rx="2.5" fill="currentColor"/>
+            <path d="M8 20h104" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" opacity=".45"/>
+            <path d="M4 26v-6M4 20h6M4 26H0" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+          </svg>
+        </span>
+        <span class="mode-body">
+          <span class="mode-name">À plat</span>
+          <span class="mode-desc">L&rsquo;encre affleure la coque. Surface lisse, rendu net et couleurs franches.</span>
+          <span class="mode-price">{price}</span>
+        </span>
+        <span class="mode-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+        </span>
+      </button>
+
+      <button type="button" class="mode" data-mode="relief" role="radio" aria-checked="false">
+        <span class="mode-bg" aria-hidden="true"></span>
+        <span class="mode-figwrap" aria-hidden="true">
+          <svg class="mode-fig" viewBox="0 0 120 56" fill="none">
+            <rect x="8" y="30" width="104" height="14" rx="5" fill="currentColor" opacity=".16"/>
+            <path d="M8 30h104v-4a4 4 0 0 0-4-4h-8a4 4 0 0 1-4-4v-3a4 4 0 0 0-4-4H44a4 4 0 0 0-4 4v3a4 4 0 0 1-4 4h-8a4 4 0 0 0-4 4z" fill="currentColor"/>
+            <path d="M8 8h104" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" opacity=".45"/>
+            <path d="M4 30V8M4 8h6M4 30H0" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+          </svg>
+        </span>
+        <span class="mode-body">
+          <span class="mode-name">En relief</span>
+          <span class="mode-desc">Plusieurs passes d&rsquo;encre&nbsp;: le motif se sent sous le doigt. Effet matière.</span>
+          <span class="mode-price">{reliefPrice}</span>
+        </span>
+        <span class="mode-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="step-foot">
+      <span class="step-total">
+        <span class="step-total-l">Total</span>
+        <span class="step-total-v" data-steptotal>{price}</span>
+      </span>
+      <button type="button" class="btn-atc buy-button step-add" data-add>Ajouter au panier</button>
+    </div>
+  </section>
+
   <div class="toast" data-toast hidden role="status"></div>
   <input type="file" accept="image/*" hidden data-file />
 </section>
@@ -265,6 +345,135 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       grid-template-areas: "bar bar bar" "rail panel canvas";
       min-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px));
     }
+  }
+
+
+  /* ── Étape 2 : mode d'impression ─────────────────────────────────
+     Couche posée sur l'éditeur. `visibility` plutôt que `display` pour que
+     l'ouverture et la fermeture soient toutes deux animables ; `hidden` reste
+     l'état de repos, retiré par le JS avant de lancer la transition. */
+  .step {
+    position: fixed; inset: 0; z-index: 10010;
+    display: flex; flex-direction: column;
+    background: rgb(var(--c-dark));
+    opacity: 0;
+    transform: translateY(14px) scale(.985);
+    transition: opacity .34s cubic-bezier(.22,.61,.36,1),
+                transform .34s cubic-bezier(.22,.61,.36,1);
+  }
+  .step[hidden] { display: none; }
+  .step.step--in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .step { transition: none; } }
+
+  .step-bar {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    gap: .75rem; padding: .85rem 1rem;
+    border-bottom: 1px solid rgb(var(--c-cream) / .1);
+  }
+  .step-back, .step-spacer { flex: 0 0 auto; min-width: 76px; }
+  .step-back {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .82rem; font-weight: 500; color: rgb(var(--c-cream) / .7); cursor: pointer;
+  }
+  .step-back svg { width: 17px; height: 17px; }
+  .step-back:hover { color: rgb(var(--c-cream)); }
+  .step-title { flex: 1 1 auto; text-align: center; font-size: .95rem; font-weight: 600; }
+  @media (max-width: 560px) { .step-title { font-size: .86rem; } }
+
+  /* Deux moitiés franches : c'est la comparaison qui doit sauter aux yeux. */
+  .step-grid {
+    flex: 1 1 auto; min-height: 0;
+    display: grid; gap: 10px; padding: 10px;
+    grid-template-rows: 1fr 1fr;
+  }
+  @media (min-width: 768px) {
+    .step-grid { grid-template-rows: none; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; }
+  }
+
+  .mode {
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+    border-radius: 20px; cursor: pointer; color: inherit; text-align: left;
+    border: 2px solid rgb(var(--c-cream) / .12);
+    transition: border-color .2s, transform .12s, box-shadow .2s;
+  }
+  .mode:hover { border-color: rgb(var(--c-cream) / .3); }
+  .mode:active { transform: scale(.99); }
+  .mode[aria-checked="true"] {
+    border-color: rgb(var(--accent-rgb));
+    box-shadow: 0 0 0 4px rgb(var(--accent-rgb) / .14);
+  }
+
+  /* Fond photo. Tant que l'image n'est pas fournie, le dégradé tient le rôle :
+     la carte reste lisible plutôt que blanche. */
+  .mode-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+  }
+  .mode[data-mode="flat"] .mode-bg {
+    background-color: rgb(var(--c-panel));
+    background-image: linear-gradient(155deg, rgb(var(--c-panel)), rgb(var(--c-beige)));
+  }
+  .mode[data-mode="relief"] .mode-bg {
+    background-color: rgb(var(--c-beige));
+    background-image: linear-gradient(155deg, rgb(var(--accent-rgb) / .1), rgb(var(--c-beige)));
+  }
+  /* Photos de fond, quand elles existent : déclarées APRÈS les dégradés, donc
+     elles les remplacent dès que les fichiers sont déposés. */
+  .mode[data-mode="flat"] .mode-bg   { background-image: url("/images/print-flat.webp"); }
+  .mode[data-mode="relief"] .mode-bg { background-image: url("/images/print-relief.webp"); }
+  /* Voile dégradé : le texte est en bas, l'image reste lisible en haut. */
+  .mode-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top,
+      rgb(var(--c-dark) / .95) 0%, rgb(var(--c-dark) / .82) 34%, rgb(var(--c-dark) / .12) 72%, transparent 100%);
+  }
+
+  /* La figure occupe le haut de la carte, là où la photo de fond vivra. Sans
+     photo, elle porte à elle seule la lisibilité de la carte. */
+  .mode-figwrap {
+    position: absolute; left: 0; right: 0; top: 0; bottom: 38%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mode-fig { width: min(52%, 190px); height: auto; color: rgb(var(--c-cream) / .55); }
+
+  .mode-body {
+    position: relative; display: flex; flex-direction: column; gap: .3rem;
+    padding: 1rem 1.1rem 1.15rem; width: 100%;
+  }
+  .mode-name { font-size: 1.15rem; font-weight: 700; line-height: 1.1; }
+  .mode-desc { font-size: .78rem; line-height: 1.45; color: rgb(var(--c-n400)); max-width: 34ch; }
+  .mode-price { margin-top: .35rem; font-size: 1.05rem; font-weight: 700; }
+  @media (min-width: 768px) {
+    .mode-body { padding: 1.4rem 1.5rem 1.5rem; gap: .38rem; }
+    .mode-name { font-size: 1.4rem; }
+    .mode-desc { font-size: .84rem; }
+    .mode-price { font-size: 1.2rem; }
+  }
+
+  .mode-check {
+    position: absolute; top: .7rem; right: .7rem;
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 999px;
+    background: rgb(var(--accent-rgb)); color: #fff;
+    opacity: 0; transform: scale(.7);
+    transition: opacity .2s, transform .2s cubic-bezier(.34,1.56,.64,1);
+  }
+  .mode-check svg { width: 15px; height: 15px; }
+  .mode[aria-checked="true"] .mode-check { opacity: 1; transform: none; }
+
+  .step-foot {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: .8rem 1rem calc(.8rem + env(safe-area-inset-bottom));
+    border-top: 1px solid rgb(var(--c-cream) / .1);
+  }
+  .step-total { flex: none; display: flex; flex-direction: column; line-height: 1.15; }
+  .step-total-l { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: rgb(var(--c-n500)); }
+  .step-total-v { font-size: 1.35rem; font-weight: 700; white-space: nowrap; }
+  .step-add { flex: 0 1 auto; padding-left: 1.6rem; padding-right: 1.6rem; }
+  @media (min-width: 768px) {
+    .step-foot { padding: 1rem 1.4rem; }
+    .step-total-v { font-size: 1.5rem; }
   }
 
   /* ── Barre ───────────────────────────────────────────────────────
@@ -1929,6 +2138,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var API = root.dataset.api || '';
     var SKU = root.dataset.sku || 'coque-personnalisee';
     var PRICE_CENTS = parseInt(root.dataset.price, 10) || 0;
+    var RELIEF_SKU = 'custom-relief';
+    var RELIEF_PRICE_CENTS = parseInt(root.dataset.reliefPrice, 10) || PRICE_CENTS;
     // Au-delà, on n'embarque pas les photos dans la composition sauvegardée :
     // la commande reste juste (le PNG fait foi), seule la réédition perd les
     // images. Mieux que de faire échouer l'envoi.
@@ -1989,10 +2200,57 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       addBtn.setAttribute('aria-busy', on ? 'true' : 'false');
     }
 
-    // <ModelPicker> bloque déjà le clic tant qu'aucun modèle n'est choisi (il
-    // écoute en phase de capture) : ici on ne traite que le cas « coque vide ».
-    addBtn.addEventListener('click', function (e) {
-      if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
+    /* ── Étape 2 : mode d'impression ────────────────────────────────
+       Le mode change le PRIX, donc la clé d'article : « custom » à plat,
+       « custom-relief » en relief. C'est cette clé que le serveur de paiement
+       relit dans le manifeste de la vitrine pour fixer le montant — annoncer
+       un supplément depuis le navigateur ne protégerait rien. */
+    var stepEl   = root.querySelector('[data-step]');
+    var nextBtn  = root.querySelector('[data-next]');
+    var backBtn  = root.querySelector('[data-stepback]');
+    var totalEl  = root.querySelector('[data-steptotal]');
+    var modeBtns = Array.prototype.slice.call(root.querySelectorAll('[data-mode]'));
+    var printMode = 'flat';
+
+    function money(cents) { return (cents / 100).toFixed(2).replace('.', ',') + ' \u20AC'; }
+    function modePrice() { return printMode === 'relief' ? RELIEF_PRICE_CENTS : PRICE_CENTS; }
+
+    function setMode(mode) {
+      printMode = mode === 'relief' ? 'relief' : 'flat';
+      modeBtns.forEach(function (b) {
+        b.setAttribute('aria-checked', String(b.dataset.mode === printMode));
+      });
+      totalEl.textContent = money(modePrice());
+    }
+    modeBtns.forEach(function (b) {
+      b.addEventListener('click', function () { setMode(b.dataset.mode); });
+    });
+
+    function openStep() {
+      stepEl.hidden = false;
+      // Reflow avant d'ajouter la classe : sans lui l'état de départ n'est pas
+      // committé et la transition ne se joue pas (même mécanique que le
+      // panneau latéral).
+      void stepEl.offsetHeight;
+      stepEl.classList.add('step--in');
+      var checked = modeBtns.filter(function (b) { return b.getAttribute('aria-checked') === 'true'; })[0];
+      if (checked) checked.focus();
+    }
+    function closeStep() {
+      stepEl.classList.remove('step--in');
+      setTimeout(function () { stepEl.hidden = true; }, 340);
+      nextBtn.focus();
+    }
+    backBtn.addEventListener('click', closeStep);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !stepEl.hidden) closeStep();
+    });
+
+    // « Continuer » : mêmes garde-fous qu'avant (modèle choisi, coque non
+    // vide), mais on ouvre l'étape au lieu d'ajouter. Le téléversement n'a
+    // lieu qu'à l'ajout réel : inutile d'envoyer un design que le client va
+    // peut-être abandonner ici.
+    nextBtn.addEventListener('click', function (e) {
       if (!state.elements.length) {
         e.preventDefault(); e.stopPropagation();
         toast('Ajoutez au moins un élément à votre coque.', 'warn');
@@ -2005,8 +2263,19 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       e.preventDefault();
       save();
       deselect();
+      openStep();
+    });
+
+    addBtn.addEventListener('click', function (e) {
+      if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      e.preventDefault();
       setUploading(true);
       toast('Préparation de votre coque…');
+
+      var mode = printMode;
+      var sku = mode === 'relief' ? RELIEF_SKU : SKU;
+      var cents = modePrice();
 
       uploadDesign().then(function (up) {
         if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
@@ -2014,17 +2283,26 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         }
         window.AtelierCheckout.add({
           product: {
-            // L'identifiant du design rend la ligne unique : deux coques
-            // différentes ne fusionnent pas en « quantité 2 ».
-            id: 'custom::' + up.id,
-            name: 'Coque personnalisée — ' + (state.model || m),
-            price: PRICE_CENTS,
+            // La clé ET l'identifiant du design rendent la ligne unique : la
+            // même composition commandée à plat puis en relief donne deux
+            // lignes, pas une quantité 2 au mauvais prix.
+            id: sku + '::' + up.id,
+            name: 'Coque personnalisée ' + (mode === 'relief' ? 'en relief' : 'à plat')
+                  + ' — ' + (state.model || m),
+            price: cents,
             image: up.previewUrl,
-            // Ce que l'atelier lit pour savoir quoi imprimer, et sur quel moule.
-            meta: { design_id: up.id, model: state.model || m, finish: state.finish, sku: SKU },
+            // Ce que l'atelier lit pour savoir quoi imprimer, et comment.
+            meta: {
+              design_id: up.id,
+              model: state.model || m,
+              finish: state.finish,
+              sku: sku,
+              print_mode: mode,
+            },
           },
           quantity: 1,
         });
+        closeStep();
         toast('Design ajouté au panier !');
       }).catch(function (err) {
         console.error('[studio] ajout au panier', err);

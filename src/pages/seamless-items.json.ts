@@ -76,8 +76,19 @@ export const GET: APIRoute = async () => {
   if (siteConfig.shop?.customCasePriceCents) {
     items.push({
       key: 'custom',
-      label: 'Coque personnalisée',
+      label: 'Coque personnalisée — à plat',
       price: siteConfig.shop.customCasePriceCents,
+      image: null,
+    });
+  }
+  // Deux clés distinctes plutôt qu'un supplément déclaré côté client : c'est
+  // la clé qui porte le prix faisant foi. Avec une seule entrée, un panier
+  // réécrit en « relief » à 29,90 passerait sans obstacle.
+  if (siteConfig.shop?.customCaseReliefPriceCents) {
+    items.push({
+      key: 'custom-relief',
+      label: 'Coque personnalisée — en relief',
+      price: siteConfig.shop.customCaseReliefPriceCents,
       image: null,
     });
   }

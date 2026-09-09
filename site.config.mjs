@@ -221,6 +221,11 @@ const config = {
     // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser
     // un prix falsifié. Le changer ici suffit.
     customCasePriceCents: 2990,
+    // Impression EN RELIEF : l'encre est déposée en plusieurs passes, le motif
+    // se sent sous le doigt. Plus long à imprimer, donc plus cher. Le studio
+    // fait choisir entre les deux avant l'ajout au panier, et envoie la clé
+    // « custom-relief » quand c'est ce mode qui est retenu.
+    customCaseReliefPriceCents: 3490,
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y
