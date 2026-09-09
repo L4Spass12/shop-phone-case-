@@ -267,15 +267,42 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
   }
 
-  /* ── Barre ───────────────────────────────────────────────────── */
+  /* ── Barre ───────────────────────────────────────────────────────
+     Même îlot flottant que le rail et que le header : sinon un bandeau plein
+     coincé entre deux surfaces détachées, et la page se lit comme trois
+     empilements différents. */
   .bar {
     grid-area: bar;
     display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: .55rem .9rem;
-    border-bottom: 1px solid rgb(var(--c-cream) / .10);
-    background: rgb(var(--c-dark));
+    margin: 8px 10px 0;
+    padding: .4rem .5rem .4rem .55rem;
+    /* PAS de backdrop-filter ici, contrairement au rail et au panneau : un
+       filtre fait de l'élément le BLOC CONTENEUR de ses descendants en
+       `position: fixed`. Le tiroir du sélecteur de modèle, qui vit dans cette
+       barre, se retrouvait alors ancré sur la barre au lieu du viewport — la
+       feuille mobile s'ouvrait à cheval sur le haut de l'écran. Un fond
+       presque opaque donne le même îlot sans ce piège. */
+    background: rgb(var(--c-dark) / .95);
+    border: 1px solid rgb(var(--c-cream) / .1);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
+                0 1px 0 rgb(255 255 255 / .5) inset;
     z-index: 60;
   }
+  @media (min-width: 1024px) {
+    .bar { margin: 12px 12px 0; padding: .45rem .55rem .45rem .6rem; border-radius: 22px; }
+  }
+  /* Le tiroir du sélecteur de modèle est un enfant de la barre. Or la barre
+     porte un z-index (et, sur desktop, `position: sticky`) : elle crée donc un
+     CONTEXTE D'EMPILEMENT, dans lequel le z-index 10002 du tiroir ne vaut plus
+     rien face au header, qui est à 10000 dans le contexte racine. Le tiroir
+     s'ouvrait derrière lui.
+     Tant qu'il est ouvert, on hisse la barre entière au-dessus du header ; le
+     voile et le panneau retrouvent alors leur superposition normale à
+     l'intérieur. Le reste du temps la barre repasse sous le header, pour que
+     les menus déroulants de celui-ci la recouvrent comme avant. */
+  .bar:has(.mp-panel:not([hidden])) { z-index: 10005; }
+
   /* En mobile la barre est déjà figée par la colonne à hauteur fixe ;
      le `sticky` ne sert que sur desktop, où la page défile. */
   @media (min-width: 1024px) { .bar { position: sticky; top: calc(var(--header-h) + var(--marquee-h, 0px)); } }
@@ -326,76 +353,71 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   @media (min-width: 1024px) { .bar-price { font-size: 1.3rem; } .bar-add { font-size: .8rem; } }
 
   /* ── Rail d'outils ───────────────────────────────────────────────
+     Îlot flottant, comme le header : détaché des bords, arrondi, fond
+     translucide et flou d'arrière-plan. Les mêmes valeurs que l'îlot du
+     header (82 % d'opacité, blur 16 saturate 1.4, filet à 10 %) pour que les
+     deux surfaces se lisent comme une seule famille.
+
      Quatre outils seulement depuis que le modèle est remonté dans la barre :
      chaque cible respire, et l'outil actif se lit d'un coup d'œil. En mobile
-     c'est une barre basse posée sur un fond translucide ; en desktop une
-     colonne à gauche. Même balisage, deux mises en forme. */
+     l'îlot est posé en bas, en desktop contre le bord gauche. */
   .rail {
     grid-area: rail;
     display: flex; gap: .3rem;
-    padding: .4rem .6rem calc(.4rem + env(safe-area-inset-bottom));
-    background: rgb(var(--c-dark) / .92);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border-top: 1px solid rgb(var(--c-cream) / .12);
+    margin: 0 10px calc(10px + env(safe-area-inset-bottom));
+    padding: .4rem .45rem;
+    background: rgb(var(--c-dark) / .82);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid rgb(var(--c-cream) / .1);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
+                0 1px 0 rgb(255 255 255 / .5) inset;
     z-index: 60;
   }
   @media (min-width: 1024px) {
     .rail {
       flex-direction: column; gap: .35rem;
-      padding: .7rem .55rem;
-      border-top: 0; border-right: 1px solid rgb(var(--c-cream) / .10);
-      /* Les outils se rangent en haut : une colonne étirée sur toute la
-         hauteur éloignerait le dernier bouton du plan de travail. */
-      justify-content: flex-start;
+      /* Collé en haut : une colonne étirée sur toute la hauteur éloignerait le
+         dernier outil du plan de travail. `align-self` l'empêche de s'étirer
+         sur la rangée de la grille. */
+      align-self: start;
+      margin: 12px 0 12px 12px;
+      padding: .5rem .45rem;
+      border-radius: 22px;
     }
   }
 
   .rbtn {
     position: relative;
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: .3rem; padding: .55rem .2rem;
-    border-radius: 12px; cursor: pointer;
-    color: rgb(var(--c-cream) / .62);
+    gap: .3rem; padding: .5rem .2rem;
+    border-radius: 14px; cursor: pointer;
+    color: rgb(var(--c-cream) / .6);
     font-size: .63rem; font-weight: 500; letter-spacing: .02em;
     transition: background .18s, color .18s, transform .12s;
   }
-  .rbtn svg { width: 22px; height: 22px; transition: transform .18s; }
-  .rbtn:hover { background: rgb(var(--c-cream) / .07); color: rgb(var(--c-cream) / .9); }
+  .rbtn svg { width: 22px; height: 22px; }
+  .rbtn:hover { background: rgb(var(--c-cream) / .06); color: rgb(var(--c-cream) / .9); }
   .rbtn:active { transform: scale(.94); }
 
-  /* Outil actif : pastille pleine plutôt qu'un simple voile. Le rail est
-     posé sur un fond sombre où un aplat à 12 % d'opacité se distinguait à
-     peine du survol. */
+  /* Outil actif : pastille pleine plutôt qu'un simple voile. Sur une surface
+     translucide, un aplat à 12 % ne se distinguait pas du survol. */
   .rbtn[aria-pressed="true"] {
-    background: rgb(var(--accent-rgb) / .18);
-    color: rgb(var(--c-cream));
-  }
-  .rbtn[aria-pressed="true"] svg { transform: translateY(-1px); }
-  /* Trait d'accent : le bord actif touche le plan de travail. En bas sur
-     mobile où le rail est sous le canevas, à droite sur desktop où il est à
-     gauche de celui-ci. */
-  .rbtn[aria-pressed="true"]::after {
-    content: ""; position: absolute;
-    left: 50%; transform: translateX(-50%);
-    top: 3px; width: 18px; height: 2px;
-    border-radius: 2px; background: rgb(var(--accent-rgb));
-  }
-  @media (min-width: 1024px) {
-    .rbtn { flex: none; padding: .6rem .2rem; font-size: .64rem; gap: .32rem; }
-    .rbtn[aria-pressed="true"]::after {
-      top: 50%; left: auto; right: -.55rem;
-      transform: translateY(-50%);
-      width: 2px; height: 20px;
-    }
+    background: rgb(var(--accent-rgb) / .16);
+    color: rgb(var(--accent-dark-rgb));
+    font-weight: 600;
   }
 
-  /* Barre et rail compactés en mobile : chaque pixel gagné va au plan de
-     travail, qui est la partie utile. */
+  @media (min-width: 1024px) {
+    .rbtn { flex: none; padding: .55rem .25rem; font-size: .64rem; gap: .3rem; }
+  }
+  /* Barre compactée en mobile : chaque pixel gagné va au plan de travail,
+     qui est la partie utile. */
   @media (max-width: 1023px) {
-    .bar { padding: .35rem .7rem; }
+    .bar { padding: .35rem .45rem; }
     .sbtn { width: 34px; height: 34px; }
-    .rbtn { padding: .45rem .2rem; font-size: .61rem; gap: .22rem; }
+    .rbtn { padding: .42rem .2rem; font-size: .61rem; gap: .2rem; }
     .rbtn svg { width: 20px; height: 20px; }
   }
 
@@ -403,11 +425,24 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .panel { grid-area: panel; background: rgb(var(--c-dark)); }
   .panel[hidden] { display: none; }
   @media (min-width: 1024px) {
+    /* Îlot, comme la barre et le rail : un panneau à bord franc collé contre
+       le rail flottant cassait la famille de surfaces. */
     .panel {
       width: var(--panel); padding: 1rem;
-      border-right: 1px solid rgb(var(--c-cream) / .10);
-      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 52px);
+      align-self: start;
+      margin: 12px 0 12px 10px;
+      background: rgb(var(--c-dark) / .82);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid rgb(var(--c-cream) / .1);
+      border-radius: 22px;
+      box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
+                  0 1px 0 rgb(255 255 255 / .5) inset;
+      overflow-y: auto; max-height: calc(100dvh - var(--header-h) - var(--marquee-h, 0px) - 76px);
     }
+    /* L'entête collant doit masquer le contenu qui défile dessous : sur une
+       surface translucide, un fond translucide ne masque rien. */
+    .panel-head { background: rgb(var(--c-dark)); }
   }
   @media (max-width: 1023px) {
     /* Feuille du bas. Fermée = hauteur 0 ; ouverte = .panel--open. La bascule
@@ -417,9 +452,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       max-height: 0; overflow-y: auto;
       overscroll-behavior: contain;          /* le défilement ne fuit pas vers la page */
       padding: 0 1rem;
-      border-radius: 16px 16px 0 0;
+      margin: 0 10px;
+      border-radius: 20px;
+      background: rgb(var(--c-dark) / .9);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
       box-shadow: 0 -14px 34px -20px rgba(0,0,0,.4);
-      border-top: 1px solid rgb(var(--c-cream) / .12);
+      border: 1px solid rgb(var(--c-cream) / .12);
       transition: max-height .45s cubic-bezier(.33, 1, .68, 1),
                   padding .45s cubic-bezier(.33, 1, .68, 1);
     }
