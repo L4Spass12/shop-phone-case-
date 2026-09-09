@@ -1804,7 +1804,13 @@ html[data-theme='sunfreaks'] footer input {
     background: #E5E5E8;
   }
   .mp-panel-head { padding: 10px 14px 0; }
-  .mp-results { padding: 6px 8px 10px; }
+  /* Réserve sous le dernier modèle. Sur iOS, la barre d'adresse de Safari est
+     posée EN BAS et recouvre le pied du viewport de mise en page — celui-là
+     même auquel `bottom: 0` ancre la feuille. Les derniers modèles se
+     retrouvaient dessous, cachés par un bandeau clair, sans moyen de les
+     atteindre. Cette réserve permet de les faire remonter au défilement.
+     `env()` s'ajoute pour l'indicateur d'accueil des iPhone sans bouton. */
+  .mp-results { padding: 6px 8px calc(76px + env(safe-area-inset-bottom)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
