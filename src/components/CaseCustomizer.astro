@@ -104,6 +104,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     <!-- ─── Rail d'outils ────────────────────────────────────────── -->
     <nav class="rail" aria-label="Outils">
+      {/* Une SEULE pastille pour tous les outils : elle glisse de l'un à
+          l'autre au lieu de s'éteindre ici et de se rallumer là. C'est le
+          déplacement qui rend le changement lisible. */}
+      <span class="rail-ind" data-railind aria-hidden="true"></span>
       <button type="button" class="rbtn" data-panel="design" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 4 1.6 3.4L19 9l-3.4 1.6L14 14l-1.6-3.4L9 9l3.4-1.6z"/><path d="M6 14.5 6.9 16.4 9 17.3l-2.1.9L6 20.1l-.9-1.9L3 17.3l2.1-.9z"/></svg>
         <span>Designs</span>
@@ -653,6 +657,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      chaque cible respire, et l'outil actif se lit d'un coup d'œil. En mobile
      l'îlot est posé en bas, en desktop contre le bord gauche. */
   .rail {
+    position: relative;          /* repère de la pastille glissante */
     grid-area: rail;
     display: flex; gap: .3rem;
     margin: 0 10px calc(10px + env(safe-area-inset-bottom));
@@ -698,20 +703,35 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      foncé) : c'est le même violet que les boutons et le prix, pas une seconde
      teinte inventée pour l'occasion. Le liseré clair en haut et l'ombre portée
      colorée donnent le relief. */
-  .rbtn[aria-pressed="true"] {
+  /* Le fond violet vit sur .rail-ind, pas sur le bouton : c'est ce qui lui
+     permet de glisser d'un outil à l'autre. Le bouton ne change que sa
+     couleur d'encre, et il doit passer AU-DESSUS de la pastille. */
+  .rbtn { z-index: 1; }
+  .rbtn[aria-pressed="true"] { color: #fff; font-weight: 600; }
+  .rbtn[aria-pressed="true"]:hover { background: none; }
+
+  .rail-ind {
+    position: absolute; left: 0; top: 0; z-index: 0;
+    border-radius: 14px;
     background: linear-gradient(155deg,
       rgb(var(--accent-light-rgb)) 0%,
       rgb(var(--accent-rgb)) 52%,
       rgb(var(--accent-dark-rgb)) 100%);
-    color: #fff;
-    font-weight: 600;
     box-shadow: 0 6px 15px -7px rgb(var(--accent-rgb) / .75),
                 0 1px 0 rgb(255 255 255 / .28) inset;
+    opacity: 0;
+    pointer-events: none;
+    /* Le ressort léger sur la position donne le glissement ; la taille et
+       l'opacité suivent sans rebond, sinon la pastille « respire » à chaque
+       changement. */
+    transition: transform .38s cubic-bezier(.34, 1.28, .48, 1),
+                width .3s cubic-bezier(.22,.61,.36,1),
+                height .3s cubic-bezier(.22,.61,.36,1),
+                opacity .2s ease;
   }
-  .rbtn[aria-pressed="true"]:hover { background-image: linear-gradient(155deg,
-      rgb(var(--accent-light-rgb)) 0%,
-      rgb(var(--accent-rgb)) 46%,
-      rgb(var(--accent-dark-rgb)) 100%); }
+  .rail-ind[data-on] { opacity: 1; }
+  @media (min-width: 1024px) { .rail-ind { border-radius: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .rail-ind { transition: opacity .2s ease; } }
 
   /* L'anneau de focus global est du même violet que le remplissage : sur un
      bouton actif il se collait au fond et formait un gros bloc. On l'écarte et
@@ -1795,6 +1815,34 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       editingId = null;
     }
 
+    /* ── Pastille glissante du rail ─────────────────────────────────
+       Une seule pastille pour tous les outils : elle se déplace vers celui
+       qu'on vient de choisir. Les positions sont mesurées sur les boutons
+       eux-mêmes (offsetLeft/offsetTop, relatifs au rail qui est en
+       `position: relative`), donc ça marche aussi bien pour la colonne du
+       desktop que pour la barre horizontale du mobile, sans code séparé. */
+    var railInd = root.querySelector('[data-railind]');
+    var railIndPlaced = false;
+
+    function moveRailInd(animate) {
+      var b = root.querySelector('.rbtn[aria-pressed="true"]');
+      if (!b) { railInd.removeAttribute('data-on'); railIndPlaced = false; return; }
+      // Premier placement (ou changement de format) : on pose la pastille sans
+      // transition, sinon elle traverse l'écran depuis le coin au chargement.
+      if (!railIndPlaced) animate = false;
+      railIndPlaced = true;
+      if (!animate) railInd.style.transition = 'none';
+      railInd.style.width = b.offsetWidth + 'px';
+      railInd.style.height = b.offsetHeight + 'px';
+      railInd.style.transform = 'translate3d(' + b.offsetLeft + 'px,' + b.offsetTop + 'px,0)';
+      railInd.setAttribute('data-on', '');
+      if (!animate) { void railInd.offsetWidth; railInd.style.transition = ''; }
+    }
+
+    // Le rail bascule de la colonne à la barre au changement de format : la
+    // pastille doit se recaler sans animer ce saut-là.
+    window.addEventListener('resize', function () { moveRailInd(false); });
+
     /* ── Panneaux ───────────────────────────────────────────────── */
     var TITLES = { design: 'Designs', text: 'Texte', photo: 'Photos' };
     var paneCloseTimer = null;
@@ -1805,6 +1853,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       root.querySelector('[data-paneltitle]').textContent = TITLES[name] || '';
       panel.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.dataset.pane !== name; });
       root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.panel === name)); });
+      moveRailInd(true);
       if (name === 'text') syncTextPane();
       // Déclenche l'animation d'ouverture : on force un reflow (état fermé
       // max-height:0 committé) PUIS on ajoute la classe, pour que la transition
@@ -1816,6 +1865,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function closePane() {
       activePane = null;
       root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      moveRailInd(true);
       panel.classList.remove('panel--open');
       // Mobile : on laisse l'animation de fermeture se jouer avant de masquer.
       // Desktop : pas de transition → on masque tout de suite.
