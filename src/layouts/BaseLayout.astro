@@ -103,7 +103,22 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
 <html lang={currentLocaleMeta.htmlLang} data-theme="sunfreaks">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    {/* PAS de `viewport-fit=cover`. Il fait dessiner la page DANS les zones
+        sûres de l'iPhone — sous la barre d'état en haut, sous l'indicateur
+        d'accueil en bas — et c'est à la page d'y réserver la place avec
+        env(safe-area-inset-*).
+
+        Le tiroir de panier et l'iframe de paiement viennent du widget, qui
+        sert aussi les autres boutiques : elles n'ont pas cet attribut, donc
+        iOS leur retranche lui-même les zones sûres et le widget n'a rien à
+        réserver. Sur Vareska, avec `cover`, ses surfaces plein écran se
+        retrouvaient à cheval sur ces zones : bandeau en haut, contenu tronqué
+        en bas. Même widget, un seul site touché — la différence était ici.
+
+        Sans lui, iOS s'en charge. Les quelques env(safe-area-inset-bottom)
+        posés dans le studio deviennent nuls, ce qui est sans effet : ce sont
+        des marges additionnelles. */}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="format-detection" content="telephone=no" />
