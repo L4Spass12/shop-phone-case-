@@ -674,8 +674,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
          sur la rangée de la grille. */
       align-self: start;
       margin: 12px 0 12px 12px;
-      padding: .5rem .45rem;
-      border-radius: 22px;
+      padding: .8rem .5rem;
+      border-radius: 24px;
     }
   }
 
@@ -692,16 +692,40 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .rbtn:hover { background: rgb(var(--c-cream) / .06); color: rgb(var(--c-cream) / .9); }
   .rbtn:active { transform: scale(.94); }
 
-  /* Outil actif : pastille pleine plutôt qu'un simple voile. Sur une surface
-     translucide, un aplat à 12 % ne se distinguait pas du survol. */
+  /* Outil actif : pastille violette pleine. Un voile à 16 % se confondait avec
+     le survol sur une surface déjà translucide — il fallait un aplat franc.
+     Le dégradé reprend les trois nuances de l'accent du site (clair, accent,
+     foncé) : c'est le même violet que les boutons et le prix, pas une seconde
+     teinte inventée pour l'occasion. Le liseré clair en haut et l'ombre portée
+     colorée donnent le relief. */
   .rbtn[aria-pressed="true"] {
-    background: rgb(var(--accent-rgb) / .16);
-    color: rgb(var(--accent-dark-rgb));
+    background: linear-gradient(155deg,
+      rgb(var(--accent-light-rgb)) 0%,
+      rgb(var(--accent-rgb)) 52%,
+      rgb(var(--accent-dark-rgb)) 100%);
+    color: #fff;
     font-weight: 600;
+    box-shadow: 0 6px 15px -7px rgb(var(--accent-rgb) / .75),
+                0 1px 0 rgb(255 255 255 / .28) inset;
+  }
+  .rbtn[aria-pressed="true"]:hover { background-image: linear-gradient(155deg,
+      rgb(var(--accent-light-rgb)) 0%,
+      rgb(var(--accent-rgb)) 46%,
+      rgb(var(--accent-dark-rgb)) 100%); }
+
+  /* L'anneau de focus global est du même violet que le remplissage : sur un
+     bouton actif il se collait au fond et formait un gros bloc. On l'écarte et
+     on l'assombrit pour qu'il se lise comme un contour. */
+  .rbtn:focus-visible { outline: 2px solid rgb(var(--accent-rgb)); outline-offset: 3px; }
+  .rbtn[aria-pressed="true"]:focus-visible {
+    outline-color: rgb(var(--accent-dark-rgb));
+    outline-offset: 3px;
   }
 
   @media (min-width: 1024px) {
-    .rbtn { flex: none; padding: .55rem .25rem; font-size: .64rem; gap: .3rem; }
+    .rail { gap: .5rem; }
+    .rbtn { flex: none; padding: .7rem .3rem; font-size: .64rem; gap: .34rem; border-radius: 16px; }
+    .rbtn svg { width: 23px; height: 23px; }
   }
   /* Compacté en mobile : chaque pixel gagné va au plan de travail, qui est la
      partie utile. */
