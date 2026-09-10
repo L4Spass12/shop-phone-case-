@@ -1584,6 +1584,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (el.type === 'image') {
         var img = document.createElement('img');
         img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
+        // Filet pour les navigateurs sans ResizeObserver : au décodage, la
+        // hauteur passe de zéro à sa valeur réelle.
+        img.addEventListener('load', function () {
+          if (selectedId === el.id) positionGizmo(el);
+        });
         content.appendChild(img);
       } else content.textContent = el.text;
       node.append(content);
@@ -1657,9 +1662,33 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Sélection ──────────────────────────────────────────────── */
     function select(id) { selectedId = id; applySelection(); }
     function deselect() { if (editingId) exitEdit(); selectedId = null; applySelection(); }
+    /* Le cadre se mesure sur le nœud. Or un nœud qui vient d'apparaître n'a
+       pas encore sa taille définitive : une image importée ne connaît la
+       sienne qu'une fois décodée, un texte qu'une fois sa police chargée. Le
+       cadre se posait donc sur un nœud encore plat — une barre large et fine,
+       qui ne se recalait qu'au premier redimensionnement.
+       On suit désormais la taille réelle du nœud sélectionné : dès qu'elle
+       change, le cadre suit. */
+    var gizmoWatch = null;
+    var sizeObserver = typeof ResizeObserver === 'function'
+      ? new ResizeObserver(function () {
+          var el = selectedId ? findEl(selectedId) : null;
+          if (el) positionGizmo(el);
+        })
+      : null;
+
+    function watchSelected(node) {
+      if (!sizeObserver) return;
+      if (gizmoWatch) sizeObserver.unobserve(gizmoWatch);
+      gizmoWatch = node || null;
+      if (gizmoWatch) sizeObserver.observe(gizmoWatch);
+    }
+
     function applySelection() {
       nodes.forEach(function (ref, id) { ref.node.classList.toggle('sel', id === selectedId); });
       var el = selectedId ? findEl(selectedId) : null;
+      var ref = el ? nodes.get(el.id) : null;
+      watchSelected(ref ? ref.node : null);
       if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
