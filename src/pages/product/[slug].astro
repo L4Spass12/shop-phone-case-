@@ -1354,6 +1354,14 @@ const pickModelLabel = t('model.placeholder', 'fr');
   .gallery-viewport img,
   .gallery-thumb img { mix-blend-mode: multiply; }
 
+  /* Le cadre reprend le gris de la page. « multiply » fusionne l'image avec ce
+     qui est derrière elle DANS son contexte d'empilement ; or le collage du
+     visuel en crée un, qui coupait l'image du fond de page et laissait
+     réapparaître le blanc du détourage. En peignant le gris juste derrière,
+     la fusion retrouve la bonne couleur. */
+  .gallery-viewport,
+  .gallery-thumb { background-color: #f3f3f3; }
+
 
   /* Les accordéons portent leurs propres filets de séparation. Dans la carte,
      le premier et le dernier venaient border ses arêtes : on les retire pour
