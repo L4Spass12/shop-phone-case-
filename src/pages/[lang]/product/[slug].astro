@@ -168,7 +168,7 @@ const pickModelLabel = t('model.placeholder', lang);
       {(() => {
         const slides = Array.from(new Set([image, ...(gallery || [])]));
         return (
-        <div class="product-gallery" data-gallery data-slide-count={slides.length}>
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
           <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group">
             <div class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full" data-gallery-track>
               {slides.map((src, i) => (
@@ -222,8 +222,8 @@ const pickModelLabel = t('model.placeholder', lang);
         );
       })()}
 
-      <div class="flex flex-col gap-5 lg:gap-6">
-      <div class="flex flex-col pdp-card">
+      <div class="flex flex-col gap-5 lg:gap-6 min-w-0">
+      <div class="flex flex-col pdp-card min-w-0">
         {categories && categories.length > 0 && (
           <div class="flex flex-wrap gap-1.5 mb-3">
             {categories.map((c: string) => (
@@ -424,7 +424,7 @@ const pickModelLabel = t('model.placeholder', lang);
         </div>
       </div>
 
-    <section class="below-fold-defer pdp-panel">
+    <section class="below-fold-defer pdp-panel min-w-0">
       <details class="product-toggle group border-t border-white/[0.08] py-5">
         <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
           <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{t('shop.description', lang)}</h2>
@@ -952,10 +952,26 @@ const pickModelLabel = t('model.placeholder', lang);
   }
 
   @media (max-width: 767px) {
-    /* Sur un écran de téléphone, les 24 px de marge du gabarit laissaient la
-       carte flotter au milieu : on la rapproche des bords, elle gagne une
-       vingtaine de pixels de largeur et le contenu respire davantage. */
-    .crumbs-shell { padding-left: .875rem; padding-right: .875rem; }
+    /* Gouttière de la fiche sur téléphone. UNE seule valeur, parce que deux
+       éléments en dépendent en sens inverse : le gabarit s'en sert comme
+       marge, le visuel l'annule pour aller bord à bord. Réglées séparément,
+       elles se désaccordent et la page devient plus large que l'écran — le
+       navigateur dézoome alors pour tout faire tenir. */
+    .crumbs-shell {
+      --pdp-gutter: .875rem;
+      padding-left: var(--pdp-gutter);
+      padding-right: var(--pdp-gutter);
+    }
+    /* Sélecteur à trois niveaux volontaire. La règle d'origine est tantôt
+       posée au milieu du balisage, tantôt scopée par Astro — qui lui ajoute
+       un attribut et donc une spécificité équivalente à la nôtre. Compter
+       sur l'ordre de la cascade ne suffisait pas : la fiche traduite gardait
+       l'ancienne marge et débordait de 10 px. */
+    .crumbs-shell .product-gallery .gallery-viewport {
+      margin-left: calc(var(--pdp-gutter, .875rem) * -1);
+      margin-right: calc(var(--pdp-gutter, .875rem) * -1);
+      border-radius: 0;
+    }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
