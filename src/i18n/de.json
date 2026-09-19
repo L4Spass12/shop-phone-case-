@@ -202,8 +202,9 @@
   },
   "print": {
     "label": "Druckbild",
-    "hint": "Das Relief ist fühlbar",
-    "flat": "Flach",
-    "relief": "Erhaben"
+    "flat": "Flaches Design",
+    "flatDesc": "Glatte Oberfläche",
+    "relief": "Erhabenes Design",
+    "reliefDesc": "Erhabene Struktur"
   }
 }

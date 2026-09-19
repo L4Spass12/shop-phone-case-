@@ -45,12 +45,9 @@ const basePriceCents = Math.round(price * 100);
   data-default-mode={defaultMode}
   data-currency={currency}
 >
-  <div class="pm-head">
-    <span class="pm-label">{t('print.label', lang)}</span>
-    <span class="pm-hint">{t('print.hint', lang)}</span>
-  </div>
+  <span class="pm-label">{t('print.label', lang)}</span>
 
-  <div class="pm-grid" role="radiogroup" aria-label={t('print.label', lang)}>
+  <div class="pm-rows" role="radiogroup" aria-label={t('print.label', lang)}>
     <button
       type="button"
       class:list={['pm-opt', defaultMode === 'flat' && 'is-on']}
@@ -58,21 +55,45 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'flat')}
     >
-      {/* La coque vue de PROFIL : la coquille remonte de chaque côté, le
-          téléphone est dedans. Les deux options montrent la même coque, seul
-          le dessus change — la comparaison se fait donc d'un coup d'œil. Ici
-          le dessus est lisse : l'encre affleure. */}
-      <svg class="pm-fig" viewBox="0 0 48 30" fill="none" aria-hidden="true">
-        {/* Vue de profil, une coque n'est qu'un trait. Pas de coquille
-            dessinée, pas d'arrondis : le trait, et rien d'autre. Ici il est
-            lisse, l'encre affleure. */}
-        <rect x="5" y="17" width="38" height="5.5" rx="2.75" fill="currentColor"/>
+      {/* Le téléphone de trois quarts, motif posé sur le dos. Les deux lignes
+          montrent exactement la même coque : seul le motif change, à plat ici,
+          bâti en épaisseur en dessous. C'est la comparaison qui explique, pas
+          le dessin pris isolément. */}
+      <svg class="pm-fig" viewBox="0 0 108 54" fill="none" aria-hidden="true">
+        <g transform="rotate(-7 54 27)" stroke="currentColor" stroke-linejoin="round">
+          {/* tranche puis dos : l'épaisseur de la coque */}
+          <rect x="10" y="20" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
+          <rect x="10" y="13" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
+          {/* module photo */}
+          <rect x="16" y="16.5" width="15" height="9" rx="3.5" stroke-width="1.6" fill="var(--pm-fill)"/>
+          <circle cx="20.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
+          <circle cx="26.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
+          {/* bouton latéral */}
+          <rect x="38" y="24.5" width="11" height="2.6" rx="1.3" stroke-width="1.4" fill="var(--pm-fill)"/>
+          {/* motif : à plat, une seule épaisseur */}
+          <g stroke-width="1.7" fill="var(--pm-fill)">
+            <circle cx="70" cy="16" r="3.4"/>
+            <circle cx="75" cy="19.4" r="3.4"/>
+            <circle cx="73.1" cy="25" r="3.4"/>
+            <circle cx="66.9" cy="25" r="3.4"/>
+            <circle cx="65" cy="19.4" r="3.4"/>
+            <circle cx="70" cy="20.6" r="2.4"/>
+          </g>
+          {/* éclats : la lumière accroche la surface */}
+          <g stroke-width="1.6" stroke-linecap="round">
+            <path d="M84 9v-3.5"/>
+            <path d="M88 10.5l2.4-2.6"/>
+            <path d="M90.5 14h3.4"/>
+          </g>
+        </g>
       </svg>
-      <span class="pm-name">{t('print.flat', lang)}</span>
-      <span class="pm-price">{fmt(basePriceCents)}</span>
-      <span class="pm-check" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+
+      <span class="pm-body">
+        <span class="pm-name">{t('print.flat', lang)}</span>
+        <span class="pm-desc">{t('print.flatDesc', lang)}</span>
       </span>
+      <span class="pm-price">{fmt(basePriceCents)}</span>
+      <span class="pm-radio" aria-hidden="true"></span>
     </button>
 
     <button
@@ -82,124 +103,152 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'relief')}
     >
-      {/* La même coque, au même endroit, mais le dessus ondule : de petites
-          vagues d'encre qu'on sent sous le doigt. Rien d'autre ne change entre
-          les deux dessins, c'est ce qui rend la différence lisible. */}
-      <svg class="pm-fig" viewBox="0 0 48 30" fill="none" aria-hidden="true">
-        {/* Le même trait, au même endroit, avec les vagues d'encre posées
-            dessus. Rien d'autre ne change d'un dessin à l'autre. */}
-        <path d="M7 17.2q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0z" fill="currentColor"/>
-        <rect x="5" y="17" width="38" height="5.5" rx="2.75" fill="currentColor"/>
+      <svg class="pm-fig" viewBox="0 0 108 54" fill="none" aria-hidden="true">
+        <g transform="rotate(-7 54 27)" stroke="currentColor" stroke-linejoin="round">
+          <rect x="10" y="20" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
+          <rect x="10" y="13" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
+          <rect x="16" y="16.5" width="15" height="9" rx="3.5" stroke-width="1.6" fill="var(--pm-fill)"/>
+          <circle cx="20.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
+          <circle cx="26.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
+          <rect x="38" y="24.5" width="11" height="2.6" rx="1.3" stroke-width="1.4" fill="var(--pm-fill)"/>
+          {/* motif en relief : le MÊME motif dessiné deux fois, le second
+              décalé vers le bas. Seules ses arêtes basses dépassent, et c'est
+              exactement ce qu'on voit d'un motif qui a de l'épaisseur. */}
+          <g stroke-width="1.7" fill="var(--pm-fill)" transform="translate(0 4)">
+            <circle cx="70" cy="16" r="3.4"/>
+            <circle cx="75" cy="19.4" r="3.4"/>
+            <circle cx="73.1" cy="25" r="3.4"/>
+            <circle cx="66.9" cy="25" r="3.4"/>
+            <circle cx="65" cy="19.4" r="3.4"/>
+          </g>
+          <g stroke-width="1.7" fill="var(--pm-fill)">
+            <circle cx="70" cy="16" r="3.4"/>
+            <circle cx="75" cy="19.4" r="3.4"/>
+            <circle cx="73.1" cy="25" r="3.4"/>
+            <circle cx="66.9" cy="25" r="3.4"/>
+            <circle cx="65" cy="19.4" r="3.4"/>
+            <circle cx="70" cy="20.6" r="2.4"/>
+          </g>
+          <g stroke-width="1.6" stroke-linecap="round">
+            <path d="M84 9v-3.5"/>
+            <path d="M88 10.5l2.4-2.6"/>
+            <path d="M90.5 14h3.4"/>
+          </g>
+        </g>
       </svg>
-      <span class="pm-name">{t('print.relief', lang)}</span>
-      <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
-      <span class="pm-check" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+
+      <span class="pm-body">
+        <span class="pm-name">{t('print.relief', lang)}</span>
+        <span class="pm-desc">{t('print.reliefDesc', lang)}</span>
       </span>
+      <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
+      <span class="pm-radio" aria-hidden="true"></span>
     </button>
   </div>
 </div>
 
 <style>
-  /* Le sélecteur ne doit PAS ressembler au bouton d'achat : mêmes jaune et
-     ombre dure, les deux se disputaient l'attention et le choix passait pour
-     un second bouton. Ici, pas d'aplat de couleur — l'option retenue se
-     signale par un filet d'encre franc et une pastille. Le jaune reste au
-     bouton, qui est la seule action de la page. */
+  /* Deux lignes pleine largeur plutôt que deux cartes côte à côte : l'illustration
+     a besoin de place pour montrer le motif, et un titre suivi de sa description
+     se lit mieux sur une ligne que serré dans une colonne. */
   .print-mode { margin-top: 1.25rem; margin-bottom: .5rem; }
 
-  .pm-head {
-    display: flex;
-    align-items: baseline;
-    gap: .45rem;
-    margin-bottom: .55rem;
-    flex-wrap: wrap;
-  }
   .pm-label {
+    display: block;
+    margin-bottom: .5rem;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .09em;
     text-transform: uppercase;
     color: rgb(var(--c-cream));
   }
-  .pm-hint { font-size: 11px; color: rgb(var(--c-n500)); }
 
-  .pm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+  .pm-rows { display: grid; gap: .5rem; }
 
   .pm-opt {
-    position: relative;
+    --pm-fill: rgb(var(--c-panel));
     display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
+    grid-template-columns: auto 1fr auto auto;
     align-items: center;
-    gap: 0 .55rem;
-    padding: .65rem .7rem;
+    gap: .75rem;
+    width: 100%;
+    padding: .55rem .85rem .55rem .55rem;
     border-radius: 14px;
     border: 1.5px solid rgb(var(--c-cream) / .16);
     background: rgb(var(--c-panel));
-    color: rgb(var(--c-n500));
+    color: rgb(var(--c-n400));
     text-align: left;
     cursor: pointer;
     transition: border-color .18s ease, background-color .18s ease, color .18s ease;
   }
-  .pm-opt:hover { border-color: rgb(var(--c-cream) / .4); color: rgb(var(--c-n400)); }
+  .pm-opt:hover { border-color: rgb(var(--c-cream) / .4); }
 
-  /* Retenue : fond blanc franc et filet violet, l'accent du site. Le violet
-     dit « choisi » sans reprendre le jaune du bouton d'achat, qui reste la
+  /* Retenue : filet violet, l'accent du site. Le jaune reste au bouton d'achat,
      seule action de la page. */
   .pm-opt.is-on {
+    --pm-fill: rgb(var(--c-dark));
     border-color: rgb(var(--accent-rgb));
     background: rgb(var(--c-dark));
     color: rgb(var(--accent-rgb));
   }
   .pm-opt:focus-visible { outline: 2px solid rgb(var(--accent-rgb) / .55); outline-offset: 2px; }
 
-  .pm-fig { grid-row: 1 / span 2; width: 46px; height: auto; color: currentColor; }
+  .pm-fig { width: 92px; height: auto; flex: none; color: currentColor; }
 
+  .pm-body { display: grid; gap: 1px; min-width: 0; }
   .pm-name {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 14.5px;
     line-height: 1.2;
     letter-spacing: -.01em;
   }
-  .pm-price {
+  .pm-desc {
     font-size: 11.5px;
-    line-height: 1.35;
+    white-space: nowrap;
+    line-height: 1.25;
     color: rgb(var(--c-n500));
+  }
+  .pm-price {
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: rgb(var(--c-n400));
     font-variant-numeric: tabular-nums;
   }
-  .pm-opt.is-on .pm-price { color: rgb(var(--accent-rgb) / .8); font-weight: 600; }
+  .pm-opt.is-on .pm-price { color: rgb(var(--accent-rgb)); }
 
-  /* Pastille brune, discrète, posée dans le coin. Elle n'existe que sur
-     l'option retenue : deux cartes traitées pareil se ressemblent trop au
-     premier coup d'œil. */
-  .pm-check {
-    position: absolute;
-    top: -5px;
-    right: -5px;
+  /* Bouton radio : le repère le plus universel pour « une seule des deux ». */
+  .pm-radio {
     width: 17px;
     height: 17px;
+    border-radius: 999px;
+    border: 2px solid rgb(var(--c-cream) / .28);
     display: grid;
     place-items: center;
+    transition: border-color .18s ease;
+  }
+  .pm-radio::after {
+    content: '';
+    width: 8px;
+    height: 8px;
     border-radius: 999px;
     background: rgb(var(--accent-rgb));
-    color: rgb(var(--c-dark));
-    opacity: 0;
-    transform: scale(.5);
-    transition: opacity .18s ease, transform .18s ease;
+    transform: scale(0);
+    transition: transform .18s ease;
   }
-  .pm-check svg { width: 9px; height: 9px; }
-  .pm-opt.is-on .pm-check { opacity: 1; transform: scale(1); }
+  .pm-opt.is-on .pm-radio { border-color: rgb(var(--accent-rgb)); }
+  .pm-opt.is-on .pm-radio::after { transform: scale(1); }
 
   @media (max-width: 380px) {
-    .pm-fig { width: 38px; }
-    .pm-opt { padding: .55rem .6rem; gap: 0 .45rem; }
-    .pm-name { font-size: 13px; }
+    .pm-fig { width: 76px; }
+    .pm-opt { gap: .55rem; padding: .5rem .7rem .5rem .45rem; }
+    .pm-name { font-size: 13.5px; }
+    .pm-desc { font-size: 11px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pm-opt, .pm-check { transition: none; }
+    .pm-opt, .pm-radio, .pm-radio::after { transition: none; }
   }
 </style>
 

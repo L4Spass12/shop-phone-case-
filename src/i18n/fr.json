@@ -202,8 +202,9 @@
   },
   "print": {
     "label": "Rendu d'impression",
-    "hint": "Le relief se sent sous le doigt",
-    "flat": "À plat",
-    "relief": "En relief"
+    "flat": "Design à plat",
+    "flatDesc": "Surface lisse",
+    "relief": "Design en relief",
+    "reliefDesc": "Texture en relief"
   }
 }
