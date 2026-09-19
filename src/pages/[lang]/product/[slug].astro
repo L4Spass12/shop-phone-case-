@@ -976,7 +976,12 @@ const pickModelLabel = t('model.placeholder', lang);
   /* Le contenu se pose en glissant pendant que le tiroir s'ouvre : la hauteur
      seule donne un rideau qui se lève, le décalage donne un mouvement. */
   .product-toggle .pt-body > :first-child { margin-top: 0; padding-top: 1.25rem; }
-  .product-toggle[open] .pt-body { animation: pt-entree 260ms cubic-bezier(.25, 1, .5, 1); }
+  /* L'entrée du contenu dure un peu moins que le dépliage, et suit la même
+     variation : sur un tiroir long, un fondu figé à 260 ms serait terminé
+     avant même que le bloc ait fini de s'ouvrir. */
+  .product-toggle[open] .pt-body {
+    animation: pt-entree var(--pt-entree-ms, 240ms) cubic-bezier(.25, 1, .5, 1);
+  }
 
   @keyframes pt-entree {
     from { opacity: 0; transform: translateY(-6px); }
@@ -1029,9 +1034,26 @@ const pickModelLabel = t('model.placeholder', lang);
   // Le balisage reste du <details> natif : indexable, et fonctionnel sans JS.
   (() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const EASE = 'cubic-bezier(.25, 1, .5, 1)';   // easeOutQuart
-    const OPEN_MS = 300;
-    const CLOSE_MS = 240;
+    // Courbe standard de Material : accélération douce, puis décélération.
+    // Les courbes purement décélérantes (easeOutQuart et parentes) avalent
+    // les trois quarts de la distance dans leur premier cinquième de temps ;
+    // sur un tiroir de 650 px, ce départ se ressent comme un coup de fouet.
+    // Une mise en mouvement progressive supprime cette impression.
+    const EASE = 'cubic-bezier(.4, 0, .2, 1)';
+
+    // La durée suit la DISTANCE parcourue. À durée fixe, un tiroir de 600 px
+    // se déplie six fois plus vite qu'un tiroir de 100 px : le long paraît
+    // expédié, le court paresseux. On prend la racine carrée de la distance
+    // pour que l'écart de durée reste raisonnable entre les deux, et on borne
+    // aux extrêmes pour qu'un tiroir immense ne s'éternise pas.
+    const REFERENCE_PX = 150;
+    const duree = (distance, opening) => {
+      const base = opening ? 280 : 230;
+      const brut = base * Math.sqrt(Math.max(distance, 40) / REFERENCE_PX);
+      const plancher = opening ? 240 : 200;
+      const plafond = opening ? 560 : 440;
+      return Math.round(Math.min(Math.max(brut, plancher), plafond));
+    };
 
     document.querySelectorAll('details.product-toggle').forEach((d) => {
       const summary = d.querySelector('summary');
@@ -1095,14 +1117,15 @@ const pickModelLabel = t('model.placeholder', lang);
         if (opening && to <= from) return;
 
         d.style.overflow = 'hidden';
-        const duree = opening ? OPEN_MS : CLOSE_MS;
+        const ms = duree(Math.abs(to - from), opening);
         // fill: 'forwards' retient la hauteur finale jusqu'à ce qu'on la
         // relâche. Sans lui, l'élément reprenait sa hauteur naturelle entre la
         // fin de l'animation et la bascule de l'attribut : un éclair à pleine
         // hauteur au moment même où le tiroir devait être refermé.
+        body.style.setProperty('--pt-entree-ms', Math.round(ms * 0.8) + 'ms');
         anim = d.animate(
           { height: [from + 'px', to + 'px'] },
-          { duration: duree, easing: EASE, fill: 'forwards' },
+          { duration: ms, easing: EASE, fill: 'forwards' },
         );
 
         // On ne s'appuie pas sur l'événement de fin : il ne se déclenche pas
@@ -1110,7 +1133,7 @@ const pickModelLabel = t('model.placeholder', lang);
         // minuteur fait foi, la promesse le devance quand elle fonctionne, et
         // le jeton empêche un ancien cycle de conclure à la place du nouveau.
         const mien = anim;
-        timer = setTimeout(() => conclure(mien, opening), duree + 30);
+        timer = setTimeout(() => conclure(mien, opening), ms + 30);
         if (anim.finished) anim.finished.then(() => conclure(mien, opening)).catch(() => {});
       });
     });
