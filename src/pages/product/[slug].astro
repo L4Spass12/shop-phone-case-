@@ -196,7 +196,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
         // Au changement de variante, le slide principal sera swappé directement via JS.
         const slides = Array.from(new Set([image, ...(gallery || [])]));
         return (
-        <div class="product-gallery min-w-0 relative" data-gallery data-slide-count={slides.length}>
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
           <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group">
@@ -263,8 +263,6 @@ const pickModelLabel = t('model.placeholder', 'fr');
                 ))}
               </div>
             )}
-          </div>
-
           {siteConfig.shop?.productSticker && (
             <img
               class="pdp-sticker"
@@ -275,6 +273,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
               decoding="async"
             />
           )}
+          </div>
 
           <!-- Thumbs : DESKTOP uniquement. Sur mobile → swipe natif. -->
           {slides.length > 1 && (
@@ -1296,9 +1295,9 @@ const pickModelLabel = t('model.placeholder', 'fr');
      mobile, et un élément par-dessus intercepterait le geste. */
   .pdp-sticker {
     position: absolute;
-    left: -10px;
-    bottom: 7%;
-    width: 112px;
+    left: 14px;
+    bottom: 14px;
+    width: 108px;
     z-index: 2;
     transform: rotate(-9deg);
     pointer-events: none;
@@ -1398,7 +1397,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
       margin-right: calc(var(--pdp-gutter, .875rem) * -1);
       border-radius: 0;
     }
-    .pdp-sticker { width: 76px; left: 8px; bottom: 5%; }
+    .pdp-sticker { width: 78px; left: 12px; bottom: 12px; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
