@@ -199,87 +199,92 @@ const pickModelLabel = t('model.placeholder', 'fr');
         <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
-          <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group">
-            <div
-              class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
-              data-gallery-track
-            >
-              {slides.map((src, i) => (
-                <div class="flex-none w-full h-full snap-start snap-always">
-                  <img
-                    data-gallery-slide={i}
-                    src={src}
-                    srcset={unsplashSrcset(src)}
-                    sizes="(max-width: 1024px) 100vw, 560px"
-                    alt={i === 0 ? (imageAlt ?? name) : `${name} - image ${i + 1}`}
-                    class="w-full h-full object-cover"
-                    width="1200"
-                    height="1500"
-                    fetchpriority={i === 0 ? 'high' : 'auto'}
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    decoding="async"
-                  />
-                </div>
-              ))}
-            </div>
+          {/* Vignettes en colonne à gauche de l'image, comme la plupart
+              des boutiques : le regard reste sur le produit au lieu de
+              descendre sous lui. En mobile, elles cèdent la place au
+              balayage natif. */}
+          <div class="md:flex md:items-start md:gap-3">
 
-            <!-- Flèches desktop uniquement (apparaissent au hover) -->
             {slides.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  data-gallery-prev
-                  aria-label="Image précédente"
-                  class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
-                >
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button
-                  type="button"
-                  data-gallery-next
-                  aria-label="Image suivante"
-                  class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
-                >
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </>
-            )}
-
-            <!-- Dots : MOBILE uniquement (le desktop a flèches + thumbs).
-                 Sur un chip translucide pour rester visibles quelle que soit
-                 l'image dessous. -->
-            {slides.length > 1 && (
-              <div
-                class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10"
-                data-gallery-dots
-              >
-                {slides.map((_, i) => (
+              <div class="hidden md:flex md:flex-col gap-2 w-[76px] shrink-0">
+                {slides.slice(0, 10).map((g, i) => (
                   <button
                     type="button"
-                    data-gallery-dot={i}
+                    data-gallery-thumb={i}
+                    class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
                     aria-label={`Voir l'image ${i + 1}`}
-                    class="gallery-dot"
-                  ></button>
+                  >
+                    <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-contain" />
+                  </button>
                 ))}
               </div>
             )}
-          </div>
+            <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0">
+              <div
+                class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
+                data-gallery-track
+              >
+                {slides.map((src, i) => (
+                  <div class="flex-none w-full h-full snap-start snap-always">
+                    <img
+                      data-gallery-slide={i}
+                      src={src}
+                      srcset={unsplashSrcset(src)}
+                      sizes="(max-width: 1024px) 100vw, 560px"
+                      alt={i === 0 ? (imageAlt ?? name) : `${name} - image ${i + 1}`}
+                      class="w-full h-full object-cover"
+                      width="1200"
+                      height="1500"
+                      fetchpriority={i === 0 ? 'high' : 'auto'}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
 
-          <!-- Thumbs : DESKTOP uniquement. Sur mobile → swipe natif. -->
-          {slides.length > 1 && (
-            <div class="hidden md:grid grid-cols-5 gap-2 mt-3">
-              {slides.slice(0, 10).map((g, i) => (
-                <button
-                  type="button"
-                  data-gallery-thumb={i}
-                  class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
-                  aria-label={`Voir l'image ${i + 1}`}
+              <!-- Flèches desktop uniquement (apparaissent au hover) -->
+              {slides.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    data-gallery-prev
+                    aria-label="Image précédente"
+                    class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                  </button>
+                  <button
+                    type="button"
+                    data-gallery-next
+                    aria-label="Image suivante"
+                    class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </>
+              )}
+
+              <!-- Dots : MOBILE uniquement (le desktop a flèches + thumbs).
+                   Sur un chip translucide pour rester visibles quelle que soit
+                   l'image dessous. -->
+              {slides.length > 1 && (
+                <div
+                  class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10"
+                  data-gallery-dots
                 >
-                  <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-contain" />
-                </button>
-              ))}
+                  {slides.map((_, i) => (
+                    <button
+                      type="button"
+                      data-gallery-dot={i}
+                      aria-label={`Voir l'image ${i + 1}`}
+                      class="gallery-dot"
+                    ></button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
         );
       })()}
