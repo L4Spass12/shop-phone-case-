@@ -116,15 +116,15 @@ const basePriceCents = Math.round(price * 100);
 
   .pm-label {
     display: block;
-    margin-bottom: .5rem;
-    font-size: 11px;
+    margin-bottom: .4rem;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: .09em;
     text-transform: uppercase;
     color: rgb(var(--c-cream));
   }
 
-  .pm-rows { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+  .pm-rows { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
 
   .pm-opt {
     position: relative;
@@ -132,7 +132,7 @@ const basePriceCents = Math.round(price * 100);
     grid-template-rows: auto auto auto;
     justify-items: center;
     gap: .15rem;
-    padding: .7rem .6rem .65rem;
+    padding: .6rem .5rem .55rem;
     border-radius: 14px;
     border: 1.5px solid rgb(var(--c-cream) / .16);
     background: rgb(var(--c-panel));
@@ -155,24 +155,24 @@ const basePriceCents = Math.round(price * 100);
   /* L'illustration porte l'explication : elle prend toute la largeur de la
      carte plutôt que d'être réduite à une vignette où l'ondulation de la
      tranche disparaîtrait. */
-  .pm-fig { width: 100%; max-width: 150px; height: auto; margin-bottom: .2rem; }
+  .pm-fig { width: 100%; max-width: 104px; height: auto; margin-bottom: .15rem; }
 
   .pm-body { display: grid; gap: 1px; min-width: 0; }
   .pm-name {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.2;
     letter-spacing: -.01em;
   }
   .pm-desc {
-    font-size: 11px;
+    font-size: 10.5px;
     line-height: 1.25;
     color: rgb(var(--c-n500));
   }
   .pm-price {
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
     color: rgb(var(--c-n400));
@@ -186,8 +186,8 @@ const basePriceCents = Math.round(price * 100);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .4rem;
-    margin-top: .15rem;
+    gap: .35rem;
+    margin-top: .1rem;
   }
 
   .pm-radio {
@@ -213,7 +213,7 @@ const basePriceCents = Math.round(price * 100);
   .pm-opt.is-on .pm-radio::after { transform: scale(1); }
 
   @media (max-width: 380px) {
-    .pm-opt { padding: .6rem .45rem .55rem; }
+    .pm-opt { padding: .55rem .4rem .5rem; }
     .pm-name { font-size: 13px; }
     .pm-desc { font-size: 10.5px; }
   }
