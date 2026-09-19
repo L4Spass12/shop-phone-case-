@@ -188,7 +188,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
       <span class="text-n-400 truncate">{name}</span>
     </nav>
 
-    <div class="grid lg:grid-cols-2 gap-5 lg:gap-16">
+    <div class="grid lg:grid-cols-2 gap-5 lg:gap-16 items-start">
       <!-- ═══════════════════════════ GALERIE ═══════════════════════════ -->
       {(() => {
         // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
@@ -285,6 +285,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
       })()}
 
       <!-- Info + CTA -->
+      <div class="flex flex-col gap-5 lg:gap-6">
       <div class="flex flex-col pdp-card">
         <!-- Categories -->
         {categories && categories.length > 0 && (
@@ -518,7 +519,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
         {atcBlob ? (
           <button
             id="buy-button"
-            class="buy-button btn-atc-blob self-start"
+            class="buy-button btn-atc-blob w-full"
             disabled={!inStock}
             data-item-id={(sku ?? product.slug) + modeKeySuffix}
             data-item-name={name}
@@ -545,7 +546,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
         ) : (
           <button
             id="buy-button"
-            class={`buy-button btn-atc self-start${atcInk}`}
+            class={`buy-button btn-atc w-full${atcInk}`}
             disabled={!inStock}
             data-item-id={(sku ?? product.slug) + modeKeySuffix}
             data-item-name={name}
@@ -583,12 +584,11 @@ const pickModelLabel = t('model.placeholder', 'fr');
           </div>
         </div>
       </div>
-    </div>
 
     <!-- ═══════════════════════════ TOGGLES PRODUIT ═══════════════════════════
          3 accordéons en HTML natif (<details>). Google indexe parfaitement le
          contenu à l'intérieur (ouvert ou fermé), donc SEO-friendly. Zéro JS. -->
-    <section class="mt-16 max-w-3xl below-fold-defer pdp-panel">
+    <section class="below-fold-defer pdp-panel">
       <!-- Description -->
       <details class="product-toggle group border-t border-white/[0.08] py-5">
         <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
@@ -669,6 +669,8 @@ const pickModelLabel = t('model.placeholder', 'fr');
         </div>
       </details>
     </section>
+      </div>
+    </div>
 
     <!-- Réassurance : mur de vidéos clients (UGC), pleine largeur du conteneur -->
     <UgcVideos />
@@ -1317,9 +1319,104 @@ const pickModelLabel = t('model.placeholder', 'fr');
   .pdp-panel > details:first-of-type { border-top: 0; }
   .pdp-panel > details:last-of-type { border-bottom: 0; }
 
+
+  /* Conteneur ajouté à l'exécution autour du contenu d'un tiroir. La hauteur
+     s'anime par la ligne de grille : 0fr replié, 1fr déplié, le navigateur
+     interpolant d'après le contenu réel. La courbe part vite et ralentit à
+     l'arrivée, ce qui rend le geste satisfaisant plutôt que mécanique. */
+  .product-toggle .pt-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition:
+      grid-template-rows .42s cubic-bezier(.22, .61, .36, 1),
+      opacity .3s ease;
+  }
+  .product-toggle .pt-body > * { min-height: 0; overflow: hidden; }
+  /* La marge haute du contenu compte dans la hauteur de la ligne de grille :
+     replié, le tiroir ne descendait donc pas sous 20 px. En marge INTERNE,
+     elle est clippée avec le reste et le repli atteint vraiment zéro. */
+  .product-toggle .pt-body > :first-child { margin-top: 0; padding-top: 1.25rem; }
+
+  .product-toggle.is-opening .pt-body,
+  .product-toggle.is-closing .pt-body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  /* Le chevron suit la fermeture au lieu d'attendre la fin du retard. */
+  .product-toggle.is-closing summary svg { transform: rotate(0deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-toggle .pt-body { transition: none; }
+  }
+
   @media (max-width: 767px) {
     .pdp-card { border-radius: 20px; padding: 22px 20px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 18px 8px; }
   }
 </style>
+
+<script>
+  // Ouverture et fermeture douces des tiroirs.
+  //
+  // <details> bascule d'un coup, sans transition. On anime donc nous-mêmes,
+  // mais SANS mesurer de hauteur : le panneau est en rendu différé
+  // (content-visibility), et une hauteur mesurée y vaut tantôt 0, tantôt la
+  // valeur finale. La transition passe par grid-template-rows 0fr → 1fr, que
+  // le navigateur interpole seul à partir du contenu réel.
+  //
+  // Le balisage reste du <details> natif : indexable, et fonctionnel sans JS.
+  (() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const CLOSE_MS = 430;
+
+    document.querySelectorAll('details.product-toggle').forEach((d) => {
+      const summary = d.querySelector('summary');
+      if (!summary) return;
+
+      const body = document.createElement('div');
+      body.className = 'pt-body';
+      while (summary.nextSibling) body.appendChild(summary.nextSibling);
+      d.appendChild(body);
+
+      let timer = null;
+
+      summary.addEventListener('click', (e) => {
+        if (reduced) return;
+
+        // Clic pendant la fermeture : on l'annule et le tiroir reste ouvert,
+        // plutôt que d'enchaîner une seconde fermeture sur la première.
+        if (d.classList.contains('is-closing')) {
+          e.preventDefault();
+          clearTimeout(timer);
+          d.classList.remove('is-closing');
+          return;
+        }
+
+        if (d.open) {
+          // Fermeture : on retarde le open=false, sinon le navigateur cache le
+          // contenu avant que la transition n'ait pu se jouer.
+          e.preventDefault();
+          d.classList.add('is-closing');
+          timer = setTimeout(() => {
+            d.open = false;
+            d.classList.remove('is-closing');
+          }, CLOSE_MS);
+        } else {
+          // Ouverture : on pose l'état replié, on force le calcul de style
+          // pour le figer, puis on le retire — la transition a donc un point
+          // de départ. Tout est synchrone : un requestAnimationFrame ne se
+          // déclenche pas quand l'onglet n'est pas peint, et la classe restait
+          // alors collée, tiroir ouvert mais contenu replié.
+          e.preventDefault();
+          d.classList.add('is-opening');
+          d.open = true;
+          void d.offsetHeight;
+          d.classList.remove('is-opening');
+        }
+      });
+    });
+  })();
+</script>
 </BaseLayout>
