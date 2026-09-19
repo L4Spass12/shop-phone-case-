@@ -199,7 +199,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
         <div class="product-gallery" data-gallery data-slide-count={slides.length}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
-          <div class="gallery-viewport relative overflow-hidden bg-panel aspect-[4/5] group md:rounded-2xl md:border md:border-white/[0.05]">
+          <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group">
             <div
               class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
               data-gallery-track
@@ -285,7 +285,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
       })()}
 
       <!-- Info + CTA -->
-      <div class="flex flex-col">
+      <div class="flex flex-col pdp-card">
         <!-- Categories -->
         {categories && categories.length > 0 && (
           <div class="flex flex-wrap gap-1.5 mb-3">
@@ -588,7 +588,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
     <!-- ═══════════════════════════ TOGGLES PRODUIT ═══════════════════════════
          3 accordéons en HTML natif (<details>). Google indexe parfaitement le
          contenu à l'intérieur (ouvert ou fermé), donc SEO-friendly. Zéro JS. -->
-    <section class="mt-16 max-w-3xl below-fold-defer">
+    <section class="mt-16 max-w-3xl below-fold-defer pdp-panel">
       <!-- Description -->
       <details class="product-toggle group border-t border-white/[0.08] py-5">
         <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
@@ -823,6 +823,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
       </div>
 
       <style>
+
         .product-slider .slider-track { scrollbar-width: none; -ms-overflow-style: none; }
         .product-slider .slider-track::-webkit-scrollbar { display: none; }
         /* Galerie : masque scrollbar horizontale sur le track */
@@ -1268,4 +1269,57 @@ const pickModelLabel = t('model.placeholder', 'fr');
     })();
   </script>
 )}
+<style is:global>
+  /* ═══ Mise en page façon fiche produit moderne ═══════════════════════
+     Fond de page gris très clair, visuel produit posé à nu dessus, et le
+     bloc d'achat rassemblé dans une carte blanche. Le gris détache la
+     carte et la photo ; un visuel encadré, lui, enfermait le produit dans
+     une boîte au milieu d'une autre boîte. */
+  html body { background-color: #f3f3f3; }
+
+  .pdp-card {
+    background: #fff;
+    border-radius: 25px;
+    padding: 30px 35px 24px;
+    /* Ombre en couches plutôt qu'un flou unique : la décroissance douce
+       imite la lumière réelle et évite le halo gris des ombres plates. */
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / .06),
+      0 1px 1px -.5px rgb(0 0 0 / .06),
+      0 3px 3px -1.5px rgb(0 0 0 / .06),
+      0 6px 6px -3px rgb(0 0 0 / .06),
+      0 12px 12px -6px rgb(0 0 0 / .06),
+      0 24px 24px -12px rgb(0 0 0 / .06);
+  }
+
+  .pdp-panel {
+    background: #fff;
+    border-radius: 18px;
+    padding: 6px 26px 10px;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / .05),
+      0 2px 4px -2px rgb(0 0 0 / .05),
+      0 8px 12px -6px rgb(0 0 0 / .05);
+  }
+
+
+  /* Les photos produit sont détourées sur blanc. Sur un fond gris, leur
+     rectangle blanc rendait le cadre qu'on venait justement d'enlever.
+     Le mode « multiply » laisse le gris traverser le blanc : le produit se
+     pose sur la page au lieu de flotter dans une boîte. */
+  .gallery-viewport img,
+  .gallery-thumb img { mix-blend-mode: multiply; }
+
+
+  /* Les accordéons portent leurs propres filets de séparation. Dans la carte,
+     le premier et le dernier venaient border ses arêtes : on les retire pour
+     que la carte se referme proprement. */
+  .pdp-panel > details:first-of-type { border-top: 0; }
+  .pdp-panel > details:last-of-type { border-bottom: 0; }
+
+  @media (max-width: 767px) {
+    .pdp-card { border-radius: 20px; padding: 22px 20px 20px; }
+    .pdp-panel { border-radius: 16px; padding: 4px 18px 8px; }
+  }
+</style>
 </BaseLayout>
