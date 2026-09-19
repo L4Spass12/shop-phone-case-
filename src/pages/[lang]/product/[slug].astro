@@ -434,7 +434,7 @@ const pickModelLabel = t('model.placeholder', lang);
         </div>
       </div>
 
-    <section class="below-fold-defer pdp-panel min-w-0">
+    <section class="pdp-panel min-w-0">
       <details class="product-toggle group border-t border-white/[0.08] py-5">
         <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
           <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{t('shop.description', lang)}</h2>
@@ -946,36 +946,11 @@ const pickModelLabel = t('model.placeholder', lang);
   .pdp-panel > details:last-of-type { border-bottom: 0; }
 
 
+
   /* Conteneur ajouté à l'exécution autour du contenu d'un tiroir. La hauteur
-     s'anime par la ligne de grille : 0fr replié, 1fr déplié, le navigateur
-     interpolant d'après le contenu réel. La courbe part vite et ralentit à
-     l'arrivée, ce qui rend le geste satisfaisant plutôt que mécanique. */
-  .product-toggle .pt-body {
-    display: grid;
-    grid-template-rows: 1fr;
-    opacity: 1;
-    transition:
-      grid-template-rows .42s cubic-bezier(.22, .61, .36, 1),
-      opacity .3s ease;
-  }
-  .product-toggle .pt-body > * { min-height: 0; overflow: hidden; }
-  /* La marge haute du contenu compte dans la hauteur de la ligne de grille :
-     replié, le tiroir ne descendait donc pas sous 20 px. En marge INTERNE,
-     elle est clippée avec le reste et le repli atteint vraiment zéro. */
+     est animée en JS ; ici on ne fait que neutraliser la marge du premier
+     enfant, qui sinon dépasserait du bloc pendant le repli. */
   .product-toggle .pt-body > :first-child { margin-top: 0; padding-top: 1.25rem; }
-
-  .product-toggle.is-opening .pt-body,
-  .product-toggle.is-closing .pt-body {
-    grid-template-rows: 0fr;
-    opacity: 0;
-  }
-
-  /* Le chevron suit la fermeture au lieu d'attendre la fin du retard. */
-  .product-toggle.is-closing summary svg { transform: rotate(0deg); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .product-toggle .pt-body { transition: none; }
-  }
 
   @media (max-width: 767px) {
     /* Gouttière de la fiche sur téléphone. UNE seule valeur, parce que deux
@@ -1007,16 +982,18 @@ const pickModelLabel = t('model.placeholder', lang);
 <script>
   // Ouverture et fermeture douces des tiroirs.
   //
-  // <details> bascule d'un coup, sans transition. On anime donc nous-mêmes,
-  // mais SANS mesurer de hauteur : le panneau est en rendu différé
-  // (content-visibility), et une hauteur mesurée y vaut tantôt 0, tantôt la
-  // valeur finale. La transition passe par grid-template-rows 0fr → 1fr, que
-  // le navigateur interpole seul à partir du contenu réel.
+  // <details> bascule d'un coup. On anime donc la hauteur nous-mêmes, avec
+  // l'API Web Animations plutôt qu'une transition CSS sur grid-template-rows :
+  // cette dernière n'est pas interpolée par tous les navigateurs, et le tiroir
+  // y sautait au lieu de glisser.
   //
-  // Le balisage reste du <details> natif : indexable, et fonctionnel sans JS.
+  // Le contenu est regroupé à l'exécution dans un conteneur mesurable. Le
+  // balisage reste du <details> natif : indexable, et fonctionnel sans JS.
   (() => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const CLOSE_MS = 430;
+    const EASE = 'cubic-bezier(.22, .61, .36, 1)';   // part vite, ralentit à l'arrivée
+    const OPEN_MS = 420;
+    const CLOSE_MS = 340;
 
     document.querySelectorAll('details.product-toggle').forEach((d) => {
       const summary = d.querySelector('summary');
@@ -1027,41 +1004,55 @@ const pickModelLabel = t('model.placeholder', lang);
       while (summary.nextSibling) body.appendChild(summary.nextSibling);
       d.appendChild(body);
 
+      const chevron = summary.querySelector('svg');
+      let anim = null;
       let timer = null;
 
       summary.addEventListener('click', (e) => {
-        if (reduced) return;
+        if (reduced) return;                    // on laisse le natif faire
+        e.preventDefault();
 
-        // Clic pendant la fermeture : on l'annule et le tiroir reste ouvert,
-        // plutôt que d'enchaîner une seconde fermeture sur la première.
-        if (d.classList.contains('is-closing')) {
-          e.preventDefault();
+        const opening = !d.open;
+
+        // Hauteur de départ : celle de l'animation en cours si on inverse en
+        // plein vol, sinon zéro à l'ouverture. Un <details> fermé rapporte
+        // quand même la hauteur de son contenu, donc on ne peut pas la lire.
+        const from = anim ? body.getBoundingClientRect().height : opening ? 0 : body.scrollHeight;
+        if (anim) { anim.cancel(); anim = null; clearTimeout(timer); }
+
+        // Le contenu doit être affiché pour qu'on puisse le mesurer et
+        // l'animer : on ouvre d'abord, on ne referme qu'à la fin.
+        if (opening) d.open = true;
+        const to = opening ? body.scrollHeight : 0;
+
+        // Contenu jamais mesurable (onglet masqué, rendu différé) : on bascule
+        // sans animer plutôt que de réduire le tiroir à zéro.
+        if (opening && to === 0) { anim = null; return; }
+
+        if (chevron) chevron.style.transform = opening ? 'rotate(180deg)' : 'rotate(0deg)';
+        body.style.overflow = 'hidden';
+
+        const duree = opening ? OPEN_MS : CLOSE_MS;
+        anim = body.animate(
+          { height: [from + 'px', to + 'px'], opacity: opening ? [0, 1] : [1, 0] },
+          { duration: duree, easing: EASE },
+        );
+
+        // On ne s'appuie PAS sur l'événement de fin : il ne se déclenche pas
+        // partout, et le tiroir restait alors ouvert après sa fermeture. Le
+        // minuteur fait foi, la promesse le devance quand elle fonctionne, et
+        // le jeton empêche un ancien cycle de conclure à la place du nouveau.
+        const mien = anim;
+        const conclure = () => {
+          if (anim !== mien) return;
+          anim = null;
           clearTimeout(timer);
-          d.classList.remove('is-closing');
-          return;
-        }
-
-        if (d.open) {
-          // Fermeture : on retarde le open=false, sinon le navigateur cache le
-          // contenu avant que la transition n'ait pu se jouer.
-          e.preventDefault();
-          d.classList.add('is-closing');
-          timer = setTimeout(() => {
-            d.open = false;
-            d.classList.remove('is-closing');
-          }, CLOSE_MS);
-        } else {
-          // Ouverture : on pose l'état replié, on force le calcul de style
-          // pour le figer, puis on le retire — la transition a donc un point
-          // de départ. Tout est synchrone : un requestAnimationFrame ne se
-          // déclenche pas quand l'onglet n'est pas peint, et la classe restait
-          // alors collée, tiroir ouvert mais contenu replié.
-          e.preventDefault();
-          d.classList.add('is-opening');
-          d.open = true;
-          void d.offsetHeight;
-          d.classList.remove('is-opening');
-        }
+          body.style.overflow = '';
+          if (chevron) chevron.style.transform = '';
+          if (!opening) d.open = false;
+        };
+        timer = setTimeout(conclure, duree + 40);
+        if (anim.finished) anim.finished.then(conclure).catch(() => {});
       });
     });
   })();
