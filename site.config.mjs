@@ -232,6 +232,13 @@ const config = {
     // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
     // et le serveur de paiement refuse un relief payé au tarif du plat.
     catalogueReliefSurchargeCents: 500,
+    // Sticker décoratif posé sur la photo produit. Chemin d'image, ou null
+    // pour ne rien afficher : la fiche ne doit pas dépendre d'un fichier qui
+    // n'existerait pas encore.
+    // Purement décoratif, donc alt vide et pointer-events désactivés : il ne
+    // doit ni être annoncé par un lecteur d'écran, ni gêner le balayage de la
+    // galerie sur mobile.
+    productSticker: null,
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y

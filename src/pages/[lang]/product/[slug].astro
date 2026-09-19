@@ -168,7 +168,7 @@ const pickModelLabel = t('model.placeholder', lang);
       {(() => {
         const slides = Array.from(new Set([image, ...(gallery || [])]));
         return (
-        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
+        <div class="product-gallery min-w-0 relative" data-gallery data-slide-count={slides.length}>
           <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group">
             <div class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full" data-gallery-track>
               {slides.map((src, i) => (
@@ -208,6 +208,17 @@ const pickModelLabel = t('model.placeholder', lang);
               </div>
             )}
           </div>
+
+          {siteConfig.shop?.productSticker && (
+            <img
+              class="pdp-sticker"
+              src={siteConfig.shop.productSticker}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
 
           {slides.length > 1 && (
             <div class="hidden md:grid grid-cols-5 gap-2 mt-3">
@@ -879,6 +890,21 @@ const pickModelLabel = t('model.placeholder', lang);
      une boîte au milieu d'une autre boîte. */
   html body { background-color: #f3f3f3; }
 
+
+  /* Sticker décoratif, posé de travers sur la photo comme un vrai autocollant.
+     pointer-events: none est indispensable : la galerie se balaie au doigt sur
+     mobile, et un élément par-dessus intercepterait le geste. */
+  .pdp-sticker {
+    position: absolute;
+    left: -10px;
+    bottom: 7%;
+    width: 112px;
+    z-index: 2;
+    transform: rotate(-9deg);
+    pointer-events: none;
+    filter: drop-shadow(0 8px 16px rgb(0 0 0 / .14));
+  }
+
   .pdp-card {
     background: #fff;
     border-radius: 25px;
@@ -972,6 +998,7 @@ const pickModelLabel = t('model.placeholder', lang);
       margin-right: calc(var(--pdp-gutter, .875rem) * -1);
       border-radius: 0;
     }
+    .pdp-sticker { width: 76px; left: 8px; bottom: 5%; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
