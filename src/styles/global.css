@@ -606,16 +606,18 @@ html[data-theme='sunfreaks'] main > section.hero-section {
      qui devient transparent tant qu'on est dessus (.header-over-hero).
      Le bandeau défilant, lui, reste au-dessus : on ne remonte que de
      --header-h, pas de --marquee-h. */
-  margin: calc(-1 * var(--header-h)) 14px 0;
+  /* Pleine largeur : la bannière touche les bords de l'écran. Seule la marge
+     du HAUT reste négative, pour la faire remonter sous le header. */
+  margin: calc(-1 * var(--header-h)) 0 0;
   padding-top: var(--header-h);
-  border-radius: 30px;
+  border-radius: 0;
   overflow: hidden;
   min-height: 78vh;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section {
-    margin: calc(-1 * var(--header-h)) 22px 0;
-    border-radius: 40px;
+    margin: calc(-1 * var(--header-h)) 0 0;
+    border-radius: 0;
     /* Plus haute qu'avant (75vh) puisqu'elle accueille désormais le header.
        Bornée en vw pour qu'un écran large et bas ne la rende pas démesurée. */
     min-height: min(88vh, 58vw);
