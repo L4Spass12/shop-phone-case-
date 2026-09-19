@@ -58,13 +58,19 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'flat')}
     >
-      {/* Le dos de la coque vu de face, avec un motif posé dessus. Le même
-          motif sert aux deux options : seule sa façon d'occuper la surface
-          change, donc la comparaison saute aux yeux. Ici il est dans le plan,
-          sans ombre : l'encre affleure. */}
-      <svg class="pm-fig" viewBox="0 0 48 40" fill="none" aria-hidden="true">
-        <rect x="4" y="3" width="40" height="34" rx="9" fill="rgb(var(--c-panel))" stroke="currentColor" stroke-width="1.7"/>
-        <rect x="13" y="18" width="22" height="4.5" rx="2.25" fill="currentColor"/>
+      {/* La coque vue de PROFIL : la coquille remonte de chaque côté, le
+          téléphone est dedans. Les deux options montrent la même coque, seul
+          le dessus change — la comparaison se fait donc d'un coup d'œil. Ici
+          le dessus est lisse : l'encre affleure. */}
+      <svg class="pm-fig" viewBox="0 0 48 32" fill="none" aria-hidden="true">
+        <rect x="8" y="13" width="32" height="13" rx="3" fill="currentColor" opacity=".13"/>
+        <path
+          d="M5 27V18c0-5 3-7 8-7h22c5 0 8 2 8 7v9"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
       <span class="pm-name">{t('print.flat', lang)}</span>
       <span class="pm-price">{fmt(basePriceCents)}</span>
@@ -80,17 +86,18 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'relief')}
     >
-      {/* Même coque, même motif, mais il décolle : une ombre portée dessous et
-          une arête éclairée dessus. C'est la lecture immédiate du volume, là
-          où une coupe technique demandait un effort d'interprétation. */}
-      <svg class="pm-fig" viewBox="0 0 48 40" fill="none" aria-hidden="true">
-        <rect x="4" y="3" width="40" height="34" rx="9" fill="rgb(var(--c-panel))" stroke="currentColor" stroke-width="1.7"/>
-        {/* Trois passes empilées en pyramide, contre une seule pour le plat.
-            C'est littéralement ce qui se passe à l'impression, et une pile se
-            lit à 40 px de large là où un volume dessiné devient illisible. */}
-        <rect x="13" y="22" width="22" height="4.5" rx="2.25" fill="currentColor"/>
-        <rect x="16" y="17.5" width="16" height="4.5" rx="2.25" fill="currentColor" opacity=".78"/>
-        <rect x="19" y="13" width="10" height="4.5" rx="2.25" fill="currentColor" opacity=".56"/>
+      {/* La même coque, au même endroit, mais le dessus ondule : de petites
+          vagues d'encre qu'on sent sous le doigt. Rien d'autre ne change entre
+          les deux dessins, c'est ce qui rend la différence lisible. */}
+      <svg class="pm-fig" viewBox="0 0 48 32" fill="none" aria-hidden="true">
+        <rect x="8" y="13" width="32" height="13" rx="3" fill="currentColor" opacity=".13"/>
+        <path
+          d="M5 27V18c0-5 3-7 8-7q2.75-3 5.5 0q2.75-3 5.5 0q2.75-3 5.5 0q2.75-3 5.5 0c5 0 8 2 8 7v9"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
       <span class="pm-name">{t('print.relief', lang)}</span>
       <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
@@ -102,10 +109,11 @@ const basePriceCents = Math.round(price * 100);
 </div>
 
 <style>
-  /* Vocabulaire « sunfreaks » : filet brun épais, ombre portée dure (pas de
-     flou), jaune électrique sur l'option retenue, titres en Playfair italique.
-     Les couleurs passent par les variables du thème, donc un autre thème
-     suivrait sans retouche. */
+  /* Le sélecteur ne doit PAS ressembler au bouton d'achat : mêmes jaune et
+     ombre dure, les deux se disputaient l'attention et le choix passait pour
+     un second bouton. Ici, pas d'aplat de couleur — l'option retenue se
+     signale par un filet d'encre franc et une pastille. Le jaune reste au
+     bouton, qui est la seule action de la page. */
   .print-mode { margin-top: 1.25rem; margin-bottom: .5rem; }
 
   .pm-head {
@@ -133,32 +141,27 @@ const basePriceCents = Math.round(price * 100);
     grid-template-rows: auto auto;
     align-items: center;
     gap: 0 .55rem;
-    padding: .6rem .7rem;
+    padding: .65rem .7rem;
     border-radius: 14px;
-    border: 1.5px solid rgb(var(--c-cream) / .22);
-    background: rgb(var(--c-dark));
-    color: rgb(var(--c-n400));
+    border: 1.5px solid rgb(var(--c-cream) / .16);
+    background: rgb(var(--c-panel));
+    color: rgb(var(--c-n500));
     text-align: left;
     cursor: pointer;
-    transition: border-color .18s ease, background-color .18s ease,
-                color .18s ease, box-shadow .18s ease, transform .18s ease;
+    transition: border-color .18s ease, background-color .18s ease, color .18s ease;
   }
-  .pm-opt:hover { border-color: rgb(var(--c-cream) / .55); color: rgb(var(--c-cream)); }
+  .pm-opt:hover { border-color: rgb(var(--c-cream) / .4); color: rgb(var(--c-n400)); }
 
-  /* L'option retenue : jaune, filet plein et ombre dure décalée. C'est la
-     signature du thème, celle du bouton d'achat — appliquée ici en plus petit
-     pour qu'elle se lise comme « choisi » sans voler la vedette au bouton. */
+  /* Retenue : fond blanc franc et filet d'encre plein. Le contraste avec la
+     carte voisine, restée grise sur beige, suffit à dire laquelle est prise. */
   .pm-opt.is-on {
     border-color: rgb(var(--c-cream));
-    background: var(--sun-yellow);
+    background: rgb(var(--c-dark));
     color: rgb(var(--c-cream));
-    box-shadow: 0 2px 0 rgb(var(--c-cream) / .55);
   }
-  .pm-opt:active { transform: translateY(1px); }
-  .pm-opt.is-on:active { box-shadow: 0 1px 0 rgb(var(--c-cream) / .55); }
-  .pm-opt:focus-visible { outline: 2px solid rgb(var(--accent-rgb)); outline-offset: 2px; }
+  .pm-opt:focus-visible { outline: 2px solid rgb(var(--c-cream) / .5); outline-offset: 2px; }
 
-  .pm-fig { grid-row: 1 / span 2; width: 44px; height: auto; color: currentColor; }
+  .pm-fig { grid-row: 1 / span 2; width: 46px; height: auto; color: currentColor; }
 
   .pm-name {
     font-family: var(--font-display);
@@ -174,31 +177,31 @@ const basePriceCents = Math.round(price * 100);
     color: rgb(var(--c-n500));
     font-variant-numeric: tabular-nums;
   }
-  .pm-opt.is-on .pm-price { color: rgb(var(--c-cream) / .78); font-weight: 600; }
+  .pm-opt.is-on .pm-price { color: rgb(var(--c-cream) / .72); font-weight: 600; }
 
-  /* Pastille de validation : ronde, brune, posée sur le jaune. Elle n'existe
-     que sur l'option retenue, sinon deux cartes traitées pareil se
-     ressemblent trop au premier coup d'œil. */
+  /* Pastille brune, discrète, posée dans le coin. Elle n'existe que sur
+     l'option retenue : deux cartes traitées pareil se ressemblent trop au
+     premier coup d'œil. */
   .pm-check {
     position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
+    top: -5px;
+    right: -5px;
+    width: 17px;
+    height: 17px;
     display: grid;
     place-items: center;
     border-radius: 999px;
     background: rgb(var(--c-cream));
-    color: var(--sun-yellow);
+    color: rgb(var(--c-dark));
     opacity: 0;
     transform: scale(.5);
     transition: opacity .18s ease, transform .18s ease;
   }
-  .pm-check svg { width: 10px; height: 10px; }
+  .pm-check svg { width: 9px; height: 9px; }
   .pm-opt.is-on .pm-check { opacity: 1; transform: scale(1); }
 
   @media (max-width: 380px) {
-    .pm-fig { width: 34px; }
+    .pm-fig { width: 38px; }
     .pm-opt { padding: .55rem .6rem; gap: 0 .45rem; }
     .pm-name { font-size: 13px; }
   }
