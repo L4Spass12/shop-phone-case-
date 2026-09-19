@@ -9,6 +9,7 @@ import InstaGrid from '../../../components/InstaGrid.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../../../site.config.mjs';
 import { unsplashSrcset } from '../../../lib/image';
+import { smallerVariant } from '../../../lib/image-variants';
 import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
@@ -154,6 +155,16 @@ const pickModelLabel = t('model.placeholder', lang);
   imageHeight={1500}
   jsonLd={[productSchema, breadcrumbSchema]}
   noindex={(categories ?? []).length === 0}
+  {/* Le visuel du produit est l'élément le plus grand de l'écran : c'est lui
+      que Google chronomètre. Annoncé ici, son téléchargement démarre pendant
+      la lecture de l'en-tête, au lieu d'attendre que l'analyseur atteigne la
+      galerie — 110 Ko de HTML plus bas. Mêmes `srcset`/`sizes` que la balise
+      <img>, sinon le navigateur télécharge DEUX fichiers différents. */}
+  preloadImages={[{
+    href: image,
+    imagesrcset: unsplashSrcset(image),
+    imagesizes: '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px',
+  }]}
 >
   <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
     <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
@@ -179,7 +190,7 @@ const pickModelLabel = t('model.placeholder', lang);
               <div class="hidden md:flex md:flex-col gap-2 w-[76px] shrink-0">
                 {slides.slice(0, 10).map((g, i) => (
                   <button type="button" data-gallery-thumb={i} class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}>
-                    <img src={g} alt="" loading="lazy" decoding="async" class="w-full h-full object-contain" />
+                    <img src={smallerVariant(g, 400)} alt="" loading="lazy" decoding="async" width="200" height="200" class="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>
@@ -192,7 +203,14 @@ const pickModelLabel = t('model.placeholder', lang);
                       data-gallery-slide={i}
                       src={src}
                       srcset={unsplashSrcset(src)}
-                      sizes="(max-width: 1024px) 100vw, 560px"
+                      {/* Largeurs MESURÉES dans la mise en page actuelle, pas
+                          estimées : 100vw en mobile, puis la colonne moins les
+                          vignettes, puis la moitié de la grille. L'ancienne
+                          valeur (« 100vw » jusqu'à 1024 px) datait de la fiche
+                          pleine largeur : depuis le passage en deux colonnes,
+                          elle faisait réclamer le fichier 1200w pour une image
+                          qui s'affiche sur 365 px. */}
+                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px"
                       alt={i === 0 ? (imageAlt ?? name) : `${name} - ${i + 1}`}
                       class="w-full h-full object-cover"
                       width="1200" height="1500"
@@ -539,7 +557,7 @@ const pickModelLabel = t('model.placeholder', lang);
         </button>
       </div>
       <div class="hidden md:flex items-center gap-4">
-        <img src={image} alt="" class="w-12 h-12 rounded-lg object-cover border border-white/[0.08] shrink-0" width="48" height="48" loading="lazy" decoding="async"/>
+        <img src={smallerVariant(image, 400)} alt="" class="w-12 h-12 rounded-lg object-cover border border-white/[0.08] shrink-0" width="48" height="48" loading="lazy" decoding="async"/>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
           <p class="text-xs text-n-400 font-light truncate">
@@ -739,7 +757,9 @@ const pickModelLabel = t('model.placeholder', lang);
               const base = m[1];
               mainSlide.setAttribute('srcset', base + '-400w.webp 400w, ' + base + '-800w.webp 800w, ' + nextSrc + ' 1200w');
             } else { mainSlide.removeAttribute('srcset'); }
-            if (mainThumb) mainThumb.setAttribute('src', nextSrc);
+            // La vignette fait 74 px : elle reprend la variante reduite, pas
+            // le fichier pleine resolution du slide principal.
+            if (mainThumb) mainThumb.setAttribute('src', m ? m[1] + '-400w.webp' : nextSrc);
           }
           galleryApi?.goTo(0);
         }

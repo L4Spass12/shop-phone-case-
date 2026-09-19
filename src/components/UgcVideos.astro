@@ -11,10 +11,10 @@
 // Clips clients. Vidéos de démonstration : à remplacer par de vrais .mp4
 // (déposez-les dans /public/videos et un poster dans /public/images/ugc).
 const clips = [
-  { src: '/videos/ugc-1.mp4', poster: '/images/ugc/ugc-1.jpg' },
-  { src: '/videos/ugc-2.mp4', poster: '/images/ugc/ugc-2.jpg' },
-  { src: '/videos/ugc-3.mp4', poster: '/images/ugc/ugc-3.jpg' },
-  { src: '/videos/ugc-4.mp4', poster: '/images/ugc/ugc-4.jpg' },
+  { src: '/videos/ugc-1.mp4', poster: '/images/ugc/ugc-1.webp' },
+  { src: '/videos/ugc-2.mp4', poster: '/images/ugc/ugc-2.webp' },
+  { src: '/videos/ugc-3.mp4', poster: '/images/ugc/ugc-3.webp' },
+  { src: '/videos/ugc-4.mp4', poster: '/images/ugc/ugc-4.webp' },
 ];
 ---
 
@@ -22,14 +22,24 @@ const clips = [
   <div class="ugc-track" data-ugc-track>
     {clips.map((c) => (
       <article class="ugc-card">
+        {/* L'affiche est une vraie <img loading="lazy"> et non l'attribut
+            `poster` : le navigateur diffère alors son téléchargement tout
+            seul. En attribut, les quatre affiches partaient au chargement de
+            la page — 200 Ko qui disputaient la bande passante au visuel du
+            produit, pour un mur de vidéos situé tout en bas. */}
+        <img class="ugc-poster" src={c.poster} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+
+        {/* `preload="none"` et pas de `src` : la vidéo n'existe pour le
+            réseau qu'au moment où la carte approche de l'écran (voir plus
+            bas). Sans ça, quatre vidéos réclamaient leurs métadonnées dès
+            l'ouverture de la fiche. */}
         <video
           class="ugc-video"
-          src={c.src}
-          poster={c.poster}
+          data-src={c.src}
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="none"
           data-ugc-video
         ></video>
 
@@ -75,6 +85,16 @@ const clips = [
     object-fit: cover; display: block;
   }
 
+  /* L'affiche occupe la carte tant que la vidéo n'a pas démarré. Elle
+     disparaît ensuite : garder une image peinte sous chaque vidéo coûte une
+     couche de composition par carte à chaque défilement. */
+  .ugc-poster {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: opacity .3s ease;
+  }
+  .ugc-card[data-playing] .ugc-poster { opacity: 0; }
+
   /* Bouton son */
   .ugc-sound {
     position: absolute; top: 0.6rem; right: 0.6rem; z-index: 3;
@@ -98,18 +118,60 @@ const clips = [
     if (!cards.length) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Branche la source au dernier moment, en DEUX temps.
+    //
+    // 1. à l'approche de l'écran : `preload="metadata"`, soit quelques kilo-
+    //    octets d'en-tête. La vidéo est prête à démarrer, rien de plus ;
+    // 2. à l'entrée réelle dans l'écran : `play()`, qui déclenche le
+    //    téléchargement des images.
+    //
+    // En une seule étape avec `preload="auto"`, le mur de vidéos — situé
+    // juste sous la ligne de flottaison sur la fiche produit — engloutissait
+    // 600 Ko avant même que le visiteur ait touché à la molette.
+    const monter = (card: HTMLElement) => {
+      const v = card.querySelector('video') as HTMLVideoElement | null;
+      if (!v || v.getAttribute('src')) return v;
+      const src = v.dataset.src;
+      if (src) { v.preload = 'metadata'; v.setAttribute('src', src); }
+      return v;
+    };
+
+    if ('IntersectionObserver' in window) {
+      const prechargement = new IntersectionObserver((entries, obs) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          monter(e.target as HTMLElement);
+          obs.unobserve(e.target);
+        });
+      }, { rootMargin: '300px 0px' });
+      cards.forEach((c) => prechargement.observe(c));
+    } else {
+      cards.forEach(monter);
+    }
+
     // Autoplay muet quand la carte est visible ; pause sinon (économe).
     if (!reduce && 'IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
-          const v = e.target.querySelector('video') as HTMLVideoElement | null;
-          if (!v) return;
-          if (e.isIntersecting) { v.play().catch(() => {}); }
-          else { v.pause(); }
+          const card = e.target as HTMLElement;
+          if (e.isIntersecting) {
+            const v = monter(card);
+            v?.play().catch(() => {});
+          } else {
+            const v = card.querySelector('video') as HTMLVideoElement | null;
+            v?.pause();
+          }
         });
       }, { threshold: 0.35 });
       cards.forEach((c) => io.observe(c));
     }
+
+    // L'affiche s'efface dès que la vidéo a vraiment une image à montrer.
+    cards.forEach((card) => {
+      const v = card.querySelector('video') as HTMLVideoElement | null;
+      if (!v) return;
+      v.addEventListener('playing', () => card.setAttribute('data-playing', ''), { once: true });
+    });
 
     // Tap = son. Un seul clip sonore à la fois.
     cards.forEach((card) => {
@@ -120,6 +182,7 @@ const clips = [
         ev.preventDefault();
         const turnOn = v.muted;
         if (turnOn) {
+          monter(card);
           cards.forEach((other) => {
             if (other === card) return;
             const ov = other.querySelector('video') as HTMLVideoElement | null;

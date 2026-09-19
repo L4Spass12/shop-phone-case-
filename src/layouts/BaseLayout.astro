@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
+import logoFont from '../lib/logo-font.json';
 
 interface Props {
   title: string;
@@ -27,6 +28,18 @@ interface Props {
     imagesrcset?: string;
     imagesizes?: string;
   }>;
+}
+
+// La police du logotype est réduite aux seules lettres du nom : 4 Ko au lieu
+// de 38. Si le nom change sans que le fichier soit refait, les lettres
+// nouvelles manquent et le logo part en police système au milieu du mot. On
+// arrête la construction plutôt que de livrer ça.
+const texteLogo = `${siteConfig.logoPrefix ?? ''}${siteConfig.logoSuffix ?? ''}`;
+if (texteLogo !== logoFont.texte) {
+  throw new Error(
+    `La police du logo a été fabriquée pour « ${logoFont.texte} », or le nom est « ${texteLogo} ». ` +
+    `Lancez : node scripts/subset-logo-font.mjs`
+  );
 }
 
 const SITE_NAME = siteConfig.name;
@@ -141,6 +154,14 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         } catch (e) {}
       })();
     </script>
+
+    {/* Polices du premier écran. Sans ces deux lignes, le navigateur ne les
+        découvre qu'après avoir reçu ET analysé la feuille de style : un
+        aller-retour de plus, pendant lequel le texte s'affiche en police
+        système avant de sauter. On ne précharge QUE ces deux-là — les
+        graisses 300/500/600 arrivent en cours de route sans gêner. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/pinyon-script-logo.woff2" crossorigin="anonymous" />
 
     <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
     {preloadImages.map(img => (

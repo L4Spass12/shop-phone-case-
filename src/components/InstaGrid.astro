@@ -8,6 +8,7 @@
  * Le lien pointe vers siteConfig.socials.instagram s'il est renseigné.
  */
 import siteConfig from '../../site.config.mjs';
+import { smallerVariant } from '../lib/image-variants';
 
 interface Props {
   handle?: string;
@@ -53,7 +54,11 @@ const photos = [
         rel="noopener noreferrer"
         aria-label={`Voir sur Instagram (photo ${i + 1})`}
       >
-        <img src={src} alt="" loading="lazy" decoding="async" width="640" height="640" />
+        {/* Les tuiles font 190 px au plus large : on sert la variante 400w
+            (environ 16 Ko) plutôt que l'original en 800x800 (environ 40 Ko).
+            Six tuiles : 140 Ko économisés, et six décodages quatre fois plus
+            légers pour le téléphone. */}
+        <img src={smallerVariant(src, 400)} alt="" loading="lazy" decoding="async" width="400" height="400" />
         <span class="insta-tile-ic" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>

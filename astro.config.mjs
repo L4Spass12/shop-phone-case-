@@ -29,7 +29,13 @@ export default defineConfig({
     // (fallback explicite = doublons /de/en/<slug>/ sur slugs déjà préfixés.)
   },
   integrations: [
-    tailwind(),
+    // `applyBaseStyles: false` : sans ça, Tailwind était livré DEUX FOIS.
+    // L'intégration injecte sa propre feuille (`@tailwind base/components/
+    // utilities`) dans chaque page, et src/styles/global.css contient déjà
+    // ces mêmes directives. Chaque page traînait donc deux copies complètes
+    // du framework — 65 Ko de CSS en double à télécharger, puis à analyser
+    // sur le fil principal avant le premier affichage.
+    tailwind({ applyBaseStyles: false }),
     mdx(),
     sitemap({
       changefreq: 'weekly',

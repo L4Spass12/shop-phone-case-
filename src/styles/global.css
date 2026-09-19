@@ -1,11 +1,64 @@
-@import '@fontsource/inter/300.css';
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
+/* ═══════════════════════════════════════════════════════════════════════
+   POLICES — servies depuis /public/fonts, volontairement.
 
-/* Logotype calligraphique du thème « sunfreaks ». */
-@import '@fontsource/pinyon-script/400.css';
-@import '@fontsource/bodoni-moda/900.css';
+   Avant, ce bloc était une série d'`@import` de @fontsource. Deux défauts,
+   tous les deux payés sur chaque page :
+
+   · chaque import déclarait SEPT jeux de caractères (cyrillique, grec,
+     vietnamien…) dont la boutique n'affiche jamais une seule lettre. Le
+     navigateur ne les téléchargeait pas, mais la feuille de style les
+     transportait tout de même ;
+   · surtout, les fichiers recevaient un nom haché par la construction.
+     Impossible de les précharger : le navigateur devait d'abord recevoir et
+     analyser tout le CSS pour découvrir la police, soit un aller-retour de
+     plus avant que le texte ne s'affiche avec la bonne fonte.
+
+   Ici les chemins sont stables, donc préchargeables (voir BaseLayout).
+   `font-display: swap` : le texte s'affiche tout de suite dans la police
+   système et bascule à l'arrivée du fichier. Jamais de page blanche.
+
+   Pas d'`unicode-range` : un caractère absent du jeu latin retombe
+   naturellement sur la police suivante de la pile, lettre par lettre.
+   ═══════════════════════════════════════════════════════════════════════ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/inter-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/inter-600.woff2') format('woff2');
+}
+
+/* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
+   lettres du nom de la boutique par scripts/subset-logo-font.mjs : 4 Ko au
+   lieu de 38. À REGÉNÉRER si logoPrefix change (le build le rappelle). */
+@font-face {
+  font-family: 'Pinyon Script';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/pinyon-script-logo.woff2') format('woff2');
+}
 
 @tailwind base;
 @tailwind components;
