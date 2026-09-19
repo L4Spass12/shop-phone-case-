@@ -952,8 +952,12 @@ const pickModelLabel = t('model.placeholder', lang);
   }
 
   @media (max-width: 767px) {
-    .pdp-card { border-radius: 20px; padding: 22px 20px 20px; }
-    .pdp-panel { border-radius: 16px; padding: 4px 18px 8px; }
+    /* Sur un écran de téléphone, les 24 px de marge du gabarit laissaient la
+       carte flotter au milieu : on la rapproche des bords, elle gagne une
+       vingtaine de pixels de largeur et le contenu respire davantage. */
+    .crumbs-shell { padding-left: .875rem; padding-right: .875rem; }
+    .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
+    .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
 </style>
 
