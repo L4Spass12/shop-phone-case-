@@ -55,38 +55,19 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'flat')}
     >
-      {/* Le téléphone de trois quarts, motif posé sur le dos. Les deux lignes
-          montrent exactement la même coque : seul le motif change, à plat ici,
-          bâti en épaisseur en dessous. C'est la comparaison qui explique, pas
-          le dessin pris isolément. */}
-      <svg class="pm-fig" viewBox="0 0 108 54" fill="none" aria-hidden="true">
-        <g transform="rotate(-7 54 27)" stroke="currentColor" stroke-linejoin="round">
-          {/* tranche puis dos : l'épaisseur de la coque */}
-          <rect x="10" y="20" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
-          <rect x="10" y="13" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
-          {/* module photo */}
-          <rect x="16" y="16.5" width="15" height="9" rx="3.5" stroke-width="1.6" fill="var(--pm-fill)"/>
-          <circle cx="20.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
-          <circle cx="26.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
-          {/* bouton latéral */}
-          <rect x="38" y="24.5" width="11" height="2.6" rx="1.3" stroke-width="1.4" fill="var(--pm-fill)"/>
-          {/* motif : à plat, une seule épaisseur */}
-          <g stroke-width="1.7" fill="var(--pm-fill)">
-            <circle cx="70" cy="16" r="3.4"/>
-            <circle cx="75" cy="19.4" r="3.4"/>
-            <circle cx="73.1" cy="25" r="3.4"/>
-            <circle cx="66.9" cy="25" r="3.4"/>
-            <circle cx="65" cy="19.4" r="3.4"/>
-            <circle cx="70" cy="20.6" r="2.4"/>
-          </g>
-          {/* éclats : la lumière accroche la surface */}
-          <g stroke-width="1.6" stroke-linecap="round">
-            <path d="M84 9v-3.5"/>
-            <path d="M88 10.5l2.4-2.6"/>
-            <path d="M90.5 14h3.4"/>
-          </g>
-        </g>
-      </svg>
+      {/* Les deux illustrations montrent la MÊME coque : tranche en haut, dos
+          en dessous. À plat la tranche est lisse et le motif d'un seul trait ;
+          en relief la tranche ondule et le motif est doublé. C'est la
+          comparaison entre les deux lignes qui explique, pas l'une isolément. */}
+      <img
+        class="pm-fig"
+        src="/images/print-mode-flat.webp"
+        alt=""
+        width="560"
+        height="493"
+        loading="lazy"
+        decoding="async"
+      />
 
       <span class="pm-body">
         <span class="pm-name">{t('print.flat', lang)}</span>
@@ -103,39 +84,15 @@ const basePriceCents = Math.round(price * 100);
       role="radio"
       aria-checked={String(defaultMode === 'relief')}
     >
-      <svg class="pm-fig" viewBox="0 0 108 54" fill="none" aria-hidden="true">
-        <g transform="rotate(-7 54 27)" stroke="currentColor" stroke-linejoin="round">
-          <rect x="10" y="20" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
-          <rect x="10" y="13" width="88" height="15" rx="7.5" stroke-width="2" fill="var(--pm-fill)"/>
-          <rect x="16" y="16.5" width="15" height="9" rx="3.5" stroke-width="1.6" fill="var(--pm-fill)"/>
-          <circle cx="20.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
-          <circle cx="26.5" cy="21" r="1.7" stroke-width="1.4" fill="var(--pm-fill)"/>
-          <rect x="38" y="24.5" width="11" height="2.6" rx="1.3" stroke-width="1.4" fill="var(--pm-fill)"/>
-          {/* motif en relief : le MÊME motif dessiné deux fois, le second
-              décalé vers le bas. Seules ses arêtes basses dépassent, et c'est
-              exactement ce qu'on voit d'un motif qui a de l'épaisseur. */}
-          <g stroke-width="1.7" fill="var(--pm-fill)" transform="translate(0 4)">
-            <circle cx="70" cy="16" r="3.4"/>
-            <circle cx="75" cy="19.4" r="3.4"/>
-            <circle cx="73.1" cy="25" r="3.4"/>
-            <circle cx="66.9" cy="25" r="3.4"/>
-            <circle cx="65" cy="19.4" r="3.4"/>
-          </g>
-          <g stroke-width="1.7" fill="var(--pm-fill)">
-            <circle cx="70" cy="16" r="3.4"/>
-            <circle cx="75" cy="19.4" r="3.4"/>
-            <circle cx="73.1" cy="25" r="3.4"/>
-            <circle cx="66.9" cy="25" r="3.4"/>
-            <circle cx="65" cy="19.4" r="3.4"/>
-            <circle cx="70" cy="20.6" r="2.4"/>
-          </g>
-          <g stroke-width="1.6" stroke-linecap="round">
-            <path d="M84 9v-3.5"/>
-            <path d="M88 10.5l2.4-2.6"/>
-            <path d="M90.5 14h3.4"/>
-          </g>
-        </g>
-      </svg>
+      <img
+        class="pm-fig"
+        src="/images/print-mode-relief.webp"
+        alt=""
+        width="560"
+        height="493"
+        loading="lazy"
+        decoding="async"
+      />
 
       <span class="pm-body">
         <span class="pm-name">{t('print.relief', lang)}</span>
@@ -170,6 +127,7 @@ const basePriceCents = Math.round(price * 100);
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
+    min-height: 0;
     gap: .75rem;
     width: 100%;
     padding: .55rem .85rem .55rem .55rem;
@@ -193,7 +151,9 @@ const basePriceCents = Math.round(price * 100);
   }
   .pm-opt:focus-visible { outline: 2px solid rgb(var(--accent-rgb) / .55); outline-offset: 2px; }
 
-  .pm-fig { width: 92px; height: auto; flex: none; color: currentColor; }
+  /* L'illustration porte l'explication : on lui laisse de la place plutôt que
+     de la réduire à une vignette où l'ondulation de la tranche disparaîtrait. */
+  .pm-fig { width: 96px; height: auto; flex: none; }
 
   .pm-body { display: grid; gap: 1px; min-width: 0; }
   .pm-name {
@@ -242,7 +202,7 @@ const basePriceCents = Math.round(price * 100);
   .pm-opt.is-on .pm-radio::after { transform: scale(1); }
 
   @media (max-width: 380px) {
-    .pm-fig { width: 76px; }
+    .pm-fig { width: 78px; }
     .pm-opt { gap: .55rem; padding: .5rem .7rem .5rem .45rem; }
     .pm-name { font-size: 13.5px; }
     .pm-desc { font-size: 11px; }
