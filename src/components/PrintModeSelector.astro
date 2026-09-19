@@ -63,15 +63,10 @@ const basePriceCents = Math.round(price * 100);
           le dessus change — la comparaison se fait donc d'un coup d'œil. Ici
           le dessus est lisse : l'encre affleure. */}
       <svg class="pm-fig" viewBox="0 0 48 30" fill="none" aria-hidden="true">
-        {/* Le téléphone, glissé dans la coque. */}
-        <rect x="9.6" y="13.6" width="28.8" height="12.4" rx="2.6" fill="currentColor" opacity=".22"/>
-        {/* La coque : une coquille CREUSE, tracée d'un trait (contour extérieur
-            puis intérieur). C'est le vide au milieu qui la fait lire comme une
-            coque et non comme un simple arceau. */}
-        <path
-          d="M3 26V15C3 10.6 6.6 7 11 7h26c4.4 0 8 3.6 8 8v11h-4.5V16.4c0-2.7-2.2-4.9-4.9-4.9H12.4c-2.7 0-4.9 2.2-4.9 4.9V26z"
-          fill="currentColor"
-        />
+        {/* Vue de profil, une coque n'est qu'un trait. Pas de coquille
+            dessinée, pas d'arrondis : le trait, et rien d'autre. Ici il est
+            lisse, l'encre affleure. */}
+        <rect x="5" y="17" width="38" height="5.5" rx="2.75" fill="currentColor"/>
       </svg>
       <span class="pm-name">{t('print.flat', lang)}</span>
       <span class="pm-price">{fmt(basePriceCents)}</span>
@@ -91,12 +86,10 @@ const basePriceCents = Math.round(price * 100);
           vagues d'encre qu'on sent sous le doigt. Rien d'autre ne change entre
           les deux dessins, c'est ce qui rend la différence lisible. */}
       <svg class="pm-fig" viewBox="0 0 48 30" fill="none" aria-hidden="true">
-        <rect x="9.6" y="13.6" width="28.8" height="12.4" rx="2.6" fill="currentColor" opacity=".22"/>
-        {/* Exactement la même coque, au même endroit : seul le dos ondule. */}
-        <path
-          d="M3 26V15C3 10.6 6.6 7 11 7q3.25-3 6.5 0q3.25-3 6.5 0q3.25-3 6.5 0q3.25-3 6.5 0c4.4 0 8 3.6 8 8v11h-4.5V16.4c0-2.7-2.2-4.9-4.9-4.9H12.4c-2.7 0-4.9 2.2-4.9 4.9V26z"
-          fill="currentColor"
-        />
+        {/* Le même trait, au même endroit, avec les vagues d'encre posées
+            dessus. Rien d'autre ne change d'un dessin à l'autre. */}
+        <path d="M7 17.2q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0q3.4-4.4 6.8 0z" fill="currentColor"/>
+        <rect x="5" y="17" width="38" height="5.5" rx="2.75" fill="currentColor"/>
       </svg>
       <span class="pm-name">{t('print.relief', lang)}</span>
       <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
