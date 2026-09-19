@@ -207,16 +207,6 @@ const pickModelLabel = t('model.placeholder', lang);
                 ))}
               </div>
             )}
-          {siteConfig.shop?.productSticker && (
-            <img
-              class="pdp-sticker"
-              src={siteConfig.shop.productSticker}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
           </div>
 
           {slides.length > 1 && (
@@ -234,6 +224,16 @@ const pickModelLabel = t('model.placeholder', lang);
 
       <div class="flex flex-col gap-5 lg:gap-6 min-w-0">
       <div class="flex flex-col pdp-card min-w-0">
+        {siteConfig.shop?.productSticker && (
+          <img
+            class="pdp-sticker"
+            src={siteConfig.shop.productSticker}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+          />
+        )}
         {categories && categories.length > 0 && (
           <div class="flex flex-wrap gap-1.5 mb-3">
             {categories.map((c: string) => (
@@ -895,9 +895,9 @@ const pickModelLabel = t('model.placeholder', lang);
      mobile, et un élément par-dessus intercepterait le geste. */
   .pdp-sticker {
     position: absolute;
-    left: 14px;
-    bottom: 14px;
-    width: 108px;
+    top: -26px;
+    right: -14px;
+    width: 104px;
     z-index: 2;
     transform: rotate(-9deg);
     pointer-events: none;
@@ -905,6 +905,7 @@ const pickModelLabel = t('model.placeholder', lang);
   }
 
   .pdp-card {
+    position: relative;
     background: #fff;
     border-radius: 25px;
     padding: 30px 35px 24px;
@@ -997,7 +998,7 @@ const pickModelLabel = t('model.placeholder', lang);
       margin-right: calc(var(--pdp-gutter, .875rem) * -1);
       border-radius: 0;
     }
-    .pdp-sticker { width: 78px; left: 12px; bottom: 12px; }
+    .pdp-sticker { width: 74px; top: -20px; right: -6px; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
