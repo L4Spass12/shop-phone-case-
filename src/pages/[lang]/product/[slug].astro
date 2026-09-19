@@ -173,7 +173,7 @@ const pickModelLabel = t('model.placeholder', lang);
               des boutiques : le regard reste sur le produit au lieu de
               descendre sous lui. En mobile, elles cèdent la place au
               balayage natif. */}
-          <div class="md:flex md:items-start md:gap-3">
+          <div class="pdp-media md:flex md:items-start md:gap-3">
 
             {slides.length > 1 && (
               <div class="hidden md:flex md:flex-col gap-2 w-[76px] shrink-0">
@@ -908,6 +908,17 @@ const pickModelLabel = t('model.placeholder', lang);
     transform: rotate(-9deg);
     pointer-events: none;
     filter: drop-shadow(0 8px 16px rgb(0 0 0 / .14));
+  }
+
+
+  /* Sur grand écran, le visuel accompagne la lecture : il se fige pendant que
+     la colonne de droite défile, jusqu'à ce que les tiroirs soient passés.
+     Deux conditions pour que ça tienne : la colonne de gauche doit occuper
+     toute la hauteur de la rangée (sans quoi l'élément collant n'a aucune
+     marge de manœuvre), et c'est son CONTENU qui colle, pas elle-même. */
+  @media (min-width: 1024px) {
+    .product-gallery { align-self: stretch; }
+    .pdp-media { position: sticky; top: calc(var(--header-h, 72px) + 1.5rem); }
   }
 
   .pdp-card {
