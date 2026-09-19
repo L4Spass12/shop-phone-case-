@@ -73,8 +73,10 @@ const basePriceCents = Math.round(price * 100);
         <span class="pm-name">{t('print.flat', lang)}</span>
         <span class="pm-desc">{t('print.flatDesc', lang)}</span>
       </span>
-      <span class="pm-price">{fmt(basePriceCents)}</span>
-      <span class="pm-radio" aria-hidden="true"></span>
+      <span class="pm-foot">
+        <span class="pm-price">{fmt(basePriceCents)}</span>
+        <span class="pm-radio" aria-hidden="true"></span>
+      </span>
     </button>
 
     <button
@@ -98,16 +100,18 @@ const basePriceCents = Math.round(price * 100);
         <span class="pm-name">{t('print.relief', lang)}</span>
         <span class="pm-desc">{t('print.reliefDesc', lang)}</span>
       </span>
-      <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
-      <span class="pm-radio" aria-hidden="true"></span>
+      <span class="pm-foot">
+        <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
+        <span class="pm-radio" aria-hidden="true"></span>
+      </span>
     </button>
   </div>
 </div>
 
 <style>
-  /* Deux lignes pleine largeur plutôt que deux cartes côte à côte : l'illustration
-     a besoin de place pour montrer le motif, et un titre suivi de sa description
-     se lit mieux sur une ligne que serré dans une colonne. */
+  /* Les deux rendus côte à côte : la comparaison se fait d'un seul regard,
+     sans balayer de haut en bas. L'illustration passe au-dessus du texte, la
+     seule disposition qui lui laisse toute la largeur de la carte. */
   .print-mode { margin-top: 1.25rem; margin-bottom: .5rem; }
 
   .pm-label {
@@ -120,53 +124,50 @@ const basePriceCents = Math.round(price * 100);
     color: rgb(var(--c-cream));
   }
 
-  .pm-rows { display: grid; gap: .5rem; }
+  .pm-rows { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
 
   .pm-opt {
-    --pm-fill: rgb(var(--c-panel));
+    position: relative;
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    align-items: center;
-    min-height: 0;
-    gap: .75rem;
-    width: 100%;
-    padding: .55rem .85rem .55rem .55rem;
+    grid-template-rows: auto auto auto;
+    justify-items: center;
+    gap: .15rem;
+    padding: .7rem .6rem .65rem;
     border-radius: 14px;
     border: 1.5px solid rgb(var(--c-cream) / .16);
     background: rgb(var(--c-panel));
     color: rgb(var(--c-n400));
-    text-align: left;
+    text-align: center;
     cursor: pointer;
     transition: border-color .18s ease, background-color .18s ease, color .18s ease;
   }
   .pm-opt:hover { border-color: rgb(var(--c-cream) / .4); }
 
-  /* Retenue : filet violet, l'accent du site. Le jaune reste au bouton d'achat,
-     seule action de la page. */
+  /* Retenue : filet violet, l'accent du site. Le jaune reste au bouton
+     d'achat, seule action de la page. */
   .pm-opt.is-on {
-    --pm-fill: rgb(var(--c-dark));
     border-color: rgb(var(--accent-rgb));
     background: rgb(var(--c-dark));
     color: rgb(var(--accent-rgb));
   }
   .pm-opt:focus-visible { outline: 2px solid rgb(var(--accent-rgb) / .55); outline-offset: 2px; }
 
-  /* L'illustration porte l'explication : on lui laisse de la place plutôt que
-     de la réduire à une vignette où l'ondulation de la tranche disparaîtrait. */
-  .pm-fig { width: 96px; height: auto; flex: none; }
+  /* L'illustration porte l'explication : elle prend toute la largeur de la
+     carte plutôt que d'être réduite à une vignette où l'ondulation de la
+     tranche disparaîtrait. */
+  .pm-fig { width: 100%; max-width: 150px; height: auto; margin-bottom: .2rem; }
 
   .pm-body { display: grid; gap: 1px; min-width: 0; }
   .pm-name {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 700;
-    font-size: 14.5px;
+    font-size: 14px;
     line-height: 1.2;
     letter-spacing: -.01em;
   }
   .pm-desc {
-    font-size: 11.5px;
-    white-space: nowrap;
+    font-size: 11px;
     line-height: 1.25;
     color: rgb(var(--c-n500));
   }
@@ -179,10 +180,20 @@ const basePriceCents = Math.round(price * 100);
   }
   .pm-opt.is-on .pm-price { color: rgb(var(--accent-rgb)); }
 
-  /* Bouton radio : le repère le plus universel pour « une seule des deux ». */
+  /* Prix et radio sur la même ligne, en pied de carte. Dans le coin, le radio
+     se posait par-dessus l'illustration et masquait les éclats du relief. */
+  .pm-foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    margin-top: .15rem;
+  }
+
   .pm-radio {
-    width: 17px;
-    height: 17px;
+    flex: none;
+    width: 16px;
+    height: 16px;
     border-radius: 999px;
     border: 2px solid rgb(var(--c-cream) / .28);
     display: grid;
@@ -191,8 +202,8 @@ const basePriceCents = Math.round(price * 100);
   }
   .pm-radio::after {
     content: '';
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 999px;
     background: rgb(var(--accent-rgb));
     transform: scale(0);
@@ -202,10 +213,9 @@ const basePriceCents = Math.round(price * 100);
   .pm-opt.is-on .pm-radio::after { transform: scale(1); }
 
   @media (max-width: 380px) {
-    .pm-fig { width: 78px; }
-    .pm-opt { gap: .55rem; padding: .5rem .7rem .5rem .45rem; }
-    .pm-name { font-size: 13.5px; }
-    .pm-desc { font-size: 11px; }
+    .pm-opt { padding: .6rem .45rem .55rem; }
+    .pm-name { font-size: 13px; }
+    .pm-desc { font-size: 10.5px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .pm-opt, .pm-radio, .pm-radio::after { transition: none; }
