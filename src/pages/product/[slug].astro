@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import FabricationSection from '../../components/FabricationSection.astro';
 import ModelPicker from '../../components/ModelPicker.astro';
+import PrintModeSelector from '../../components/PrintModeSelector.astro';
 import UgcVideos from '../../components/UgcVideos.astro';
 import InstaGrid from '../../components/InstaGrid.astro';
 import { getCollection } from 'astro:content';
@@ -496,6 +497,8 @@ const pickModelLabel = t('model.placeholder', 'fr');
           </div>
         )}
 
+        <PrintModeSelector price={price} lang="fr" />
+
         <!-- Bouton d'achat (Atelier) — style piloté par `atcVariant` du produit :
              'gradient' (défaut, .btn-atc), 'ink' (le même en noir) ou 'blob'
              (.btn-atc-blob) — cf. global.css. -->
@@ -507,6 +510,9 @@ const pickModelLabel = t('model.placeholder', 'fr');
             data-item-id={sku ?? product.slug}
             data-item-name={name}
             data-item-price={Math.round(price * 100)}
+            data-base-item-id={sku ?? product.slug}
+            data-base-item-name={name}
+            data-base-item-price={Math.round(price * 100)}
             data-item-image={imageUrl}
           >
             {/* .ab-clip porte la découpe arrondie : sur mobile, overflow+radius
@@ -514,7 +520,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
             <span class="ab-clip">
               <span class="ab-text">
                 {inStock ? (
-                  <>Ajouter au panier <span>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+                  <>Ajouter au panier <span data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
                 ) : 'Indisponible'}
               </span>
               <span class="ab-blob" aria-hidden="true"></span>
@@ -531,10 +537,13 @@ const pickModelLabel = t('model.placeholder', 'fr');
             data-item-id={sku ?? product.slug}
             data-item-name={name}
             data-item-price={Math.round(price * 100)}
+            data-base-item-id={sku ?? product.slug}
+            data-base-item-name={name}
+            data-base-item-price={Math.round(price * 100)}
             data-item-image={imageUrl}
           >
             {inStock ? (
-              <>Ajouter au panier <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+              <>Ajouter au panier <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `dès ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
             ) : 'Indisponible'}
           </button>
         )}
@@ -675,9 +684,12 @@ const pickModelLabel = t('model.placeholder', 'fr');
           data-item-id={sku ?? product.slug}
           data-item-name={name}
           data-item-price={Math.round(price * 100)}
+          data-base-item-id={sku ?? product.slug}
+          data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}
           data-item-image={imageUrl}
         >
-          Ajouter au panier <span id="sticky-atc-price-mobile">{formatPrice(price)}</span>
+          Ajouter au panier <span id="sticky-atc-price-mobile" data-buy-price>{formatPrice(price)}</span>
         </button>
       </div>
 
@@ -695,7 +707,7 @@ const pickModelLabel = t('model.placeholder', 'fr');
           <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
           <p class="text-xs text-n-400 font-light truncate">
             <span id="sticky-atc-size" class="text-cream font-medium">-</span>
-            · <span id="sticky-atc-price">{formatPrice(price)}</span>
+            · <span id="sticky-atc-price" data-buy-price>{formatPrice(price)}</span>
           </p>
         </div>
         <button
@@ -705,6 +717,9 @@ const pickModelLabel = t('model.placeholder', 'fr');
           data-item-id={sku ?? product.slug}
           data-item-name={name}
           data-item-price={Math.round(price * 100)}
+          data-base-item-id={sku ?? product.slug}
+          data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}
           data-item-image={imageUrl}
         >
           Ajouter au panier
@@ -1039,21 +1054,27 @@ const pickModelLabel = t('model.placeholder', 'fr');
         // ("1", "2") entrerait en collision entre deux produits du meme
         // shop, et c'est cette cle qui sert au mapping fournisseur cote
         // Seamless (supplier_skus.store_key).
-        buyBtn.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
-        buyBtn.dataset.itemPrice = Math.round(v.price * 100);
-        buyBtn.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        buyBtn.dataset.baseItemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
+        buyBtn.dataset.baseItemPrice = Math.round(v.price * 100);
+        buyBtn.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        buyBtn.dataset.itemId = buyBtn.dataset.baseItemId;
+        buyBtn.dataset.itemPrice = buyBtn.dataset.baseItemPrice;
+        buyBtn.dataset.itemName = buyBtn.dataset.baseItemName;
         if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
         buyBtn.innerHTML = v.inStock
-          ? 'Ajouter au panier <span class="opacity-70 font-normal">' + fmtPrice(v.price) + '</span>'
+          ? 'Ajouter au panier <span class="opacity-70 font-normal" data-buy-price>' + fmtPrice(v.price) + '</span>'
           : 'Indisponible';
 
         // Sync sticky ATC bar (boutons mobile + desktop, prix, label taille)
         if (stickyRefs) {
           stickyRefs.btns.forEach(b => {
             b.disabled = !v.inStock;
-            b.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
-            b.dataset.itemPrice = Math.round(v.price * 100);
-            b.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            b.dataset.baseItemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
+            b.dataset.baseItemPrice = Math.round(v.price * 100);
+            b.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            b.dataset.itemId = b.dataset.baseItemId;
+            b.dataset.itemPrice = b.dataset.baseItemPrice;
+            b.dataset.itemName = b.dataset.baseItemName;
             if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;
           });
           const dimPill = selector.querySelector('[data-variant-type="size"].border-cream');
@@ -1064,6 +1085,11 @@ const pickModelLabel = t('model.placeholder', 'fr');
           if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
           if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
         }
+
+        // Le choix à plat / en relief doit survivre à un changement de
+        // variante : on vient de réécrire la configuration de base, le
+        // sélecteur recompose la clé et le prix à partir d'elle.
+        document.dispatchEvent(new CustomEvent('vareska:variant-change'));
       }
 
       // Click handlers (pills + size cards)

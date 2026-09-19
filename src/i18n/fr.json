@@ -199,5 +199,11 @@
     "required": "Choisissez d’abord votre modèle de téléphone.",
     "saved": "Modèle mémorisé pour vos prochaines visites.",
     "resultsCount": "{n} modèles"
+  },
+  "print": {
+    "label": "Rendu d'impression",
+    "hint": "Le relief se sent sous le doigt",
+    "flat": "À plat",
+    "relief": "En relief"
   }
 }

@@ -199,5 +199,11 @@
     "required": "Please choose your phone model first.",
     "saved": "Model saved for your next visits.",
     "resultsCount": "{n} models"
+  },
+  "print": {
+    "label": "Print finish",
+    "hint": "Relief can be felt under the finger",
+    "flat": "Flat",
+    "relief": "Raised"
   }
 }

@@ -28,16 +28,18 @@
 // des centaines de lignes (2 coloris × 65 modèles) pour aucun gain.
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { parseEntrySlug } from '../lib/i18n';
 import siteConfig from '../../site.config.mjs';
 
 export const GET: APIRoute = async () => {
   const products = await getCollection('products');
 
+  // TOUTES les langues sont énumérées. La clé d'une traduction n'est pas celle
+  // du français : une fiche anglaise envoie « en/mon-produit », puisqu'elle
+  // pose data-item-id={sku ?? product.slug} et que le slug d'une entrée
+  // traduite porte son préfixe de langue. Les filtrer rendait donc tout achat
+  // en anglais ou en allemand impossible, le serveur refusant une clé absente
+  // d'ici. Les prix, eux, sont identiques d'une langue à l'autre.
   const items = products
-    // Une seule locale : la clé d'article ne dépend pas de la langue, énumérer
-    // les traductions produirait des doublons.
-    .filter((p) => parseEntrySlug(p.slug).lang === 'fr')
     .flatMap((p) => {
       const { name, image, variations, attributes } = p.data;
       // Les produits de test restent achetables (cf. en-tête) mais se
@@ -61,13 +63,38 @@ export const GET: APIRoute = async () => {
         return parts.length ? `${name} — ${parts.join(' / ')}` : name;
       };
 
-      return variations.map((v) => ({
-        key: `${p.slug}-v${v.id}`,
-        label: prefix + labelFor(v),
-        price: cents(v.price),
-        image: v.image ?? image ?? null,
-      }));
+      return [
+        // Rendu du serveur, avant que le sélecteur de variantes ne démarre :
+        // le bouton porte encore la clé du PRODUIT et son prix de base. Un
+        // visiteur rapide peut donc envoyer cette clé-là, qu'aucune variante
+        // ne produit. Sans elle, il verrait « Article indisponible ».
+        { key: p.slug, label: prefix + name, price: cents(p.data.price), image: image ?? null },
+        ...variations.map((v) => ({
+          key: `${p.slug}-v${v.id}`,
+          label: prefix + labelFor(v),
+          price: cents(v.price),
+          image: v.image ?? image ?? null,
+        })),
+      ];
     });
+
+  // RELIEF : chaque article du catalogue existe en deux rendus, et le rendu
+  // décide du prix. Deux clés distinctes plutôt qu'un supplément déclaré côté
+  // client, pour la même raison que dans le studio : c'est la clé qui porte le
+  // prix faisant foi, donc un panier réécrit en « relief » au tarif du plat ne
+  // peut pas passer. La fiche produit fabrique la même clé (cf.
+  // PrintModeSelector.astro : clé de base suffixée « -relief »).
+  const reliefSurcharge = siteConfig.shop?.catalogueReliefSurchargeCents ?? 0;
+  if (reliefSurcharge > 0) {
+    for (const it of [...items]) {
+      items.push({
+        key: `${it.key}-relief`,
+        label: `${it.label} — en relief`,
+        price: it.price + reliefSurcharge,
+        image: it.image,
+      });
+    }
+  }
 
   // La coque personnalisée n'est pas un produit du catalogue : elle est
   // fabriquée au clic dans le studio. Sans cette entrée, le serveur la

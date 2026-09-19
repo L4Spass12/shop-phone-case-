@@ -199,5 +199,11 @@
     "required": "Bitte wählen Sie zuerst Ihr Handymodell.",
     "saved": "Modell für Ihre nächsten Besuche gespeichert.",
     "resultsCount": "{n} Modelle"
+  },
+  "print": {
+    "label": "Druckbild",
+    "hint": "Das Relief ist fühlbar",
+    "flat": "Flach",
+    "relief": "Erhaben"
   }
 }

@@ -3,6 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Icon from '../../../components/Icon.astro';
 import FabricationSection from '../../../components/FabricationSection.astro';
 import ModelPicker from '../../../components/ModelPicker.astro';
+import PrintModeSelector from '../../../components/PrintModeSelector.astro';
 import UgcVideos from '../../../components/UgcVideos.astro';
 import InstaGrid from '../../../components/InstaGrid.astro';
 import { getCollection } from 'astro:content';
@@ -367,6 +368,8 @@ const pickModelLabel = t('model.placeholder', lang);
           </div>
         )}
 
+        <PrintModeSelector price={price} lang={lang} />
+
         <!-- Bouton d'achat — style : cf. .btn-atc dans global.css -->
         <button
           id="buy-button"
@@ -375,10 +378,13 @@ const pickModelLabel = t('model.placeholder', lang);
           data-item-id={sku ?? product.slug}
           data-item-name={name}
           data-item-price={Math.round(price * 100)}
+          data-base-item-id={sku ?? product.slug}
+          data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}
           data-item-image={imageUrl}
         >
           {inStock ? (
-            <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal">{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+            <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
           ) : t('shop.outOfStock', lang)}
         </button>
 
@@ -495,8 +501,10 @@ const pickModelLabel = t('model.placeholder', lang);
         <button id="sticky-atc-btn" class="buy-button btn-atc btn-atc--block btn-atc--sm"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
-          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
-          {t('shop.addToCart', lang)} <span id="sticky-atc-price-mobile">{formatPrice(price)}</span>
+          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}
+          data-base-item-id={sku ?? product.slug} data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}>
+          {t('shop.addToCart', lang)} <span id="sticky-atc-price-mobile" data-buy-price>{formatPrice(price)}</span>
         </button>
       </div>
       <div class="hidden md:flex items-center gap-4">
@@ -505,13 +513,15 @@ const pickModelLabel = t('model.placeholder', lang);
           <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
           <p class="text-xs text-n-400 font-light truncate">
             <span id="sticky-atc-size" class="text-cream font-medium">-</span>
-            · <span id="sticky-atc-price">{formatPrice(price)}</span>
+            · <span id="sticky-atc-price" data-buy-price>{formatPrice(price)}</span>
           </p>
         </div>
         <button id="sticky-atc-btn-desk" class="buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0"
           disabled={!inStock}
           data-item-id={sku ?? product.slug} data-item-name={name}
-          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}>
+          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}
+          data-base-item-id={sku ?? product.slug} data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}>
           {t('shop.addToCart', lang)}
         </button>
       </div>
@@ -710,19 +720,25 @@ const pickModelLabel = t('model.placeholder', lang);
         // ("1", "2") entrerait en collision entre deux produits du meme
         // shop, et c'est cette cle qui sert au mapping fournisseur cote
         // Seamless (supplier_skus.store_key).
-        buyBtn.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
-        buyBtn.dataset.itemPrice = Math.round(v.price * 100);
-        buyBtn.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        buyBtn.dataset.baseItemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
+        buyBtn.dataset.baseItemPrice = Math.round(v.price * 100);
+        buyBtn.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        buyBtn.dataset.itemId = buyBtn.dataset.baseItemId;
+        buyBtn.dataset.itemPrice = buyBtn.dataset.baseItemPrice;
+        buyBtn.dataset.itemName = buyBtn.dataset.baseItemName;
         if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
         buyBtn.innerHTML = v.inStock
-          ? T_ADDCART + ' <span class="opacity-70 font-normal">' + fmtPrice(v.price) + '</span>'
+          ? T_ADDCART + ' <span class="opacity-70 font-normal" data-buy-price>' + fmtPrice(v.price) + '</span>'
           : T_OOS;
         if (stickyRefs) {
           stickyRefs.btns.forEach(b => {
             b.disabled = !v.inStock;
-            b.dataset.itemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
-            b.dataset.itemPrice = Math.round(v.price * 100);
-            b.dataset.itemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            b.dataset.baseItemId = ${JSON.stringify(product.slug)} + '-v' + v.id;
+            b.dataset.baseItemPrice = Math.round(v.price * 100);
+            b.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            b.dataset.itemId = b.dataset.baseItemId;
+            b.dataset.itemPrice = b.dataset.baseItemPrice;
+            b.dataset.itemName = b.dataset.baseItemName;
             if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;
           });
           const dimPill = selector.querySelector('[data-variant-type="size"].border-cream');
@@ -733,6 +749,11 @@ const pickModelLabel = t('model.placeholder', lang);
           if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
           if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
         }
+
+        // Le choix à plat / en relief doit survivre à un changement de
+        // variante : on vient de réécrire la configuration de base, le
+        // sélecteur recompose la clé et le prix à partir d'elle.
+        document.dispatchEvent(new CustomEvent('vareska:variant-change'));
       }
 
       const pillClass = 'variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors';

@@ -226,6 +226,12 @@ const config = {
     // fait choisir entre les deux avant l'ajout au panier, et envoie la clé
     // « custom-relief » quand c'est ce mode qui est retenu.
     customCaseReliefPriceCents: 3490,
+    // Supplément RELIEF sur les coques du CATALOGUE (le studio, lui, a ses
+    // deux prix complets ci-dessus). Ajouté au prix du produit quand l'acheteur
+    // choisit le relief sur la fiche.
+    // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
+    // et le serveur de paiement refuse un relief payé au tarif du plat.
+    catalogueReliefSurchargeCents: 500,
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y
