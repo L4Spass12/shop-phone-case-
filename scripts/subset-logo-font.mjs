@@ -42,4 +42,4 @@ execFileSync('python3', [
 fs.writeFileSync(outMeta, JSON.stringify({ texte }, null, 2) + '\n');
 
 const ko = (fs.statSync(outFont).size / 1024).toFixed(1);
-console.log(`✅ pinyon-script-logo.woff2 — « ${texte} » — ${ko} Ko`);
+console.log(`✅ pinyon-script-logo.woff2 : « ${texte} », ${ko} Ko`);

@@ -3,7 +3,7 @@
  *
  * Le problème que ça résout : une vignette de 74 px affichait le fichier
  * d'origine en 1200x1500. Le navigateur téléchargeait 95 Ko puis décodait
- * 1,8 million de pixels pour en peindre 5 500 — trois fois de suite sur la
+ * 1,8 million de pixels pour en peindre 5 500, trois fois de suite sur la
  * fiche produit. C'est invisible sur un Mac relié à la fibre, et c'est
  * exactement ce qui fait saccader un téléphone.
  *

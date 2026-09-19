@@ -25,7 +25,7 @@ const clips = [
         {/* L'affiche est une vraie <img loading="lazy"> et non l'attribut
             `poster` : le navigateur diffère alors son téléchargement tout
             seul. En attribut, les quatre affiches partaient au chargement de
-            la page — 200 Ko qui disputaient la bande passante au visuel du
+            la page, soit 200 Ko qui disputaient la bande passante au visuel du
             produit, pour un mur de vidéos situé tout en bas. */}
         <img class="ugc-poster" src={c.poster} alt="" aria-hidden="true" loading="lazy" decoding="async" />
 
@@ -125,8 +125,8 @@ const clips = [
     // 2. à l'entrée réelle dans l'écran : `play()`, qui déclenche le
     //    téléchargement des images.
     //
-    // En une seule étape avec `preload="auto"`, le mur de vidéos — situé
-    // juste sous la ligne de flottaison sur la fiche produit — engloutissait
+    // En une seule étape avec `preload="auto"`, le mur de vidéos (situé
+    // juste sous la ligne de flottaison sur la fiche produit) engloutissait
     // 600 Ko avant même que le visiteur ait touché à la molette.
     const monter = (card: HTMLElement) => {
       const v = card.querySelector('video') as HTMLVideoElement | null;
