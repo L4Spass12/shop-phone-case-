@@ -87,6 +87,19 @@ const seoTitle = (name.length + brandSuffix.length) <= 60
   ? `${name}${brandSuffix}`
   : name;
 const priceStart = priceRange?.min ?? price;
+// Rendu d'impression : le relief est le choix proposé d'entrée (cf.
+// PrintModeSelector). Le serveur rend donc déjà sa clé et son prix, sinon
+// l'étiquette du bouton contredirait la carte cochée le temps que le script
+// démarre, et un clic très rapide ajouterait le rendu à plat.
+// La configuration de BASE (data-base-item-*) reste celle à plat : c'est
+// d'elle que le sélecteur dérive les deux modes.
+const reliefSurcharge = (siteConfig.shop?.catalogueReliefSurchargeCents ?? 0) / 100;
+const reliefDefault = reliefSurcharge > 0;
+const modeKeySuffix = reliefDefault ? '-relief' : '';
+const modeExtra = reliefDefault ? reliefSurcharge : 0;
+const shownPrice = price + modeExtra;
+const shownMin = (priceRange?.min ?? price) + modeExtra;
+
 const truncated = shortDescription.length > 70
   ? shortDescription.slice(0, 70).replace(/\s+\S*$/, '') + '…'
   : shortDescription;
@@ -233,8 +246,8 @@ const pickModelLabel = t('model.placeholder', lang);
         <div class="flex items-baseline gap-3 mb-5">
           <span id="product-price" class="text-xl md:text-2xl text-cream font-medium tracking-tight">
             {priceRange && priceRange.min !== priceRange.max
-              ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}`
-              : formatPrice(price)}
+              ? `${t('shop.from', lang)} ${formatPrice(shownMin)}`
+              : formatPrice(shownPrice)}
           </span>
           {compareAtPrice && (
             <span id="product-compare" class="text-sm text-n-500 line-through font-light">
@@ -375,16 +388,16 @@ const pickModelLabel = t('model.placeholder', lang);
           id="buy-button"
           class="buy-button btn-atc self-start"
           disabled={!inStock}
-          data-item-id={sku ?? product.slug}
+          data-item-id={(sku ?? product.slug) + modeKeySuffix}
           data-item-name={name}
-          data-item-price={Math.round(price * 100)}
+          data-item-price={Math.round(shownPrice * 100)}
           data-base-item-id={sku ?? product.slug}
           data-base-item-name={name}
           data-base-item-price={Math.round(price * 100)}
           data-item-image={imageUrl}
         >
           {inStock ? (
-            <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(priceRange.min)}` : formatPrice(price)}</span></>
+            <>{t('shop.addToCart', lang)} <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${t('shop.from', lang)} ${formatPrice(shownMin)}` : formatPrice(shownPrice)}</span></>
           ) : t('shop.outOfStock', lang)}
         </button>
 
@@ -500,11 +513,11 @@ const pickModelLabel = t('model.placeholder', lang);
         </p>
         <button id="sticky-atc-btn" class="buy-button btn-atc btn-atc--block btn-atc--sm"
           disabled={!inStock}
-          data-item-id={sku ?? product.slug} data-item-name={name}
-          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}
+          data-item-id={(sku ?? product.slug) + modeKeySuffix} data-item-name={name}
+          data-item-price={Math.round(shownPrice * 100)} data-item-image={imageUrl}
           data-base-item-id={sku ?? product.slug} data-base-item-name={name}
           data-base-item-price={Math.round(price * 100)}>
-          {t('shop.addToCart', lang)} <span id="sticky-atc-price-mobile" data-buy-price>{formatPrice(price)}</span>
+          {t('shop.addToCart', lang)} <span id="sticky-atc-price-mobile" data-buy-price>{formatPrice(shownPrice)}</span>
         </button>
       </div>
       <div class="hidden md:flex items-center gap-4">
@@ -513,13 +526,13 @@ const pickModelLabel = t('model.placeholder', lang);
           <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
           <p class="text-xs text-n-400 font-light truncate">
             <span id="sticky-atc-size" class="text-cream font-medium">-</span>
-            · <span id="sticky-atc-price" data-buy-price>{formatPrice(price)}</span>
+            · <span id="sticky-atc-price" data-buy-price>{formatPrice(shownPrice)}</span>
           </p>
         </div>
         <button id="sticky-atc-btn-desk" class="buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0"
           disabled={!inStock}
-          data-item-id={sku ?? product.slug} data-item-name={name}
-          data-item-price={Math.round(price * 100)} data-item-image={imageUrl}
+          data-item-id={(sku ?? product.slug) + modeKeySuffix} data-item-name={name}
+          data-item-price={Math.round(shownPrice * 100)} data-item-image={imageUrl}
           data-base-item-id={sku ?? product.slug} data-base-item-name={name}
           data-base-item-price={Math.round(price * 100)}>
           {t('shop.addToCart', lang)}
