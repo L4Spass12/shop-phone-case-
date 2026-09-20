@@ -49,13 +49,13 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Grotesque très grasse de la BANNIÈRE, et d'elle seule.
-   Le titre y est composé en CAPITALES : le sous-ensemble se limite donc aux
-   majuscules, aux accents, aux chiffres et à la ponctuation. 9 Ko.
-   Nom de famille volontairement distinct : rien d'autre sur le site ne doit
-   y toucher. */
+/* Montserrat ExtraBold, la grotesque du titre de la bannière.
+   Déclarée sous son VRAI nom et servie depuis le fichier officiel de
+   @fontsource, sans découpe maison : la version réduite aux capitales
+   économisait 10 Ko, mais un nom de famille inventé et un fichier retaillé
+   ne se vérifient pas d'un coup d'œil dans l'inspecteur. */
 @font-face {
-  font-family: 'Vareska Titre';
+  font-family: 'Montserrat';
   font-style: normal;
   font-weight: 800;
   font-display: swap;
@@ -385,7 +385,7 @@ html[data-theme='sunfreaks'] .hero-eyebrow {
 }
 
 html[data-theme='sunfreaks'] .hero-title {
-  font-family: 'Vareska Titre', 'Inter', system-ui, sans-serif;
+  font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
   font-weight: 800;
   font-style: normal;
   color: #fff;
@@ -404,12 +404,12 @@ html[data-theme='sunfreaks'] .hero-title {
 html[data-theme='sunfreaks'] .hero-title .creux {
   display: block;
   color: transparent;
-  -webkit-text-stroke: 2px #fff;
+  -webkit-text-stroke: 2.2px #fff;
   paint-order: stroke fill;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] .hero-title .creux {
-    -webkit-text-stroke-width: 2.5px;
+    -webkit-text-stroke-width: 3px;
   }
   /* Texte centré : l'espacement ajouté après la dernière lettre décale le mot
      vers la gauche. Ce retrait le remet d'aplomb. */
@@ -463,10 +463,20 @@ html[data-theme='sunfreaks'] .hero-tagline {
 
 /* Position verticale : centré, comme les bannières de mode. Le voile rend le
    blanc lisible partout à gauche, la contrainte de l'horizon a disparu. */
+/* Position verticale : le bloc monte dans le TIERS HAUT.
+   Mesuré sur la photo, ligne par ligne, la luminance du ciel passe de 0,29
+   en haut du cadre à 0,57 juste au-dessus de l'horizon : la brume y est
+   presque blanche. Le titre était centré, donc sa seconde ligne, qui est
+   CREUSE et n'a que son contour pour exister, tombait pile dans cette bande
+   claire : du blanc fin sur du blanc. Remontée, elle se détache sur du bleu
+   franc. */
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-section { align-items: center; }
+  html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
   html[data-theme='sunfreaks'] .hero-shell {
-    padding-top: calc(var(--header-h) + 1rem);
+    /* Assez haut pour que la ligne creuse reste sur du bleu franc, assez bas
+       pour que le sur-titre ne vienne pas se poser sur les coques qui
+       flottent tout en haut du cadre. */
+    padding-top: calc(var(--header-h) + 2.75rem);
     padding-bottom: 2rem;
   }
 }
