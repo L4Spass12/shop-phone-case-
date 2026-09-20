@@ -11,9 +11,6 @@
 name: "Produit test - bouton blob"
 price: 19.90
 image: "/images/products/produit-exemple.webp"
-gallery:
-  - "/images/products/produit-exemple-b.webp"
-  - "/images/products/produit-exemple-c.webp"
 imageAlt: "Produit de démonstration du bouton blob"
 categories: []
 shortDescription: "Page de test A/B : bouton « blob glassmorphism » à comparer au bouton dégradé standard."

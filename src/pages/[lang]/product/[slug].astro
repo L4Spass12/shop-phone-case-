@@ -41,6 +41,18 @@ const {
   categories, shortDescription, stock, sku, attributes, variations,
 } = product.data as any;
 
+// Largeurs RÉELLES du visuel produit dans la mise en page, mesurées à 375,
+// 768, 1024, 1280 et 1600 px. Le navigateur s'en sert pour choisir le fichier
+// à télécharger : trop grand, il gaspille ; trop petit, l'image est floue.
+//
+// La colonne de vignettes n'existe qu'à partir de DEUX visuels. Sans elle, la
+// photo récupère ses 88 px (vignette + gouttière) et devient plus large, d'où
+// les deux jeux de valeurs.
+const nbVisuels = new Set([image, ...(gallery || [])]).size;
+const taillesVisuel = nbVisuels > 1
+  ? '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px'
+  : '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 54px), (max-width: 1279px) calc(50vw - 59px), 584px';
+
 const allProducts = await getCollection('products');
 
 // Sélection catégorie pour le slider "Vous aimerez aussi"
@@ -163,7 +175,7 @@ const pickModelLabel = t('model.placeholder', lang);
   preloadImages={[{
     href: image,
     imagesrcset: unsplashSrcset(image),
-    imagesizes: '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px',
+    imagesizes: taillesVisuel,
   }]}
 >
   <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
@@ -210,7 +222,7 @@ const pickModelLabel = t('model.placeholder', lang);
                           pleine largeur : depuis le passage en deux colonnes,
                           elle faisait réclamer le fichier 1200w pour une image
                           qui s'affiche sur 365 px. */}
-                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px"
+                      sizes={taillesVisuel}
                       alt={i === 0 ? (imageAlt ?? name) : `${name} - ${i + 1}`}
                       class="w-full h-full object-cover"
                       width="1200" height="1500"
