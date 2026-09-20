@@ -11,7 +11,7 @@
 # À SUPPRIMER une fois le style choisi (ou promouvoir via atcVariant).
 name: "Produit test - bouton noir plat"
 price: 19.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton noir plat"
 categories: []
 shortDescription: "Page de test A/B : bouton noir plat, sans relief, avec flèche qui glisse au survol."

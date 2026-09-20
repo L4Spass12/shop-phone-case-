@@ -76,19 +76,39 @@ RewriteRule ^(en|de)(/(.*))?$ /$3 [L,R=302]
 # Cache long terme pour les assets statiques
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
+  # Une semaine pour ce qui garde un nom stable (/images, /fonts) : remplacer
+  # un fichier sous le même nom doit finir par se voir. Un an pour le CSS et
+  # le JS, dont Astro empreinte les noms. Mêmes durées que le bloc
+  # Cache-Control plus bas, pour ne pas dire deux choses contradictoires.
+  ExpiresByType image/webp "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 week"
+  ExpiresByType image/svg+xml "access plus 1 week"
+  ExpiresByType font/woff2 "access plus 1 week"
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
-# Cache-Control immutable pour les assets fingerprintés générés par Astro
+# Cache-Control.
+#
+# « immutable » est une PROMESSE : le contenu servi à cette adresse ne
+# changera jamais. Elle n'est tenue que pour /_astro/, dont les noms de
+# fichiers portent une empreinte du contenu (style.a1b2c3.css) : modifier le
+# fichier change l'adresse.
+#
+# Elle était appliquée à TOUTES les images. Or /images/ garde des noms
+# stables : remplacer un visuel produit par un autre, sous le même nom,
+# laissait les visiteurs déjà venus sur l'ancienne photo pendant un an, sans
+# même revérifier auprès du serveur. C'est exactement ce qui s'est passé au
+# changement de visuel du 20 septembre 2026.
+#
+# Le reste garde donc une semaine, avec revalidation en arrière-plan :
+# l'affichage reste instantané, mais un remplacement finit par arriver.
 <IfModule mod_headers.c>
-  <FilesMatch "\.(css|js|woff2|webp|png|jpg|jpeg|svg)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
+  SetEnvIf Request_URI "^/_astro/" ASSET_EMPREINTE=1
+  <FilesMatch "\.(css|js|woff2|webp|png|jpg|jpeg|svg|mp4)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+    Header set Cache-Control "public, max-age=31536000, immutable" env=ASSET_EMPREINTE
   </FilesMatch>
   # HTML : toujours revalider (courte durée) pour pouvoir déployer
   <FilesMatch "\.html$">

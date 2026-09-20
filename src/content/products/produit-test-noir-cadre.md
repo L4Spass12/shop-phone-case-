@@ -13,7 +13,7 @@
 # À SUPPRIMER une fois le style choisi (ou promouvoir via atcVariant).
 name: "Produit test - bouton noir a cadre"
 price: 19.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton noir à cadre"
 categories: []
 shortDescription: "Page de test A/B : bouton noir en relief dont un cadre fin se dessine depuis les coins au survol."

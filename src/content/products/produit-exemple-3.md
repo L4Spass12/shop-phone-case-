@@ -2,7 +2,7 @@
 name: "Coque Marbre"
 price: 22.90
 compareAtPrice: 29.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Coque de téléphone effet marbre veiné"
 categories: ["categorie-exemple"]
 shortDescription: "Produit de démonstration (duplicata) pour visualiser la grille."

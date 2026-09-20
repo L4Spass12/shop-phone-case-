@@ -10,7 +10,7 @@
 # À SUPPRIMER une fois le style choisi (ou promouvoir via atcVariant).
 name: "Produit test - bouton blob"
 price: 19.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton blob"
 categories: []
 shortDescription: "Page de test A/B : bouton « blob glassmorphism » à comparer au bouton dégradé standard."

@@ -1,7 +1,7 @@
 ---
 name: "Produit exemple"
 price: 19.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Coque de téléphone transparente illustrée d'un paysage peint : montagnes bleues, nuages roses et cerisiers en fleurs rehaussés d'or"
 categories: ["categorie-exemple"]
 shortDescription: "Un produit de démonstration à remplacer par votre premier vrai produit."

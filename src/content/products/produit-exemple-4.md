@@ -1,7 +1,7 @@
 ---
 name: "Coque Onyx"
 price: 26.90
-image: "/images/products/produit-exemple.webp"
+image: "/images/products/coque-paysage.webp"
 imageAlt: "Coque de téléphone noire à relief floral"
 categories: ["categorie-exemple"]
 shortDescription: "Produit de démonstration (duplicata) pour visualiser la grille."
