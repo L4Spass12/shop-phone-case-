@@ -372,24 +372,12 @@ const faqSchema = {
       content-visibility: auto;
       contain-intrinsic-size: auto 800px;
     }
-    /* Fondu de lisibilité, en ::after : z-index 1 pour passer SOUS le texte.
-       Il ne couvre plus toute la bannière — l'ancien voile blanc à 92 % avait
-       été conçu pour une image neutre et délavait la photo. Il s'arrête à
-       mi-largeur : le texte reste lisible à gauche, le sujet (mannequin et
-       coques) reste intact à droite. */
-    .hero-section::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right,
-        rgba(255,255,255,0.88) 0%,
-        rgba(255,255,255,0.62) 26%,
-        rgba(255,255,255,0) 52%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    /* Contenu (tag + h1 + boutons) : z-index 2, AU-DESSUS du voile */
-    .hero-section > .relative {
+    /* Plus aucun voile devant la photo. Celui-ci, blanc à 88 %, délavait tout
+       le côté gauche du ciel : il avait été posé pour rendre lisible un texte
+       en ENCRE SOMBRE. Le texte est blanc, et les références gardent le
+       cliché intact, c'est ce qui fait leur qualité.
+       Le contenu reste au-dessus de l'image, qui est en position absolue. */
+    .hero-shell {
       z-index: 2;
     }
 

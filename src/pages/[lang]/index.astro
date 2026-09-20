@@ -327,8 +327,9 @@ const faqSchema = {
     .hero-section { isolation: isolate; }
     .hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:0; }
     .below-fold-defer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
-    .hero-section::after { content:""; position:absolute; inset:0; background:linear-gradient(to right, rgba(255,255,255,0.92), rgba(255,255,255,0.72) 55%, rgba(255,255,255,0.35)); pointer-events:none; z-index:1; }
-    .hero-section > .relative { z-index:2; }
+    /* Plus de voile blanc devant la photo : il servait un texte en encre
+       sombre, le texte est blanc. Cf. src/pages/index.astro. */
+    .hero-shell { z-index: 2; }
     .product-slider .slider-track { scrollbar-width:none; -ms-overflow-style:none; }
     .product-slider .slider-track::-webkit-scrollbar { display:none; }
     .slider-glow { position:absolute; border-radius:100%; pointer-events:none; filter:blur(120px); }

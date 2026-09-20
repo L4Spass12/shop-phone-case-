@@ -343,48 +343,15 @@ html[data-theme='sunfreaks'] .section-title {
    touchés.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Voile : dense à gauche, nul avant le mannequin. Il s'arrête à 66 % de la
-   largeur, or le sujet commence vers 58 % : la transition se fait donc dans
-   le ciel, pas sur lui. */
-html[data-theme='sunfreaks'] .hero-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  /* Deux couches. La première, ELLIPTIQUE, est centrée sur le bloc de texte :
-     elle assombrit exactement là où il faut et s'éteint avant le mannequin,
-     au lieu de griser tout le côté gauche du ciel. La seconde, linéaire et
-     très légère, rattrape le bord gauche du cadre.
-     Mesuré sur la photo : le pixel le plus clair derrière le titre passe de
-     1,9:1 de contraste à 5,7:1, pour un seuil de 3,0 sur du grand texte. */
-  background:
-    radial-gradient(78% 68% at 28% 47%,
-      rgba(6, 16, 30, .62) 0%,
-      rgba(6, 16, 30, .46) 40%,
-      rgba(6, 16, 30, .18) 70%,
-      transparent 100%),
-    linear-gradient(96deg,
-      rgba(6, 16, 30, .26) 0%,
-      rgba(6, 16, 30, .14) 38%,
-      rgba(6, 16, 30, .03) 58%,
-      transparent 70%
-    );
-}
-/* Mobile : la photo n'est plus qu'une bande verticale, le voile latéral n'y
-   veut rien dire. Il repart du BAS, où le texte se pose. */
-@media (max-width: 767px) {
-  html[data-theme='sunfreaks'] .hero-section::after {
-    background: linear-gradient(
-      to top,
-      rgba(8, 18, 32, .72) 0%,
-      rgba(8, 18, 32, .45) 26%,
-      rgba(8, 18, 32, .10) 52%,
-      transparent 72%
-    );
-  }
-}
+/* Pas de voile devant la photo. Les références gardent le ciel tel quel, et
+   c'est ce qui les rend bonnes : la couleur du cliché fait la moitié du
+   travail. Ce qui tient la lisibilité du blanc, c'est l'ombre portée sur les
+   LETTRES (plus bas), pas un fond ajouté par-dessus l'image.
+   Contrepartie mesurée et assumée : sur les quelques pixels de brume les plus
+   clairs, juste au-dessus de l'horizon, le titre descend sous le seuil de
+   contraste. Le gros du titre reste dans le bleu franc. */
 
-/* Le texte passe DEVANT le voile. */
+/* Le texte passe devant l'image, qui est en position absolue. */
 html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
 
 /* Le bloc occupe la moitié gauche et s'y centre. `margin-right: auto` le
@@ -407,7 +374,11 @@ html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
 /* Capitales fines très espacées, au-dessus du titre. */
 html[data-theme='sunfreaks'] .hero-eyebrow {
   display: block;
-  color: rgba(255, 255, 255, .88);
+  color: rgba(255, 255, 255, .92);
+  text-shadow:
+    0 1px 2px rgba(6, 14, 26, .6),
+    0 2px 10px rgba(6, 14, 26, .65),
+    0 4px 24px rgba(6, 14, 26, .6);
   font-size: .68rem;
   font-weight: 500;
   letter-spacing: .42em;
@@ -418,7 +389,7 @@ html[data-theme='sunfreaks'] .hero-eyebrow {
   margin-bottom: 1.1rem;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-eyebrow { font-size: .74rem; }
+  html[data-theme='sunfreaks'] .hero-eyebrow { font-size: .8rem; }
 }
 
 /* Le titre. Serif de titrage, blanc, très grand, interligne serré.
@@ -436,60 +407,44 @@ html[data-theme='sunfreaks'] .hero-title {
   margin: 0 0 1.45rem;
   /* Ombre très diffuse, pas un contour : elle ne se voit pas sur le ciel
      sombre et rattrape les rares pixels clairs (un nuage, la brume). */
-  text-shadow: 0 2px 28px rgba(6, 14, 26, .45);
+  /* Trois ombres, et c'est tout ce qui tient la lisibilité depuis que le
+     voile est parti : une très proche qui détache le trait de la lettre, une
+     moyenne qui la cerne, une large et diffuse qui creuse le ciel derrière le
+     mot entier. Les références font la même chose : leur blanc n'est pas posé
+     à nu sur le ciel, il est ombré.
+     À savoir : sur ce cliché, le blanc plafonne autour de 2,3:1 de contraste
+     contre le ciel, là où la règle d'accessibilité demande 3:1 pour du grand
+     texte. Aucun réglage d'ombre ne change ce chiffre, seul un fond le
+     ferait. C'est le parti pris des références, assumé ici. */
+  text-shadow:
+    0 1px 2px rgba(6, 14, 26, .5),
+    0 2px 12px rgba(6, 14, 26, .55),
+    0 8px 46px rgba(6, 14, 26, .55);
 }
 
 /* La ligne de preuve sous le titre. */
 html[data-theme='sunfreaks'] .hero-tagline {
-  color: rgba(255, 255, 255, .92);
-  font-size: .8rem;
-  font-weight: 400;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 500;
   letter-spacing: .16em;
   text-indent: .16em;
   text-transform: uppercase;
   line-height: 1.5;
   margin: 0 0 2.3rem;
-  text-shadow: 0 1px 16px rgba(6, 14, 26, .55);
+  text-shadow:
+    0 1px 2px rgba(6, 14, 26, .6),
+    0 2px 10px rgba(6, 14, 26, .65),
+    0 4px 26px rgba(6, 14, 26, .6);
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-tagline { font-size: .86rem; }
+  html[data-theme='sunfreaks'] .hero-tagline { font-size: .9rem; }
 }
 
-/* Les deux boutons deviennent de vraies pastilles, à la taille du titre.
-   Le jaune de la marque reste sur le principal : c'est sa couleur, et sur ce
-   bleu il sonne juste. Le liseré et l'ombre décalée sautent en revanche, ils
-   appartiennent au fond clair du reste du site. */
-html[data-theme='sunfreaks'] .hero-cta .btn-primary,
-html[data-theme='sunfreaks'] .hero-cta .btn-outline {
-  border-radius: 999px;
-  letter-spacing: .01em;
-}
-/* L'habillage généreux ne vaut qu'à partir de 420 px. En dessous, la règle
-   qui resserre les deux boutons pour qu'ils tiennent côte à côte doit garder
-   la main : plus spécifique ici, elle était écrasée et le second bouton
-   sortait de l'écran. */
-@media (min-width: 420px) {
-  html[data-theme='sunfreaks'] .hero-cta .btn-primary,
-  html[data-theme='sunfreaks'] .hero-cta .btn-outline {
-    padding: .92rem 1.85rem;
-    font-size: .95rem;
-  }
-}
-html[data-theme='sunfreaks'] .hero-cta .btn-primary {
-  border-color: transparent;
-  box-shadow: 0 10px 30px -14px rgba(6, 14, 26, .85);
-}
-html[data-theme='sunfreaks'] .hero-cta .btn-outline {
-  background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, .85);
-  color: #fff;
-  box-shadow: none;
-}
-html[data-theme='sunfreaks'] .hero-cta .btn-outline:hover {
-  background: rgba(255, 255, 255, .95);
-  border-color: #fff;
-  color: #2a1147;
-}
+/* Les boutons gardent l'habillage du reste du site : jaune plat et liseré
+   pour le principal, surface blanche pour le second. Ils avaient été refaits
+   en pastilles larges pour coller aux références ; ce n'était pas demandé, et
+   ça les désolidarisait de tous les autres boutons de la boutique. */
 
 /* Position verticale : centré, comme les bannières de mode. Le voile rend le
    blanc lisible partout à gauche, la contrainte de l'horizon a disparu. */
@@ -522,10 +477,29 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
   border-color: rgb(47 26 22 / .3);
 }
 
-/* Mobile : le bloc descend EN BAS de la bannière, où le voile est le plus
-   dense et où il laisse le mannequin occuper le regard. */
+/* Mobile : le bloc descend EN BAS de la bannière et laisse le mannequin
+   occuper le regard.
+   Et là, contrairement au desktop, un fondu est nécessaire. Sur un téléphone
+   la photo n'est plus qu'une bande verticale centrée sur le mannequin : le
+   texte tombe sur son haut beige clair, donc du blanc sur du blanc. Les
+   références ne répondent pas à ce cas, ce sont des maquettes d'ordinateur.
+   Le fondu part du bas et s'éteint à mi-hauteur : la photo reste entière là
+   où on la regarde, le texte devient lisible là où il est posé. */
 @media (max-width: 767px) {
   html[data-theme='sunfreaks'] .hero-section { align-items: flex-end; }
+  html[data-theme='sunfreaks'] .hero-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(6, 16, 30, .70) 0%,
+      rgba(6, 16, 30, .46) 22%,
+      rgba(6, 16, 30, .14) 42%,
+      transparent 60%
+    );
+  }
   html[data-theme='sunfreaks'] .hero-shell {
     padding-top: 0.75rem;
     padding-bottom: 2rem;
