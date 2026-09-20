@@ -49,17 +49,15 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Montserrat ExtraBold, la grotesque du titre de la bannière.
-   Déclarée sous son VRAI nom et servie depuis le fichier officiel de
-   @fontsource, sans découpe maison : la version réduite aux capitales
-   économisait 10 Ko, mais un nom de famille inventé et un fichier retaillé
-   ne se vérifient pas d'un coup d'œil dans l'inspecteur. */
+/* Montserrat Black, la grotesque du titre de la bannière.
+   Déclarée sous son vrai nom et servie depuis le fichier officiel de
+   @fontsource, sans découpe maison. 18 Ko, sur la seule page d'accueil. */
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
-  font-weight: 800;
+  font-weight: 900;
   font-display: swap;
-  src: url('/fonts/montserrat-800.woff2') format('woff2');
+  src: url('/fonts/montserrat-900.woff2') format('woff2');
 }
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
@@ -118,90 +116,6 @@
 }
 @media (min-width: 768px) {
   :root { --header-h: 72px; }
-}
-
-/* Le hero remonte SOUS le header (transparent en haut) pour un effet
-   plein-cadre. Le padding-top compense pour que le contenu reste centré sous
-   la barre. `main` ayant un padding-top = --header-h, la marge négative l'annule
-   juste pour le hero. */
-@media (min-width: 768px) {
-  /* La colonne de texte se mesure en FRACTION du cadre, pas en pixels : la
-     vitrine étant cadrée en `cover`, sa position suit la largeur du viewport.
-     À 480px fixes, le texte restait à sa place tandis que la première coque
-     remontait vers lui — à 1024px le sous-titre lui passait dessus.
-     34vw place la fin de ligne juste avant le bord gauche de la vitrine, à
-     toutes les largeurs ; le plafond de 30rem évite une colonne démesurée sur
-     très grand écran. */
-  /* Sur desktop la hauteur suit l'IMAGE, pas le texte. La vitrine occupe
-     presque toute la hauteur du cliché (ratio 1,82) : une bannière plus courte
-     que 55vw lui coupe le socle ou le haut du verre. Le `min()` plafonne à
-     84vh pour ne pas manger tout l'écran sur un écran large et bas. */
-}
-/* Cadrage : on privilégie le haut du cliché, où vivent le verre et les coques,
-   plutôt que le sol de marbre. */
-/* Boutons de la bannière : une SEULE ligne, quelle que soit la largeur.
-   Ils passaient à la ligne sous ~400px, ce qui poussait le second bouton sous
-   le premier et déséquilibrait le bloc. On empêche le retour à la ligne et on
-   resserre l'habillage en dessous de 480px : le texte tient, la cible de clic
-   reste confortable. */
-.hero-cta > * { white-space: nowrap; }
-/* Sous 420px, l'habillage se resserre pour que les deux libellés tiennent
-   côte à côte : mesuré 293px occupés pour 312 disponibles sur un 360px. */
-@media (max-width: 419px) {
-  .hero-cta { gap: 0.5rem; }
-  .hero-cta .btn-primary,
-  .hero-cta .btn-outline {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    font-size: 0.75rem;
-    gap: 0.3rem;
-  }
-}
-/* Sous 340px, en revanche, il faudrait rapetisser le texte au point de le
-   rendre pénible à lire ou à viser. On les laisse donc repasser l'un sous
-   l'autre, en pleine largeur — mieux vaut deux lignes lisibles qu'une ligne
-   tronquée. */
-@media (max-width: 339px) {
-  .hero-cta { flex-wrap: wrap; }
-  .hero-cta > * { width: 100%; justify-content: center; }
-}
-
-/* Bannière : le sujet est en HAUT de l'image (visage, mains, coques qui
-   flottent). En cadrage centré, `cover` rognait le crâne du mannequin sur un
-   écran large. On tire donc le cadrage vers le haut ; ce qui se perd en bas
-   n'est que le prolongement du bitume. */
-.hero-section img.hero-bg {
-  object-position: center 22%;
-}
-/* Mobile : l'écran est plus haut que large, donc `cover` ne garde qu'une
-   bande VERTICALE de la photo. Centrée, cette bande ne montrait que du ciel
-   vide : le mannequin et la coque qu'elle tend vivent dans le tiers droit du
-   cadre. On décale donc le cadrage vers eux. */
-@media (max-width: 767px) {
-  .hero-section img.hero-bg {
-    object-position: 74% 28%;
-  }
-}
-/* Les halos blancs qui détouraient le titre ont sauté : ils rattrapaient un
-   titre en ENCRE SOMBRE posé sur du béton. Le titre est blanc sur voile
-   sombre, ils l'auraient effacé. */
-/* Dégradé sombre en haut du hero : garantit la lisibilité du header clair
-   (logo + nav) quelle que soit la zone d'image derrière. */
-/* Image SOMBRE : voile dense sur la colonne de texte (les ~40 % de gauche),
-   qui s'efface ensuite VITE. L'ancienne rampe était encore à 0,34 au milieu du
-   cadre et grisait la vitrine, c'est-à-dire le produit. */
-/* Sous 768px le texte occupe TOUTE la largeur : un voile horizontal laisserait
-   sa fin de ligne sans fond. Il devient donc vertical. */
-@media (max-width: 767px) {
-}
-/* Sur ce fond sombre, on éclaircit le sous-titre, la pastille et les boutons
-   (le titre reste vermillon, lisible tel quel). */
-/* La pastille devient un CARTEL d'exposition : angles vifs, petites capitales
-   espacées. En pastille arrondie à point vert, elle affichait le vocabulaire
-   « statut applicatif » au milieu d'une vitrine de musée. */
-
-/* Logo « Vareska » en script calligraphique (au lieu des capitales espacées) */
-@media (min-width: 768px) {
 }
 
 /* Bascule de thème : petit interrupteur dans le header */
@@ -327,170 +241,152 @@ html[data-theme='sunfreaks'] .section-title {
   line-height: 1.08;
 }
 /* ═══════════════════════════════════════════════════════════════════════
-   BANNIÈRE D'ACCUEIL, thème sunfreaks.
+   BANNIÈRE D'ACCUEIL (thème sunfreaks)
 
-   Le principe : le texte est BLANC et CENTRÉ dans la moitié gauche de la
-   photo. L'encre sombre alignée à gauche faisait « gabarit » ; sur ce ciel,
-   le blanc se pose et laisse la photo respirer.
+   Un seul bloc, dans l'ordre : le cadrage de la photo, la place du texte,
+   la typographie, les boutons, puis les deux cas particuliers (mobile,
+   en-tête posé dessus). Tout ce qui concerne la bannière est ici.
 
-   Ce que ça impose : le blanc a besoin d'un fond sombre. Le ciel l'est en
-   haut, beaucoup moins dans la brume juste au-dessus de l'horizon. D'où le
-   voile en dégradé ci-dessous, qui n'assombrit QUE la moitié gauche, là où
-   il n'y a rien à voir. Le mannequin et les coques, à droite, ne sont pas
-   touchés.
+   Le parti pris : texte blanc, posé à nu sur la photo, sans voile ni halo.
+   Il tient donc uniquement par l'endroit où il est placé. Deux mesures le
+   commandent, relevées sur le cliché :
+
+   · la luminance du ciel monte de 0,29 en haut du cadre à 0,57 dans la
+     brume juste au-dessus de l'horizon. Le texte reste donc dans le tiers
+     haut, sur du bleu franc ;
+   · le mannequin occupe le cadre à partir de 58 % de la largeur. Le bloc
+     s'arrête avant.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* Pas de voile devant la photo. Les références gardent le ciel tel quel, et
-   c'est ce qui les rend bonnes : la couleur du cliché fait la moitié du
-   travail. Ce qui tient la lisibilité du blanc, c'est l'ombre portée sur les
-   LETTRES (plus bas), pas un fond ajouté par-dessus l'image.
-   Contrepartie mesurée et assumée : sur les quelques pixels de brume les plus
-   clairs, juste au-dessus de l'horizon, le titre descend sous le seuil de
-   contraste. Le gros du titre reste dans le bleu franc. */
+/* ─── Cadrage de la photo ─────────────────────────────────────────────── */
 
-/* Le texte passe devant l'image, qui est en position absolue. */
+/* Le sujet vit en HAUT du cliché (visage, mains, coques qui flottent) : on
+   tire le cadrage vers le haut, ce qui se perd en bas n'est que du bitume. */
+.hero-section img.hero-bg {
+  object-position: center 22%;
+}
+/* Sur un écran étroit, `cover` ne garde qu'une bande verticale. Centrée, elle
+   ne montrait que du ciel vide : le mannequin et la coque qu'elle tend vivent
+   dans le tiers droit. */
+@media (max-width: 767px) {
+  .hero-section img.hero-bg { object-position: 74% 28%; }
+}
+
+/* ─── Place du texte ──────────────────────────────────────────────────── */
+
+/* Le contenu passe devant l'image, qui est en position absolue. */
 html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
 
-/* Le bloc occupe la moitié gauche et s'y centre. `margin-right: auto` le
-   plaque à gauche, `text-align: center` compose l'intérieur. */
+/* Aligné à gauche sur mobile, où un bloc centré flotterait sans appui ;
+   centré dans la moitié gauche dès qu'il y a la place. */
 .hero-copy {
   width: 100%;
   text-align: left;
-}
-@media (min-width: 768px) {
-  .hero-copy { text-align: center; }
 }
 @media (min-width: 768px) {
   .hero-copy {
     width: 56%;
     min-width: 21rem;
     margin-right: auto;
+    text-align: center;
   }
 }
 @media (min-width: 1024px) {
   .hero-copy { width: 50%; }
 }
 
-/* Capitales espacées au-dessus du titre, blanches et sans ombre. */
+/* Verticalement : dans le tiers haut, sur le bleu franc. Assez bas pour que
+   le sur-titre ne vienne pas se poser sur les coques qui flottent tout en
+   haut du cadre. */
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
+  html[data-theme='sunfreaks'] .hero-shell {
+    padding-top: calc(var(--header-h) + 2.75rem);
+    padding-bottom: 2rem;
+  }
+}
+
+/* ─── Typographie ─────────────────────────────────────────────────────── */
+
+/* Sur-titre : capitales fines très espacées. L'espacement s'ajoute APRÈS la
+   dernière lettre, d'où le retrait qui remet le mot d'aplomb quand le bloc
+   est centré. */
 html[data-theme='sunfreaks'] .hero-eyebrow {
   display: block;
   color: #fff;
   font-size: clamp(.68rem, 1vw, .78rem);
   font-weight: 500;
   letter-spacing: .4em;
-  text-indent: 0;
   text-transform: uppercase;
   margin-bottom: 1.15rem;
-  text-shadow: none;
+}
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] .hero-eyebrow { text-indent: .4em; }
 }
 
+/* Titre : Montserrat Black en capitales. `clamp` plutôt que des paliers, la
+   bannière changeant de proportions en continu. */
 html[data-theme='sunfreaks'] .hero-title {
   font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
-  font-weight: 800;
-  font-style: normal;
+  font-weight: 900;
   color: #fff;
   text-transform: uppercase;
   font-size: clamp(2.1rem, 5.6vw, 4.6rem);
   line-height: .96;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   margin: 0 0 1.2rem;
-  /* Aucune ombre, aucun halo : le blanc est posé à nu sur la photo, comme
-     dans la référence. */
-  text-shadow: none;
 }
-/* Seconde ligne : lettres CREUSES, dessinées par leur seul contour. C'est le
-   contraste plein/creux qui fait la signature de la référence, pas la taille.
-   `paint-order` évite que le contour ne ronge l'intérieur de la lettre. */
+
+/* Seconde ligne : lettres creuses, dessinées par leur seul contour. C'est le
+   contraste plein/creux qui fait la signature de la référence.
+
+   Trois précautions, chacune pour un défaut constaté :
+   · épaisseur en `em`, donc proportionnelle au corps, avec un plancher en px
+     pour qu'elle ne devienne pas un cheveu sur un petit écran ;
+   · `paint-order` pose le contour AVANT le fond, sinon il se fait ronger de
+     l'intérieur et les lettres maigrissent ;
+   · un fond blanc à peine perceptible à l'intérieur des lettres. Sans lui, la
+     photo traverse le creux : la lisière d'un nuage passait d'une lettre à
+     l'autre et les faisait lire comme des caractères cassés. */
 html[data-theme='sunfreaks'] .hero-title .creux {
   display: block;
-  color: transparent;
-  -webkit-text-stroke: 2.2px #fff;
+  color: rgba(255, 255, 255, .16);
+  -webkit-text-stroke: max(1.8px, .036em) #fff;
   paint-order: stroke fill;
 }
-@media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-title .creux {
-    -webkit-text-stroke-width: 3px;
-  }
-  /* Texte centré : l'espacement ajouté après la dernière lettre décale le mot
-     vers la gauche. Ce retrait le remet d'aplomb. */
-  html[data-theme='sunfreaks'] .hero-eyebrow { text-indent: .4em; }
-}
-/* Le trait tracé à main levée sous la seconde ligne, aligné à droite comme
-   dans la référence. */
+
+/* Trait tracé à main levée sous la seconde ligne : calé à gauche avec le
+   reste du bloc sur mobile, renvoyé sous la fin de la ligne dès que le bloc
+   se centre. */
 html[data-theme='sunfreaks'] .hero-trait {
   display: block;
   width: clamp(5rem, 13vw, 11rem);
-  /* Aligné à gauche comme le reste du bloc sur mobile ; renvoyé sous la fin
-     de la seconde ligne dès que le bloc se centre. Le léger retrait vers le
-     haut ne vaut qu'en grand format : à la taille du téléphone, il faisait
-     toucher le trait aux lettres creuses juste au-dessus. */
   margin: .3rem auto 1.3rem 0;
   color: #fff;
 }
-@media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-trait {
-    margin: -.2rem 0 1.35rem auto;
-  }
+html[data-theme='sunfreaks'] .hero-trait svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
-html[data-theme='sunfreaks'] .hero-trait svg { display: block; width: 100%; height: auto; }
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] .hero-trait { margin: -.2rem 0 1.35rem auto; }
+}
 
-/* La ligne sous le titre : une phrase, pas des capitales espacées. C'est ce
-   que fait la référence, et ça repose l'œil après deux lignes de capitales
-   très grasses. Sans ombre, elle non plus. */
+/* Ligne sous le titre : une phrase, qui repose l'œil après deux lignes de
+   capitales très grasses. */
 html[data-theme='sunfreaks'] .hero-tagline {
   color: #fff;
   font-size: clamp(.95rem, 1.5vw, 1.12rem);
   font-weight: 400;
-  letter-spacing: 0;
-  text-indent: 0;
-  text-transform: none;
   line-height: 1.5;
   margin: 0 0 2.1rem;
-  text-shadow: none;
 }
 
-/* Les boutons suivent l'alignement du bloc : à gauche sur mobile, centrés
-   au-delà. La classe `justify-center` du balisage vaut pour les deux tailles,
-   c'est ici qu'on la reprend pour l'écran étroit. */
-@media (max-width: 767px) {
-  html[data-theme='sunfreaks'] .hero-cta { justify-content: flex-start; }
-}
+/* ─── Boutons ─────────────────────────────────────────────────────────── */
 
-/* Les boutons gardent l'habillage du reste du site : jaune plat et liseré
-   pour le principal, surface blanche pour le second. Ils avaient été refaits
-   en pastilles larges pour coller aux références ; ce n'était pas demandé, et
-   ça les désolidarisait de tous les autres boutons de la boutique. */
-
-/* Position verticale : centré, comme les bannières de mode. Le voile rend le
-   blanc lisible partout à gauche, la contrainte de l'horizon a disparu. */
-/* Position verticale : le bloc monte dans le TIERS HAUT.
-   Mesuré sur la photo, ligne par ligne, la luminance du ciel passe de 0,29
-   en haut du cadre à 0,57 juste au-dessus de l'horizon : la brume y est
-   presque blanche. Le titre était centré, donc sa seconde ligne, qui est
-   CREUSE et n'a que son contour pour exister, tombait pile dans cette bande
-   claire : du blanc fin sur du blanc. Remontée, elle se détache sur du bleu
-   franc. */
-@media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
-  html[data-theme='sunfreaks'] .hero-shell {
-    /* Assez haut pour que la ligne creuse reste sur du bleu franc, assez bas
-       pour que le sur-titre ne vienne pas se poser sur les coques qui
-       flottent tout en haut du cadre. */
-    padding-top: calc(var(--header-h) + 2.75rem);
-    padding-bottom: 2rem;
-  }
-}
-
-/* Plus de zoom sur la bannière.
-   L'ancien visuel était cadré serré sur le mannequin : il fallait l'agrandir
-   de 26 % et le décaler pour dégager du ciel uni sous la colonne de texte.
-   Le visuel actuel est cadré large et réserve déjà sa moitié gauche, donc
-   l'agrandissement ne faisait plus que rogner la photo pour rien. */
-
-/* Bouton secondaire de la bannière : en contour translucide sur une photo, il
-   disparaissait purement et simplement (fond transparent, filet à 45 %). On lui
-   donne une vraie surface blanche — il reste secondaire face au jaune, mais il
-   existe. */
+/* Ils gardent l'habillage du reste de la boutique. Seul le secondaire est
+   repris : en contour translucide sur une photo, il disparaissait. */
 html[data-theme='sunfreaks'] .hero-section .btn-outline {
   background: rgb(255 255 255 / .92);
   border-color: rgb(47 26 22 / .18);
@@ -502,14 +398,38 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
   border-color: rgb(47 26 22 / .3);
 }
 
-/* Mobile : le bloc descend EN BAS de la bannière et laisse le mannequin
-   occuper le regard.
-   Et là, contrairement au desktop, un fondu est nécessaire. Sur un téléphone
-   la photo n'est plus qu'une bande verticale centrée sur le mannequin : le
-   texte tombe sur son haut beige clair, donc du blanc sur du blanc. Les
-   références ne répondent pas à ce cas, ce sont des maquettes d'ordinateur.
-   Le fondu part du bas et s'éteint à mi-hauteur : la photo reste entière là
-   où on la regarde, le texte devient lisible là où il est posé. */
+/* Les deux boutons restent CÔTE À CÔTE aussi longtemps que possible : en
+   passant l'un sous l'autre, le bloc se déséquilibrait. */
+.hero-cta > * { white-space: nowrap; }
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] .hero-cta { justify-content: flex-start; }
+}
+/* Sous 420 px, l'habillage se resserre pour que les deux libellés tiennent :
+   mesuré 293 px occupés pour 312 disponibles sur un écran de 360. */
+@media (max-width: 419px) {
+  .hero-cta { gap: 0.5rem; }
+  .hero-cta .btn-primary,
+  .hero-cta .btn-outline {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.75rem;
+    gap: 0.3rem;
+  }
+}
+/* Sous 340 px, les resserrer davantage rendrait le texte pénible à lire et la
+   cible pénible à viser : ils repassent l'un sous l'autre, pleine largeur. */
+@media (max-width: 339px) {
+  .hero-cta { flex-wrap: wrap; }
+  .hero-cta > * { width: 100%; justify-content: center; }
+}
+
+/* ─── Cas particulier : écran étroit ──────────────────────────────────── */
+
+/* Le bloc descend en bas de la bannière et laisse le mannequin occuper le
+   regard. C'est le seul endroit du site où un fondu reste nécessaire : la
+   photo n'est plus qu'une bande verticale centrée sur lui, et le texte tombe
+   sur son haut beige clair, donc du blanc sur du blanc. Le fondu part du bas
+   et s'éteint à mi-hauteur. */
 @media (max-width: 767px) {
   html[data-theme='sunfreaks'] .hero-section { align-items: flex-end; }
   html[data-theme='sunfreaks'] .hero-section::after {
@@ -530,6 +450,7 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
     padding-bottom: 2rem;
   }
 }
+
 
 /* Logotype : script calligraphique (Pinyon Script),
    mêmes tailles. */
