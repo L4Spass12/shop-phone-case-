@@ -107,8 +107,8 @@
     "error": "Ein Fehler ist aufgetreten. Bitte erneut versuchen oder schreib uns direkt an"
   },
   "home": {
-    "heroTag": "In Frankreich gedruckt, Stück für Stück",
-    "heroTitle": "Einzigartige Hüllen",
+    "heroTag": "Handyhüllen, in Frankreich einzeln gedruckt.",
+    "heroTitle": "Einzigartige",
     "heroSubtitle": "Wähle ein Muster oder gestalte dein eigenes. Hüllen, einzeln in Frankreich gedruckt, für iPhone, Samsung, Pixel und Xiaomi.",
     "ctaDiscover": "Zur Kollektion",
     "featuredLabel": "Auswahl",
@@ -142,7 +142,8 @@
     "guide3Title": "Langlebige Materialien und sorgfältige Verarbeitung",
     "guide3P1": "Die Qualität eines Produkts beurteilt sich über die Zeit. Alle unsere Artikel sind mit **sorgfältig ausgewählten Materialien** konzipiert, die eine zuverlässige Nutzung im Alltag garantieren.",
     "guide3P2": "Die **verstärkte Verarbeitung** sichert maximale Haltbarkeit über die Zeit. Außerdem sind die meisten unserer Produkte **pflegeleicht**, für eine sorgenfreie Nutzung im Alltag.",
-    "heroEyebrow": "Mehr als eine Hülle"
+    "heroEyebrow": "Mehr als eine Hülle",
+    "heroTitleCreux": "Hüllen"
   },
   "common": {
     "required": "*",

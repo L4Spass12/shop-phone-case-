@@ -102,7 +102,7 @@ const faqSchema = {
   title={`Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`}
   description="Choisissez un motif ou créez le vôtre. Coques imprimées à l'unité en France pour iPhone, Samsung, Pixel et Xiaomi."
   jsonLd={[websiteSchema, faqSchema]}
-  preloadFonts={['/fonts/playfair-display-400.woff2']}
+  preloadFonts={['/fonts/montserrat-800.woff2']}
   preloadImages={[
     { href: '/images/hero-coques.webp',
       imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
@@ -144,16 +144,28 @@ const faqSchema = {
             d'une boutique de coques. */}
         <span class="hero-eyebrow">Plus qu'une coque</span>
 
-        {/* Le titre passe en BLANC et en serif de titrage. Sur ce ciel, l'encre
-            sombre faisait lourd ; le blanc s'y pose et laisse la photo
-            respirer. La police est chargée pour ce seul titre (voir
-            global.css) : le reste du site garde la sienne. */}
-        <h1 class="hero-title">Des coques uniques</h1>
+        {/* Le titre, en deux lignes de capitales très grasses : la première
+            pleine, la seconde CREUSE, dessinée par son seul contour. C'est ce
+            contraste qui fait la signature de la référence. La police est
+            chargée pour ce seul titre (voir global.css), le reste du site
+            garde la sienne. */}
+        <h1 class="hero-title">
+          Coques
+          <span class="creux">uniques</span>
+        </h1>
 
-        {/* La preuve, reprise de l'ancienne pastille : imprimées ici, à
-            l'unité. Une ligne, en capitales espacées, qui tient la composition
-            sous le titre sans redevenir un paragraphe. */}
-        <p class="hero-tagline">Imprimées en France, à l'unité</p>
+        {/* Le trait tracé à main levée sous la seconde ligne. Décoratif, donc
+            invisible aux lecteurs d'écran. */}
+        <span class="hero-trait" aria-hidden="true">
+          <svg viewBox="0 0 160 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 11.2c22-5.4 54-8 84-7.4 21 .4 42 2.6 70 7.4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M22 14.6c25-3.4 52-4.6 78-4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".85"/>
+          </svg>
+        </span>
+
+        {/* Une phrase, pas des capitales espacées : la référence repose l'œil
+            ici, après deux lignes de capitales très grasses. */}
+        <p class="hero-tagline">Des coques imprimées en France, à l'unité.</p>
 
         {/* Deux CTA, deux destinations RÉELLEMENT différentes : acheter une
             coque existante, ou créer la sienne dans le studio. Ils restent

@@ -146,10 +146,10 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title={`${t('home.heroTitle', lang)} | ${siteConfig.name}`}
+  title={`${t('home.heroTitle', lang)} ${t('home.heroTitleCreux', lang)} | ${siteConfig.name}`}
   description={t('home.heroSubtitle', lang)}
   jsonLd={[websiteSchema, faqSchema]}
-  preloadFonts={['/fonts/playfair-display-400.woff2']}
+  preloadFonts={['/fonts/montserrat-800.woff2']}
   preloadImages={[
     { href: '/images/hero-coques.webp',
       imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
@@ -176,7 +176,19 @@ const faqSchema = {
     <div class="hero-shell relative max-w-7xl mx-auto px-6 w-full">
       <div class="hero-copy">
         <span class="hero-eyebrow">{t('home.heroEyebrow', lang)}</span>
-        <h1 class="hero-title">{t('home.heroTitle', lang)}</h1>
+        {/* Titre en deux morceaux : le premier plein, le second creux. Les
+            traductions portent les deux moitiés séparément (heroTitle et
+            heroTitleCreux), sinon impossible de savoir où couper. */}
+        <h1 class="hero-title">
+          {t('home.heroTitle', lang)}
+          <span class="creux">{t('home.heroTitleCreux', lang)}</span>
+        </h1>
+        <span class="hero-trait" aria-hidden="true">
+          <svg viewBox="0 0 160 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 11.2c22-5.4 54-8 84-7.4 21 .4 42 2.6 70 7.4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M22 14.6c25-3.4 52-4.6 78-4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".85"/>
+          </svg>
+        </span>
         <p class="hero-tagline">{t('home.heroTag', lang)}</p>
         <div class="hero-cta flex items-center justify-center gap-3 sm:gap-4">
           <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">

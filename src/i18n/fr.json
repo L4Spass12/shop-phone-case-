@@ -107,8 +107,8 @@
     "error": "Une erreur est survenue. Merci de réessayer ou de nous écrire directement à"
   },
   "home": {
-    "heroTag": "Imprimées en France, à l'unité",
-    "heroTitle": "Des coques uniques",
+    "heroTag": "Des coques imprimées en France, à l'unité.",
+    "heroTitle": "Coques",
     "heroSubtitle": "Choisissez un motif ou créez le vôtre. Coques imprimées à l'unité en France pour iPhone, Samsung, Pixel et Xiaomi.",
     "ctaDiscover": "Voir la collection",
     "featuredLabel": "Sélection",
@@ -142,7 +142,8 @@
     "guide3Title": "Matériaux durables et finitions soignées",
     "guide3P1": "La qualité d'un produit se juge sur la durée. Tous nos articles sont conçus avec des **matériaux sélectionnés avec soin** qui garantissent une utilisation fiable au quotidien.",
     "guide3P2": "Les **finitions renforcées** assurent une durabilité maximale sur le long terme. De plus, la majorité de nos produits sont faciles à **entretenir**, pour une utilisation sereine au quotidien.",
-    "heroEyebrow": "Plus qu'une coque"
+    "heroEyebrow": "Plus qu'une coque",
+    "heroTitleCreux": "uniques"
   },
   "common": {
     "required": "*",

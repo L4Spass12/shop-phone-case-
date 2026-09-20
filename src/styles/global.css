@@ -49,20 +49,17 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Serif de titrage de la BANNIÈRE, et d'elle seule.
-   Nom de famille volontairement distinct de « Playfair Display » : déclarer
-   la vraie famille la rendrait active partout, puisque --font-display la
-   réclame déjà pour tous les titres du site. Ceux-ci retombent aujourd'hui
-   sur Georgia faute de fichier ; les basculer d'un coup serait un changement
-   de typographie sur les 56 pages, pas un réglage de bannière. Le fichier est
-   là, il suffit d'un mot pour étendre le changement si le rendu plaît.
-   Réduit au latin et à ses accents : 18 Ko au lieu de 22. */
+/* Grotesque très grasse de la BANNIÈRE, et d'elle seule.
+   Le titre y est composé en CAPITALES : le sous-ensemble se limite donc aux
+   majuscules, aux accents, aux chiffres et à la ponctuation. 9 Ko.
+   Nom de famille volontairement distinct : rien d'autre sur le site ne doit
+   y toucher. */
 @font-face {
   font-family: 'Vareska Titre';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 800;
   font-display: swap;
-  src: url('/fonts/playfair-display-400.woff2') format('woff2');
+  src: url('/fonts/montserrat-800.woff2') format('woff2');
 }
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
@@ -371,74 +368,72 @@ html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
   .hero-copy { width: 50%; }
 }
 
-/* Capitales fines très espacées, au-dessus du titre. */
+/* Capitales espacées au-dessus du titre, blanches et sans ombre. */
 html[data-theme='sunfreaks'] .hero-eyebrow {
   display: block;
-  color: rgba(255, 255, 255, .92);
-  text-shadow:
-    0 1px 2px rgba(6, 14, 26, .6),
-    0 2px 10px rgba(6, 14, 26, .65),
-    0 4px 24px rgba(6, 14, 26, .6);
-  font-size: .68rem;
+  color: #fff;
+  font-size: clamp(.68rem, 1vw, .78rem);
   font-weight: 500;
-  letter-spacing: .42em;
+  letter-spacing: .4em;
   /* L'espacement s'ajoute APRÈS la dernière lettre : sans ce retrait, le mot
-     paraît décalé vers la gauche par rapport au titre centré au-dessus. */
-  text-indent: .42em;
+     paraît décalé vers la gauche par rapport au titre centré en dessous. */
+  text-indent: .4em;
   text-transform: uppercase;
-  margin-bottom: 1.1rem;
-}
-@media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-eyebrow { font-size: .8rem; }
+  margin-bottom: 1.15rem;
+  text-shadow: none;
 }
 
-/* Le titre. Serif de titrage, blanc, très grand, interligne serré.
-   `clamp` plutôt que trois paliers : la bannière change de proportions en
-   continu, le titre suit sans marche d'escalier. */
 html[data-theme='sunfreaks'] .hero-title {
-  font-family: 'Vareska Titre', Georgia, serif;
-  font-weight: 400;
+  font-family: 'Vareska Titre', 'Inter', system-ui, sans-serif;
+  font-weight: 800;
   font-style: normal;
   color: #fff;
-  text-transform: none;
-  font-size: clamp(2.7rem, 6.8vw, 5.6rem);
-  line-height: .97;
-  letter-spacing: -0.02em;
-  margin: 0 0 1.45rem;
-  /* Ombre très diffuse, pas un contour : elle ne se voit pas sur le ciel
-     sombre et rattrape les rares pixels clairs (un nuage, la brume). */
-  /* Trois ombres, et c'est tout ce qui tient la lisibilité depuis que le
-     voile est parti : une très proche qui détache le trait de la lettre, une
-     moyenne qui la cerne, une large et diffuse qui creuse le ciel derrière le
-     mot entier. Les références font la même chose : leur blanc n'est pas posé
-     à nu sur le ciel, il est ombré.
-     À savoir : sur ce cliché, le blanc plafonne autour de 2,3:1 de contraste
-     contre le ciel, là où la règle d'accessibilité demande 3:1 pour du grand
-     texte. Aucun réglage d'ombre ne change ce chiffre, seul un fond le
-     ferait. C'est le parti pris des références, assumé ici. */
-  text-shadow:
-    0 1px 2px rgba(6, 14, 26, .5),
-    0 2px 12px rgba(6, 14, 26, .55),
-    0 8px 46px rgba(6, 14, 26, .55);
-}
-
-/* La ligne de preuve sous le titre. */
-html[data-theme='sunfreaks'] .hero-tagline {
-  color: #fff;
-  font-size: .82rem;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-indent: .16em;
   text-transform: uppercase;
-  line-height: 1.5;
-  margin: 0 0 2.3rem;
-  text-shadow:
-    0 1px 2px rgba(6, 14, 26, .6),
-    0 2px 10px rgba(6, 14, 26, .65),
-    0 4px 26px rgba(6, 14, 26, .6);
+  font-size: clamp(2.1rem, 5.6vw, 4.6rem);
+  line-height: .96;
+  letter-spacing: -0.005em;
+  margin: 0 0 1.2rem;
+  /* Aucune ombre, aucun halo : le blanc est posé à nu sur la photo, comme
+     dans la référence. */
+  text-shadow: none;
+}
+/* Seconde ligne : lettres CREUSES, dessinées par leur seul contour. C'est le
+   contraste plein/creux qui fait la signature de la référence, pas la taille.
+   `paint-order` évite que le contour ne ronge l'intérieur de la lettre. */
+html[data-theme='sunfreaks'] .hero-title .creux {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 2px #fff;
+  paint-order: stroke fill;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-tagline { font-size: .9rem; }
+  html[data-theme='sunfreaks'] .hero-title .creux {
+    -webkit-text-stroke-width: 2.5px;
+  }
+}
+/* Le trait tracé à main levée sous la seconde ligne, aligné à droite comme
+   dans la référence. */
+html[data-theme='sunfreaks'] .hero-trait {
+  display: block;
+  width: clamp(5rem, 13vw, 11rem);
+  margin: -.2rem 0 1.35rem auto;
+  color: #fff;
+}
+html[data-theme='sunfreaks'] .hero-trait svg { display: block; width: 100%; height: auto; }
+
+/* La ligne sous le titre : une phrase, pas des capitales espacées. C'est ce
+   que fait la référence, et ça repose l'œil après deux lignes de capitales
+   très grasses. Sans ombre, elle non plus. */
+html[data-theme='sunfreaks'] .hero-tagline {
+  color: #fff;
+  font-size: clamp(.95rem, 1.5vw, 1.12rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-indent: 0;
+  text-transform: none;
+  line-height: 1.5;
+  margin: 0 0 2.1rem;
+  text-shadow: none;
 }
 
 /* Les boutons gardent l'habillage du reste du site : jaune plat et liseré
@@ -805,16 +800,19 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero > div {
   backdrop-filter: none;
   box-shadow: none;
 }
-/* Sans sa surface, le contenu du header se lit à même la photo. La bannière
-   étant claire (ciel), on garde une encre SOMBRE plutôt que le clair d'usage
-   sur une photo. L'icône panier était le point faible : le widget lui
-   pose sa couleur en style inline, d'où le !important, seul moyen de la
-   reprendre (mesurée à 1,6:1 sur le ciel). */
+/* Sans sa surface, le contenu du header se lit à même la photo : il passe en
+   BLANC, comme dans la référence.
+   L'encre sombre d'avant ne tenait que grâce à un halo blanc derrière le logo.
+   Halo retiré, elle tombait à 1:1 de contraste sur les coques sombres qui
+   flottent pile à cette hauteur. Le blanc, lui, se lit aussi bien sur le ciel
+   que sur ces coques, et il n'a besoin de rien derrière lui.
+   L'icône panier vient du widget de paiement, qui lui pose sa couleur en
+   style inline : le !important est le seul moyen de la reprendre. */
 html[data-theme='sunfreaks'] #site-header.header-over-hero .header-bar {
-  color: rgb(47 26 22);
+  color: #fff;
 }
 html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-icon] {
-  color: rgb(47 26 22) !important;
+  color: #fff !important;
 }
 /* Menu ouvert : le header retrouve sa surface, même s'il est encore sur la
    bannière. Sans ça le menu se déployait sur un fond transparent et son
@@ -834,31 +832,24 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-ateli
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-logo] {
-  filter: none;
+/* Surface blanche retrouvée : l'encre blanche y serait invisible, elle
+   repasse en sombre. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .header-bar {
+  color: rgb(47 26 22);
+}
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-atelier-header-icon] {
+  color: rgb(47 26 22) !important;
 }
 
-/* Le logo, large et posé sur le ciel, tient avec un simple halo. */
-html[data-theme='sunfreaks'] #site-header.header-over-hero [data-logo] {
-  filter: drop-shadow(0 1px 5px rgba(255, 255, 255, .9));
-}
-/* Les deux icônes, elles, tombent sur des zones imprévisibles — le panier se
-   retrouve pile sur une coque léopard sombre, à 1,3:1. On leur donne une
-   pastille translucide plutôt que d'assombrir toute la bannière : la photo
-   reste intacte, et la cible de clic devient même plus lisible. */
-html[data-theme='sunfreaks'] #site-header.header-over-hero #menu-btn {
-  background: rgb(255 255 255 / .62);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border-radius: 999px;
-}
-/* Le bouton panier vient du widget de paiement, qui écrit son fond en style
-   inline : sans !important la pastille ne s'applique pas. */
+/* Logo et icônes sont posés à nu sur la photo : ni halo derrière le logo, ni
+   pastille blanche floutée derrière les icônes. Les deux béquilles servaient
+   à rattraper une encre sombre ; en blanc, elles n'ont plus lieu d'être, et
+   la référence ne pose rien derrière son logo ni ses icônes. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero #menu-btn,
 html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-icon] {
-  background: rgb(255 255 255 / .62) !important;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border-radius: 999px !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 /* Un SEUL bloc de couleur, franc et assumé (section « sur-mesure ») :
    c'est ce contraste net qui structure, pas une teinte diluée. */
