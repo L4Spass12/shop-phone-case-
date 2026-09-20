@@ -99,12 +99,12 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title={`${siteConfig.name} | Votre boutique en ligne`}
-  description="Découvrez notre collection de produits de qualité : sélection soignée, livraison rapide et service client attentif."
+  title={`Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`}
+  description="Choisissez un motif ou créez le vôtre. Coques imprimées à l'unité en France pour iPhone, Samsung, Pixel et Xiaomi."
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-vareska.webp?v=2',
-      imagesrcset: '/images/hero-vareska-800w.webp?v=2 800w, /images/hero-vareska-1280w.webp?v=2 1280w, /images/hero-vareska.webp?v=2 1696w',
+    { href: '/images/hero-coques.webp',
+      imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
       imagesizes: '100vw' },
   ]}
 >
@@ -115,13 +115,13 @@ const faqSchema = {
   <section class="hero-section relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
     <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
     <img
-      src="/images/hero-vareska.webp?v=2"
-      srcset="/images/hero-vareska-800w.webp?v=2 800w, /images/hero-vareska-1280w.webp?v=2 1280w, /images/hero-vareska.webp?v=2 1696w"
-      {/* 126vw sur desktop et non 100vw : la bannière y est agrandie de 26 %
-          (cf. global.css). Sans ça le navigateur choisissait une source calée
-          sur la largeur de l'écran, puis l'agrandissait — image molle. */}
-      sizes="(min-width: 768px) 126vw, 100vw"
-      alt="Coques Vareska personnalisables présentées en studio"
+      src="/images/hero-coques.webp"
+      srcset="/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w"
+      {/* 100vw : la bannière n'est plus agrandie. Le visuel réserve lui-même
+          sa moitié gauche au texte, le zoom de 26 % qui servait à dégager
+          cette place n'a plus lieu d'être (cf. global.css). */}
+      sizes="100vw"
+      alt="Une femme tend une coque de téléphone vers le ciel, d'autres coques à motifs flottent autour d'elle"
       class="hero-img hero-bg"
       fetchpriority="high"
       loading="eager"
@@ -131,32 +131,40 @@ const faqSchema = {
     />
 
     <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">
-      {/* Colonne de texte volontairement ÉTROITE. Le sujet de la bannière est
-          la vitrine, au centre du cadre : au-delà de ~30rem le titre passait
-          par-dessus les coques et les deux se neutralisaient. */}
-      <div class="hero-copy max-w-[30rem]">
+      {/* Le visuel réserve lui-même sa moitié gauche : la colonne peut donc
+          respirer un peu plus qu'avant, sans que le titre aille chevaucher le
+          mannequin ni les coques qui flottent à droite. */}
+      {/* Entre 768 et 1023 px, la colonne se resserre : à cette largeur le
+          mannequin entre dans le cadre par la gauche, et un titre sur une
+          seule ligne allait buter contre son bras. Resserré, il repasse sur
+          deux lignes et garde le ciel pour lui. */}
+      <div class="hero-copy max-w-[34rem] md:max-w-[21rem] lg:max-w-[34rem]">
         {/* La pastille porte une PREUVE, pas une étiquette de saison :
             « Collection 2026 » ne disait rien et vieillira mal, alors que
             l'impression en France est l'argument que la concurrence à bas prix
-            ne peut pas copier. */}
+            ne peut pas copier. Trois mots : ça ne se lit pas, ça se constate. */}
         <span class="tag tag-status mb-5">Imprimées en France</span>
 
-        {/* Le titre porte la PROMESSE, le sous-titre porte l'OFFRE. Le titre
-            ne parle volontairement pas de personnalisation : elle a sa propre
-            section plus bas, la répéter ici affaiblirait les deux. Le mot-clé
-            « coques de téléphone » reste en tête de titre.
-            Le sous-titre, lui, annonce les DEUX façons d'acheter, ce qui
-            explique les deux boutons juste en dessous. « Motifs dessinés » a
-            sauté : rien ne garantit que les motifs sont dessinés en interne, et
-            une promesse invérifiable en page d'accueil est un risque inutile. */}
-        <h1 class="text-[1.7rem] sm:text-3xl lg:text-[2.1rem] font-medium tracking-tight text-cream mb-3 leading-[1.15]">
-          Des coques de téléphone que l'on remarque
-        </h1>
+        {/* Trois mots, en grand. Le titre précédent tenait sur deux lignes
+            serrées et un sous-titre listait les marques compatibles : personne
+            ne lit un paragraphe sur une bannière, et à cette taille le texte
+            luttait avec la photo au lieu de s'y poser.
 
-        <p class="text-sm md:text-base text-n-300 mb-7 font-light leading-relaxed">
-          Choisissez un motif ou créez le vôtre. Imprimées à l'unité pour
-          iPhone, Samsung, Pixel et Xiaomi.
-        </p>
+            Ce qui a sauté n'est pas perdu : les deux façons d'acheter sont
+            portées par les deux boutons juste en dessous, et les modèles
+            compatibles par le sélecteur de la fiche produit.
+
+            Contrepartie assumée : le mot-clé « coques de téléphone » quitte le
+            titre. Il passe dans la balise title de la page, qui portait
+            jusqu'ici le texte d'exemple du gabarit. */}
+        {/* Trois paliers, calés sur la HAUTEUR DE CIEL disponible et non sur
+            une progression décorative. Entre 768 et 1023 px la bannière est
+            large et basse : la ligne d'horizon y passe très haut, et un titre
+            sur deux lignes finissait en encre sombre sur le bitume. À 44 px il
+            tient sur une seule ligne et reste dans le ciel. */}
+        <h1 class="text-[2.75rem] lg:text-7xl font-medium tracking-[-0.03em] text-cream mb-7 leading-[1.02]">
+          Des coques uniques
+        </h1>
 
         {/* Deux CTA, deux destinations RÉELLEMENT différentes : acheter une
             coque existante, ou créer la sienne dans le studio. (Le second

@@ -153,23 +153,42 @@
   .hero-cta > * { width: 100%; justify-content: center; }
 }
 
-/* Bannière par défaut : le sujet est en HAUT de l'image (visage, mains, coques
-   qui flottent). En cadrage centré, `cover` rognait le crâne du mannequin sur
-   un écran large. On tire donc le cadrage vers le haut ; ce qui se perd en bas
-   n'est que le prolongement du fond. */
+/* Bannière : le sujet est en HAUT de l'image (visage, mains, coques qui
+   flottent). En cadrage centré, `cover` rognait le crâne du mannequin sur un
+   écran large. On tire donc le cadrage vers le haut ; ce qui se perd en bas
+   n'est que le prolongement du bitume. */
 .hero-section img.hero-bg {
-  object-position: center 18%;
+  object-position: center 22%;
 }
-/* Mobile : l'écran est plus haut que large, donc `cover` rogne les CÔTÉS et le
-   texte se retrouve forcément sur le mannequin. Plutôt qu'un voile qui
-   délaverait la photo, on pose un halo clair derrière les LETTRES seules : le
-   visuel reste intact, le texte décolle du fond. */
+/* Mobile : l'écran est plus haut que large, donc `cover` ne garde qu'une
+   bande VERTICALE de la photo. Centrée, cette bande ne montrait que du ciel
+   vide : le mannequin et la coque qu'elle tend vivent dans le tiers droit du
+   cadre. On décale donc le cadrage vers eux. */
 @media (max-width: 767px) {
-  html[data-theme='sunfreaks'] .hero-section h1,
-  html[data-theme='sunfreaks'] .hero-section p {
+  .hero-section img.hero-bg {
+    object-position: 74% 28%;
+  }
+}
+/* Halo clair derrière les LETTRES du titre, et rien d'autre.
+   Tant que la fenêtre fait moins de 1280 px, la bannière est large et basse :
+   la ligne d'horizon y passe haut, et le titre retombe forcément sur le béton
+   ou sur le mannequin, encre sombre sur fond sombre. Sur un écran étroit,
+   `cover` ne garde qu'une bande verticale et le problème est le même.
+   Un voile devant la photo la délaverait entièrement pour sauver dix mots ;
+   ici seul le contour des lettres s'éclaire, le visuel reste intact.
+   Au-delà de 1280 px, le titre se pose entièrement dans le ciel : rien. */
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] .hero-section h1 {
     text-shadow:
       0 0 6px rgba(255, 255, 255, .95),
       0 0 18px rgba(255, 255, 255, .85);
+  }
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  html[data-theme='sunfreaks'] .hero-section h1 {
+    text-shadow:
+      0 0 8px rgba(255, 255, 255, .9),
+      0 0 24px rgba(255, 255, 255, .7);
   }
 }
 /* Dégradé sombre en haut du hero : garantit la lisibilité du header clair
@@ -327,22 +346,26 @@ html[data-theme='sunfreaks'] .hero-section h1 {
 html[data-theme='sunfreaks'] .hero-section::after {
   background: none;
 }
-/* Recadrage de la bannière sur desktop.
-   Constat de départ : à cette largeur, `cover` affiche la TOTALITÉ de la
-   largeur de l'image (0 px rogné horizontalement, 63 px verticalement). Un
-   simple object-position horizontal n'y produit donc strictement rien — il
-   fallait d'abord zoomer pour créer de la marge, puis recadrer dedans.
-   Le zoom pousse le mannequin vers la droite et dégage du ciel uni sous la
-   colonne de texte ; le décalage vertical repousse le bitume et la coque rose
-   hors du bloc. Contraste du texte mesuré à 7,4:1 après, contre 3,3:1 avant
-   pour le sous-titre.
-   Non appliqué en mobile : l'écran y rogne déjà les côtés, un zoom
-   supplémentaire couperait le sujet. */
+/* Sur desktop, le bloc de texte monte vers le HAUT de la bannière.
+   Centré verticalement, le titre tombait pile sur la ligne d'horizon : sa
+   seconde ligne se retrouvait en encre sombre sur le bitume sombre, illisible.
+   Calé sous l'en-tête, il se pose entièrement sur le ciel, et les boutons,
+   qui ont leur propre fond plein, peuvent mordre le béton sans gêne.
+   Le recadrage `cover` rogne surtout par le BAS quand la fenêtre est basse :
+   l'horizon remonte moins vite que le bloc de texte ne le ferait, donc la
+   règle tient aussi sur un écran d'ordinateur portable. */
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-section img.hero-bg {
-    transform: scale(1.26) translate(7%, 5%);
+  html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
+  html[data-theme='sunfreaks'] .hero-section > .relative {
+    padding-top: calc(var(--header-h) + 3rem);
   }
 }
+
+/* Plus de zoom sur la bannière.
+   L'ancien visuel était cadré serré sur le mannequin : il fallait l'agrandir
+   de 26 % et le décaler pour dégager du ciel uni sous la colonne de texte.
+   Le visuel actuel est cadré large et réserve déjà sa moitié gauche, donc
+   l'agrandissement ne faisait plus que rogner la photo pour rien. */
 
 /* Bouton secondaire de la bannière : en contour translucide sur une photo, il
    disparaissait purement et simplement (fond transparent, filet à 45 %). On lui
@@ -370,14 +393,12 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
     padding-top: 0.75rem;
     padding-bottom: 1.5rem;
   }
+  /* Le titre reste nettement plus petit qu'en desktop (l'écran l'est aussi),
+     mais plus question des 1,5 rem d'avant : à cette taille il se lisait comme
+     une légende posée sur la photo, pas comme l'accroche de la boutique. */
   html[data-theme='sunfreaks'] .hero-section h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  html[data-theme='sunfreaks'] .hero-section h1 + p {
-    font-size: 0.8125rem;
+    font-size: 2.125rem;
     margin-bottom: 1rem;
-    line-height: 1.45;
   }
 }
 
