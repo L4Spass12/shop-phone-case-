@@ -149,6 +149,7 @@ const faqSchema = {
   title={`${t('home.heroTitle', lang)} | ${siteConfig.name}`}
   description={t('home.heroSubtitle', lang)}
   jsonLd={[websiteSchema, faqSchema]}
+  preloadFonts={['/fonts/playfair-display-400.woff2']}
   preloadImages={[
     { href: '/images/hero-coques.webp',
       imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
@@ -169,17 +170,15 @@ const faqSchema = {
       width="1696"
       height="960"
     />
-    {/* Mêmes choix que la home FR (src/pages/index.astro) : un titre court en
-        très grand, pas de sous-titre, colonne resserrée en tablette pour ne
-        pas buter contre le mannequin. Le sous-titre n'a pas disparu du site :
-        il sert de description de la page, là où il est vraiment lu. */}
-    <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">
-      <div class="hero-copy max-w-[34rem] md:max-w-[21rem] lg:max-w-[34rem]">
-        <span class="tag tag-status mb-5">{t('home.heroTag', lang)}</span>
-        <h1 class="text-[2.75rem] lg:text-7xl font-medium tracking-[-0.03em] text-cream mb-7 leading-[1.02]">
-          {t('home.heroTitle', lang)}
-        </h1>
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+    {/* Mêmes choix que la home FR (src/pages/index.astro), voir les commentaires
+        là-bas : texte blanc centré dans la moitié gauche, capitales espacées
+        au-dessus et en dessous, serif de titrage pour le seul titre. */}
+    <div class="hero-shell relative max-w-7xl mx-auto px-6 w-full">
+      <div class="hero-copy">
+        <span class="hero-eyebrow">{t('home.heroEyebrow', lang)}</span>
+        <h1 class="hero-title">{t('home.heroTitle', lang)}</h1>
+        <p class="hero-tagline">{t('home.heroTag', lang)}</p>
+        <div class="hero-cta flex items-center justify-center gap-3 sm:gap-4">
           <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">
             {t('home.ctaDiscover', lang)}
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>

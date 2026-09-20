@@ -107,7 +107,7 @@
     "error": "Something went wrong. Please retry or email us at"
   },
   "home": {
-    "heroTag": "Printed in France",
+    "heroTag": "Printed in France, one at a time",
     "heroTitle": "Unique phone cases",
     "heroSubtitle": "Pick a pattern or design your own. Cases printed one at a time in France for iPhone, Samsung, Pixel and Xiaomi.",
     "ctaDiscover": "View the collection",
@@ -141,7 +141,8 @@
     "guide2P2": "The advantages are numerous: consistent quality, durable materials and a design that matches your style. A choice you won't regret!",
     "guide3Title": "Durable materials and careful finishing",
     "guide3P1": "Product quality is judged over time. All our items are designed with **carefully selected materials** that guarantee reliable everyday use.",
-    "guide3P2": "The **reinforced finishing** ensures maximum durability over the long term. Plus, most of our products are **easy to care for**, guaranteeing worry-free everyday use."
+    "guide3P2": "The **reinforced finishing** ensures maximum durability over the long term. Plus, most of our products are **easy to care for**, guaranteeing worry-free everyday use.",
+    "heroEyebrow": "More than a case"
   },
   "common": {
     "required": "*",

@@ -102,6 +102,7 @@ const faqSchema = {
   title={`Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`}
   description="Choisissez un motif ou créez le vôtre. Coques imprimées à l'unité en France pour iPhone, Samsung, Pixel et Xiaomi."
   jsonLd={[websiteSchema, faqSchema]}
+  preloadFonts={['/fonts/playfair-display-400.woff2']}
   preloadImages={[
     { href: '/images/hero-coques.webp',
       imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
@@ -130,48 +131,34 @@ const faqSchema = {
       height="960"
     />
 
-    <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16 w-full">
-      {/* Le visuel réserve lui-même sa moitié gauche : la colonne peut donc
-          respirer un peu plus qu'avant, sans que le titre aille chevaucher le
-          mannequin ni les coques qui flottent à droite. */}
-      {/* Entre 768 et 1023 px, la colonne se resserre : à cette largeur le
-          mannequin entre dans le cadre par la gauche, et un titre sur une
-          seule ligne allait buter contre son bras. Resserré, il repasse sur
-          deux lignes et garde le ciel pour lui. */}
-      <div class="hero-copy max-w-[34rem] md:max-w-[21rem] lg:max-w-[34rem]">
-        {/* La pastille porte une PREUVE, pas une étiquette de saison :
-            « Collection 2026 » ne disait rien et vieillira mal, alors que
-            l'impression en France est l'argument que la concurrence à bas prix
-            ne peut pas copier. Trois mots : ça ne se lit pas, ça se constate. */}
-        <span class="tag tag-status mb-5">Imprimées en France</span>
+    {/* Le bloc de texte occupe la MOITIÉ GAUCHE et s'y centre, au lieu d'être
+        collé au bord. C'est ce qui fait la différence avec une bannière de
+        gabarit : le regard tombe sur un bloc composé, pas sur un titre aligné
+        à gauche par défaut. La moitié droite reste vide de texte, le mannequin
+        y est. */}
+    <div class="hero-shell relative max-w-7xl mx-auto px-6 w-full">
+      <div class="hero-copy">
+        {/* Capitales fines très espacées : elles se regardent avant de se
+            lire, comme une signature de marque. Elles remplacent la pastille
+            jaune, qui appartenait au vocabulaire du gabarit et non à celui
+            d'une boutique de coques. */}
+        <span class="hero-eyebrow">Plus qu'une coque</span>
 
-        {/* Trois mots, en grand. Le titre précédent tenait sur deux lignes
-            serrées et un sous-titre listait les marques compatibles : personne
-            ne lit un paragraphe sur une bannière, et à cette taille le texte
-            luttait avec la photo au lieu de s'y poser.
+        {/* Le titre passe en BLANC et en serif de titrage. Sur ce ciel, l'encre
+            sombre faisait lourd ; le blanc s'y pose et laisse la photo
+            respirer. La police est chargée pour ce seul titre (voir
+            global.css) : le reste du site garde la sienne. */}
+        <h1 class="hero-title">Des coques uniques</h1>
 
-            Ce qui a sauté n'est pas perdu : les deux façons d'acheter sont
-            portées par les deux boutons juste en dessous, et les modèles
-            compatibles par le sélecteur de la fiche produit.
-
-            Contrepartie assumée : le mot-clé « coques de téléphone » quitte le
-            titre. Il passe dans la balise title de la page, qui portait
-            jusqu'ici le texte d'exemple du gabarit. */}
-        {/* Trois paliers, calés sur la HAUTEUR DE CIEL disponible et non sur
-            une progression décorative. Entre 768 et 1023 px la bannière est
-            large et basse : la ligne d'horizon y passe très haut, et un titre
-            sur deux lignes finissait en encre sombre sur le bitume. À 44 px il
-            tient sur une seule ligne et reste dans le ciel. */}
-        <h1 class="text-[2.75rem] lg:text-7xl font-medium tracking-[-0.03em] text-cream mb-7 leading-[1.02]">
-          Des coques uniques
-        </h1>
+        {/* La preuve, reprise de l'ancienne pastille : imprimées ici, à
+            l'unité. Une ligne, en capitales espacées, qui tient la composition
+            sous le titre sans redevenir un paragraphe. */}
+        <p class="hero-tagline">Imprimées en France, à l'unité</p>
 
         {/* Deux CTA, deux destinations RÉELLEMENT différentes : acheter une
-            coque existante, ou créer la sienne dans le studio. (Le second
-            bouton avait été retiré quand les deux menaient à /boutique.) */}
-        {/* Les deux boutons forment un groupe INSÉCABLE : ils restent côte à
-            côte à toutes les largeurs (cf. .hero-cta dans global.css). */}
-        <div class="hero-cta flex items-center gap-3 sm:gap-4">
+            coque existante, ou créer la sienne dans le studio. Ils restent
+            côte à côte à toutes les largeurs (cf. .hero-cta dans global.css). */}
+        <div class="hero-cta flex items-center justify-center gap-3 sm:gap-4">
           <a href="/boutique" class="btn-primary inline-flex items-center gap-2">
             Voir la collection
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
