@@ -939,7 +939,15 @@ const pickModelLabel = t('model.placeholder', lang);
     z-index: 2;
     transform: rotate(-9deg);
     pointer-events: none;
-    filter: drop-shadow(0 8px 16px rgb(0 0 0 / .14));
+    /* Deux ombres, pas une. Le sticker est découpé avec un LISERÉ BLANC, et
+       la carte sur laquelle il se pose est blanche elle aussi : les deux
+       blancs se confondaient en une seule masse, que le bord droit de la
+       carte coupait net. D'où l'impression d'un carré posé là.
+       La première ombre, courte et serrée, redessine le contour découpé tout
+       autour ; la seconde, longue, décolle le sticker de la page. */
+    filter:
+      drop-shadow(0 0 1px rgb(47 26 22 / .38))
+      drop-shadow(0 6px 14px rgb(47 26 22 / .22));
   }
 
 

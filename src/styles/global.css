@@ -760,9 +760,18 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero > div {
    que sur ces coques, et il n'a besoin de rien derrière lui.
    L'icône panier vient du widget de paiement, qui lui pose sa couleur en
    style inline : le !important est le seul moyen de la reprendre. */
-html[data-theme='sunfreaks'] #site-header.header-over-hero .header-bar {
+/* Le logo et le burger portent CHACUN leur propre couleur (`text-cream`,
+   posée par le gabarit). Une couleur déclarée sur le parent ne les atteint
+   donc pas, si spécifique soit-elle : ils sont nommés un par un.
+   C'est ce qui faisait qu'ils restaient en encre sombre alors que la barre
+   était bien passée en blanc. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero .header-bar,
+html[data-theme='sunfreaks'] #site-header.header-over-hero [data-logo],
+html[data-theme='sunfreaks'] #site-header.header-over-hero #menu-btn {
   color: #fff;
 }
+/* Les trois barres du burger sont peintes en `currentColor` : elles suivent
+   la couleur du bouton, rien à déclarer pour elles. */
 html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-icon] {
   color: #fff !important;
 }
@@ -785,8 +794,10 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-ateli
   backdrop-filter: none;
 }
 /* Surface blanche retrouvée : l'encre blanche y serait invisible, elle
-   repasse en sombre. */
-html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .header-bar {
+   repasse en sombre. Mêmes cibles nommées une par une, pour la même raison. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .header-bar,
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-logo],
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open #menu-btn {
   color: rgb(47 26 22);
 }
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-atelier-header-icon] {
