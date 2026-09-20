@@ -931,23 +931,25 @@ const pickModelLabel = t('model.placeholder', lang);
   /* Sticker décoratif, posé de travers sur la photo comme un vrai autocollant.
      pointer-events: none est indispensable : la galerie se balaie au doigt sur
      mobile, et un élément par-dessus intercepterait le geste. */
+  /* AUCUN filtre CSS ici, et c'est volontaire.
+     Les deux ombres qui détachent le sticker sont CUITES DANS L'IMAGE. En
+     `filter: drop-shadow()`, elles produisaient un rectangle gris sur mobile :
+     le navigateur lit la transparence du WebP de travers dans une couche
+     composée, prend l'image pour un bloc plein et peint l'ombre sur tout son
+     rectangle. Le carré disparaissait au zoom, quand la couche était
+     redessinée : signature d'un défaut de rendu, pas d'un élément en trop.
+     Le fichier porte donc sa propre marge transparente (26 px sur 392 de
+     large, soit 6,6 %), d'où une largeur affichée plus grande qu'avant et des
+     décalages augmentés d'autant : la silhouette de l'ange, elle, tombe
+     exactement au même endroit. */
   .pdp-sticker {
     position: absolute;
-    top: -26px;
-    right: -14px;
-    width: 104px;
+    top: -34px;
+    right: -22px;
+    width: 120px;
     z-index: 2;
     transform: rotate(-9deg);
     pointer-events: none;
-    /* Deux ombres, pas une. Le sticker est découpé avec un LISERÉ BLANC, et
-       la carte sur laquelle il se pose est blanche elle aussi : les deux
-       blancs se confondaient en une seule masse, que le bord droit de la
-       carte coupait net. D'où l'impression d'un carré posé là.
-       La première ombre, courte et serrée, redessine le contour découpé tout
-       autour ; la seconde, longue, décolle le sticker de la page. */
-    filter:
-      drop-shadow(0 0 1px rgb(47 26 22 / .38))
-      drop-shadow(0 6px 14px rgb(47 26 22 / .22));
   }
 
 
@@ -1053,7 +1055,7 @@ const pickModelLabel = t('model.placeholder', lang);
       margin-right: calc(var(--pdp-gutter, .875rem) * -1);
       border-radius: 0;
     }
-    .pdp-sticker { width: 74px; top: -20px; right: -6px; }
+    .pdp-sticker { width: 85px; top: -26px; right: -12px; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }
