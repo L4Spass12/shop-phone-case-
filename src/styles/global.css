@@ -313,7 +313,7 @@ html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
   html[data-theme='sunfreaks'] .hero-shell {
-    padding-top: calc(var(--header-h) + 4.5rem);
+    padding-top: calc(var(--header-h) + 6rem);
     padding-bottom: 2rem;
   }
 }
@@ -372,7 +372,7 @@ html[data-theme='sunfreaks'] .hero-title .creux {
 html[data-theme='sunfreaks'] .hero-trait {
   display: block;
   width: clamp(5rem, 13vw, 11rem);
-  margin: .3rem auto 1.3rem 0;
+  margin: .35rem auto 2.1rem 0;
   color: #fff;
 }
 html[data-theme='sunfreaks'] .hero-trait svg {
@@ -381,17 +381,7 @@ html[data-theme='sunfreaks'] .hero-trait svg {
   height: auto;
 }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] .hero-trait { margin: -.2rem 0 1.35rem auto; }
-}
-
-/* Ligne sous le titre : une phrase, qui repose l'œil après deux lignes de
-   capitales très grasses. */
-html[data-theme='sunfreaks'] .hero-tagline {
-  color: #fff;
-  font-size: clamp(.95rem, 1.5vw, 1.12rem);
-  font-weight: 400;
-  line-height: 1.5;
-  margin: 0 0 2.1rem;
+  html[data-theme='sunfreaks'] .hero-trait { margin: -.1rem 0 2.2rem auto; }
 }
 
 /* ─── Boutons ─────────────────────────────────────────────────────────── */
