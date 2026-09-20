@@ -49,15 +49,24 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Montserrat Black, la grotesque du titre de la bannière.
-   Déclarée sous son vrai nom et servie depuis le fichier officiel de
-   @fontsource, sans découpe maison. 18 Ko, sur la seule page d'accueil. */
+/* Poppins ExtraBold, la grotesque du titre de la bannière.
+
+   Le choix n'est pas qu'esthétique. La seconde ligne du titre est CREUSE,
+   donc tracée par le contour de ses lettres : il faut une fonte dont les
+   glyphes sont des tracés FUSIONNÉS. Montserrat, essayée avant, construit
+   ses lettres par formes superposées. Rempli, on ne voit rien ; en contour,
+   chaque arête cachée dans la superposition se met à exister, et le V se
+   retrouve barré en bas, le R traversé, le Y coupé.
+
+   Poppins n'a pas ce défaut (vérifié côte à côte avec Archivo et Anton), et
+   c'est par ailleurs la géométrique large et ronde de la référence.
+   Fichier officiel de @fontsource, latin, 8 Ko. */
 @font-face {
-  font-family: 'Montserrat';
+  font-family: 'Poppins';
   font-style: normal;
-  font-weight: 900;
+  font-weight: 800;
   font-display: swap;
-  src: url('/fonts/montserrat-900.woff2') format('woff2');
+  src: url('/fonts/poppins-800.woff2') format('woff2');
 }
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
@@ -295,13 +304,16 @@ html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
   .hero-copy { width: 50%; }
 }
 
-/* Verticalement : dans le tiers haut, sur le bleu franc. Assez bas pour que
-   le sur-titre ne vienne pas se poser sur les coques qui flottent tout en
-   haut du cadre. */
+/* Verticalement : le bloc cherche le milieu du cadre, mais penche vers le
+   haut. Deux contraintes opposées se rejoignent là :
+   · plus bas, la seconde ligne, qui est creuse, tombe dans la brume presque
+     blanche au-dessus de l'horizon et s'efface ;
+   · plus haut, le sur-titre vient se poser sur les coques qui flottent en
+     haut du cadre, et le bas de la bannière se vide. */
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
   html[data-theme='sunfreaks'] .hero-shell {
-    padding-top: calc(var(--header-h) + 2.75rem);
+    padding-top: calc(var(--header-h) + 4.5rem);
     padding-bottom: 2rem;
   }
 }
@@ -327,8 +339,8 @@ html[data-theme='sunfreaks'] .hero-eyebrow {
 /* Titre : Montserrat Black en capitales. `clamp` plutôt que des paliers, la
    bannière changeant de proportions en continu. */
 html[data-theme='sunfreaks'] .hero-title {
-  font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
-  font-weight: 900;
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  font-weight: 800;
   color: #fff;
   text-transform: uppercase;
   font-size: clamp(2.1rem, 5.6vw, 4.6rem);
@@ -340,17 +352,16 @@ html[data-theme='sunfreaks'] .hero-title {
 /* Seconde ligne : lettres creuses, dessinées par leur seul contour. C'est le
    contraste plein/creux qui fait la signature de la référence.
 
-   Trois précautions, chacune pour un défaut constaté :
+   Deux précautions :
    · épaisseur en `em`, donc proportionnelle au corps, avec un plancher en px
      pour qu'elle ne devienne pas un cheveu sur un petit écran ;
    · `paint-order` pose le contour AVANT le fond, sinon il se fait ronger de
-     l'intérieur et les lettres maigrissent ;
-   · un fond blanc à peine perceptible à l'intérieur des lettres. Sans lui, la
-     photo traverse le creux : la lisière d'un nuage passait d'une lettre à
-     l'autre et les faisait lire comme des caractères cassés. */
+     l'intérieur et les lettres maigrissent.
+   Le fond translucide qu'il y avait ici a sauté : il masquait le vrai
+   problème, qui était la fonte (voir le @font-face de Poppins). */
 html[data-theme='sunfreaks'] .hero-title .creux {
   display: block;
-  color: rgba(255, 255, 255, .16);
+  color: transparent;
   -webkit-text-stroke: max(1.8px, .036em) #fff;
   paint-order: stroke fill;
 }
