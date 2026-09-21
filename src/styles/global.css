@@ -373,8 +373,30 @@ html[data-theme='sunfreaks'] .hero-trait svg {
 
 /* ─── Boutons ─────────────────────────────────────────────────────────── */
 
-/* Ils gardent l'habillage du reste de la boutique. Seul le secondaire est
-   repris : en contour translucide sur une photo, il disparaissait. */
+/* Les libellés reprennent la composition des TITRES : même police, capitales,
+   romain. L'italique minuscule du reste de la boutique convient à une fiche
+   produit, où le bouton est le dernier mot d'un paragraphe ; ici il répond au
+   titre, deux lignes au-dessus, et doit lui ressembler.
+   Un peu d'interlettrage avec : des capitales serrées se lisent mal. */
+html[data-theme='sunfreaks'] .hero-cta .btn-primary,
+html[data-theme='sunfreaks'] .hero-cta .btn-outline {
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+/* Sur ordinateur, ils grandissent : à 14 px et 47 px de haut, ils faisaient
+   petits sous un titre de 74 px. */
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] .hero-cta .btn-primary,
+  html[data-theme='sunfreaks'] .hero-cta .btn-outline {
+    font-size: 1rem;
+    padding: 1.05rem 2.2rem;
+  }
+  html[data-theme='sunfreaks'] .hero-cta .btn-primary svg { width: 1.05rem; height: 1.05rem; }
+}
+
+/* Pour le reste, ils gardent l'habillage de la boutique. Seul le secondaire
+   est repris : en contour translucide sur une photo, il disparaissait. */
 html[data-theme='sunfreaks'] .hero-section .btn-outline {
   background: rgb(255 255 255 / .92);
   border-color: rgb(47 26 22 / .18);
@@ -403,10 +425,19 @@ html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
     font-size: 0.75rem;
     gap: 0.3rem;
   }
+  /* L'interlettrage des capitales saute ici : il ajoutait 23 px aux deux
+     libellés réunis, et le second bouton sortait du cadre sur un 375. */
+  html[data-theme='sunfreaks'] .hero-cta .btn-primary,
+  html[data-theme='sunfreaks'] .hero-cta .btn-outline {
+    letter-spacing: 0;
+  }
 }
-/* Sous 340 px, les resserrer davantage rendrait le texte pénible à lire et la
-   cible pénible à viser : ils repassent l'un sous l'autre, pleine largeur. */
-@media (max-width: 339px) {
+/* Sous 370 px, les resserrer davantage rendrait le texte pénible à lire et la
+   cible pénible à viser : ils repassent l'un sous l'autre, pleine largeur.
+   Le seuil est remonté de 340 à 370 px avec le passage des libellés en
+   capitales : mesuré 343 px occupés pour 336 disponibles sur un écran de 360,
+   le second bouton sortait du cadre. Un 375 les garde côte à côte. */
+@media (max-width: 369px) {
   .hero-cta { flex-wrap: wrap; }
   .hero-cta > * { width: 100%; justify-content: center; }
 }
