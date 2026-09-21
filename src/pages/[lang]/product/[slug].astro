@@ -975,13 +975,15 @@ const pickModelLabel = t('model.placeholder', lang);
 
   .pdp-panel { position: relative; }
 
-  /* L'écart entre la carte et le panneau s'ouvre pour loger l'ange. Sans ça
-     il chevauchait le bas de la carte et ses ailes passaient par-dessus les
-     mentions de livraison. La règle ne s'applique QUE si l'ange est là :
-     c'est lui qui réclame la place, pas la mise en page. */
-  /* Dégagement au-dessus du panneau : 90 % de l'ange est au-dessus de sa
-     ligne de coupe, et il faut cette place sous la carte. */
-  .pdp-panel:has(.pdp-ange) { margin-top: 4rem; }
+  /* L'écart entre la carte et le panneau s'ouvre pour loger l'ange, et il se
+     déduit de sa taille au lieu d'être choisi à l'œil : 90,68 % de sa hauteur
+     se trouve au-dessus de sa ligne de coupe, soit 60 px pour une largeur de
+     122 px, et c'est cette part-là qui doit tenir sous la carte. La colonne
+     apporte déjà 24 px, d'où ces 2,5 rem : le haut de sa tête arrive juste
+     sous la carte, sans vide au-dessus ni chevauchement des mentions de
+     livraison. La règle ne s'applique QUE si l'ange est là : c'est lui qui
+     réclame la place, pas la mise en page. */
+  .pdp-panel:has(.pdp-ange) { margin-top: 2.5rem; }
 
   /* L'ange accroché au bord haut du panneau.
 
@@ -1014,7 +1016,7 @@ const pickModelLabel = t('model.placeholder', lang);
        qui suit. */
     left: 27%;
     transform: translateX(-50%) translateY(9.32%);
-    width: clamp(104px, 27%, 138px);
+    width: clamp(92px, 24%, 122px);
     height: auto;
     pointer-events: none;
     display: block;
