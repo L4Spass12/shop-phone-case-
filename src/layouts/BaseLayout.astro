@@ -7,6 +7,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
 import logoFont from '../lib/logo-font.json';
 import { candidate, faceCss, fichier, TABLE_ESSAI } from '../lib/typo-titres';
+import TypoSelecteur from '../components/TypoSelecteur.astro';
 
 interface Props {
   title: string;
@@ -195,23 +196,45 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         que :root. */}
     <script is:inline define:vars={{ TABLE_ESSAI }}>
       (function () {
+        var POSE = 'typo-essai-style';
+
+        /* Applique une candidate, ou la retire si l'identifiant est vide.
+           Exposée : le menu déroulant (TypoSelecteur.astro) s'en sert pour
+           changer de police sans recharger la page. */
+        window.__typoAppliquer = function (id) {
+          try {
+            var racine = document.documentElement;
+            var ancien = document.getElementById(POSE);
+            if (ancien) ancien.remove();
+
+            var f = id && TABLE_ESSAI[id];
+            if (!f) {
+              sessionStorage.removeItem('typo-essai');
+              racine.style.removeProperty('--font-display');
+              return;
+            }
+            sessionStorage.setItem('typo-essai', id);
+
+            var famille = f[0], poids = f[1], italique = f[2];
+            var face = function (style) {
+              return "@font-face{font-family:'" + famille + "';font-style:" + style +
+                ";font-weight:" + poids + ";font-display:swap;src:url('/fonts/titres/" +
+                id + '-' + poids + (style === 'italic' ? '-italic' : '') + ".woff2') format('woff2')}";
+            };
+            var st = document.createElement('style');
+            st.id = POSE;
+            st.textContent = face('normal') + (italique ? face('italic') : '');
+            document.head.appendChild(st);
+            /* En style INLINE sur <html> : le seul endroit qui l'emporte à
+               coup sûr sur la déclaration du thème, plus spécifique que :root. */
+            racine.style.setProperty('--font-display', "'" + famille + "',Georgia,serif");
+          } catch (e) {}
+        };
+
         try {
           var demande = new URLSearchParams(location.search).get('typo');
-          if (demande === 'off') { sessionStorage.removeItem('typo-essai'); return; }
-          var id = demande || sessionStorage.getItem('typo-essai');
-          var f = id && TABLE_ESSAI[id];
-          if (!f) return;
-          if (demande) sessionStorage.setItem('typo-essai', id);
-          var famille = f[0], poids = f[1], italique = f[2];
-          var face = function (style) {
-            return "@font-face{font-family:'" + famille + "';font-style:" + style +
-              ";font-weight:" + poids + ";font-display:swap;src:url('/fonts/titres/" +
-              id + '-' + poids + (style === 'italic' ? '-italic' : '') + ".woff2') format('woff2')}";
-          };
-          var st = document.createElement('style');
-          st.textContent = face('normal') + (italique ? face('italic') : '');
-          document.head.appendChild(st);
-          document.documentElement.style.setProperty('--font-display', "'" + famille + "',Georgia,serif");
+          if (demande === 'off') { window.__typoAppliquer(''); return; }
+          window.__typoAppliquer(demande || sessionStorage.getItem('typo-essai'));
         } catch (e) {}
       })();
     </script>
@@ -329,5 +352,8 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     </main>
     <Footer />
     <CookieBanner />
+    {/* Outil TEMPORAIRE de choix de police. `typoSelecteur: false` dans
+        site.config.mjs et le site n'en porte plus une ligne. */}
+    {siteConfig.typoSelecteur && <TypoSelecteur />}
   </body>
 </html>

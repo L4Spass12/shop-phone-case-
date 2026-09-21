@@ -1,0 +1,107 @@
+---
+/**
+ * Sélecteur de police de titres, TEMPORAIRE.
+ *
+ * Un menu déroulant posé en bas de l'écran : on choisit, le site change
+ * aussitôt, sans rechargement, et le choix suit la navigation jusqu'à la
+ * fermeture de l'onglet. Il sert à trancher entre les candidates de
+ * src/lib/typo-titres.ts en les voyant sur les vraies pages.
+ *
+ * ⚠️ Il est visible par TOUT LE MONDE, visiteurs compris. C'est le prix de
+ * l'essai sur le site en ligne. Pour le retirer : `typoSelecteur: false` dans
+ * site.config.mjs, et le site n'en porte plus une ligne.
+ *
+ * Il ne fait qu'appeler window.__typoAppliquer, défini dans BaseLayout : la
+ * logique d'application vit à un seul endroit.
+ */
+import { CANDIDATES, STYLES, type Style } from '../lib/typo-titres';
+
+const groupes = (Object.keys(STYLES) as Style[]).map((s) => ({
+  titre: STYLES[s],
+  items: CANDIDATES.filter((c) => c.style === s),
+}));
+---
+
+<div class="typo-sel" data-typo-selecteur>
+  <label class="typo-sel-label" for="typo-sel-champ">Typo d’essai</label>
+  <select id="typo-sel-champ" class="typo-sel-champ">
+    <option value="">Actuelle (Georgia)</option>
+    {groupes.map((g) => (
+      <optgroup label={g.titre}>
+        {g.items.map((c) => (
+          <option value={c.id}>{c.famille}{c.italique ? '' : ' (sans italique)'}</option>
+        ))}
+      </optgroup>
+    ))}
+  </select>
+  <a class="typo-sel-lien" href="/typo/">voir les aperçus</a>
+</div>
+
+<style>
+  /* EN HAUT à gauche, sous l'en-tête. Le bas de l'écran est occupé par la
+     barre « Ajouter au panier » des fiches produit et par le tiroir de
+     paiement : un outil d'essai n'a pas à passer devant ce qui fait vendre. */
+  .typo-sel {
+    position: fixed;
+    left: 12px;
+    top: calc(var(--header-h, 72px) + 14px);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem .7rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / .96);
+    border: 1px solid rgb(47 26 22 / .16);
+    box-shadow: 0 10px 28px -14px rgb(47 26 22 / .5);
+    font-family: 'Inter', system-ui, sans-serif;
+    /* La police d'essai ne doit PAS s'appliquer au sélecteur lui-même :
+       il doit rester lisible et identique quoi qu'on choisisse. */
+    font-size: .74rem;
+  }
+  .typo-sel-label {
+    color: rgb(124 58 237);
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: .62rem;
+    white-space: nowrap;
+  }
+  .typo-sel-champ {
+    font-family: inherit;
+    font-size: .78rem;
+    color: rgb(47 26 22);
+    background: rgb(47 26 22 / .05);
+    border: 1px solid rgb(47 26 22 / .14);
+    border-radius: 999px;
+    padding: .3rem .6rem;
+    max-width: 13rem;
+  }
+  .typo-sel-lien {
+    color: rgb(47 26 22 / .55);
+    text-decoration: underline;
+    white-space: nowrap;
+    font-size: .68rem;
+  }
+  .typo-sel-lien:hover { color: rgb(47 26 22); }
+
+  /* Sur un écran étroit, la barre se resserre et le lien passe à la trappe :
+     l'essentiel est le menu. */
+  @media (max-width: 560px) {
+    .typo-sel { left: 8px; right: 8px; justify-content: center; }
+    .typo-sel-lien { display: none; }
+    .typo-sel-champ { flex: 1; max-width: none; }
+  }
+  @media print { .typo-sel { display: none; } }
+</style>
+
+<script>
+  (function () {
+    var champ = document.getElementById('typo-sel-champ');
+    if (!champ) return;
+    try { champ.value = sessionStorage.getItem('typo-essai') || ''; } catch (e) {}
+    champ.addEventListener('change', function () {
+      if (window.__typoAppliquer) window.__typoAppliquer(champ.value);
+    });
+  })();
+</script>

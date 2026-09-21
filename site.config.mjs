@@ -35,6 +35,11 @@ const config = {
   // adresse du site. La page /typo liste les candidates et leurs identifiants.
   // Pour CHOISIR, écrivez l'identifiant ici, entre apostrophes.
   titreFont: null,
+
+  // Menu déroulant de choix de police, en bas à gauche de chaque page.
+  // TEMPORAIRE, et visible par TOUT LE MONDE, visiteurs compris : c'est le
+  // prix de l'essai sur le site en ligne. `false` le retire entièrement.
+  typoSelecteur: true,
   description:
     'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 
