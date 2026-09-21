@@ -34,7 +34,7 @@ const config = {
   // Pour ESSAYER sans rien changer, ajoutez ?typo=<id> à n'importe quelle
   // adresse du site. La page /typo liste les candidates et leurs identifiants.
   // Pour CHOISIR, écrivez l'identifiant ici, entre apostrophes.
-  titreFont: null,
+  titreFont: 'jakarta',
 
   // Menu déroulant de choix de police, en bas à gauche de chaque page.
   // TEMPORAIRE, et visible par TOUT LE MONDE, visiteurs compris : c'est le

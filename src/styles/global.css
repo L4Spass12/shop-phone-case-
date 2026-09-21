@@ -49,25 +49,11 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Poppins ExtraBold, la grotesque du titre de la bannière.
-
-   Le choix n'est pas qu'esthétique. La seconde ligne du titre est CREUSE,
-   donc tracée par le contour de ses lettres : il faut une fonte dont les
-   glyphes sont des tracés FUSIONNÉS. Montserrat, essayée avant, construit
-   ses lettres par formes superposées. Rempli, on ne voit rien ; en contour,
-   chaque arête cachée dans la superposition se met à exister, et le V se
-   retrouve barré en bas, le R traversé, le Y coupé.
-
-   Poppins n'a pas ce défaut (vérifié côte à côte avec Archivo et Anton), et
-   c'est par ailleurs la géométrique large et ronde de la référence.
-   Fichier officiel de @fontsource, latin, 8 Ko. */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('/fonts/poppins-800.woff2') format('woff2');
-}
+/* La police de TITRAGE n'est pas déclarée ici.
+   Elle est choisie dans site.config.mjs et posée par BaseLayout, qui émet son
+   @font-face et la met dans --font-display. Une seule déclaration, un seul
+   fichier, et changer de police reste une ligne de configuration.
+   Voir src/lib/typo-titres.ts pour la bibliothèque et l'outil d'essai. */
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
    lettres du nom de la boutique par scripts/subset-logo-font.mjs : 4 Ko au
@@ -339,7 +325,8 @@ html[data-theme='sunfreaks'] .hero-eyebrow {
 /* Titre : Montserrat Black en capitales. `clamp` plutôt que des paliers, la
    bannière changeant de proportions en continu. */
 html[data-theme='sunfreaks'] .hero-title {
-  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  /* Même police que les titres : une seule voix de titrage sur le site. */
+  font-family: var(--font-display);
   font-weight: 800;
   color: #fff;
   text-transform: uppercase;
