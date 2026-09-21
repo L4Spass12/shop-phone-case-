@@ -327,7 +327,7 @@ html[data-theme='sunfreaks'] .hero-eyebrow {
 html[data-theme='sunfreaks'] .hero-title {
   /* Même police que les titres : une seule voix de titrage sur le site. */
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
   text-transform: uppercase;
   font-size: clamp(2.1rem, 5.6vw, 4.6rem);

@@ -50,6 +50,12 @@ export type Candidate = {
   note: string;
   /** Poids total des fichiers, en Ko. */
   ko: number;
+  /** Graisses à servir quand la police est CHOISIE, et non seulement essayée.
+   *  Pour un essai, une graisse suffit à se faire une idée. En production
+   *  non : le thème demande 400 pour les prix, 700 pour les titres et pour
+   *  les boutons, ces derniers en italique. Ne fournir qu'une graisse oblige
+   *  le navigateur à prendre la plus proche, et tout s'affiche trop gras. */
+  poidsSite?: Array<[number, 'normal' | 'italic']>;
 };
 
 export const CANDIDATES: Candidate[] = [
@@ -66,7 +72,7 @@ export const CANDIDATES: Candidate[] = [
   { id: 'poppins',   style: 'geometrique', famille: 'Poppins',           poids: 700, italique: true,  ko: 16, note: 'La même que la bannière : tout le site parlerait d\u2019une seule voix.' },
   { id: 'outfit',    style: 'geometrique', famille: 'Outfit',            poids: 700, italique: false, ko: 14, note: 'Cousine sobre de Poppins, un peu plus resserrée. Très propre.' },
   { id: 'urbanist',  style: 'geometrique', famille: 'Urbanist',          poids: 800, italique: true,  ko: 24, note: 'Géométrique basse et large. Douce, presque ronde.' },
-  { id: 'jakarta',   style: 'geometrique', famille: 'Plus Jakarta Sans', poids: 800, italique: true,  ko: 24, note: 'Chaleureuse et lisible. Le compromis le plus sûr de la liste.' },
+  { id: 'jakarta',   style: 'geometrique', famille: 'Plus Jakarta Sans', poids: 800, italique: true,  ko: 24, poidsSite: [[400, 'normal'], [700, 'normal'], [700, 'italic']], note: 'Chaleureuse et lisible. Le compromis le plus sûr de la liste.' },
   { id: 'figtree',   style: 'geometrique', famille: 'Figtree',           poids: 800, italique: true,  ko: 23, note: 'Ronde et amicale, un peu plus tendre que Poppins.' },
   { id: 'sora',      style: 'geometrique', famille: 'Sora',              poids: 700, italique: false, ko: 15, note: 'Anguleuse et technique. Donne un ton produit plutôt que boutique.' },
   { id: 'montserrat',style: 'geometrique', famille: 'Montserrat',        poids: 700, italique: true,  ko: 38, note: 'Neutre et sûre, sans relief particulier.' },
@@ -96,12 +102,20 @@ export function fichier(c: Candidate, style: 'normal' | 'italic'): string {
   return `/fonts/titres/${c.id}-${c.poids}${style === 'italic' ? '-italic' : ''}.woff2`;
 }
 
-/** Les deux @font-face d'une candidate, prêts à être posés dans une balise style. */
-export function faceCss(c: Candidate): string {
-  const face = (style: 'normal' | 'italic') =>
-    `@font-face{font-family:'${c.famille}';font-style:${style};font-weight:${c.poids};` +
-    `font-display:swap;src:url('${fichier(c, style)}') format('woff2')}`;
-  return face('normal') + (c.italique ? face('italic') : '');
+/** Les @font-face d'une candidate, prêts à être posés dans une balise style.
+ *  En production on sert `poidsSite` s'il est renseigné ; à l'essai, la seule
+ *  graisse de la fiche suffit. */
+export function faceCss(c: Candidate, production = false): string {
+  const face = (poids: number, style: 'normal' | 'italic') =>
+    `@font-face{font-family:'${c.famille}';font-style:${style};font-weight:${poids};` +
+    `font-display:swap;src:url('/fonts/titres/${c.id}-${poids}${style === 'italic' ? '-italic' : ''}.woff2') format('woff2')}`;
+  const jeu: Array<[number, 'normal' | 'italic']> =
+    production && c.poidsSite
+      ? c.poidsSite
+      : c.italique
+        ? [[c.poids, 'normal'], [c.poids, 'italic']]
+        : [[c.poids, 'normal']];
+  return jeu.map(([p, st]) => face(p, st)).join('');
 }
 
 /** Table minimale passée au navigateur pour l'essai : id, famille, graisse, italique. */

@@ -188,8 +188,8 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     {/* Police des titres, quand une a été choisie dans site.config.mjs. */}
     {titre && (
       <>
-        <link rel="preload" as="font" type="font/woff2" href={fichier(titre, 'normal')} crossorigin="anonymous" />
-        <style set:html={faceCss(titre)} />
+        <link rel="preload" as="font" type="font/woff2" href={`/fonts/titres/${titre.id}-${titre.poidsSite ? titre.poidsSite[1][0] : titre.poids}.woff2`} crossorigin="anonymous" />
+        <style set:html={faceCss(titre, true)} />
       </>
     )}
 
