@@ -257,7 +257,7 @@ const config = {
     // Purement décoratif, donc alt vide et pointer-events désactivés : il ne
     // doit ni être annoncé par un lecteur d'écran, ni gêner le balayage de la
     // galerie sur mobile.
-    productSticker: '/images/sticker-angel-ombre.webp',
+    productSticker: '/images/ange-panneau.webp',
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y
