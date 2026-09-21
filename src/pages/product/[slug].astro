@@ -1454,7 +1454,11 @@ const pickModelLabel = t('model.placeholder', 'fr');
       margin-right: calc(var(--pdp-gutter, .875rem) * -1);
       border-radius: 0;
     }
-    .pdp-sticker { width: 85px; top: -26px; right: -12px; }
+    /* Le retrait à droite tient compte de l'INCLINAISON : tournée de 9°, la
+       boîte du sticker s'élargit d'environ 2,5 px de chaque côté. À -12 px
+       elle dépassait l'écran d'autant, et ces quelques pixels suffisaient à
+       rendre la page défilable latéralement sur un téléphone. */
+    .pdp-sticker { width: 85px; top: -26px; right: -7px; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
   }

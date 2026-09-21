@@ -13,6 +13,11 @@ name: "Produit test - bouton noir plat"
 price: 19.90
 image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton noir plat"
+gallery:
+  # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
+  # à distinguer les vignettes. À remplacer par de vraies vues du produit.
+  - "/images/products/coque-paysage-2.webp"
+  - "/images/products/coque-paysage-3.webp"
 categories: []
 shortDescription: "Page de test A/B : bouton noir plat, sans relief, avec flèche qui glisse au survol."
 featured: false

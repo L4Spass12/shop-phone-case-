@@ -15,6 +15,11 @@ name: "Produit test - bouton noir a cadre"
 price: 19.90
 image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton noir à cadre"
+gallery:
+  # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
+  # à distinguer les vignettes. À remplacer par de vraies vues du produit.
+  - "/images/products/coque-paysage-2.webp"
+  - "/images/products/coque-paysage-3.webp"
 categories: []
 shortDescription: "Page de test A/B : bouton noir en relief dont un cadre fin se dessine depuis les coins au survol."
 featured: false

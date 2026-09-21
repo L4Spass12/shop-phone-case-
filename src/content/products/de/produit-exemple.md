@@ -3,6 +3,11 @@ name: "Beispielprodukt"
 price: 19.90
 image: "/images/products/coque-paysage.webp"
 imageAlt: "Transparente Handyhülle mit gemalter Landschaft: blaue Berge, rosa Wolken und blühende Kirschbäume mit Goldakzenten"
+gallery:
+  # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
+  # à distinguer les vignettes. À remplacer par de vraies vues du produit.
+  - "/images/products/coque-paysage-2.webp"
+  - "/images/products/coque-paysage-3.webp"
 categories: ["categorie-exemple"]
 shortDescription: "Ein Demo-Produkt, das du durch dein erstes echtes Produkt ersetzt."
 featured: true

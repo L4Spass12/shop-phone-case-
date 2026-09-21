@@ -15,6 +15,11 @@ name: "Produit test - bouton noir"
 price: 19.90
 image: "/images/products/coque-paysage.webp"
 imageAlt: "Produit de démonstration du bouton noir"
+gallery:
+  # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
+  # à distinguer les vignettes. À remplacer par de vraies vues du produit.
+  - "/images/products/coque-paysage-2.webp"
+  - "/images/products/coque-paysage-3.webp"
 categories: []
 shortDescription: "Page de test A/B : bouton « Ajouter au panier » en noir, à comparer à la version violette."
 featured: false

@@ -113,6 +113,50 @@
   :root { --header-h: 72px; }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   DÉFILEMENT HORIZONTAL : verrouillé au niveau de la page.
+
+   Symptôme : un balayage du doigt vers la gauche ou la droite décalait la
+   page entière, qui revenait ensuite se replacer. Ce n'était PAS un
+   débordement, vérifié à 375 px : la page mesure exactement la largeur de
+   l'écran. Deux mécanismes en cause, et il faut traiter les deux.
+
+   1. Le REBOND de la page. Par défaut, une page se laisse tirer sur ses
+      côtés même quand il n'y a rien à découvrir. `overscroll-behavior-x:
+      none` le supprime.
+
+   2. Le CHAÎNAGE depuis les carrousels. La fiche produit en contient
+      plusieurs qui défilent horizontalement (galerie, « vous aimerez aussi »,
+      vidéos clients, grille Instagram). Quand l'un d'eux arrive en butée,
+      le geste continue et se transmet à la page, qui se décale à son tour.
+      `contain` arrête le geste au carrousel : il reste dans le composant
+      qu'on manipule.
+
+   À savoir : sur Chrome Android, `none` désactive aussi le geste de retour
+   par balayage depuis le bord. Sur iOS ce geste appartient au navigateur et
+   n'est pas touché. Le compromis est assumé, la page ne devant pas bouger
+   latéralement sur une boutique.
+   ═══════════════════════════════════════════════════════════════════════ */
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
+/* Pas de `overflow-x: clip` sur la racine, volontairement. Ça masquerait les
+   dépassements au lieu de les corriger, et le visuel produit qui se fige au
+   défilement dépend de la racine comme zone de référence : selon les
+   navigateurs, couper là peut l'empêcher de se figer.
+   Les dépassements se règlent donc à leur source, un par un. */
+
+/* Les carrousels gardent leur défilement, mais le gardent POUR EUX. */
+.gallery-track,
+.slider-track,
+.ugc-track,
+.insta-grid,
+.site-breadcrumb {
+  overscroll-behavior-x: contain;
+}
+
 /* Bascule de thème : petit interrupteur dans le header */
 .theme-toggle {
   display: inline-flex;
