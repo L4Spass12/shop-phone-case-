@@ -743,10 +743,16 @@ const pickModelLabel = t('model.placeholder', 'fr');
   <!-- ═══════════════════════════ STICKY ATC BAR (mobile + desktop) ═══════════════════════════
        Apparaît quand le CTA principal (#buy-button) sort du viewport.
        Mobile : label taille + bouton pleine largeur avec prix.
-       Desktop : vignette + nom + taille + prix + bouton. -->
+       Desktop : vignette + nom + taille + prix + bouton. 
+
+       Pas de `backdrop-blur` sur cette barre, volontairement : un flou
+       d'arrière-plan oblige le navigateur à relire et reflouter tout ce qui
+       passe SOUS elle, à chaque image du défilement et sur toute la largeur
+       de l'écran. Sous un fond opaque à 95 %, il n'en ressortait que 5 % :
+       un coût permanent pour un effet invisible. -->
   <div
     id="sticky-atc"
-    class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 bg-dark/95 backdrop-blur-lg border-t border-white/[0.08]"
+    class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 bg-dark/95 border-t border-white/[0.08]"
     aria-hidden="true"
   >
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-3.5">
@@ -1228,9 +1234,18 @@ const pickModelLabel = t('model.placeholder', 'fr');
       // si l'on arrive directement au-delà du CTA sans jamais l'avoir croisé
       // (lien d'ancrage, restauration de position de scroll, saut de scroll).
       let scheduled = false;
+      // Dernier état appliqué. Avant, les deux écritures avaient lieu à
+      // CHAQUE frame de défilement, y compris quand rien ne changeait :
+      // l'attribut aria-hidden resalissait le style du document, et la
+      // lecture de position de la frame suivante forçait alors un recalcul
+      // complet de la mise en page. Un aller-retour inutile, soixante fois
+      // par seconde, pendant tout le défilement de la fiche.
+      let visible = null;
       const syncBar = () => {
         scheduled = false;
         const passed = mainCTA.getBoundingClientRect().bottom <= 0;
+        if (passed === visible) return;
+        visible = passed;
         bar.classList.toggle('translate-y-full', !passed);
         bar.setAttribute('aria-hidden', passed ? 'false' : 'true');
       };

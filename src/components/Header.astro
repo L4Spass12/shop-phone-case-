@@ -300,18 +300,51 @@ const THEMES = [
   if (header) {
     let lastY = window.scrollY;
     let ticking = false;
-    const heroThreshold = () => hero ? Math.max(0, (hero as HTMLElement).offsetHeight - header.offsetHeight) : 0;
+    // Le seuil du hero se MESURE, et lire une hauteur oblige le navigateur à
+    // recalculer la mise en page sur-le-champ. Mesuré à chaque frame de
+    // défilement, ce seul calcul prenait une part du budget de 16 ms, sur le
+    // fil même qui doit faire glisser la page. Il est donc mis en cache : il
+    // ne bouge qu'au redimensionnement ou quand le hero change de taille.
+    let seuilHero = 0;
+    const mesurerSeuil = () => {
+      seuilHero = hero ? Math.max(0, (hero as HTMLElement).offsetHeight - header.offsetHeight) : 0;
+    };
+    mesurerSeuil();
+    window.addEventListener('resize', mesurerSeuil, { passive: true });
+    // La hauteur du hero change aussi sans redimensionnement : arrivée de la
+    // police de titres, chargement de la photo. Un observateur suffit, il ne
+    // se déclenche qu'à ces moments-là.
+    if (hero && 'ResizeObserver' in window) new ResizeObserver(mesurerSeuil).observe(hero);
+
+    // État courant des deux classes : on n'écrit dans le DOM que s'il CHANGE.
+    // Réécrire la même classe à chaque frame salit le style pour rien et
+    // relance un recalcul à la frame suivante.
+    let surHero: boolean | null = null;
+    let masque: boolean | null = null;
+    // Marge morte avant de considérer qu'on a changé de sens. Un doigt ne
+    // défile jamais parfaitement droit : sans cette marge, le moindre
+    // tremblement inversait le sens, ce qui relançait la transition de 0,35 s
+    // du header. C'est ce va-et-vient qui se ressentait comme des coupures.
+    const MARGE = 12;
     const update = () => {
       const y = window.scrollY;
-      const overHero = hero ? y < heroThreshold() : false;
+      const menuOuvert = isMenuOpen();
+      const overHero = hero ? y < seuilHero : false;
       // Menu ouvert → header plein (surface lisible), jamais transparent.
-      if (hero) header.classList.toggle('header-over-hero', overHero && !isMenuOpen());
-      if (!isMenuOpen() && !overHero && y > lastY && y > 100) {
-        document.documentElement.classList.add('header-hidden');
-      } else {
-        document.documentElement.classList.remove('header-hidden');
+      const fondu = overHero && !menuOuvert;
+      if (hero && fondu !== surHero) {
+        header.classList.toggle('header-over-hero', fondu);
+        surHero = fondu;
       }
-      lastY = y;
+      let cacher = masque === true;
+      if (y - lastY > MARGE) cacher = true;
+      else if (lastY - y > MARGE) cacher = false;
+      if (menuOuvert || overHero || y <= 100) cacher = false;
+      if (cacher !== masque) {
+        document.documentElement.classList.toggle('header-hidden', cacher);
+        masque = cacher;
+      }
+      if (Math.abs(y - lastY) > MARGE) lastY = y;
       ticking = false;
     };
     update();
