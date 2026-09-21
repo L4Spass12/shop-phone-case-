@@ -485,8 +485,8 @@ const pickModelLabel = t('model.placeholder', lang);
           aria-hidden="true"
           loading="lazy"
           decoding="async"
-          width="720"
-          height="241"
+          width="760"
+          height="414"
         />
       )}
       <details class="product-toggle group border-t border-white/[0.08] py-5">
@@ -979,29 +979,38 @@ const pickModelLabel = t('model.placeholder', lang);
      il chevauchait le bas de la carte et ses ailes passaient par-dessus les
      mentions de livraison. La règle ne s'applique QUE si l'ange est là :
      c'est lui qui réclame la place, pas la mise en page. */
-  .pdp-panel:has(.pdp-ange) { margin-top: 1.9rem; }
+  /* Dégagement au-dessus du panneau : 90 % de l'ange est au-dessus de sa
+     ligne de coupe, et il faut cette place sous la carte. */
+  .pdp-panel:has(.pdp-ange) { margin-top: 4.6rem; }
 
   /* L'ange accroché au bord haut du panneau.
 
-     Trois points, chacun pour un défaut constaté :
+     LE PRINCIPE, qui est tout le sujet : l'illustration porte une LIGNE DE
+     COUPE, celle où son corps est tranché net. Cette ligne doit tomber
+     exactement sur le bord du panneau. Ce qui est au-dessus se voit
+     entièrement, ce qui est en dessous (sa main posée) passe DEVANT le
+     panneau, comme une main posée sur un rebord.
 
-     · AUCUNE ombre portée. Celle que j'avais mise le faisait flotter DEVANT
-       le panneau : un objet caché derrière une surface ne projette pas
-       d'ombre dessus. C'est ce qui l'empêchait d'avoir l'air accroché ;
-     · `z-index: -1` le passe DERRIÈRE le fond blanc du panneau. On peut donc
-       le faire mordre sur le bord : le panneau le coupe pour de vrai, au lieu
-       d'une coïncidence de pixels entre son bas et le bord ;
-     · il descend de 12 px dans le panneau, ce qui cache le bas de ses mains
-       et ne laisse dépasser que les doigts. C'est ce mordant-là qui fait
-       l'accroche. */
+     Mesuré dans le fichier : la ligne de coupe est à 90,68 % de la hauteur,
+     donc 9,32 % de l'image se trouve sous elle.
+
+     Le calage se fait en DEUX temps :
+     · `bottom: 100%` pose le bas de l'image sur le bord du panneau ;
+     · `translateY(9.32%)` la redescend de la part située sous la ligne. La
+       ligne de coupe arrive alors pile sur le bord.
+     Un pourcentage de `translateY` se calcule sur la HAUTEUR de l'élément
+     lui-même : le calage tient donc à toutes les tailles, sans recalcul.
+
+     Et cette fois il passe DEVANT le panneau (pas de z-index négatif) : c'est
+     sa main qui doit se poser dessus. Aucune ombre portée non plus, elle le
+     ferait flotter. */
   .pdp-ange {
     position: absolute;
-    bottom: calc(100% - 12px);
+    bottom: 100%;
     left: 50%;
-    transform: translateX(-50%);
-    width: clamp(112px, 32%, 164px);
+    transform: translateX(-50%) translateY(9.32%);
+    width: clamp(116px, 31%, 158px);
     height: auto;
-    z-index: -1;
     pointer-events: none;
     display: block;
   }

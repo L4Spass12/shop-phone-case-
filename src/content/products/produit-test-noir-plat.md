@@ -16,8 +16,8 @@ imageAlt: "Produit de démonstration du bouton noir plat"
 gallery:
   # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
   # à distinguer les vignettes. À remplacer par de vraies vues du produit.
-  - "/images/products/coque-paysage-2.webp"
-  - "/images/products/coque-paysage-3.webp"
+  - "/images/products/coque-paysage-angle.webp"
+  - "/images/products/coque-paysage-troisquarts.webp"
 categories: []
 shortDescription: "Page de test A/B : bouton noir plat, sans relief, avec flèche qui glisse au survol."
 featured: false

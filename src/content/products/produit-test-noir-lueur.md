@@ -16,8 +16,8 @@ imageAlt: "Produit de démonstration du bouton noir à lueur"
 gallery:
   # Trois visuels pour ÉPROUVER le carrousel : même cliché recadré, ça suffit
   # à distinguer les vignettes. À remplacer par de vraies vues du produit.
-  - "/images/products/coque-paysage-2.webp"
-  - "/images/products/coque-paysage-3.webp"
+  - "/images/products/coque-paysage-angle.webp"
+  - "/images/products/coque-paysage-troisquarts.webp"
 categories: []
 shortDescription: "Page de test A/B : bouton noir dont la lueur suit le curseur au survol."
 featured: false

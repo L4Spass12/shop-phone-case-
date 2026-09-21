@@ -261,7 +261,7 @@ const config = {
     stickerCoin: '/images/sticker-angel-ombre.webp',
     // Ange accroché au bord haut du panneau des tiroirs, comme s'il se
     // cachait derrière. Image recadrée sur la ligne où ses mains s'agrippent.
-    angePanneau: '/images/ange-panneau.webp',
+    angePanneau: '/images/ange-panneau-2.webp',
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y
