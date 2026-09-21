@@ -907,21 +907,64 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero [data-atelier-header-
 /* Ciblé par CLASSE et non par rang : `nth-of-type(3)` désignait la bonne
    section par coïncidence, et se serait déplacé au premier ajout ou retrait
    de section — ce qui vient justement d'arriver. */
+/* La marge de la section studio est sortie en variable : le rail de l'ange,
+   qui est son FRÈRE et non son enfant, s'en sert pour retomber exactement sur
+   son bord haut. Une seule valeur à changer si la géométrie bouge. */
+html[data-theme='sunfreaks'] { --studio-marge: 8px; }
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] { --studio-marge: 12px; }
+}
 html[data-theme='sunfreaks'] main > section.studio-b {
   /* Plus d'aplat violet : la section porte désormais une photo pleine largeur
      (cf. .studio-section). On garde la géométrie de panneau flottant, qui est
      ce qui donne le rythme avec la bannière du haut. */
   background: transparent;
   border-top: 0;
-  margin: 8px 14px;
+  margin: var(--studio-marge) 14px;
   border-radius: 30px;
   overflow: hidden;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.studio-b {
-    margin: 12px 22px;
+    margin: var(--studio-marge) 22px;
     border-radius: 40px;
   }
+}
+
+/* ─── L'ange accroché au bord haut de la section studio ────────────────
+   Même principe que sur la fiche produit : l'image est recadrée sur la ligne
+   où son buste est coupé, et c'est cette ligne qui doit tomber sur le bord de
+   la section. Elle se trouve à 86,71 % de la hauteur de l'image, donc 13,29 %
+   de celle-ci passe DEVANT la section : ses mains, et elles seules.
+
+   Le rail ne mesure rien et ne sert qu'à donner un repère de position. Sa
+   marge haute, elle, ouvre l'espace que l'ange réclame au-dessus : sans elle
+   il monterait dans la section précédente. */
+.studio-ange-rail {
+  position: relative;
+  height: 0;
+  /* Au-dessus de la section, qui est positionnée sans z-index : sinon les
+     mains passeraient DERRIÈRE son bord et l'effet tomberait à plat. */
+  z-index: 1;
+  /* L'espace que l'ange réclame au-dessus de lui. Mesuré, pas choisi à l'oeil :
+     à 380 px de large il dépasse de 152 px, et cette marge laisse une trentaine
+     de pixels d'air entre le dernier contenu de la section précédente et le
+     haut de sa tête. */
+  margin-top: 5.5rem;
+}
+.studio-ange {
+  position: absolute;
+  /* Le rail n'a pas de hauteur : sa marge basse fusionne avec la marge haute
+     de la section, si bien que son bas coïncide DÉJÀ avec le bord de celle-ci.
+     Rien à retrancher de plus ici, tout le décalage tient dans le translateY
+     ci-dessous, mesuré en part de l'image. */
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(13.29%);
+  width: clamp(200px, 46%, 380px);
+  height: auto;
+  display: block;
+  pointer-events: none;
 }
 
 

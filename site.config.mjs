@@ -248,6 +248,11 @@ const config = {
     // Ange accroché au bord haut du panneau des tiroirs, comme s'il se
     // cachait derrière. Image recadrée sur la ligne où ses mains s'agrippent.
     angePanneau: '/images/ange-panneau-2.webp',
+    // Même principe sur l'accueil : l'ange s'accroche au bord haut de la
+    // section « Personnalisez votre coque », avec ses photos et une coque à
+    // la main. Recadrée elle aussi sur sa ligne de coupe, à 86,71 % de sa
+    // hauteur : c'est cette valeur que reprend le calage en CSS.
+    angeStudio: '/images/ange-studio.webp',
     // Marge, en MILLIMÈTRES, retirée sur tout le pourtour du fichier
     // d'impression. Les coques vierges sont transparentes et imprimées à plat :
     // le dos est plan, mais les bords remontent en s'arrondissant et l'encre y

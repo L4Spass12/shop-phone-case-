@@ -232,6 +232,23 @@ const faqSchema = {
       blanc et uni en bas à gauche, où le bloc s'installe sans rien masquer
       d'utile. Réduit au titre et au bouton — l'intertitre et le sous-titre
       faisaient doublon et ne tenaient pas la lisibilité à cette taille. */}
+  {/* L'ange s'accroche au bord HAUT de la section : la ligne de coupe de
+      l'image tombe pile dessus, et seules ses mains passent devant. Il est
+      posé en FRÈRE de la section, jamais dedans : `overflow: hidden` y est
+      indispensable pour que la photo suive les coins arrondis, et il
+      rognerait net tout ce qui dépasse. Le rail ne mesure rien, il sert
+      seulement de repère de position. */}
+  <div class="studio-ange-rail" aria-hidden="true">
+    <img
+      src={siteConfig.shop.angeStudio}
+      alt=""
+      class="studio-ange"
+      width="760"
+      height="351"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
   <section class="studio-b relative overflow-hidden below-fold-defer flex items-end">
     <img
       src="/images/studio-banner-b.webp"
