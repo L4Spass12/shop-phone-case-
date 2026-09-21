@@ -26,12 +26,13 @@
  */
 
 /** Regroupement du menu : trois directions, pas quinze noms en vrac. */
-export type Style = 'mode' | 'contemporaine' | 'sans';
+export type Style = 'grotesque' | 'geometrique' | 'serif' | 'affirmee';
 
 export const STYLES: Record<Style, string> = {
-  mode: 'Serifs de mode',
-  contemporaine: 'Serifs contemporaines',
-  sans: 'Sans empattement',
+  grotesque: 'Grotesques contemporaines',
+  geometrique: 'Géométriques',
+  serif: 'Serifs contemporaines',
+  affirmee: 'Affirmées',
 };
 
 export type Candidate = {
@@ -52,28 +53,38 @@ export type Candidate = {
 };
 
 export const CANDIDATES: Candidate[] = [
-  // ─── Serifs de mode : contraste marqué, l'esprit couverture de magazine.
-  { id: 'playfair',   style: 'mode', famille: 'Playfair Display', poids: 700, italique: true,  ko: 45, note: "Celle que le thème réclame depuis le début sans jamais l'avoir eue." },
-  { id: 'bodoni',     style: 'mode', famille: 'Bodoni Moda',      poids: 700, italique: true,  ko: 31, note: 'Le contraste maximal. Très mode, un peu froide.' },
-  { id: 'gloock',     style: 'mode', famille: 'Gloock',           poids: 400, italique: false, ko: 26, note: 'Serif de titrage large et affirmée, taillée pour les grands mots.' },
-  { id: 'cormorant',  style: 'mode', famille: 'Cormorant Garamond', poids: 700, italique: true, ko: 44, note: 'Fine et haute, très près du logotype calligraphique.' },
-  { id: 'marcellus',  style: 'mode', famille: 'Marcellus',        poids: 400, italique: false, ko: 14, note: 'Romaine classique, calme. Le sérieux sans la raideur.' },
-  { id: 'abril',      style: 'mode', famille: 'Abril Fatface',    poids: 400, italique: false, ko: 13, note: 'Grasse et assumée. Beaucoup de caractère, peu de discrétion.' },
+  // ─── Grotesques contemporaines : linéales à l'ancienne, mais redessinées
+  //     récemment. Du caractère sans effet de manche, c'est le registre des
+  //     marques de design d'aujourd'hui.
+  { id: 'spacegrotesk', style: 'grotesque', famille: 'Space Grotesk',       poids: 700, italique: false, ko: 13, note: 'Terminaisons coupées, formes un peu sèches. La favorite des studios depuis quelques années.' },
+  { id: 'schibsted',    style: 'grotesque', famille: 'Schibsted Grotesk',   poids: 800, italique: true,  ko: 50, note: 'Nette et dense, taillée pour la presse. Moderne sans chercher à se faire remarquer.' },
+  { id: 'epilogue',     style: 'grotesque', famille: 'Epilogue',            poids: 700, italique: true,  ko: 29, note: 'Grotesque au dessin nerveux, un peu resserré. Parle fort en petit.' },
+  { id: 'bricolage',    style: 'grotesque', famille: 'Bricolage Grotesque', poids: 700, italique: false, ko: 22, note: 'Volontairement irrégulière. Ni tout à fait serif ni tout à fait linéale.' },
 
-  // ─── Serifs contemporaines : le même registre, en plus actuel.
-  { id: 'fraunces',   style: 'contemporaine', famille: 'Fraunces',         poids: 600, italique: true, ko: 40, note: 'Serif un peu insolente, celle des marques récentes.' },
-  { id: 'instrument', style: 'contemporaine', famille: 'Instrument Serif', poids: 400, italique: true, ko: 42, note: 'Fine et haute, très éditoriale. Élégante sans être sage.' },
-  { id: 'dmserif',    style: 'contemporaine', famille: 'DM Serif Display', poids: 400, italique: true, ko: 48, note: 'Serif de titrage lisible et chaleureuse.' },
-  { id: 'bricolage',  style: 'contemporaine', famille: 'Bricolage Grotesque', poids: 700, italique: false, ko: 22, note: 'Ni tout à fait serif ni tout à fait linéale. Singulière, très 2026.' },
+  // ─── Géométriques : cercles et lignes droites. Le registre de la bannière,
+  //     qui est déjà composée en Poppins.
+  { id: 'poppins',   style: 'geometrique', famille: 'Poppins',           poids: 700, italique: true,  ko: 16, note: 'La même que la bannière : tout le site parlerait d\u2019une seule voix.' },
+  { id: 'outfit',    style: 'geometrique', famille: 'Outfit',            poids: 700, italique: false, ko: 14, note: 'Cousine sobre de Poppins, un peu plus resserrée. Très propre.' },
+  { id: 'urbanist',  style: 'geometrique', famille: 'Urbanist',          poids: 800, italique: true,  ko: 24, note: 'Géométrique basse et large. Douce, presque ronde.' },
+  { id: 'jakarta',   style: 'geometrique', famille: 'Plus Jakarta Sans', poids: 800, italique: true,  ko: 24, note: 'Chaleureuse et lisible. Le compromis le plus sûr de la liste.' },
+  { id: 'figtree',   style: 'geometrique', famille: 'Figtree',           poids: 800, italique: true,  ko: 23, note: 'Ronde et amicale, un peu plus tendre que Poppins.' },
+  { id: 'sora',      style: 'geometrique', famille: 'Sora',              poids: 700, italique: false, ko: 15, note: 'Anguleuse et technique. Donne un ton produit plutôt que boutique.' },
+  { id: 'montserrat',style: 'geometrique', famille: 'Montserrat',        poids: 700, italique: true,  ko: 38, note: 'Neutre et sûre, sans relief particulier.' },
 
-  // ─── Sans empattement : le parti de la sobriété, ou de la cohérence avec
-  //     la bannière, qui est déjà composée en Poppins.
-  { id: 'poppins',    style: 'sans', famille: 'Poppins',    poids: 700, italique: true,  ko: 16, note: 'La même que la bannière : tout le site parlerait d\u2019une seule voix.' },
-  { id: 'syne',       style: 'sans', famille: 'Syne',       poids: 700, italique: false, ko: 14, note: 'Géométrique aux formes inattendues. Un parti pris de studio.' },
-  { id: 'outfit',     style: 'sans', famille: 'Outfit',     poids: 700, italique: false, ko: 14, note: 'Géométrique nette et ronde, cousine sobre de Poppins.' },
-  { id: 'montserrat', style: 'sans', famille: 'Montserrat', poids: 700, italique: true,  ko: 38, note: 'Neutre et sûre, sans relief particulier.' },
-  { id: 'oswald',     style: 'sans', famille: 'Oswald',     poids: 600, italique: false, ko: 12, note: 'Condensée et haute. Gagne de la place, donne un ton sportif.' },
+  // ─── Serifs contemporaines : des empattements, mais dessinés aujourd'hui.
+  { id: 'fraunces',   style: 'serif', famille: 'Fraunces',         poids: 600, italique: true,  ko: 40, note: 'Serif un peu insolente, aux formes molles. Celle des marques récentes.' },
+  { id: 'instrument', style: 'serif', famille: 'Instrument Serif', poids: 400, italique: true,  ko: 42, note: 'Fine et haute, très éditoriale. Élégante sans être sage.' },
+  { id: 'newsreader', style: 'serif', famille: 'Newsreader',       poids: 600, italique: true,  ko: 49, note: 'Serif de lecture, chaleureuse. Rassure plus qu\u2019elle n\u2019impressionne.' },
+  { id: 'youngserif', style: 'serif', famille: 'Young Serif',      poids: 400, italique: false, ko: 26, note: 'Empattements épais et courts. Serif, mais franchement contemporaine.' },
+  { id: 'dmserif',    style: 'serif', famille: 'DM Serif Display', poids: 400, italique: true,  ko: 48, note: 'Serif de titrage lisible et chaleureuse.' },
+
+  // ─── Affirmées : elles prennent toute la place. À réserver aux titres
+  //     courts, ce qui est justement le cas ici.
+  { id: 'unbounded', style: 'affirmee', famille: 'Unbounded', poids: 700, italique: false, ko: 21, note: 'Large, ronde, impossible à ignorer. Très forte personnalité.' },
+  { id: 'syne',      style: 'affirmee', famille: 'Syne',      poids: 700, italique: false, ko: 14, note: 'Formes inattendues, presque bizarres. Un parti pris de studio.' },
+  { id: 'oswald',    style: 'affirmee', famille: 'Oswald',    poids: 600, italique: false, ko: 12, note: 'Condensée et haute. Gagne de la place, donne un ton sportif.' },
 ];
+
 
 
 export function candidate(id: string | undefined): Candidate | undefined {
