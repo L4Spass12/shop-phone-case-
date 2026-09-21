@@ -934,8 +934,8 @@ html[data-theme='sunfreaks'] main > section.studio-b {
 /* ─── L'ange accroché au bord haut de la section studio ────────────────
    Même principe que sur la fiche produit : l'image est recadrée sur la ligne
    où son buste est coupé, et c'est cette ligne qui doit tomber sur le bord de
-   la section. Elle se trouve à 86,71 % de la hauteur de l'image, donc 13,29 %
-   de celle-ci passe DEVANT la section : ses mains, et elles seules.
+   la section. Elle se trouve à 79,68 % de la hauteur de l'image, donc 20,32 %
+   de celle-ci passe DEVANT la section : ses mains et le stylet, rien d'autre.
 
    Le rail ne mesure rien et ne sert qu'à donner un repère de position. Sa
    marge haute, elle, ouvre l'espace que l'ange réclame au-dessus : sans elle
@@ -946,11 +946,11 @@ html[data-theme='sunfreaks'] main > section.studio-b {
   /* Au-dessus de la section, qui est positionnée sans z-index : sinon les
      mains passeraient DERRIÈRE son bord et l'effet tomberait à plat. */
   z-index: 1;
-  /* L'espace que l'ange réclame au-dessus de lui. Mesuré, pas choisi à l'oeil :
-     à 380 px de large il dépasse de 152 px, et cette marge laisse une trentaine
-     de pixels d'air entre le dernier contenu de la section précédente et le
-     haut de sa tête. */
-  margin-top: 5.5rem;
+  /* L'espace que l'ange réclame au-dessus de lui, déduit de sa taille et non
+     choisi à l'oeil : à 185 px de large il ne dépasse plus que de 72 px, soit
+     80 px de moins qu'à sa taille précédente. La marge suit donc la même
+     baisse, sinon un vide s'ouvrait au-dessus de sa tête. */
+  margin-top: 1rem;
 }
 .studio-ange {
   position: absolute;
@@ -959,9 +959,12 @@ html[data-theme='sunfreaks'] main > section.studio-b {
      Rien à retrancher de plus ici, tout le décalage tient dans le translateY
      ci-dessous, mesuré en part de l'image. */
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(13.29%);
-  width: clamp(200px, 46%, 380px);
+  /* Vers la DROITE, pas au centre : le titre et le bouton de la section sont
+     en bas à gauche, l'ange occupe donc l'autre côté. Le retrait est en
+     pourcentage pour qu'il garde la même place quelle que soit la largeur. */
+  right: 12%;
+  transform: translateY(20.32%);
+  width: clamp(120px, 13%, 185px);
   height: auto;
   display: block;
   pointer-events: none;
