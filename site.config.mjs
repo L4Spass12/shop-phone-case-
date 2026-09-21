@@ -22,24 +22,10 @@ const config = {
   logoPrefix: 'Vareska',
   logoSuffix: '',
 
-  // ─── Police des TITRES ────────────────────────────────────────────────
-  // Elle habille plus que les titres : les libellés des boutons, les prix et
-  // les titres du pied de page en dépendent aussi (cf. --font-display dans
-  // src/styles/global.css).
-  //
-  // `null` = état actuel, c'est-à-dire Georgia. Non par choix : le thème
-  // réclame Playfair Display depuis le début, mais le fichier n'a jamais été
-  // chargé, alors le navigateur retombe sur la police système suivante.
-  //
-  // Pour ESSAYER sans rien changer, ajoutez ?typo=<id> à n'importe quelle
-  // adresse du site. La page /typo liste les candidates et leurs identifiants.
-  // Pour CHOISIR, écrivez l'identifiant ici, entre apostrophes.
-  titreFont: 'jakarta',
-
-  // Menu déroulant de choix de police, en bas à gauche de chaque page.
-  // TEMPORAIRE, et visible par TOUT LE MONDE, visiteurs compris : c'est le
-  // prix de l'essai sur le site en ligne. `false` le retire entièrement.
-  typoSelecteur: true,
+  // La police des TITRES n'est plus un réglage : Plus Jakarta Sans est arrêtée.
+  // Elle est déclarée une fois pour toutes dans src/styles/global.css, avec
+  // ses trois graisses, et distribuée par --font-display. Elle habille les
+  // titres, les libellés des boutons, les prix et le pied de page.
   description:
     'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 

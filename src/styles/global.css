@@ -49,11 +49,36 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* La police de TITRAGE n'est pas déclarée ici.
-   Elle est choisie dans site.config.mjs et posée par BaseLayout, qui émet son
-   @font-face et la met dans --font-display. Une seule déclaration, un seul
-   fichier, et changer de police reste une ligne de configuration.
-   Voir src/lib/typo-titres.ts pour la bibliothèque et l'outil d'essai. */
+/* Police de TITRAGE : Plus Jakarta Sans, choisie et arrêtée. Elle habille les
+   titres h1 à h4, les libellés de boutons (en italique), les prix et les
+   titres du pied de page, via --font-display déclarée plus bas par le thème.
+
+   Trois fichiers, parce que le thème demande trois choses différentes : 400
+   pour les prix, 700 pour les titres, 700 italique pour les boutons. Ne pas
+   fournir une graisse ne la supprime pas, le navigateur l'imite en épaississant
+   la plus proche, et tout paraît trop gras. Le 800 d'origine faisait
+   exactement ça et c'est ce qui se voyait sur les titres. */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jakarta-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jakarta-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jakarta-700-italic.woff2') format('woff2');
+}
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
    lettres du nom de la boutique par scripts/subset-logo-font.mjs : 4 Ko au
@@ -264,7 +289,7 @@ html[data-theme='sunfreaks'] {
   /* Logotype : le script calligraphique (Pinyon Script),
      que l'utilisateur préfère. */
   --font-body:    'Inter', system-ui, sans-serif;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Plus Jakarta Sans', Georgia, serif;
   --font-logo:    'Pinyon Script', cursive;
   --font-script:  'Playfair Display', Georgia, serif;
 }
