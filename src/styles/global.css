@@ -579,9 +579,79 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
   z-index: 0;
 }
 .studio-b-copy {
-  z-index: 1;
+  /* Au-dessus du lien qui couvre la section, pour rester lisible, mais
+     TRANSPARENT aux clics : un clic sur le titre ou sur la bande traverse
+     jusqu'au lien. Seul le bouton reprend les siens, plus bas, pour garder
+     son propre survol. Sans cela le lien passerait devant lui et le bouton
+     n'aurait plus ni survol ni état actif. */
+  z-index: 2;
+  pointer-events: none;
   /* Encre sombre : le plan de travail est blanc. */
   color: rgb(47 26 22);
+}
+
+/* ─── Section entièrement cliquable ────────────────────────────────────
+   Le lien couvre toute la section et passe au-dessus de la photo comme de
+   la bande de texte : au doigt comme à la souris, n'importe quel point mène
+   au studio. Le bouton, lui, repasse devant, pour garder son propre survol
+   et rester le seul élément que le clavier atteint. */
+.studio-b-lien {
+  position: absolute;
+  inset: 0;
+  /* Au-dessus de la photo, sous le bloc de texte : celui-ci laisse passer les
+     clics, ce qui revient au même pour le visiteur et évite de recouvrir le
+     bouton. */
+  z-index: 1;
+}
+.studio-b-copy .btn-primary {
+  pointer-events: auto;
+  /* Plus grand que les boutons courants : c'est le seul appel à l'action de
+     la section, et il doit se voir depuis l'autre bout de la page. */
+  font-size: 1.0625rem;
+  padding: 0.95rem 1.6rem;
+  border-radius: 16px;
+}
+@media (min-width: 768px) {
+  .studio-b-copy .btn-primary {
+    font-size: 1.1875rem;
+    padding: 1.05rem 2rem;
+  }
+}
+
+/* ─── Effet de carte au survol (souris uniquement) ─────────────────────
+   La photo s'incline vers le curseur et le bloc de texte glisse avec elle,
+   mais moins vite : ce décalage entre les deux plans est ce qui donne la
+   profondeur, bien plus qu'une inclinaison seule.
+
+   Ce qui ne bouge PAS, volontairement : le cadre de la section. L'ange est
+   accroché à son bord haut ; incliner la section elle-même décollerait ses
+   mains du bord et l'illusion tomberait. L'effet reste donc à l'intérieur.
+
+   `hover: hover` et `pointer: fine` : rien de tout cela sur un écran
+   tactile, où il n'y a pas de survol et où un appui déclencherait l'effet
+   au moment même de la navigation. Et rien non plus pour qui demande moins
+   d'animations. Le JS pose --mx et --my, de -1 à 1 depuis le centre. */
+@media (hover: hover) and (pointer: fine) {
+  .studio-b { perspective: 1200px; }
+  .studio-b-bg,
+  .studio-b-copy {
+    transition: transform .4s cubic-bezier(.22, .61, .36, 1);
+  }
+  .studio-b[data-survol] .studio-b-bg {
+    /* L'agrandissement n'est pas décoratif : sans lui, l'inclinaison
+       découvrirait un bord vide dans le cadre. */
+    transform: scale(1.08)
+               rotateX(calc(var(--my, 0) * -2.5deg))
+               rotateY(calc(var(--mx, 0) * 2.5deg))
+               translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px), 0);
+  }
+  .studio-b[data-survol] .studio-b-copy {
+    transform: translate3d(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 6px), 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-b-bg,
+  .studio-b-copy { transition: none; transform: none !important; }
 }
 .studio-b-copy h2 { color: rgb(47 26 22); }
 .studio-b-copy p { color: rgb(61 42 36); }
@@ -656,8 +726,11 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
     margin-bottom: 0.7rem;
   }
   .studio-b-copy .btn-primary {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    /* Plus grand qu'avant, ici aussi : c'est au doigt que ce bouton est le
+       plus sollicité, et il reste la cible la plus visible de la bande même
+       si toute la section est désormais cliquable. */
+    padding: 0.8rem 1.35rem;
+    font-size: 1rem;
   }
 }
 

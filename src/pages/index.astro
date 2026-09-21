@@ -261,6 +261,13 @@ const faqSchema = {
       decoding="async"
       class="studio-b-bg"
     />
+    {/* Toute la section mène au studio, pas seulement le bouton : un clic ou
+        un doigt n'importe où sur l'image ouvre la même page. Ce lien couvre
+        la surface entière, mais il est retiré de l'arbre d'accessibilité et
+        du parcours clavier : sinon la même destination serait annoncée deux
+        fois et le clavier s'arrêterait sur une zone vide. Le bouton reste le
+        seul lien réel, et il passe au-dessus de celui-ci. */}
+    <a href="/personnaliser" class="studio-b-lien" aria-hidden="true" tabindex="-1"></a>
     <div class="studio-b-copy relative w-full max-w-7xl mx-auto px-6 pt-8 pb-3 md:pt-10 md:pb-6">
       <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight mb-5 leading-[1.15]">
         Personnalisez votre coque
@@ -458,6 +465,56 @@ const faqSchema = {
   </style>
 
   <script is:inline>
+    /* Effet de carte sur la section studio : la photo s'incline vers la
+       souris, le texte suit de moins loin.
+
+       Rien ne se met en place sur un écran tactile ni pour qui demande moins
+       d'animations : la requête média est interrogée AVANT de poser le
+       moindre écouteur, plutôt que de laisser le CSS neutraliser un effet
+       déjà calculé.
+
+       Les coordonnées du curseur sont mises de côté telles quelles, et tout
+       le calcul a lieu dans la frame suivante : la souris émet bien plus
+       d'événements qu'il n'y a d'images à l'écran, et lire la position de la
+       section oblige le navigateur à recalculer sa mise en page. Une fois
+       par image, pas une fois par mouvement. */
+    (function () {
+      var section = document.querySelector('.studio-b');
+      if (!section) return;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var px = 0, py = 0, prevu = false;
+      var peindre = function () {
+        prevu = false;
+        var r = section.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        var mx = ((px - r.left) / r.width - 0.5) * 2;
+        var my = ((py - r.top) / r.height - 0.5) * 2;
+        section.style.setProperty('--mx', Math.max(-1, Math.min(1, mx)).toFixed(3));
+        section.style.setProperty('--my', Math.max(-1, Math.min(1, my)).toFixed(3));
+      };
+      var programmer = function () {
+        if (prevu) return;
+        prevu = true;
+        requestAnimationFrame(peindre);
+      };
+      section.addEventListener('pointermove', function (e) {
+        px = e.clientX; py = e.clientY;
+        programmer();
+      }, { passive: true });
+      section.addEventListener('pointerenter', function (e) {
+        px = e.clientX; py = e.clientY;
+        section.setAttribute('data-survol', '');
+        programmer();
+      });
+      section.addEventListener('pointerleave', function () {
+        section.removeAttribute('data-survol');
+        section.style.setProperty('--mx', '0');
+        section.style.setProperty('--my', '0');
+      });
+    })();
+
     // Contrôle des boutons flèches des sliders produits (desktop).
     // Différé via requestIdleCallback pour libérer le main thread au load
     // (laisse Lighthouse committer le LCP avant parse/exec de ce JS).
