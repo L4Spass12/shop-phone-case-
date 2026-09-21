@@ -238,6 +238,12 @@ const faqSchema = {
       indispensable pour que la photo suive les coins arrondis, et il
       rognerait net tout ce qui dépasse. Le rail ne mesure rien, il sert
       seulement de repère de position. */}
+  {/* Une seule et même scène pour l'ange ET la section. C'est ce qui rend
+      l'inclinaison possible sans décrocher l'ange : ils subissent la même
+      transformation, donc leur alignement ne dépend d'aucun réglage, il est
+      vrai par construction, à n'importe quel angle. L'ange reste hors de la
+      section, qui le rognerait. */}
+  <div class="studio-scene">
   <div class="studio-ange-rail" aria-hidden="true">
     <img
       src={siteConfig.shop.angeStudio}
@@ -278,6 +284,7 @@ const faqSchema = {
       </a>
     </div>
   </section>
+  </div>
 
   <!-- ═══════════════════════════ CATÉGORIES PRODUITS (sliders) ═══════════════════════════ -->
   {/* Une rangée par catégorie. Tant qu'il n'y en a qu'UNE, elle réaffiche
@@ -465,8 +472,8 @@ const faqSchema = {
   </style>
 
   <script is:inline>
-    /* Effet de carte sur la section studio : la photo s'incline vers la
-       souris, le texte suit de moins loin.
+    /* Effet de carte sur la section studio : la scène entière s'incline vers
+       la souris, ange compris, et la photo glisse un peu à l'intérieur.
 
        Rien ne se met en place sur un écran tactile ni pour qui demande moins
        d'animations : la requête média est interrogée AVANT de poser le
@@ -479,7 +486,7 @@ const faqSchema = {
        section oblige le navigateur à recalculer sa mise en page. Une fois
        par image, pas une fois par mouvement. */
     (function () {
-      var section = document.querySelector('.studio-b');
+      var section = document.querySelector('.studio-scene');
       if (!section) return;
       if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

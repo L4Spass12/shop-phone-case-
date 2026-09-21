@@ -619,39 +619,57 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
 }
 
 /* ─── Effet de carte au survol (souris uniquement) ─────────────────────
-   La photo s'incline vers le curseur et le bloc de texte glisse avec elle,
-   mais moins vite : ce décalage entre les deux plans est ce qui donne la
-   profondeur, bien plus qu'une inclinaison seule.
+   C'est la SCÈNE ENTIÈRE qui s'incline vers le curseur, ange compris, et non
+   plus seulement la photo dans son cadre.
 
-   Ce qui ne bouge PAS, volontairement : le cadre de la section. L'ange est
-   accroché à son bord haut ; incliner la section elle-même décollerait ses
-   mains du bord et l'illusion tomberait. L'effet reste donc à l'intérieur.
+   L'ange reste collé parce qu'il subit exactement la même transformation que
+   la section : ils sont dans le même élément, sur le même plan. Leur
+   alignement n'est donc pas un réglage à retrouver angle par angle, il est
+   vrai par construction. C'est aussi pour cela que l'ange ne reçoit AUCUN
+   translateZ : l'avancer d'un seul pixel vers le spectateur le grossirait
+   plus que la section, et ses mains se décolleraient du bord.
+
+   La photo garde un très léger mouvement propre à l'intérieur du cadre :
+   deux plans qui ne bougent pas tout à fait ensemble, c'est ce qui donne la
+   profondeur plutôt qu'une simple plaque qui pivote.
 
    `hover: hover` et `pointer: fine` : rien de tout cela sur un écran
    tactile, où il n'y a pas de survol et où un appui déclencherait l'effet
    au moment même de la navigation. Et rien non plus pour qui demande moins
    d'animations. Le JS pose --mx et --my, de -1 à 1 depuis le centre. */
+.studio-scene { position: relative; }
 @media (hover: hover) and (pointer: fine) {
-  .studio-b { perspective: 1200px; }
-  .studio-b-bg,
-  .studio-b-copy {
-    transition: transform .4s cubic-bezier(.22, .61, .36, 1);
+  .studio-scene {
+    transition: transform .45s cubic-bezier(.22, .61, .36, 1);
+    transform-origin: center center;
   }
-  .studio-b[data-survol] .studio-b-bg {
-    /* L'agrandissement n'est pas décoratif : sans lui, l'inclinaison
+  .studio-b-bg {
+    transition: transform .45s cubic-bezier(.22, .61, .36, 1);
+  }
+  .studio-scene[data-survol] {
+    /* La perspective est dans la transformation elle-même : la scène n'a pas
+       de parent dédié à cela, et en faire un n'apporterait rien. */
+    /* Le léger recul n'est pas qu'un effet : en tournant, la carte occupe plus
+       de place qu'à plat et son coin sortait de la fenêtre, ce qui rouvrait
+       une barre de défilement horizontale. Mesuré à 10 px de dépassement au
+       maximum de l'inclinaison, soit 1,5 % de la largeur : c'est ce que ce
+       0,985 rend au cadre, et il suit la largeur d'écran puisqu'il est
+       proportionnel. */
+    transform: perspective(1500px)
+               rotateX(calc(var(--my, 0) * -3.2deg))
+               rotateY(calc(var(--mx, 0) * 4deg))
+               scale(0.985);
+  }
+  .studio-scene[data-survol] .studio-b-bg {
+    /* L'agrandissement n'est pas décoratif : sans lui, le déplacement
        découvrirait un bord vide dans le cadre. */
-    transform: scale(1.08)
-               rotateX(calc(var(--my, 0) * -2.5deg))
-               rotateY(calc(var(--mx, 0) * 2.5deg))
-               translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px), 0);
-  }
-  .studio-b[data-survol] .studio-b-copy {
-    transform: translate3d(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 6px), 0);
+    transform: scale(1.05)
+               translate3d(calc(var(--mx, 0) * -12px), calc(var(--my, 0) * -9px), 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .studio-b-bg,
-  .studio-b-copy { transition: none; transform: none !important; }
+  .studio-scene,
+  .studio-b-bg { transition: none; transform: none !important; }
 }
 .studio-b-copy h2 { color: rgb(47 26 22); }
 .studio-b-copy p { color: rgb(61 42 36); }
@@ -987,21 +1005,27 @@ html[data-theme='sunfreaks'] { --studio-marge: 8px; }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] { --studio-marge: 12px; }
 }
-html[data-theme='sunfreaks'] main > section.studio-b {
+/* Ciblée par la CLASSE seule : la section n'est plus fille directe de
+   `main`, elle vit dans la scène qui porte l'inclinaison. La règle générique
+   `main > section` ne l'atteint plus non plus, ce qui ne change rien : la
+   section commençait justement par l'annuler. */
+html[data-theme='sunfreaks'] .studio-b {
   /* Plus d'aplat violet : la section porte désormais une photo pleine largeur
      (cf. .studio-section). On garde la géométrie de panneau flottant, qui est
-     ce qui donne le rythme avec la bannière du haut. */
+     ce qui donne le rythme avec la bannière du haut.
+     Les marges LATÉRALES sont portées par la scène et non par la section :
+     c'est la scène qui s'incline, donc c'est elle qui doit avoir de la place
+     sur les côtés, sous peine de rouvrir une barre de défilement. */
   background: transparent;
   border-top: 0;
-  margin: var(--studio-marge) 14px;
+  margin: var(--studio-marge) 0;
   border-radius: 30px;
   overflow: hidden;
 }
+html[data-theme='sunfreaks'] .studio-scene { margin: 0 14px; }
 @media (min-width: 768px) {
-  html[data-theme='sunfreaks'] main > section.studio-b {
-    margin: var(--studio-marge) 22px;
-    border-radius: 40px;
-  }
+  html[data-theme='sunfreaks'] .studio-b { border-radius: 40px; }
+  html[data-theme='sunfreaks'] .studio-scene { margin: 0 22px; }
 }
 
 /* ─── L'ange accroché au bord haut de la section studio ────────────────
