@@ -49,35 +49,33 @@
   src: url('/fonts/inter-600.woff2') format('woff2');
 }
 
-/* Police de TITRAGE : Plus Jakarta Sans, choisie et arrêtée. Elle habille les
-   titres h1 à h4, les libellés de boutons (en italique), les prix et les
-   titres du pied de page, via --font-display déclarée plus bas par le thème.
+/* Police de TITRAGE : Bricolage Grotesque, choisie et arrêtée. Elle habille
+   les titres h1 à h4, les libellés de boutons, les prix et les titres du pied
+   de page, via --font-display déclarée plus bas par le thème.
 
-   Trois fichiers, parce que le thème demande trois choses différentes : 400
-   pour les prix, 700 pour les titres, 700 italique pour les boutons. Ne pas
-   fournir une graisse ne la supprime pas, le navigateur l'imite en épaississant
-   la plus proche, et tout paraît trop gras. Le 800 d'origine faisait
-   exactement ça et c'est ce qui se voyait sur les titres. */
+   Deux fichiers, parce que le thème demande deux choses : 400 pour les prix,
+   700 pour les titres et les boutons. Ne pas fournir une graisse ne la
+   supprime pas, le navigateur l'imite en épaississant la plus proche, et tout
+   paraît trop gras : c'est exactement ce qui se voyait du temps où une seule
+   graisse était servie.
+
+   Cette famille n'a PAS d'italique dessinée, et c'est assumé : les libellés de
+   boutons repassent au droit plus bas. Les laisser en italique aurait fait
+   pencher les lettres mécaniquement, faute de vrai dessin penché, et ce
+   faux-italique se voit sur une grotesque aux formes déjà irrégulières. */
 @font-face {
-  font-family: 'Plus Jakarta Sans';
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/jakarta-400.woff2') format('woff2');
+  src: url('/fonts/bricolage-400.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Plus Jakarta Sans';
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/fonts/jakarta-700.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/jakarta-700-italic.woff2') format('woff2');
+  src: url('/fonts/bricolage-700.woff2') format('woff2');
 }
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
@@ -289,7 +287,7 @@ html[data-theme='sunfreaks'] {
   /* Logotype : le script calligraphique (Pinyon Script),
      que l'utilisateur préfère. */
   --font-body:    'Inter', system-ui, sans-serif;
-  --font-display: 'Plus Jakarta Sans', Georgia, serif;
+  --font-display: 'Bricolage Grotesque', Georgia, serif;
   --font-logo:    'Pinyon Script', cursive;
   --font-script:  'Playfair Display', Georgia, serif;
 }
@@ -687,7 +685,10 @@ html[data-theme='sunfreaks'] footer button[type='submit'] {
   border: 1.5px solid rgb(var(--c-cream));
   box-shadow: 0 2px 0 rgb(var(--c-cream) / .55), 0 6px 14px -8px rgb(var(--c-cream) / .5);
   font-family: var(--font-display);
-  font-style: italic;
+  /* Au DROIT : Bricolage Grotesque n'a pas d'italique dessinée. Demander
+     `italic` ferait pencher les lettres mécaniquement, et ce faux-italique se
+     repère tout de suite sur une grotesque aux formes déjà irrégulières. */
+  font-style: normal;
   font-weight: 700;
   text-transform: none;
   letter-spacing: 0;
@@ -711,7 +712,7 @@ html[data-theme='sunfreaks'] .btn-outline {
   border: 1px solid rgb(var(--c-cream) / .45);
   border-radius: 14px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;   /* même raison que ci-dessus : pas d'italique dessinée */
   font-weight: 700;
   box-shadow: none;
 }

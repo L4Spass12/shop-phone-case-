@@ -173,10 +173,10 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
     ))}
 
-    {/* Titres : seule la graisse 700 est préchargée. C'est celle des titres,
-        donc du premier texte que l'on voit. Le 400 des prix et l'italique des
-        boutons arrivent en cours de route sans que ça se remarque. */}
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/jakarta-700.woff2" crossorigin="anonymous" />
+    {/* Titres : seule la graisse 700 est préchargée. C'est celle des titres et
+        des boutons, donc du premier texte que l'on voit. Le 400 des prix
+        arrive en cours de route sans que ça se remarque. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-700.woff2" crossorigin="anonymous" />
 
 
     <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
