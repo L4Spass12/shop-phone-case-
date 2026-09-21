@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
 import logoFont from '../lib/logo-font.json';
+import { candidate, faceCss, fichier, TABLE_ESSAI } from '../lib/typo-titres';
 
 interface Props {
   title: string;
@@ -44,6 +45,10 @@ if (texteLogo !== logoFont.texte) {
     `Lancez : node scripts/subset-logo-font.mjs`
   );
 }
+
+// Police de titrage choisie dans site.config.mjs, s'il y en a une. `null`
+// laisse le site tel qu'il est. Voir src/lib/typo-titres.ts.
+const titre = candidate(siteConfig.titreFont ?? undefined);
 
 const SITE_NAME = siteConfig.name;
 const SITE_URL = siteConfig.url;
@@ -169,6 +174,47 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     {preloadFonts.map((href) => (
       <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
     ))}
+
+    {/* Police des titres, quand une a été choisie dans site.config.mjs. */}
+    {titre && (
+      <>
+        <link rel="preload" as="font" type="font/woff2" href={fichier(titre, 'normal')} crossorigin="anonymous" />
+        <style set:html={faceCss(titre) + `html{--font-display:'${titre.famille}',Georgia,serif}`} />
+      </>
+    )}
+
+    {/* ─── Essai de polices de titrage ───────────────────────────────────
+        Inerte tant que personne n'ajoute `?typo=<id>` à l'adresse. Dans ce
+        cas seulement, la police demandée est chargée et remplace celle des
+        titres, et elle SUIT la navigation jusqu'à la fermeture de l'onglet :
+        on juge sur les vraies pages, pas sur un spécimen. `?typo=off` revient
+        à l'état normal. Rien n'est modifié sur le site et aucun visiteur ne
+        peut tomber dessus par hasard.
+        La valeur est posée en style INLINE sur <html> : c'est le seul endroit
+        qui l'emporte à coup sûr sur la déclaration du thème, plus spécifique
+        que :root. */}
+    <script is:inline define:vars={{ TABLE_ESSAI }}>
+      (function () {
+        try {
+          var demande = new URLSearchParams(location.search).get('typo');
+          if (demande === 'off') { sessionStorage.removeItem('typo-essai'); return; }
+          var id = demande || sessionStorage.getItem('typo-essai');
+          var f = id && TABLE_ESSAI[id];
+          if (!f) return;
+          if (demande) sessionStorage.setItem('typo-essai', id);
+          var famille = f[0], poids = f[1], italique = f[2];
+          var face = function (style) {
+            return "@font-face{font-family:'" + famille + "';font-style:" + style +
+              ";font-weight:" + poids + ";font-display:swap;src:url('/fonts/titres/" +
+              id + '-' + poids + (style === 'italic' ? '-italic' : '') + ".woff2') format('woff2')}";
+          };
+          var st = document.createElement('style');
+          st.textContent = face('normal') + (italique ? face('italic') : '');
+          document.head.appendChild(st);
+          document.documentElement.style.setProperty('--font-display', "'" + famille + "',Georgia,serif");
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
     {preloadImages.map(img => (

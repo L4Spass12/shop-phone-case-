@@ -43,7 +43,8 @@ export default defineConfig({
       lastmod: new Date(),
       // Exclut les produits internes/test qui ne doivent pas être indexés
       // (slug commençant par `produit-test-` ou `test-`).
-      filter: (page) => !/\/product\/(produit-)?test[-/]/.test(page),
+      // Exclut aussi /typo, l'atelier d'essai des polices : page de travail.
+      filter: (page) => !/\/product\/(produit-)?test[-/]/.test(page) && !/\/typo\/?$/.test(page),
       // Priorité différenciée par type de page (signal de hiérarchie pour les
       // crawlers). On retire d'abord le préfixe de locale (/en, /de) pour que
       // les versions traduites héritent de la même priorité que la FR.

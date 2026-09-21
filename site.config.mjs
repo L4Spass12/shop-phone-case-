@@ -21,6 +21,20 @@ const config = {
   // la lecture du mot, à l'opposé du registre maison visé.
   logoPrefix: 'Vareska',
   logoSuffix: '',
+
+  // ─── Police des TITRES ────────────────────────────────────────────────
+  // Elle habille plus que les titres : les libellés des boutons, les prix et
+  // les titres du pied de page en dépendent aussi (cf. --font-display dans
+  // src/styles/global.css).
+  //
+  // `null` = état actuel, c'est-à-dire Georgia. Non par choix : le thème
+  // réclame Playfair Display depuis le début, mais le fichier n'a jamais été
+  // chargé, alors le navigateur retombe sur la police système suivante.
+  //
+  // Pour ESSAYER sans rien changer, ajoutez ?typo=<id> à n'importe quelle
+  // adresse du site. La page /typo liste les candidates et leurs identifiants.
+  // Pour CHOISIR, écrivez l'identifiant ici, entre apostrophes.
+  titreFont: null,
   description:
     'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 
