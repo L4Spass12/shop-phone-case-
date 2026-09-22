@@ -70,12 +70,22 @@
   font-display: swap;
   src: url('/fonts/bricolage-400.woff2') format('woff2');
 }
+/* Le fichier de la graisse 700 est RETRAVAILLÉ, et il faut le savoir avant de
+   le remplacer par celui d'origine. Dans la fonte livrée, les lettres sont
+   assemblées à partir de formes qui se superposent sans être fusionnées : le
+   T est fait de deux rectangles, le E de quatre, le L de deux. Sur un texte
+   plein cela ne se voit pas, le remplissage les réunit. Mais le titre creux
+   de la bannière n'est qu'un CONTOUR, et un contour suit chaque forme :
+   toutes les arêtes intérieures se dessinaient au milieu des lettres.
+   Les contours ont donc été fusionnés une fois pour toutes (fontTools et
+   skia-pathops), ce qui ramène T, E, L et H à une seule forme chacun tout en
+   laissant leurs trous aux lettres qui en ont, comme le O ou le R. */
 @font-face {
   font-family: 'Bricolage Grotesque';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/fonts/bricolage-700.woff2') format('woff2');
+  src: url('/fonts/bricolage-700-fusion.woff2') format('woff2');
 }
 
 /* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
