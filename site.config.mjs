@@ -13,7 +13,7 @@ const config = {
   name: 'Moroji',
   // ⚠️ Sert de base aux URL canoniques, au sitemap et aux hreflang. Le domaine
   // doit donc être enregistré et pointer sur le site avant l'indexation.
-  url: 'https://moroji.com', // TODO: domaine libre au 24/09/2026, à acheter
+  url: 'https://moroji.com',
 
   // Logo textuel, rendu en capitales espacées par le Header.
   // `logoSuffix` permet un accent de couleur sur la fin du nom ; laissé VIDE

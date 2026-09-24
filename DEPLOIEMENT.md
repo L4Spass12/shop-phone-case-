@@ -29,7 +29,7 @@ directement dans `public_html`.
 
 ## ⚙️ Réglages côté Hostinger (hPanel)
 
-Chemin : **hPanel → Sites web → `aquamarine-termite-481737.hostingersite.com`
+Chemin : **hPanel → Sites web → `moroji.com`
 → Avancé → GIT**
 
 | Réglage | Valeur |
@@ -37,7 +37,7 @@ Chemin : **hPanel → Sites web → `aquamarine-termite-481737.hostingersite.com
 | Dépôt connecté | `L4Spass12/shop-phone-case-` (compte GitHub `L4Spass12`) |
 | Branche déployée | **`hostinger-deploy`** |
 | Répertoire racine | **`public_html`** |
-| Site web | `aquamarine-termite-481737.hostingersite.com` |
+| Site web | `moroji.com` (ancienne adresse de test : `aquamarine-termite-481737.hostingersite.com`) |
 
 > ⚠️ La branche à sélectionner dans hPanel est **`hostinger-deploy`**, jamais
 > `main`. `main` contient le code source (non compilé) : sélectionner `main`
@@ -55,7 +55,7 @@ Chemin : **hPanel → Sites web → `aquamarine-termite-481737.hostingersite.com
 3. Récupérer le build sur Hostinger :
    - soit Hostinger déploie automatiquement quand `hostinger-deploy` change,
    - soit cliquer **« Redéployer »** dans hPanel → Git → Aperçu.
-4. Vérifier `aquamarine-termite-481737.hostingersite.com`.
+4. Vérifier `https://moroji.com`.
 
 > Un push qui ne touche QUE `.github/**` ou `README.md` ne déclenche pas de
 > rebuild (paths-ignore) : logique, ça ne change pas le site rendu.
