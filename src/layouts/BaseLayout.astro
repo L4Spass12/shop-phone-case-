@@ -52,7 +52,7 @@ const DEFAULT_DESCRIPTION = siteConfig.description;
 const {
   title,
   description = DEFAULT_DESCRIPTION,
-  image = '/og-image.jpg',
+  image = '/og-image.jpg?v=2',
   imageWidth = 1200,
   imageHeight = 630,
   type = 'website',
@@ -91,7 +91,7 @@ const organizationSchema = {
   url: SITE_URL,
   logo: {
     '@type': 'ImageObject',
-    url: `${SITE_URL}/og-image.jpg`,
+    url: `${SITE_URL}/og-image.jpg?v=2`,
     width: 1200,
     height: 630,
   },
@@ -193,16 +193,16 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       />
     ))}
 
-    {/* Favicons (?v=3 = cache-bust : .htaccess force max-age=1y, immutable).
+    {/* Favicons (?v=4 = cache-bust : .htaccess force max-age=1y, immutable).
         - apple-touch-icon DOIT être un PNG : iOS ignore le SVG et génère
           sinon une capture de la page à l'ajout à l'écran d'accueil.
         - favicon-32.png : repli pour les navigateurs sans support SVG.
         - mask-icon (onglets épinglés Safari) prend la couleur d'ENCRE : en
           blanc, l'icône était invisible sur la barre d'onglets claire. */}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
-    <link rel="mask-icon" href="/favicon.svg?v=3" color="#111113" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+    <link rel="mask-icon" href="/favicon.svg?v=4" color="#111113" />
 
     <!-- Primary meta -->
     <title>{title}</title>
@@ -271,7 +271,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         data-locale={currentLocale}
         data-language={currentLocale}
         data-currency={currencyForLocale(currentLocale)}
-        data-logo={new URL('/logo-checkout.png', Astro.site ?? SITE_URL).toString()}
+        data-logo={new URL('/logo-checkout.png?v=2', Astro.site ?? SITE_URL).toString()}
         data-design-edit-path="/personnaliser/"
         defer
       ></script>
