@@ -13,7 +13,7 @@ import { smallerVariant } from '../lib/image-variants';
 interface Props {
   handle?: string;
 }
-const { handle = 'vareska' } = Astro.props;
+const { handle = 'moroji' } = Astro.props;
 const igUrl = (siteConfig.socials && siteConfig.socials.instagram) || `https://instagram.com/${handle}`;
 
 // `?v=N` = cache-bust : Hostinger sert les images avec un cache immuable

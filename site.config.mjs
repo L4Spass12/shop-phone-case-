@@ -10,16 +10,16 @@
  */
 const config = {
   // ─── Identité ────────────────────────────────────────────────────
-  name: 'Vareska',
+  name: 'Moroji',
   // ⚠️ Sert de base aux URL canoniques, au sitemap et aux hreflang. Le domaine
   // doit donc être enregistré et pointer sur le site avant l'indexation.
-  url: 'https://vareska.com',
+  url: 'https://moroji.com', // TODO: domaine libre au 24/09/2026, à acheter
 
   // Logo textuel, rendu en capitales espacées par le Header.
   // `logoSuffix` permet un accent de couleur sur la fin du nom ; laissé VIDE
   // ici volontairement : un nom coupé en deux teintes lit « startup » et casse
   // la lecture du mot, à l'opposé du registre maison visé.
-  logoPrefix: 'Vareska',
+  logoPrefix: 'Moroji',
   logoSuffix: '',
 
   // La police des TITRES n'est plus un réglage : Plus Jakarta Sans est arrêtée.
@@ -27,7 +27,7 @@ const config = {
   // ses trois graisses, et distribuée par --font-display. Elle habille les
   // titres, les libellés des boutons, les prix et le pied de page.
   description:
-    'Vareska - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
+    'Moroji - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
 
   // ─── Internationalisation ────────────────────────────────────────
   // Stratégie : sous-dossier, la locale par défaut n'a PAS de préfixe
@@ -207,7 +207,7 @@ const config = {
   // 1. Compte sur https://web3forms.com  2. Colle l'Access Key ici.
   forms: {
     web3formsKey: '',                    // TODO
-    contactEmail: 'contact@vareska.com', // TODO: créer la boîte chez ton hébergeur
+    contactEmail: 'contact@moroji.com', // TODO: créer la boîte chez ton hébergeur
   },
 
   // ─── Boutique ────────────────────────────────────────────────────
