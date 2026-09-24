@@ -168,7 +168,8 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         système avant de sauter. On ne précharge QUE ces deux-là : les
         graisses 300/500/600 arrivent en cours de route sans gêner. */}
     <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin="anonymous" />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/pinyon-script-logo.woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={logoFont.fichier} crossorigin="anonymous" />
+    <style is:inline set:html={`@font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400;font-display:swap;src:url('${logoFont.fichier}') format('woff2')}`}></style>
     {preloadFonts.map((href) => (
       <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
     ))}

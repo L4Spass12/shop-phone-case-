@@ -88,16 +88,9 @@
   src: url('/fonts/bricolage-700-fusion.woff2') format('woff2');
 }
 
-/* Logotype calligraphique du thème « sunfreaks ». Fichier réduit aux seules
-   lettres du nom de la boutique par scripts/subset-logo-font.mjs : 4 Ko au
-   lieu de 38. À REGÉNÉRER si logoPrefix change (le build le rappelle). */
-@font-face {
-  font-family: 'Pinyon Script';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/pinyon-script-logo.woff2') format('woff2');
-}
+/* La police du logotype (Pinyon Script réduite aux lettres du nom) est
+   déclarée dans BaseLayout.astro : son nom de fichier change avec le nom de
+   la boutique, pour qu'aucun navigateur ne garde l'ancienne. */
 
 @tailwind base;
 @tailwind components;
