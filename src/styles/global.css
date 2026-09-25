@@ -1137,6 +1137,19 @@ html[data-theme='sunfreaks'] footer input {
   border: 1px solid rgb(255 255 255 / .35);
 }
 
+/* Champs de saisie à 16 px minimum sur écran tactile. En dessous, Safari
+   iOS zoome sur le champ touché et reste zoomé après l'avoir quitté (vu sur
+   la newsletter du pied de page, à 12 px). Limité aux écrans tactiles : le
+   rendu sur ordinateur ne bouge pas. !important car les champs portent des
+   classes utilitaires de taille (text-xs…) qui l'emporteraient sinon. */
+@media (hover: none) and (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
 /* Décalage sous le header fixe, bandeau compris quand il existe.
    (Auparavant en style inline sur <main>, ce qui empêchait de l'ajuster
    depuis un thème.) */
