@@ -98,6 +98,12 @@
 
 :root {
   --header-h: 64px;
+  /* Zones sûres de l'iPhone (heure en haut, barre d'accueil en bas), non
+     nulles grâce à viewport-fit=cover. --header-total = ce que le header
+     occupe réellement en haut de l'écran. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --header-total: calc(var(--header-h) + var(--safe-top));
   color-scheme: light;
 
   /* ═════════════════════════════════════════════════════════════════════
@@ -369,7 +375,7 @@ html[data-theme='sunfreaks'] .hero-shell { z-index: 1; }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] .hero-section { align-items: flex-start; }
   html[data-theme='sunfreaks'] .hero-shell {
-    padding-top: calc(var(--header-h) + 6rem);
+    padding-top: calc(var(--header-total) + 6rem);
     padding-bottom: 2rem;
   }
 }
@@ -908,15 +914,15 @@ html[data-theme='sunfreaks'] main > section.hero-section {
      --header-h, pas de --marquee-h. */
   /* Pleine largeur : la bannière touche les bords de l'écran. Seule la marge
      du HAUT reste négative, pour la faire remonter sous le header. */
-  margin: calc(-1 * var(--header-h)) 0 0;
-  padding-top: var(--header-h);
+  margin: calc(-1 * var(--header-total)) 0 0;
+  padding-top: var(--header-total);
   border-radius: 0;
   overflow: hidden;
   min-height: 78vh;
 }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section {
-    margin: calc(-1 * var(--header-h)) 0 0;
+    margin: calc(-1 * var(--header-total)) 0 0;
     border-radius: 0;
     /* Plus haute qu'avant (75vh) puisqu'elle accueille désormais le header.
        Bornée en vw pour qu'un écran large et bas ne la rende pas démesurée. */
@@ -1153,7 +1159,7 @@ html[data-theme='sunfreaks'] footer input {
 /* Décalage sous le header fixe, bandeau compris quand il existe.
    (Auparavant en style inline sur <main>, ce qui empêchait de l'ajuster
    depuis un thème.) */
-.site-main { padding-top: calc(var(--header-h) + var(--marquee-h, 0px)); }
+.site-main { padding-top: calc(var(--header-total) + var(--marquee-h, 0px)); }
 
 @layer base {
   html {
@@ -2190,3 +2196,14 @@ html[data-theme='sunfreaks'] footer input {
 @media (prefers-reduced-motion: reduce) {
   .mp-panel { animation: none; }
 }
+
+
+/* ─── Zones sûres (viewport-fit=cover, cf. BaseLayout) ──────────────────
+   Tout élément fixe collé en haut ou en bas réserve la zone de l'iPhone qui
+   le concerne ; ailleurs ces valeurs valent 0. Un élément fixe ajouté plus
+   tard doit faire pareil. */
+#site-header { padding-top: var(--safe-top); }
+#sticky-atc { padding-bottom: var(--safe-bottom); }
+#cookie-banner { margin-bottom: var(--safe-bottom); }
+#toc-sheet { padding-bottom: var(--safe-bottom); }
+[aria-controls="toc-sheet"] { margin-bottom: var(--safe-bottom); }
