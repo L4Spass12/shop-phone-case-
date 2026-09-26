@@ -889,10 +889,16 @@ html[data-theme='sunfreaks'] #site-header > div {
   top: var(--safe-top);
   width: min(1216px, calc(100% - 24px));
   max-width: none;
-  transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease, visibility 0s linear 0s;
 }
+/* Masqué au défilement, l'îlot glisse DERRIÈRE l'heure : iOS 26 s'en servait
+   pour peindre cette zone en blanc (vérifié sur simulateur iOS 26, cause
+   trouvée par élimination). Invisible une fois sorti, visible dès qu'il
+   revient. */
 html[data-theme='sunfreaks'].header-hidden #site-header > div {
   transform: translateY(calc(-100% - 9px - var(--safe-top) - var(--marquee-h, 0px)));
+  visibility: hidden;
+  transition: transform 0.35s ease, visibility 0s linear 0.35s;
 }
 html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div { transform: none; }
 /* L'îlot est dimensionné par son padding : la barre ne doit pas imposer la
