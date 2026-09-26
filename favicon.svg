@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Moroji">
+  <rect width="100" height="100" rx="24" fill="#111113"/>
+  <!--
+    Monogramme « M » : même tracé à la plume que l'ancien V, jambages
+    descendants larges, remontants fins. Un M symétrique ressemble à une
+    lettre de clavier ; cette différence d'épaisseur lui donne un caractère
+    gravé, sans ornement.
+
+    Dessiné en <path> et non en <text> : indépendant des polices installées,
+    et lisible jusqu'à 16px dans un onglet.
+  -->
+  <path
+    fill="#FFFFFF"
+    d="M22 78
+       L22 26
+       L36 26
+       L50 60
+       L64 26
+       L78 26
+       L78 78
+       L66 78
+       L66 42
+       L53 74
+       L45 74
+       L28 40
+       L28 78
+       Z"
+  />
+</svg>

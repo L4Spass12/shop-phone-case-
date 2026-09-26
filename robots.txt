@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moroji.com/sitemap-index.xml
+
+Content-Signal: ai-train=no, search=yes, ai-input=yes
