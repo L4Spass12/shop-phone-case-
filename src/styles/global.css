@@ -875,6 +875,26 @@ html[data-theme='sunfreaks'] #site-header > div {
     padding-bottom: 10px;
   }
 }
+/* iOS 26 peint la zone de l'heure avec la couleur de l'élément FIXE collé en
+   haut de l'écran. L'îlot blanc, enfant direct du header fixe, la rendait
+   blanche sur toutes les pages, là où d'autres boutiques laissent voir la
+   page. En position absolue, iOS l'ignore : le header fixe reste un simple
+   rail transparent (fond transparent, sans hauteur propre). Conséquence : le
+   header n'a plus de hauteur, c'est donc l'îlot qui porte le glissement
+   « masqué au défilement » (cf. html.header-hidden plus haut). */
+html[data-theme='sunfreaks'] #site-header > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--safe-top);
+  width: min(1216px, calc(100% - 24px));
+  max-width: none;
+  transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+html[data-theme='sunfreaks'].header-hidden #site-header > div {
+  transform: translateY(calc(-100% - 9px - var(--safe-top) - var(--marquee-h, 0px)));
+}
+html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div { transform: none; }
 /* L'îlot est dimensionné par son padding : la barre ne doit pas imposer la
    hauteur fixe --header-h (sinon l'îlot devient trop haut). */
 html[data-theme='sunfreaks'] .header-bar { height: auto; min-height: 40px; }
