@@ -2222,7 +2222,10 @@ html[data-theme='sunfreaks'] footer input {
    Tout élément fixe collé en haut ou en bas réserve la zone de l'iPhone qui
    le concerne ; ailleurs ces valeurs valent 0. Un élément fixe ajouté plus
    tard doit faire pareil. */
-#site-header { padding-top: var(--safe-top); }
+/* Header : rail fixe SANS hauteur (l'îlot, en absolu, se place lui-même
+   sous l'heure via top: --safe-top). Un rail haut de la zone de l'heure
+   était pris par iOS 26 comme couleur de cette zone : blanc partout. */
+#site-header { height: 0; }
 #sticky-atc { padding-bottom: var(--safe-bottom); }
 /* Cachée, la barre d'ajout au panier glisse juste sous l'écran, c'est-à-dire
    derrière la barre flottante translucide de Safari (iOS 26) : on la voyait
