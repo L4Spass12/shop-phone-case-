@@ -2204,6 +2204,12 @@ html[data-theme='sunfreaks'] footer input {
    tard doit faire pareil. */
 #site-header { padding-top: var(--safe-top); }
 #sticky-atc { padding-bottom: var(--safe-bottom); }
+/* Cachée, la barre d'ajout au panier glisse juste sous l'écran, c'est-à-dire
+   derrière la barre flottante translucide de Safari (iOS 26) : on la voyait
+   au travers, et Safari en tirait sa teinte jaune. Invisible une fois sortie
+   (après l'animation), visible dès qu'elle revient. */
+#sticky-atc { transition: transform .3s ease, visibility 0s linear 0s; }
+#sticky-atc.translate-y-full { visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s; }
 #cookie-banner { margin-bottom: var(--safe-bottom); }
 #toc-sheet { padding-bottom: var(--safe-bottom); }
 [aria-controls="toc-sheet"] { margin-bottom: var(--safe-bottom); }
