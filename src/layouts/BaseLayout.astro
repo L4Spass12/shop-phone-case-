@@ -132,7 +132,8 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         global.css, et le widget de paiement fait de même de son côté. */}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#FFFFFF" />
+    {/* Pas de theme-color : il faisait peindre en blanc la zone de l'heure
+        par Safari sur toutes les pages, au lieu d'y laisser voir la page. */}
     <meta name="format-detection" content="telephone=no" />
 
     {/* Thème visuel : applique le choix mémorisé AVANT le paint (anti-flash).
