@@ -902,6 +902,26 @@ html[data-theme='sunfreaks'].header-hidden #site-header > div {
   transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div { opacity: 1; visibility: visible; pointer-events: auto; }
+/* Zone de l'heure (iOS 26) sur la bannière d'accueil : en haut de page,
+   Safari ne laisse rien passer au-dessus du document et peint cette zone
+   lui-même, avec la couleur d'un élément FIXE touchant le bord haut. Ce
+   liseré fixe, couleur du ciel de la bannière et fondu vers le bas (donc
+   invisible sur la photo), lui donne cette couleur : la bannière semble
+   monter sous l'heure. N'existe que sur la bannière (.header-over-hero) :
+   ailleurs, pas de boîte du tout (un élément seulement masqué serait
+   encore pris en compte par Safari). */
+html[data-theme='sunfreaks'] #site-header.header-over-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background-color: #264f6a;
+  -webkit-mask-image: linear-gradient(#000, transparent);
+  mask-image: linear-gradient(#000, transparent);
+  pointer-events: none;
+}
 /* L'îlot est dimensionné par son padding : la barre ne doit pas imposer la
    hauteur fixe --header-h (sinon l'îlot devient trop haut). */
 html[data-theme='sunfreaks'] .header-bar { height: auto; min-height: 40px; }
