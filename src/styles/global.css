@@ -889,18 +889,19 @@ html[data-theme='sunfreaks'] #site-header > div {
   top: var(--safe-top);
   width: min(1216px, calc(100% - 24px));
   max-width: none;
-  transition: transform 0.35s ease, background-color 0.3s ease, border-color 0.3s ease, visibility 0s linear 0s;
+  transition: opacity 0.25s ease, background-color 0.3s ease, border-color 0.3s ease, visibility 0s linear 0s;
 }
-/* Masqué au défilement, l'îlot glisse DERRIÈRE l'heure : iOS 26 s'en servait
-   pour peindre cette zone en blanc (vérifié sur simulateur iOS 26, cause
-   trouvée par élimination). Invisible une fois sorti, visible dès qu'il
-   revient. */
+/* Masqué au défilement, l'îlot s'efface SUR PLACE (fondu) au lieu de
+   remonter : parti derrière l'heure, iOS 26 s'en servait pour peindre cette
+   zone en blanc, même invisible (vérifié sur simulateur iOS 26 : sans
+   déplacement, la page reste visible sous l'heure). */
 html[data-theme='sunfreaks'].header-hidden #site-header > div {
-  transform: translateY(calc(-100% - 9px - var(--safe-top) - var(--marquee-h, 0px)));
+  opacity: 0;
   visibility: hidden;
-  transition: transform 0.35s ease, visibility 0s linear 0.35s;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
-html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div { transform: none; }
+html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div { opacity: 1; visibility: visible; pointer-events: auto; }
 /* L'îlot est dimensionné par son padding : la barre ne doit pas imposer la
    hauteur fixe --header-h (sinon l'îlot devient trop haut). */
 html[data-theme='sunfreaks'] .header-bar { height: auto; min-height: 40px; }
