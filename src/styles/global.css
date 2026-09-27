@@ -909,8 +909,9 @@ html[data-studio-app][data-theme='sunfreaks'].header-hidden #site-header > div {
    invisible sur la photo), lui donne cette couleur : la bannière semble
    monter sous l'heure. N'existe que sur la bannière (.header-over-hero) :
    ailleurs, pas de boîte du tout (un élément seulement masqué serait
-   encore pris en compte par Safari). */
-html[data-theme='sunfreaks'] #site-header.header-over-hero::before {
+   encore pris en compte par Safari). Retiré aussi quand le panier ou le
+   paiement est ouvert (data-atelier-open, posé par le widget). */
+html[data-theme='sunfreaks']:not([data-atelier-open]) #site-header.header-over-hero::before {
   content: '';
   position: absolute;
   top: 0;
