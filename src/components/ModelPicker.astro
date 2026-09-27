@@ -76,6 +76,7 @@ const payload = {
     placeholder: t('model.placeholder', lang),
     saved: t('model.saved', lang),
     change: t('model.change', lang),
+    addToCart: t('shop.addToCart', lang),
   },
 };
 
@@ -415,7 +416,31 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             if (chosen) b.dataset.itemModel = chosen;
             else delete b.dataset.itemModel;
           });
+          paintLabels();
         }
+
+        // Tant qu'aucun modèle n'est choisi, les boutons d'achat disent
+        // « Choisir mon modèle » (leur clic ouvre le sélecteur, cf. plus bas)
+        // au lieu de promettre un ajout au panier. On ne remplace que le
+        // texte du libellé, le prix à côté reste en place. Le sélecteur de
+        // finition réécrit le bouton principal : on repasse derrière lui.
+        function paintLabels() {
+          var want = chosen ? T.addToCart : T.placeholder;
+          var other = chosen ? T.placeholder : T.addToCart;
+          var btns = document.querySelectorAll('.buy-button');
+          Array.prototype.forEach.call(btns, function (b) {
+            if (b.disabled) return;
+            var walker = document.createTreeWalker(b, NodeFilter.SHOW_TEXT);
+            var n;
+            while ((n = walker.nextNode())) {
+              if (n.nodeValue.trim() === other) {
+                n.nodeValue = n.nodeValue.replace(other, want);
+                break;
+              }
+            }
+          });
+        }
+        document.addEventListener('vareska:variant-change', paintLabels);
 
         // ─── Restauration du choix précédent ──────────────────────────────
         // Le cœur du dispositif : le visiteur ne choisit son téléphone qu'une
@@ -430,6 +455,10 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           if (ok) select(saved, false);
           else { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
         })();
+        // Ce script s'exécute avant que les boutons plus bas dans la page
+        // n'existent : libellés posés une fois le document lu.
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paintLabels);
+        else paintLabels();
 
         // ─── Événements ───────────────────────────────────────────────────
         trigger.addEventListener('click', function () { isOpen() ? close(true) : open(); });
