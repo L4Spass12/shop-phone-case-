@@ -256,7 +256,10 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         implémentée — fix à faire dans le repo du widget.
         data-design-edit-path : chemin du studio, pour rouvrir un design depuis
         une ligne de panier personnalisée. Non localisé, le studio n'existe
-        qu'en français pour l'instant. */}
+        qu'en français pour l'instant.
+        data-checkout-path : « Passer au paiement » ouvre la page de paiement
+        de la boutique (CheckoutShell) au lieu du tiroir. Le retirer pour
+        revenir au paiement dans le tiroir. */}
     {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && siteConfig.shop?.atelier?.shopId && (
       <script
         src={siteConfig.shop.atelier.widgetUrl}
@@ -266,6 +269,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         data-currency={currencyForLocale(currentLocale)}
         data-logo={new URL('/logo-checkout.png?v=2', Astro.site ?? SITE_URL).toString()}
         data-design-edit-path="/personnaliser/"
+        data-checkout-path={localizeUrl('/checkout/', currentLocale)}
         defer
       ></script>
     )}

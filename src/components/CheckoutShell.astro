@@ -1,0 +1,59 @@
+---
+/**
+ * Page de paiement de la boutique (moroji.com/checkout/).
+ *
+ * Le paiement (worker seamless-cart) est monté DANS la page par le widget, à
+ * la hauteur de son contenu : c'est la page qui défile. Au toucher d'un champ,
+ * iOS n'a qu'un document à faire défiler, là où le tiroir plein écran le
+ * faisait décaler l'écran en deux temps.
+ *
+ * Page volontairement nue : ni header ni footer du site (le paiement a sa
+ * propre barre avec le logo et la croix de retour), ni bandeau cookies.
+ * Le tiroir reste disponible : il suffit de retirer data-checkout-path du
+ * script du widget (BaseLayout) pour y revenir.
+ */
+import siteConfig from '../../site.config.mjs';
+import { currencyForLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const SITE_URL = siteConfig.url;
+const atelier = siteConfig.shop?.atelier;
+const titre = { fr: 'Paiement', en: 'Checkout', de: 'Bezahlung' }[lang] ?? 'Paiement';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{`${titre} | ${siteConfig.name}`}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+    <link rel="preconnect" href="https://tanstack-start-app.seamless-cart.workers.dev" />
+    <link rel="preconnect" href="https://js.stripe.com" />
+    <style>
+      html, body { margin: 0; background: #fff; }
+      [data-atelier-checkout-page] { min-height: 100vh; }
+    </style>
+    {atelier?.shopId && (
+      <script
+        src={atelier.widgetUrl}
+        data-shop-id={atelier.shopId}
+        data-locale={lang}
+        data-language={lang}
+        data-currency={currencyForLocale(lang)}
+        data-logo={new URL('/logo-checkout.png?v=2', Astro.site ?? SITE_URL).toString()}
+        data-design-edit-path="/personnaliser/"
+        defer
+      ></script>
+    )}
+  </head>
+  <body>
+    <div data-atelier-checkout-page></div>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+---
+import CheckoutShell from '../../components/CheckoutShell.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  return ACTIVE_LOCALES
+    .filter(l => l !== siteConfig.i18n.defaultLocale)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: 'fr' | 'en' | 'de' };
+---
+
+<CheckoutShell lang={lang} />
