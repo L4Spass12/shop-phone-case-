@@ -4,11 +4,11 @@ import LegalPage from '../components/LegalPage.astro';
 import siteConfig from '../../site.config.mjs';
 
 const title = "Politique de Confidentialité";
-const description = "Dernière mise à jour : 5 septembre 2026";
+const description = "Dernière mise à jour : 28 septembre 2026";
 ---
 
 <LegalPage heading={title} description={description} html={`
-<p><strong>Dernière mise à jour :</strong> 5 septembre 2026</p>
+<p><strong>Dernière mise à jour :</strong> 28 septembre 2026</p>
 
 
 
@@ -26,103 +26,60 @@ const description = "Dernière mise à jour : 5 septembre 2026";
 
 <h2 class="wp-block-heading">2. Données collectées</h2>
 
-
-
 <p>Nous collectons les données suivantes lorsque vous passez commande ou nous contactez :</p>
 
-
-
 <ul class="wp-block-list">
-<li><strong>Identité :</strong> nom, prénom, adresse, numéro de téléphone.</li>
-
-
-
+<li><strong>Identité et livraison :</strong> nom, prénom, adresse postale, numéro de téléphone.</li>
 <li><strong>Contact :</strong> adresse e-mail.</li>
-
-
-
-<li><strong>Données de connexion :</strong> adresse IP, type de navigateur (via les cookies).</li>
+<li><strong>Commande :</strong> articles choisis (dont le modèle de téléphone et, le cas échéant, le visuel de votre création personnalisée), montant, historique des commandes.</li>
+<li><strong>Données techniques :</strong> adresse IP et type de navigateur, pour la sécurité du paiement et la mesure d&rsquo;audience interne (pages vues, provenance des visites), sans cookie publicitaire.</li>
 </ul>
 
+<p>Vos coordonnées bancaires ne sont jamais collectées par ${siteConfig.name} : elles sont saisies directement chez notre prestataire de paiement.</p>
 
-
-<h2 class="wp-block-heading">3. Utilisation de vos données</h2>
-
-
-
-<p>Vos données sont utilisées uniquement pour :</p>
-
-
+<h2 class="wp-block-heading">3. Utilisation de vos données et bases légales</h2>
 
 <ul class="wp-block-list">
-<li><strong>Gérer votre commande :</strong> expédition, facturation, suivi de livraison, service après-vente.</li>
-
-
-
-<li><strong>Paiement :</strong> sécurisation des transactions via notre partenaire <strong>Stripe</strong>.</li>
-
-
-
-<li><strong>Contact :</strong> vous répondre via le formulaire de contact ou par email.</li>
-
-
-
-<li><strong>Obligations légales :</strong> conservation des factures (10 ans).</li>
+<li><strong>Gérer votre commande</strong> (préparation, expédition, facturation, suivi de livraison, service après-vente) : exécution du contrat de vente.</li>
+<li><strong>Sécuriser le paiement</strong> et prévenir la fraude : exécution du contrat et intérêt légitime.</li>
+<li><strong>Vous répondre</strong> lorsque vous nous écrivez : intérêt légitime.</li>
+<li><strong>Rappel de panier :</strong> si vous saisissez votre adresse e-mail dans le formulaire de paiement sans finaliser votre commande, nous pouvons vous envoyer un ou deux e-mails pour vous rappeler votre panier. Base légale : intérêt légitime. Chaque e-mail contient un lien de désinscription, et aucun rappel n&rsquo;est envoyé après un achat.</li>
+<li><strong>Obligations légales :</strong> conservation des factures et pièces comptables.</li>
 </ul>
 
+<p>Vos données ne sont jamais vendues ni utilisées pour de la publicité ciblée.</p>
 
+<h2 class="wp-block-heading">4. Destinataires et sous-traitants</h2>
 
-<h2 class="wp-block-heading">4. Partage des données</h2>
-
-
-
-<p>Nous ne vendons jamais vos données personnelles. Elles sont transmises uniquement aux prestataires indispensables au traitement de la commande :</p>
-
-
+<p>Vos données sont transmises uniquement aux prestataires indispensables au fonctionnement du site et au traitement de votre commande :</p>
 
 <ul class="wp-block-list">
-<li><strong>Stripe (Paiement) :</strong> Vos coordonnées bancaires sont saisies directement sur l&rsquo;interface sécurisée de Stripe. <strong>${siteConfig.name} n&rsquo;a jamais accès à votre numéro de carte bancaire complet.</strong></li>
-
-
-
-<li><strong>Transporteurs :</strong> (Ex : La Poste/Colissimo, Mondial Relay) pour livrer votre colis.</li>
-
-
-
+<li><strong>Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower, Dublin, Irlande :</strong> traitement des paiements (carte bancaire, PayPal). ${siteConfig.name} n&rsquo;a jamais accès à votre numéro de carte bancaire.</li>
+<li><strong>La Poste, 9 rue du Colonel Pierre Avia, 75015 Paris, France :</strong> acheminement de votre colis (nom, adresse, e-mail et téléphone pour le suivi).</li>
 <li><strong>Hostinger International Ltd, 61 Lordou Vironos str., 6023 Larnaca, Chypre :</strong> hébergement des pages du site.</li>
 <li><strong>Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis :</strong> exécution du module de paiement.</li>
 <li><strong>Supabase, Inc., 3500 S Dupont Hwy, Dover, DE 19901, États-Unis :</strong> base de données des commandes, stockée sur des serveurs situés à Londres (Royaume-Uni).</li>
-<li><strong>Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower, Dublin, Irlande :</strong> traitement des paiements.</li>
-<li><strong>Plus Five Five, Inc. (Resend), 2261 Market Street #5039, San Francisco, CA 94114, États-Unis :</strong> envoi des e-mails de commande.</li>
+<li><strong>Plus Five Five, Inc. (Resend), 2261 Market Street #5039, San Francisco, CA 94114, États-Unis :</strong> envoi des e-mails de commande et de rappel de panier.</li>
+<li><strong>Google Ireland Ltd, Gordon House, Barrow Street, Dublin 4, Irlande :</strong> suggestions d&rsquo;adresse pendant la saisie de votre adresse de livraison.</li>
 </ul>
 
-
+<p><strong>Transferts hors de l&rsquo;Union européenne :</strong> certains prestataires sont établis aux États-Unis ou stockent des données au Royaume-Uni. Ces transferts sont encadrés par une décision d&rsquo;adéquation de la Commission européenne (Royaume-Uni, sociétés américaines certifiées au Data Privacy Framework) ou, à défaut, par les clauses contractuelles types de la Commission européenne.</p>
 
 <h2 class="wp-block-heading">5. Durée de conservation</h2>
 
-
-
 <ul class="wp-block-list">
-<li><strong>Données de commande :</strong> conservées pendant la durée de la relation commerciale, puis archivées pour des raisons comptables (10 ans).</li>
-
-
-
-<li><strong>Données de prospects (sans achat) :</strong> conservées 3 ans après le dernier contact.</li>
+<li><strong>Données de commande :</strong> conservées pendant la durée de la relation commerciale, puis archivées 10 ans pour les obligations comptables.</li>
+<li><strong>Paniers non finalisés :</strong> adresse e-mail et contenu du panier conservés au plus 3 ans, ou supprimés dès votre désinscription des rappels.</li>
+<li><strong>Messages envoyés au service client :</strong> 3 ans après le dernier échange.</li>
 </ul>
-
-
 
 <h2 class="wp-block-heading">6. Vos droits</h2>
 
+<p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d&rsquo;un droit d&rsquo;accès, de rectification, d&rsquo;effacement, de limitation, de portabilité et d&rsquo;opposition au traitement de vos données, ainsi que du droit de définir des directives relatives à leur sort après votre décès. Pour exercer ces droits, contactez-nous par e-mail à <strong>${siteConfig.forms.contactEmail}</strong> ou par courrier : Quentin Amat (${siteConfig.name}), 1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France. Nous vous répondrons dans un délai d&rsquo;un mois.</p>
 
+<p>Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la <strong>CNIL</strong> (Commission nationale de l&rsquo;informatique et des libertés), 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, ou sur <a href="https://www.cnil.fr" rel="noopener">www.cnil.fr</a>.</p>
 
-<p>Conformément à la réglementation, vous disposez d&rsquo;un droit d&rsquo;accès, de rectification, d&rsquo;effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous par email à : <strong>${siteConfig.forms.contactEmail}</strong> ou par courrier : Quentin Amat (${siteConfig.name}), 1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France.</p>
+<h2 class="wp-block-heading">7. Cookies et stockage local</h2>
 
-
-
-<h2 class="wp-block-heading">7. Cookies</h2>
-
-
-
-<p>Lors de votre navigation sur ${siteConfig.name}, des cookies sont déposés sur votre ordinateur, votre mobile ou votre tablette. Les cookies nécessaires au fonctionnement du site (panier d&rsquo;achat, session) ne nécessitent pas votre accord. Les cookies tiers (Google Analytics, publicité) nécessitent votre consentement explicite via notre bandeau cookie. Vous pouvez modifier vos préférences à tout moment.</p>
+<p>${siteConfig.name} n&rsquo;utilise aucun cookie publicitaire ni outil de suivi tiers. Le site enregistre uniquement dans votre navigateur les informations nécessaires à son fonctionnement : contenu de votre panier, modèle de téléphone choisi et choix exprimé dans le bandeau cookies. Ces éléments, strictement nécessaires, ne demandent pas votre consentement. Le module de paiement Stripe peut déposer ses propres cookies de sécurité, indispensables à la prévention de la fraude. Vous pouvez modifier vos préférences à tout moment depuis le bandeau dédié.</p>
 `} />
