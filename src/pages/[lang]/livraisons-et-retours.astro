@@ -1,15 +1,8 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
- *
- * ⚖️ EN → ÉTATS-UNIS : aucun droit de retour légal pour un achat en ligne. Le
- *    retour est purement contractuel — ce que la page annonce engage le
- *    vendeur. S'applique en revanche la FTC « Mail, Internet, or Telephone
- *    Order Merchandise Rule » (16 CFR 435) : expédier dans le délai annoncé
- *    ou, à défaut d'annonce, sous 30 jours, avec remboursement prompt sinon.
- *
- * ⚖️ DE → UE : droit de rétractation légal de 14 jours, et renvoi obligatoire
- *    vers la fonctionnalité de rétractation en ligne.
+ * Livraisons et retours EN / DE : traduction FIDÈLE de la version française
+ * (src/pages/livraisons-et-retours.astro), qui fait foi. Toute modification
+ * de la version française doit être reportée ici.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -22,124 +15,111 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params as { lang: 'en' | 'de' };
-const shop  = siteConfig.name;
-const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+const shop = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? '';
+const addr = '1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France';
 
 const content = {
   en: {
-    heading: 'SHIPPING & RETURNS',
-    description: `Shipping times, delivery costs and return policy for ${shop}. Dispatch within 24-48 business hours.`,
+    heading: 'Shipping and Returns',
+    description: `Every order placed on ${shop} is handled with care. We ship your parcel within 24 to 48 business hours of receiving payment.`,
     html: `
 <h2 class="wp-block-heading">1. Shipping</h2>
 
-<p>Every order placed on <strong>${shop}</strong> is prepared with care from our premises in <strong>[DISPATCH CITY], France</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are dispatched the following Monday.)</em></p>
+<p>Every order placed on <strong>${shop}</strong> is prepared with care at our premises in <strong>Beaucourt-sur-l&rsquo;Hallue (Somme, France)</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are shipped the following Monday.)</em></p>
 
-<p>Where a product page states a shipping timeframe, we ship within it. Where none is stated, we ship <strong>within 30 days</strong> of your order; if we cannot, we will email you and you may cancel for a prompt full refund. <em>(FTC Mail, Internet, or Telephone Order Merchandise Rule, 16 CFR Part 435.)</em></p>
-
-<p><strong>Customs and import charges:</strong> parcels ship from France. Duties, import fees or state sales/use tax may be due on delivery. <em>[State clearly who bears them.]</em></p>
-
-<p><strong>Delivery options &amp; rates</strong></p>
+<p><strong>Delivery options &amp; rates</strong> Outside France, delivery times run from shipping, in business days.</p>
 
 <ul class="wp-block-list">
-<li><strong>Standard delivery</strong>:
-<ul class="wp-block-list">
-<li>Delivery time: [X] to [X] business days.</li>
-<li>Cost: <strong>[X.XX] €</strong> <em>(or "calculated by weight at checkout")</em>.</li>
-<li><em>Free delivery on orders over [XX] €.</em> <em>(If you offer this, keep it prominent - it converts.)</em></li>
-</ul>
-</li>
-<li><strong>[OPTIONAL] Pickup point</strong>:
-<ul class="wp-block-list">
-<li>Delivery time: [X] to [X] business days.</li>
-<li>Cost: <strong>[X.XX] €</strong>.</li>
-</ul>
-</li>
+<li><strong>Mainland France</strong>: <strong>€5.90</strong>, home delivery by La Poste tracked letter, <strong>3 to 4 business days after your order</strong> (preparation included).</li>
+<li><strong>European Union</strong> (Austria, Belgium, Denmark, Finland, Germany, Ireland, Italy, Luxembourg, Netherlands, Poland, Portugal, Spain, Sweden): <strong>€8.90</strong>, in <strong>4 to 7 days</strong>.</li>
+<li><strong>United Kingdom, Switzerland, Norway</strong>: <strong>€14.90</strong>, in <strong>5 to 10 days</strong>.</li>
+<li><strong>United States, Canada</strong>: <strong>€16.90</strong>, in <strong>7 to 14 days</strong>.</li>
 </ul>
 
-<p>Once your order ships, you automatically receive a <strong>tracking number</strong> by email so you can follow your parcel in real time.</p>
+<p><strong>Customs duties outside the European Union</strong> For the United Kingdom, Switzerland, Norway, the United States and Canada, customs duties and import taxes may be charged on delivery. They are set by the destination country, are not included in the displayed price and are <strong>payable by the recipient</strong>. Refusing to pay these charges results in the parcel being returned, and the shipping costs are not refunded.</p>
+
+<p>Once your order has shipped, you will automatically receive a <strong>tracking number</strong> by email so you can follow your parcel in real time.</p>
 
 <h2 class="wp-block-heading">2. Returns and exchanges</h2>
 
-<p><strong>Our returns policy - not a statutory right.</strong> US federal law does not give buyers a general right to cancel an online purchase (the FTC "cooling-off" rule covers door-to-door sales only). The window below is the one we grant you contractually:</p>
+<p><strong>Satisfied or your money back</strong> Changed your mind? In accordance with the law, you have <strong>14 days</strong> after receiving your order to withdraw.</p>
 
-<p>You may return an item within <strong>[X] days</strong> of delivery. The simplest way is our <a href="/en/retractation"><strong>online returns request form</strong></a>.</p>
+<p>The simplest way: use our <a href="/${lang}/retractation"><strong>online withdrawal form</strong></a>, free and available at all times. You can also write to us by email or by post.</p>
 
 <p><strong>How to return an item</strong></p>
 
 <ol start="1" class="wp-block-list">
-<li>Email us at <strong>${email}</strong> with your order number to let us know.</li>
-<li>Pack the product carefully - it must be unused and in its original packaging.</li>
-<li>Ship the parcel to: <strong>[COMPANY NAME] (${shop})</strong>, <strong>[ADDRESS]</strong>.</li>
+<li>Send us a short email at <strong>${email}</strong> with your order number to let us know.</li>
+<li>Pack the product carefully (it must be new, in its original packaging and unused).</li>
+<li>Send the parcel to the following address: <strong>Quentin Amat (${shop})</strong>, <strong>${addr}</strong></li>
 </ol>
 
-<p><strong>Return shipping costs</strong></p>
+<p><strong>Return costs</strong></p>
 
 <ul class="wp-block-list">
-<li>If the product is faulty or we made a mistake: <strong>we cover the return costs</strong> and send you a prepaid label.</li>
-<li>If you simply changed your mind: return shipping is <strong>at your expense</strong>.</li>
+<li>If the product is faulty or we made a mistake: <strong>we cover the return costs</strong> (we will send you a prepaid label).</li>
+<li>If you simply changed your mind: return costs are <strong>your responsibility</strong>.</li>
 </ul>
 
-<p><strong>Refunds</strong> Once we receive and check the parcel, we refund you in full (product price + original delivery cost) within <strong>7 days</strong>, to the payment method used for the purchase.</p>
+<p><strong>Refund</strong> Once the parcel has been received and checked at our premises, we issue a full refund (product price + original shipping costs) within <strong>7 days at most</strong> to the payment method used for the purchase.</p>
 
-<h2 class="wp-block-heading">3. A problem with your delivery?</h2>
+<p><em>Still disagree? You can refer the matter free of charge to our consumer mediator, whose details are given in our <a href="/${lang}/conditions-generales-de-vente-cgv">terms and conditions of sale</a> and our <a href="/${lang}/mentions-legales">legal notice</a>.</em></p>
 
-<p>If your parcel arrives damaged or already opened, please <strong>take photos immediately</strong> and contact us on <strong>[PHONE]</strong> or by email at <strong>${email}</strong>. We will sort it out straight away - replacement or refund.</p>
+<h2 class="wp-block-heading">3. A problem with delivery?</h2>
+
+<p>If your parcel arrives damaged or opened, please <strong>take photos immediately</strong> and contact us by email at <strong>${email}</strong>. We will find a solution straight away (a new product sent out or a refund).</p>
 `,
   },
   de: {
-    heading: 'VERSAND & RÜCKGABE',
-    description: `Versandzeiten, Lieferkosten und Rückgaberecht bei ${shop}. Versand innerhalb von 24-48 Werkstunden.`,
+    heading: 'Versand und Rückgabe',
+    description: `Jede Bestellung bei ${shop} wird sorgfältig bearbeitet. Wir versenden dein Paket innerhalb von 24 bis 48 Werkstunden nach Zahlungseingang.`,
     html: `
 <h2 class="wp-block-heading">1. Versand</h2>
 
-<p>Jede Bestellung bei <strong>${shop}</strong> wird sorgfältig in unseren Räumen in <strong>[VERSANDORT]</strong> vorbereitet. Wir versenden dein Paket innerhalb von <strong>24 bis 48 Werkstunden</strong> nach Zahlungseingang. <em>(Bestellungen von Freitagabend oder vom Wochenende gehen am folgenden Montag raus.)</em></p>
+<p>Jede Bestellung bei <strong>${shop}</strong> wird sorgfältig in unseren Räumen in <strong>Beaucourt-sur-l&rsquo;Hallue (Somme, Frankreich)</strong> vorbereitet. Wir versenden dein Paket innerhalb von <strong>24 bis 48 Werkstunden</strong> nach Zahlungseingang. <em>(Bestellungen von Freitagabend oder vom Wochenende werden am folgenden Montag verschickt.)</em></p>
 
-<p><strong>Versandarten &amp; Preise</strong></p>
+<p><strong>Versandarten &amp; Preise</strong> Außerhalb Frankreichs gelten die Lieferzeiten ab Versand, in Werktagen.</p>
 
 <ul class="wp-block-list">
-<li><strong>Standardversand</strong>:
-<ul class="wp-block-list">
-<li>Lieferzeit: [X] bis [X] Werktage.</li>
-<li>Preis: <strong>[X,XX] €</strong> <em>(oder "wird im Warenkorb nach Gewicht berechnet")</em>.</li>
-<li><em>Versandkostenfrei ab [XX] € Einkaufswert.</em> <em>(Falls du das anbietest, stell es deutlich heraus - es verkauft.)</em></li>
-</ul>
-</li>
-<li><strong>[OPTIONAL] Paketshop</strong>:
-<ul class="wp-block-list">
-<li>Lieferzeit: [X] bis [X] Werktage.</li>
-<li>Preis: <strong>[X,XX] €</strong>.</li>
-</ul>
-</li>
+<li><strong>Frankreich (Festland)</strong>: <strong>5,90 €</strong>, Zustellung nach Hause per verfolgtem Brief von La Poste, <strong>3 bis 4 Werktage nach deiner Bestellung</strong> (Vorbereitung inklusive).</li>
+<li><strong>Europäische Union</strong> (Belgien, Dänemark, Deutschland, Finnland, Irland, Italien, Luxemburg, Niederlande, Österreich, Polen, Portugal, Schweden, Spanien): <strong>8,90 €</strong>, in <strong>4 bis 7 Tagen</strong>.</li>
+<li><strong>Vereinigtes Königreich, Schweiz, Norwegen</strong>: <strong>14,90 €</strong>, in <strong>5 bis 10 Tagen</strong>.</li>
+<li><strong>USA, Kanada</strong>: <strong>16,90 €</strong>, in <strong>7 bis 14 Tagen</strong>.</li>
 </ul>
 
-<p>Sobald deine Bestellung verschickt ist, erhältst du automatisch eine <strong>Sendungsnummer</strong> per E-Mail und kannst dein Paket in Echtzeit verfolgen.</p>
+<p><strong>Zölle außerhalb der Europäischen Union</strong> Für das Vereinigte Königreich, die Schweiz, Norwegen, die USA und Kanada können bei der Zustellung Zölle und Einfuhrabgaben anfallen. Sie werden vom Zielland festgelegt, sind nicht im angezeigten Preis enthalten und <strong>vom Empfänger zu tragen</strong>. Wird die Zahlung verweigert, geht das Paket zurück, und die Versandkosten werden nicht erstattet.</p>
+
+<p>Sobald deine Bestellung verschickt ist, erhältst du automatisch eine <strong>Sendungsnummer</strong> per E-Mail, um dein Paket in Echtzeit zu verfolgen.</p>
 
 <h2 class="wp-block-heading">2. Rückgabe und Umtausch</h2>
 
-<p><strong>Du hast es dir anders überlegt?</strong> Du hast das gesetzliche Recht, binnen <strong>14 Tagen</strong> ab Erhalt deiner Bestellung ohne Angabe von Gründen zu widerrufen.</p>
+<p><strong>Zufrieden oder Geld zurück</strong> Du hast es dir anders überlegt? Gemäß dem Gesetz hast du nach Erhalt deiner Bestellung <strong>14 Tage</strong> Zeit, den Kauf zu widerrufen.</p>
 
-<p>Am einfachsten geht das über unser <a href="/de/retractation"><strong>Online-Widerrufsformular</strong></a>, das dauerhaft und kostenlos verfügbar ist. Du kannst uns auch per E-Mail oder Brief schreiben.</p>
+<p>Am einfachsten: Nutze unser <a href="/${lang}/retractation"><strong>Online-Widerrufsformular</strong></a>, kostenlos und jederzeit verfügbar. Du kannst uns auch per E-Mail oder Post schreiben.</p>
 
-<p><strong>So sendest du zurück</strong></p>
+<p><strong>So funktioniert die Rücksendung</strong></p>
 
 <ol start="1" class="wp-block-list">
-<li>Schreib uns kurz an <strong>${email}</strong> mit deiner Bestellnummer.</li>
-<li>Verpacke das Produkt sorgfältig - es muss unbenutzt und in der Originalverpackung sein.</li>
-<li>Schicke das Paket an: <strong>[FIRMENNAME] (${shop})</strong>, <strong>[ANSCHRIFT]</strong>.</li>
+<li>Schicke uns eine kurze E-Mail an <strong>${email}</strong> mit deiner Bestellnummer.</li>
+<li>Verpacke das Produkt sorgfältig (es muss neu, in der Originalverpackung und unbenutzt sein).</li>
+<li>Schicke das Paket an folgende Adresse: <strong>Quentin Amat (${shop})</strong>, <strong>${addr}</strong></li>
 </ol>
 
 <p><strong>Rücksendekosten</strong></p>
 
 <ul class="wp-block-list">
-<li>Bei einem defekten Produkt oder einem Fehler unsererseits: <strong>wir übernehmen die Rücksendekosten</strong> und schicken dir ein vorbezahltes Etikett.</li>
-<li>Wenn du es dir einfach anders überlegt hast: die Rücksendekosten <strong>trägst du</strong>.</li>
+<li>Wenn das Produkt defekt ist oder uns ein Fehler unterlaufen ist: <strong>Wir übernehmen die Rücksendekosten</strong> (wir schicken dir ein frankiertes Etikett).</li>
+<li>Wenn du es dir einfach anders überlegt hast: Die Rücksendekosten <strong>trägst du</strong>.</li>
 </ul>
 
-<p><strong>Rückerstattung</strong> Sobald das Paket bei uns eingetroffen und geprüft ist, erstatten wir dir den vollen Betrag (Produktpreis + ursprüngliche Versandkosten) innerhalb von <strong>7 Tagen</strong> über das bei der Bestellung genutzte Zahlungsmittel.</p>
+<p><strong>Erstattung</strong> Sobald das Paket bei uns eingegangen und geprüft ist, erstatten wir den vollen Betrag (Produktpreis + Hinversandkosten) innerhalb von <strong>höchstens 7 Tagen</strong> über das beim Kauf verwendete Zahlungsmittel.</p>
 
-<h2 class="wp-block-heading">3. Probleme bei der Lieferung?</h2>
+<p><em>Besteht weiterhin Uneinigkeit? Du kannst dich kostenlos an unsere Verbraucherschlichtungsstelle wenden, deren Kontaktdaten in unseren <a href="/${lang}/conditions-generales-de-vente-cgv">Allgemeinen Geschäftsbedingungen</a> und unserem <a href="/${lang}/mentions-legales">Impressum</a> stehen.</em></p>
 
-<p>Falls dein Paket beschädigt oder bereits geöffnet ankommt, mach bitte <strong>sofort Fotos</strong> und melde dich unter <strong>[TELEFON]</strong> oder per E-Mail an <strong>${email}</strong>. Wir finden umgehend eine Lösung - Ersatz oder Rückerstattung.</p>
+<h2 class="wp-block-heading">3. Ein Problem bei der Lieferung?</h2>
+
+<p>Wenn dein Paket beschädigt oder geöffnet ankommt, <strong>mach bitte sofort Fotos</strong> und kontaktiere uns per E-Mail an <strong>${email}</strong>. Wir finden umgehend eine Lösung (Versand eines neuen Produkts oder Erstattung).</p>
 `,
   },
 }[lang];

@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import siteConfig from '../../../site.config.mjs';
 import { responsiveSrcset } from '../../lib/responsive';
 import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../lib/i18n';
+import { localizedProducts } from '../../lib/products';
 
 export async function getStaticPaths() {
   return ACTIVE_LOCALES
@@ -18,9 +19,8 @@ const lp = localePrefix(lang);
 const url = (path: string) => `${lp}${path}`;
 const productHref = (slug: string) => url('/product/' + parseEntrySlug(slug).slug);
 
-const allProducts = await getCollection('products');
-const products = allProducts
-  .filter(p => parseEntrySlug(p.slug).lang === lang)
+// Données des fiches FR, textes traduits (cf. src/lib/products.ts).
+const products = (await localizedProducts(lang))
   .filter(p => (p.data.categories ?? []).length > 0)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 

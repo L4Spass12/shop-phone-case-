@@ -1,26 +1,9 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — À FAIRE VALIDER PAR UN JURISTE AVANT MISE EN LIGNE.
- *
- * Un texte juridique traduit n'est PAS un texte juridique valide dans l'autre
- * juridiction : ces pages fournissent la structure attendue par chaque marché,
- * pas un contenu opposable.
- *
- * ⚖️ PRINCIPE DU PAYS D'ORIGINE (directive e-commerce 2000/31, art. 3) : un
- * vendeur établi en FRANCE relève du droit français pour ses obligations
- * d'identification. Il n'a donc PAS à produire un « Impressum » au sens du
- * §5 DDG allemand, lequel vise les fournisseurs établis en Allemagne.
- *
- * On conserve néanmoins le titre « Impressum » : c'est le terme que les
- * consommateurs allemands cherchent, et l'information d'identification doit
- * de toute façon leur être fournie (directive UE droits des consommateurs).
- * Le contenu identifie donc l'entreprise FRANÇAISE, et renvoie au médiateur
- * français — et non à une Verbraucherschlichtungsstelle allemande, le VSBG ne
- * s'appliquant qu'aux entreprises établies en Allemagne.
- *
- * NB : le §5 TMG n'existe plus, remplacé par le §5 DDG en mai 2024. Les
- * modèles citant « §5 TMG » sont périmés.
- * Remplace tous les [CROCHETS] et fais relire le tout.
+ * Mentions légales EN / DE : traduction FIDÈLE de la version française
+ * (src/pages/mentions-legales.astro), qui fait foi. Toute modification de la
+ * version française doit être reportée ici. Le médiateur de la consommation
+ * reste à compléter, comme en français.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -33,106 +16,145 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params as { lang: 'en' | 'de' };
-const shop  = siteConfig.name;
-const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+const shop = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? '';
+const addr = '1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France';
 
 const content = {
   en: {
     heading: 'LEGAL NOTICE',
-    description: `Legal notice for ${shop}: publisher, contact details, hosting provider and VAT information.`,
+    description: `Legal notice for ${shop}: publisher, contact details, host, intellectual property and consumer mediator.`,
     html: `
-<p><strong>Site publisher</strong> This website, accessible at <strong>${siteConfig.url}</strong> (the "Site"), is operated by a company established in <strong>France</strong> and is therefore subject to French law:</p>
+<p><em>This English translation is provided for convenience. In the event of any discrepancy, the French version prevails.</em></p>
 
-<p><strong>[COMPANY NAME]</strong>, [LEGAL FORM], registered office at <strong>[ADDRESS]</strong>. Company registration number <strong>[REGISTRATION NUMBER]</strong>, registered in [CITY/REGISTRY].</p>
+<h2 class="wp-block-heading">Website publisher</h2>
 
-<h2 class="wp-block-heading">Contact details</h2>
+<p>This website, available at <strong>${siteConfig.url}</strong> (the &laquo;&nbsp;Site&nbsp;&raquo;), is published by:</p>
+
+<p><strong>Quentin Amat</strong>, sole trader (entrepreneur individuel, EI), trading as <strong>${shop}</strong><br />
+Address: <strong>${addr}</strong><br />
+SIREN: <strong>130 053 275</strong>, registered in the French National Business Register (RNE)<br />
+SIRET: <strong>130 053 275 00017</strong><br />
+APE code: 47.91A (general catalogue distance selling)<br />
+VAT: <strong>not subject to VAT, franchise en base (article 293 B of the French General Tax Code)</strong><br />
+EPR unique identifier (household packaging and graphic paper, ADEME): <strong>FR555204_01CKHR</strong></p>
+
+<h2 class="wp-block-heading">Contact</h2>
 
 <ul class="wp-block-list">
 <li>Email: <strong>${email}</strong></li>
-<li>Phone: <strong>[PHONE]</strong></li>
-<li>Postal address: [ADDRESS]</li>
+<li>Postal address: <strong>${addr}</strong></li>
 </ul>
 
-<h2 class="wp-block-heading">VAT</h2>
+<h2 class="wp-block-heading">Publication director</h2>
 
-<p>[VAT STATUS: e.g. "VAT number [VAT ID]" or "Not VAT registered".]</p>
+<p><strong>Quentin Amat</strong>, who can be reached at ${email}.</p>
 
-<h2 class="wp-block-heading">Person responsible for publication</h2>
+<h2 class="wp-block-heading">Host</h2>
 
-<p>[NAME OF THE PERSON RESPONSIBLE FOR PUBLICATION].</p>
+<p>The Site is hosted by:</p>
 
-<h2 class="wp-block-heading">Hosting</h2>
+<p><strong>Hostinger International Ltd</strong><br />
+Address: <strong>61 Lordou Vironos str., 6023 Larnaca, Cyprus</strong><br />
+Registration number: HE301365 (Cyprus companies register)<br />
+Contact: 24/7 support via <a href="https://www.hostinger.com">hostinger.com</a></p>
 
-<p>The Site is hosted by <strong>[HOSTING PROVIDER + ADDRESS]</strong>, who can be reached at: [HOSTING PROVIDER CONTACT].</p>
+<h2 class="wp-block-heading">Data storage subcontractors</h2>
+
+<p><em>Information required by the French SREN law of 21 May 2024, in addition to identifying the host.</em> The Site&rsquo;s data is also stored or cached by the following providers:</p>
+
+<ul class="wp-block-list">
+<li><strong>Cloudflare, Inc.</strong>, 101 Townsend Street, San Francisco, CA 94107, United States: runs the payment module and delivers content.</li>
+<li><strong>Supabase, Inc.</strong>, 3500 S Dupont Hwy, Dover, DE 19901, United States: order database. The data is stored on servers located in London, United Kingdom, a country recognised as adequate by the European Commission.</li>
+<li><strong>Stripe Payments Europe, Ltd.</strong>, 1 Grand Canal Street Lower, Grand Canal Dock, Dublin, Ireland: payment processing. No bank data passes through or is stored on our servers.</li>
+<li><strong>Plus Five Five, Inc. (Resend)</strong>, 2261 Market Street #5039, San Francisco, CA 94114, United States: sending order confirmation emails.</li>
+</ul>
+
+<h2 class="wp-block-heading">Consumer mediator</h2>
+
+<p><em>Mandatory information: articles L.616-1 and R.616-1 of the French Consumer Code.</em> In accordance with the regulations, ${shop} is a member of a consumer mediation scheme. If a dispute cannot be resolved with our customer service, you may refer it free of charge to the following mediator:</p>
+
+<p><strong>[NAME OF THE APPROVED MEDIATOR]</strong><br />
+Address: <strong>[MEDIATOR ADDRESS]</strong><br />
+Website: <strong>[MEDIATOR WEBSITE]</strong></p>
+
+<p>The mediator can only be contacted after a prior written complaint to our services has not received a satisfactory answer.</p>
 
 <h2 class="wp-block-heading">Intellectual property</h2>
 
-<p>Unless stated otherwise, all content on this Site (texts, images, logos, page structure) is the property of [COMPANY NAME] or is used with permission. Any reproduction without prior written consent is prohibited.</p>
+<p>Unless otherwise stated, all content on the Site (texts, visuals, logos, page structure) is the property of Quentin Amat (${shop}) or is used with the permission of its owners. Any reproduction, representation or adaptation, in whole or in part, without prior written permission is prohibited.</p>
 
-<h2 class="wp-block-heading">Consumer mediation</h2>
+<h2 class="wp-block-heading">Personal data and cookies</h2>
 
-<p>As a French business we are affiliated with an approved consumer mediation body, which you can contact <strong>free of charge</strong> if a written complaint to us has not been resolved to your satisfaction:</p>
-
-<p><strong>[MEDIATOR NAME]</strong> — <strong>[ADDRESS]</strong> — <strong>[WEBSITE]</strong></p>
-
-<p><em>The EU online dispute resolution (ODR) platform was permanently shut down on 20 July 2025; a link to it is no longer required.</em></p>
+<p>The processing of your personal data is described in our <a href="/${lang}/politique-de-confidentialite">privacy policy</a>. You can change your cookie preferences at any time from the dedicated banner.</p>
 `,
   },
   de: {
     heading: 'IMPRESSUM',
-    description: `Impressum von ${shop}: Anbieter, Kontakt, Hosting und Umsatzsteuer-Angaben.`,
+    description: `Impressum von ${shop}: Herausgeber, Kontaktdaten, Hosting, geistiges Eigentum und Verbraucherschlichtung.`,
     html: `
-<p><strong>Anbieter dieser Website</strong></p>
+<p><em>Diese deutsche Übersetzung dient der Information. Bei Abweichungen ist die französische Fassung maßgeblich.</em></p>
 
-<p><em>Dieser Shop wird von einem in Frankreich ansässigen Unternehmen betrieben. Nach dem Herkunftslandprinzip (Art. 3 der E-Commerce-Richtlinie) gilt für die Anbieterkennzeichnung französisches Recht; die folgenden Angaben entsprechen den französischen Vorschriften und geben dir alle Informationen, die du zur Identifikation des Verkäufers brauchst.</em></p>
+<h2 class="wp-block-heading">Herausgeber der Website</h2>
 
-<p><strong>[FIRMENNAME]</strong>, [RECHTSFORM]<br />
-[STRASSE UND HAUSNUMMER]<br />
-[PLZ] [ORT]<br />
-[LAND]</p>
+<p>Diese Website, abrufbar unter <strong>${siteConfig.url}</strong> (die &bdquo;Website&ldquo;), wird herausgegeben von:</p>
 
-<h2 class="wp-block-heading">Vertreten durch</h2>
-
-<p>[NAME DES VERTRETUNGSBERECHTIGTEN / GESCHÄFTSFÜHRERS].</p>
+<p><strong>Quentin Amat</strong>, Einzelunternehmer (entrepreneur individuel, EI), tätig unter dem Handelsnamen <strong>${shop}</strong><br />
+Anschrift: <strong>${addr}</strong><br />
+SIREN: <strong>130 053 275</strong>, eingetragen im französischen nationalen Unternehmensregister (RNE)<br />
+SIRET: <strong>130 053 275 00017</strong><br />
+APE-Code: 47.91A (Versandhandel mit allgemeinem Sortiment)<br />
+Umsatzsteuer: <strong>nicht umsatzsteuerpflichtig, Kleinunternehmerregelung (Artikel 293 B des französischen Steuergesetzbuchs)</strong><br />
+Eindeutige Kennung der erweiterten Herstellerverantwortung (Haushaltsverpackungen und grafische Papiere, ADEME): <strong>FR555204_01CKHR</strong></p>
 
 <h2 class="wp-block-heading">Kontakt</h2>
 
 <ul class="wp-block-list">
 <li>E-Mail: <strong>${email}</strong></li>
-<li>Telefon: <strong>[TELEFON]</strong></li>
+<li>Postanschrift: <strong>${addr}</strong></li>
 </ul>
-
-<h2 class="wp-block-heading">Registereintrag</h2>
-
-<p>Eingetragen im französischen Handelsregister (R.C.S.) von [STADT]<br />
-Registernummer (SIREN/SIRET): <strong>[REGISTERNUMMER]</strong><br />
-Stammkapital: <strong>[BETRAG] €</strong></p>
-
-<h2 class="wp-block-heading">Umsatzsteuer-Identifikationsnummer</h2>
-
-<p>Innergemeinschaftliche USt-IdNr.: <strong>[USt-IdNr.]</strong> <em>[oder Hinweis, dass keine USt. ausgewiesen wird - franz. Kleinunternehmerregelung, Art. 293 B CGI.]</em></p>
 
 <h2 class="wp-block-heading">Verantwortlich für den Inhalt</h2>
 
-<p>[NAME UND ANSCHRIFT DER VERANTWORTLICHEN PERSON].</p>
+<p><strong>Quentin Amat</strong>, erreichbar unter ${email}.</p>
 
 <h2 class="wp-block-heading">Hosting</h2>
 
-<p>Diese Website wird gehostet von <strong>[HOSTING-ANBIETER + ANSCHRIFT]</strong>. Kontakt: [KONTAKT DES ANBIETERS].</p>
+<p>Die Website wird gehostet von:</p>
 
-<h2 class="wp-block-heading">Urheberrecht</h2>
+<p><strong>Hostinger International Ltd</strong><br />
+Anschrift: <strong>61 Lordou Vironos str., 6023 Larnaca, Zypern</strong><br />
+Registernummer: HE301365 (zyprisches Handelsregister)<br />
+Kontakt: Support rund um die Uhr über <a href="https://www.hostinger.de">hostinger.de</a></p>
 
-<p>Sofern nicht anders angegeben, sind alle Inhalte dieser Website (Texte, Bilder, Logos, Seitenstruktur) Eigentum von [FIRMENNAME] oder werden mit Erlaubnis verwendet. Eine Vervielfältigung ohne vorherige schriftliche Zustimmung ist untersagt.</p>
+<h2 class="wp-block-heading">Auftragsverarbeiter für die Datenspeicherung</h2>
+
+<p><em>Angabe gemäß dem französischen SREN-Gesetz vom 21. Mai 2024, ergänzend zur Angabe des Hosters.</em> Die Daten der Website werden außerdem von folgenden Anbietern gespeichert oder zwischengespeichert:</p>
+
+<ul class="wp-block-list">
+<li><strong>Cloudflare, Inc.</strong>, 101 Townsend Street, San Francisco, CA 94107, USA: Ausführung des Zahlungsmoduls und Auslieferung der Inhalte.</li>
+<li><strong>Supabase, Inc.</strong>, 3500 S Dupont Hwy, Dover, DE 19901, USA: Bestelldatenbank. Die Daten werden auf Servern in London, Vereinigtes Königreich, gespeichert, einem von der Europäischen Kommission als angemessen anerkannten Land.</li>
+<li><strong>Stripe Payments Europe, Ltd.</strong>, 1 Grand Canal Street Lower, Grand Canal Dock, Dublin, Irland: Zahlungsabwicklung. Keine Bankdaten laufen über unsere Server oder werden dort gespeichert.</li>
+<li><strong>Plus Five Five, Inc. (Resend)</strong>, 2261 Market Street #5039, San Francisco, CA 94114, USA: Versand der Bestellbestätigungen per E-Mail.</li>
+</ul>
 
 <h2 class="wp-block-heading">Verbraucherschlichtung</h2>
 
-<p>Als französisches Unternehmen sind wir einer französischen Verbraucherschlichtungsstelle (« médiateur de la consommation ») angeschlossen, die du <strong>kostenlos</strong> anrufen kannst, wenn deine schriftliche Beschwerde bei uns nicht zufriedenstellend gelöst wurde:</p>
+<p><em>Pflichtangabe: Artikel L.616-1 und R.616-1 des französischen Verbrauchergesetzbuchs.</em> Gemäß den Vorschriften ist ${shop} einem Verbraucherschlichtungsverfahren angeschlossen. Kann eine Streitigkeit mit unserem Kundenservice nicht gelöst werden, kannst du dich kostenlos an folgende Schlichtungsstelle wenden:</p>
 
-<p><strong>[NAME DER SCHLICHTUNGSSTELLE]</strong><br />
-Anschrift: <strong>[ANSCHRIFT]</strong><br />
-Website: <strong>[WEBSITE]</strong></p>
+<p><strong>[NAME DER ZUGELASSENEN SCHLICHTUNGSSTELLE]</strong><br />
+Anschrift: <strong>[ANSCHRIFT DER SCHLICHTUNGSSTELLE]</strong><br />
+Website: <strong>[WEBSITE DER SCHLICHTUNGSSTELLE]</strong></p>
 
-<p><em>Hinweis: Die europäische OS-Plattform wurde am 20. Juli 2025 eingestellt; ein Link darauf ist nicht mehr erforderlich.</em></p>
+<p>Die Schlichtungsstelle kann erst angerufen werden, nachdem eine vorherige schriftliche Reklamation bei uns keine zufriedenstellende Antwort erhalten hat.</p>
+
+<h2 class="wp-block-heading">Geistiges Eigentum</h2>
+
+<p>Sofern nicht anders angegeben, sind alle Inhalte der Website (Texte, Bilder, Logos, Seitenaufbau) Eigentum von Quentin Amat (${shop}) oder werden mit Genehmigung der Rechteinhaber verwendet. Jede vollständige oder teilweise Vervielfältigung, Darstellung oder Bearbeitung ohne vorherige schriftliche Genehmigung ist untersagt.</p>
+
+<h2 class="wp-block-heading">Personenbezogene Daten und Cookies</h2>
+
+<p>Die Verarbeitung deiner personenbezogenen Daten ist in unserer <a href="/${lang}/politique-de-confidentialite">Datenschutzerklärung</a> beschrieben. Deine Cookie-Einstellungen kannst du jederzeit über das entsprechende Banner ändern.</p>
 `,
   },
 }[lang];

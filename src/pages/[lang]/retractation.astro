@@ -1,14 +1,9 @@
 ---
 /**
- * Page de rétractation / demande de retour (EN + DE).
- *
- * ⚠️ Le cadrage diffère selon le marché — c'est volontaire :
- *   - DE : droit de rétractation légal de 14 jours (harmonisé UE), donc
- *          « Widerruf ausüben ».
- *   - EN (marché US) : AUCUN droit de rétractation fédéral pour les achats en
- *          ligne → la page est une demande de retour au titre de notre
- *          politique commerciale, pas un droit légal.
- * Les libellés portent cette nuance (voir `retractation.*` dans src/i18n/).
+ * Page de rétractation (EN + DE). Même cadrage que la version française :
+ * la boutique vend depuis la France, sous droit français, avec 14 jours de
+ * rétractation pour tous les clients (art. L.221-18 et L.221-21 du Code de
+ * la consommation). Libellés dans `retractation.*` (src/i18n/).
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import RetractationForm from '../../components/RetractationForm.astro';

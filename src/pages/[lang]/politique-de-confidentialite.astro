@@ -1,24 +1,8 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
- *
- * ⚖️ DE → DSGVO/RGPD : le vendeur est établi dans l'UE, le RGPD s'applique
- *    pleinement. Structure alignée sur les art. 13-14 RGPD.
- *
- * ⚖️ EN → marché ÉTATS-UNIS. Deux textes à distinguer :
- *    - CalOPPA (Cal. Bus. & Prof. Code §22575) : impose une politique de
- *      confidentialité à TOUT site commercial collectant des données de
- *      résidents californiens, SANS SEUIL de taille. Exigences propres :
- *      lien « conspicuous », énumération des CATÉGORIES de données et des
- *      tiers, description du processus de modification par l'utilisateur,
- *      divulgation du traitement des signaux « Do Not Track », date d'entrée
- *      en vigueur et modalités de notification des changements.
- *    - CCPA/CPRA : ne s'applique qu'au-delà de seuils (≈25 M$ de CA annuel,
- *      ou données de 100 000+ Californiens achetées/vendues/partagées, ou 50 %+
- *      du CA tiré de la vente de données). Une petite boutique en est
- *      normalement EXEMPTÉE → ne pas promettre des droits CCPA par défaut.
- *    Le RGPD continue de s'appliquer puisque le vendeur est établi dans l'UE :
- *    c'est un standard plus élevé, autant l'assumer et le dire.
+ * Politique de confidentialité EN / DE : traduction FIDÈLE de la version
+ * française (src/pages/politique-de-confidentialite.astro), qui fait foi.
+ * Toute modification de la version française doit être reportée ici.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -31,141 +15,157 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params as { lang: 'en' | 'de' };
-const shop  = siteConfig.name;
-const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+const shop = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? '';
+const addr = '1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France';
 
 const content = {
   en: {
-    heading: 'PRIVACY POLICY',
-    description: `How ${shop} collects, uses and shares your personal information, and the choices you have.`,
+    heading: 'Privacy Policy',
+    description: 'Last updated: 28 September 2026',
     html: `
-<p><strong>Effective date:</strong> [DATE] &nbsp;|&nbsp; <strong>Last updated:</strong> [DATE]</p>
+<p><em>This English translation is provided for convenience. In the event of any discrepancy, the French version prevails.</em></p>
 
-<p>This policy explains what we collect when you visit or buy from <strong>${shop}</strong>, why, who we share it with, and what you can do about it. We are based in the European Union, which means we apply the <strong>GDPR</strong> to everyone - a stricter standard than most US state laws require.</p>
+<p><strong>Last updated:</strong> 28 September 2026</p>
 
-<h2 class="wp-block-heading">1. Who is responsible</h2>
+<p><strong>${shop}</strong> cares about protecting personal data. We are committed to ensuring the best level of protection for your personal data, in accordance with the French Data Protection Act and the GDPR.</p>
 
-<p><strong>[COMPANY NAME]</strong>, [ADDRESS], France. Questions about privacy: <strong>${email}</strong>.</p>
+<h2 class="wp-block-heading">1. Data controller</h2>
 
-<h2 class="wp-block-heading">2. Categories of information we collect</h2>
+<p>The controller of the data collected on the ${shop} website is <strong>Quentin Amat</strong>, sole trader (${shop}). Address: ${addr}. Email: ${email}</p>
 
-<ul class="wp-block-list">
-<li><strong>Identifiers:</strong> name, billing and shipping address, email address, phone number.</li>
-<li><strong>Commercial information:</strong> products you ordered, order history, amounts paid.</li>
-<li><strong>Internet activity:</strong> IP address, browser and device type, pages viewed - collected through cookies.</li>
-<li><strong>Payment information:</strong> handled directly by Stripe. <strong>We never receive or store your full card number.</strong></li>
-</ul>
+<h2 class="wp-block-heading">2. Data collected</h2>
 
-<p>We do <strong>not</strong> knowingly collect information from children under 13. <em>[If your products target children, COPPA imposes additional obligations - take advice.]</em></p>
-
-<h2 class="wp-block-heading">3. Why we use it</h2>
+<p>We collect the following data when you place an order or contact us:</p>
 
 <ul class="wp-block-list">
-<li>To process, ship and invoice your order, and to handle returns.</li>
-<li>To take payment securely and prevent fraud.</li>
-<li>To answer your messages.</li>
-<li>To meet our accounting and tax obligations.</li>
-<li>To send marketing emails <strong>only if you opted in</strong> - you can unsubscribe from any email.</li>
+<li><strong>Identity and delivery:</strong> surname, first name, postal address, phone number.</li>
+<li><strong>Contact:</strong> email address.</li>
+<li><strong>Order:</strong> items chosen (including the phone model and, where applicable, the design of your custom creation), amount, order history.</li>
+<li><strong>Technical data:</strong> IP address and browser type, for payment security and internal audience measurement (pages viewed, where visits come from), without advertising cookies.</li>
 </ul>
 
-<h2 class="wp-block-heading">4. Who we share it with</h2>
+<p>Your bank details are never collected by ${shop}: they are entered directly with our payment provider.</p>
 
-<p><strong>We do not sell your personal information.</strong> We share it only with the providers needed to fulfil your order:</p>
+<h2 class="wp-block-heading">3. Use of your data and legal bases</h2>
 
 <ul class="wp-block-list">
-<li><strong>Stripe</strong> - payment processing.</li>
-<li><strong>[CARRIER NAMES]</strong> - shipping and tracking.</li>
-<li><strong>[HOSTING PROVIDER]</strong> - hosting of this website.</li>
-<li><strong>[ANY ANALYTICS / EMAIL PROVIDER]</strong> - <em>[name them; CalOPPA requires you to disclose the categories of third parties.]</em></li>
+<li><strong>Managing your order</strong> (preparation, shipping, invoicing, delivery tracking, after-sales service): performance of the sales contract.</li>
+<li><strong>Securing payment</strong> and preventing fraud: performance of the contract and legitimate interest.</li>
+<li><strong>Replying to you</strong> when you write to us: legitimate interest.</li>
+<li><strong>Cart reminder:</strong> if you enter your email address in the payment form without completing your order, we may send you one or two emails to remind you of your cart. Legal basis: legitimate interest. Each email contains an unsubscribe link, and no reminder is sent after a purchase.</li>
+<li><strong>Legal obligations:</strong> keeping invoices and accounting records.</li>
 </ul>
 
-<p><strong>International transfers:</strong> your data is processed in the European Union. If a provider transfers it outside the EU, we rely on the safeguards required by the GDPR (adequacy decision or standard contractual clauses).</p>
+<p>Your data is never sold or used for targeted advertising.</p>
 
-<h2 class="wp-block-heading">5. How long we keep it</h2>
+<h2 class="wp-block-heading">4. Recipients and subcontractors</h2>
+
+<p>Your data is shared only with the providers essential to running the website and processing your order:</p>
 
 <ul class="wp-block-list">
-<li><strong>Order data:</strong> for the duration of our relationship, then archived to meet accounting obligations ([X] years).</li>
-<li><strong>Enquiries without a purchase:</strong> [X] years after our last exchange.</li>
+<li><strong>Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower, Dublin, Ireland:</strong> payment processing (bank card, PayPal). ${shop} never has access to your card number.</li>
+<li><strong>La Poste, 9 rue du Colonel Pierre Avia, 75015 Paris, France:</strong> delivery of your parcel (name, address, email and phone for tracking).</li>
+<li><strong>Hostinger International Ltd, 61 Lordou Vironos str., 6023 Larnaca, Cyprus:</strong> hosting of the website pages.</li>
+<li><strong>Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, United States:</strong> running the payment module.</li>
+<li><strong>Supabase, Inc., 3500 S Dupont Hwy, Dover, DE 19901, United States:</strong> order database, stored on servers located in London (United Kingdom).</li>
+<li><strong>Plus Five Five, Inc. (Resend), 2261 Market Street #5039, San Francisco, CA 94114, United States:</strong> sending order and cart reminder emails.</li>
+<li><strong>Google Ireland Ltd, Gordon House, Barrow Street, Dublin 4, Ireland:</strong> address suggestions while you enter your delivery address.</li>
 </ul>
 
-<h2 class="wp-block-heading">6. Your rights and choices</h2>
+<p><strong>Transfers outside the European Union:</strong> some providers are based in the United States or store data in the United Kingdom. These transfers are covered by an adequacy decision of the European Commission (United Kingdom, US companies certified under the Data Privacy Framework) or, failing that, by the European Commission&rsquo;s standard contractual clauses.</p>
 
-<p>You can ask us to <strong>access, correct, delete or export</strong> your personal information, object to a use of it, or withdraw your consent to marketing. Email <strong>${email}</strong> and we will respond within one month.</p>
+<h2 class="wp-block-heading">5. Retention period</h2>
 
-<p><strong>Reviewing and changing your information:</strong> you can also ask us at any time to review or update the details attached to your orders, by emailing us at the address above. <em>(CalOPPA requires us to describe this process.)</em></p>
+<ul class="wp-block-list">
+<li><strong>Order data:</strong> kept for the duration of the business relationship, then archived for 10 years for accounting obligations.</li>
+<li><strong>Uncompleted carts:</strong> email address and cart contents kept for up to 3 years, or deleted as soon as you unsubscribe from reminders.</li>
+<li><strong>Messages sent to customer service:</strong> 3 years after the last exchange.</li>
+</ul>
 
-<p><em>[California residents: the CCPA/CPRA grants additional rights - including the right to know, delete, correct and opt out of sale or sharing - but it only applies to businesses meeting statutory thresholds (roughly $25M annual revenue, or personal information of 100,000+ California residents bought, sold or shared, or 50%+ of revenue from selling personal information). If you cross a threshold, this section must be expanded and a "Do Not Sell or Share My Personal Information" link added. Verify your status before publishing.]</em></p>
+<h2 class="wp-block-heading">6. Your rights</h2>
 
-<p>If you are in the EU or the UK, you may also lodge a complaint with your data protection authority.</p>
+<p>Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data and to object to its processing, as well as the right to give instructions regarding what happens to it after your death. To exercise these rights, contact us by email at <strong>${email}</strong> or by post: Quentin Amat (${shop}), ${addr}. We will reply within one month.</p>
 
-<h2 class="wp-block-heading">7. Cookies and "Do Not Track"</h2>
+<p>If, after contacting us, you believe your rights are not being respected, you may lodge a complaint with the <strong>CNIL</strong> (French data protection authority), 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, or at <a href="https://www.cnil.fr" rel="noopener">www.cnil.fr</a>.</p>
 
-<p>Cookies that are strictly necessary for the site to work (cart, session, language) are set without consent. Analytics and advertising cookies are set <strong>only after you agree</strong> via our cookie banner, and you can change your choice at any time.</p>
+<h2 class="wp-block-heading">7. Cookies and local storage</h2>
 
-<p><strong>Do Not Track:</strong> <em>[CalOPPA requires an explicit statement here. State whether you honour browser "Do Not Track" signals. If you do not, say so plainly - that is permitted, but silence is not.]</em></p>
-
-<h2 class="wp-block-heading">8. Changes to this policy</h2>
-
-<p>If we change this policy we will update the "last updated" date above and, for significant changes, notify you by email or with a notice on the site.</p>
+<p>${shop} uses no advertising cookies or third-party tracking tools. The website only stores in your browser the information it needs to work: your cart contents, the phone model you chose and your choice in the cookie banner. These strictly necessary items do not require your consent. The Stripe payment module may set its own security cookies, which are essential for fraud prevention. You can change your preferences at any time from the dedicated banner.</p>
 `,
   },
   de: {
-    heading: 'DATENSCHUTZERKLÄRUNG',
-    description: `Wie ${shop} deine personenbezogenen Daten erhebt, verwendet und schützt - gemäß DSGVO.`,
+    heading: 'Datenschutzerklärung',
+    description: 'Letzte Aktualisierung: 28. September 2026',
     html: `
-<p><strong>Letzte Aktualisierung:</strong> [DATUM]</p>
+<p><em>Diese deutsche Übersetzung dient der Information. Bei Abweichungen ist die französische Fassung maßgeblich.</em></p>
 
-<p><strong>${shop}</strong> nimmt den Schutz personenbezogener Daten ernst. Wir verpflichten uns, deine Daten gemäß der Datenschutz-Grundverordnung (DSGVO) zu schützen.</p>
+<p><strong>Letzte Aktualisierung:</strong> 28. September 2026</p>
+
+<p><strong>${shop}</strong> legt großen Wert auf den Schutz personenbezogener Daten. Wir verpflichten uns, deine Daten bestmöglich zu schützen, im Einklang mit dem französischen Datenschutzgesetz und der DSGVO.</p>
 
 <h2 class="wp-block-heading">1. Verantwortlicher</h2>
 
-<p>Verantwortlich für die auf ${shop} erhobenen Daten ist: <strong>[FIRMENNAME]</strong>. Anschrift: [ANSCHRIFT]. E-Mail: ${email}</p>
+<p>Verantwortlich für die auf der Website ${shop} erhobenen Daten ist <strong>Quentin Amat</strong>, Einzelunternehmer (${shop}). Anschrift: ${addr}. E-Mail: ${email}</p>
 
 <h2 class="wp-block-heading">2. Erhobene Daten</h2>
 
-<p>Wenn du eine Bestellung aufgibst oder uns kontaktierst, erheben wir folgende Daten:</p>
+<p>Wir erheben folgende Daten, wenn du bestellst oder uns kontaktierst:</p>
 
 <ul class="wp-block-list">
-<li><strong>Identität:</strong> Vorname, Name, Anschrift, Telefonnummer.</li>
+<li><strong>Identität und Lieferung:</strong> Name, Vorname, Postanschrift, Telefonnummer.</li>
 <li><strong>Kontakt:</strong> E-Mail-Adresse.</li>
-<li><strong>Technische Daten:</strong> IP-Adresse, Browsertyp (über Cookies).</li>
+<li><strong>Bestellung:</strong> gewählte Artikel (einschließlich Handymodell und gegebenenfalls des Motivs deiner personalisierten Gestaltung), Betrag, Bestellhistorie.</li>
+<li><strong>Technische Daten:</strong> IP-Adresse und Browsertyp, für die Zahlungssicherheit und die interne Reichweitenmessung (aufgerufene Seiten, Herkunft der Besuche), ohne Werbe-Cookies.</li>
 </ul>
 
-<h2 class="wp-block-heading">3. Verwendung deiner Daten</h2>
+<p>Deine Bankdaten werden von ${shop} nie erhoben: Du gibst sie direkt bei unserem Zahlungsdienstleister ein.</p>
 
-<p>Deine Daten werden ausschließlich verwendet, um:</p>
+<h2 class="wp-block-heading">3. Verwendung deiner Daten und Rechtsgrundlagen</h2>
 
 <ul class="wp-block-list">
-<li><strong>deine Bestellung abzuwickeln:</strong> Versand, Rechnungsstellung, Sendungsverfolgung, Kundendienst.</li>
-<li><strong>die Zahlung abzuwickeln:</strong> sichere Transaktionen über unseren Partner <strong>Stripe</strong>.</li>
-<li><strong>dir zu antworten:</strong> über das Kontaktformular oder per E-Mail.</li>
-<li><strong>gesetzliche Pflichten zu erfüllen:</strong> Aufbewahrung von Rechnungen ([X] Jahre).</li>
+<li><strong>Abwicklung deiner Bestellung</strong> (Vorbereitung, Versand, Rechnungsstellung, Sendungsverfolgung, Kundendienst): Erfüllung des Kaufvertrags.</li>
+<li><strong>Absicherung der Zahlung</strong> und Betrugsprävention: Vertragserfüllung und berechtigtes Interesse.</li>
+<li><strong>Beantwortung deiner Anfragen</strong>: berechtigtes Interesse.</li>
+<li><strong>Warenkorb-Erinnerung:</strong> Wenn du deine E-Mail-Adresse im Zahlungsformular eingibst, ohne die Bestellung abzuschließen, können wir dir ein oder zwei E-Mails senden, um dich an deinen Warenkorb zu erinnern. Rechtsgrundlage: berechtigtes Interesse. Jede E-Mail enthält einen Abmeldelink, und nach einem Kauf wird keine Erinnerung mehr gesendet.</li>
+<li><strong>Gesetzliche Pflichten:</strong> Aufbewahrung von Rechnungen und Buchhaltungsunterlagen.</li>
 </ul>
 
-<h2 class="wp-block-heading">4. Weitergabe von Daten</h2>
+<p>Deine Daten werden nie verkauft oder für gezielte Werbung verwendet.</p>
 
-<p>Wir verkaufen deine personenbezogenen Daten nie. Sie werden nur an die für die Bestellabwicklung zwingend erforderlichen Dienstleister weitergegeben:</p>
+<h2 class="wp-block-heading">4. Empfänger und Auftragsverarbeiter</h2>
+
+<p>Deine Daten werden nur an die Dienstleister weitergegeben, die für den Betrieb der Website und die Bearbeitung deiner Bestellung unerlässlich sind:</p>
 
 <ul class="wp-block-list">
-<li><strong>Stripe (Zahlung):</strong> Deine Kartendaten werden direkt in der gesicherten Oberfläche von Stripe eingegeben. <strong>${shop} hat nie Zugriff auf deine vollständige Kartennummer.</strong></li>
-<li><strong>Versanddienstleister:</strong> [NAMEN DER DIENSTLEISTER], um dein Paket zu liefern.</li>
-<li><strong>[HOSTING-ANBIETER + ANSCHRIFT]:</strong> Hosting der Website (Daten auf gesicherten Servern).</li>
+<li><strong>Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower, Dublin, Irland:</strong> Zahlungsabwicklung (Bankkarte, PayPal). ${shop} hat nie Zugriff auf deine Kartennummer.</li>
+<li><strong>La Poste, 9 rue du Colonel Pierre Avia, 75015 Paris, Frankreich:</strong> Zustellung deines Pakets (Name, Anschrift, E-Mail und Telefon für die Sendungsverfolgung).</li>
+<li><strong>Hostinger International Ltd, 61 Lordou Vironos str., 6023 Larnaca, Zypern:</strong> Hosting der Seiten der Website.</li>
+<li><strong>Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, USA:</strong> Ausführung des Zahlungsmoduls.</li>
+<li><strong>Supabase, Inc., 3500 S Dupont Hwy, Dover, DE 19901, USA:</strong> Bestelldatenbank, gespeichert auf Servern in London (Vereinigtes Königreich).</li>
+<li><strong>Plus Five Five, Inc. (Resend), 2261 Market Street #5039, San Francisco, CA 94114, USA:</strong> Versand der Bestell- und Erinnerungs-E-Mails.</li>
+<li><strong>Google Ireland Ltd, Gordon House, Barrow Street, Dublin 4, Irland:</strong> Adressvorschläge bei der Eingabe deiner Lieferadresse.</li>
 </ul>
+
+<p><strong>Übermittlungen außerhalb der Europäischen Union:</strong> Einige Dienstleister haben ihren Sitz in den USA oder speichern Daten im Vereinigten Königreich. Diese Übermittlungen sind durch einen Angemessenheitsbeschluss der Europäischen Kommission (Vereinigtes Königreich, nach dem Data Privacy Framework zertifizierte US-Unternehmen) oder andernfalls durch die Standardvertragsklauseln der Europäischen Kommission abgesichert.</p>
 
 <h2 class="wp-block-heading">5. Speicherdauer</h2>
 
 <ul class="wp-block-list">
-<li><strong>Bestelldaten:</strong> für die Dauer der Geschäftsbeziehung, danach aus buchhalterischen Gründen archiviert ([X] Jahre).</li>
-<li><strong>Daten von Interessenten (ohne Kauf):</strong> [X] Jahre nach dem letzten Kontakt.</li>
+<li><strong>Bestelldaten:</strong> für die Dauer der Geschäftsbeziehung gespeichert, danach 10 Jahre für buchhalterische Pflichten archiviert.</li>
+<li><strong>Nicht abgeschlossene Warenkörbe:</strong> E-Mail-Adresse und Warenkorbinhalt höchstens 3 Jahre gespeichert oder gelöscht, sobald du dich von den Erinnerungen abmeldest.</li>
+<li><strong>Nachrichten an den Kundenservice:</strong> 3 Jahre nach dem letzten Austausch.</li>
 </ul>
 
 <h2 class="wp-block-heading">6. Deine Rechte</h2>
 
-<p>Nach der DSGVO hast du das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit sowie das Recht auf Widerspruch und Einschränkung der Verarbeitung. Zur Ausübung dieser Rechte schreib uns an <strong>${email}</strong> oder per Post an [ANSCHRIFT]. Außerdem steht dir ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.</p>
+<p>Gemäß der DSGVO und dem französischen Datenschutzgesetz hast du das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch gegen die Verarbeitung deiner Daten sowie das Recht, Anweisungen für deren Verwendung nach deinem Tod festzulegen. Um diese Rechte auszuüben, kontaktiere uns per E-Mail unter <strong>${email}</strong> oder per Post: Quentin Amat (${shop}), ${addr}. Wir antworten innerhalb eines Monats.</p>
 
-<h2 class="wp-block-heading">7. Cookies</h2>
+<p>Wenn du nach deiner Kontaktaufnahme der Meinung bist, dass deine Rechte nicht gewahrt werden, kannst du eine Beschwerde bei der <strong>CNIL</strong> (französische Datenschutzbehörde) einreichen: 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, oder unter <a href="https://www.cnil.fr" rel="noopener">www.cnil.fr</a>.</p>
 
-<p>Beim Besuch von ${shop} werden Cookies auf deinem Computer, Smartphone oder Tablet gespeichert. Für den Betrieb der Website unbedingt erforderliche Cookies (Warenkorb, Sitzung, Sprachauswahl) benötigen keine Zustimmung. Cookies von Dritten (Analyse, Werbung) erfordern deine ausdrückliche Einwilligung über unser Cookie-Banner. Du kannst deine Einstellungen jederzeit ändern.</p>
+<h2 class="wp-block-heading">7. Cookies und lokaler Speicher</h2>
+
+<p>${shop} verwendet keine Werbe-Cookies und keine Tracking-Tools von Drittanbietern. Die Website speichert in deinem Browser nur die für ihren Betrieb nötigen Informationen: den Inhalt deines Warenkorbs, das gewählte Handymodell und deine Auswahl im Cookie-Banner. Diese unbedingt erforderlichen Elemente benötigen keine Einwilligung. Das Zahlungsmodul von Stripe kann eigene Sicherheits-Cookies setzen, die für die Betrugsprävention unerlässlich sind. Du kannst deine Einstellungen jederzeit über das entsprechende Banner ändern.</p>
 `,
   },
 }[lang];

@@ -6,15 +6,17 @@ import { unsplashSrcset } from '../../../lib/image';
 import { inlineMd } from '../../../lib/inline-md';
 import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../../lib/i18n';
 import InfiniteReveal from '../../../components/InfiniteReveal.astro';
+import { localizedProducts } from '../../../lib/products';
 
 export async function getStaticPaths() {
-  const allProducts = await getCollection('products');
   const allCategoryContent = await getCollection('productCategories');
   const cats: { slug: string; label: string }[] = siteConfig.productCategories || [];
   const nonDefaultLocales = ACTIVE_LOCALES.filter(l => l !== siteConfig.i18n.defaultLocale);
 
   const paths = [];
   for (const lang of nonDefaultLocales) {
+    // Données des fiches FR, textes traduits (cf. src/lib/products.ts).
+    const langProducts = await localizedProducts(lang);
     // Build a map slug → translated display title (without the "| SiteName" suffix) for all categories
     const categoryLabels: Record<string, string> = {};
     for (const cat of cats) {
@@ -36,8 +38,7 @@ export async function getStaticPaths() {
           category: cat,
           content,
           categoryLabels,
-          products: allProducts
-            .filter(p => parseEntrySlug(p.slug).lang === lang)
+          products: langProducts
             .filter(p => (p.data.categories || []).includes(cat.slug))
             .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
         },

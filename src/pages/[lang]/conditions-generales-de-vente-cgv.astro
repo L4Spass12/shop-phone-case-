@@ -1,27 +1,9 @@
 ---
 /**
- * ⚠️ PLACEHOLDER LÉGAL — compléter les [CROCHETS] et faire valider.
- *
- * ⚖️ DEUX JURIDICTIONS DIFFÉRENTES, DEUX TEXTES DIFFÉRENTS — ne pas fusionner :
- *
- * EN → marché ÉTATS-UNIS.
- *   - Il n'existe AUCUN droit de rétractation fédéral pour un achat en ligne.
- *     Le « FTC Cooling-Off Rule » (16 CFR 429) ne couvre que le démarchage à
- *     domicile ≥ 25 $, pas le e-commerce. Le retour est donc purement
- *     CONTRACTUEL : ce que la politique annonce fait loi, d'où l'obligation de
- *     l'énoncer clairement.
- *   - FTC « Mail, Internet, or Telephone Order Merchandise Rule » (16 CFR 435) :
- *     le vendeur doit avoir une base raisonnable pour expédier dans le délai
- *     annoncé, ou à défaut d'annonce dans les 30 JOURS, et rembourser
- *     promptement s'il ne peut pas.
- *   - Ne PAS recopier les articles du Code de la consommation français.
- *
- * DE → marché ALLEMAND (UE).
- *   - Droit de rétractation de 14 jours harmonisé au niveau UE : il s'applique.
- *   - Rome I art. 6 : le consommateur allemand conserve les dispositions
- *     impératives de son droit national, même si le vendeur est français.
- *
- * Aucune mention de la plateforme européenne ODR : fermée le 20 juillet 2025.
+ * CGV EN / DE : traduction FIDÈLE de la version française
+ * (src/pages/conditions-generales-de-vente-cgv.astro), qui fait foi. Toute
+ * modification de la version française doit être reportée ici.
+ * Le médiateur de la consommation reste à compléter, comme en français.
  */
 import LegalPage from '../../components/LegalPage.astro';
 import siteConfig from '../../../site.config.mjs';
@@ -34,150 +16,220 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params as { lang: 'en' | 'de' };
-const shop  = siteConfig.name;
-const email = siteConfig.forms?.contactEmail ?? 'contact@example.com';
+const shop = siteConfig.name;
+const email = siteConfig.forms?.contactEmail ?? '';
+const addr = '1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France';
+const dots = '&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;';
 
 const content = {
   en: {
-    heading: 'TERMS OF SALE',
-    description: `Terms of sale for ${shop}: orders, prices, shipping times, returns policy, warranties and governing law.`,
+    heading: 'Terms and Conditions of Sale',
+    description: `These terms and conditions of sale apply to all sales made on the ${shop} website.`,
     html: `
-<p><em>Last updated: [DATE]</em></p>
+<p><em>This English translation is provided for convenience. In the event of any discrepancy, the French version of these terms prevails.</em></p>
 
-<h2 class="wp-block-heading">1. Who we are</h2>
+<h2 class="wp-block-heading">Preamble</h2>
 
-<p>This website is operated by <strong>[COMPANY NAME]</strong>, [LEGAL FORM] registered in France, registered office at <strong>[ADDRESS]</strong>, company number <strong>[REGISTRATION NUMBER]</strong>. Email: <strong>${email}</strong>. Phone: <strong>[PHONE]</strong>.</p>
+<p>These terms and conditions of sale apply to all sales made on the <strong>${shop}</strong> website.</p>
 
-<p>Placing an order means you accept these terms.</p>
+<p>The website is published by <strong>Quentin Amat</strong>, sole trader (entrepreneur individuel, EI), trading as ${shop}, located at <strong>${addr}</strong>, SIRET <strong>130 053 275 00017</strong>. Email: <strong>${email}</strong></p>
 
-<h2 class="wp-block-heading">2. Prices and taxes</h2>
+<p>Unique identifier (IDU) for the household packaging and graphic paper EPR scheme, issued by ADEME: <strong>FR555204_01CKHR</strong>.</p>
 
-<p>Prices are shown in <strong>[CURRENCY]</strong> and exclude shipping, which is calculated and displayed before you confirm your order.</p>
+<p>The customer declares having read and accepted these terms and conditions of sale before placing their order. Confirming the order therefore constitutes acceptance of these terms and conditions of sale.</p>
 
-<p><strong>Import duties and taxes:</strong> orders are shipped from France. Depending on the destination and order value, US customs duties, import fees or state sales/use tax may apply on delivery. <em>[State clearly who pays them - you or the customer. This is a frequent source of disputes and chargebacks.]</em></p>
+<h2 class="wp-block-heading">Article 1 &#8211; Principles</h2>
 
-<p><em>[If you have economic nexus in one or more US states, you may be required to register, collect and remit sales tax there. Thresholds vary by state - take advice before you start selling.]</em></p>
+<p>These terms and conditions set out all the obligations of the parties. They are available on the <strong>${shop}</strong> website and shall prevail, where applicable, over any other version or any other conflicting document.</p>
 
-<h2 class="wp-block-heading">3. Orders</h2>
+<h2 class="wp-block-heading">Article 2 &#8211; Prices</h2>
 
-<p>Your order is placed when you select your items, review your cart and total, then confirm and pay. We acknowledge receipt of your order by email. We may decline an order in case of an obvious pricing error, suspected fraud, or if the item is unavailable - in which case you are refunded in full.</p>
+<p>Our product prices are shown in euros. <strong>VAT not applicable, article 293 B of the French General Tax Code: the prices displayed are the final prices paid by the customer.</strong> Prices do not include delivery costs, which are charged in addition and shown before the order is confirmed. The seller reserves the right to change its prices at any time, but the product will be invoiced at the price in force when the order is confirmed.</p>
 
-<h2 class="wp-block-heading">4. Payment</h2>
+<h2 class="wp-block-heading">Article 3 &#8211; Order</h2>
 
-<p>Payment is taken by card at the time of the order, through the secure <strong>Stripe</strong> system. We never receive or store your full card number.</p>
+<p>The order is confirmed when the customer:</p>
 
-<h2 class="wp-block-heading">5. Shipping times</h2>
+<ol start="1" class="wp-block-list">
+<li>Selects their products.</li>
+<li>Checks the details of their order and its total price (cart).</li>
+<li>Confirms their order and proceeds to payment. Every order implies acceptance of the prices and descriptions of the products available for sale. <strong>${shop}</strong> acknowledges receipt of the order by email.</li>
+</ol>
 
-<p>We ship within the timeframe stated on the product page. Where no timeframe is stated, we ship <strong>within 30 days</strong> of your order.</p>
+<h2 class="wp-block-heading">Article 4 &#8211; Payment</h2>
 
-<p>If we cannot ship in time, we will tell you by email and you may either agree to a new date or cancel for a <strong>prompt full refund</strong>. <em>(This reflects the FTC Mail, Internet, or Telephone Order Merchandise Rule, 16 CFR Part 435.)</em></p>
+<p>Confirming the order means you are obliged to pay the price shown. Purchases are paid by bank card or PayPal, through the secure payment system <strong>Stripe</strong>. Payment is taken when the order is placed.</p>
 
-<h2 class="wp-block-heading">6. Returns - our policy, not a statutory right</h2>
+<h2 class="wp-block-heading">Article 5 &#8211; Delivery</h2>
 
-<p><strong>Please read this section carefully.</strong> United States federal law does <strong>not</strong> give buyers a general right to cancel or return an online purchase. The FTC "cooling-off" rule applies to door-to-door sales, not to online orders. Any right of return you have here is the one we grant you contractually below.</p>
+<p>Products are delivered to the delivery address given during the ordering process. The delivery times shown on the website are indicative and correspond to average processing and delivery times. If shipping is delayed, you will receive an email informing you of any effect on the delivery time you were given. In accordance with the law, if delivery is more than 30 days late, you may cancel the order.</p>
 
-<p><strong>Our policy:</strong> you may return an item within <strong>[X] days</strong> of delivery, provided it is unused and in its original packaging.</p>
+<h2 class="wp-block-heading">Article 6 &#8211; Right of withdrawal</h2>
+
+<p>In accordance with article L.221-18 of the French Consumer Code, you have <strong>14 days</strong> from receipt of your products to exercise your right of withdrawal, without giving any reason or paying any penalty.</p>
+
+<p><strong>Exception:</strong> in accordance with article L.221-28, 3° of the French Consumer Code, the right of withdrawal cannot be exercised for goods made to the consumer&rsquo;s specifications or clearly personalised, in particular cases created with our customisation tool from your own design. Choosing the phone model or the finish of a case from our catalogue does not constitute personalisation: these cases remain covered by the right of withdrawal.</p>
+
+<p><strong>How to exercise this right:</strong> a dedicated, free feature is permanently available on the website, in accordance with article L.221-21 of the French Consumer Code: <a href="/${lang}/retractation"><strong>exercise my right of withdrawal</strong></a>. You may also notify us of your decision by any other unambiguous means (email, post), or use the model form reproduced in the appendix.</p>
+
+<p><strong>Returns:</strong> items must be returned in their original, complete condition (packaging, accessories, instructions). You are responsible for this. Any damage to the product in the process may invalidate the right of withdrawal.</p>
+
+<p><strong>Refund:</strong> if you exercise your right of withdrawal, <strong>Quentin Amat (${shop})</strong> will refund the amounts paid within 14 days of your notification, using the same means of payment as for the order.</p>
+
+<h2 class="wp-block-heading">Article 7 &#8211; Legal guarantees</h2>
+
+<p>All our products benefit, independently of any commercial guarantee, from the <strong>legal guarantee of conformity</strong> (articles L.217-3 et seq. of the French Consumer Code) and the <strong>guarantee against hidden defects</strong> (articles 1641 et seq. of the French Civil Code).</p>
 
 <ul class="wp-block-list">
-<li>To start a return, use our <a href="/en/retractation"><strong>online returns request form</strong></a> or email <strong>${email}</strong>.</li>
-<li><strong>Return shipping:</strong> we cover it if the item is faulty or if we made a mistake; otherwise it is at your expense. <em>[Adjust to your actual policy.]</em></li>
-<li><strong>Refunds</strong> are issued to the original payment method within <strong>[X] days</strong> of us receiving and checking the item.</li>
-<li><em>[List any non-returnable items: personalised goods, hygiene items, etc.]</em></li>
+<li>The legal guarantee of conformity applies for <strong>2 years</strong> from delivery of the item. During this period you do not have to prove the defect: it is presumed to have existed at the time of sale.</li>
+<li>You may choose between repair and replacement of the item, subject to the cost conditions provided for by law.</li>
+<li>In the event of repair, the legal guarantee of conformity is <strong>extended by 6 months</strong>. If you choose repair and it is not carried out, you may request replacement.</li>
+<li>The guarantee against hidden defects allows you to take action within <strong>2 years of discovering the defect</strong>, to obtain cancellation of the sale or a price reduction.</li>
 </ul>
 
-<h2 class="wp-block-heading">7. Faulty items and warranties</h2>
+<h2 class="wp-block-heading">Article 8 &#8211; Personal data</h2>
 
-<p>If an item arrives damaged or faulty, contact us within <strong>[X] days</strong> with photos and we will replace it or refund you.</p>
+<p>The personal information collected is essential for processing your order and issuing invoices. It may be passed on to the partners responsible for carrying out, processing, managing and paying for orders. The customer has a permanent right of access, modification, rectification and objection regarding their information. See our <a href="/${lang}/politique-de-confidentialite">privacy policy</a>.</p>
 
-<p><em>[US-specific: consider whether you give an express written warranty. If you do, the Magnuson-Moss Warranty Act sets rules on how it must be worded and made available. If you disclaim implied warranties, note that some states restrict or prohibit such disclaimers. Take advice before publishing this section.]</em></p>
+<h2 class="wp-block-heading">Article 9 &#8211; Complaints and consumer mediation</h2>
 
-<h2 class="wp-block-heading">8. Limitation of liability</h2>
+<p>For any complaint, please first contact our customer service by email: <strong>${email}</strong>.</p>
 
-<p><em>[To be drafted with a lawyer. Limitation-of-liability and warranty-disclaimer clauses are interpreted strictly and vary state by state; an over-broad clause can be held unenforceable in full.]</em></p>
+<p>In accordance with articles L.616-1 and R.616-1 of the French Consumer Code, if your written complaint has not been satisfactorily resolved, you may refer the matter <strong>free of charge</strong> to the consumer mediator we belong to:</p>
 
-<h2 class="wp-block-heading">9. Personal data</h2>
+<p><strong>[NAME OF THE APPROVED MEDIATOR]</strong>, <strong>[ADDRESS]</strong>, <strong>[MEDIATOR WEBSITE]</strong></p>
 
-<p>We are established in the European Union, so we process your personal data under the GDPR - a higher standard than most US state laws. See our <a href="/en/politique-de-confidentialite">privacy policy</a> for the details of what we collect and your rights.</p>
+<p><em>Mediation is an optional step before any legal action; it does not deprive you of any remedy. Note: the European online dispute resolution (ODR) platform closed permanently on 20 July 2025; national mediation bodies, such as the one above, remain the applicable route.</em></p>
 
-<h2 class="wp-block-heading">10. Complaints and governing law</h2>
+<h2 class="wp-block-heading">Article 10 &#8211; Applicable law</h2>
 
-<p>Please contact us first at <strong>${email}</strong> - most issues are resolved within a day or two.</p>
+<p>These terms are governed by French law. If you live in another member state of the European Union, you keep the benefit of the mandatory consumer protection provisions of your country of residence.</p>
 
-<p>These terms are governed by French law, without depriving you of the protection of any mandatory consumer rules that apply where you live. <em>[If you want to add an arbitration clause or a class-action waiver - both common in US e-commerce terms - that must be drafted by a US-qualified lawyer, as their enforceability depends on precise wording and on state law.]</em></p>
+<p><strong>APPENDIX &#8211; MODEL WITHDRAWAL FORM</strong></p>
 
-<p>As a French business we also adhere to a consumer mediation scheme: <strong>[MEDIATOR NAME] - [WEBSITE]</strong>.</p>
+<p><em>(Complete and return this form only if you wish to withdraw from the contract)</em></p>
+
+<p><strong>To Quentin Amat (${shop}), ${addr}, Email: ${email}</strong></p>
+
+<p>I/We (*) hereby give notice that I/we (*) withdraw from my/our (*) contract of sale of the following goods (*)/for the provision of the following service (*):</p>
+
+<p>Ordered on (*) / received on (*): ${dots}</p>
+
+<p>Order number: ${dots}</p>
+
+<p>Name of consumer(s): ${dots}</p>
+
+<p>Address of consumer(s): ${dots}</p>
+
+<p>Signature of consumer(s) (only if this form is notified on paper):</p>
+
+<p>Date: ${dots}</p>
+
+<p><em>(*) Delete as appropriate.</em></p>
 `,
   },
   de: {
-    heading: 'ALLGEMEINE GESCHÄFTSBEDINGUNGEN',
-    description: `AGB von ${shop}: Bestellung, Preise, Zahlung, Lieferung, Widerrufsrecht und gesetzliche Gewährleistung.`,
+    heading: 'Allgemeine Geschäftsbedingungen',
+    description: `Diese allgemeinen Geschäftsbedingungen gelten für alle Verkäufe über die Website ${shop}.`,
     html: `
-<p><em>Letzte Aktualisierung: [DATUM]</em></p>
+<p><em>Diese deutsche Übersetzung dient der Information. Bei Abweichungen ist die französische Fassung dieser Bedingungen maßgeblich.</em></p>
 
-<h2 class="wp-block-heading">§ 1 - Anbieter</h2>
+<h2 class="wp-block-heading">Präambel</h2>
 
-<p>Diese Website wird betrieben von <strong>[FIRMENNAME]</strong>, [RECHTSFORM] mit Sitz in Frankreich, <strong>[ANSCHRIFT]</strong>, Registernummer <strong>[REGISTERNUMMER]</strong>. E-Mail: <strong>${email}</strong>. Telefon: <strong>[TELEFON]</strong>.</p>
+<p>Diese allgemeinen Geschäftsbedingungen gelten für alle Verkäufe über die Website <strong>${shop}</strong>.</p>
 
-<p>Mit dem Abschluss deiner Bestellung erkennst du diese AGB an.</p>
+<p>Die Website wird herausgegeben von <strong>Quentin Amat</strong>, Einzelunternehmer (entrepreneur individuel, EI), tätig unter dem Handelsnamen ${shop}, Anschrift: <strong>${addr}</strong>, SIRET <strong>130 053 275 00017</strong>. E-Mail: <strong>${email}</strong></p>
 
-<h2 class="wp-block-heading">§ 2 - Preise</h2>
+<p>Eindeutige Kennung (IDU) im Rahmen der erweiterten Herstellerverantwortung für Haushaltsverpackungen und grafische Papiere, erteilt von der ADEME: <strong>FR555204_01CKHR</strong>.</p>
 
-<p>Alle Preise sind Endpreise in Euro und enthalten die gesetzliche Umsatzsteuer. <em>[Oder Hinweis auf die Kleinunternehmerregelung.]</em> Versandkosten werden zusätzlich berechnet und vor Abschluss der Bestellung angezeigt.</p>
+<p>Der Kunde erklärt, diese allgemeinen Geschäftsbedingungen vor seiner Bestellung zur Kenntnis genommen und akzeptiert zu haben. Mit der Bestätigung der Bestellung werden diese Bedingungen somit angenommen.</p>
 
-<h2 class="wp-block-heading">§ 3 - Bestellung und Vertragsschluss</h2>
+<h2 class="wp-block-heading">Artikel 1 &#8211; Grundsätze</h2>
 
-<p>Du wählst deine Artikel aus, prüfst Warenkorb und Gesamtpreis, bestätigst die Bestellung und zahlst. Wir bestätigen den Eingang per E-Mail. Bei offensichtlichen Preisfehlern, Betrugsverdacht oder Nichtverfügbarkeit können wir die Bestellung ablehnen - du wirst dann vollständig erstattet.</p>
+<p>Diese Bedingungen regeln sämtliche Pflichten der Parteien. Sie sind auf der Website <strong>${shop}</strong> abrufbar und haben gegebenenfalls Vorrang vor jeder anderen Fassung oder jedem widersprechenden Dokument.</p>
 
-<h2 class="wp-block-heading">§ 4 - Zahlung</h2>
+<h2 class="wp-block-heading">Artikel 2 &#8211; Preise</h2>
 
-<p>Die Zahlung erfolgt per Karte zum Zeitpunkt der Bestellung über das gesicherte System <strong>Stripe</strong>. Wir erhalten und speichern deine vollständige Kartennummer nie.</p>
+<p>Die Preise unserer Produkte sind in Euro angegeben. <strong>Keine Mehrwertsteuer, gemäß Artikel 293 B des französischen Steuergesetzbuchs (Kleinunternehmerregelung): Die angezeigten Preise sind Endpreise.</strong> Die Preise enthalten keine Versandkosten; diese werden zusätzlich berechnet und vor der Bestätigung der Bestellung angezeigt. Der Verkäufer behält sich vor, seine Preise jederzeit zu ändern; berechnet wird jedoch der zum Zeitpunkt der Bestellbestätigung gültige Preis.</p>
 
-<h2 class="wp-block-heading">§ 5 - Lieferung</h2>
+<h2 class="wp-block-heading">Artikel 3 &#8211; Bestellung</h2>
 
-<p>Wir versenden aus Frankreich innerhalb der auf der Produktseite genannten Frist. Ist keine Frist angegeben, liefern wir innerhalb von <strong>30 Tagen</strong>. Verzögert sich der Versand, informieren wir dich per E-Mail; du kannst dann einer neuen Frist zustimmen oder die Bestellung stornieren.</p>
+<p>Die Bestellung ist bestätigt, wenn der Kunde:</p>
 
-<h2 class="wp-block-heading">§ 6 - Widerrufsrecht</h2>
+<ol start="1" class="wp-block-list">
+<li>seine Produkte auswählt,</li>
+<li>die Details seiner Bestellung und den Gesamtpreis (Warenkorb) prüft,</li>
+<li>seine Bestellung bestätigt und bezahlt. Jede Bestellung gilt als Annahme der Preise und Beschreibungen der zum Verkauf angebotenen Produkte. <strong>${shop}</strong> bestätigt den Eingang der Bestellung per E-Mail.</li>
+</ol>
 
-<p>Du hast das Recht, binnen <strong>14 Tagen</strong> ab dem Tag, an dem du die Waren in Besitz genommen hast, diesen Vertrag ohne Angabe von Gründen zu widerrufen.</p>
+<h2 class="wp-block-heading">Artikel 4 &#8211; Zahlung</h2>
 
-<p><strong>So widerrufst du:</strong> Am einfachsten über unser <a href="/de/retractation"><strong>Online-Widerrufsformular</strong></a>, das dauerhaft und kostenlos verfügbar ist. Du kannst uns deine Entscheidung auch mit jeder anderen eindeutigen Erklärung mitteilen (E-Mail, Brief) oder das Muster-Widerrufsformular im Anhang verwenden.</p>
+<p>Mit der Bestätigung der Bestellung verpflichtest du dich, den angegebenen Preis zu zahlen. Die Zahlung erfolgt per Bankkarte oder PayPal über das sichere Zahlungssystem <strong>Stripe</strong>. Der Betrag wird bei der Bestellung belastet.</p>
 
-<p><strong>Folgen des Widerrufs:</strong> Wir erstatten alle Zahlungen einschließlich der Standard-Lieferkosten unverzüglich und spätestens binnen <strong>14 Tagen</strong> ab Eingang deiner Widerrufserklärung, über dasselbe Zahlungsmittel. Du sendest die Waren unverzüglich, spätestens binnen 14 Tagen zurück. <em>[Wer die Rücksendekosten trägt, muss hier klar benannt werden - andernfalls trägst du sie als Händler.]</em></p>
+<h2 class="wp-block-heading">Artikel 5 &#8211; Lieferung</h2>
 
-<h2 class="wp-block-heading">§ 7 - Gesetzliche Gewährleistung</h2>
+<p>Die Produkte werden an die im Bestellvorgang angegebene Lieferadresse geliefert. Die auf der Website angegebenen Lieferzeiten sind Richtwerte und entsprechen den durchschnittlichen Bearbeitungs- und Lieferzeiten. Bei einer Versandverzögerung wirst du per E-Mail über mögliche Auswirkungen auf die angegebene Lieferzeit informiert. Gemäß den gesetzlichen Bestimmungen kannst du die Bestellung stornieren, wenn die Lieferung mehr als 30 Tage verspätet ist.</p>
 
-<p>Es gilt die gesetzliche Mängelhaftung. Zeigt sich innerhalb von <strong>2 Jahren</strong> ab Lieferung ein Mangel, hast du Anspruch auf Nacherfüllung (Reparatur oder Ersatz) und, unter den gesetzlichen Voraussetzungen, auf Rücktritt oder Minderung. Innerhalb der ersten <strong>12 Monate</strong> wird vermutet, dass der Mangel bereits bei Übergabe vorlag.</p>
+<h2 class="wp-block-heading">Artikel 6 &#8211; Widerrufsrecht</h2>
 
-<h2 class="wp-block-heading">§ 8 - Personenbezogene Daten</h2>
+<p>Gemäß Artikel L.221-18 des französischen Verbrauchergesetzbuchs hast du ab Erhalt deiner Produkte <strong>14 Tage</strong> Zeit, dein Widerrufsrecht auszuüben, ohne Angabe von Gründen und ohne Vertragsstrafe.</p>
 
-<p>Die Verarbeitung deiner Daten richtet sich nach der DSGVO. Details in unserer <a href="/de/politique-de-confidentialite">Datenschutzerklärung</a>.</p>
+<p><strong>Ausnahme:</strong> Gemäß Artikel L.221-28 Nr. 3 des französischen Verbrauchergesetzbuchs besteht kein Widerrufsrecht für Waren, die nach Kundenspezifikation angefertigt oder eindeutig personalisiert sind, insbesondere für Hüllen, die mit unserem Gestaltungstool nach deinem eigenen Motiv erstellt wurden. Die Wahl des Handymodells oder der Ausführung einer Hülle aus unserem Katalog gilt nicht als Personalisierung: Diese Hüllen bleiben vom Widerrufsrecht erfasst.</p>
 
-<h2 class="wp-block-heading">§ 9 - Beschwerden und Streitbeilegung</h2>
+<p><strong>So übst du dieses Recht aus:</strong> Gemäß Artikel L.221-21 des französischen Verbrauchergesetzbuchs steht dir auf der Website dauerhaft eine kostenlose Funktion zur Verfügung: <a href="/${lang}/retractation"><strong>mein Widerrufsrecht ausüben</strong></a>. Du kannst uns deine Entscheidung auch auf jedem anderen eindeutigen Weg mitteilen (E-Mail, Post) oder das im Anhang abgedruckte Muster-Widerrufsformular verwenden.</p>
 
-<p>Melde dich bitte zuerst bei uns: <strong>${email}</strong>. Als französisches Unternehmen gehören wir einer Verbraucherschlichtungsstelle an:</p>
+<p><strong>Rücksendungen:</strong> Die Artikel sind im Originalzustand und vollständig (Verpackung, Zubehör, Anleitung) zurückzusenden. Dafür bist du verantwortlich. Eine dabei entstandene Beschädigung des Produkts kann das Widerrufsrecht ausschließen.</p>
 
-<p><strong>[NAME DER SCHLICHTUNGSSTELLE] - [ANSCHRIFT] - [WEBSITE]</strong></p>
+<p><strong>Erstattung:</strong> Bei Ausübung des Widerrufsrechts erstattet <strong>Quentin Amat (${shop})</strong> die gezahlten Beträge innerhalb von 14 Tagen nach deiner Mitteilung über dasselbe Zahlungsmittel, das bei der Bestellung verwendet wurde.</p>
 
-<p><em>Hinweis: Die europäische Online-Streitbeilegungsplattform (OS-Plattform) wurde am 20. Juli 2025 endgültig eingestellt. Ein Link darauf ist nicht mehr erforderlich - maßgeblich sind die nationalen Schlichtungsstellen.</em></p>
+<h2 class="wp-block-heading">Artikel 7 &#8211; Gesetzliche Gewährleistung</h2>
 
-<h2 class="wp-block-heading">§ 10 - Anwendbares Recht</h2>
+<p>Alle unsere Produkte unterliegen, unabhängig von einer kommerziellen Garantie, der <strong>gesetzlichen Konformitätsgewährleistung</strong> (Artikel L.217-3 ff. des französischen Verbrauchergesetzbuchs) und der <strong>Gewährleistung für versteckte Mängel</strong> (Artikel 1641 ff. des französischen Zivilgesetzbuchs).</p>
 
-<p>Es gilt französisches Recht. Als Verbraucher mit Wohnsitz in Deutschland behältst du zusätzlich den Schutz der zwingenden Verbraucherschutzvorschriften des deutschen Rechts (Art. 6 Rom-I-VO).</p>
+<ul class="wp-block-list">
+<li>Die gesetzliche Konformitätsgewährleistung gilt <strong>2 Jahre</strong> ab Lieferung. In diesem Zeitraum musst du den Mangel nicht nachweisen: Es wird vermutet, dass er bereits beim Kauf bestand.</li>
+<li>Du kannst zwischen Reparatur und Ersatz wählen, vorbehaltlich der gesetzlichen Kostenregelungen.</li>
+<li>Bei einer Reparatur <strong>verlängert sich die Gewährleistung um 6 Monate</strong>. Wird eine gewählte Reparatur nicht durchgeführt, kannst du Ersatz verlangen.</li>
+<li>Die Gewährleistung für versteckte Mängel erlaubt es dir, innerhalb von <strong>2 Jahren nach Entdeckung des Mangels</strong> die Rückabwicklung des Kaufs oder eine Preisminderung zu verlangen.</li>
+</ul>
 
-<h2 class="wp-block-heading">Anhang - Muster-Widerrufsformular</h2>
+<h2 class="wp-block-heading">Artikel 8 &#8211; Personenbezogene Daten</h2>
 
-<p><em>(Wenn du den Vertrag widerrufen willst, füll dieses Formular aus und send es zurück - oder nutze einfach unser Online-Formular.)</em></p>
+<p>Die erhobenen personenbezogenen Daten sind für die Bearbeitung deiner Bestellung und die Rechnungsstellung erforderlich. Sie können an die Partner weitergegeben werden, die mit der Ausführung, Bearbeitung, Verwaltung und Bezahlung der Bestellungen betraut sind. Der Kunde hat ein dauerhaftes Recht auf Auskunft, Änderung, Berichtigung und Widerspruch bezüglich seiner Daten. Siehe unsere <a href="/${lang}/politique-de-confidentialite">Datenschutzerklärung</a>.</p>
 
-<p><strong>An [FIRMENNAME], [ANSCHRIFT] - E-Mail: ${email}</strong></p>
+<h2 class="wp-block-heading">Artikel 9 &#8211; Reklamationen und Verbraucherschlichtung</h2>
 
-<p>Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der folgenden Waren (*) / die Erbringung der folgenden Dienstleistung (*):</p>
+<p>Für jede Reklamation wende dich bitte zuerst per E-Mail an unseren Kundenservice: <strong>${email}</strong>.</p>
 
-<p>Bestellt am (*) / erhalten am (*): ..............................</p>
-<p>Bestellnummer: ..............................</p>
-<p>Name des/der Verbraucher(s): ..............................</p>
-<p>Anschrift des/der Verbraucher(s): ..............................</p>
+<p>Gemäß den Artikeln L.616-1 und R.616-1 des französischen Verbrauchergesetzbuchs kannst du dich, wenn deine schriftliche Reklamation nicht zufriedenstellend gelöst wurde, <strong>kostenlos</strong> an die für uns zuständige Verbraucherschlichtungsstelle wenden:</p>
+
+<p><strong>[NAME DER ZUGELASSENEN SCHLICHTUNGSSTELLE]</strong>, <strong>[ANSCHRIFT]</strong>, <strong>[WEBSITE DER SCHLICHTUNGSSTELLE]</strong></p>
+
+<p><em>Die Schlichtung ist ein freiwilliger Schritt vor einem Gerichtsverfahren; sie nimmt dir keine Rechtsmittel. Hinweis: Die europäische Plattform zur Online-Streitbeilegung (OS) wurde am 20. Juli 2025 endgültig geschlossen; zuständig bleiben die nationalen Schlichtungsstellen wie die oben genannte.</em></p>
+
+<h2 class="wp-block-heading">Artikel 10 &#8211; Anwendbares Recht</h2>
+
+<p>Diese Bedingungen unterliegen französischem Recht. Wenn du in einem anderen Mitgliedstaat der Europäischen Union wohnst, behältst du den Schutz der zwingenden Verbraucherschutzvorschriften deines Wohnsitzlandes.</p>
+
+<p><strong>ANHANG &#8211; MUSTER-WIDERRUFSFORMULAR</strong></p>
+
+<p><em>(Wenn du den Vertrag widerrufen willst, fülle bitte dieses Formular aus und sende es zurück)</em></p>
+
+<p><strong>An Quentin Amat (${shop}), ${addr}, E-Mail: ${email}</strong></p>
+
+<p>Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der folgenden Waren (*)/die Erbringung der folgenden Dienstleistung (*):</p>
+
+<p>Bestellt am (*) / erhalten am (*): ${dots}</p>
+
+<p>Bestellnummer: ${dots}</p>
+
+<p>Name des/der Verbraucher(s): ${dots}</p>
+
+<p>Anschrift des/der Verbraucher(s): ${dots}</p>
+
 <p>Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier):</p>
-<p>Datum: ..............................</p>
+
+<p>Datum: ${dots}</p>
 
 <p><em>(*) Unzutreffendes streichen.</em></p>
 `,
