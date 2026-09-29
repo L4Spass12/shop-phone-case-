@@ -148,6 +148,8 @@ const popularCount = catalogue.filter((m) => m.popular).length;
 
         {/* Filtres par marque. « Toutes » est actif par défaut : c'est la
             recherche, pas la marque, qui est le chemin principal. */}
+        {/* Une seule marque : pas de filtres, ils ne filtreraient rien. */}
+        {brands.length > 1 && (
         <div class="mp-brands" data-mp-brands role="tablist" aria-label={t('model.allBrands', lang)}>
           {/* Libellé court : « Tous » suffit dans une rangée de marques et tient
               beaucoup moins de place. L'aria-label du groupe ci-dessus porte le
@@ -161,6 +163,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             </button>
           ))}
         </div>
+        )}
       </div>
 
       {/* Résultats. Rendu côté client : la liste change à chaque frappe, la
@@ -276,7 +279,9 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           var defaultView = !tokens.length && !brandFilter;
 
           list.forEach(function (m, i) {
-            var group = defaultView ? T.popular : m.brandLabel;
+            // Catalogue entier déjà affiché (liste courte) : « Les plus
+            // demandés » ne voudrait rien dire, on titre par marque.
+            var group = defaultView && list.length < MODELS.length ? T.popular : m.brandLabel;
             if (group !== lastGroup) {
               var h = document.createElement('div');
               h.className = 'mp-group';
