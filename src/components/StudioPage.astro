@@ -1,0 +1,39 @@
+---
+// Page du studio de personnalisation, commune à toutes les langues
+// (routes /personnaliser et /<lang>/personnaliser).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseCustomizer from './CaseCustomizer.astro';
+import siteConfig from '../../site.config.mjs';
+import { localePrefix, type Locale } from '../lib/i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const lp = localePrefix(lang);
+
+const T = {
+  fr: { home: 'Accueil', crumb: 'Personnaliser', title: 'Personnaliser ma coque',
+        description: 'Créez votre coque de téléphone unique : ajoutez du texte, des stickers et vos photos, arrangez-les à votre goût. Studio de personnalisation en ligne.' },
+  en: { home: 'Home', crumb: 'Customise', title: 'Customise my case',
+        description: 'Create your own unique phone case: add text, stickers and your photos, and arrange them as you like. Online customisation studio.' },
+  de: { home: 'Startseite', crumb: 'Gestalten', title: 'Meine Hülle gestalten',
+        description: 'Gestalte deine eigene Handyhülle: Füge Text, Sticker und deine Fotos hinzu und ordne sie nach deinem Geschmack an. Online-Gestaltungsstudio.' },
+}[lang] ?? null;
+if (!T) throw new Error(`StudioPage : langue non prise en charge (${lang})`);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: T.home, item: `${siteConfig.url}${lp}/` },
+    { '@type': 'ListItem', position: 2, name: T.crumb, item: `${siteConfig.url}${lp}/personnaliser` },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${T.title} - ${siteConfig.name}`}
+  description={T.description}
+  jsonLd={breadcrumbSchema}
+>
+  <CaseCustomizer lang={lang} />
+</BaseLayout>

@@ -257,7 +257,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         data-language={currentLocale}
         data-currency={currencyForLocale(currentLocale)}
         data-logo={new URL('/logo-checkout.png?v=2', Astro.site ?? SITE_URL).toString()}
-        data-design-edit-path="/personnaliser/"
+        data-design-edit-path={localizeUrl('/personnaliser/', currentLocale)}
         data-checkout-path={localizeUrl('/checkout/', currentLocale)}
         defer
       ></script>

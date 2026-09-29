@@ -48,7 +48,7 @@ const titre = { fr: 'Paiement', en: 'Checkout', de: 'Bezahlung' }[lang] ?? 'Paie
         data-language={lang}
         data-currency={currencyForLocale(lang)}
         data-logo={new URL('/logo-checkout.png?v=2', Astro.site ?? SITE_URL).toString()}
-        data-design-edit-path="/personnaliser/"
+        data-design-edit-path={lang === 'fr' ? '/personnaliser/' : `/${lang}/personnaliser/`}
         defer
       ></script>
     )}

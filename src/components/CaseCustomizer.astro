@@ -20,6 +20,10 @@
  */
 import ModelPicker from './ModelPicker.astro';
 import siteConfig from '../../site.config.mjs';
+import type { Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale }
+const { lang = 'fr' } = Astro.props;
 
 /* Polices de personnalisation — importées ICI et non dans global.css :
    elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
@@ -47,7 +51,7 @@ const SKU = 'custom';
    clé qui porte le prix faisant foi côté serveur (cf. seamless-items.json), donc
    un « relief » vendu au tarif du plat ne peut pas passer. */
 const RELIEF_PRICE_CENTS = siteConfig.shop?.customCaseReliefPriceCents ?? PRICE_CENTS;
-const fmt = (c) => (c / 100).toFixed(2).replace('.', ',') + ' €';
+const fmt = (c: number) => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const price = fmt(PRICE_CENTS);
 const reliefPrice = fmt(RELIEF_PRICE_CENTS);
 
@@ -55,6 +59,122 @@ const reliefPrice = fmt(RELIEF_PRICE_CENTS);
    fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
    la ligne avec l'identifiant reçu. Il lui faut donc l'URL de l'API et le
    shop_id en clair. */
+
+/* Textes du studio, par langue. `ui` : gabarit ; `js` : messages du script,
+   transmis par l'attribut data-i18n (le script est commun aux trois langues). */
+const TEXTS = {
+  fr: {
+    ui: {
+      studio: 'Studio de personnalisation', undo: 'Annuler', undoTitle: 'Annuler (Ctrl+Z)', redo: 'Rétablir',
+      reset: 'Tout effacer', cont: 'Continuer', tools: 'Outils', designs: 'Designs', text: 'Texte', photos: 'Photos',
+      panel: 'Panneau', closePanel: 'Fermer le panneau',
+      designsHint: 'Partez d’une base, puis modifiez tout : textes, couleurs, positions.',
+      addText: '+ Ajouter un texte', content: 'Contenu', yourText: 'Votre texte', font: 'Police', textColor: 'Couleur du texte',
+      textEmpty: 'Sélectionnez un texte sur la coque pour le modifier.',
+      importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
+      pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
+      emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
+      edit: 'Éditer', dup: 'Dupliquer', back: 'Reculer', front: 'Avancer', del: 'Supprimer',
+      printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
+      printMode: 'Mode d’impression',
+      flat: 'À plat', flatDesc: 'L’encre affleure la coque. Surface lisse, rendu net et couleurs franches.',
+      relief: 'En relief', reliefDesc: 'Plusieurs passes d’encre : le motif se sent sous le doigt. Effet matière.',
+      total: 'Total', addToCart: 'Ajouter au panier', preparing: 'Préparation…', wait: 'Quelques secondes, ne fermez pas la page.',
+      seeCart: 'Voir mon panier', another: 'Créer une autre coque',
+    },
+    js: {
+      confirmReset: 'Effacer tous les éléments de la coque ?', resetDone: 'Coque réinitialisée',
+      titles: { design: 'Designs', text: 'Texte', photo: 'Photos' }, yourText: 'Votre texte', textColor: 'Texte',
+      design: 'Design', confirmTpl: 'Remplacer votre composition actuelle par le design « {n} » ?', tplApplied: 'Design « {n} » appliqué',
+      notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
+      cartNotSet: 'Panier non configuré.', rendering: 'Rendu de votre visuel…', printFile: 'Préparation du fichier d’impression…',
+      sending: 'Envoi à l’atelier…', wait: 'Quelques secondes, ne fermez pas la page.', added: 'Ajouté au panier !',
+      addOne: 'Ajoutez au moins un élément à votre coque.', preparingCase: 'Préparation de votre coque…',
+      addingCart: 'Ajout au panier…', cartUnavailable: 'Panier indisponible.', addFailed: 'Ajout impossible pour l’instant. Réessayez.',
+      reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
+      itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
+      success: { flat: 'Coque à plat', relief: 'Coque en relief' },
+      tpl: { prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+        tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
+        since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
+    },
+  },
+  en: {
+    ui: {
+      studio: 'Customisation studio', undo: 'Undo', undoTitle: 'Undo (Ctrl+Z)', redo: 'Redo',
+      reset: 'Clear all', cont: 'Continue', tools: 'Tools', designs: 'Designs', text: 'Text', photos: 'Photos',
+      panel: 'Panel', closePanel: 'Close panel',
+      designsHint: 'Start from a base, then change everything: texts, colours, positions.',
+      addText: '+ Add text', content: 'Content', yourText: 'Your text', font: 'Font', textColor: 'Text colour',
+      textEmpty: 'Select a text on the case to edit it.',
+      importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
+      pasteHint: 'Tip: you can also paste an image (Ctrl+V).',
+      emptyTitle: 'Your case is blank', emptySub: 'Choose a tool to get started',
+      edit: 'Edit', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
+      printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
+      printMode: 'Print finish',
+      flat: 'Flat', flatDesc: 'The ink sits flush with the case. Smooth surface, crisp result and bold colours.',
+      relief: 'Raised', reliefDesc: 'Several layers of ink: you can feel the design under your finger. Textured effect.',
+      total: 'Total', addToCart: 'Add to cart', preparing: 'Preparing…', wait: 'Just a few seconds, please don’t close the page.',
+      seeCart: 'View my cart', another: 'Create another case',
+    },
+    js: {
+      confirmReset: 'Remove all elements from the case?', resetDone: 'Case cleared',
+      titles: { design: 'Designs', text: 'Text', photo: 'Photos' }, yourText: 'Your text', textColor: 'Text',
+      design: 'Design', confirmTpl: 'Replace your current design with the “{n}” design?', tplApplied: '“{n}” design applied',
+      notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
+      cartNotSet: 'Cart not configured.', rendering: 'Rendering your design…', printFile: 'Preparing the print file…',
+      sending: 'Sending to the workshop…', wait: 'Just a few seconds, please don’t close the page.', added: 'Added to cart!',
+      addOne: 'Add at least one element to your case.', preparingCase: 'Preparing your case…',
+      addingCart: 'Adding to cart…', cartUnavailable: 'Cart unavailable.', addFailed: 'Could not add it right now. Please try again.',
+      reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
+      itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
+      success: { flat: 'Flat-print case', relief: 'Raised-print case' },
+      tpl: { prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+        tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
+        since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
+    },
+  },
+  de: {
+    ui: {
+      studio: 'Gestaltungsstudio', undo: 'Rückgängig', undoTitle: 'Rückgängig (Strg+Z)', redo: 'Wiederholen',
+      reset: 'Alles löschen', cont: 'Weiter', tools: 'Werkzeuge', designs: 'Designs', text: 'Text', photos: 'Fotos',
+      panel: 'Bereich', closePanel: 'Bereich schließen',
+      designsHint: 'Starte mit einer Vorlage und ändere dann alles: Texte, Farben, Positionen.',
+      addText: '+ Text hinzufügen', content: 'Inhalt', yourText: 'Dein Text', font: 'Schrift', textColor: 'Textfarbe',
+      textEmpty: 'Wähle einen Text auf der Hülle aus, um ihn zu bearbeiten.',
+      importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
+      pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
+      emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
+      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'Nach hinten', front: 'Nach vorne', del: 'Löschen',
+      printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
+      printMode: 'Druckart',
+      flat: 'Flach', flatDesc: 'Die Tinte schließt bündig mit der Hülle ab. Glatte Oberfläche, klares Ergebnis und kräftige Farben.',
+      relief: 'Erhaben', reliefDesc: 'Mehrere Tintenschichten: Das Motiv ist unter dem Finger spürbar. Struktureffekt.',
+      total: 'Gesamt', addToCart: 'In den Warenkorb', preparing: 'Wird vorbereitet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.',
+      seeCart: 'Zum Warenkorb', another: 'Weitere Hülle gestalten',
+    },
+    js: {
+      confirmReset: 'Alle Elemente von der Hülle entfernen?', resetDone: 'Hülle zurückgesetzt',
+      titles: { design: 'Designs', text: 'Text', photo: 'Fotos' }, yourText: 'Dein Text', textColor: 'Text',
+      design: 'Design', confirmTpl: 'Deine aktuelle Gestaltung durch das Design „{n}“ ersetzen?', tplApplied: 'Design „{n}“ übernommen',
+      notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
+      cartNotSet: 'Warenkorb nicht eingerichtet.', rendering: 'Dein Motiv wird gerendert…', printFile: 'Druckdatei wird vorbereitet…',
+      sending: 'Wird an die Werkstatt gesendet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.', added: 'Zum Warenkorb hinzugefügt!',
+      addOne: 'Füge deiner Hülle mindestens ein Element hinzu.', preparingCase: 'Deine Hülle wird vorbereitet…',
+      addingCart: 'Wird in den Warenkorb gelegt…', cartUnavailable: 'Warenkorb nicht verfügbar.', addFailed: 'Hinzufügen gerade nicht möglich. Bitte versuche es erneut.',
+      reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
+      itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
+      success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
+      tpl: { prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+        tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
+        since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
+    },
+  },
+}[lang] ?? null;
+if (!TEXTS) throw new Error(`CaseCustomizer : langue non prise en charge (${lang})`);
+const U = TEXTS.ui;
+
 const atelier = siteConfig.shop?.atelier ?? {};
 const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 ---
@@ -62,7 +182,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 <section
   class="studio"
   data-studio
-  aria-label="Studio de personnalisation"
+  aria-label={U.studio}
+  data-i18n={JSON.stringify(TEXTS.js)}
   data-shop-id={atelier.shopId ?? ''}
   data-api={apiOrigin}
   data-sku={SKU}
@@ -75,21 +196,21 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     <!-- ─── Barre supérieure ─────────────────────────────────────── -->
     <header class="bar">
       <div class="bar-l">
-        <button type="button" class="sbtn" data-undo disabled aria-label="Annuler" title="Annuler (Ctrl+Z)">
+        <button type="button" class="sbtn" data-undo disabled aria-label={U.undo} title={U.undoTitle}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
         </button>
-        <button type="button" class="sbtn" data-redo disabled aria-label="Rétablir" title="Rétablir">
+        <button type="button" class="sbtn" data-redo disabled aria-label={U.redo} title={U.redo}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
         </button>
         <span class="bar-sep" aria-hidden="true"></span>
-        <button type="button" class="sbtn" data-reset aria-label="Tout effacer" title="Tout effacer">
+        <button type="button" class="sbtn" data-reset aria-label={U.reset} title={U.reset}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
         </button>
         <!-- Le choix du modèle vit dans la barre plutôt que dans le rail : c'est
              une décision qu'on prend UNE fois, avant de dessiner, pas un outil
              qu'on rouvre en travaillant. Le rail ne garde que ce qui sert à
              composer. -->
-        <div class="bar-mp"><ModelPicker id="studio-model" /></div>
+        <div class="bar-mp"><ModelPicker id="studio-model" lang={lang} /></div>
       </div>
       <div class="bar-r">
         <span class="bar-price price-amount">{price}</span>
@@ -97,37 +218,37 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             à l'étape suivante, et il change le prix. Annoncer l'ajout ici
             reviendrait à cacher une décision qui coûte 5 €. */}
         <button type="button" class="btn-atc buy-button bar-add" data-next>
-          <span class="add-full">Continuer</span>
-          <span class="add-mini">Continuer</span>
+          <span class="add-full">{U.cont}</span>
+          <span class="add-mini">{U.cont}</span>
         </button>
       </div>
     </header>
 
     <!-- ─── Rail d'outils ────────────────────────────────────────── -->
-    <nav class="rail" aria-label="Outils">
+    <nav class="rail" aria-label={U.tools}>
       {/* Une SEULE pastille pour tous les outils : elle glisse de l'un à
           l'autre au lieu de s'éteindre ici et de se rallumer là. C'est le
           déplacement qui rend le changement lisible. */}
       <span class="rail-ind" data-railind aria-hidden="true"></span>
       <button type="button" class="rbtn" data-panel="design" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 4 1.6 3.4L19 9l-3.4 1.6L14 14l-1.6-3.4L9 9l3.4-1.6z"/><path d="M6 14.5 6.9 16.4 9 17.3l-2.1.9L6 20.1l-.9-1.9L3 17.3l2.1-.9z"/></svg>
-        <span>Designs</span>
+        <span>{U.designs}</span>
       </button>
       <button type="button" class="rbtn" data-panel="text" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg>
-        <span>Texte</span>
+        <span>{U.text}</span>
       </button>
       <button type="button" class="rbtn" data-panel="photo" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>
-        <span>Photos</span>
+        <span>{U.photos}</span>
       </button>
     </nav>
 
     <!-- ─── Panneau contextuel ───────────────────────────────────── -->
     <aside class="panel" data-panelwrap hidden>
       <div class="panel-head">
-        <h2 data-paneltitle>Panneau</h2>
-        <button type="button" class="panel-x" data-panelclose aria-label="Fermer le panneau">
+        <h2 data-paneltitle>{U.panel}</h2>
+        <button type="button" class="panel-x" data-panelclose aria-label={U.closePanel}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <path d="M6 6 18 18M18 6 6 18"/>
           </svg>
@@ -136,32 +257,32 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
       <!-- Designs prêts à l'emploi -->
       <div class="pane" data-pane="design" hidden>
-        <p class="pane-hint" style="margin-top:0">Partez d'une base, puis modifiez tout : textes, couleurs, positions.</p>
+        <p class="pane-hint" style="margin-top:0">{U.designsHint}</p>
         <div class="tpl-grid" data-templates></div>
       </div>
 
       <!-- Texte -->
       <div class="pane" data-pane="text" hidden>
-        <button type="button" class="pane-cta" data-addtext>+ Ajouter un texte</button>
+        <button type="button" class="pane-cta" data-addtext>{U.addText}</button>
         <div data-textedit hidden>
-          <label class="pane-label" for="studio-text">Contenu</label>
-          <input id="studio-text" type="text" class="field" data-textinput placeholder="Votre texte" maxlength="40" autocomplete="off" />
-          <label class="pane-label">Police</label>
+          <label class="pane-label" for="studio-text">{U.content}</label>
+          <input id="studio-text" type="text" class="field" data-textinput placeholder={U.yourText} maxlength="40" autocomplete="off" />
+          <label class="pane-label">{U.font}</label>
           <div class="font-row" data-fonts></div>
-          <label class="pane-label">Couleur du texte</label>
+          <label class="pane-label">{U.textColor}</label>
           <div class="swatch-row" data-textcolors></div>
         </div>
-        <p class="pane-empty" data-textempty>Sélectionnez un texte sur la coque pour le modifier.</p>
+        <p class="pane-empty" data-textempty>{U.textEmpty}</p>
       </div>
 
       <!-- Photos -->
       <div class="pane" data-pane="photo" hidden>
         <button type="button" class="dropzone" data-pick>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          <strong>Importer une photo</strong>
-          <span>ou glissez-la sur la coque · JPG, PNG, WebP</span>
+          <strong>{U.importPhoto}</strong>
+          <span>{U.importHint}</span>
         </button>
-        <p class="pane-hint">Astuce : vous pouvez aussi coller une image (Ctrl+V).</p>
+        <p class="pane-hint">{U.pasteHint}</p>
       </div>
 
     </aside>
@@ -184,8 +305,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <span class="side side-r" aria-hidden="true"></span>
 
         <div class="empty" data-empty>
-          <p>Votre coque est vierge</p>
-          <span>Choisissez un outil pour commencer</span>
+          <p>{U.emptyTitle}</p>
+          <span>{U.emptySub}</span>
         </div>
 
         <!-- Cadre de sélection : calque UNIQUE hors du .design (qui, lui, rogne
@@ -201,17 +322,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       <!-- Barre d'actions : ancrée au plan de travail et non à la coque, qui
            devient trop étroite quand un panneau est ouvert en mobile. -->
       <div class="ctx" data-ctx hidden>
-          <button type="button" data-act="edit" hidden>Éditer</button>
-          <button type="button" data-act="dup" aria-label="Dupliquer" title="Dupliquer">
+          <button type="button" data-act="edit" hidden>{U.edit}</button>
+          <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
           </button>
-          <button type="button" data-act="back" aria-label="Reculer" title="Reculer">
+          <button type="button" data-act="back" aria-label={U.back} title={U.back}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
           </button>
-          <button type="button" data-act="front" aria-label="Avancer" title="Avancer">
+          <button type="button" data-act="front" aria-label={U.front} title={U.front}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 15 6-6 6 6"/></svg>
           </button>
-          <button type="button" data-act="del" class="ctx-del" aria-label="Supprimer" title="Supprimer">
+          <button type="button" data-act="del" class="ctx-del" aria-label={U.del} title={U.del}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
           </button>
       </div>
@@ -223,17 +344,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       Posée par-dessus l'éditeur plutôt que sur une autre page : changer d'URL
       ferait perdre la composition en cours, et il faudrait la re-téléverser
       pour revenir en arrière. Ici, « Retour » ramène au dessin intact. */}
-  <section class="step" data-step hidden aria-label="Choix du mode d'impression">
+  <section class="step" data-step hidden aria-label={U.printChoice}>
     <header class="step-bar">
       <button type="button" class="step-back" data-stepback>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-        Retour
+        {U.goBack}
       </button>
-      <p class="step-title">Comment imprimer votre coque&nbsp;?</p>
+      <p class="step-title">{U.howPrint}</p>
       <span class="step-spacer" aria-hidden="true"></span>
     </header>
 
-    <div class="step-grid" role="radiogroup" aria-label="Mode d'impression">
+    <div class="step-grid" role="radiogroup" aria-label={U.printMode}>
       <button type="button" class="mode" data-mode="flat" role="radio" aria-checked="true">
         <span class="mode-bg" aria-hidden="true"></span>
         {/* Coupe transversale, centrée dans la carte : c'est elle qui explique
@@ -249,8 +370,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           </svg>
         </span>
         <span class="mode-body">
-          <span class="mode-name">À plat</span>
-          <span class="mode-desc">L&rsquo;encre affleure la coque. Surface lisse, rendu net et couleurs franches.</span>
+          <span class="mode-name">{U.flat}</span>
+          <span class="mode-desc">{U.flatDesc}</span>
           <span class="mode-price">{price}</span>
         </span>
         <span class="mode-check" aria-hidden="true">
@@ -269,8 +390,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           </svg>
         </span>
         <span class="mode-body">
-          <span class="mode-name">En relief</span>
-          <span class="mode-desc">Plusieurs passes d&rsquo;encre&nbsp;: le motif se sent sous le doigt. Effet matière.</span>
+          <span class="mode-name">{U.relief}</span>
+          <span class="mode-desc">{U.reliefDesc}</span>
           <span class="mode-price">{reliefPrice}</span>
         </span>
         <span class="mode-check" aria-hidden="true">
@@ -281,11 +402,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     <div class="step-foot">
       <span class="step-total">
-        <span class="step-total-l">Total</span>
+        <span class="step-total-l">{U.total}</span>
         <span class="step-total-v" data-steptotal>{price}</span>
       </span>
       <button type="button" class="btn-atc buy-button step-add" data-add>
-        <span class="step-add-l">Ajouter au panier</span>
+        <span class="step-add-l">{U.addToCart}</span>
       </button>
     </div>
 
@@ -306,11 +427,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             <path d="m5 12.5 4.5 4.5L19 7.5" />
           </svg>
         </span>
-        <p class="busy-msg" data-busymsg role="status">Préparation…</p>
-        <p class="busy-sub" data-busysub>Quelques secondes, ne fermez pas la page.</p>
+        <p class="busy-msg" data-busymsg role="status">{U.preparing}</p>
+        <p class="busy-sub" data-busysub>{U.wait}</p>
         <div class="busy-actions" data-busyactions hidden>
-          <button type="button" class="busy-cart" data-opencart>Voir mon panier</button>
-          <button type="button" class="busy-more" data-busyclose>Créer une autre coque</button>
+          <button type="button" class="busy-cart" data-opencart>{U.seeCart}</button>
+          <button type="button" class="busy-more" data-busyclose>{U.another}</button>
         </div>
       </div>
     </div>
@@ -1267,6 +1388,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   (function () {
     var root = document.querySelector('[data-studio]');
     if (!root) return;
+    // Textes dans la langue de la page (cf. TEXTS dans le frontmatter).
+    var I = JSON.parse(root.getAttribute('data-i18n') || '{}');
+    var fill = function (msg, n) { return String(msg).replace('{n}', n); };
 
     var design   = root.querySelector('[data-design]');
     var caseEl   = root.querySelector('[data-case]');
@@ -1412,50 +1536,50 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        Point de départ éditable : on pose des éléments normaux, que le
        client déplace/modifie ensuite comme s'il les avait ajoutés. */
     var TEMPLATES = [
-      { id: 'prenom', name: 'Prénom', els: [
+      { id: 'prenom', name: I.tpl.prenom, els: [
         { type: 'text', text: 'Camille', font: F('pinyon'), color: '#111113', size: 20, x: 50, y: 50, rot: 0 },
       ]},
-      { id: 'monogramme', name: 'Monogramme', els: [
+      { id: 'monogramme', name: I.tpl.monogramme, els: [
         { type: 'text', text: 'A M', font: F('bodoni'), color: '#111113', size: 30, x: 50, y: 46, rot: 0 },
-        { type: 'text', text: 'DEPUIS 2024', font: F('montserrat'), color: '#6e5f52', size: 5, x: 50, y: 60, rot: 0 },
+        { type: 'text', text: I.tpl.since, font: F('montserrat'), color: '#6e5f52', size: 5, x: 50, y: 60, rot: 0 },
       ]},
       // NB : on garde les éléments hors de la zone caméra (haut-gauche).
-      { id: 'floral', name: 'Floral', els: [
+      { id: 'floral', name: I.tpl.floral, els: [
         { type: 'sticker', text: '🌸', size: 20, x: 27, y: 37, rot: -12 },
         { type: 'sticker', text: '🌿', size: 17, x: 76, y: 34, rot: 14 },
         { type: 'text', text: 'Bloom', font: F('dancing'), color: '#111113', size: 18, x: 50, y: 52, rot: 0 },
         { type: 'sticker', text: '🌷', size: 18, x: 30, y: 74, rot: 8 },
         { type: 'sticker', text: '🍃', size: 15, x: 72, y: 78, rot: -16 },
       ]},
-      { id: 'celeste', name: 'Céleste', els: [
+      { id: 'celeste', name: I.tpl.celeste, els: [
         { type: 'sticker', text: '🌙', size: 26, x: 52, y: 38, rot: 0 },
         { type: 'sticker', text: '✨', size: 12, x: 25, y: 34, rot: 0 },
         { type: 'sticker', text: '⭐', size: 10, x: 78, y: 26, rot: 0 },
         { type: 'sticker', text: '✨', size: 9, x: 72, y: 52, rot: 0 },
         { type: 'text', text: 'STAY WILD', font: F('bebas'), color: '#111113', size: 12, x: 50, y: 66, rot: 0 },
       ]},
-      { id: 'citation', name: 'Citation', els: [
+      { id: 'citation', name: I.tpl.citation, els: [
         { type: 'text', text: 'CARPE', font: F('anton'), color: '#ff3b14', size: 22, x: 50, y: 42, rot: 0 },
         { type: 'text', text: 'DIEM', font: F('anton'), color: '#111113', size: 22, x: 50, y: 56, rot: 0 },
       ]},
-      { id: 'tropical', name: 'Tropical', els: [
+      { id: 'tropical', name: I.tpl.tropical, els: [
         { type: 'sticker', text: '🌴', size: 30, x: 34, y: 40, rot: -8 },
         { type: 'sticker', text: '🌺', size: 18, x: 70, y: 60, rot: 12 },
-        { type: 'text', text: 'Été', font: F('caveat'), color: '#16a34a', size: 18, x: 52, y: 78, rot: -4 },
+        { type: 'text', text: I.tpl.summer, font: F('caveat'), color: '#16a34a', size: 18, x: 52, y: 78, rot: -4 },
       ]},
-      { id: 'vague', name: 'Vague', els: [
+      { id: 'vague', name: I.tpl.vague, els: [
         { type: 'sticker', text: '🌊', size: 34, x: 50, y: 58, rot: 0 },
-        { type: 'text', text: 'OCÉAN', font: F('oswald'), color: '#2563eb', size: 13, x: 50, y: 34, rot: 0 },
+        { type: 'text', text: I.tpl.ocean, font: F('oswald'), color: '#2563eb', size: 13, x: 50, y: 34, rot: 0 },
       ]},
-      { id: 'coeur', name: 'Cœur', els: [
+      { id: 'coeur', name: I.tpl.coeur, els: [
         { type: 'sticker', text: '🤍', size: 30, x: 50, y: 44, rot: 0 },
         { type: 'text', text: 'love you', font: F('dancing'), color: '#e11d48', size: 14, x: 50, y: 64, rot: -3 },
       ]},
-      { id: 'minimal', name: 'Minimal', els: [
+      { id: 'minimal', name: I.tpl.minimal, els: [
         { type: 'text', text: '·', font: F('inter'), color: '#111113', size: 22, x: 50, y: 40, rot: 0 },
         { type: 'text', text: 'less is more', font: F('mono'), color: '#111113', size: 7, x: 50, y: 52, rot: 0 },
       ]},
-      { id: 'fete', name: 'Fête', els: [
+      { id: 'fete', name: I.tpl.fete, els: [
         { type: 'sticker', text: '🪩', size: 26, x: 50, y: 36, rot: 0 },
         { type: 'sticker', text: '🎀', size: 13, x: 26, y: 60, rot: -14 },
         { type: 'sticker', text: '✨', size: 11, x: 74, y: 58, rot: 10 },
@@ -1649,8 +1773,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     redoBtn.addEventListener('click', redo);
     root.querySelector('[data-reset]').addEventListener('click', function () {
       if (!state.elements.length) return;
-      if (!window.confirm('Effacer tous les éléments de la coque ?')) return;
-      state.elements = []; selectedId = null; renderAll(); pushHistory(); toast('Coque réinitialisée');
+      if (!window.confirm(I.confirmReset)) return;
+      state.elements = []; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
     });
 
     /* ── Ajout / suppression ────────────────────────────────────── */
@@ -1845,7 +1969,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     window.addEventListener('resize', function () { moveRailInd(false); });
 
     /* ── Panneaux ───────────────────────────────────────────────── */
-    var TITLES = { design: 'Designs', text: 'Texte', photo: 'Photos' };
+    var TITLES = I.titles;
     var paneCloseTimer = null;
     function openPane(name) {
       activePane = name;
@@ -1893,7 +2017,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var textTimer = null;
 
     root.querySelector('[data-addtext]').addEventListener('click', function () {
-      addElement({ type: 'text', text: 'Votre texte', font: F('bodoni'), color: TEXT_COLORS[0], size: 11 });
+      addElement({ type: 'text', text: I.yourText, font: F('bodoni'), color: TEXT_COLORS[0], size: 11 });
       setTimeout(function () { textInput.focus(); textInput.select(); }, 60);
     });
     FONTS.forEach(function (f) {
@@ -1910,7 +2034,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     TEXT_COLORS.forEach(function (col) {
       var s = document.createElement('button');
       s.type = 'button'; s.className = 'swatch'; s.dataset.c = col; s.style.background = col;
-      s.setAttribute('aria-label', 'Texte ' + col);
+      s.setAttribute('aria-label', I.textColor + ' ' + col);
       s.addEventListener('click', function () {
         var el = selectedId && findEl(selectedId);
         if (el && el.type === 'text') { el.color = col; applyStyles(el); syncTextPane(); pushHistory(); }
@@ -1940,7 +2064,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var tplGrid = root.querySelector('[data-templates]');
     TEMPLATES.forEach(function (t) {
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', 'Design ' + t.name);
+      b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', I.design + ' ' + t.name);
       var thumb = document.createElement('span');
       thumb.className = 'tpl-thumb';
       t.els.forEach(function (e) {
@@ -1963,11 +2087,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     function applyTemplate(t) {
       if (state.elements.length &&
-          !window.confirm('Remplacer votre composition actuelle par le design « ' + t.name + ' » ?')) return;
+          !window.confirm(fill(I.confirmTpl, t.name))) return;
       state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
       selectedId = null;
       renderAll(); pushHistory();
-      toast('Design « ' + t.name + ' » appliqué');
+      toast(fill(I.tplApplied, t.name));
       // On garde le panneau ouvert : la coque restant visible en mobile, on
       // peut comparer plusieurs designs sans faire d'aller-retour.
     }
@@ -1982,7 +2106,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Photos ─────────────────────────────────────────────────── */
     root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
     function importFile(file) {
-      if (!file || !/^image\//.test(file.type)) { toast('Choisissez un fichier image.', 'warn'); return; }
+      if (!file || !/^image\//.test(file.type)) { toast(I.notImage, 'warn'); return; }
       var reader = new FileReader();
       reader.onload = function () {
         var img = new Image();
@@ -1996,9 +2120,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           var out; try { out = cv.toDataURL('image/webp', .85); } catch (_) { out = ''; }
           if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
           addElement({ type: 'image', src: out, size: 46 });
-          toast('Photo ajoutée');
+          toast(I.photoAdded);
         };
-        img.onerror = function () { toast('Image illisible.', 'warn'); };
+        img.onerror = function () { toast(I.unreadable, 'warn'); };
         img.src = reader.result;
       };
       reader.readAsDataURL(file);
@@ -2371,19 +2495,19 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var say = step || function () {};
       var hash = snapshot();
       if (lastUpload.hash === hash && lastUpload.id) return Promise.resolve(lastUpload);
-      if (!API || !SHOP_ID) return Promise.reject(new Error('Panier non configuré.'));
+      if (!API || !SHOP_ID) return Promise.reject(new Error(I.cartNotSet));
 
-      say('Rendu de votre visuel…');
+      say(I.rendering);
       return paintPause().then(function () {
         return Promise.all([
           renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
           renderDesign({ width: printWidthPx() }),
         ]);
       }).then(function (canvases) {
-        say('Préparation du fichier d\u2019impression…');
+        say(I.printFile);
         return paintPause().then(function () { return canvases; });
       }).then(function (canvases) {
-        say('Envoi à l\u2019atelier…');
+        say(I.sending);
         return fetch(API + '/api/public/design', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2429,7 +2553,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (on) {
         busyCard.removeAttribute('data-done');
         busyActs.hidden = true;
-        busySub.textContent = 'Quelques secondes, ne fermez pas la page.';
+        busySub.textContent = I.wait;
         busyArc.style.strokeDashoffset = String(RING);
         if (msg) busyMsg.textContent = msg;
       }
@@ -2442,7 +2566,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function showSuccess(label) {
       busyStep(STEPS);
       busyCard.setAttribute('data-done', '');
-      busyMsg.textContent = 'Ajouté au panier !';
+      busyMsg.textContent = I.added;
       busySub.textContent = label;
       busyActs.hidden = false;
       addBtn.disabled = false;
@@ -2530,7 +2654,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
       var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
       e.preventDefault();
-      setUploading(true, 'Préparation de votre coque…');
+      setUploading(true, I.preparingCase);
 
       var mode = printMode;
       var sku = mode === 'relief' ? RELIEF_SKU : SKU;
@@ -2538,9 +2662,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
       var done = 0;
       uploadDesign(function (m) { busyStep(done++, m); }).then(function (up) {
-        busyStep(3, 'Ajout au panier…');
+        busyStep(3, I.addingCart);
         if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
-          throw new Error('Panier indisponible.');
+          throw new Error(I.cartUnavailable);
         }
         window.AtelierCheckout.add({
           product: {
@@ -2548,7 +2672,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             // même composition commandée à plat puis en relief donne deux
             // lignes, pas une quantité 2 au mauvais prix.
             id: sku + '::' + up.id,
-            name: 'Coque personnalisée ' + (mode === 'relief' ? 'en relief' : 'à plat')
+            name: I.itemName[mode === 'relief' ? 'relief' : 'flat']
                   + ' — ' + (state.model || m),
             price: cents,
             image: up.previewUrl,
@@ -2563,12 +2687,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           },
           quantity: 1,
         });
-        showSuccess('Coque ' + (mode === 'relief' ? 'en relief' : 'à plat')
+        showSuccess(I.success[mode === 'relief' ? 'relief' : 'flat']
                     + ' — ' + (state.model || m));
       }).catch(function (err) {
         console.error('[studio] ajout au panier', err);
         setUploading(false);
-        toast("Ajout impossible pour l'instant. Réessayez.", 'warn');
+        toast(I.addFailed, 'warn');
       });
     });
 
@@ -2602,9 +2726,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           // un second exemplaire côté serveur.
           lastUpload = { hash: snapshot(), id: d.id, previewUrl: API + '/api/public/design/' + d.id + '/preview' };
           if (d.state.imagesStripped) {
-            toast('Composition rechargée, sauf les photos importées.', 'warn');
+            toast(I.reloadedNoPhotos, 'warn');
           } else {
-            toast('Composition rechargée.');
+            toast(I.reloaded);
           }
         })
         .catch(function () {});

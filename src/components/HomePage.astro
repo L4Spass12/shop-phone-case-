@@ -258,7 +258,7 @@ const faqSchema = {
             {T.seeCollection}
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
           </a>
-          <a href="/personnaliser" class="btn-outline">{T.createCase}</a>
+          <a href={url('/personnaliser')} class="btn-outline">{T.createCase}</a>
         </div>
       </div>
     </div>
@@ -361,12 +361,12 @@ const faqSchema = {
         du parcours clavier : sinon la même destination serait annoncée deux
         fois et le clavier s'arrêterait sur une zone vide. Le bouton reste le
         seul lien réel, et il passe au-dessus de celui-ci. */}
-    <a href="/personnaliser" class="studio-b-lien" aria-hidden="true" tabindex="-1"></a>
+    <a href={url('/personnaliser')} class="studio-b-lien" aria-hidden="true" tabindex="-1"></a>
     <div class="studio-b-copy relative w-full max-w-7xl mx-auto px-6 pt-8 pb-3 md:pt-10 md:pb-6">
       <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight mb-5 leading-[1.15]">
         {T.studioTitle}
       </h2>
-      <a href="/personnaliser" class="btn-primary inline-flex items-center gap-2">
+      <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">
         {T.createCase}
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </a>
