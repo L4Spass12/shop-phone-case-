@@ -107,7 +107,7 @@ const config = {
   // défaut (le chemin rapide pour la majorité des visiteurs).
   phoneModels: {
     // Ordre d'affichage des marques dans le sélecteur.
-    // Stock de départ (commande du 29/09/2026, 10 coques par modèle) : on ne
+    // Stock de départ (commande du 29/09/2026, 10 coques par modèle, 11 modèles) : on ne
     // propose QUE ces modèles. En ajouter un ici quand il entre en stock.
     // Tous `popular` : la liste est courte, elle s'affiche en entier.
     brands: [
@@ -126,6 +126,7 @@ const config = {
           { label: 'iPhone 15 Pro Max', popular: true },
           { label: 'iPhone 15 Pro', popular: true },
           { label: 'iPhone 15', popular: true },
+          { label: 'iPhone 14', popular: true },
           { label: 'iPhone 13', popular: true },
         ],
       },
