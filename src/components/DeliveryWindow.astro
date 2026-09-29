@@ -1,0 +1,60 @@
+---
+/**
+ * Date de livraison estimée sur les fiches produit (France métropolitaine).
+ *
+ * Calculée DANS LE NAVIGATEUR, le jour de la visite : le site est statique,
+ * une date calculée au build restait figée jusqu'à la mise en ligne suivante
+ * et devenait fausse. Sans JavaScript, la phrase générique reste affichée.
+ *
+ * Délai en jours OUVRÉS (week-ends sautés) : commande préparée sous 24 à
+ * 48 h puis Lettre suivie La Poste, soit 3 à 4 jours ouvrés au total.
+ */
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  lang?: Locale;
+  min?: number;
+  max?: number;
+}
+const { lang = 'fr', min = 3, max = 4 } = Astro.props;
+
+const generique = {
+  fr: `en ${min} à ${max} jours ouvrés`,
+  en: `within ${min} to ${max} business days`,
+  de: `innerhalb von ${min} bis ${max} Werktagen`,
+}[lang] ?? `en ${min} à ${max} jours ouvrés`;
+---
+
+<span data-delivery-window data-min={min} data-max={max} data-lang={lang}>{
+  t('shop.deliveryWindow', lang, { window: generique })
+}</span>
+
+<script>
+  function ajouterJoursOuvres(depart: Date, n: number) {
+    const d = new Date(depart);
+    let restants = n;
+    while (restants > 0) {
+      d.setDate(d.getDate() + 1);
+      const jour = d.getDay();
+      if (jour !== 0 && jour !== 6) restants--;
+    }
+    return d;
+  }
+
+  const MODELES: Record<string, (a: string, b: string) => string> = {
+    fr: (a, b) => `Vous recevez votre colis entre le ${a} et le ${b}.`,
+    en: (a, b) => `You'll receive your order between ${a} and ${b}.`,
+    de: (a, b) => `Du erhältst deine Bestellung zwischen dem ${a} und dem ${b}.`,
+  };
+  const LOCALES: Record<string, string> = { fr: 'fr-FR', en: 'en-GB', de: 'de-DE' };
+
+  document.querySelectorAll<HTMLElement>('[data-delivery-window]').forEach((el) => {
+    const lang = el.dataset.lang || 'fr';
+    const min = Number(el.dataset.min) || 3;
+    const max = Number(el.dataset.max) || 4;
+    const auj = new Date();
+    const fmt = new Intl.DateTimeFormat(LOCALES[lang] || 'fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const modele = MODELES[lang] || MODELES.fr;
+    el.textContent = modele(fmt.format(ajouterJoursOuvres(auj, min)), fmt.format(ajouterJoursOuvres(auj, max)));
+  });
+</script>

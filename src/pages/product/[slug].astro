@@ -67,18 +67,6 @@ const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
   style: 'currency', currency: siteConfig.shop.currency,
 }).format(n);
 
-// Dates de livraison estimées : 6 à 10 jours calendaires (week-ends inclus)
-const _today = new Date();
-function addCalendarDays(date: Date, days: number) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + days);
-  return d;
-}
-const deliveryStart = addCalendarDays(_today, 6);
-const deliveryEnd   = addCalendarDays(_today, 10);
-const fmtDeliveryDate = (d: Date) =>
-  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' }).format(d);
-const deliveryWindowText = `entre le ${fmtDeliveryDate(deliveryStart)} et le ${fmtDeliveryDate(deliveryEnd)}`;
 
 const SITE_URL = siteConfig.url;
 const productUrl = `${SITE_URL}/product/${product.slug}/`;
@@ -180,6 +168,7 @@ const breadcrumbSchema = {
 // Libellé affiché par la barre d'achat tant qu'aucun modèle n'est choisi.
 const pickModelLabel = t('model.placeholder', 'fr');
 
+import DeliveryWindow from '../../components/DeliveryWindow.astro';
 ---
 
 <BaseLayout
@@ -689,19 +678,18 @@ const pickModelLabel = t('model.placeholder', 'fr');
               <path d="M16 2v4M8 2v4M3 10h18"/>
             </svg>
             <p class="text-cream font-medium text-sm leading-relaxed">
-              Vous recevez votre colis <span class="text-cream">{deliveryWindowText}</span>.
+              <DeliveryWindow lang="fr" />
             </p>
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">Expédition</h3>
-            <p>Commande préparée sous 24 à 48 heures ouvrées. Expédition depuis notre atelier en France via Colissimo ou Mondial Relay selon votre choix au paiement.</p>
+            <p>Commande préparée sous 24 à 48 heures ouvrées, puis expédiée depuis notre atelier en France en Lettre suivie La Poste, avec numéro de suivi.</p>
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">Délais de livraison</h3>
             <ul class="list-disc pl-5 space-y-1">
-              <li>France métropolitaine : 6 à 10 jours</li>
-              <li>Europe (Belgique, Suisse, Luxembourg, Allemagne…) : 8 à 14 jours</li>
-              <li>Reste du monde : 14 à 21 jours</li>
+              <li>France métropolitaine : 3 à 4 jours ouvrés</li>
+              <li>Autres pays : délais et tarifs sur notre page <a href="/livraisons-et-retours/" class="underline">Livraisons et retours</a></li>
             </ul>
           </div>
           <div>

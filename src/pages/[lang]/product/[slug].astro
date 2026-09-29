@@ -73,21 +73,6 @@ const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
   style: 'currency', currency: localeMeta(lang).currency || 'EUR',
 }).format(n);
 
-const _today = new Date();
-function addCalendarDays(date: Date, days: number) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + days);
-  return d;
-}
-const deliveryStart = addCalendarDays(_today, 6);
-const deliveryEnd   = addCalendarDays(_today, 10);
-const fmtDeliveryDate = (d: Date) =>
-  new Intl.DateTimeFormat(intlLocale, { day: 'numeric', month: 'long' }).format(d);
-const deliveryWindowText = lang === 'en'
-  ? `between ${fmtDeliveryDate(deliveryStart)} and ${fmtDeliveryDate(deliveryEnd)}`
-  : lang === 'de'
-  ? `zwischen dem ${fmtDeliveryDate(deliveryStart)} und dem ${fmtDeliveryDate(deliveryEnd)}`
-  : `entre le ${fmtDeliveryDate(deliveryStart)} et le ${fmtDeliveryDate(deliveryEnd)}`;
 
 const SITE_URL = siteConfig.url;
 const productUrl = `${SITE_URL}${productHref(product.slug)}`;
@@ -157,6 +142,7 @@ const breadcrumbSchema = {
 // Libellé affiché par la barre d'achat tant qu'aucun modèle n'est choisi.
 const pickModelLabel = t('model.placeholder', lang);
 
+import DeliveryWindow from '../../../components/DeliveryWindow.astro';
 ---
 
 <BaseLayout
@@ -522,19 +508,19 @@ const pickModelLabel = t('model.placeholder', lang);
               <path d="M16 2v4M8 2v4M3 10h18"/>
             </svg>
             <p class="text-cream font-medium text-sm leading-relaxed">
-              {t('shop.deliveryWindow', lang, { window: deliveryWindowText })}
+              <DeliveryWindow lang={lang} />
             </p>
           </div>
           {lang === 'en' ? (
             <>
-              <div><h3 class="text-cream font-medium mb-1.5">Shipping</h3><p>Order prepared within 24-48 business hours. Shipped from our French workshop with tracked Colissimo.</p></div>
-              <div><h3 class="text-cream font-medium mb-1.5">Delivery times</h3><ul class="list-disc pl-5 space-y-1"><li>France: 6-10 days</li><li>Europe: 8-14 days</li><li>Rest of world: 14-21 days</li></ul></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Shipping</h3><p>Order prepared within 24-48 business hours, then shipped from our French workshop by La Poste tracked letter.</p></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Delivery times</h3><ul class="list-disc pl-5 space-y-1"><li>Mainland France: 3-4 business days</li><li>Other countries: see our shipping and returns page</li></ul></div>
               <div><h3 class="text-cream font-medium mb-1.5">Returns & refunds</h3><p>You have <strong class="text-cream">30 days from receipt</strong> to change your mind. Free returns in France. Item must be in original condition. Full refund within 5 business days of return.</p><p class="mt-2 text-xs text-n-500">Custom-made products cannot be returned unless defective.</p></div>
             </>
           ) : lang === 'de' ? (
             <>
-              <div><h3 class="text-cream font-medium mb-1.5">Versand</h3><p>Bestellung in 24-48 Werkstunden vorbereitet. Versand aus unserem Atelier in Frankreich per verfolgbarem Colissimo.</p></div>
-              <div><h3 class="text-cream font-medium mb-1.5">Lieferzeiten</h3><ul class="list-disc pl-5 space-y-1"><li>Deutschland & EU: 8-14 Tage</li><li>Frankreich: 6-10 Tage</li><li>Rest der Welt: 14-21 Tage</li></ul></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Versand</h3><p>Bestellung in 24-48 Werkstunden vorbereitet, dann Versand aus unserem Atelier in Frankreich per verfolgbarem Brief von La Poste.</p></div>
+              <div><h3 class="text-cream font-medium mb-1.5">Lieferzeiten</h3><ul class="list-disc pl-5 space-y-1"><li>Frankreich: 3-4 Werktage</li><li>Andere Länder: siehe unsere Seite zu Versand und Rückgabe</li></ul></div>
               <div><h3 class="text-cream font-medium mb-1.5">Rückgabe & Erstattung</h3><p>Du hast <strong class="text-cream">30 Tage ab Erhalt</strong>, um deine Meinung zu ändern. Artikel muss im Originalzustand sein. Vollständige Erstattung innerhalb von 5 Werktagen nach Eingang der Rücksendung.</p><p class="mt-2 text-xs text-n-500">Personalisierte Produkte sind vom Umtausch ausgenommen, außer bei Fertigungsfehlern.</p></div>
             </>
           ) : null}
