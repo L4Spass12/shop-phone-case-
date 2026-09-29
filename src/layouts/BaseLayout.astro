@@ -136,23 +136,12 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         par Safari sur toutes les pages, au lieu d'y laisser voir la page. */}
     <meta name="format-detection" content="telephone=no" />
 
-    {/* Thème visuel : applique le choix mémorisé AVANT le paint (anti-flash).
-        « sunfreaks » est la direction artistique de la boutique : l'attribut
-        est donc écrit directement dans le HTML servi. Le thème neutre reste
-        accessible depuis le toggle du header ; il est mémorisé sous la valeur
-        « default » et se traduit par l'ABSENCE d'attribut. */}
+    {/* Thème visuel : « sunfreaks », seul thème de la boutique, posé
+        directement dans le HTML servi (attribut data-theme de <html>). Le
+        sélecteur qui permettait de repasser au thème neutre a été retiré. */}
     <script is:inline>
-      (function () {
-        try {
-          // L'attribut est posé dans le HTML servi, donc le thème tient même
-          // sans JavaScript. Ce script ne fait que le RETIRER pour qui a
-          // explicitement choisi le thème neutre. Une valeur périmée en
-          // stockage (l'ancien thème « heritage ») retombe sur sunfreaks.
-          if (localStorage.getItem('site-theme') === 'default') {
-            document.documentElement.removeAttribute('data-theme');
-          }
-        } catch (e) {}
-      })();
+      // Ancien sélecteur de thème (retiré) : on efface le choix mémorisé.
+      try { localStorage.removeItem('site-theme'); } catch (e) {}
     </script>
 
     {/* Polices du premier écran. Sans ces deux lignes, le navigateur ne les

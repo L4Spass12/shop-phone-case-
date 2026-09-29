@@ -40,12 +40,6 @@ const isContact = stripped === '/contact';
 // Ordre des catégories produit dans le menu
 const cats = (siteConfig.productCategories || []) as {slug:string; label:string}[];
 
-/* « sunfreaks » est le thème par défaut (attribut posé dans BaseLayout) ;
-   « default » est le thème neutre d'origine, gardé de côté. */
-const THEMES = [
-  { id: 'sunfreaks', name: 'Sunfreaks', desc: 'Rétro solaire' },
-  { id: 'default',   name: 'Épuré',     desc: 'Neutre, clair' },
-];
 ---
 
 <header
@@ -115,23 +109,7 @@ const THEMES = [
             </div>
           )}
 
-          {/* Colonne 3 : thème (le wrapper .theme-switcher est requis par le JS) */}
-          <div class="theme-switcher hdr-col">
-            <span class="hdr-section-label">Thème</span>
-            {THEMES.map(th => (
-              <button type="button" data-theme-choice={th.id} class="hdr-choice">
-                <span class="text-left">
-                  <span class="block font-medium">{th.name}</span>
-                  <span class="block text-[10px] opacity-60">{th.desc}</span>
-                </span>
-                <svg class="w-4 h-4 shrink-0 theme-check opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </button>
-            ))}
-          </div>
-
-          {/* Colonne 4 : langue */}
+          {/* Colonne 3 : langue */}
           {showLangSwitcher && (
             <div class="hdr-col">
               <span class="hdr-section-label">Langue</span>
@@ -265,30 +243,6 @@ const THEMES = [
     el.addEventListener('click', () => {
       const code = (el as HTMLElement).dataset.langLink;
       if (code) document.cookie = `bp_lang=${code}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-    });
-  });
-
-  // ─── Sélecteur de thème ─────────────────────────────────────────────
-  // L'état initial est posé sur <html> par le script inline du <head>
-  // (anti-flash). Ici : choix + synchro des coches.
-  const themeSwitcher = document.querySelector('.theme-switcher');
-  const currentTheme = () => document.documentElement.getAttribute('data-theme') || 'default';
-  const syncTheme = () => {
-    const cur = currentTheme();
-    themeSwitcher?.querySelectorAll('[data-theme-choice]').forEach((b) => {
-      const on = b.getAttribute('data-theme-choice') === cur;
-      b.setAttribute('aria-current', on ? 'true' : 'false');
-      b.querySelector('.theme-check')?.classList.toggle('opacity-0', !on);
-    });
-  };
-  syncTheme();
-  themeSwitcher?.querySelectorAll('[data-theme-choice]').forEach((b) => {
-    b.addEventListener('click', () => {
-      const choice = b.getAttribute('data-theme-choice');
-      if (choice === 'default') document.documentElement.removeAttribute('data-theme');
-      else if (choice) document.documentElement.setAttribute('data-theme', choice);
-      try { if (choice) localStorage.setItem('site-theme', choice); } catch (e) {}
-      syncTheme();
     });
   });
 
