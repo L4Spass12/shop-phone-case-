@@ -1,0 +1,1745 @@
+---
+/**
+ * Fiche produit, UNIQUE pour toutes les langues (FR, EN, DE).
+ *
+ * La version française est la référence : prix, finitions, images, variantes,
+ * style du bouton… viennent TOUJOURS de la fiche FR. Une traduction
+ * (src/content/products/<lang>/<slug>.md) ne fournit que des TEXTES : nom,
+ * accroche, texte alternatif de l'image et description. Les langues ne
+ * peuvent donc plus diverger (avant, EN/DE avaient leur propre gabarit,
+ * resté des semaines en retard, et des coloris hérités du modèle de départ).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+import FabricationSection from './FabricationSection.astro';
+import ModelPicker from './ModelPicker.astro';
+import PrintModeSelector from './PrintModeSelector.astro';
+import UgcVideos from './UgcVideos.astro';
+import InstaGrid from './InstaGrid.astro';
+import DeliveryWindow from './DeliveryWindow.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import siteConfig from '../../site.config.mjs';
+import { unsplashSrcset } from '../lib/image';
+import { smallerVariant } from '../lib/image-variants';
+import { parseEntrySlug, t, localePrefix, type Locale } from '../lib/i18n';
+
+interface Props {
+  /** Fiche FRANÇAISE : source de toutes les données du produit. */
+  product: CollectionEntry<'products'>;
+  lang: Locale;
+  /** Traduction éventuelle (textes seulement). */
+  translation?: CollectionEntry<'products'>;
+}
+const { product, lang, translation } = Astro.props;
+
+const lp = localePrefix(lang);
+const url = (path: string) => `${lp}${path}`;
+const slug = parseEntrySlug(product.slug).slug;
+
+// Textes : la traduction si elle existe, sinon le français.
+const { Content } = await (translation ?? product).render();
+const {
+  price, compareAtPrice, priceRange, image, gallery,
+  categories, stock, sku, attributes, variations,
+} = product.data;
+const name = translation?.data.name ?? product.data.name;
+const shortDescription = translation?.data.shortDescription ?? product.data.shortDescription;
+const imageAlt = translation?.data.imageAlt ?? product.data.imageAlt;
+
+// Libellés de la fiche, par langue.
+const L = {
+  fr: {
+    home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
+    prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
+    from: 'Dès', fromLower: 'dès', unavailable: 'Indisponible', comboUnavailable: 'Combinaison indisponible',
+    inStock: 'En stock', outOfStock: 'Rupture', size: 'Taille', mostPopular: ' (le plus populaire)', popular: 'Populaire',
+    secureShipping: 'Livraison sécurisée', secureShippingSub: 'colis suivi & assuré',
+    description: 'Description', shippingReturns: 'Livraison & retours',
+    shippingTitle: 'Expédition', shippingText: 'Commande préparée sous 24 à 48 heures ouvrées, puis expédiée depuis notre atelier en France en Lettre suivie La Poste, avec numéro de suivi.',
+    delaysTitle: 'Délais de livraison', delaysFrance: 'France métropolitaine : 3 à 4 jours ouvrés',
+    delaysOther: 'Autres pays : délais et tarifs sur notre page', delaysLink: 'Livraisons et retours',
+    costsTitle: 'Frais de livraison', costsStrong: 'Livraison sécurisée', costsText: ' : tous les colis sont expédiés avec numéro de suivi et assurance transporteur. Les frais sont calculés au paiement selon la destination.',
+    returnsTitle: 'Retours & remboursement',
+    returnsText1: 'Vous disposez de ', returnsStrong: '30 jours après réception', returnsText2: " pour changer d'avis. Retour gratuit en France (étiquette prépayée fournie). Le produit doit être renvoyé dans son état d'origine, non utilisé et dans son emballage. Remboursement intégral sous 5 jours ouvrés après réception du colis.",
+    returnsCustom: 'Les produits personnalisés ne sont ni repris ni échangés, sauf défaut de fabrication.',
+    careTitle: 'Entretien', careSub: "Conseils d'entretien", careText: "Texte d'entretien - à personnaliser. Décrivez ici comment entretenir vos produits pour les faire durer.",
+    collection: 'Collection', related: 'Vous aimerez aussi', viewAll: 'Voir tout',
+    prevProducts: 'Produits précédents', nextProducts: 'Produits suivants',
+    seoTail: (p: string) => `Dès ${p}€, livraison sécurisée.`,
+  },
+  en: {
+    home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
+    prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
+    from: 'From', fromLower: 'from', unavailable: 'Unavailable', comboUnavailable: 'Combination unavailable',
+    inStock: 'In stock', outOfStock: 'Out of stock', size: 'Size', mostPopular: ' (most popular)', popular: 'Popular',
+    secureShipping: 'Secure shipping', secureShippingSub: 'tracked & insured',
+    description: 'Description', shippingReturns: 'Shipping & returns',
+    shippingTitle: 'Shipping', shippingText: 'Order prepared within 24 to 48 business hours, then shipped from our workshop in France by La Poste tracked letter, with a tracking number.',
+    delaysTitle: 'Delivery times', delaysFrance: 'Mainland France: 3 to 4 business days',
+    delaysOther: 'Other countries: times and rates on our', delaysLink: 'Shipping and returns page',
+    costsTitle: 'Shipping costs', costsStrong: 'Secure shipping', costsText: ': every parcel ships with a tracking number and carrier insurance. Costs are calculated at checkout based on the destination.',
+    returnsTitle: 'Returns & refunds',
+    returnsText1: 'You have ', returnsStrong: '30 days from receipt', returnsText2: ' to change your mind. Free returns in France (prepaid label provided). The item must be returned in its original condition, unused and in its packaging. Full refund within 5 business days of receiving the parcel.',
+    returnsCustom: 'Custom-made products cannot be returned or exchanged, except for manufacturing defects.',
+    careTitle: 'Care', careSub: 'Care tips', careText: 'Care text - to be customised. Describe here how to look after your products so they last.',
+    collection: 'Collection', related: 'You may also like', viewAll: 'View all',
+    prevProducts: 'Previous products', nextProducts: 'Next products',
+    seoTail: (p: string) => `From €${p}, secure shipping.`,
+  },
+  de: {
+    home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
+    prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
+    from: 'Ab', fromLower: 'ab', unavailable: 'Nicht verfügbar', comboUnavailable: 'Kombination nicht verfügbar',
+    inStock: 'Auf Lager', outOfStock: 'Ausverkauft', size: 'Größe', mostPopular: ' (am beliebtesten)', popular: 'Beliebt',
+    secureShipping: 'Sicherer Versand', secureShippingSub: 'verfolgt & versichert',
+    description: 'Beschreibung', shippingReturns: 'Versand & Rückgabe',
+    shippingTitle: 'Versand', shippingText: 'Bestellung innerhalb von 24 bis 48 Werkstunden vorbereitet, dann aus unserem Atelier in Frankreich per verfolgtem Brief von La Poste verschickt, mit Sendungsnummer.',
+    delaysTitle: 'Lieferzeiten', delaysFrance: 'Frankreich (Festland): 3 bis 4 Werktage',
+    delaysOther: 'Andere Länder: Lieferzeiten und Preise auf unserer Seite', delaysLink: 'Versand und Rückgabe',
+    costsTitle: 'Versandkosten', costsStrong: 'Sicherer Versand', costsText: ': Jedes Paket wird mit Sendungsnummer und Transportversicherung verschickt. Die Kosten werden an der Kasse je nach Zielland berechnet.',
+    returnsTitle: 'Rückgabe & Erstattung',
+    returnsText1: 'Du hast ', returnsStrong: '30 Tage ab Erhalt', returnsText2: ', um deine Meinung zu ändern. Kostenlose Rücksendung innerhalb Frankreichs (frankiertes Etikett inklusive). Der Artikel muss im Originalzustand, unbenutzt und in der Verpackung zurückgeschickt werden. Vollständige Erstattung innerhalb von 5 Werktagen nach Eingang des Pakets.',
+    returnsCustom: 'Personalisierte Produkte sind von Rückgabe und Umtausch ausgenommen, außer bei Fertigungsfehlern.',
+    careTitle: 'Pflege', careSub: 'Pflegehinweise', careText: 'Pflegetext - anzupassen. Beschreibe hier, wie man deine Produkte pflegt, damit sie lange halten.',
+    collection: 'Kollektion', related: 'Das könnte dir auch gefallen', viewAll: 'Alle ansehen',
+    prevProducts: 'Vorherige Produkte', nextProducts: 'Nächste Produkte',
+    seoTail: (p: string) => `Ab ${p} €, sicherer Versand.`,
+  },
+}[lang] ?? null;
+if (!L) throw new Error(`ProductPage : langue non prise en charge (${lang})`);
+const addToCartLabel = t('shop.addToCart', lang);
+// Largeurs RÉELLES du visuel produit dans la mise en page, mesurées à 375,
+// 768, 1024, 1280 et 1600 px. Le navigateur s'en sert pour choisir le fichier
+// à télécharger : trop grand, il gaspille ; trop petit, l'image est floue.
+//
+// La colonne de vignettes n'existe qu'à partir de DEUX visuels. Sans elle, la
+// photo récupère ses 88 px (vignette + gouttière) et devient plus large, d'où
+// les deux jeux de valeurs.
+const nbVisuels = new Set([image, ...(gallery || [])]).size;
+const taillesVisuel = nbVisuels > 1
+  ? '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px'
+  : '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 54px), (max-width: 1279px) calc(50vw - 59px), 584px';
+
+const allProducts = await getCollection('products');
+
+// ─── Sélection catégorie pour "Vous aimerez aussi" ─────────────────────
+// Les catégories transversales contiennent TOUS les produits
+// → on préfère une catégorie thématique. Priorité bas = déprioritisé.
+const GENERIC_CATEGORIES = new Set([
+  'categorie-transversale-exemple',        // à personnaliser : slugs de catégories transversales
+]);
+const preferredCategory = (categories || []).find(c => !GENERIC_CATEGORIES.has(c))
+  ?? categories?.[0];
+
+// Produits de la même catégorie (hors produit courant). Pages FR : les
+// fiches FR. Autres langues : les fiches qui ont une traduction dans cette
+// langue (ce sont les seules à avoir une page), avec leurs textes traduits.
+const frProducts = allProducts.filter(p => parseEntrySlug(p.slug).lang === 'fr');
+const translationOf = (s: string) =>
+  allProducts.find(p => p.slug === `${lang}/${parseEntrySlug(s).slug}`);
+const related = frProducts
+  .filter(p => p.slug !== product.slug
+    && (p.data.categories || []).includes(preferredCategory)
+    && (lang === 'fr' || translationOf(p.slug)))
+  .map(p => {
+    const tr = lang === 'fr' ? undefined : translationOf(p.slug);
+    return {
+      href: url(`/product/${parseEntrySlug(p.slug).slug}`),
+      data: { ...p.data, name: tr?.data.name ?? p.data.name, imageAlt: tr?.data.imageAlt ?? p.data.imageAlt },
+    };
+  });
+
+const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
+  style: 'currency', currency: siteConfig.shop.currency,
+}).format(n);
+
+
+const SITE_URL = siteConfig.url;
+const productUrl = `${SITE_URL}${url(`/product/${slug}/`)}`;
+const imageUrl = new URL(image, SITE_URL).toString();
+const hasVariations = Array.isArray(variations) && variations.length > 0;
+const inStock = hasVariations ? variations.some(v => v.inStock) : (stock == null || stock > 0);
+
+// Variante A/B du bouton ATC. Le style 'blob' repose sur des éléments enfants
+// (blobs + couche verre) : on ne l'applique QUE si le produit n'a pas de
+// variations, car le JS du sélecteur réécrit l'innerHTML de #buy-button et
+// détruirait ces enfants. Avec variations → repli silencieux sur 'gradient'.
+const atcBlob = product.data.atcVariant === 'blob' && !hasVariations;
+
+// Variantes 'ink*' : simples classes CSS, donc compatibles avec les variations
+// (contrairement à 'blob'). La classe est posée sur les TROIS CTA de la page
+// (principal + barres sticky mobile et desktop), sans quoi le bouton flottant
+// resterait violet en bas d'une page au CTA noir.
+const INK_VARIANTS = ['ink', 'ink-flat', 'ink-glow', 'ink-frame'] as const;
+const atcInk = (INK_VARIANTS as readonly string[]).includes(product.data.atcVariant)
+  ? ` btn-atc--${product.data.atcVariant}`
+  : '';
+// Seule 'ink-glow' a besoin de JS (suivi du curseur) : on n'injecte le script
+// que sur les pages concernées.
+const atcGlow = product.data.atcVariant === 'ink-glow';
+
+// ─── SEO : titre court + meta description unique par produit ──────────
+// Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
+// sinon juste "Nom du produit" (sans le nom du site).
+const brandSuffix = ` | ${siteConfig.name}`;
+const seoTitle = (name.length + brandSuffix.length) <= 60
+  ? `${name}${brandSuffix}`
+  : name;
+
+// Meta description : combine shortDesc tronquée + catégorie + prix pour garantir
+// l'unicité même si shortDescription est dupliquée entre produits.
+// Format : "<nom>. <shortDesc courte>. À partir de X€. Livraison sécurisée."
+const priceStart = priceRange?.min ?? price;
+// Rendu d'impression : le relief est le choix proposé d'entrée (cf.
+// PrintModeSelector). Le serveur rend donc déjà sa clé et son prix, sinon
+// l'étiquette du bouton contredirait la carte cochée le temps que le script
+// démarre, et un clic très rapide ajouterait le rendu à plat.
+// La configuration de BASE (data-base-item-*) reste celle à plat : c'est
+// d'elle que le sélecteur dérive les deux modes.
+const reliefSurcharge = (siteConfig.shop?.catalogueReliefSurchargeCents ?? 0) / 100;
+const reliefDefault = reliefSurcharge > 0;
+const modeKeySuffix = reliefDefault ? '-relief' : '';
+const modeExtra = reliefDefault ? reliefSurcharge : 0;
+const shownPrice = price + modeExtra;
+const shownMin = (priceRange?.min ?? price) + modeExtra;
+
+const catLabel = categories?.[0]?.replace(/^boutique-/, '').replace(/-/g, ' ') ?? '';
+const truncated = shortDescription.length > 70
+  ? shortDescription.slice(0, 70).replace(/\s+\S*$/, '') + '…'
+  : shortDescription;
+const rawDesc = `${name}${catLabel ? ` ${catLabel}` : ''}. ${truncated} ${L.seoTail(String(priceStart))}`;
+const seoDescription = rawDesc.length > 160
+  ? rawDesc.slice(0, 160).replace(/\s+\S*$/, '') + '…'
+  : rawDesc;
+
+// Serialize variations + attributes pour le JS client (sélecteur de variantes)
+const variantsJson = JSON.stringify(variations || []);
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name,
+  description: shortDescription,
+  image: [imageUrl, ...(gallery || []).slice(1).map(g => new URL(g, SITE_URL).toString())],
+  sku: sku ?? slug,
+  brand: { '@type': 'Brand', name: siteConfig.name },
+  offers: hasVariations ? {
+    '@type': 'AggregateOffer',
+    priceCurrency: siteConfig.shop.currency,
+    lowPrice: priceRange?.min ?? price,
+    highPrice: priceRange?.max ?? price,
+    offerCount: variations.length,
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
+  } : {
+    '@type': 'Offer',
+    url: productUrl,
+    priceCurrency: siteConfig.shop.currency,
+    price: price.toFixed(2),
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: L.home, item: `${SITE_URL}${url('/')}` },
+    { '@type': 'ListItem', position: 2, name: L.shop, item: `${SITE_URL}${url('/boutique')}` },
+    { '@type': 'ListItem', position: 3, name, item: productUrl },
+  ],
+};
+// Libellé affiché par la barre d'achat tant qu'aucun modèle n'est choisi.
+const pickModelLabel = t('model.placeholder', lang);
+
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={image}
+  imageWidth={1200}
+  imageHeight={1500}
+  jsonLd={[productSchema, breadcrumbSchema]}
+  noindex={(categories ?? []).length === 0}
+  {/* Le visuel du produit est l'élément le plus grand de l'écran : c'est lui
+      que Google chronomètre. Annoncé ici, son téléchargement démarre pendant
+      la lecture de l'en-tête, au lieu d'attendre que l'analyseur atteigne la
+      galerie, 110 Ko de HTML plus bas. Mêmes `srcset`/`sizes` que la balise
+      <img>, sinon le navigateur télécharge DEUX fichiers différents. */}
+  preloadImages={[{
+    href: image,
+    imagesrcset: unsplashSrcset(image),
+    imagesizes: taillesVisuel,
+  }]}
+>
+  <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-20">
+    <!-- Breadcrumb -->
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-4 overflow-x-auto whitespace-nowrap pb-1 font-light">
+      <a href={url('/')} class="hover:text-cream transition-colors shrink-0">{L.home}</a>
+      <span class="shrink-0">/</span>
+      <a href={url('/boutique')} class="hover:text-cream transition-colors shrink-0">{L.shop}</a>
+      <span class="shrink-0">/</span>
+      <span class="text-n-400 truncate">{name}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-5 lg:gap-16 items-start">
+      <!-- ═══════════════════════════ GALERIE ═══════════════════════════ -->
+      {(() => {
+        // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
+        // Les images de variations ne sont PAS ajoutées (design épuré).
+        // Au changement de variante, le slide principal sera swappé directement via JS.
+        const slides = Array.from(new Set([image, ...(gallery || [])]));
+        return (
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
+          <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
+               sur desktop = flèches prev/next. Une seule image visible à la fois. -->
+          {/* Vignettes en colonne à gauche de l'image, comme la plupart
+              des boutiques : le regard reste sur le produit au lieu de
+              descendre sous lui. En mobile, elles cèdent la place au
+              balayage natif. */}
+          <div class="pdp-media md:flex md:items-start md:gap-3">
+
+            {slides.length > 1 && (
+              <div class="hidden md:flex md:flex-col gap-2 w-[76px] shrink-0">
+                {slides.slice(0, 10).map((g, i) => (
+                  <button
+                    type="button"
+                    data-gallery-thumb={i}
+                    class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
+                    aria-label={L.viewImage(i + 1)}
+                  >
+                    <img src={smallerVariant(g, 400)} alt="" loading="lazy" decoding="async" width="200" height="200" class="w-full h-full object-contain" />
+                  </button>
+                ))}
+              </div>
+            )}
+            <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0">
+              <div
+                class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
+                data-gallery-track
+              >
+                {slides.map((src, i) => (
+                  <div class="flex-none w-full h-full snap-start snap-always">
+                    <img
+                      data-gallery-slide={i}
+                      src={src}
+                      srcset={unsplashSrcset(src)}
+                      {/* Largeurs MESURÉES dans la mise en page actuelle, pas
+                          estimées : 100vw en mobile, puis la colonne moins les
+                          vignettes, puis la moitié de la grille. L'ancienne
+                          valeur (« 100vw » jusqu'à 1024 px) datait de la fiche
+                          pleine largeur : depuis le passage en deux colonnes,
+                          elle faisait réclamer le fichier 1200w pour une image
+                          qui s'affiche sur 365 px. */}
+                      sizes={taillesVisuel}
+                      alt={i === 0 ? (imageAlt ?? name) : `${name} - ${L.image} ${i + 1}`}
+                      class="w-full h-full object-cover"
+                      width="1200"
+                      height="1500"
+                      fetchpriority={i === 0 ? 'high' : 'auto'}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <!-- Flèches desktop uniquement (apparaissent au hover) -->
+              {slides.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    data-gallery-prev
+                    aria-label={L.prevImage}
+                    class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                  </button>
+                  <button
+                    type="button"
+                    data-gallery-next
+                    aria-label={L.nextImage}
+                    class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark/80 backdrop-blur border border-white/[0.15] items-center justify-center text-cream opacity-0 group-hover:opacity-100 hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all z-10"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  </button>
+                </>
+              )}
+
+              <!-- Dots : MOBILE uniquement (le desktop a flèches + thumbs).
+                   Sur un chip translucide pour rester visibles quelle que soit
+                   l'image dessous. -->
+              {slides.length > 1 && (
+                <div
+                  class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10"
+                  data-gallery-dots
+                >
+                  {slides.map((_, i) => (
+                    <button
+                      type="button"
+                      data-gallery-dot={i}
+                      aria-label={L.viewImage(i + 1)}
+                      class="gallery-dot"
+                    ></button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        );
+      })()}
+
+      <!-- Info + CTA -->
+      <div class="flex flex-col gap-5 lg:gap-6 min-w-0">
+      <div class="flex flex-col pdp-card min-w-0">
+        {/* Sticker du coin haut droit de la carte. */}
+        {siteConfig.shop?.stickerCoin && (
+          <img
+            class="pdp-sticker"
+            src={siteConfig.shop.stickerCoin}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+        <!-- Categories -->
+        {categories && categories.length > 0 && (
+          <div class="flex flex-wrap gap-1.5 mb-3">
+            {categories.map(c => (
+              <a
+                href={url(`/product-category/${c}`)}
+                class="text-[10px] text-n-500 font-medium uppercase tracking-widest hover:text-cream transition-colors"
+              >
+                {c.replace(/-/g, ' ')}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
+          {name}
+        </h1>
+        <p class="text-sm md:text-base text-n-400 leading-relaxed mb-4 font-light">
+          {shortDescription}
+        </p>
+
+        <!-- Prix -->
+        <div class="flex items-baseline gap-3 mb-5">
+          <span id="product-price" data-buy-price class="price-amount text-xl md:text-2xl text-cream font-medium tracking-tight">
+            {priceRange && priceRange.min !== priceRange.max
+              ? `${L.from} ${formatPrice(shownMin)}`
+              : formatPrice(shownPrice)}
+          </span>
+          {compareAtPrice && (
+            <span id="product-compare" class="text-sm text-n-500 line-through font-light">
+              {formatPrice(compareAtPrice)}
+            </span>
+          )}
+          {compareAtPrice && (
+            <span class="text-[10px] font-medium bg-cream text-dark px-2 py-1 rounded-sm uppercase tracking-wider">
+              -{Math.round((1 - price / compareAtPrice) * 100)}%
+            </span>
+          )}
+        </div>
+
+        {/* Choix du modèle de téléphone. Placé avant les variantes : c'est la
+            première question que se pose l'acheteur, et le seul champ requis. */}
+        <ModelPicker lang={lang} />
+
+        <!-- Sélecteurs de variantes -->
+        {hasVariations && attributes.length > 0 && (
+          <div id="variant-selector" class="space-y-5 mb-6">
+            {attributes.map(attr => {
+              // Détecte si l'attribut est une dimension ("45 × 35 cm", "90x40 cm"…).
+              // Si oui → cards avec visualisation SVG. Sinon → pills classiques.
+              const SIZE_RE = /(\d+)\s*[x×]\s*(\d+)/i;
+              const parsed = attr.values.map(v => {
+                const m = v.label.match(SIZE_RE);
+                return m ? { ...v, w: parseInt(m[1], 10), h: parseInt(m[2], 10) } : { ...v, w: null, h: null };
+              });
+              const isSize = parsed.every(v => v.w != null && v.h != null);
+
+              if (!isSize) {
+                // ── Attribut classique (couleur, matière…) : pills ──
+                return (
+                  <div>
+                    <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                      {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                      {attr.values.map((val, idx) => (
+                        <button
+                          type="button"
+                          data-variant-option
+                          data-variant-type="pill"
+                          data-attr={attr.name}
+                          data-value={val.slug}
+                          class={`variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors ${idx === 0 ? 'bg-cream text-dark border-cream' : 'bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20'}`}
+                        >
+                          {val.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              // ── Attribut "Dimensions" : cards avec visualisation ──
+              const maxW = Math.max(...parsed.map(v => v.w));
+              const maxH = Math.max(...parsed.map(v => v.h));
+              // Variante par défaut = la plus grande (par aire) → badge "Populaire"
+              const largestIdx = parsed.reduce(
+                (best, v, i, arr) => (v.w * v.h > arr[best].w * arr[best].h ? i : best),
+                0
+              );
+
+              return (
+                <div>
+                  <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium">
+                    {attr.name} : <span class="text-cream" data-selected-label={attr.name}>-</span>
+                  </label>
+                  <div class={`grid gap-2`} style={`grid-template-columns: repeat(${parsed.length}, minmax(0, 1fr));`}>
+                    {parsed.map((val, idx) => {
+                      const isSelected = idx === largestIdx;
+                      const isPopular  = idx === largestIdx;
+                      // Produit scalé dans la card (viewBox = largeur max × hauteur max).
+                      // Padding 5 unités tout autour pour laisser respirer.
+                      const pad = 5;
+                      const vbW = maxW + pad * 2;
+                      const vbH = maxH + pad * 2;
+                      // Position du produit (centré verticalement, aligné à gauche)
+                      const padX = pad;
+                      const padY = pad + (maxH - val.h) / 2;
+                      // Souris : orientation portrait (longueur > largeur, vue du dessus)
+                      // Dimensions réalistes ~7 × 12 cm
+                      const mouseW = Math.min(7, val.w * 0.13);
+                      const mouseH = Math.min(12, val.h * 0.32);
+                      const mouseCx = padX + val.w - mouseW / 2 - val.w * 0.08;
+                      const mouseCy = padY + val.h / 2;
+                      // Clavier : ~36 × 13 cm, uniquement si le produit fait ≥ 55 cm de large
+                      const showKeyboard = val.w >= 55;
+                      const kbW = Math.min(36, val.w * 0.55);
+                      const kbH = kbW * 0.36;
+                      const kbX = padX + val.w * 0.08;
+                      const kbY = padY + (val.h - kbH) / 2;
+
+                      return (
+                        <button
+                          type="button"
+                          data-variant-option
+                          data-variant-type="size"
+                          data-attr={attr.name}
+                          data-value={val.slug}
+                          class={`variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0 ${isSelected ? 'bg-white/[0.04] border-cream' : 'bg-white/[0.02] border-white/[0.08] hover:border-white/25'}`}
+                          aria-label={`${L.size} ${val.label}${isPopular ? L.mostPopular : ''}`}
+                        >
+                          {isPopular && (
+                            <span class="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] md:text-[10px] font-medium bg-cream text-dark px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-sm">
+                              {L.popular}
+                            </span>
+                          )}
+                          <svg
+                            viewBox={`0 0 ${vbW} ${vbH}`}
+                            class="w-full h-auto mb-2 block"
+                            aria-hidden="true"
+                          >
+                            <!-- Surface produit -->
+                            <rect
+                              x={padX} y={padY} width={val.w} height={val.h}
+                              rx="2" ry="2"
+                              fill={isSelected ? 'rgba(244,244,247,0.10)' : 'rgba(255,255,255,0.04)'}
+                              stroke={isSelected ? 'rgba(244,244,247,0.8)' : 'rgba(255,255,255,0.25)'}
+                              stroke-width="0.5"
+                              class="size-rect"
+                            />
+                            {/* Clavier : rect + petites touches stylisées */}
+                            {showKeyboard && (
+                              <g class="keyboard-g">
+                                <rect
+                                  x={kbX} y={kbY} width={kbW} height={kbH}
+                                  rx="1" ry="1"
+                                  fill="rgba(255,255,255,0.06)"
+                                  stroke="rgba(255,255,255,0.35)"
+                                  stroke-width="0.4"
+                                />
+                                {/* Touches : 3 lignes de petits rects */}
+                                {[0.22, 0.45, 0.68].map(ry => (
+                                  <line
+                                    x1={kbX + kbW * 0.05} y1={kbY + kbH * ry}
+                                    x2={kbX + kbW * 0.95} y2={kbY + kbH * ry}
+                                    stroke="rgba(255,255,255,0.25)"
+                                    stroke-width="0.3"
+                                    stroke-dasharray="0.6 0.4"
+                                  />
+                                ))}
+                              </g>
+                            )}
+                            {/* Souris : forme "pear" vue du dessus, palm en haut,
+                                 boutons en bas, molette centrale */}
+                            <g class="mouse-g">
+                              {/* Corps : path avec haut arrondi plus large, bas légèrement
+                                   resserré (proportions d'une souris type) */}
+                              <path
+                                d={
+                                  `M ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` C ${mouseCx - mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx} ${mouseCy - mouseH*0.5}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.5}, ${mouseCx + mouseW*0.48} ${mouseCy - mouseH*0.15}` +
+                                  ` L ${mouseCx + mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` C ${mouseCx + mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.3} ${mouseCy + mouseH*0.5}, ${mouseCx - mouseW*0.4} ${mouseCy + mouseH*0.4}` +
+                                  ` Z`
+                                }
+                                fill="rgba(255,255,255,0.08)"
+                                stroke="rgba(255,255,255,0.45)"
+                                stroke-width="0.4"
+                                stroke-linejoin="round"
+                              />
+                              {/* Ligne de séparation des clics gauche/droit (haut) */}
+                              <line
+                                x1={mouseCx} y1={mouseCy - mouseH*0.42}
+                                x2={mouseCx} y2={mouseCy - mouseH*0.12}
+                                stroke="rgba(255,255,255,0.3)"
+                                stroke-width="0.3"
+                              />
+                              {/* Molette : petit rect arrondi centré-haut */}
+                              <rect
+                                x={mouseCx - mouseW*0.06}
+                                y={mouseCy - mouseH*0.2}
+                                width={mouseW*0.12}
+                                height={mouseH*0.14}
+                                rx={mouseW*0.05}
+                                fill="rgba(255,255,255,0.3)"
+                                stroke="rgba(255,255,255,0.45)"
+                                stroke-width="0.2"
+                              />
+                            </g>
+                          </svg>
+                          <div class="text-center">
+                            <div class="text-[11px] md:text-[13px] font-medium text-cream tracking-tight leading-none whitespace-nowrap">{val.label}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <PrintModeSelector price={price} lang={lang} />
+
+        <!-- Bouton d'achat (Atelier) : style piloté par `atcVariant` du produit :
+             'gradient' (défaut, .btn-atc), 'ink' (le même en noir) ou 'blob'
+             (.btn-atc-blob), cf. global.css. -->
+        {atcBlob ? (
+          <button
+            id="buy-button"
+            class="buy-button btn-atc-blob w-full"
+            disabled={!inStock}
+            data-item-id={(sku ?? product.slug) + modeKeySuffix}
+            data-item-name={name}
+            data-item-price={Math.round(shownPrice * 100)}
+            data-base-item-id={sku ?? product.slug}
+            data-base-item-name={name}
+            data-base-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            {/* .ab-clip porte la découpe arrondie : sur mobile, overflow+radius
+                ne clippe pas les blobs (couches compositées), cf. global.css */}
+            <span class="ab-clip">
+              <span class="ab-text">
+                {inStock ? (
+                  <>{addToCartLabel} <span data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${L.fromLower} ${formatPrice(shownMin)}` : formatPrice(shownPrice)}</span></>
+                ) : L.unavailable}
+              </span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
+              <span class="ab-blob" aria-hidden="true"></span>
+            </span>
+          </button>
+        ) : (
+          <button
+            id="buy-button"
+            class={`buy-button btn-atc w-full${atcInk}`}
+            disabled={!inStock}
+            data-item-id={(sku ?? product.slug) + modeKeySuffix}
+            data-item-name={name}
+            data-item-price={Math.round(shownPrice * 100)}
+            data-base-item-id={sku ?? product.slug}
+            data-base-item-name={name}
+            data-base-item-price={Math.round(price * 100)}
+            data-item-image={imageUrl}
+          >
+            {inStock ? (
+              <>{addToCartLabel} <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${L.fromLower} ${formatPrice(shownMin)}` : formatPrice(shownPrice)}</span></>
+            ) : L.unavailable}
+          </button>
+        )}
+
+        <!-- Garanties -->
+        <div class="grid grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/[0.08]">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="shield-check" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">{L.secureShipping}</p>
+              <p class="text-xs text-n-500 font-light">{L.secureShippingSub}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.02] flex items-center justify-center text-cream shrink-0">
+              <Icon name="arrow-right" size={16} strokeWidth={1.5} />
+            </div>
+            <div>
+              <p class="text-xs font-medium text-cream tracking-tight">{t('shop.return30Days', lang)}</p>
+              <p class="text-xs text-n-500 font-light">{t('shop.return30DaysSub', lang)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- ═══════════════════════════ TOGGLES PRODUIT ═══════════════════════════
+         3 accordéons en HTML natif (<details>). Google indexe parfaitement le
+         contenu à l'intérieur (ouvert ou fermé), donc SEO-friendly. Zéro JS. -->
+    <section class="pdp-panel min-w-0">
+      {/* L'ange est posé au BORD HAUT du panneau, l'image étant recadrée pile
+          sur la ligne où ses mains s'agrippent : son bas coïncide donc avec le
+          bord, et il a l'air caché derrière.
+          Purement décoratif : alt vide, invisible aux lecteurs d'écran, et sans
+          prise au pointeur pour ne pas gêner l'ouverture des tiroirs. */}
+      {siteConfig.shop?.angePanneau && (
+        <img
+          class="pdp-ange"
+          src={siteConfig.shop.angePanneau}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          width="760"
+          height="414"
+        />
+      )}
+      <!-- Description -->
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{L.description}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <article class="mt-5 prose prose-base max-w-none
+          prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-cream
+          prose-h2:text-xl prose-h2:mt-10 prose-h3:text-lg
+          prose-p:font-light prose-p:text-n-400 prose-p:leading-relaxed
+          prose-a:text-cream prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-cream
+          prose-strong:text-cream prose-strong:font-medium
+          prose-ul:font-light prose-li:text-n-400
+          prose-blockquote:border-cream prose-blockquote:bg-panel prose-blockquote:rounded-r-xl prose-blockquote:text-n-400
+          prose-code:text-cream prose-code:bg-panel prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal">
+          <Content />
+        </article>
+      </details>
+
+      <!-- Livraison & retours -->
+      <details class="product-toggle group border-t border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{L.shippingReturns}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          <!-- Date de livraison dynamique (mise en avant) -->
+          <div class="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3 flex items-start gap-3">
+            <svg class="w-5 h-5 text-cream shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            <p class="text-cream font-medium text-sm leading-relaxed">
+              <DeliveryWindow lang={lang} />
+            </p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">{L.shippingTitle}</h3>
+            <p>{L.shippingText}</p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">{L.delaysTitle}</h3>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>{L.delaysFrance}</li>
+              <li>{L.delaysOther} <a href={url('/livraisons-et-retours/')} class="underline">{L.delaysLink}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">{L.costsTitle}</h3>
+            <p><strong class="text-cream">{L.costsStrong}</strong>{L.costsText}</p>
+          </div>
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">{L.returnsTitle}</h3>
+            <p>{L.returnsText1}<strong class="text-cream">{L.returnsStrong}</strong>{L.returnsText2}</p>
+            <p class="mt-2 text-xs text-n-500">{L.returnsCustom}</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- Entretien -->
+      <details class="product-toggle group border-t border-b border-white/[0.08] py-5">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer list-none select-none">
+          <h2 class="text-base md:text-lg font-medium text-cream tracking-tight">{L.careTitle}</h2>
+          <svg class="w-5 h-5 text-n-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
+          <div>
+            <h3 class="text-cream font-medium mb-1.5">{L.careSub}</h3>
+            <p>{L.careText}</p>
+          </div>
+        </div>
+      </details>
+    </section>
+      </div>
+    </div>
+
+    <!-- Réassurance : mur de vidéos clients (UGC), pleine largeur du conteneur -->
+    <UgcVideos />
+
+  </div>
+
+  <!-- ═══════════════════════════ STICKY ATC BAR (mobile + desktop) ═══════════════════════════
+       Apparaît quand le CTA principal (#buy-button) sort du viewport.
+       Mobile : label taille + bouton pleine largeur avec prix.
+       Desktop : vignette + nom + taille + prix + bouton. 
+
+       Pas de `backdrop-blur` sur cette barre, volontairement : un flou
+       d'arrière-plan oblige le navigateur à relire et reflouter tout ce qui
+       passe SOUS elle, à chaque image du défilement et sur toute la largeur
+       de l'écran. Sous un fond opaque à 95 %, il n'en ressortait que 5 % :
+       un coût permanent pour un effet invisible. -->
+  <div
+    id="sticky-atc"
+    class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 bg-dark/95 border-t border-white/[0.08]"
+    aria-hidden="true"
+  >
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-3.5">
+      <!-- Mobile : label taille au-dessus + bouton pleine largeur -->
+      <div class="md:hidden">
+        <p class="text-[11px] text-n-500 font-light mb-1.5 text-center">
+          <span id="sticky-atc-size-mobile" class="text-cream font-medium">-</span>
+        </p>
+        <button
+          id="sticky-atc-btn"
+          class={`buy-button btn-atc btn-atc--block btn-atc--sm${atcInk}`}
+          disabled={!inStock}
+          data-item-id={(sku ?? product.slug) + modeKeySuffix}
+          data-item-name={name}
+          data-item-price={Math.round(shownPrice * 100)}
+          data-base-item-id={sku ?? product.slug}
+          data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}
+          data-item-image={imageUrl}
+        >
+          {addToCartLabel} <span id="sticky-atc-price-mobile" data-buy-price>{formatPrice(shownPrice)}</span>
+        </button>
+      </div>
+
+      <!-- Desktop : vignette + nom + taille · prix + bouton à droite -->
+      <div class="hidden md:flex items-center gap-4">
+        <img
+          src={smallerVariant(image, 400)}
+          alt=""
+          class="w-12 h-12 rounded-lg object-cover border border-white/[0.08] shrink-0"
+          width="48" height="48"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-cream truncate tracking-tight">{name}</p>
+          <p class="text-xs text-n-400 font-light truncate">
+            <span id="sticky-atc-size" class="text-cream font-medium">-</span>
+            · <span id="sticky-atc-price" data-buy-price>{formatPrice(shownPrice)}</span>
+          </p>
+        </div>
+        <button
+          id="sticky-atc-btn-desk"
+          class={`buy-button btn-atc btn-atc--sm whitespace-nowrap shrink-0${atcInk}`}
+          disabled={!inStock}
+          data-item-id={(sku ?? product.slug) + modeKeySuffix}
+          data-item-name={name}
+          data-item-price={Math.round(shownPrice * 100)}
+          data-base-item-id={sku ?? product.slug}
+          data-base-item-name={name}
+          data-base-item-price={Math.round(price * 100)}
+          data-item-image={imageUrl}
+        >
+          {addToCartLabel}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ FABRICATION HAUTE PRÉCISION ═══════════════════════════ -->
+  <div class="below-fold-defer"><FabricationSection /></div>
+
+  <!-- ═══════════════════════════ VOUS AIMEREZ AUSSI (slider full-width) ═══════════════════════════ -->
+  {related.length > 0 && (
+    <section class="relative py-16 md:py-20 border-t border-white/[0.04] overflow-hidden below-fold-defer">
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between mb-6 md:mb-8 gap-4">
+          <div>
+            <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-2 block">{L.collection}</span>
+            <h2 class="text-xl md:text-2xl font-medium tracking-tight text-cream">{L.related}</h2>
+          </div>
+          <a href={url(`/product-category/${preferredCategory}`)} class="inline-flex items-center gap-1.5 text-xs md:text-sm text-n-400 hover:text-cream transition-colors whitespace-nowrap">
+            {L.viewAll} ({related.length})
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Slider full-width : même structure que la home -->
+      <div class="product-slider relative" data-slider>
+        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
+          {related.map(p => (
+            <a
+              href={p.href}
+              class="slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block"
+            >
+              <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
+                <img
+                  src={p.data.image}
+                  srcset={unsplashSrcset(p.data.image)}
+                  sizes="(max-width: 640px) 72vw, (max-width: 768px) 45vw, (max-width: 1024px) 32vw, 300px"
+                  alt={p.data.imageAlt ?? p.data.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width="800" height="1000" loading="lazy" decoding="async"
+                />
+                {p.data.compareAtPrice && (
+                  <span class="absolute top-3 left-3 bg-cream text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">
+                    -{Math.round((1 - p.data.price / p.data.compareAtPrice) * 100)}%
+                  </span>
+                )}
+              </div>
+              <h3 class="text-sm font-medium text-cream tracking-tight leading-snug line-clamp-2 mb-1 group-hover:underline underline-offset-4">
+                {p.data.name}
+              </h3>
+              <div class="flex items-baseline gap-2 text-xs">
+                <span class="text-cream font-medium">
+                  {p.data.priceRange && p.data.priceRange.min !== p.data.priceRange.max
+                    ? `${L.from} ${formatPrice(p.data.priceRange.min)}`
+                    : formatPrice(p.data.price)}
+                </span>
+                {p.data.compareAtPrice && (
+                  <span class="text-n-500 line-through font-light">{formatPrice(p.data.compareAtPrice)}</span>
+                )}
+              </div>
+            </a>
+          ))}
+          <div class="flex-none w-2" aria-hidden="true"></div>
+        </div>
+
+        <!-- Flèches desktop -->
+        <div class="pointer-events-none absolute inset-0 max-w-7xl mx-auto hidden md:block px-6">
+          <button
+            type="button"
+            data-scroll="prev"
+            class="pointer-events-auto absolute left-2 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full bg-dark/90 border border-white/[0.15] backdrop-blur flex items-center justify-center text-cream hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all shadow-lg"
+            aria-label={L.prevProducts}
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button
+            type="button"
+            data-scroll="next"
+            class="pointer-events-auto absolute right-2 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full bg-dark/90 border border-white/[0.15] backdrop-blur flex items-center justify-center text-cream hover:bg-dark hover:border-white/30 disabled:opacity-0 disabled:pointer-events-none transition-all shadow-lg"
+            aria-label={L.nextProducts}
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <style>
+
+        .product-slider .slider-track { scrollbar-width: none; -ms-overflow-style: none; }
+        .product-slider .slider-track::-webkit-scrollbar { display: none; }
+        /* Galerie : masque scrollbar horizontale sur le track */
+        .gallery-track { scrollbar-width: none; -ms-overflow-style: none; }
+        .gallery-track::-webkit-scrollbar { display: none; }
+        /* Mobile : la galerie sort du conteneur (px-6) pour occuper toute la
+           largeur de l'écran, bord à bord, comme la plupart des e-commerces.
+           width:100vw + margin/translate = plein cadre quel que soit le
+           parent (ici une grille). */
+        @media (max-width: 767px) {
+          .gallery-viewport {
+            /* annule exactement le px-6 (1.5rem) du conteneur des deux côtés :
+               l'item de grille s'étire alors jusqu'aux bords de l'écran. */
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            border-radius: 0;
+          }
+        }
+        /* Dots de navigation (mobile) */
+        .gallery-dot {
+          width: 6px; height: 6px; border-radius: 9999px;
+          background: rgba(255,255,255,.5);
+          transition: width .2s ease, background .2s ease;
+        }
+        .gallery-dot[aria-current="true"] { width: 16px; background: #fff; }
+        /* Toggles produit : masque le marker natif des <summary> */
+        .product-toggle summary::-webkit-details-marker { display: none; }
+        .product-toggle summary::marker { content: ''; }
+
+        /* ─── content-visibility: auto ─────────────────────────────────
+           Le navigateur skip le rendu des sections hors viewport pour
+           économiser la layout/paint au load. Fix décisif pour Lighthouse
+           qui n'a plus à attendre que TOUTE la page soit peinte avant de
+           committer le LCP. `contain-intrinsic-size` réserve l'espace
+           pour éviter toute surprise de scroll. */
+        .below-fold-defer {
+          content-visibility: auto;
+          contain-intrinsic-size: auto 800px;
+        }
+
+      </style>
+    </section>
+  )}
+
+  <!-- Grille « feed Instagram » : visuels lifestyle en bas de fiche -->
+  <InstaGrid />
+
+  <!-- ═══════════════════════════ JS PRODUIT ═══════════════════════════
+       Trois modules indépendants, tous différés via requestIdleCallback :
+       1. Galerie (scroll-snap + thumbs + flèches desktop + clavier)
+       2. Slider "Vous aimerez aussi" (flèches desktop)
+       3. Sélecteur de variantes (pills/cards + sync prix/stock/image)
+  -->
+  <script is:inline set:html={`
+    // Repli du libellé de la barre d'achat tant qu'aucun modèle n'est choisi.
+    const PICK_MODEL_LABEL = ${JSON.stringify(pickModelLabel)};
+    (function() {
+
+    /* ─── 1. GALERIE ───────────────────────────────────────────────── */
+    function initGallery() {
+      const root = document.querySelector('[data-gallery]');
+      if (!root) return null;
+      const track  = root.querySelector('[data-gallery-track]');
+      const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const dots   = Array.from(root.querySelectorAll('[data-gallery-dot]'));
+      const prev   = root.querySelector('[data-gallery-prev]');
+      const next   = root.querySelector('[data-gallery-next]');
+      const count  = parseInt(root.dataset.slideCount || '0', 10);
+      let current  = 0;
+
+      const paint = () => {
+        thumbs.forEach((t, i) => {
+          t.className = 'gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors '
+            + (i === current ? 'border-cream' : 'border-white/[0.08] hover:border-white/30');
+        });
+        dots.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
+        if (prev) prev.disabled = current <= 0;
+        if (next) next.disabled = current >= count - 1;
+      };
+
+      const goTo = (idx) => {
+        if (idx < 0 || idx >= count || !track) return;
+        track.scrollTo({ left: track.clientWidth * idx, behavior: 'smooth' });
+      };
+
+      // Détecte le slide courant via scroll (swipe natif mobile + scrollTo desktop)
+      if (track) {
+        let raf = null;
+        track.addEventListener('scroll', () => {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const idx = Math.round(track.scrollLeft / track.clientWidth);
+            if (idx !== current) { current = idx; paint(); }
+          });
+        }, { passive: true });
+      }
+
+      prev?.addEventListener('click', () => goTo(current - 1));
+      next?.addEventListener('click', () => goTo(current + 1));
+      thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+      });
+      root.setAttribute('tabindex', '0');
+
+      paint();
+      // API exposée pour le sélecteur de variantes
+      return { goTo, getMainSlide: () => root.querySelector('[data-gallery-slide="0"]'),
+               getMainThumb: () => root.querySelector('[data-gallery-thumb="0"] img') };
+    }
+
+    /* ─── 2. SLIDER "VOUS AIMEREZ AUSSI" ───────────────────────────── */
+    function initRelatedSlider() {
+      document.querySelectorAll('[data-slider]').forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        const prev  = slider.querySelector('[data-scroll="prev"]');
+        const next  = slider.querySelector('[data-scroll="next"]');
+        if (!track) return;
+
+        const scrollByCards = (dir) => {
+          const card = track.querySelector('.slider-card');
+          if (!card) return;
+          const w = card.getBoundingClientRect().width + 20;
+          track.scrollBy({ left: w * 2 * dir, behavior: 'smooth' });
+        };
+        prev?.addEventListener('click', () => scrollByCards(-1));
+        next?.addEventListener('click', () => scrollByCards(1));
+
+        const upd = () => {
+          if (!prev || !next) return;
+          prev.disabled = track.scrollLeft <= 1;
+          next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+        };
+        track.addEventListener('scroll', upd, { passive: true });
+        window.addEventListener('resize', upd);
+        requestAnimationFrame(upd);
+      });
+    }
+
+    /* ─── 3. SÉLECTEUR DE VARIANTES ────────────────────────────────── */
+    function initVariants(galleryApi, stickyRefs) {
+      const variants = ${variantsJson};
+      const buyBtn   = document.getElementById('buy-button');
+      const priceEl  = document.getElementById('product-price');
+      const compareEl = document.getElementById('product-compare');
+      const stockEl  = document.getElementById('product-stock');
+      const selector = document.getElementById('variant-selector');
+      if (!variants.length || !selector || !buyBtn) return;
+
+      const currency = '${siteConfig.shop.currency}';
+      const fmtPrice = (v) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(v);
+
+      // Slide 0 = image principale (swap au changement de variante)
+      const mainSlide = galleryApi?.getMainSlide() ?? null;
+      const mainThumb = galleryApi?.getMainThumb() ?? null;
+      const originalSrc = mainSlide?.getAttribute('src') ?? null;
+
+      // Initial : pill bg-cream OU size-card border-cream
+      const selected = {};
+      selector.querySelectorAll('[data-attr]').forEach(btn => {
+        const a = btn.dataset.attr;
+        if (selected[a]) return;
+        if (btn.classList.contains('bg-cream') || btn.classList.contains('border-cream')) {
+          selected[a] = btn.dataset.value;
+        }
+      });
+
+      const findVariant = () => variants.find(v => {
+        for (const [k, val] of Object.entries(selected)) {
+          if (v.attributes[k] !== val) return false;
+        }
+        return true;
+      });
+
+      const setStock = (inStock, label) => {
+        if (!stockEl) return;
+        const dot = stockEl.querySelector('span:first-child');
+        const txt = stockEl.querySelector('span:last-child');
+        stockEl.className = 'flex items-center gap-2 mb-6 text-sm font-light ' + (inStock ? 'text-sage' : 'text-n-500');
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full ' + (inStock ? 'bg-sage' : 'bg-n-500');
+        if (txt) txt.textContent = label;
+      };
+
+      function update() {
+        // Labels "Dimensions : 45 × 35 cm"
+        Object.entries(selected).forEach(([attr, slug]) => {
+          const label = document.querySelector('[data-selected-label="' + attr + '"]');
+          if (!label) return;
+          const pill = selector.querySelector('[data-attr="' + attr + '"][data-value="' + slug + '"]');
+          label.textContent = pill ? pill.textContent.trim() : slug;
+        });
+
+        const v = findVariant();
+        if (!v) {
+          buyBtn.disabled = true;
+          buyBtn.textContent = ${JSON.stringify(L.comboUnavailable)};
+          setStock(false, ${JSON.stringify(L.unavailable)});
+          return;
+        }
+
+        // Prix + compare
+        if (priceEl) priceEl.textContent = fmtPrice(v.price);
+        if (compareEl) {
+          if (v.compareAtPrice) {
+            compareEl.textContent = fmtPrice(v.compareAtPrice);
+            compareEl.classList.remove('hidden');
+          } else {
+            compareEl.classList.add('hidden');
+          }
+        }
+
+        // Stock
+        setStock(v.inStock, v.inStock ? ${JSON.stringify(L.inStock)} : ${JSON.stringify(L.outOfStock)});
+
+        // Image : swap src du slide principal + thumb 0
+        if (mainSlide) {
+          const nextSrc = v.image || originalSrc;
+          if (nextSrc && mainSlide.getAttribute('src') !== nextSrc) {
+            mainSlide.setAttribute('src', nextSrc);
+            // Reconstruit le srcset responsive pour les .webp locaux (variantes -400w/-800w pré-générées)
+            const m = nextSrc.match(/^(?!https?:)(.*)\.webp$/i);
+            if (m) {
+              const base = m[1];
+              mainSlide.setAttribute('srcset', base + '-400w.webp 400w, ' + base + '-800w.webp 800w, ' + nextSrc + ' 1200w');
+            } else {
+              mainSlide.removeAttribute('srcset');
+            }
+            // La vignette fait 74 px : elle reprend la variante reduite, pas
+            // le fichier pleine resolution du slide principal.
+            if (mainThumb) mainThumb.setAttribute('src', m ? m[1] + '-400w.webp' : nextSrc);
+          }
+          galleryApi?.goTo(0);
+        }
+
+        // Bouton + dataset Atelier
+        const variantDesc = Object.entries(selected).map(([k, val]) => {
+          const pill = selector.querySelector('[data-attr="' + k + '"][data-value="' + val + '"]');
+          return k + ': ' + (pill ? pill.textContent.trim() : val);
+        }).join(', ');
+        buyBtn.disabled = !v.inStock;
+        // Cle d'article UNIQUE PAR CONFIGURATION : l'id nu de la variation
+        // ("1", "2") entrerait en collision entre deux produits du meme
+        // shop, et c'est cette cle qui sert au mapping fournisseur cote
+        // Seamless (supplier_skus.store_key).
+        buyBtn.dataset.baseItemId = ${JSON.stringify(slug)} + '-v' + v.id;
+        buyBtn.dataset.baseItemPrice = Math.round(v.price * 100);
+        buyBtn.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+        buyBtn.dataset.itemId = buyBtn.dataset.baseItemId;
+        buyBtn.dataset.itemPrice = buyBtn.dataset.baseItemPrice;
+        buyBtn.dataset.itemName = buyBtn.dataset.baseItemName;
+        if (v.image) buyBtn.dataset.itemImage = new URL(v.image, location.origin).href;
+        buyBtn.innerHTML = v.inStock
+          ? ${JSON.stringify(addToCartLabel)} + ' <span class="opacity-70 font-normal" data-buy-price>' + fmtPrice(v.price) + '</span>'
+          : ${JSON.stringify(L.unavailable)};
+
+        // Sync sticky ATC bar (boutons mobile + desktop, prix, label taille)
+        if (stickyRefs) {
+          stickyRefs.btns.forEach(b => {
+            b.disabled = !v.inStock;
+            b.dataset.baseItemId = ${JSON.stringify(slug)} + '-v' + v.id;
+            b.dataset.baseItemPrice = Math.round(v.price * 100);
+            b.dataset.baseItemName = ${JSON.stringify(name)} + ' (' + variantDesc + ')';
+            b.dataset.itemId = b.dataset.baseItemId;
+            b.dataset.itemPrice = b.dataset.baseItemPrice;
+            b.dataset.itemName = b.dataset.baseItemName;
+            if (v.image) b.dataset.itemImage = new URL(v.image, location.origin).href;
+          });
+          const dimPill = selector.querySelector('[data-variant-type="size"].border-cream');
+          const sizeLabel = dimPill
+            ? (dimPill.querySelector('.text-cream')?.textContent.trim() || variantDesc)
+            : variantDesc;
+          if (stickyRefs.setVariantLabel) stickyRefs.setVariantLabel(sizeLabel);
+          if (stickyRefs.priceMobile) stickyRefs.priceMobile.textContent = fmtPrice(v.price);
+          if (stickyRefs.priceDesk)   stickyRefs.priceDesk.textContent   = fmtPrice(v.price);
+        }
+
+        // Le choix à plat / en relief doit survivre à un changement de
+        // variante : on vient de réécrire la configuration de base, le
+        // sélecteur recompose la clé et le prix à partir d'elle.
+        document.dispatchEvent(new CustomEvent('vareska:variant-change'));
+      }
+
+      // Click handlers (pills + size cards)
+      const pillClass = 'variant-pill text-xs font-medium px-4 py-2 rounded-full border transition-colors';
+      const sizeClass = 'variant-size-card relative rounded-xl border p-2 md:p-3 transition-colors min-w-0';
+      const off = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.02] border-white/[0.08] hover:border-white/25'
+        : pillClass + ' bg-white/[0.02] text-n-400 border-white/[0.08] hover:text-cream hover:border-white/20';
+      const on = (type) => type === 'size'
+        ? sizeClass + ' bg-white/[0.04] border-cream'
+        : pillClass + ' bg-cream text-dark border-cream';
+
+      selector.querySelectorAll('[data-variant-option]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const attr = btn.dataset.attr;
+          const type = btn.dataset.variantType || 'pill';
+          selector.querySelectorAll('[data-attr="' + attr + '"]').forEach(b => {
+            const t = b.dataset.variantType || 'pill';
+            b.className = off(t);
+            const rect = b.querySelector('.size-rect');
+            if (rect) {
+              rect.setAttribute('fill', 'rgba(255,255,255,0.04)');
+              rect.setAttribute('stroke', 'rgba(255,255,255,0.25)');
+            }
+          });
+          btn.className = on(type);
+          if (type === 'size') {
+            const rect = btn.querySelector('.size-rect');
+            if (rect) {
+              rect.setAttribute('fill', 'rgba(244,244,247,0.10)');
+              rect.setAttribute('stroke', 'rgba(244,244,247,0.8)');
+            }
+          }
+          selected[attr] = btn.dataset.value;
+          update();
+        });
+      });
+
+      update();
+    }
+
+    /* ─── 4. STICKY ATC BAR ────────────────────────────────────────── */
+    function initStickyAtc() {
+      const bar     = document.getElementById('sticky-atc');
+      const mainCTA = document.getElementById('buy-button');
+      if (!bar || !mainCTA) return null;
+
+      // La barre n'apparaît QUE lorsque le CTA principal est sorti par le HAUT
+      // du viewport (= dépassé en scrollant). Elle reste cachée tant qu'il est
+      // encore plus bas que l'écran, ce qui est le cas à l'arrivée sur la page.
+      //
+      // On lit la position réelle du CTA à chaque frame de scroll plutôt que
+      // d'utiliser un IntersectionObserver : celui-ci ne réagit qu'aux
+      // FRANCHISSEMENTS d'intersection et resterait bloqué dans le mauvais état
+      // si l'on arrive directement au-delà du CTA sans jamais l'avoir croisé
+      // (lien d'ancrage, restauration de position de scroll, saut de scroll).
+      let scheduled = false;
+      // Dernier état appliqué. Avant, les deux écritures avaient lieu à
+      // CHAQUE frame de défilement, y compris quand rien ne changeait :
+      // l'attribut aria-hidden resalissait le style du document, et la
+      // lecture de position de la frame suivante forçait alors un recalcul
+      // complet de la mise en page. Un aller-retour inutile, soixante fois
+      // par seconde, pendant tout le défilement de la fiche.
+      let visible = null;
+      const syncBar = () => {
+        scheduled = false;
+        const passed = mainCTA.getBoundingClientRect().bottom <= 0;
+        if (passed === visible) return;
+        visible = passed;
+        bar.classList.toggle('translate-y-full', !passed);
+        bar.setAttribute('aria-hidden', passed ? 'false' : 'true');
+      };
+      const onScroll = () => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(syncBar);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      syncBar();
+
+
+      // Libellé de la barre : ce que le client a réellement choisi.
+      // Sur ces fiches, le choix structurant est le MODÈLE de téléphone, pas la
+      // variante : beaucoup de produits n'ont d'ailleurs aucune variante, et la
+      // barre restait alors bloquée sur le tiret de gabarit. Le modèle vient du
+      // sélecteur (événement model:change) ou du dernier choix mémorisé, et
+      // la variante s'y ajoute quand le produit en a une.
+      const labelMobile = document.getElementById('sticky-atc-size-mobile');
+      const labelDesk   = document.getElementById('sticky-atc-size');
+      let variantLabel = '';
+      let modelLabel = '';
+      try { modelLabel = localStorage.getItem('vareska:phone-model') || ''; } catch (e) {}
+      const paintLabel = () => {
+        const text = [variantLabel, modelLabel].filter(Boolean).join(' · ');
+        if (labelMobile) labelMobile.textContent = text || PICK_MODEL_LABEL;
+        if (labelDesk)   labelDesk.textContent   = text || PICK_MODEL_LABEL;
+      };
+      const setVariantLabel = (label) => { variantLabel = label || ''; paintLabel(); };
+      document.addEventListener('model:change', (e) => {
+        if (e.detail && e.detail.model) { modelLabel = e.detail.model; paintLabel(); }
+      });
+      paintLabel();
+
+      return {
+        btns: [
+          document.getElementById('sticky-atc-btn'),
+          document.getElementById('sticky-atc-btn-desk'),
+        ].filter(Boolean),
+        setVariantLabel,
+        sizeMobile: document.getElementById('sticky-atc-size-mobile'),
+        sizeDesk:   document.getElementById('sticky-atc-size'),
+        priceMobile: document.getElementById('sticky-atc-price-mobile'),
+        priceDesk:   document.getElementById('sticky-atc-price'),
+      };
+    }
+
+    /* ─── ENTRYPOINT : tout différé jusqu'à idle (post-LCP) ─────────── */
+    function bootProductJS() {
+      const galleryApi = initGallery();
+      initRelatedSlider();
+      const stickyRefs = initStickyAtc();
+      initVariants(galleryApi, stickyRefs);
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(bootProductJS, { timeout: 2000 });
+    } else {
+      setTimeout(bootProductJS, 0);
+    }
+
+    })();
+  `} />
+
+{/* Suivi du curseur pour la variante 'ink-glow' (test A/B). Bloc séparé et
+    conditionnel : rien n'est envoyé sur les pages qui n'utilisent pas ce style.
+    Le CSS a des valeurs par défaut pour --mx/--my, donc le bouton reste correct
+    si ce script ne tourne pas (mobile, JS désactivé). */}
+{atcGlow && (
+  <script is:inline>
+    (function () {
+      // Pointeur grossier (tactile) : pas de curseur à suivre, on garde la
+      // lueur statique du CSS et on évite d'écouter des événements pour rien.
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+      document.querySelectorAll('.btn-atc--ink-glow').forEach(function (btn) {
+        var raf = null;
+        var pending = null;
+
+        function apply() {
+          raf = null;
+          btn.style.setProperty('--mx', pending.x + 'px');
+          btn.style.setProperty('--my', pending.y + 'px');
+        }
+
+        btn.addEventListener('pointermove', function (e) {
+          var r = btn.getBoundingClientRect();
+          pending = { x: Math.round(e.clientX - r.left), y: Math.round(e.clientY - r.top) };
+          // Un pointermove peut arriver plusieurs fois par frame : on coalesce
+          // les écritures de style pour ne toucher le DOM qu'une fois par frame.
+          if (raf === null) raf = requestAnimationFrame(apply);
+        });
+
+        // Au départ du curseur, on rend la main aux valeurs par défaut du CSS
+        // plutôt que de figer la lueur là où le pointeur a quitté le bouton.
+        btn.addEventListener('pointerleave', function () {
+          if (raf !== null) { cancelAnimationFrame(raf); raf = null; }
+          btn.style.removeProperty('--mx');
+          btn.style.removeProperty('--my');
+        });
+      });
+    })();
+  </script>
+)}
+<style is:global>
+  /* ═══ Mise en page façon fiche produit moderne ═══════════════════════
+     Fond de page gris très clair, visuel produit posé à nu dessus, et le
+     bloc d'achat rassemblé dans une carte blanche. Le gris détache la
+     carte et la photo ; un visuel encadré, lui, enfermait le produit dans
+     une boîte au milieu d'une autre boîte. */
+  html body { background-color: #f3f3f3; }
+
+
+  /* Sticker décoratif, posé de travers sur la photo comme un vrai autocollant.
+     pointer-events: none est indispensable : la galerie se balaie au doigt sur
+     mobile, et un élément par-dessus intercepterait le geste. */
+  /* AUCUN filtre CSS ici, et c'est volontaire.
+     Les deux ombres qui détachent le sticker sont CUITES DANS L'IMAGE. En
+     `filter: drop-shadow()`, elles produisaient un rectangle gris sur mobile :
+     le navigateur lit la transparence du WebP de travers dans une couche
+     composée, prend l'image pour un bloc plein et peint l'ombre sur tout son
+     rectangle. Le carré disparaissait au zoom, quand la couche était
+     redessinée : signature d'un défaut de rendu, pas d'un élément en trop.
+     Le fichier porte donc sa propre marge transparente (26 px sur 392 de
+     large, soit 6,6 %), d'où une largeur affichée plus grande qu'avant et des
+     décalages augmentés d'autant : la silhouette de l'ange, elle, tombe
+     exactement au même endroit. */
+  /* Sticker du coin : ombres cuites dans l'image, donc aucun filtre CSS ici
+     (cf. le commit qui a supprimé le rectangle gris sur mobile). Le retrait à
+     droite tient compte de l'inclinaison de 9°, qui élargit la boîte. */
+  .pdp-sticker {
+    position: absolute;
+    top: -34px;
+    right: -22px;
+    width: 120px;
+    z-index: 2;
+    transform: rotate(-9deg);
+    pointer-events: none;
+  }
+
+  .pdp-panel { position: relative; }
+
+  /* L'écart entre la carte et le panneau s'ouvre pour loger l'ange, et il se
+     déduit de sa taille au lieu d'être choisi à l'œil : 90,68 % de sa hauteur
+     se trouve au-dessus de sa ligne de coupe, soit 60 px pour une largeur de
+     122 px, et c'est cette part-là qui doit tenir sous la carte. La colonne
+     apporte déjà 24 px, d'où ces 2,5 rem : le haut de sa tête arrive juste
+     sous la carte, sans vide au-dessus ni chevauchement des mentions de
+     livraison. La règle ne s'applique QUE si l'ange est là : c'est lui qui
+     réclame la place, pas la mise en page. */
+  .pdp-panel:has(.pdp-ange) { margin-top: 2.5rem; }
+
+  /* L'ange accroché au bord haut du panneau.
+
+     LE PRINCIPE, qui est tout le sujet : l'illustration porte une LIGNE DE
+     COUPE, celle où son corps est tranché net. Cette ligne doit tomber
+     exactement sur le bord du panneau. Ce qui est au-dessus se voit
+     entièrement, ce qui est en dessous (sa main posée) passe DEVANT le
+     panneau, comme une main posée sur un rebord.
+
+     Mesuré dans le fichier : la ligne de coupe est à 90,68 % de la hauteur,
+     donc 9,32 % de l'image se trouve sous elle.
+
+     Le calage se fait en DEUX temps :
+     · `bottom: 100%` pose le bas de l'image sur le bord du panneau ;
+     · `translateY(9.32%)` la redescend de la part située sous la ligne. La
+       ligne de coupe arrive alors pile sur le bord.
+     Un pourcentage de `translateY` se calcule sur la HAUTEUR de l'élément
+     lui-même : le calage tient donc à toutes les tailles, sans recalcul.
+
+     Et cette fois il passe DEVANT le panneau (pas de z-index négatif) : c'est
+     sa main qui doit se poser dessus. Aucune ombre portée non plus, elle le
+     ferait flotter. */
+  .pdp-ange {
+    position: absolute;
+    bottom: 100%;
+    /* Décalé vers la gauche plutôt que centré : au milieu, il tombait pile
+       au-dessus de « Description » et se lisait comme un titre illustré. Sur
+       le quart gauche, il occupe un angle du panneau et laisse la lecture
+       tranquille. La valeur porte sur son CENTRE, d'où le retrait de moitié
+       qui suit. */
+    left: 27%;
+    transform: translateX(-50%) translateY(9.32%);
+    width: clamp(92px, 24%, 122px);
+    height: auto;
+    pointer-events: none;
+    display: block;
+  }
+
+
+  /* Sur grand écran, le visuel accompagne la lecture : il se fige pendant que
+     la colonne de droite défile, jusqu'à ce que les tiroirs soient passés.
+     Deux conditions pour que ça tienne : la colonne de gauche doit occuper
+     toute la hauteur de la rangée (sans quoi l'élément collant n'a aucune
+     marge de manœuvre), et c'est son CONTENU qui colle, pas elle-même. */
+  @media (min-width: 1024px) {
+    .product-gallery { align-self: stretch; }
+    .pdp-media { position: sticky; top: calc(var(--header-total, 72px) + 1.5rem); }
+  }
+
+  .pdp-card {
+    position: relative;
+    background: #fff;
+    border-radius: 25px;
+    padding: 30px 35px 24px;
+    /* Ombre en couches plutôt qu'un flou unique : la décroissance douce
+       imite la lumière réelle et évite le halo gris des ombres plates. */
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / .06),
+      0 1px 1px -.5px rgb(0 0 0 / .06),
+      0 3px 3px -1.5px rgb(0 0 0 / .06),
+      0 6px 6px -3px rgb(0 0 0 / .06),
+      0 12px 12px -6px rgb(0 0 0 / .06),
+      0 24px 24px -12px rgb(0 0 0 / .06);
+  }
+
+  .pdp-panel {
+    background: #fff;
+    border-radius: 18px;
+    padding: 6px 26px 10px;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / .05),
+      0 2px 4px -2px rgb(0 0 0 / .05),
+      0 8px 12px -6px rgb(0 0 0 / .05);
+  }
+
+
+  /* Les photos produit sont détourées sur blanc. Sur un fond gris, leur
+     rectangle blanc rendait le cadre qu'on venait justement d'enlever.
+     Le mode « multiply » laisse le gris traverser le blanc : le produit se
+     pose sur la page au lieu de flotter dans une boîte. */
+  .gallery-viewport img,
+  .gallery-thumb img { mix-blend-mode: multiply; }
+
+  /* Le cadre reprend le gris de la page. « multiply » fusionne l'image avec ce
+     qui est derrière elle DANS son contexte d'empilement ; or le collage du
+     visuel en crée un, qui coupait l'image du fond de page et laissait
+     réapparaître le blanc du détourage. En peignant le gris juste derrière,
+     la fusion retrouve la bonne couleur. */
+  .gallery-viewport,
+  .gallery-thumb { background-color: #f3f3f3; }
+
+
+  /* Les accordéons portent leurs propres filets de séparation. Dans la carte,
+     le premier et le dernier venaient border ses arêtes : on les retire pour
+     que la carte se referme proprement. */
+  .pdp-panel > details:first-of-type { border-top: 0; }
+  .pdp-panel > details:last-of-type { border-bottom: 0; }
+
+
+
+
+  /* Le contenu se pose en glissant pendant que le tiroir s'ouvre : la hauteur
+     seule donne un rideau qui se lève, le décalage donne un mouvement. */
+  .product-toggle .pt-body > :first-child { margin-top: 0; padding-top: 1.25rem; }
+  /* L'entrée du contenu dure un peu moins que le dépliage, et suit la même
+     variation : sur un tiroir long, un fondu figé à 260 ms serait terminé
+     avant même que le bloc ait fini de s'ouvrir. */
+  .product-toggle[open] .pt-body {
+    animation: pt-entree var(--pt-entree-ms, 240ms) cubic-bezier(.25, 1, .5, 1);
+  }
+
+  @keyframes pt-entree {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-toggle[open] .pt-body { animation: none; }
+  }
+
+  @media (max-width: 767px) {
+    /* Gouttière de la fiche sur téléphone. UNE seule valeur, parce que deux
+       éléments en dépendent en sens inverse : le gabarit s'en sert comme
+       marge, le visuel l'annule pour aller bord à bord. Réglées séparément,
+       elles se désaccordent et la page devient plus large que l'écran : le
+       navigateur dézoome alors pour tout faire tenir. */
+    .crumbs-shell {
+      --pdp-gutter: .875rem;
+      padding-left: var(--pdp-gutter);
+      padding-right: var(--pdp-gutter);
+    }
+    /* Sélecteur à trois niveaux volontaire. La règle d'origine est tantôt
+       posée au milieu du balisage, tantôt scopée par Astro (qui lui ajoute
+       un attribut et donc une spécificité équivalente à la nôtre). Compter
+       sur l'ordre de la cascade ne suffisait pas : la fiche traduite gardait
+       l'ancienne marge et débordait de 10 px. */
+    .crumbs-shell .product-gallery .gallery-viewport {
+      margin-left: calc(var(--pdp-gutter, .875rem) * -1);
+      margin-right: calc(var(--pdp-gutter, .875rem) * -1);
+      border-radius: 0;
+    }
+    /* Le retrait à droite tient compte de l'INCLINAISON : tournée de 9°, la
+       boîte du sticker s'élargit d'environ 2,5 px de chaque côté. À -12 px
+       elle dépassait l'écran d'autant, et ces quelques pixels suffisaient à
+       rendre la page défilable latéralement sur un téléphone. */
+    .pdp-sticker { width: 85px; top: -26px; right: -7px; }
+    .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
+    .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
+  }
+</style>
+
+<script>
+  // Ouverture et fermeture des tiroirs.
+  //
+  // Modèle éprouvé (cf. l'implémentation WAAPI de référence pour <details>) :
+  // on anime la hauteur de l'élément LUI-MÊME, du résumé seul au résumé plus
+  // son contenu. Animer un conteneur interne, comme je l'avais fait, laisse le
+  // cadre du tiroir figé pendant que l'intérieur glisse : c'est ce qui rendait
+  // le mouvement mou.
+  //
+  // Durées courtes et courbe ease-out : l'animation part vite et se pose. Un
+  // mouvement long se lit comme une lenteur, pas comme de la douceur.
+  //
+  // Le balisage reste du <details> natif : indexable, et fonctionnel sans JS.
+  (() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Courbe standard de Material : accélération douce, puis décélération.
+    // Les courbes purement décélérantes (easeOutQuart et parentes) avalent
+    // les trois quarts de la distance dans leur premier cinquième de temps ;
+    // sur un tiroir de 650 px, ce départ se ressent comme un coup de fouet.
+    // Une mise en mouvement progressive supprime cette impression.
+    const EASE = 'cubic-bezier(.4, 0, .2, 1)';
+
+    // La durée suit la DISTANCE parcourue. À durée fixe, un tiroir de 600 px
+    // se déplie six fois plus vite qu'un tiroir de 100 px : le long paraît
+    // expédié, le court paresseux. On prend la racine carrée de la distance
+    // pour que l'écart de durée reste raisonnable entre les deux, et on borne
+    // aux extrêmes pour qu'un tiroir immense ne s'éternise pas.
+    const REFERENCE_PX = 150;
+    const duree = (distance, opening) => {
+      const base = opening ? 280 : 230;
+      const brut = base * Math.sqrt(Math.max(distance, 40) / REFERENCE_PX);
+      const plancher = opening ? 240 : 200;
+      const plafond = opening ? 560 : 440;
+      return Math.round(Math.min(Math.max(brut, plancher), plafond));
+    };
+
+    document.querySelectorAll('details.product-toggle').forEach((d) => {
+      const summary = d.querySelector('summary');
+      if (!summary) return;
+
+      const body = document.createElement('div');
+      body.className = 'pt-body';
+      while (summary.nextSibling) body.appendChild(summary.nextSibling);
+      d.appendChild(body);
+
+      let anim = null;
+      let timer = null;
+
+      // Hauteur du tiroir replié, relevée au chargement (ils y sont tous
+      // fermés). La calculer depuis le résumé seul oubliait les marges
+      // internes du <details> : la fermeture visait 40 px au lieu de 60 et
+      // le bloc se tassait avant de revenir d'un coup.
+      let hauteurRepliee = d.getBoundingClientRect().height;
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          if (!d.open && !anim) hauteurRepliee = d.getBoundingClientRect().height;
+        });
+      }
+
+      const conclure = (mien, opening) => {
+        if (anim !== mien) return;
+        anim = null;
+        clearTimeout(timer);
+        if (!opening) d.open = false;
+        mien.cancel();            // lève la valeur retenue par l'animation
+        d.style.height = '';
+        d.style.overflow = '';
+      };
+
+      summary.addEventListener('click', (e) => {
+        if (reduced) return;                       // on laisse le natif faire
+        e.preventDefault();
+
+        const opening = !d.open;
+        // Hauteur de départ : la hauteur réelle à l'instant du clic, y compris
+        // au milieu d'une animation qu'on inverse.
+        const from = d.getBoundingClientRect().height;
+        if (anim) { anim.cancel(); anim = null; clearTimeout(timer); }
+
+        // Le contenu doit être affiché pour être mesuré : on ouvre d'abord, on
+        // ne referme qu'à la fin de l'animation.
+        // Le contenu doit être affiché pour être mesuré : on ouvre d'abord, on
+        // ne referme qu'à la fin. La hauteur cible est relevée telle que le
+        // navigateur la calcule, marges internes comprises.
+        let to;
+        if (opening) {
+          d.open = true;
+          d.style.height = '';
+          to = d.getBoundingClientRect().height;
+        } else {
+          to = hauteurRepliee;
+        }
+
+        // Contenu jamais mesurable (onglet masqué) : on bascule sans animer
+        // plutôt que de replier le tiroir sur rien.
+        if (opening && to <= from) return;
+
+        d.style.overflow = 'hidden';
+        const ms = duree(Math.abs(to - from), opening);
+        // fill: 'forwards' retient la hauteur finale jusqu'à ce qu'on la
+        // relâche. Sans lui, l'élément reprenait sa hauteur naturelle entre la
+        // fin de l'animation et la bascule de l'attribut : un éclair à pleine
+        // hauteur au moment même où le tiroir devait être refermé.
+        body.style.setProperty('--pt-entree-ms', Math.round(ms * 0.8) + 'ms');
+        anim = d.animate(
+          { height: [from + 'px', to + 'px'] },
+          { duration: ms, easing: EASE, fill: 'forwards' },
+        );
+
+        // On ne s'appuie pas sur l'événement de fin : il ne se déclenche pas
+        // partout, et le tiroir restait alors ouvert après sa fermeture. Le
+        // minuteur fait foi, la promesse le devance quand elle fonctionne, et
+        // le jeton empêche un ancien cycle de conclure à la place du nouveau.
+        const mien = anim;
+        timer = setTimeout(() => conclure(mien, opening), ms + 30);
+        if (anim.finished) anim.finished.then(() => conclure(mien, opening)).catch(() => {});
+      });
+    });
+  })();
+</script>
+</BaseLayout>

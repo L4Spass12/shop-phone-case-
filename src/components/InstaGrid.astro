@@ -9,6 +9,14 @@
  */
 import siteConfig from '../../site.config.mjs';
 import { smallerVariant } from '../lib/image-variants';
+import { localeFromPath } from '../lib/i18n';
+
+const lang = localeFromPath(Astro.url.pathname);
+const L = {
+  fr: { section: 'Photos Instagram', see: (n: number) => `Voir sur Instagram (photo ${n})` },
+  en: { section: 'Instagram photos', see: (n: number) => `View on Instagram (photo ${n})` },
+  de: { section: 'Instagram-Fotos', see: (n: number) => `Auf Instagram ansehen (Foto ${n})` },
+}[lang] ?? { section: 'Photos Instagram', see: (n: number) => `Voir sur Instagram (photo ${n})` };
 
 interface Props {
   handle?: string;
@@ -31,7 +39,7 @@ const photos = [
 ];
 ---
 
-<section class="insta below-fold-defer" aria-label="Photos Instagram">
+<section class="insta below-fold-defer" aria-label={L.section}>
   <div class="insta-head">
     <a class="insta-handle" href={igUrl} target="_blank" rel="noopener noreferrer">
       <span class="insta-badge" aria-hidden="true">
@@ -52,7 +60,7 @@ const photos = [
         href={igUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Voir sur Instagram (photo ${i + 1})`}
+        aria-label={L.see(i + 1)}
       >
         {/* Les tuiles font 190 px au plus large : on sert la variante 400w
             (environ 16 Ko) plutôt que l'original en 800x800 (environ 40 Ko).
