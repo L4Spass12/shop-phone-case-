@@ -74,7 +74,7 @@ const TEXTS = {
       importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
       pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
       emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
-      edit: 'Éditer', dup: 'Dupliquer', back: 'Reculer', front: 'Avancer', del: 'Supprimer',
+      edit: 'Éditer', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
       printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
       printMode: 'Mode d’impression',
       flat: 'À plat', flatDesc: 'L’encre affleure la coque. Surface lisse, rendu net et couleurs franches.',
@@ -146,7 +146,7 @@ const TEXTS = {
       importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
       pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
       emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
-      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'Nach hinten', front: 'Nach vorne', del: 'Löschen',
+      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
       printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
       printMode: 'Druckart',
       flat: 'Flach', flatDesc: 'Die Tinte schließt bündig mit der Hülle ab. Glatte Oberfläche, klares Ergebnis und kräftige Farben.',
@@ -322,15 +322,21 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       <!-- Barre d'actions : ancrée au plan de travail et non à la coque, qui
            devient trop étroite quand un panneau est ouvert en mobile. -->
       <div class="ctx" data-ctx hidden>
-          <button type="button" data-act="edit" hidden>{U.edit}</button>
+          <button type="button" data-act="edit" hidden aria-label={U.edit} title={U.edit}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+          </button>
           <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
           </button>
-          <button type="button" data-act="back" aria-label={U.back} title={U.back}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
+          {/* Superposition : deux calques qui se chevauchent, l'élément choisi
+              est le carré PLEIN. Devant l'autre = premier plan, derrière =
+              arrière-plan. Des flèches haut/bas se lisaient comme un
+              déplacement sur la coque. */}
           <button type="button" data-act="front" aria-label={U.front} title={U.front}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 15 6-6 6 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2"/><rect x="9" y="9" width="12" height="12" rx="2" fill="currentColor"/></svg>
+          </button>
+          <button type="button" data-act="back" aria-label={U.back} title={U.back}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2" fill="currentColor"/><rect x="9" y="9" width="12" height="12" rx="2" fill="rgb(24,24,27)"/></svg>
           </button>
           <button type="button" data-act="del" class="ctx-del" aria-label={U.del} title={U.del}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
@@ -1142,6 +1148,16 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .ctx button svg { width: 18px; height: 18px; }
   .ctx button:hover { background: rgba(255,255,255,.15); }
   .ctx .ctx-del:hover { background: #e11d48; }
+  /* Mobile et tablette : colonne verticale au bord droit du plan de travail.
+     En bas, la barre recouvrait le bas de la coque, là où l'on travaille. */
+  @media (max-width: 1023px) {
+    .ctx {
+      left: auto; right: 8px; bottom: auto; top: 50%;
+      transform: translateY(-50%);
+      flex-direction: column;
+    }
+    .ctx button { min-width: 40px; height: 40px; padding: 0; }
+  }
 
   .toast {
     position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom)); transform: translateX(-50%);
