@@ -328,15 +328,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
           </button>
-          {/* Superposition : deux calques qui se chevauchent, l'élément choisi
-              est le carré PLEIN. Devant l'autre = premier plan, derrière =
-              arrière-plan. Des flèches haut/bas se lisaient comme un
-              déplacement sur la coque. */}
+          {/* Superposition, icônes à la manière de Canva : un calque vu en
+              perspective (losange) et une flèche qui en sort vers le haut
+              (avancer) ou vers le bas (reculer). */}
           <button type="button" data-act="front" aria-label={U.front} title={U.front}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2"/><rect x="9" y="9" width="12" height="12" rx="2" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13.2 4 15.5l8 4 8-4-5-2.3"/><path d="M12 15.5V3.5M8.5 7 12 3.5 15.5 7"/></svg>
           </button>
           <button type="button" data-act="back" aria-label={U.back} title={U.back}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2" fill="currentColor"/><rect x="9" y="9" width="12" height="12" rx="2" fill="rgb(24,24,27)"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8-4 8 4-8 4z"/><path d="M12 12.5v8M8.5 17 12 20.5 15.5 17"/></svg>
           </button>
           <button type="button" data-act="del" class="ctx-del" aria-label={U.del} title={U.del}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
