@@ -16,5 +16,5 @@ Mit **Relief** spürst du jedes Steinchen unter den Fingern, wie bei einem echte
 ## Eigenschaften
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
-- Relief-Finish (Struktur)
+- Flaches Finish (glatte Oberfläche) oder Relief (Struktur)
 - Erhältlich für iPhone 13 bis iPhone 17 Pro Max
