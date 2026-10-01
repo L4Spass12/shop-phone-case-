@@ -128,6 +128,9 @@ const products = defineCollection({
     }).optional(),
     image: z.string(),
     imageAlt: z.string().optional(),
+    // Photo du rendu À PLAT, quand `image` montre le relief : la galerie y
+    // défile quand le client choisit le rendu à plat.
+    flatImage: z.string().optional(),
     gallery: z.array(z.string()).default([]),
     // Plusieurs catégories possibles (ex. gaming + manga-anime)
     categories: z.array(z.string()).default([]),

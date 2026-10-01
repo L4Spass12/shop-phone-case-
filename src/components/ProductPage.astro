@@ -39,7 +39,7 @@ const slug = parseEntrySlug(product.slug).slug;
 // Textes : la traduction si elle existe, sinon le français.
 const { Content } = await (translation ?? product).render();
 const {
-  price, compareAtPrice, priceRange, image, gallery,
+  price, compareAtPrice, priceRange, image, flatImage, gallery,
   categories, stock, sku, attributes, variations,
 } = product.data;
 const name = translation?.data.name ?? product.data.name;
@@ -291,9 +291,12 @@ const pickModelLabel = t('model.placeholder', lang);
         // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
         // Les images de variations ne sont PAS ajoutées (design épuré).
         // Au changement de variante, le slide principal sera swappé directement via JS.
-        const slides = Array.from(new Set([image, ...(gallery || [])]));
+        // Visuel du rendu à plat juste après le principal (le relief) : le
+        // sélecteur d'impression y fait défiler la galerie quand on le choisit.
+        const slides = Array.from(new Set([image, ...(flatImage ? [flatImage] : []), ...(gallery || [])]));
+        const flatSlide = flatImage ? slides.indexOf(flatImage) : -1;
         return (
-        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length}>
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length} data-flat-slide={flatSlide}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
           {/* Vignettes en colonne à gauche de l'image, comme la plupart
@@ -1074,6 +1077,15 @@ const pickModelLabel = t('model.placeholder', lang);
         if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
       });
       root.setAttribute('tabindex', '0');
+
+      // Rendu d'impression : la galerie montre la photo du mode choisi, quand
+      // la fiche en a une pour le rendu à plat.
+      const flatSlide = parseInt(root.dataset.flatSlide || '-1', 10);
+      if (flatSlide > 0) {
+        document.addEventListener('vareska:print-mode', (e) => {
+          goTo(e.detail && e.detail.mode === 'flat' ? flatSlide : 0);
+        });
+      }
 
       paint();
       // API exposée pour le sélecteur de variantes

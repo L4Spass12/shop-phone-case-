@@ -281,6 +281,8 @@ const basePriceCents = Math.round(price * 100);
           o.setAttribute('aria-checked', String(on));
         });
         sync();
+        // La fiche produit affiche alors la photo du rendu choisi.
+        document.dispatchEvent(new CustomEvent('vareska:print-mode', { detail: { mode } }));
       });
     });
 
