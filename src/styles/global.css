@@ -2243,3 +2243,10 @@ html[data-theme='sunfreaks'] footer input {
 #cookie-banner { margin-bottom: var(--safe-bottom); }
 #toc-sheet { padding-bottom: var(--safe-bottom); }
 [aria-controls="toc-sheet"] { margin-bottom: var(--safe-bottom); }
+
+/* Photos produit sur fond BLANC (packshots) : le blanc prend la couleur du
+   fond qui les porte (cartes crème, galerie grise), comme les visuels
+   détourés. « multiply » laisse le blanc transparent et ne change rien au
+   reste de la photo. Le site n'a pas de thème sombre, où ce mode assombrirait
+   l'image. */
+img[src*="/images/products/"] { mix-blend-mode: multiply; }
