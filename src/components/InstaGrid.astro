@@ -136,7 +136,8 @@ const photos = [
     width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform .35s ease;
   }
-  .insta-tile:hover img { transform: scale(1.06); }
+  /* Souris seulement : sur tactile, le zoom restait collé après un toucher. */
+  @media (hover: hover) { .insta-tile:hover img { transform: scale(1.06); } }
   .insta-tile-ic {
     position: absolute; inset: 0; display: grid; place-items: center;
     color: #fff; background: rgba(0,0,0,.28);

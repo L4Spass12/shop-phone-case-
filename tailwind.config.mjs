@@ -2,6 +2,10 @@ import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  // Les effets « hover: » (zoom des photos produit, etc.) ne s'appliquent
+  // qu'aux appareils qui survolent vraiment (souris). Sur tactile, un toucher
+  // laissait la carte agrandie, ce qui gênait le défilement horizontal.
+  future: { hoverOnlyWhenSupported: true },
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
