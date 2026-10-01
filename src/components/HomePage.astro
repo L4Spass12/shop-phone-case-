@@ -11,6 +11,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InstaGrid from './InstaGrid.astro';
 import siteConfig from '../../site.config.mjs';
+import { listPrice } from '../lib/printModes';
 import { getCollection } from 'astro:content';
 import { inlineMd } from '../lib/inline-md';
 import { parseEntrySlug, localePrefix, localeMeta, type Locale } from '../lib/i18n';
@@ -160,8 +161,8 @@ const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
 
 const displayPrice = (d: any) =>
   d.priceRange && d.priceRange.min !== d.priceRange.max
-    ? `${T.from} ${formatPrice(d.priceRange.min)}`
-    : formatPrice(d.price);
+    ? `${T.from} ${formatPrice(listPrice(d))}`
+    : formatPrice(listPrice(d));
 
 // ─── Schemas JSON-LD ──────────────────────────────────────────────────────
 const SITE_URL = siteConfig.url;

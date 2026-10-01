@@ -4,6 +4,7 @@ import Icon from '../../components/Icon.astro';
 import InfiniteReveal from '../../components/InfiniteReveal.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../../site.config.mjs';
+import { listPrice } from '../../lib/printModes';
 import { responsiveSrcset } from '../../lib/responsive';
 import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../lib/i18n';
 import { localizedProducts } from '../../lib/products';
@@ -32,8 +33,8 @@ const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
 
 const displayPrice = (d: any) =>
   d.priceRange && d.priceRange.min !== d.priceRange.max
-    ? `${t('shop.from', lang)} ${formatPrice(d.priceRange.min)}`
-    : formatPrice(d.price);
+    ? `${t('shop.from', lang)} ${formatPrice(listPrice(d))}`
+    : formatPrice(listPrice(d));
 
 const SITE_URL = siteConfig.url;
 const collectionSchema = {

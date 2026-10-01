@@ -2688,7 +2688,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             // lignes, pas une quantité 2 au mauvais prix.
             id: sku + '::' + up.id,
             name: I.itemName[mode === 'relief' ? 'relief' : 'flat']
-                  + ' — ' + (state.model || m),
+                  + ' · ' + (state.model || m),
             price: cents,
             image: up.previewUrl,
             // Ce que l'atelier lit pour savoir quoi imprimer, et comment.

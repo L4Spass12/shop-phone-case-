@@ -16,5 +16,5 @@ With the **raised** finish, you can feel every tile under your fingers, just lik
 ## Specifications
 
 - Printed one by one in our workshop in France
-- Flat finish (smooth surface) or raised finish (texture)
+- Raised finish (texture)
 - Available for iPhone 13 to iPhone 17 Pro Max

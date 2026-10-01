@@ -30,8 +30,22 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
 
+type Item = { key: string; label: string; price: number; image: string | null };
+const withSlug = (slug: string, list: Item[]) => list.map((it) => ({ ...it, slug }));
+
 export const GET: APIRoute = async () => {
   const products = await getCollection('products');
+
+  // Rendus d'impression proposés, lus sur la fiche FRANÇAISE (référence) :
+  // une traduction n'en déclare pas. Une fiche « relief uniquement » ne doit
+  // pas exposer sa clé à plat, sinon le plat resterait achetable.
+  const frBySlug = new Map(products.map((p) => [p.slug, p]));
+  const modesOf = (slug: string) => {
+    const fr = frBySlug.get(slug.replace(/^(en|de)\//, '')) ?? frBySlug.get(slug);
+    return fr?.data.printModes ?? ['flat', 'relief'];
+  };
+  const flatImageOf = (slug: string) =>
+    (frBySlug.get(slug.replace(/^(en|de)\//, '')) ?? frBySlug.get(slug))?.data.flatImage;
 
   // TOUTES les langues sont énumérées. La clé d'une traduction n'est pas celle
   // du français : une fiche anglaise envoie « en/mon-produit », puisqu'elle
@@ -39,8 +53,8 @@ export const GET: APIRoute = async () => {
   // traduite porte son préfixe de langue. Les filtrer rendait donc tout achat
   // en anglais ou en allemand impossible, le serveur refusant une clé absente
   // d'ici. Les prix, eux, sont identiques d'une langue à l'autre.
-  const items = products
-    .flatMap((p) => {
+  const catalogue = products
+    .flatMap((p) => withSlug(p.slug, (() => {
       const { name, image, variations, attributes } = p.data;
       // Les produits de test restent achetables (cf. en-tête) mais se
       // reconnaissent au premier coup d'œil dans le menu du back-office.
@@ -76,7 +90,7 @@ export const GET: APIRoute = async () => {
           image: v.image ?? image ?? null,
         })),
       ];
-    });
+    })()));
 
   // RELIEF : chaque article du catalogue existe en deux rendus, et le rendu
   // décide du prix. Deux clés distinctes plutôt qu'un supplément déclaré côté
@@ -84,14 +98,19 @@ export const GET: APIRoute = async () => {
   // prix faisant foi, donc un panier réécrit en « relief » au tarif du plat ne
   // peut pas passer. La fiche produit fabrique la même clé (cf.
   // PrintModeSelector.astro : clé de base suffixée « -relief »).
+  // Seuls les rendus proposés par la fiche (printModes) ont leur clé, et
+  // chaque clé porte la photo de SON rendu quand la fiche en a une à plat.
   const reliefSurcharge = siteConfig.shop?.catalogueReliefSurchargeCents ?? 0;
-  if (reliefSurcharge > 0) {
-    for (const it of [...items]) {
+  const items: Array<{ key: string; label: string; price: number; image: string | null }> = [];
+  for (const { slug, ...it } of catalogue) {
+    const modes = modesOf(slug);
+    if (modes.includes('flat')) items.push({ ...it, image: flatImageOf(slug) ?? it.image });
+    if (modes.includes('relief')) {
       items.push({
+        ...it,
         key: `${it.key}-relief`,
-        label: `${it.label} — en relief`,
+        label: `${it.label} · en relief`,
         price: it.price + reliefSurcharge,
-        image: it.image,
       });
     }
   }

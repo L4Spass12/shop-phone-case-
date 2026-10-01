@@ -131,6 +131,9 @@ const products = defineCollection({
     // Photo du rendu À PLAT, quand `image` montre le relief : la galerie y
     // défile quand le client choisit le rendu à plat.
     flatImage: z.string().optional(),
+    // Rendus d'impression proposés. Une fiche sans photo à plat peut se
+    // limiter au relief : le client ne peut alors pas commander le plat.
+    printModes: z.array(z.enum(['flat', 'relief'])).min(1).default(['flat', 'relief']),
     gallery: z.array(z.string()).default([]),
     // Plusieurs catégories possibles (ex. gaming + manga-anime)
     categories: z.array(z.string()).default([]),

@@ -14,6 +14,7 @@ import Icon from './Icon.astro';
 import FabricationSection from './FabricationSection.astro';
 import ModelPicker from './ModelPicker.astro';
 import PrintModeSelector from './PrintModeSelector.astro';
+import { defaultPrintMode, listPrice } from '../lib/printModes';
 import UgcVideos from './UgcVideos.astro';
 import InstaGrid from './InstaGrid.astro';
 import DeliveryWindow from './DeliveryWindow.astro';
@@ -39,7 +40,7 @@ const slug = parseEntrySlug(product.slug).slug;
 // Textes : la traduction si elle existe, sinon le français.
 const { Content } = await (translation ?? product).render();
 const {
-  price, compareAtPrice, priceRange, image, flatImage, gallery,
+  price, compareAtPrice, priceRange, image, flatImage, printModes, gallery,
   categories, stock, sku, attributes, variations,
 } = product.data;
 const name = translation?.data.name ?? product.data.name;
@@ -197,7 +198,8 @@ const priceStart = priceRange?.min ?? price;
 // La configuration de BASE (data-base-item-*) reste celle à plat : c'est
 // d'elle que le sélecteur dérive les deux modes.
 const reliefSurcharge = (siteConfig.shop?.catalogueReliefSurchargeCents ?? 0) / 100;
-const reliefDefault = reliefSurcharge > 0;
+const printMode = defaultPrintMode(printModes);
+const reliefDefault = printMode === 'relief';
 const modeKeySuffix = reliefDefault ? '-relief' : '';
 const modeExtra = reliefDefault ? reliefSurcharge : 0;
 const shownPrice = price + modeExtra;
@@ -291,12 +293,19 @@ const pickModelLabel = t('model.placeholder', lang);
         // Galerie épurée : UNIQUEMENT image principale + gallery définie dans le frontmatter.
         // Les images de variations ne sont PAS ajoutées (design épuré).
         // Au changement de variante, le slide principal sera swappé directement via JS.
-        // Visuel du rendu à plat juste après le principal (le relief) : le
-        // sélecteur d'impression y fait défiler la galerie quand on le choisit.
-        const slides = Array.from(new Set([image, ...(flatImage ? [flatImage] : []), ...(gallery || [])]));
-        const flatSlide = flatImage ? slides.indexOf(flatImage) : -1;
+        // Avec une photo à plat (`flatImage`), chaque rendu a SES photos :
+        // `image` montre le relief, `flatImage` le plat, et la galerie ne
+        // montre que celles du rendu choisi. Les autres (`gallery`) valent
+        // pour les deux. Une photo masquée n'est pas téléchargée (lazy +
+        // display:none) tant qu'on ne choisit pas son rendu.
+        const allSlides = Array.from(new Set([image, ...(flatImage ? [flatImage] : []), ...(gallery || [])]));
+        const modeOf = (src) => !flatImage ? 'all' : src === image ? 'relief' : src === flatImage ? 'flat' : 'all';
+        const shown = (src) => modeOf(src) === 'all' || modeOf(src) === printMode;
+        // Ordre : la photo du rendu choisi d'entrée en premier (c'est le LCP).
+        const slides = [...allSlides.filter(shown), ...allSlides.filter(s => !shown(s))];
+        const visibleCount = slides.filter(shown).length;
         return (
-        <div class="product-gallery min-w-0" data-gallery data-slide-count={slides.length} data-flat-slide={flatSlide}>
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={visibleCount}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
           {/* Vignettes en colonne à gauche de l'image, comme la plupart
@@ -305,12 +314,14 @@ const pickModelLabel = t('model.placeholder', lang);
               balayage natif. */}
           <div class="pdp-media md:flex md:items-start md:gap-3">
 
-            {slides.length > 1 && (
-              <div class="hidden md:flex md:flex-col gap-2 w-[76px] shrink-0">
+            {allSlides.length > 1 && (
+              <div class={`hidden md:flex-col gap-2 w-[76px] shrink-0 ${visibleCount > 1 ? 'md:flex' : ''}`} data-gallery-thumbs>
                 {slides.slice(0, 10).map((g, i) => (
                   <button
                     type="button"
                     data-gallery-thumb={i}
+                    data-mode={modeOf(g)}
+                    hidden={!shown(g)}
                     class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
                     aria-label={L.viewImage(i + 1)}
                   >
@@ -325,7 +336,7 @@ const pickModelLabel = t('model.placeholder', lang);
                 data-gallery-track
               >
                 {slides.map((src, i) => (
-                  <div class="flex-none w-full h-full snap-start snap-always">
+                  <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(src)} hidden={!shown(src)}>
                     <img
                       data-gallery-slide={i}
                       src={src}
@@ -351,7 +362,7 @@ const pickModelLabel = t('model.placeholder', lang);
               </div>
 
               <!-- Flèches desktop uniquement (apparaissent au hover) -->
-              {slides.length > 1 && (
+              {allSlides.length > 1 && (
                 <>
                   <button
                     type="button"
@@ -375,15 +386,18 @@ const pickModelLabel = t('model.placeholder', lang);
               <!-- Dots : MOBILE uniquement (le desktop a flèches + thumbs).
                    Sur un chip translucide pour rester visibles quelle que soit
                    l'image dessous. -->
-              {slides.length > 1 && (
+              {allSlides.length > 1 && (
                 <div
+                  hidden={visibleCount < 2}
                   class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/25 backdrop-blur-sm z-10"
                   data-gallery-dots
                 >
-                  {slides.map((_, i) => (
+                  {slides.map((g, i) => (
                     <button
                       type="button"
                       data-gallery-dot={i}
+                      data-mode={modeOf(g)}
+                      hidden={!shown(g)}
                       aria-label={L.viewImage(i + 1)}
                       class="gallery-dot"
                     ></button>
@@ -634,7 +648,14 @@ const pickModelLabel = t('model.placeholder', lang);
           </div>
         )}
 
-        <PrintModeSelector price={price} lang={lang} />
+        <PrintModeSelector
+          price={price}
+          lang={lang}
+          modes={printModes}
+          defaultMode={printMode}
+          reliefImage={flatImage ? imageUrl : undefined}
+          flatImage={flatImage ? new URL(flatImage, SITE_URL).toString() : undefined}
+        />
 
         <!-- Bouton d'achat (Atelier) : style piloté par `atcVariant` du produit :
              'gradient' (défaut, .btn-atc), 'ink' (le même en noir) ou 'blob'
@@ -936,8 +957,8 @@ const pickModelLabel = t('model.placeholder', lang);
               <div class="flex items-baseline gap-2 text-xs">
                 <span class="text-cream font-medium">
                   {p.data.priceRange && p.data.priceRange.min !== p.data.priceRange.max
-                    ? `${L.from} ${formatPrice(p.data.priceRange.min)}`
-                    : formatPrice(p.data.price)}
+                    ? `${L.from} ${formatPrice(listPrice(p.data))}`
+                    : formatPrice(listPrice(p.data))}
                 </span>
                 {p.data.compareAtPrice && (
                   <span class="text-n-500 line-through font-light">{formatPrice(p.data.compareAtPrice)}</span>
@@ -1000,6 +1021,10 @@ const pickModelLabel = t('model.placeholder', lang);
         .product-toggle summary::-webkit-details-marker { display: none; }
         .product-toggle summary::marker { content: ''; }
 
+        /* Photos de l'autre rendu d'impression : l'attribut `hidden` doit
+           l'emporter sur les classes d'affichage (.flex…) de Tailwind. */
+        .product-gallery [hidden] { display: none !important; }
+
         /* ─── content-visibility: auto ─────────────────────────────────
            Le navigateur skip le rendu des sections hors viewport pour
            économiser la layout/paint au load. Fix décisif pour Lighthouse
@@ -1034,11 +1059,16 @@ const pickModelLabel = t('model.placeholder', lang);
       const root = document.querySelector('[data-gallery]');
       if (!root) return null;
       const track  = root.querySelector('[data-gallery-track]');
-      const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
-      const dots   = Array.from(root.querySelectorAll('[data-gallery-dot]'));
+      const allThumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+      const allDots   = Array.from(root.querySelectorAll('[data-gallery-dot]'));
+      const allSlides = track ? Array.from(track.children) : [];
       const prev   = root.querySelector('[data-gallery-prev]');
       const next   = root.querySelector('[data-gallery-next]');
-      const count  = parseInt(root.dataset.slideCount || '0', 10);
+      // Seules les photos du rendu d'impression choisi sont visibles : les
+      // index (vignettes, points, défilement) portent sur celles-là.
+      let thumbs = allThumbs.filter(t => !t.hidden);
+      let dots   = allDots.filter(d => !d.hidden);
+      let count  = allSlides.filter(s => !s.hidden).length;
       let current  = 0;
 
       const paint = () => {
@@ -1070,22 +1100,37 @@ const pickModelLabel = t('model.placeholder', lang);
 
       prev?.addEventListener('click', () => goTo(current - 1));
       next?.addEventListener('click', () => goTo(current + 1));
-      thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
-      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+      allThumbs.forEach(t => t.addEventListener('click', () => goTo(thumbs.indexOf(t))));
+      allDots.forEach(d => d.addEventListener('click', () => goTo(dots.indexOf(d))));
       root.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
         if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
       });
       root.setAttribute('tabindex', '0');
 
-      // Rendu d'impression : la galerie montre la photo du mode choisi, quand
-      // la fiche en a une pour le rendu à plat.
-      const flatSlide = parseInt(root.dataset.flatSlide || '-1', 10);
-      if (flatSlide > 0) {
-        document.addEventListener('vareska:print-mode', (e) => {
-          goTo(e.detail && e.detail.mode === 'flat' ? flatSlide : 0);
+      // Rendu d'impression : on ne montre que les photos du rendu choisi.
+      // Celles de l'autre rendu disparaissent (slides, vignettes, points),
+      // et la galerie repart de la première photo.
+      document.addEventListener('vareska:print-mode', (e) => {
+        const mode = e.detail && e.detail.mode;
+        if (!mode || !allSlides.some(s => s.dataset.mode !== 'all')) return;
+        const keep = (el) => el.dataset.mode === 'all' || el.dataset.mode === mode;
+        // Les photos du rendu choisi passent devant, dans leur ordre d'origine.
+        const order = (list) => [...list.filter(keep), ...list.filter(el => !keep(el))];
+        [allSlides, allThumbs, allDots].forEach(list => {
+          order(list).forEach(el => { el.hidden = !keep(el); el.parentElement.appendChild(el); });
         });
-      }
+        thumbs = order(allThumbs).filter(keep);
+        dots   = order(allDots).filter(keep);
+        count  = allSlides.filter(keep).length;
+        const thumbCol = root.querySelector('[data-gallery-thumbs]');
+        thumbCol?.classList.toggle('md:flex', count > 1);
+        root.querySelector('[data-gallery-dots]')?.toggleAttribute('hidden', count < 2);
+        // La photo principale (alt, LCP) suit : la première visible.
+        current = 0;
+        if (track) track.scrollLeft = 0;
+        paint();
+      });
 
       paint();
       // API exposée pour le sélecteur de variantes

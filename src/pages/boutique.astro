@@ -4,6 +4,7 @@ import Icon from '../components/Icon.astro';
 import InfiniteReveal from '../components/InfiniteReveal.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
+import { listPrice } from '../lib/printModes';
 import { responsiveSrcset } from '../lib/responsive';
 import { parseEntrySlug } from '../lib/i18n';
 
@@ -25,8 +26,8 @@ const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
 
 const displayPrice = (d: any) =>
   d.priceRange && d.priceRange.min !== d.priceRange.max
-    ? `Dès ${formatPrice(d.priceRange.min)}`
-    : formatPrice(d.price);
+    ? `Dès ${formatPrice(listPrice(d))}`
+    : formatPrice(listPrice(d));
 
 // Transforme slug en label lisible : "categorie-exemple" → "Categorie exemple"
 const catLabel = (slug: string) =>

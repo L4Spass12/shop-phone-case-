@@ -21,8 +21,19 @@ interface Props {
   price: number;
   lang?: Locale;
   class?: string;
+  /** Rendus proposés par la fiche (les deux par défaut). */
+  modes?: Array<'flat' | 'relief'>;
+  /** Rendu coché d'entrée (cf. defaultPrintMode dans lib/printModes). */
+  defaultMode?: 'flat' | 'relief';
+  /** Photos (URL absolues) envoyées au panier selon le rendu, quand la fiche
+   *  a une photo par rendu. */
+  reliefImage?: string;
+  flatImage?: string;
 }
-const { price, lang = 'fr', class: className = '' } = Astro.props;
+const {
+  price, lang = 'fr', class: className = '',
+  modes = ['flat', 'relief'], reliefImage, flatImage,
+} = Astro.props;
 
 // Le relief est le rendu mis en avant : c'est le plus valorisé, et la fiche
 // l'affiche donc coché d'entrée. La carte cochée et les prix rendus par le
@@ -30,7 +41,8 @@ const { price, lang = 'fr', class: className = '' } = Astro.props;
 // contredit le choix le temps que le script démarre.
 
 const surcharge = siteConfig.shop.catalogueReliefSurchargeCents ?? 0;
-const defaultMode: 'flat' | 'relief' = surcharge > 0 ? 'relief' : 'flat';
+const defaultMode: 'flat' | 'relief' =
+  Astro.props.defaultMode ?? (surcharge > 0 ? 'relief' : 'flat');
 const currency = siteConfig.shop.currency;
 const fmt = (cents: number) =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(cents / 100);
@@ -44,10 +56,13 @@ const basePriceCents = Math.round(price * 100);
   data-surcharge={String(surcharge)}
   data-default-mode={defaultMode}
   data-currency={currency}
+  data-image-relief={reliefImage}
+  data-image-flat={flatImage}
 >
   <span class="pm-label">{t('print.label', lang)}</span>
 
   <div class="pm-rows" role="radiogroup" aria-label={t('print.label', lang)}>
+    {modes.includes('flat') && (
     <button
       type="button"
       class:list={['pm-opt', defaultMode === 'flat' && 'is-on']}
@@ -79,7 +94,9 @@ const basePriceCents = Math.round(price * 100);
         <span class="pm-radio" aria-hidden="true"></span>
       </span>
     </button>
+    )}
 
+    {modes.includes('relief') && (
     <button
       type="button"
       class:list={['pm-opt', defaultMode === 'relief' && 'is-on']}
@@ -107,6 +124,7 @@ const basePriceCents = Math.round(price * 100);
         <span class="pm-radio" aria-hidden="true"></span>
       </span>
     </button>
+    )}
   </div>
 </div>
 
@@ -241,6 +259,10 @@ const basePriceCents = Math.round(price * 100);
       new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(cents / 100);
 
     const opts = Array.from(root.querySelectorAll<HTMLButtonElement>('.pm-opt'));
+    const images: Record<string, string | undefined> = {
+      relief: root.dataset.imageRelief,
+      flat: root.dataset.imageFlat,
+    };
     let mode: 'flat' | 'relief' = root.dataset.defaultMode === 'flat' ? 'flat' : 'relief';
 
     function sync() {
@@ -257,7 +279,12 @@ const basePriceCents = Math.round(price * 100);
         const price = relief ? basePrice + surcharge : basePrice;
         btn.dataset.itemId = relief ? baseId + '-relief' : baseId;
         btn.dataset.itemPrice = String(price);
-        if (baseName) btn.dataset.itemName = modeName ? baseName + ' — ' + modeName : baseName;
+        // Le rendu fait partie du nom de l'article : il s'affiche au panier,
+        // en caisse et sur la commande. Le sélecteur de modèle ajoute
+        // ensuite le téléphone derrière (« · iPhone 16 »).
+        if (baseName) btn.dataset.itemName = modeName ? baseName + ' · ' + modeName : baseName;
+        // Et la vignette du panier montre la coque dans ce rendu.
+        if (images[mode]) btn.dataset.itemImage = images[mode];
         if (shownPrice === null) shownPrice = price;
       });
 

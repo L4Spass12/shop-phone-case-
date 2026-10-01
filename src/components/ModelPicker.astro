@@ -532,9 +532,17 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           }
 
           var base = btn.dataset.itemName || '';
-          // Idempotent : un second clic ne doit pas empiler les suffixes.
-          base = base.replace(/ — [^—]*$/, '');
-          btn.dataset.itemName = base + ' — ' + chosen;
+          // Idempotent : un second clic ne doit pas empiler les suffixes. On
+          // retire exactement le suffixe posé la fois précédente, et rien
+          // d'autre : le rendu d'impression (« · Design en relief ») qui le
+          // précède doit rester dans le nom.
+          var prevSuffix = btn.dataset.itemModelSuffix || '';
+          if (prevSuffix && base.slice(-prevSuffix.length) === prevSuffix) {
+            base = base.slice(0, -prevSuffix.length);
+          }
+          var suffix = ' · ' + chosen;
+          btn.dataset.itemName = base + suffix;
+          btn.dataset.itemModelSuffix = suffix;
 
           // La clé d'article reçoit aussi le modèle (« <id>::<modèle> ») :
           // c'est LA clé que le back-office associe au SKU AliExpress pour la
