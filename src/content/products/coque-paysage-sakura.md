@@ -7,9 +7,9 @@ imageAlt: "Coque iPhone illustrée d'un paysage d'estampe en relief : nuages ros
 flatImage: "/images/products/coque-paysage-sakura-plat.webp"
 videos:
   # Montage des rushs du 02/10/2026 (stabilisé, 15 s, sans son).
-  - src: "/videos/products/coque-paysage-sakura-relief-montage.mp4"
-    poster: "/images/video-posters/coque-paysage-sakura-relief-montage-full.webp"
-    thumb: "/images/video-posters/coque-paysage-sakura-relief-montage.webp"
+  - src: "/videos/products/coque-paysage-sakura-relief-montage-v2.mp4"
+    poster: "/images/video-posters/coque-paysage-sakura-relief-montage-v2-full.webp"
+    thumb: "/images/video-posters/coque-paysage-sakura-relief-montage-v2.webp"
     mode: "relief"
 categories: ["categorie-exemple"]
 shortDescription: "Un paysage d'estampe aux nuages roses, montagnes bleues et cerisiers en fleurs, rehaussé de touches dorées."
