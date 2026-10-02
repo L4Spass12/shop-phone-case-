@@ -116,13 +116,14 @@ const addToCartLabel = t('shop.addToCart', lang);
 // 768, 1024, 1280 et 1600 px. Le navigateur s'en sert pour choisir le fichier
 // à télécharger : trop grand, il gaspille ; trop petit, l'image est floue.
 //
-// La colonne de vignettes n'existe qu'à partir de DEUX visuels. Sans elle, la
-// photo récupère ses 88 px (vignette + gouttière) et devient plus large, d'où
-// les deux jeux de valeurs.
-const nbVisuels = new Set([image, ...(gallery || [])]).size;
-const taillesVisuel = nbVisuels > 1
-  ? '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 142px), (max-width: 1279px) calc(50vw - 147px), 500px'
-  : '(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw - 54px), (max-width: 1279px) calc(50vw - 59px), 584px';
+// Les vignettes sont posées SUR la photo : sa largeur ne dépend plus de leur
+// présence, un seul jeu de valeurs.
+//
+// Mobile : on annonce 66vw au lieu de 100vw. Sur un iPhone (écran x3), 100vw
+// réclamait le fichier 1200 px ; 66vw retient le 800 px, toujours net à
+// l'écran (densité x2) et deux fois plus léger à décoder au démarrage, quand
+// le visiteur commence déjà à faire défiler (à-coup mesuré sur Safari iOS).
+const taillesVisuel = '(max-width: 767px) 66vw, (max-width: 1023px) calc(100vw - 54px), (max-width: 1279px) calc(50vw - 59px), 584px';
 
 const allProducts = await getCollection('products');
 
@@ -1197,16 +1198,11 @@ const pickModelLabel = t('model.placeholder', lang);
            l'emporter sur les classes d'affichage (.flex…) de Tailwind. */
         .product-gallery [hidden] { display: none !important; }
 
-        /* ─── content-visibility: auto ─────────────────────────────────
-           Le navigateur skip le rendu des sections hors viewport pour
-           économiser la layout/paint au load. Fix décisif pour Lighthouse
-           qui n'a plus à attendre que TOUTE la page soit peinte avant de
-           committer le LCP. `contain-intrinsic-size` réserve l'espace
-           pour éviter toute surprise de scroll. */
-        .below-fold-defer {
-          content-visibility: auto;
-          contain-intrinsic-size: auto 800px;
-        }
+        /* Plus de `content-visibility: auto` sur les sections du bas : Safari
+           iOS les calculait EN PLEIN défilement, d'où un à-coup mesuré en
+           arrivant sur les vidéos (et une hauteur estimée de 800 px qui
+           pouvait faire sauter la page). Elles sont calculées au chargement,
+           comme le reste. */
 
       </style>
     </section>

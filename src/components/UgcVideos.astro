@@ -162,13 +162,25 @@ const clips = [
 
     // Autoplay muet quand la carte est visible ; pause sinon (économe).
     if (!reduce && 'IntersectionObserver' in window) {
+      // Lecture lancée seulement quand le défilement S'ARRÊTE : démarrer
+      // plusieurs vidéos pendant que le doigt fait défiler provoquait un
+      // à-coup (mesuré sur Safari iOS). Les cartes visibles attendent dans
+      // `visibles` et partent 150 ms après le dernier mouvement.
+      const visibles = new Set<HTMLElement>();
+      let calme: number | undefined;
+      const lancer = () => {
+        visibles.forEach((card) => { monter(card)?.play().catch(() => {}); });
+      };
+      const auCalme = () => { clearTimeout(calme); calme = window.setTimeout(lancer, 150); };
+      window.addEventListener('scroll', auCalme, { passive: true });
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
           const card = e.target as HTMLElement;
           if (e.isIntersecting) {
-            const v = monter(card);
-            v?.play().catch(() => {});
+            visibles.add(card);
+            auCalme();
           } else {
+            visibles.delete(card);
             const v = card.querySelector('video') as HTMLVideoElement | null;
             v?.pause();
           }
