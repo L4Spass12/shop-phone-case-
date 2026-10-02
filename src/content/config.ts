@@ -134,6 +134,16 @@ const products = defineCollection({
     // Rendus d'impression proposés. Une fiche sans photo à plat peut se
     // limiter au relief : le client ne peut alors pas commander le plat.
     printModes: z.array(z.enum(['flat', 'relief'])).min(1).default(['flat', 'relief']),
+    // Vidéos de la galerie (après les photos). `mode` les rattache à un rendu
+    // d'impression, comme les photos : une vidéo du relief n'apparaît que
+    // lorsque le relief est choisi. `poster` = image plein format affichée
+    // avant lecture, `thumb` = petite vignette (raccourci mobile, vignettes).
+    videos: z.array(z.object({
+      src: z.string(),
+      poster: z.string(),
+      thumb: z.string().optional(),
+      mode: z.enum(['flat', 'relief', 'all']).default('all'),
+    })).default([]),
     gallery: z.array(z.string()).default([]),
     // Plusieurs catégories possibles (ex. gaming + manga-anime)
     categories: z.array(z.string()).default([]),

@@ -40,7 +40,7 @@ const slug = parseEntrySlug(product.slug).slug;
 // Textes : la traduction si elle existe, sinon le français.
 const { Content } = await (translation ?? product).render();
 const {
-  price, compareAtPrice, priceRange, image, flatImage, printModes, gallery,
+  price, compareAtPrice, priceRange, image, flatImage, printModes, videos, gallery,
   categories, stock, sku, attributes, variations,
 } = product.data;
 const name = translation?.data.name ?? product.data.name;
@@ -50,7 +50,7 @@ const imageAlt = translation?.data.imageAlt ?? product.data.imageAlt;
 // Libellés de la fiche, par langue.
 const L = {
   fr: {
-    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief',
+    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo',
     home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
     prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
     from: 'Dès', fromLower: 'dès', unavailable: 'Indisponible', comboUnavailable: 'Combinaison indisponible',
@@ -70,7 +70,7 @@ const L = {
     seoTail: (p: string) => `Dès ${p}€, livraison sécurisée.`,
   },
   en: {
-    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised',
+    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video',
     home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
     prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
     from: 'From', fromLower: 'from', unavailable: 'Unavailable', comboUnavailable: 'Combination unavailable',
@@ -90,7 +90,7 @@ const L = {
     seoTail: (p: string) => `From €${p}, secure shipping.`,
   },
   de: {
-    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief',
+    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen',
     home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
     prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
     from: 'Ab', fromLower: 'ab', unavailable: 'Nicht verfügbar', comboUnavailable: 'Kombination nicht verfügbar',
@@ -301,12 +301,22 @@ const pickModelLabel = t('model.placeholder', lang);
         // montre que celles du rendu choisi. Les autres (`gallery`) valent
         // pour les deux. Une photo masquée n'est pas téléchargée (lazy +
         // display:none) tant qu'on ne choisit pas son rendu.
-        const allSlides = Array.from(new Set([image, ...(flatImage ? [flatImage] : []), ...(gallery || [])]));
-        const modeOf = (src) => !flatImage ? 'all' : src === image ? 'relief' : src === flatImage ? 'flat' : 'all';
-        const shown = (src) => modeOf(src) === 'all' || modeOf(src) === printMode;
+        const photos = Array.from(new Set([image, ...(flatImage ? [flatImage] : []), ...(gallery || [])]));
+        const photoMode = (src) => !flatImage ? 'all' : src === image ? 'relief' : src === flatImage ? 'flat' : 'all';
+        // Chaque élément de la galerie : une photo, ou une vidéo (après les
+        // photos), chacun rattaché à un rendu d'impression ou à tous.
+        const allSlides = [
+          ...photos.map(src => ({ kind: 'image', src, mode: photoMode(src), thumb: smallerVariant(src, 400), poster: '' })),
+          ...(videos || []).map(v => ({ kind: 'video', src: v.src, mode: v.mode, thumb: v.thumb ?? v.poster, poster: v.poster })),
+        ];
+        const modeOf = (g) => g.mode;
+        const shown = (g) => g.mode === 'all' || g.mode === printMode;
         // Ordre : la photo du rendu choisi d'entrée en premier (c'est le LCP).
-        const slides = [...allSlides.filter(shown), ...allSlides.filter(s => !shown(s))];
+        const slides = [...allSlides.filter(shown), ...allSlides.filter(g => !shown(g))];
         const visibleCount = slides.filter(shown).length;
+        const quickModes = !!flatImage && printModes.includes('flat') && printModes.includes('relief');
+        const quickVideos = slides.filter(g => g.kind === 'video');
+        const hasQuick = quickModes || quickVideos.length > 0;
         return (
         <div class="product-gallery min-w-0" data-gallery data-slide-count={visibleCount}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
@@ -326,24 +336,42 @@ const pickModelLabel = t('model.placeholder', lang);
                     data-mode={modeOf(g)}
                     hidden={!shown(g)}
                     class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
-                    aria-label={L.viewImage(i + 1)}
+                    aria-label={g.kind === 'video' ? L.playVideo : L.viewImage(i + 1)}
                   >
-                    <img src={smallerVariant(g, 400)} alt="" loading="lazy" decoding="async" width="200" height="200" class="w-full h-full object-contain" />
+                    <img src={g.thumb} alt="" loading="lazy" decoding="async" width="200" height="200" class={`w-full h-full ${g.kind === 'video' ? 'object-cover' : 'object-contain'}`} />
+                    {g.kind === 'video' && <span class="gal-play" aria-hidden="true"></span>}
                   </button>
                 ))}
               </div>
             )}
-            <div class:list={['gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0', flatImage && printModes.length > 1 && 'has-pm-quick']}>
+            <div class:list={['gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0', hasQuick && 'has-pm-quick']}>
               <div
                 class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
                 data-gallery-track
               >
-                {slides.map((src, i) => (
-                  <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(src)} hidden={!shown(src)}>
+                {slides.map((g, i) => g.kind === 'video' ? (
+                  <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(g)} data-kind="video" hidden={!shown(g)}>
+                    {/* Aucun octet de vidéo avant qu'on l'affiche : pas de
+                        `src` (posé par le script, depuis data-src) et
+                        preload="none". Seule l'affiche est chargée. */}
+                    <video
+                      data-gallery-slide={i}
+                      data-src={g.src}
+                      poster={g.poster}
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      aria-label={L.playVideo}
+                      class="w-full h-full object-cover"
+                    ></video>
+                  </div>
+                ) : (
+                  <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(g)} hidden={!shown(g)}>
                     <img
                       data-gallery-slide={i}
-                      src={src}
-                      srcset={unsplashSrcset(src)}
+                      src={g.src}
+                      srcset={unsplashSrcset(g.src)}
                       {/* Largeurs MESURÉES dans la mise en page actuelle, pas
                           estimées : 100vw en mobile, puis la colonne moins les
                           vignettes, puis la moitié de la grille. L'ancienne
@@ -401,7 +429,7 @@ const pickModelLabel = t('model.placeholder', lang);
                       data-gallery-dot={i}
                       data-mode={modeOf(g)}
                       hidden={!shown(g)}
-                      aria-label={L.viewImage(i + 1)}
+                      aria-label={g.kind === 'video' ? L.playVideo : L.viewImage(i + 1)}
                       class="gallery-dot"
                     ></button>
                   ))}
@@ -414,8 +442,10 @@ const pickModelLabel = t('model.placeholder', lang);
                   principal (plus bas), qui reste la seule source de vérité :
                   prix, clé d'article, photo. Seulement quand la fiche a une
                   photo par rendu, sinon rien ne changerait à l'écran. */}
-              {flatImage && printModes.includes('flat') && printModes.includes('relief') && (
-                <div class="pm-quick md:hidden" role="radiogroup" aria-label={L.quickFinish} data-pm-quick>
+              {hasQuick && (
+                <div class="pm-quick md:hidden" data-pm-quick>
+                  {quickModes && (
+                  <div class="pm-quick-modes" role="radiogroup" aria-label={L.quickFinish}>
                   {(['flat', 'relief'] as const).map(m => (
                     <button
                       type="button"
@@ -426,6 +456,26 @@ const pickModelLabel = t('model.placeholder', lang);
                     >
                       <img src={`/images/print-mode-${m}.webp`} alt="" width="320" height="282" loading="lazy" decoding="async" />
                       <span>{m === 'flat' ? L.quickFlat : L.quickRelief}</span>
+                    </button>
+                  ))}
+                  </div>
+                  )}
+                  {/* Vidéo du rendu choisi : la toucher la lance à la place de
+                      la photo. Toucher un rendu ramène la photo. */}
+                  {quickVideos.map(g => (
+                    <button
+                      type="button"
+                      class="pm-quick-video"
+                      data-pm-quick-video={g.src}
+                      data-mode={modeOf(g)}
+                      hidden={!shown(g)}
+                      aria-label={L.playVideo}
+                    >
+                      <span class="pm-quick-video-img">
+                        <img src={g.thumb} alt="" width="160" height="200" loading="lazy" decoding="async" />
+                        <span class="gal-play" aria-hidden="true"></span>
+                      </span>
+                      <span>{L.quickVideo}</span>
                     </button>
                   ))}
                 </div>
@@ -1050,11 +1100,18 @@ const pickModelLabel = t('model.placeholder', lang);
         /* Raccourci mobile du rendu d'impression (cf. galerie) : deux
            pastilles empilées sur le bord droit de la photo. La coque est
            décalée vers la gauche pour leur laisser la place. */
-        .pm-quick {
-          position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-          z-index: 10; display: flex; flex-direction: column; gap: 8px;
+        /* Mobile seulement : la règle d'affichage est DANS la requête, sinon
+           elle l'emporterait sur le `md:hidden` de Tailwind (sélecteur plus
+           spécifique) et les pastilles apparaîtraient sur ordinateur. */
+        .pm-quick { display: none; }
+        @media (max-width: 767px) {
+          .pm-quick {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            z-index: 10; display: flex; flex-direction: column; gap: 8px;
+          }
         }
-        .pm-quick-opt {
+        .pm-quick-modes { display: flex; flex-direction: column; gap: 8px; }
+        .pm-quick-opt, .pm-quick-video {
           width: 62px; padding: 6px 4px 5px; border-radius: 14px;
           display: flex; flex-direction: column; align-items: center; gap: 3px;
           background: rgba(255,255,255,.88);
@@ -1067,9 +1124,27 @@ const pickModelLabel = t('model.placeholder', lang);
           -webkit-tap-highlight-color: transparent;
         }
         .pm-quick-opt img { width: 44px; height: auto; display: block; }
-        .pm-quick-opt.is-on { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-rgb)); }
+        .pm-quick-opt.is-on, .pm-quick-video.is-on { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-rgb)); }
+        /* Vignette vidéo : un petit rectangle vertical 4:5, comme la galerie. */
+        .pm-quick-video-img {
+          position: relative; display: block; width: 48px; aspect-ratio: 4 / 5;
+          border-radius: 8px; overflow: hidden; background: rgb(var(--c-panel));
+        }
+        .pm-quick-video-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        /* Bouton lecture : triangle blanc sur pastille sombre. */
+        .gal-play {
+          position: absolute; left: 50%; top: 50%; width: 22px; height: 22px;
+          transform: translate(-50%, -50%); border-radius: 9999px;
+          background: rgba(0,0,0,.45);
+        }
+        .gal-play::after {
+          content: ''; position: absolute; left: 8.5px; top: 6px;
+          border-style: solid; border-width: 5px 0 5px 8px;
+          border-color: transparent transparent transparent #fff;
+        }
+        .gallery-thumb { position: relative; }
         @media (max-width: 767px) {
-          .has-pm-quick [data-gallery-slide] { transform: translateX(-9%); }
+          .has-pm-quick img[data-gallery-slide] { transform: translateX(-9%); }
         }
 
         /* Photos de l'autre rendu d'impression : l'attribut `hidden` doit
@@ -1119,8 +1194,31 @@ const pickModelLabel = t('model.placeholder', lang);
       // index (vignettes, points, défilement) portent sur celles-là.
       let thumbs = allThumbs.filter(t => !t.hidden);
       let dots   = allDots.filter(d => !d.hidden);
-      let count  = allSlides.filter(s => !s.hidden).length;
+      let visSlides = allSlides.filter(s => !s.hidden);
+      let count  = visSlides.length;
       let current  = 0;
+      const quickVideos = Array.from(root.querySelectorAll('[data-pm-quick-video]'));
+
+      // Vidéos : seule celle affichée tourne. Sa source n'est posée qu'au
+      // premier affichage, rien n'est téléchargé avant.
+      const syncVideos = () => {
+        visSlides.forEach((s, i) => {
+          const v = s.querySelector('video');
+          if (!v) return;
+          if (i === current) {
+            if (!v.getAttribute('src') && v.dataset.src) v.setAttribute('src', v.dataset.src);
+            v.play().catch(() => {});
+          } else if (!v.paused) {
+            v.pause();
+          }
+        });
+        const cur = visSlides[current]?.querySelector('video');
+        quickVideos.forEach(q => q.classList.toggle('is-on', !!cur && q.dataset.pmQuickVideo === cur.dataset.src));
+      };
+      quickVideos.forEach(q => q.addEventListener('click', () => {
+        const idx = visSlides.findIndex(s => s.querySelector('video')?.dataset.src === q.dataset.pmQuickVideo);
+        if (idx >= 0) goTo(idx);
+      }));
 
       const paint = () => {
         thumbs.forEach((t, i) => {
@@ -1130,6 +1228,7 @@ const pickModelLabel = t('model.placeholder', lang);
         dots.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
         if (prev) prev.disabled = current <= 0;
         if (next) next.disabled = current >= count - 1;
+        syncVideos();
       };
 
       const goTo = (idx) => {
@@ -1168,12 +1267,13 @@ const pickModelLabel = t('model.placeholder', lang);
         const keep = (el) => el.dataset.mode === 'all' || el.dataset.mode === mode;
         // Les photos du rendu choisi passent devant, dans leur ordre d'origine.
         const order = (list) => [...list.filter(keep), ...list.filter(el => !keep(el))];
-        [allSlides, allThumbs, allDots].forEach(list => {
+        [allSlides, allThumbs, allDots, quickVideos].forEach(list => {
           order(list).forEach(el => { el.hidden = !keep(el); el.parentElement.appendChild(el); });
         });
         thumbs = order(allThumbs).filter(keep);
         dots   = order(allDots).filter(keep);
-        count  = allSlides.filter(keep).length;
+        visSlides = order(allSlides).filter(keep);
+        count  = visSlides.length;
         const thumbCol = root.querySelector('[data-gallery-thumbs]');
         thumbCol?.classList.toggle('md:flex', count > 1);
         root.querySelector('[data-gallery-dots]')?.toggleAttribute('hidden', count < 2);

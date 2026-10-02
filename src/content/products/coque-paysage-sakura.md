@@ -5,6 +5,12 @@ price: 19.90
 image: "/images/products/coque-paysage-sakura-relief.webp"
 imageAlt: "Coque iPhone illustrée d'un paysage d'estampe en relief : nuages roses, montagnes bleues, cascade, pavillon et cerisiers en fleurs rehaussés d'or"
 flatImage: "/images/products/coque-paysage-sakura-plat.webp"
+videos:
+  # Vidéo de TEST (reprise du TikTok @bymoroji) : à remplacer par la vraie.
+  - src: "/videos/products/coque-paysage-sakura-relief.mp4"
+    poster: "/images/video-posters/coque-paysage-sakura-relief-full.webp"
+    thumb: "/images/video-posters/coque-paysage-sakura-relief.webp"
+    mode: "relief"
 categories: ["categorie-exemple"]
 shortDescription: "Un paysage d'estampe aux nuages roses, montagnes bleues et cerisiers en fleurs, rehaussé de touches dorées."
 featured: true
