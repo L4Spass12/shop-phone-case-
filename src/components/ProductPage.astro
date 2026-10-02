@@ -465,14 +465,21 @@ const pickModelLabel = t('model.placeholder', lang);
                   </div>
                   )}
                   {/* Vidéo du rendu choisi : la toucher la lance à la place de
-                      la photo. Toucher un rendu ramène la photo. */}
+                      la photo. Toucher un rendu ramène la photo.
+                      Les vignettes sont posées SOUS les pastilles, hors du
+                      flux : qu'une vidéo apparaisse ou disparaisse au
+                      changement de rendu, « À plat » et « Relief » ne bougent
+                      pas. Elles entrent et sortent en fondu (classe is-gone). */}
+                  {quickVideos.length > 0 && (
+                  <div class:list={['pm-quick-videos', !quickModes && 'is-solo']}>
                   {quickVideos.map(g => (
                     <button
                       type="button"
-                      class="pm-quick-video"
+                      class:list={['pm-quick-video', !shown(g) && 'is-gone']}
                       data-pm-quick-video={g.src}
                       data-mode={modeOf(g)}
-                      hidden={!shown(g)}
+                      aria-hidden={shown(g) ? undefined : 'true'}
+                      tabindex={shown(g) ? undefined : -1}
                       aria-label={L.playVideo}
                     >
                       <img src={g.thumb} alt="" width="160" height="200" loading="lazy" decoding="async" />
@@ -480,6 +487,8 @@ const pickModelLabel = t('model.placeholder', lang);
                       <span class="pm-quick-video-label">{L.quickVideo}</span>
                     </button>
                   ))}
+                  </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1139,15 +1148,29 @@ const pickModelLabel = t('model.placeholder', lang);
         /* Vignette vidéo : la vidéo elle-même, sans cadre. Un rectangle
            vertical 4:5 (comme la galerie), de la largeur des pastilles, avec
            le libellé posé en bas sur un dégradé. Cochée : anneau violet. */
+        .pm-quick-videos {
+          position: absolute; top: calc(100% + 8px); left: 0;
+          width: 62px; aspect-ratio: 4 / 5;
+        }
+        /* Sans pastilles de rendu, la vignette vidéo est seule dans la
+           colonne : elle reprend sa place dans le flux, centrée. */
+        .pm-quick-videos.is-solo { position: relative; top: auto; }
         .pm-quick-video {
-          position: relative; display: block; width: 62px; aspect-ratio: 4 / 5;
+          position: absolute; inset: 0; display: block;
           padding: 0; border: 0; border-radius: 14px; overflow: hidden;
           background: rgb(var(--c-panel));
           box-shadow: 0 0 0 2px #fff, 0 4px 14px rgba(0,0,0,.18);
-          transition: box-shadow .18s ease, transform .18s ease;
+          transition: box-shadow .18s ease, transform .25s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
           -webkit-tap-highlight-color: transparent;
         }
         .pm-quick-video:active { transform: scale(.96); }
+        /* Vidéo d'un autre rendu : sortie en fondu avec un léger recul,
+           puis retirée des clics et du focus. */
+        .pm-quick-video.is-gone {
+          opacity: 0; transform: translateY(-6px) scale(.88);
+          pointer-events: none; visibility: hidden;
+          transition: box-shadow .18s ease, transform .25s ease, opacity .2s ease, visibility 0s linear .25s;
+        }
         .pm-quick-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .pm-quick-video-label {
           position: absolute; left: 0; right: 0; bottom: 0;
@@ -1347,8 +1370,16 @@ const pickModelLabel = t('model.placeholder', lang);
         const keep = (el) => el.dataset.mode === 'all' || el.dataset.mode === mode;
         // Les photos du rendu choisi passent devant, dans leur ordre d'origine.
         const order = (list) => [...list.filter(keep), ...list.filter(el => !keep(el))];
-        [allSlides, allThumbs, allDots, quickVideos].forEach(list => {
+        [allSlides, allThumbs, allDots].forEach(list => {
           order(list).forEach(el => { el.hidden = !keep(el); el.parentElement.appendChild(el); });
+        });
+        // Vignettes vidéo mobiles : fondu (classe) plutôt que l'attribut hidden, qui
+        // les ferait disparaître d'un coup.
+        quickVideos.forEach(q => {
+          const on = keep(q);
+          q.classList.toggle('is-gone', !on);
+          if (on) { q.removeAttribute('aria-hidden'); q.removeAttribute('tabindex'); }
+          else { q.setAttribute('aria-hidden', 'true'); q.tabIndex = -1; }
         });
         thumbs = order(allThumbs).filter(keep);
         dots   = order(allDots).filter(keep);
