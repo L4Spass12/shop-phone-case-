@@ -416,7 +416,7 @@ const pickModelLabel = t('model.placeholder', lang);
                   photo par rendu, sinon rien ne changerait à l'écran. */}
               {flatImage && printModes.includes('flat') && printModes.includes('relief') && (
                 <div class="pm-quick md:hidden" role="radiogroup" aria-label={L.quickFinish} data-pm-quick>
-                  {(['relief', 'flat'] as const).map(m => (
+                  {(['flat', 'relief'] as const).map(m => (
                     <button
                       type="button"
                       role="radio"
