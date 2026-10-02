@@ -1143,6 +1143,13 @@ const pickModelLabel = t('model.placeholder', lang);
           border-color: transparent transparent transparent #fff;
         }
         .gallery-thumb { position: relative; }
+        /* Reflet du changement de rendu (relief), cf. animateSwap(). */
+        .gal-shine {
+          position: absolute; top: 0; bottom: 0; left: 0; width: 55%;
+          z-index: 5; pointer-events: none; opacity: 0;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+          mix-blend-mode: screen;
+        }
         @media (max-width: 767px) {
           .has-pm-quick img[data-gallery-slide] { transform: translateX(-9%); }
         }
@@ -1258,6 +1265,37 @@ const pickModelLabel = t('model.placeholder', lang);
       });
       root.setAttribute('tabindex', '0');
 
+      // Changement de rendu animé : la nouvelle coque arrive en pivotant,
+      // comme un téléphone qu'on tourne dans la main (~0,35 s). Pour le
+      // relief, un reflet balaie ensuite la coque et souligne la texture.
+      let shownMode = (allSlides.find(s => !s.hidden && s.dataset.mode !== 'all') || {}).dataset?.mode || null;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const animateSwap = (mode) => {
+        const img = visSlides[0]?.querySelector('img');
+        if (!img || reduceMotion || !img.animate) return;
+        // Garder le décalage mobile (translateX) pendant l'animation.
+        const base = getComputedStyle(img).transform;
+        const rest = base && base !== 'none' ? base : '';
+        img.animate([
+          { opacity: 0, transform: rest + ' perspective(900px) rotateY(' + (mode === 'relief' ? -28 : 28) + 'deg) scale(.9)', filter: 'blur(3px)' },
+          { opacity: 1, transform: rest + ' perspective(900px) rotateY(0deg) scale(1)', filter: 'blur(0)' },
+        ], { duration: 360, easing: 'cubic-bezier(.2,.85,.25,1)' });
+        if (mode !== 'relief') return;
+        const viewport = img.closest('.gallery-viewport');
+        if (!viewport) return;
+        const shine = document.createElement('span');
+        shine.className = 'gal-shine';
+        viewport.appendChild(shine);
+        const anim = shine.animate([
+          { transform: 'translateX(-120%) skewX(-18deg)', opacity: 0 },
+          { opacity: 1, offset: .3 },
+          { transform: 'translateX(140%) skewX(-18deg)', opacity: 0 },
+        ], { duration: 650, delay: 200, easing: 'ease-out', fill: 'backwards' });
+        anim.onfinish = anim.oncancel = () => shine.remove();
+        // Filet de sécurité (onglet en arrière-plan : l'animation se fige).
+        setTimeout(() => shine.remove(), 1200);
+      };
+
       // Rendu d'impression : on ne montre que les photos du rendu choisi.
       // Celles de l'autre rendu disparaissent (slides, vignettes, points),
       // et la galerie repart de la première photo.
@@ -1279,8 +1317,10 @@ const pickModelLabel = t('model.placeholder', lang);
         root.querySelector('[data-gallery-dots]')?.toggleAttribute('hidden', count < 2);
         // La photo principale (alt, LCP) suit : la première visible.
         current = 0;
-        if (track) track.scrollLeft = 0;
+        if (track) track.scrollTo({ left: 0, behavior: 'instant' });
         paint();
+        if (mode !== shownMode) animateSwap(mode);
+        shownMode = mode;
       });
 
       paint();
