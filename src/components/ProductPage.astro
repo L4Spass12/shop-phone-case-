@@ -50,6 +50,7 @@ const imageAlt = translation?.data.imageAlt ?? product.data.imageAlt;
 // Libellés de la fiche, par langue.
 const L = {
   fr: {
+    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief',
     home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
     prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
     from: 'Dès', fromLower: 'dès', unavailable: 'Indisponible', comboUnavailable: 'Combinaison indisponible',
@@ -69,6 +70,7 @@ const L = {
     seoTail: (p: string) => `Dès ${p}€, livraison sécurisée.`,
   },
   en: {
+    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised',
     home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
     prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
     from: 'From', fromLower: 'from', unavailable: 'Unavailable', comboUnavailable: 'Combination unavailable',
@@ -88,6 +90,7 @@ const L = {
     seoTail: (p: string) => `From €${p}, secure shipping.`,
   },
   de: {
+    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief',
     home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
     prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
     from: 'Ab', fromLower: 'ab', unavailable: 'Nicht verfügbar', comboUnavailable: 'Kombination nicht verfügbar',
@@ -330,7 +333,7 @@ const pickModelLabel = t('model.placeholder', lang);
                 ))}
               </div>
             )}
-            <div class="gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0">
+            <div class:list={['gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0', flatImage && printModes.length > 1 && 'has-pm-quick']}>
               <div
                 class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
                 data-gallery-track
@@ -401,6 +404,29 @@ const pickModelLabel = t('model.placeholder', lang);
                       aria-label={L.viewImage(i + 1)}
                       class="gallery-dot"
                     ></button>
+                  ))}
+                </div>
+              )}
+
+              {/* Raccourci MOBILE du rendu d'impression, à droite de la photo :
+                  on voit le changement sans quitter la coque des yeux. Il ne
+                  fait que cliquer la carte correspondante du sélecteur
+                  principal (plus bas), qui reste la seule source de vérité :
+                  prix, clé d'article, photo. Seulement quand la fiche a une
+                  photo par rendu, sinon rien ne changerait à l'écran. */}
+              {flatImage && printModes.includes('flat') && printModes.includes('relief') && (
+                <div class="pm-quick md:hidden" role="radiogroup" aria-label={L.quickFinish} data-pm-quick>
+                  {(['relief', 'flat'] as const).map(m => (
+                    <button
+                      type="button"
+                      role="radio"
+                      data-pm-quick-mode={m}
+                      aria-checked={String(printMode === m)}
+                      class:list={['pm-quick-opt', printMode === m && 'is-on']}
+                    >
+                      <img src={`/images/print-mode-${m}.webp`} alt="" width="320" height="282" loading="lazy" decoding="async" />
+                      <span>{m === 'flat' ? L.quickFlat : L.quickRelief}</span>
+                    </button>
                   ))}
                 </div>
               )}
@@ -1020,6 +1046,31 @@ const pickModelLabel = t('model.placeholder', lang);
         /* Toggles produit : masque le marker natif des <summary> */
         .product-toggle summary::-webkit-details-marker { display: none; }
         .product-toggle summary::marker { content: ''; }
+
+        /* Raccourci mobile du rendu d'impression (cf. galerie) : deux
+           pastilles empilées sur le bord droit de la photo. La coque est
+           décalée vers la gauche pour leur laisser la place. */
+        .pm-quick {
+          position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+          z-index: 10; display: flex; flex-direction: column; gap: 8px;
+        }
+        .pm-quick-opt {
+          width: 62px; padding: 6px 4px 5px; border-radius: 14px;
+          display: flex; flex-direction: column; align-items: center; gap: 3px;
+          background: rgba(255,255,255,.88);
+          -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+          border: 1.5px solid rgba(0,0,0,.08);
+          box-shadow: 0 2px 8px rgba(0,0,0,.08);
+          font-size: 10.5px; font-weight: 600; line-height: 1.1;
+          color: rgb(var(--c-n400));
+          transition: border-color .18s ease, color .18s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .pm-quick-opt img { width: 44px; height: auto; display: block; }
+        .pm-quick-opt.is-on { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-rgb)); }
+        @media (max-width: 767px) {
+          .has-pm-quick [data-gallery-slide] { transform: translateX(-9%); }
+        }
 
         /* Photos de l'autre rendu d'impression : l'attribut `hidden` doit
            l'emporter sur les classes d'affichage (.flex…) de Tailwind. */

@@ -313,6 +313,23 @@ const basePriceCents = Math.round(price * 100);
       });
     });
 
+    // Raccourci mobile posé sur la photo produit : il pilote CE sélecteur
+    // (un clic sur sa carte), et reflète le rendu choisi d'où qu'il vienne.
+    const quick = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-pm-quick-mode]'));
+    quick.forEach((q) => {
+      q.addEventListener('click', () => {
+        opts.find((o) => o.dataset.mode === q.dataset.pmQuickMode)?.click();
+      });
+    });
+    document.addEventListener('vareska:print-mode', (e) => {
+      const m = (e as CustomEvent).detail?.mode;
+      quick.forEach((q) => {
+        const on = q.dataset.pmQuickMode === m;
+        q.classList.toggle('is-on', on);
+        q.setAttribute('aria-checked', String(on));
+      });
+    });
+
     // Le sélecteur de variantes réécrit les attributs de base : on recompose
     // derrière lui, sinon changer de variante annulerait le choix du relief.
     document.addEventListener('vareska:variant-change', sync);
