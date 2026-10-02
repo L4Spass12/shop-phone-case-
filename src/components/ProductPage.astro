@@ -1007,8 +1007,12 @@ const pickModelLabel = t('model.placeholder', lang);
       </div>
 
       <!-- Slider full-width : même structure que la home -->
+      {/* scroll-pl = même retrait que pl : sans lui, la première carte
+          n'était pas sur un point d'accroche et le carrousel défilait tout
+          seul de 24 px au chargement (animation pendant que le visiteur
+          commence à faire défiler, et Chrome cessait de mesurer le LCP). */}
       <div class="product-slider relative" data-slider>
-        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
+        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6 scroll-pl-6 md:scroll-pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
           {related.map(p => (
             <a
               href={p.href}

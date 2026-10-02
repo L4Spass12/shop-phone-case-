@@ -403,7 +403,7 @@ const faqSchema = {
 
       <!-- Slider full-width : track s'étend jusqu'au bord de l'écran, cards coupées à l'edge -->
       <div class="product-slider relative" data-slider>
-        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6">
+        <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6 scroll-pl-6 md:scroll-pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
           {row.products.map(p => (
             <a
               href={p.href}
