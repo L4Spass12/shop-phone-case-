@@ -1,0 +1,442 @@
+{
+  "items": [
+    {
+      "key": "coque-mosaique-soleil",
+      "label": "Coque Mosaïque Soleil",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "coque-mosaique-soleil-relief",
+      "label": "Coque Mosaïque Soleil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "coque-paysage-sakura",
+      "label": "Coque Paysage Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "coque-paysage-sakura-relief",
+      "label": "Coque Paysage Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief.webp"
+    },
+    {
+      "key": "coque-pont-couchant",
+      "label": "Coque Pont au Couchant",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "de/coque-mosaique-soleil",
+      "label": "Hülle Sonnenmosaik",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-mosaique-soleil-relief",
+      "label": "Hülle Sonnenmosaik · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "de/coque-paysage-sakura",
+      "label": "Hülle Sakura-Landschaft",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-paysage-sakura-relief",
+      "label": "Hülle Sakura-Landschaft · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief.webp"
+    },
+    {
+      "key": "de/coque-pont-couchant",
+      "label": "Hülle Brücke im Abendrot",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "de/produit-exemple-2",
+      "label": "Hülle Welle",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-2-relief",
+      "label": "Hülle Welle · en relief",
+      "price": 2990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-3",
+      "label": "Hülle Marmor",
+      "price": 2290,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-3-relief",
+      "label": "Hülle Marmor · en relief",
+      "price": 2790,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-4",
+      "label": "Hülle Onyx",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-4-relief",
+      "label": "Hülle Onyx · en relief",
+      "price": 3190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-5",
+      "label": "Hülle Elfenbein",
+      "price": 2190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-5-relief",
+      "label": "Hülle Elfenbein · en relief",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple",
+      "label": "Beispielprodukt",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "de/produit-exemple-relief",
+      "label": "Beispielprodukt · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/coque-mosaique-soleil",
+      "label": "Sun Mosaic Case",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-mosaique-soleil-relief",
+      "label": "Sun Mosaic Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "en/coque-paysage-sakura",
+      "label": "Sakura Landscape Case",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-paysage-sakura-relief",
+      "label": "Sakura Landscape Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief.webp"
+    },
+    {
+      "key": "en/coque-pont-couchant",
+      "label": "Sunset Bridge Case",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "en/produit-exemple-2",
+      "label": "Wave Case",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-2-relief",
+      "label": "Wave Case · en relief",
+      "price": 2990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-3",
+      "label": "Marble Case",
+      "price": 2290,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-3-relief",
+      "label": "Marble Case · en relief",
+      "price": 2790,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-4",
+      "label": "Onyx Case",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-4-relief",
+      "label": "Onyx Case · en relief",
+      "price": 3190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-5",
+      "label": "Ivory Case",
+      "price": 2190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-5-relief",
+      "label": "Ivory Case · en relief",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple",
+      "label": "Example product",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "en/produit-exemple-relief",
+      "label": "Example product · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-2",
+      "label": "Coque Vague",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-2-relief",
+      "label": "Coque Vague · en relief",
+      "price": 2990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-3",
+      "label": "Coque Marbre",
+      "price": 2290,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-3-relief",
+      "label": "Coque Marbre · en relief",
+      "price": 2790,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-4",
+      "label": "Coque Onyx",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-4-relief",
+      "label": "Coque Onyx · en relief",
+      "price": 3190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-5",
+      "label": "Coque Ivoire",
+      "price": 2190,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-5-relief",
+      "label": "Coque Ivoire · en relief",
+      "price": 2690,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple",
+      "label": "Produit exemple",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-exemple-relief",
+      "label": "Produit exemple · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-blob",
+      "label": "[test] Produit test - bouton blob",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-blob-relief",
+      "label": "[test] Produit test - bouton blob · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre",
+      "label": "[test] Produit test - bouton noir a cadre",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-relief",
+      "label": "[test] Produit test - bouton noir a cadre · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v1",
+      "label": "[test] Produit test - bouton noir a cadre — Noir",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v1-relief",
+      "label": "[test] Produit test - bouton noir a cadre — Noir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v2",
+      "label": "[test] Produit test - bouton noir a cadre — Blanc",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-cadre-v2-relief",
+      "label": "[test] Produit test - bouton noir a cadre — Blanc · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur",
+      "label": "[test] Produit test - bouton noir a lueur",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-relief",
+      "label": "[test] Produit test - bouton noir a lueur · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v1",
+      "label": "[test] Produit test - bouton noir a lueur — Noir",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v1-relief",
+      "label": "[test] Produit test - bouton noir a lueur — Noir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v2",
+      "label": "[test] Produit test - bouton noir a lueur — Blanc",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-lueur-v2-relief",
+      "label": "[test] Produit test - bouton noir a lueur — Blanc · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat",
+      "label": "[test] Produit test - bouton noir plat",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-relief",
+      "label": "[test] Produit test - bouton noir plat · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v1",
+      "label": "[test] Produit test - bouton noir plat — Noir",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v1-relief",
+      "label": "[test] Produit test - bouton noir plat — Noir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v2",
+      "label": "[test] Produit test - bouton noir plat — Blanc",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-plat-v2-relief",
+      "label": "[test] Produit test - bouton noir plat — Blanc · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir",
+      "label": "[test] Produit test - bouton noir",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-relief",
+      "label": "[test] Produit test - bouton noir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-v1",
+      "label": "[test] Produit test - bouton noir — Noir",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-v1-relief",
+      "label": "[test] Produit test - bouton noir — Noir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-v2",
+      "label": "[test] Produit test - bouton noir — Blanc",
+      "price": 1990,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "produit-test-noir-v2-relief",
+      "label": "[test] Produit test - bouton noir — Blanc · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage.webp"
+    },
+    {
+      "key": "custom",
+      "label": "Coque personnalisée — à plat",
+      "price": 2990,
+      "image": null
+    },
+    {
+      "key": "custom-relief",
+      "label": "Coque personnalisée — en relief",
+      "price": 3490,
+      "image": null
+    }
+  ]
+}
