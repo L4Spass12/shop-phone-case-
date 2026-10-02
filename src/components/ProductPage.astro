@@ -325,10 +325,10 @@ const pickModelLabel = t('model.placeholder', lang);
               des boutiques : le regard reste sur le produit au lieu de
               descendre sous lui. En mobile, elles cèdent la place au
               balayage natif. */}
-          <div class="pdp-media md:flex md:items-start md:gap-3">
+          <div class="pdp-media relative">
 
             {allSlides.length > 1 && (
-              <div class={`hidden md:flex-col gap-2 w-[76px] shrink-0 ${visibleCount > 1 ? 'md:flex' : ''}`} data-gallery-thumbs>
+              <div class={`gallery-thumbs hidden md:flex-col gap-2 ${visibleCount > 1 ? 'md:flex' : ''}`} data-gallery-thumbs>
                 {slides.slice(0, 10).map((g, i) => (
                   <button
                     type="button"
@@ -344,7 +344,7 @@ const pickModelLabel = t('model.placeholder', lang);
                 ))}
               </div>
             )}
-            <div class:list={['gallery-viewport relative overflow-hidden aspect-[4/5] group md:flex-1 md:min-w-0', hasQuick && 'has-pm-quick']}>
+            <div class:list={['gallery-viewport relative overflow-hidden aspect-[4/5] group', hasQuick && 'has-pm-quick']}>
               <div
                 class="gallery-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth h-full"
                 data-gallery-track
@@ -1158,6 +1158,17 @@ const pickModelLabel = t('model.placeholder', lang);
           border-color: transparent transparent transparent #fff;
         }
         .gallery-thumb { position: relative; }
+        /* Vignettes (ordinateur) POSÉES sur la photo, dans la marge blanche à
+           gauche de la coque, au lieu d'une colonne à côté : la photo garde
+           toute la largeur, qu'il y ait des vignettes ou non. */
+        .gallery-thumbs {
+          position: absolute; top: 12px; left: 12px; z-index: 11;
+          width: 56px;
+        }
+        .gallery-thumbs .gallery-thumb {
+          width: 56px; border-width: 1.5px;
+          box-shadow: 0 2px 8px rgba(0,0,0,.10);
+        }
         /* Reflet du changement de rendu (relief), cf. animateSwap(). */
         .gal-shine {
           position: absolute; top: 0; bottom: 0; left: 0; width: 55%;
