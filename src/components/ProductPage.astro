@@ -1165,9 +1165,11 @@ const pickModelLabel = t('model.placeholder', lang);
           border-style: solid; border-width: 5px 0 5px 8px;
           border-color: transparent transparent transparent #fff;
         }
-        /* Découpe stricte du cadre : sans elle, le calque d'une vidéo voisine
-           (son affiche) débordait d'un pixel sur le bord droit de la photo. */
-        .gallery-viewport { clip-path: inset(0); }
+        /* Découpe stricte de la DIAPO VIDÉO seule : sans elle, son calque
+           (l'affiche) débordait d'un pixel sur le bord droit de la photo.
+           Surtout pas sur tout le cadre : sur Safari, un clip-path isole les
+           photos du fond gris et leur fond blanc réapparaît (multiply). */
+        [data-gallery-track] > [data-kind="video"] { clip-path: inset(0); }
         .gallery-thumb { position: relative; }
         /* Vignettes (ordinateur) POSÉES sur la photo, dans la marge blanche à
            gauche de la coque, au lieu d'une colonne à côté : la photo garde
