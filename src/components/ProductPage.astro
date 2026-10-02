@@ -353,11 +353,14 @@ const pickModelLabel = t('model.placeholder', lang);
                   <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(g)} data-kind="video" hidden={!shown(g)}>
                     {/* Aucun octet de vidéo avant qu'on l'affiche : pas de
                         `src` (posé par le script, depuis data-src) et
-                        preload="none". Seule l'affiche est chargée. */}
+                        preload="none". L'affiche elle-même attend que la
+                        page soit chargée (data-poster, posée au démarrage
+                        du script) : elle ne dispute pas le réseau à la
+                        photo principale. */}
                     <video
                       data-gallery-slide={i}
                       data-src={g.src}
-                      poster={g.poster}
+                      data-poster={g.poster}
                       muted
                       loop
                       playsinline
@@ -1121,7 +1124,12 @@ const pickModelLabel = t('model.placeholder', lang);
           transition: border-color .18s ease, color .18s ease;
           -webkit-tap-highlight-color: transparent;
         }
-        .pm-quick-opt img { width: 44px; height: auto; display: block; }
+        /* Hauteurs FIXES : la colonne est centrée sur la photo, et une
+           hauteur qui change au chargement (image, police) la faisait
+           bouger (décalage de mise en page mesuré par Lighthouse). */
+        .pm-quick-opt { height: 66px; }
+        .pm-quick-opt img { width: 44px; height: 39px; display: block; }
+        .pm-quick-opt span { display: block; height: 12px; line-height: 12px; }
         .pm-quick-opt.is-on { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-rgb)); }
         /* Vignette vidéo : la vidéo elle-même, sans cadre. Un rectangle
            vertical 4:5 (comme la galerie), de la largeur des pastilles, avec
@@ -1157,6 +1165,9 @@ const pickModelLabel = t('model.placeholder', lang);
           border-style: solid; border-width: 5px 0 5px 8px;
           border-color: transparent transparent transparent #fff;
         }
+        /* Découpe stricte du cadre : sans elle, le calque d'une vidéo voisine
+           (son affiche) débordait d'un pixel sur le bord droit de la photo. */
+        .gallery-viewport { clip-path: inset(0); }
         .gallery-thumb { position: relative; }
         /* Vignettes (ordinateur) POSÉES sur la photo, dans la marge blanche à
            gauche de la coque, au lieu d'une colonne à côté : la photo garde
@@ -1231,6 +1242,9 @@ const pickModelLabel = t('model.placeholder', lang);
       let count  = visSlides.length;
       let current  = 0;
       const quickVideos = Array.from(root.querySelectorAll('[data-pm-quick-video]'));
+      // Affiches des vidéos : posées maintenant (script démarré après le
+      // chargement), pas dans le HTML, où elles partaient avec la photo.
+      root.querySelectorAll('video[data-poster]').forEach(v => { v.poster = v.dataset.poster; });
 
       // Vidéos : seule celle affichée tourne. Sa source n'est posée qu'au
       // premier affichage, rien n'est téléchargé avant.

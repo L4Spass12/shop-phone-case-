@@ -7,6 +7,11 @@ import rehypeImageOptim from './src/lib/rehype-image-optim.mjs';
 
 export default defineConfig({
   site: siteConfig.url,
+  // CSS INTÉGRÉ à chaque page plutôt qu'en fichier séparé : le fichier
+  // bloquait l'affichage le temps d'un aller-retour réseau de plus (~20 Ko
+  // compressés). Sur mobile 4G, c'était le premier frein à l'affichage de la
+  // photo produit.
+  build: { inlineStylesheets: 'always' },
   // ─── Internationalisation ────────────────────────────────────────
   // Routing en sous-dossier : la locale par défaut (fr) reste à la racine
   // pour préserver les URLs SEO existantes ; les autres prennent /<lang>/.

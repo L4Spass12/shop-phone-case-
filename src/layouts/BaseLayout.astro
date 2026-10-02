@@ -149,6 +149,11 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         aller-retour de plus, pendant lequel le texte s'affiche en police
         système avant de sauter. On ne précharge QUE ces deux-là : les
         graisses 300/500/600 arrivent en cours de route sans gêner. */}
+    {/* Le module de panier/paiement vient d'un autre serveur : on ouvre la
+        connexion tôt, en parallèle du reste. */}
+    {siteConfig.shop?.atelier?.widgetUrl && (
+      <link rel="preconnect" href={new URL(siteConfig.shop.atelier.widgetUrl).origin} />
+    )}
     <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin="anonymous" />
     <link rel="preload" as="font" type="font/woff2" href={logoFont.fichier} crossorigin="anonymous" />
     <style is:inline set:html={`@font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400;font-display:swap;src:url('${logoFont.fichier}') format('woff2')}`}></style>
