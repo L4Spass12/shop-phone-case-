@@ -17,7 +17,9 @@ export async function getStaticPaths() {
 const { lang } = Astro.params as { lang: 'en' | 'de' };
 const shop = siteConfig.name;
 const email = siteConfig.forms?.contactEmail ?? '';
-const addr = '1 rue de Mirvaux, 80260 Beaucourt-sur-l&rsquo;Hallue, France';
+// Adresse des retours : l'atelier d'expédition (Roubaix), distinct du siège
+// déclaré de l'entreprise (Beaucourt-sur-l'Hallue) qui figure sur les pages légales.
+const addr = '123 rue d&rsquo;Isly, 59100 Roubaix, France';
 
 const content = {
   en: {
@@ -26,7 +28,7 @@ const content = {
     html: `
 <h2 class="wp-block-heading">1. Shipping</h2>
 
-<p>Every order placed on <strong>${shop}</strong> is prepared with care at our premises in <strong>Beaucourt-sur-l&rsquo;Hallue (Somme, France)</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are shipped the following Monday.)</em></p>
+<p>Every order placed on <strong>${shop}</strong> is prepared with care at our workshop in <strong>Roubaix (Nord, France)</strong>. We ship your parcel within <strong>24 to 48 business hours</strong> of receiving payment. <em>(Orders placed on Friday evening or at the weekend are shipped the following Monday.)</em></p>
 
 <p><strong>Delivery options &amp; rates</strong> Outside France, delivery times run from shipping, in business days.</p>
 
@@ -78,7 +80,7 @@ const content = {
     html: `
 <h2 class="wp-block-heading">1. Versand</h2>
 
-<p>Jede Bestellung bei <strong>${shop}</strong> wird sorgfältig in unseren Räumen in <strong>Beaucourt-sur-l&rsquo;Hallue (Somme, Frankreich)</strong> vorbereitet. Wir versenden dein Paket innerhalb von <strong>24 bis 48 Werkstunden</strong> nach Zahlungseingang. <em>(Bestellungen von Freitagabend oder vom Wochenende werden am folgenden Montag verschickt.)</em></p>
+<p>Jede Bestellung bei <strong>${shop}</strong> wird sorgfältig in unserer Werkstatt in <strong>Roubaix (Nord, Frankreich)</strong> vorbereitet. Wir versenden dein Paket innerhalb von <strong>24 bis 48 Werkstunden</strong> nach Zahlungseingang. <em>(Bestellungen von Freitagabend oder vom Wochenende werden am folgenden Montag verschickt.)</em></p>
 
 <p><strong>Versandarten &amp; Preise</strong> Außerhalb Frankreichs gelten die Lieferzeiten ab Versand, in Werktagen.</p>
 
