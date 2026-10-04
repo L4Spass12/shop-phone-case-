@@ -1882,6 +1882,12 @@ const pickModelLabel = t('model.placeholder', lang);
      la fusion retrouve la bonne couleur. */
   .gallery-viewport,
   .gallery-thumb { background-color: #f3f3f3; }
+  /* Safari : quand la galerie contient une vidéo, la bande défilante passe
+     sur son propre calque et l'image ne « voit » plus le gris du cadre (le
+     blanc du détourage revenait). Le même gris peint sur la bande et sur
+     chaque diapo garde la fusion juste, quel que soit le calque. */
+  [data-gallery-track],
+  [data-gallery-track] > * { background-color: #f3f3f3; }
 
 
   /* Les accordéons portent leurs propres filets de séparation. Dans la carte,
