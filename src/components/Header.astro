@@ -94,7 +94,10 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
               {/* Images posées en data-src : elles ne se chargent qu'à la
                   première ouverture du menu, pas sur chaque page. */}
               <a href={url('/boutique')} class={`hdr-tile ${isShop ? 'is-active' : ''}`} aria-current={isShop ? 'page' : undefined}>
-                <img class="hdr-tile-img" data-src="/images/insta/insta-2.webp" alt="" width="800" height="800" decoding="async" style="object-position: 30% 60%" />
+                <picture>
+                  <source media="(min-width: 640px)" data-srcset="/images/menu-boutique-wide.webp" width="1400" height="539" />
+                  <img class="hdr-tile-img" data-src="/images/menu-boutique.webp" alt="" width="520" height="650" decoding="async" style="--pos-wide: 50% 42%" />
+                </picture>
                 <span class="hdr-tile-txt">
                   <strong>{t('nav.shop', lang)}</strong>
                   <small>{t('nav.shopSub', lang)}</small>
@@ -270,7 +273,9 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
 
   /* Plus large : tuiles en bandeau, moins hautes. */
   @media (min-width: 640px) {
-    .hdr-tile { aspect-ratio: auto; height: 150px; }
+    .hdr-tile { aspect-ratio: auto; height: 190px; }
+    /* Cadrage propre au bandeau (image large), réglé par tuile. */
+    .hdr-tile-img[style*="--pos-wide"] { object-position: var(--pos-wide); }
     .hdr-tile-txt strong { font-size: 1.3rem; }
     .hdr-tile-txt small { font-size: .8rem; }
   }
@@ -303,9 +308,14 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
   };
 
   // Images des tuiles : chargées à la première ouverture seulement.
-  const loadTiles = () => nav?.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
-    img.src = img.dataset.src || ''; img.removeAttribute('data-src');
-  });
+  const loadTiles = () => {
+    nav?.querySelectorAll<HTMLSourceElement>('source[data-srcset]').forEach((src) => {
+      src.srcset = src.dataset.srcset || ''; src.removeAttribute('data-srcset');
+    });
+    nav?.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+      img.src = img.dataset.src || ''; img.removeAttribute('data-src');
+    });
+  };
   btn?.addEventListener('pointerenter', loadTiles, { once: true });
   btn?.addEventListener('touchstart', loadTiles, { once: true, passive: true });
 
