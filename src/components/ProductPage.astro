@@ -15,7 +15,6 @@ import FabricationSection from './FabricationSection.astro';
 import ModelPicker from './ModelPicker.astro';
 import PrintModeSelector from './PrintModeSelector.astro';
 import { defaultPrintMode, listPrice } from '../lib/printModes';
-import UgcVideos from './UgcVideos.astro';
 import InstaGrid from './InstaGrid.astro';
 import DeliveryWindow from './DeliveryWindow.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
@@ -933,7 +932,8 @@ const pickModelLabel = t('model.placeholder', lang);
     </div>
 
     <!-- Réassurance : mur de vidéos clients (UGC), pleine largeur du conteneur -->
-    <UgcVideos />
+    {/* Vidéos masquées le temps d'en tourner de meilleures : remettre
+        <UgcVideos /> ici (liste des clips dans UgcVideos.astro). */}
 
   </div>
 
