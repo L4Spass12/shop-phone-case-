@@ -1002,6 +1002,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* svh (petite hauteur d'écran, fixe) et non dvh : la hauteur dynamique
        change quand le clavier ou la barre du navigateur apparaît. */
     .panel.panel--open { max-height: 46svh; padding: 0 1rem .9rem; }
+    /* « Aide » : un formulaire à remplir, pas une retouche de la coque. Le
+       plan de travail s'efface et le panneau prend toute la hauteur, pour
+       que les champs ne soient pas à l'étroit. */
+    .builder--help > .canvas { display: none; }
+    .builder--help > .panel.panel--open {
+      flex: 1 1 auto; min-height: 0; max-height: 100svh;
+      margin-top: 10px; margin-bottom: 10px;
+    }
 
     /* Le header (titre + croix) reste collé en haut pendant le scroll, avec un
        fond, pour que la croix soit toujours visible. */
@@ -2105,6 +2113,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     /* ── Panneaux ───────────────────────────────────────────────── */
     var TITLES = I.titles;
+    var builderEl = root.querySelector('.builder');
     var paneCloseTimer = null;
     function openPane(name) {
       activePane = name;
@@ -2122,6 +2131,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       void panel.offsetHeight;
       animatePanel();
       panel.classList.add('panel--open');
+      builderEl.classList.toggle('builder--help', name === 'help');
       fitCase();
     }
     var panelAnimTimer = null;
@@ -2136,6 +2146,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       moveRailInd(true);
       animatePanel();
       panel.classList.remove('panel--open');
+      builderEl.classList.remove('builder--help');
       // Mobile : on laisse l'animation de fermeture se jouer avant de masquer.
       // Desktop : pas de transition → on masque tout de suite.
       var animated = window.matchMedia('(max-width: 1023px)').matches;
