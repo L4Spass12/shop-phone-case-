@@ -284,20 +284,20 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     .hdr-tile-txt small { font-size: .8rem; }
   }
 
-  /* Langues : une ligne, trois segments égaux. */
+  /* Langues : une ligne, trois choix égaux, volontairement discrets. */
   .hdr-langs {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
-    padding: 3px; border-radius: .75rem;
-    background: rgb(var(--c-cream) / .06);
+    padding: 0; background: none;
   }
   .hdr-lang {
     display: flex; align-items: center; justify-content: center;
-    padding: .5rem .4rem; border-radius: .6rem;
-    font-size: 12.5px; color: rgb(var(--c-n400)); white-space: nowrap;
+    padding: .4rem .3rem; border-radius: .55rem;
+    font-size: 12.5px; color: rgb(var(--c-n500)); white-space: nowrap;
     transition: background .15s, color .15s;
   }
   .hdr-lang:hover { color: rgb(var(--c-cream)); background: rgb(var(--c-cream) / .05); }
-  .hdr-lang.is-active { background: rgb(var(--c-cream)); color: rgb(var(--c-dark)); font-weight: 600; }
+  /* Langue active : discrète, juste soulignée d'un fond léger. */
+  .hdr-lang.is-active { background: rgb(var(--c-cream) / .07); color: rgb(var(--c-cream)); font-weight: 600; }
 
   .theme-check { transition: opacity .15s ease; }
 
