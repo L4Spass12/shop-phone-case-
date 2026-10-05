@@ -54,7 +54,7 @@ const config = {
   // ─── Réseaux sociaux (laisser '' si inexistant) ───────────────────
   socials: {
     instagram: '',
-    tiktok: '',
+    tiktok: 'https://www.tiktok.com/@bymoroji',
     youtube: '',
   },
 
