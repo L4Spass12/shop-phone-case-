@@ -168,12 +168,13 @@ const config = {
     // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
     // et le serveur de paiement refuse un relief payé au tarif du plat.
     catalogueReliefSurchargeCents: 500,
-    // Offre de lancement du RELIEF (studio et catalogue : 24,90 €). Prix qui
-    // s'appliquera ensuite, annoncé à côté (« puis 31,90 € »). Un prix barré
-    // exigerait d'avoir déjà vendu à ce prix dans les 30 derniers jours
-    // (règle des annonces de réduction) : on annonce donc le prix à venir.
-    // null pour retirer la mention à la fin de l'offre.
-    reliefLaunchNextCents: 3190,
+    // Offre de lancement (studio et catalogue) : à plat 19,90 €, relief
+    // 24,90 €. Prix qui s'appliqueront ensuite, annoncés à côté (« puis
+    // 24,90 € », « puis 31,90 € »). Un prix barré exigerait d'avoir déjà vendu
+    // à ce prix dans les 30 derniers jours (règle des annonces de réduction) :
+    // on annonce donc le prix à venir. null pour retirer la mention à la fin
+    // de l'offre.
+    launchNextCents: { flat: 2490, relief: 3190 },
     // Sticker décoratif posé sur la photo produit. Chemin d'image, ou null
     // pour ne rien afficher : la fiche ne doit pas dépendre d'un fichier qui
     // n'existerait pas encore.

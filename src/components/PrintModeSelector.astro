@@ -49,7 +49,7 @@ const fmt = (cents: number) =>
 
 const basePriceCents = Math.round(price * 100);
 // Offre de lancement du relief : prix à venir, annoncé sous le prix actuel.
-const launchNext = siteConfig.shop.reliefLaunchNextCents ?? null;
+const launchNext = siteConfig.shop.launchNextCents ?? null;
 ---
 
 <div
@@ -95,6 +95,9 @@ const launchNext = siteConfig.shop.reliefLaunchNextCents ?? null;
         <span class="pm-price">{fmt(basePriceCents)}</span>
         <span class="pm-radio" aria-hidden="true"></span>
       </span>
+      {launchNext?.flat && (
+        <span class="pm-launch">{t('print.launch', lang)}<br />{t('print.launchThen', lang, { price: fmt(launchNext.flat) })}</span>
+      )}
     </button>
     )}
 
@@ -125,8 +128,8 @@ const launchNext = siteConfig.shop.reliefLaunchNextCents ?? null;
         <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
         <span class="pm-radio" aria-hidden="true"></span>
       </span>
-      {launchNext && (
-        <span class="pm-launch">{t('print.launch', lang)}<br />{t('print.launchThen', lang, { price: fmt(launchNext) })}</span>
+      {launchNext?.relief && (
+        <span class="pm-launch">{t('print.launch', lang)}<br />{t('print.launchThen', lang, { price: fmt(launchNext.relief) })}</span>
       )}
     </button>
     )}
@@ -304,9 +307,9 @@ const launchNext = siteConfig.shop.reliefLaunchNextCents ?? null;
       // Tous les prix affichés suivent : celui du bouton, mais aussi celui de
       // la barre collante. Une étiquette qui contredit ce qui part au panier
       // est pire que pas d'étiquette du tout.
-      // Mention « Offre de lancement » sous le prix : relief seulement.
-      document.querySelectorAll<HTMLElement>('[data-relief-launch]').forEach((el) => {
-        el.hidden = !relief;
+      // Mention « Offre de lancement » à côté du prix : celle du rendu coché.
+      document.querySelectorAll<HTMLElement>('[data-launch]').forEach((el) => {
+        el.hidden = el.dataset.launch !== mode;
       });
       if (shownPrice !== null) {
         const text = fmt(shownPrice);

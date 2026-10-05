@@ -55,7 +55,7 @@ const fmt = (c: number) => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const price = fmt(PRICE_CENTS);
 const reliefPrice = fmt(RELIEF_PRICE_CENTS);
 /* Offre de lancement du relief : prix à venir, annoncé sous le prix. */
-const LAUNCH_NEXT = siteConfig.shop?.reliefLaunchNextCents ?? null;
+const LAUNCH_NEXT = siteConfig.shop?.launchNextCents ?? null;
 
 /* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les
    fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
@@ -443,11 +443,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <span class="mode-bg" aria-hidden="true"></span>
         {/* Même illustration que sur les fiches produit : tranche en haut, dos
             en dessous. C'est la comparaison des deux cartes qui explique. */}
-        <img class="mode-illu" src="/images/print-mode-flat.webp" alt="" width="320" height="282" decoding="async" />
+        <img class="mode-illu" src="/images/print-mode-flat.svg" alt="" width="320" height="282" loading="lazy" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.flat}</span>
           <span class="mode-desc">{U.flatDesc}</span>
           <span class="mode-price">{price}</span>
+          {LAUNCH_NEXT?.flat && (
+            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT.flat) })}</span>
+          )}
         </span>
         <span class="mode-check" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
@@ -456,13 +459,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
       <button type="button" class="mode" data-mode="relief" role="radio" aria-checked="false">
         <span class="mode-bg" aria-hidden="true"></span>
-        <img class="mode-illu" src="/images/print-mode-relief.webp" alt="" width="320" height="282" decoding="async" />
+        <img class="mode-illu" src="/images/print-mode-relief.svg" alt="" width="320" height="282" loading="lazy" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.relief}</span>
           <span class="mode-desc">{U.reliefDesc}</span>
           <span class="mode-price">{reliefPrice}</span>
-          {LAUNCH_NEXT && (
-            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT) })}</span>
+          {LAUNCH_NEXT?.relief && (
+            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT.relief) })}</span>
           )}
         </span>
         <span class="mode-check" aria-hidden="true">
@@ -2269,18 +2272,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         } catch (_) { done(null); }
       });
     }
-    // Conversion directe data URL vers Blob : un fetch() de data URL est
-    // bloqué par la politique de sécurité du site (connect-src).
-    function dataUrlToBlob(u) {
-      var i = u.indexOf(','), mime = u.slice(5, u.indexOf(';'));
-      var bin = atob(u.slice(i + 1)), buf = new Uint8Array(bin.length);
-      for (var j = 0; j < bin.length; j++) buf[j] = bin.charCodeAt(j);
-      return new Blob([buf], { type: mime });
-    }
-    function hiStore(k, dataUrl) {
-      var b; try { b = dataUrlToBlob(dataUrl); } catch (_) { return; }
+    function hiStore(k, blob) {
       hiDb().then(function (db) {
-        if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: b, t: Date.now() }, k);
+        if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: blob, t: Date.now() }, k);
       }).catch(function () {});
     }
     /* Recharge les copies HD des photos de la composition, et supprime les
@@ -2301,48 +2295,67 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         };
       }).catch(function () {});
     }
+    /* Libère la mémoire d'un canvas tout de suite : Safari sur iPhone plafonne
+       la mémoire de TOUS les canvas de la page, et au-delà il dessine du vide
+       sans lever d'erreur (la photo « ne s'ajoutait pas »). */
+    function freeCanvas(c) { try { c.width = 0; c.height = 0; } catch (_) {} }
     function importFile(file) {
-      if (!file || !/^image\//.test(file.type)) { toast(I.notImage, 'warn'); return; }
-      var reader = new FileReader();
-      reader.onload = function () {
-        var img = new Image();
-        img.onload = function () {
-          // Redimensionnement avant stockage : une photo de 4000 px sature la
-          // mémoire et fait exploser le quota de sauvegarde pour rien.
-          var max = 1400, w = img.width, h = img.height;
-          if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
-          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+      // Type vide : certains téléphones ne le renseignent pas. On tente le
+      // décodage, l'échec est signalé plus bas.
+      if (!file || (file.type && !/^image\//.test(file.type))) { toast(I.notImage, 'warn'); return; }
+      // URL d'objet plutôt que FileReader : pas de copie base64 de 10 Mo en
+      // mémoire juste pour décoder la photo.
+      var srcUrl = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        // Aperçu enregistré dans la composition : 1 400 px suffisent à l'écran
+        // et au quota de sauvegarde.
+        var max = 1400, w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        var W0 = w, H0 = h;
+        if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
+        var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        var out = '';
+        try {
           cv.getContext('2d').drawImage(img, 0, 0, w, h);
-          var out; try { out = cv.toDataURL('image/webp', .85); } catch (_) { out = ''; }
-          if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
-          var hi = '', hw = img.width, hh = img.height;
-          if (hw > HI_MAX || hh > HI_MAX) { var hs = Math.min(HI_MAX / hw, HI_MAX / hh); hw = Math.round(hw * hs); hh = Math.round(hh * hs); }
-          if (hw > w || hh > h) {
-            var hc = document.createElement('canvas'); hc.width = hw; hc.height = hh;
+          out = cv.toDataURL('image/webp', .85);
+          if (out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
+        } catch (_) { out = ''; }
+        freeCanvas(cv);
+        if (!out || out.length < 100) { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); return; }
+
+        var data = { type: 'image', src: out, size: 46 };
+        var hw = W0, hh = H0;
+        if (hw > HI_MAX || hh > HI_MAX) { var hs = Math.min(HI_MAX / hw, HI_MAX / hh); hw = Math.round(hw * hs); hh = Math.round(hh * hs); }
+        var wantHi = hw > w || hh > h;
+        if (wantHi) data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        addElement(data);
+        toast(I.photoAdded);
+
+        if (!wantHi) { URL.revokeObjectURL(srcUrl); return; }
+        // Copie HD pour l'impression, APRÈS l'ajout : si le téléphone manque
+        // de mémoire, la photo est déjà là et l'impression reprend l'aperçu.
+        setTimeout(function () {
+          var hc = document.createElement('canvas'); hc.width = hw; hc.height = hh;
+          var done = function (blob) {
+            freeCanvas(hc); URL.revokeObjectURL(srcUrl);
+            if (!blob || blob.size < 100) return;
+            hiRes[data.hk] = URL.createObjectURL(blob);
+            hiStore(data.hk, blob);
+          };
+          try {
             hc.getContext('2d').drawImage(img, 0, 0, hw, hh);
             // JPEG pour une photo ; une image qui peut avoir de la transparence
-            // (PNG, autocollant) garde sa couche alpha (WebP, sinon PNG).
-            try {
-              if (file.type === 'image/jpeg') hi = hc.toDataURL('image/jpeg', .93);
-              else {
-                hi = hc.toDataURL('image/webp', .95);
-                if (hi.indexOf('data:image/webp') !== 0) hi = hc.toDataURL('image/png');
-              }
-            } catch (_) { hi = ''; }
-          }
-          var data = { type: 'image', src: out, size: 46 };
-          if (hi) {
-            data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-            hiRes[data.hk] = hi;
-            hiStore(data.hk, hi);
-          }
-          addElement(data);
-          toast(I.photoAdded);
-        };
-        img.onerror = function () { toast(I.unreadable, 'warn'); };
-        img.src = reader.result;
+            // (PNG, autocollant) garde sa couche alpha.
+            if (file.type === 'image/jpeg' || /hei[cf]/.test(file.type)) hc.toBlob(done, 'image/jpeg', .93);
+            else hc.toBlob(function (b) {
+              if (b && b.type === 'image/webp') done(b);
+              else hc.toBlob(done, 'image/png');
+            }, 'image/webp', .95);
+          } catch (_) { done(null); }
+        }, 60);
       };
-      reader.readAsDataURL(file);
+      img.onerror = function () { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); };
+      img.src = srcUrl;
     }
     fileInput.addEventListener('change', function () {
       if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);

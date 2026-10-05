@@ -206,7 +206,7 @@ const printMode = defaultPrintMode(printModes);
 const reliefDefault = printMode === 'relief';
 const modeKeySuffix = reliefDefault ? '-relief' : '';
 const modeExtra = reliefDefault ? reliefSurcharge : 0;
-const launchNext: number | null = siteConfig.shop?.reliefLaunchNextCents ?? null;
+const launchNext: { flat?: number; relief?: number } | null = siteConfig.shop?.launchNextCents ?? null;
 const shownPrice = price + modeExtra;
 const shownMin = (priceRange?.min ?? price) + modeExtra;
 
@@ -552,14 +552,14 @@ const pickModelLabel = t('model.placeholder', lang);
               -{Math.round((1 - price / compareAtPrice) * 100)}%
             </span>
           )}
-          {/* Offre de lancement du relief : visible quand le relief est coché
-              (le sélecteur de rendu la bascule). */}
-          {launchNext && printModes.includes('relief') && (
-            <span data-relief-launch hidden={!reliefDefault} class="relief-launch">
+          {/* Offre de lancement : la mention du rendu coché (le sélecteur de
+              rendu bascule de l'une à l'autre). */}
+          {launchNext && (['flat', 'relief'] as const).map((m) => launchNext[m] && printModes.includes(m) && (
+            <span data-launch={m} hidden={printMode !== m} class="relief-launch">
               <span class="relief-launch-tag">{t('print.launch', lang)}</span>
-              {t('print.launchThen', lang, { price: formatPrice(launchNext / 100) })}
+              {t('print.launchThen', lang, { price: formatPrice(launchNext[m]! / 100) })}
             </span>
-          )}
+          ))}
         </div>
 
         {/* Choix du modèle de téléphone. Placé avant les variantes : c'est la
