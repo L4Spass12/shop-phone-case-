@@ -7,7 +7,10 @@
     "categories": "Catégories",
     "categoriesAll": "Toutes les catégories",
     "menu": "Menu",
-    "openCategoryMenu": "Ouvrir le menu catégories"
+    "openCategoryMenu": "Ouvrir le menu catégories",
+    "create": "Créer ma coque",
+    "shopSub": "Toute la collection",
+    "createSub": "Votre photo, votre design"
   },
   "shop": {
     "label": "Boutique",

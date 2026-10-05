@@ -7,7 +7,10 @@
     "categories": "Categories",
     "categoriesAll": "All categories",
     "menu": "Menu",
-    "openCategoryMenu": "Open category menu"
+    "openCategoryMenu": "Open category menu",
+    "create": "Create my case",
+    "shopSub": "The whole collection",
+    "createSub": "Your photo, your design"
   },
   "shop": {
     "label": "Shop",
