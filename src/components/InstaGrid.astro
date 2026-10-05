@@ -3,45 +3,38 @@
  * Grille « feed Instagram » — bandeau de photos lifestyle en bas de fiche
  * produit, pour ajouter du visuel et renforcer la marque.
  *
- * Photos de DÉMONSTRATION (recadrages carrés des visuels produit) : à
- * remplacer par vos vraies photos (déposez-les dans /public/images/insta).
- * Le lien pointe vers siteConfig.socials.instagram s'il est renseigné.
+ * Photos dans /public/images/insta (insta-N.webp + variante -400w). Aucune
+ * tuile n'est un lien : la section montre le compte sans faire quitter le site.
  */
-import siteConfig from '../../site.config.mjs';
 import { smallerVariant } from '../lib/image-variants';
 import { localeFromPath } from '../lib/i18n';
 
 const lang = localeFromPath(Astro.url.pathname);
 const L = {
-  fr: { section: 'Photos Instagram', see: (n: number) => `Voir sur Instagram (photo ${n})` },
-  en: { section: 'Instagram photos', see: (n: number) => `View on Instagram (photo ${n})` },
-  de: { section: 'Instagram-Fotos', see: (n: number) => `Auf Instagram ansehen (Foto ${n})` },
-}[lang] ?? { section: 'Photos Instagram', see: (n: number) => `Voir sur Instagram (photo ${n})` };
+  fr: { section: 'Photos Instagram', follow: 'Suivez-nous' },
+  en: { section: 'Instagram photos', follow: 'Follow us' },
+  de: { section: 'Instagram-Fotos', follow: 'Folge uns' },
+}[lang] ?? { section: 'Photos Instagram', follow: 'Suivez-nous' };
 
 interface Props {
   handle?: string;
 }
-const { handle = 'moroji' } = Astro.props;
-const igUrl = (siteConfig.socials && siteConfig.socials.instagram) || `https://instagram.com/${handle}`;
+const { handle = 'bymoroji' } = Astro.props;
+// Pas de lien vers Instagram : la section est une vitrine, elle ne doit pas
+// faire quitter la boutique. Le compte est simplement nommé.
 
 // `?v=N` = cache-bust : Hostinger sert les images avec un cache immuable
 // (max-age 1 an). Sans changer ce suffixe, remplacer un fichier au même nom
 // continue de servir l'ancienne version. À incrémenter à chaque changement
 // d'image.
-const V = 4;
-const photos = [
-  `/images/insta/insta-1.webp?v=${V}`,
-  `/images/insta/insta-2.webp?v=${V}`,
-  `/images/insta/insta-3.webp?v=${V}`,
-  `/images/insta/insta-4.webp?v=${V}`,
-  `/images/insta/insta-5.webp?v=${V}`,
-  `/images/insta/insta-6.webp?v=${V}`,
-];
+const V = 5;
+// Photos portées (7 à 9) intercalées avec les visuels de collection.
+const photos = [7, 1, 2, 8, 3, 4, 9, 5, 6].map((n) => `/images/insta/insta-${n}.webp?v=${V}`);
 ---
 
 <section class="insta below-fold-defer" aria-label={L.section}>
   <div class="insta-head">
-    <a class="insta-handle" href={igUrl} target="_blank" rel="noopener noreferrer">
+    <p class="insta-handle">
       <span class="insta-badge" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
           <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
@@ -49,32 +42,16 @@ const photos = [
           <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
         </svg>
       </span>
-      <span>Suivez-nous @{handle}</span>
-    </a>
+      <span>{L.follow} @{handle}</span>
+    </p>
   </div>
 
   <div class="insta-grid">
     {photos.map((src, i) => (
-      <a
-        class="insta-tile"
-        href={igUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={L.see(i + 1)}
-      >
-        {/* Les tuiles font 190 px au plus large : on sert la variante 400w
-            (environ 16 Ko) plutôt que l'original en 800x800 (environ 40 Ko).
-            Six tuiles : 140 Ko économisés, et six décodages quatre fois plus
-            légers pour le téléphone. */}
+      <div class="insta-tile">
+        {/* Les tuiles font 190 px au plus large : variante 400w servie. */}
         <img src={smallerVariant(src, 400)} alt="" loading="lazy" decoding="async" width="400" height="400" />
-        <span class="insta-tile-ic" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-            <circle cx="12" cy="12" r="4.2"/>
-            <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
-          </svg>
-        </span>
-      </a>
+      </div>
     ))}
   </div>
 </section>
@@ -103,7 +80,6 @@ const photos = [
     transition: opacity .15s;
   }
   @media (min-width: 768px) { .insta-handle { font-size: 1.15rem; } }
-  .insta-handle:hover { opacity: 0.75; }
   .insta-badge {
     display: grid; place-items: center;
     width: 40px; height: 40px; border-radius: 50%;
@@ -141,12 +117,4 @@ const photos = [
   }
   /* Souris seulement : sur tactile, le zoom restait collé après un toucher. */
   @media (hover: hover) { .insta-tile:hover img { transform: scale(1.06); } }
-  .insta-tile-ic {
-    position: absolute; inset: 0; display: grid; place-items: center;
-    color: #fff; background: rgba(0,0,0,.28);
-    opacity: 0; transition: opacity .2s ease;
-  }
-  .insta-tile-ic svg { width: 26px; height: 26px; }
-  .insta-tile:hover .insta-tile-ic,
-  .insta-tile:focus-visible .insta-tile-ic { opacity: 1; }
 </style>
