@@ -107,7 +107,10 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
                 </span>
               </a>
               <a href={url('/personnaliser')} class={`hdr-tile ${isStudio ? 'is-active' : ''}`} aria-current={isStudio ? 'page' : undefined}>
-                <img class="hdr-tile-img" data-src="/images/studio-banner-b-800w.webp" alt="" width="800" height="453" decoding="async" style="object-position: 62% 50%" />
+                <picture>
+                  <source media="(min-width: 640px)" data-srcset="/images/menu-studio-wide.webp" width="1400" height="560" />
+                  <img class="hdr-tile-img" data-src="/images/menu-studio.webp" alt="" width="520" height="650" decoding="async" style="--pos-wide: 50% 40%" />
+                </picture>
                 <span class="hdr-tile-txt">
                   <strong>{t('nav.create', lang)}</strong>
                   <small>{t('nav.createSub', lang)}</small>
