@@ -57,14 +57,15 @@ const L = {
     inStock: 'En stock', outOfStock: 'Rupture', size: 'Taille', mostPopular: ' (le plus populaire)', popular: 'Populaire',
     secureShipping: 'Livraison sécurisée', secureShippingSub: 'colis suivi',
     description: 'Description', shippingReturns: 'Livraison & retours',
-    shippingTitle: 'Expédition', shippingText: 'Commande préparée sous 24 à 48 heures ouvrées, puis expédiée depuis notre atelier en France, avec numéro de suivi.',
-    delaysTitle: 'Délais de livraison', delaysFrance: 'France métropolitaine : 4 à 7 jours ouvrés en point relais Mondial Relay (livraison à domicile bientôt disponible)',
-    delaysOther: 'Autres pays : délais et tarifs sur notre page', delaysLink: 'Livraisons et retours',
-    costsTitle: 'Frais de livraison', costsStrong: 'Livraison sécurisée', costsText: ' : tous les colis sont expédiés avec numéro de suivi. Les frais sont calculés au paiement selon la destination.',
+    shippingTitle: 'Expédition', shippingText: "Préparée sous 24 à 48 h ouvrées dans notre atelier en France, puis expédiée avec un numéro de suivi.",
+    delaysTitle: "Modes de livraison",
+    relayStrong: "Point relais Mondial Relay", relayText: " : 3,90 € en France, livré en 4 à 7 jours ouvrés. Vous choisissez votre point relais (commerce ou consigne) au paiement et vous êtes prévenu dès l'arrivée du colis.",
+    homeStrong: "À domicile avec La Poste", homeText: " : bientôt disponible.",
+    delaysOther: "Autres pays : délais et tarifs sur notre page", delaysLink: "Livraisons et retours",
     returnsTitle: 'Retours & remboursement',
     returnsText1: 'Vous disposez de ', returnsStrong: '14 jours après réception', returnsText2: " pour changer d'avis. Le produit doit être renvoyé dans son état d'origine, non utilisé et dans son emballage ; les frais de retour sont à votre charge, sauf produit défectueux ou erreur de notre part. Remboursement intégral, frais de livraison initiaux compris, dès réception du colis.",
     returnsCustom: 'Les produits personnalisés ne sont ni repris ni échangés, sauf défaut de fabrication.',
-    careTitle: 'Entretien', careSub: "Conseils d'entretien", careText: "Nettoyez votre coque avec un chiffon doux, sec ou légèrement humide. Évitez l'alcool, les solvants et les produits abrasifs, qui peuvent ternir l'impression, et ne la laissez pas longtemps en plein soleil, par exemple derrière un pare-brise.",
+    careTitle: 'Entretien', careSub: "Conseils d'entretien", careItems: ["Ne pliez pas et ne tordez pas votre coque, surtout en relief : le motif pourrait se fissurer ou se décoller. Pour la retirer, poussez-la doucement depuis l'appareil photo.", "Nettoyez-la avec un chiffon doux, sec ou à peine humide, sans alcool ni produit abrasif.", "Évitez de la laisser longtemps en plein soleil, derrière un pare-brise par exemple."],
     collection: 'Collection', related: 'Vous aimerez aussi', viewAll: 'Voir tout',
     prevProducts: 'Produits précédents', nextProducts: 'Produits suivants',
     seoTail: (p: string) => `Dès ${p}, imprimée en France, livraison suivie.`,
@@ -77,14 +78,15 @@ const L = {
     inStock: 'In stock', outOfStock: 'Out of stock', size: 'Size', mostPopular: ' (most popular)', popular: 'Popular',
     secureShipping: 'Secure shipping', secureShippingSub: 'tracked parcel',
     description: 'Description', shippingReturns: 'Shipping & returns',
-    shippingTitle: 'Shipping', shippingText: 'Order prepared within 24 to 48 business hours, then shipped from our workshop in France with a tracking number.',
-    delaysTitle: 'Delivery times', delaysFrance: 'Mainland France: 4 to 7 business days to a Mondial Relay pickup point (home delivery coming soon)',
-    delaysOther: 'Other countries: times and rates on our', delaysLink: 'Shipping and returns page',
-    costsTitle: 'Shipping costs', costsStrong: 'Secure shipping', costsText: ': every parcel ships with a tracking number. Costs are calculated at checkout based on the destination.',
+    shippingTitle: 'Shipping', shippingText: "Prepared within 24 to 48 business hours in our workshop in France, then shipped with a tracking number.",
+    delaysTitle: "Delivery options",
+    relayStrong: "Mondial Relay pickup point", relayText: ": €3.90 in France, delivered in 4 to 7 business days. You choose your pickup point (shop or locker) at checkout and get notified as soon as your parcel arrives.",
+    homeStrong: "Home delivery with La Poste", homeText: ": coming soon.",
+    delaysOther: "Other countries: times and rates on our", delaysLink: "Shipping and returns page",
     returnsTitle: 'Returns & refunds',
     returnsText1: 'You have ', returnsStrong: '14 days from receipt', returnsText2: ' to change your mind. The item must be returned in its original condition, unused and in its packaging; return shipping is at your expense, unless the item is faulty or we made a mistake. Full refund, original shipping included, once we receive the parcel.',
     returnsCustom: 'Custom-made products cannot be returned or exchanged, except for manufacturing defects.',
-    careTitle: 'Care', careSub: 'Care tips', careText: 'Clean your case with a soft cloth, dry or slightly damp. Avoid alcohol, solvents and abrasive products, which can dull the print, and do not leave it in direct sunlight for long, for example behind a windscreen.',
+    careTitle: 'Care', careSub: 'Care tips', careItems: ["Do not bend or twist your case, especially the raised ones: the design could crack or peel. To take it off, push it out gently from the camera.", "Clean it with a soft cloth, dry or barely damp, without alcohol or abrasive products.", "Avoid leaving it in direct sunlight for long, for example behind a windscreen."],
     collection: 'Collection', related: 'You may also like', viewAll: 'View all',
     prevProducts: 'Previous products', nextProducts: 'Next products',
     seoTail: (p: string) => `From ${p}, printed in France, tracked shipping.`,
@@ -97,14 +99,15 @@ const L = {
     inStock: 'Auf Lager', outOfStock: 'Ausverkauft', size: 'Größe', mostPopular: ' (am beliebtesten)', popular: 'Beliebt',
     secureShipping: 'Sicherer Versand', secureShippingSub: 'mit Sendungsverfolgung',
     description: 'Beschreibung', shippingReturns: 'Versand & Rückgabe',
-    shippingTitle: 'Versand', shippingText: 'Bestellung innerhalb von 24 bis 48 Werkstunden vorbereitet, dann aus unserem Atelier in Frankreich mit Sendungsnummer verschickt.',
-    delaysTitle: 'Lieferzeiten', delaysFrance: 'Frankreich (Festland): 4 bis 7 Werktage an eine Mondial-Relay-Abholstelle (Lieferung nach Hause bald verfügbar)',
-    delaysOther: 'Andere Länder: Lieferzeiten und Preise auf unserer Seite', delaysLink: 'Versand und Rückgabe',
-    costsTitle: 'Versandkosten', costsStrong: 'Sicherer Versand', costsText: ': Jedes Paket wird mit Sendungsnummer verschickt. Die Kosten werden an der Kasse je nach Zielland berechnet.',
+    shippingTitle: 'Versand', shippingText: "Innerhalb von 24 bis 48 Werkstunden in unserem Atelier in Frankreich vorbereitet, dann mit Sendungsnummer verschickt.",
+    delaysTitle: "Versandarten",
+    relayStrong: "Mondial-Relay-Abholstelle", relayText: ": 3,90 € in Frankreich, Lieferung in 4 bis 7 Werktagen. Du wählst deine Abholstelle (Geschäft oder Packstation) an der Kasse und wirst benachrichtigt, sobald dein Paket da ist.",
+    homeStrong: "Lieferung nach Hause mit La Poste", homeText: ": bald verfügbar.",
+    delaysOther: "Andere Länder: Lieferzeiten und Preise auf unserer Seite", delaysLink: "Versand und Rückgabe",
     returnsTitle: 'Rückgabe & Erstattung',
     returnsText1: 'Du hast ', returnsStrong: '14 Tage ab Erhalt', returnsText2: ', um deine Meinung zu ändern. Der Artikel muss im Originalzustand, unbenutzt und in der Verpackung zurückgeschickt werden; die Rücksendekosten trägst du, außer bei einem defekten Artikel oder einem Fehler unsererseits. Vollständige Erstattung inklusive ursprünglicher Versandkosten nach Eingang des Pakets.',
     returnsCustom: 'Personalisierte Produkte sind von Rückgabe und Umtausch ausgenommen, außer bei Fertigungsfehlern.',
-    careTitle: 'Pflege', careSub: 'Pflegehinweise', careText: 'Reinige deine Hülle mit einem weichen, trockenen oder leicht feuchten Tuch. Vermeide Alkohol, Lösungsmittel und Scheuermittel, die den Druck stumpf machen können, und lass sie nicht lange in der prallen Sonne liegen, zum Beispiel hinter der Windschutzscheibe.',
+    careTitle: 'Pflege', careSub: 'Pflegehinweise', careItems: ["Biege und verdrehe deine Hülle nicht, vor allem die Relief-Hüllen: Das Motiv könnte reißen oder sich lösen. Zum Abnehmen sanft von der Kamera aus herausdrücken.", "Reinige sie mit einem weichen, trockenen oder kaum feuchten Tuch, ohne Alkohol oder Scheuermittel.", "Lass sie nicht lange in der prallen Sonne liegen, zum Beispiel hinter der Windschutzscheibe."],
     collection: 'Kollektion', related: 'Das könnte dir auch gefallen', viewAll: 'Alle ansehen',
     prevProducts: 'Vorherige Produkte', nextProducts: 'Nächste Produkte',
     seoTail: (p: string) => `Ab ${p}, in Frankreich bedruckt.`,
@@ -894,14 +897,11 @@ const pickModelLabel = t('model.placeholder', lang);
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">{L.delaysTitle}</h3>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>{L.delaysFrance}</li>
+            <ul class="list-disc pl-5 space-y-1.5">
+              <li><strong class="text-cream font-medium">{L.relayStrong}</strong>{L.relayText}</li>
+              <li><strong class="text-cream font-medium">{L.homeStrong}</strong>{L.homeText}</li>
               <li>{L.delaysOther} <a href={url('/livraisons-et-retours/')} class="underline">{L.delaysLink}</a></li>
             </ul>
-          </div>
-          <div>
-            <h3 class="text-cream font-medium mb-1.5">{L.costsTitle}</h3>
-            <p><strong class="text-cream">{L.costsStrong}</strong>{L.costsText}</p>
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">{L.returnsTitle}</h3>
@@ -922,7 +922,9 @@ const pickModelLabel = t('model.placeholder', lang);
         <div class="mt-5 space-y-4 text-sm text-n-400 font-light leading-relaxed">
           <div>
             <h3 class="text-cream font-medium mb-1.5">{L.careSub}</h3>
-            <p>{L.careText}</p>
+            <ul class="list-disc pl-5 space-y-1.5">
+              {L.careItems.map((c) => <li>{c}</li>)}
+            </ul>
           </div>
         </div>
       </details>
