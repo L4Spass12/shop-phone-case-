@@ -1809,8 +1809,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var el = findEl(id); if (!el) return;
       var c = Object.assign({}, el); delete c.id;
       c.x = clamp(el.x + 7, 6, 94); c.y = clamp(el.y + 7, 6, 94);
-      var copie = addElement(c);
-      if (typeof hiRes !== 'undefined' && hiRes[el.id]) hiRes[copie.id] = hiRes[el.id];
+      // La copie garde la même clé `hk` : elle partage la photo HD.
+      addElement(c);
     }
     function reorder(id, dir) {
       var i = state.elements.findIndex(function (e) { return e.id === id; });
@@ -2123,12 +2123,52 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
     /* Copie haute définition des photos, pour le SEUL fichier d'impression.
        L'éditeur et la sauvegarde travaillent sur une version 1 400 px (légère,
-       elle tient dans le stockage du navigateur) ; imprimer cette version sur
-       tout le dos d'une coque ne donnait qu'environ 220 dpi. Gardée en mémoire
-       seulement : après un rechargement de page, l'impression repart de la
-       version 1 400 px, comme avant. Clé : identifiant de l'élément. */
+       elle tient dans le localStorage) ; imprimer cette version sur tout le
+       dos d'une coque ne donnait qu'environ 220 dpi.
+
+       La copie HD reste dans le NAVIGATEUR du client (IndexedDB, fait pour les
+       gros fichiers), jamais sur le serveur : elle survit à un rechargement de
+       page sans rien coûter à la base. Chaque photo porte une clé `hk` dans la
+       composition ; la copie expire au bout de 7 jours (ménage au démarrage).
+       Sans IndexedDB (rare), on retombe sur la version 1 400 px. */
     var hiRes = {};
     var HI_MAX = 3200;
+    var HI_DB = 'moroji-studio', HI_OS = 'hires', HI_TTL = 7 * 24 * 3600 * 1000;
+    function hiDb() {
+      return new Promise(function (done) {
+        try {
+          var rq = indexedDB.open(HI_DB, 1);
+          rq.onupgradeneeded = function () { rq.result.createObjectStore(HI_OS); };
+          rq.onsuccess = function () { done(rq.result); };
+          rq.onerror = function () { done(null); };
+        } catch (_) { done(null); }
+      });
+    }
+    function hiStore(k, dataUrl) {
+      fetch(dataUrl).then(function (r) { return r.blob(); }).then(function (b) {
+        return hiDb().then(function (db) {
+          if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: b, t: Date.now() }, k);
+        });
+      }).catch(function () {});
+    }
+    /* Recharge les copies HD des photos de la composition, et supprime les
+       copies expirées. */
+    function hiRestore() {
+      var refs = {};
+      state.elements.forEach(function (e) { if (e.hk) refs[e.hk] = 1; });
+      hiDb().then(function (db) {
+        if (!db) return;
+        var now = Date.now();
+        var rq = db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).openCursor();
+        rq.onsuccess = function () {
+          var cur = rq.result; if (!cur) return;
+          var v = cur.value;
+          if (!v || !v.b || now - v.t > HI_TTL) cur.delete();
+          else if (refs[cur.key] && !hiRes[cur.key]) hiRes[cur.key] = URL.createObjectURL(v.b);
+          cur.continue();
+        };
+      }).catch(function () {});
+    }
     function importFile(file) {
       if (!file || !/^image\//.test(file.type)) { toast(I.notImage, 'warn'); return; }
       var reader = new FileReader();
@@ -2158,8 +2198,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
               }
             } catch (_) { hi = ''; }
           }
-          var added = addElement({ type: 'image', src: out, size: 46 });
-          if (hi) hiRes[added.id] = hi;
+          var data = { type: 'image', src: out, size: 46 };
+          if (hi) {
+            data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+            hiRes[data.hk] = hi;
+            hiStore(data.hk, hi);
+          }
+          addElement(data);
           toast(I.photoAdded);
         };
         img.onerror = function () { toast(I.unreadable, 'warn'); };
@@ -2351,7 +2396,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           var img = new Image();
           img.onload = function () { resolve({ id: el.id, img: img }); };
           img.onerror = function () { resolve(null); };
-          img.src = (hi && hiRes[el.id]) || el.src;
+          img.src = (hi && el.hk && hiRes[el.hk]) || el.src;
         });
       })).then(function (list) {
         var map = {};
@@ -2766,6 +2811,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           if (!d || !d.state || !Array.isArray(d.state.elements)) return;
           state = Object.assign(state, d.state);
           seq = state.elements.reduce(function (mx, e) { return Math.max(mx, e.id || 0); }, 0);
+          hiRestore();
           if (d.model) {
             state.model = d.model;
             try { localStorage.setItem(MODEL_KEY, d.model); } catch (_) {}
@@ -2804,6 +2850,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       setModel(state.model);
       renderAll();
       history = [snapshot()]; hIndex = 0; syncHistory();
+      hiRestore();
       // Réédition depuis le panier (/personnaliser?design=<id>) : on recharge
       // la composition telle qu'elle a été envoyée. Asynchrone, donc posé
       // APRÈS le premier rendu pour ne pas retarder l'affichage.
