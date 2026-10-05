@@ -82,7 +82,7 @@ const TEXTS = {
       total: 'Total', addToCart: 'Ajouter au panier', preparing: 'Préparation…', wait: 'Quelques secondes, ne fermez pas la page.',
       seeCart: 'Voir mon panier', another: 'Créer une autre coque',
       help: 'Aide', helpTitle: 'On crée votre design',
-      helpText: "Décrivez votre idée et joignez vos images : notre atelier crée votre coque et vous l'envoie par e-mail sous 48 à 72 h. Gratuit, vous ne payez que si vous la commandez.",
+      helpText: 'Décrivez votre idée et ajoutez vos images : on crée votre coque pour vous.',
       helpDesc: 'Votre idée', helpDescPh: 'Ex. : ma photo de vacances en fond, notre prénom en blanc en bas, style doux et coloré…',
       helpImages: 'Vos images (5 max.)', helpAddImages: 'Ajouter des images', helpImagesHint: 'Photos, inspirations, logo · JPG, PNG, WebP',
       helpFinish: 'Rendu souhaité', helpFlat: 'À plat', helpRelief: 'En relief', helpAny: 'Je ne sais pas',
@@ -126,7 +126,7 @@ const TEXTS = {
       total: 'Total', addToCart: 'Add to cart', preparing: 'Preparing…', wait: 'Just a few seconds, please don’t close the page.',
       seeCart: 'View my cart', another: 'Create another case',
       help: 'Help', helpTitle: 'We design it for you',
-      helpText: 'Describe your idea and attach your images: our workshop creates your case and emails it to you within 48 to 72 hours. Free, you only pay if you order it.',
+      helpText: 'Describe your idea and add your images: we create your case for you.',
       helpDesc: 'Your idea', helpDescPh: 'E.g. my holiday photo as the background, our first name in white at the bottom, soft and colourful style…',
       helpImages: 'Your images (5 max)', helpAddImages: 'Add images', helpImagesHint: 'Photos, inspiration, logo · JPG, PNG, WebP',
       helpFinish: 'Preferred finish', helpFlat: 'Flat', helpRelief: 'Raised', helpAny: 'Not sure',
@@ -170,7 +170,7 @@ const TEXTS = {
       total: 'Gesamt', addToCart: 'In den Warenkorb', preparing: 'Wird vorbereitet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.',
       seeCart: 'Zum Warenkorb', another: 'Weitere Hülle gestalten',
       help: 'Hilfe', helpTitle: 'Wir gestalten für dich',
-      helpText: 'Beschreibe deine Idee und füge deine Bilder hinzu: Unsere Werkstatt gestaltet deine Hülle und schickt sie dir innerhalb von 48 bis 72 Stunden per E-Mail. Kostenlos, du zahlst nur, wenn du bestellst.',
+      helpText: 'Beschreibe deine Idee und füge deine Bilder hinzu: Wir gestalten deine Hülle für dich.',
       helpDesc: 'Deine Idee', helpDescPh: 'Z. B. mein Urlaubsfoto als Hintergrund, unser Vorname in Weiß unten, sanfter und bunter Stil…',
       helpImages: 'Deine Bilder (max. 5)', helpAddImages: 'Bilder hinzufügen', helpImagesHint: 'Fotos, Inspiration, Logo · JPG, PNG, WebP',
       helpFinish: 'Gewünschter Druck', helpFlat: 'Flach', helpRelief: 'Relief', helpAny: 'Weiß nicht',
@@ -1002,10 +1002,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       backdrop-filter: blur(16px) saturate(1.4);
       box-shadow: 0 -14px 34px -20px rgba(0,0,0,.4);
       border: 1px solid rgb(var(--c-cream) / .12);
+    }
+    /* L'animation ne joue QUE pendant une ouverture ou une fermeture
+       (.panel--anim, posée le temps du geste) : sans ça, tout changement de
+       hauteur rejouait le « tiroir », par exemple à l'ouverture du clavier. */
+    .panel.panel--anim {
       transition: max-height .45s cubic-bezier(.33, 1, .68, 1),
                   padding .45s cubic-bezier(.33, 1, .68, 1);
     }
-    .panel.panel--open { max-height: 46dvh; padding: 0 1rem .9rem; }
+    /* svh (petite hauteur d'écran, fixe) et non dvh : la hauteur dynamique
+       change quand le clavier ou la barre du navigateur apparaît. */
+    .panel.panel--open { max-height: 46svh; padding: 0 1rem .9rem; }
 
     /* Le header (titre + croix) reste collé en haut pendant le scroll, avec un
        fond, pour que la croix soit toujours visible. */
@@ -2123,13 +2130,21 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // max-height:0 committé) PUIS on ajoute la classe, pour que la transition
       // de max-height se joue. (Plus fiable que requestAnimationFrame.)
       void panel.offsetHeight;
+      animatePanel();
       panel.classList.add('panel--open');
       fitCase();
+    }
+    var panelAnimTimer = null;
+    function animatePanel() {
+      panel.classList.add('panel--anim');
+      if (panelAnimTimer) clearTimeout(panelAnimTimer);
+      panelAnimTimer = setTimeout(function () { panel.classList.remove('panel--anim'); panelAnimTimer = null; }, 500);
     }
     function closePane() {
       activePane = null;
       root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
       moveRailInd(true);
+      animatePanel();
       panel.classList.remove('panel--open');
       // Mobile : on laisse l'animation de fermeture se jouer avant de masquer.
       // Desktop : pas de transition → on masque tout de suite.
