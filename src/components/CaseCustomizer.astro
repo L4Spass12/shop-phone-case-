@@ -87,8 +87,7 @@ const TEXTS = {
       helpText: 'Décrivez votre idée et ajoutez vos images : on crée votre coque pour vous.',
       helpDesc: 'Votre idée', helpDescPh: 'Ex. : ma photo de vacances en fond, notre prénom en blanc en bas, style doux et coloré…',
       helpImages: 'Vos images (5 max.)', helpAddImages: 'Ajouter des images', helpImagesHint: 'Photos, inspirations, logo · JPG, PNG, WebP',
-      helpFinish: 'Rendu souhaité', helpFlat: 'À plat', helpRelief: 'En relief', helpAny: 'Je ne sais pas',
-      helpModel: 'Modèle', helpModelNone: 'Choisissez votre modèle en haut du studio.',
+      helpModel: 'Modèle', helpModelNone: 'Choisir mon modèle', helpModelChange: 'Changer',
       helpEmail: 'E-mail', helpSend: 'Envoyer ma demande', helpNote: 'Réponse sous 48 à 72 h · Gratuit et sans engagement',
       helpDoneTitle: 'Demande envoyée !', helpDoneText: 'Merci ! Vous allez recevoir un e-mail de confirmation. Notre atelier revient vers vous sous 48 à 72 h avec votre design.',
     },
@@ -131,8 +130,7 @@ const TEXTS = {
       helpText: 'Describe your idea and add your images: we create your case for you.',
       helpDesc: 'Your idea', helpDescPh: 'E.g. my holiday photo as the background, our first name in white at the bottom, soft and colourful style…',
       helpImages: 'Your images (5 max)', helpAddImages: 'Add images', helpImagesHint: 'Photos, inspiration, logo · JPG, PNG, WebP',
-      helpFinish: 'Preferred finish', helpFlat: 'Flat', helpRelief: 'Raised', helpAny: 'Not sure',
-      helpModel: 'Model', helpModelNone: 'Choose your model at the top of the studio.',
+      helpModel: 'Model', helpModelNone: 'Choose my model', helpModelChange: 'Change',
       helpEmail: 'Email', helpSend: 'Send my request', helpNote: 'Reply within 48 to 72 hours · Free, no commitment',
       helpDoneTitle: 'Request sent!', helpDoneText: 'Thank you! You will receive a confirmation email. Our workshop will get back to you within 48 to 72 hours with your design.',
     },
@@ -175,8 +173,7 @@ const TEXTS = {
       helpText: 'Beschreibe deine Idee und füge deine Bilder hinzu: Wir gestalten deine Hülle für dich.',
       helpDesc: 'Deine Idee', helpDescPh: 'Z. B. mein Urlaubsfoto als Hintergrund, unser Vorname in Weiß unten, sanfter und bunter Stil…',
       helpImages: 'Deine Bilder (max. 5)', helpAddImages: 'Bilder hinzufügen', helpImagesHint: 'Fotos, Inspiration, Logo · JPG, PNG, WebP',
-      helpFinish: 'Gewünschter Druck', helpFlat: 'Flach', helpRelief: 'Relief', helpAny: 'Weiß nicht',
-      helpModel: 'Modell', helpModelNone: 'Wähle dein Modell oben im Studio.',
+      helpModel: 'Modell', helpModelNone: 'Modell wählen', helpModelChange: 'Ändern',
       helpEmail: 'E-Mail', helpSend: 'Anfrage senden', helpNote: 'Antwort in 48 bis 72 Stunden · Kostenlos und unverbindlich',
       helpDoneTitle: 'Anfrage gesendet!', helpDoneText: 'Danke! Du erhältst eine Bestätigung per E-Mail. Unsere Werkstatt meldet sich innerhalb von 48 bis 72 Stunden mit deinem Design.',
     },
@@ -340,15 +337,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           </button>
           <input type="file" accept="image/*" multiple hidden data-helpfile />
 
-          <label class="pane-label">{U.helpFinish}</label>
-          <div class="seg" data-helpfinish>
-            <button type="button" data-v="flat" aria-pressed="false">{U.helpFlat}</button>
-            <button type="button" data-v="relief" aria-pressed="false">{U.helpRelief}</button>
-            <button type="button" data-v="" aria-pressed="true">{U.helpAny}</button>
-          </div>
-
           <label class="pane-label">{U.helpModel}</label>
-          <p class="help-model" data-helpmodel>{U.helpModelNone}</p>
+          {/* Ouvre le même sélecteur que la barre du studio : le modèle choisi
+              ici vaut pour toute la composition. */}
+          <button type="button" class="field help-model" data-helpmodel>
+            <span data-helpmodelval>{U.helpModelNone}</span>
+            <span class="help-model-act" aria-hidden="true">{U.helpModelChange}</span>
+          </button>
 
           <label class="pane-label" for="help-email">{U.helpEmail}</label>
           <input id="help-email" class="field" data-helpemail type="email" maxlength="200" autocomplete="email" inputmode="email" />
@@ -1080,7 +1075,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .help-drop { padding: 1rem; }
   .help-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; margin-bottom: .5rem; }
   .help-thumbs:empty { display: none; }
-  .help-model { font-size: .8rem; margin: 0; opacity: .85; }
+  .help-model { display: flex; align-items: center; justify-content: space-between; gap: .5rem; width: 100%; text-align: left; cursor: pointer; }
+  .help-model-act { font-size: .72rem; font-weight: 600; color: rgb(var(--accent-rgb)); flex: none; }
   .help-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   .help-send { width: 100%; margin-top: 1.1rem; justify-content: center; }
   .help-send[disabled] { opacity: .6; cursor: wait; }
@@ -2985,10 +2981,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     var helpDone = root.querySelector('[data-helpdone]');
     var helpThumbs = root.querySelector('[data-helpthumbs]');
     var helpFile = root.querySelector('[data-helpfile]');
-    var helpModelEl = root.querySelector('[data-helpmodel]');
+    var helpModelEl = root.querySelector('[data-helpmodelval]');
     var helpModelNone = helpModelEl ? helpModelEl.textContent : '';
     var helpImgs = [];
-    var helpFinish = '';
     var HELP_MAX_CHARS = 8000000; // ~6 Mo décodés, la limite du serveur
 
     function helpSyncModel() {
@@ -3044,12 +3039,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     if (helpForm) {
       root.querySelector('[data-helppick]').addEventListener('click', function () { helpFile.click(); });
       helpFile.addEventListener('change', function () { helpAdd(helpFile.files); helpFile.value = ''; });
-      root.querySelectorAll('[data-helpfinish] button').forEach(function (b) {
-        b.addEventListener('click', function () {
-          helpFinish = b.dataset.v || '';
-          root.querySelectorAll('[data-helpfinish] button').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
-        });
+      root.querySelector('[data-helpmodel]').addEventListener('click', function () {
+        var tr = root.querySelector('#studio-model [data-mp-trigger]') || root.querySelector('[data-mp-trigger]');
+        if (tr) tr.click();
       });
+      document.addEventListener('model:change', helpSyncModel);
       helpForm.addEventListener('submit', function (e) {
         e.preventDefault();
         var desc = root.querySelector('[data-helpdesc]').value.trim();
@@ -3064,7 +3058,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           images: helpImgs, website: root.querySelector('[data-helphp]').value,
         };
         if (state.model) body.model = state.model;
-        if (helpFinish) body.finish = helpFinish;
         fetch(API + '/api/public/design-request', {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
         }).then(function (r) {
