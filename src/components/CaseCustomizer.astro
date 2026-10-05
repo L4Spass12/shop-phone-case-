@@ -1005,6 +1005,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       flex: 1 1 auto; min-height: 0; max-height: 100svh;
       margin-top: 10px; margin-bottom: 10px;
     }
+    /* Clavier ouvert sur un champ du panneau (html.kb-open, posé par le JS) :
+       l'éditeur est calé sur la zone visible AU-DESSUS du clavier. Barre
+       d'outils et rail ne servent pas pendant la saisie, ils laissent la
+       place ; le panneau garde au plus la moitié de l'écran restant, sauf en
+       « Aide » où il prend tout. */
+    :global(html.kb-open) .builder > .bar,
+    :global(html.kb-open) .builder > .rail { display: none; }
+    :global(html.kb-open) .panel.panel--open { max-height: 55%; margin-top: 8px; margin-bottom: 8px; }
+    :global(html.kb-open) .builder--help > .panel.panel--open { max-height: none; }
 
     /* Le header (titre + croix) reste collé en haut pendant le scroll, avec un
        fond, pour que la croix soit toujours visible. */
@@ -1303,6 +1312,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
      son contenu — soit 1440 px de haut et une grille écrasée. */
   html[data-studio-app] .studio { height: 100%; }
+  /* Clavier ouvert (mobile) : iOS pose le clavier PAR-DESSUS la page sans la
+     réduire. La page prend donc la hauteur réellement visible (--vvh, mesurée
+     par visualViewport) et l'en-tête s'efface le temps de la saisie. */
+  @media (max-width: 1023px) {
+    /* L'éditeur est FIXÉ sur la zone visible : son haut (--vvt, décalage de
+       la zone visible que iOS fait glisser) et sa hauteur (--vvh). La hauteur
+       de la page, elle, ne change pas : l'allonger poussait iOS à décaler la
+       zone visible encore plus loin. */
+    html[data-studio-app].kb-open #site-header { display: none; }
+    html[data-studio-app].kb-open .site-main,
+    html[data-theme='sunfreaks'][data-studio-app].kb-open .site-main {
+      position: fixed; left: 0; right: 0; z-index: 10001;
+      top: var(--vvt, 0px); height: var(--vvh, 100%);
+      padding-top: max(8px, env(safe-area-inset-top));
+    }
+  }
   /* En sunfreaks le header est un ÎLOT : il flotte 9 px sous le haut de page,
      donc son bas dépasse --header-h d'autant. `main` se décalait de
      --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils —
@@ -2158,6 +2183,45 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       b.addEventListener('click', function () { activePane === b.dataset.panel ? closePane() : openPane(b.dataset.panel); });
     });
     panel.querySelectorAll('[data-panelclose]').forEach(function (b) { b.addEventListener('click', closePane); });
+
+    /* ── Clavier mobile ─────────────────────────────────────────────
+       Sur iPhone, le clavier recouvre le bas de l'écran sans réduire la page :
+       un champ du panneau finissait caché dessous. Tant qu'un champ du panneau
+       a le focus et que le clavier est ouvert, on cale l'éditeur sur la zone
+       visible (visualViewport) et on amène le champ au milieu de cette zone.
+       Limité aux champs du panneau : le sélecteur de modèle, lui, vit dans la
+       barre, qui s'efface dans ce mode. */
+    (function keyboardFit() {
+      var vv = window.visualViewport; if (!vv) return;
+      var mq = window.matchMedia('(max-width: 1023px)');
+      var de = document.documentElement;
+      function field(el) {
+        if (!el || !panel.contains(el)) return false;
+        if (el.tagName === 'TEXTAREA') return true;
+        return el.tagName === 'INPUT' && !/^(button|checkbox|radio|file|submit|range|color|hidden)$/.test(el.type);
+      }
+      // Hauteur visible de référence, mesurée sans clavier : le clavier est
+      // ouvert quand la zone visible en a perdu une bonne part. (innerHeight
+      // ne sert pas de référence : selon la version d'iOS, il suit le clavier.)
+      var full = vv.height;
+      function update() {
+        if (!field(document.activeElement)) full = vv.height;
+        var kb = mq.matches && field(document.activeElement) && full - vv.height > 120;
+        de.classList.toggle('kb-open', kb);
+        if (kb) {
+          de.style.setProperty('--vvh', Math.round(vv.height) + 'px');
+          de.style.setProperty('--vvt', Math.round(Math.max(0, vv.offsetTop)) + 'px');
+        } else { de.style.removeProperty('--vvh'); de.style.removeProperty('--vvt'); }
+      }
+      function reveal() {
+        var a = document.activeElement;
+        if (field(a) && de.classList.contains('kb-open')) a.scrollIntoView({ block: 'center' });
+      }
+      vv.addEventListener('resize', function () { update(); setTimeout(reveal, 60); });
+      vv.addEventListener('scroll', update);
+      panel.addEventListener('focusin', function () { setTimeout(function () { update(); reveal(); }, 320); });
+      panel.addEventListener('focusout', function () { setTimeout(update, 120); });
+    })();
 
     /* ── Textes ─────────────────────────────────────────────────── */
     var textInput = root.querySelector('[data-textinput]');
