@@ -28,7 +28,7 @@ const igUrl = (siteConfig.socials && siteConfig.socials.instagram) || `https://i
 // (max-age 1 an). Sans changer ce suffixe, remplacer un fichier au même nom
 // continue de servir l'ancienne version. À incrémenter à chaque changement
 // d'image.
-const V = 3;
+const V = 4;
 const photos = [
   `/images/insta/insta-1.webp?v=${V}`,
   `/images/insta/insta-2.webp?v=${V}`,
@@ -85,9 +85,12 @@ const photos = [
      bords de l'écran. Pas de conteneur centré ni de gouttières : c'est ce
      débord qui donne l'impression d'un fil qui continue. */
   .insta {
-    padding: 0;
+    padding: 0 0 3rem;
     border-top: 1px solid rgb(var(--c-cream) / .08);
   }
+  /* De l'air avant le pied de page : la bande de photos venait buter
+     contre son arrondi. */
+  @media (min-width: 768px) { .insta { padding-bottom: 4.5rem; } }
   .insta-head {
     display: flex;
     align-items: center;
