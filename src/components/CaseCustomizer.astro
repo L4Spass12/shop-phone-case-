@@ -370,6 +370,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <div class="frost" data-frost aria-hidden="true"></div>
         <div class="phone" data-phone></div>
         <div class="design" data-design>
+          {/* Fond de coque (posé par un design) : couvre toute la coque, sous
+              les éléments, et ne se sélectionne pas. */}
+          <div class="case-bg" data-casebg aria-hidden="true"></div>
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
           <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
         </div>
@@ -1169,6 +1172,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .case[data-mount="phone"] .frost { display: none; }
 
   .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
+  .case-bg { position: absolute; inset: 0; background: center / cover no-repeat; pointer-events: none; }
 
   .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
   .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
@@ -1402,6 +1406,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     border-radius: 9px; overflow: hidden;
     container-type: inline-size;             /* les cqw des éléments suivent la vignette */
     background: linear-gradient(150deg, #f6f2ea, #e9e3d7);
+    background-size: cover; background-position: center;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
   }
   .studio .tel {
@@ -1696,60 +1701,64 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Designs prêts à l'emploi ───────────────────────────────────
        Point de départ éditable : on pose des éléments normaux, que le
        client déplace/modifie ensuite comme s'il les avait ajoutés. */
+    // Fonds de coque (rayures peintes) et couleur du contour de texte assortie :
+    // un texte blanc cerné d'une teinte sombre du fond reste lisible sur les
+    // rayures claires comme sur les foncées.
+    var BG = {
+      cerise: { src: '/images/studio-bg/cerise.webp', ink: '#8f1f00' },
+      ciel:   { src: '/images/studio-bg/ciel.webp',   ink: '#2f6fa8' },
+      menthe: { src: '/images/studio-bg/menthe.webp', ink: '#00796f' },
+    };
+    function T(text, font, size, x, y, bg, extra) {
+      return Object.assign({ type: 'text', text: text, font: F(font), color: '#ffffff', outline: BG[bg].ink, size: size, x: x, y: y, rot: 0 }, extra || {});
+    }
+    function S(text, size, x, y, rot) { return { type: 'sticker', text: text, size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
-      { id: 'prenom', name: I.tpl.prenom, els: [
-        { type: 'text', text: 'Camille', font: F('pinyon'), color: '#111113', size: 20, x: 50, y: 50, rot: 0 },
+      { id: 'prenom', name: I.tpl.prenom, bg: 'cerise', els: [
+        T('Camille', 'pinyon', 24, 50, 52, 'cerise'),
       ]},
-      { id: 'monogramme', name: I.tpl.monogramme, els: [
-        { type: 'text', text: 'A M', font: F('bodoni'), color: '#111113', size: 30, x: 50, y: 46, rot: 0 },
-        { type: 'text', text: I.tpl.since, font: F('montserrat'), color: '#6e5f52', size: 5, x: 50, y: 60, rot: 0 },
+      { id: 'monogramme', name: I.tpl.monogramme, bg: 'ciel', els: [
+        T('A M', 'bodoni', 32, 50, 46, 'ciel'),
+        T(I.tpl.since, 'montserrat', 6, 50, 60, 'ciel'),
       ]},
       // NB : on garde les éléments hors de la zone caméra (haut-gauche).
-      { id: 'floral', name: I.tpl.floral, els: [
-        { type: 'sticker', text: '🌸', size: 20, x: 27, y: 37, rot: -12 },
-        { type: 'sticker', text: '🌿', size: 17, x: 76, y: 34, rot: 14 },
-        { type: 'text', text: 'Bloom', font: F('dancing'), color: '#111113', size: 18, x: 50, y: 52, rot: 0 },
-        { type: 'sticker', text: '🌷', size: 18, x: 30, y: 74, rot: 8 },
-        { type: 'sticker', text: '🍃', size: 15, x: 72, y: 78, rot: -16 },
+      { id: 'floral', name: I.tpl.floral, bg: 'menthe', els: [
+        S('🌸', 20, 27, 37, -12), S('🌿', 17, 76, 34, 14),
+        T('Bloom', 'dancing', 21, 50, 53, 'menthe'),
+        S('🌷', 18, 30, 74, 8), S('🍃', 15, 72, 78, -16),
       ]},
-      { id: 'celeste', name: I.tpl.celeste, els: [
-        { type: 'sticker', text: '🌙', size: 26, x: 52, y: 38, rot: 0 },
-        { type: 'sticker', text: '✨', size: 12, x: 25, y: 34, rot: 0 },
-        { type: 'sticker', text: '⭐', size: 10, x: 78, y: 26, rot: 0 },
-        { type: 'sticker', text: '✨', size: 9, x: 72, y: 52, rot: 0 },
-        { type: 'text', text: 'STAY WILD', font: F('bebas'), color: '#111113', size: 12, x: 50, y: 66, rot: 0 },
+      { id: 'celeste', name: I.tpl.celeste, bg: 'ciel', els: [
+        S('🌙', 26, 52, 38), S('✨', 12, 25, 34), S('⭐', 10, 78, 26), S('✨', 9, 72, 52),
+        T('STAY WILD', 'bebas', 15, 50, 66, 'ciel'),
       ]},
-      { id: 'citation', name: I.tpl.citation, els: [
-        { type: 'text', text: 'CARPE', font: F('anton'), color: '#ff3b14', size: 22, x: 50, y: 42, rot: 0 },
-        { type: 'text', text: 'DIEM', font: F('anton'), color: '#111113', size: 22, x: 50, y: 56, rot: 0 },
+      { id: 'citation', name: I.tpl.citation, bg: 'cerise', els: [
+        T('CARPE', 'anton', 24, 50, 42, 'cerise'),
+        T('DIEM', 'anton', 24, 50, 57, 'cerise', { color: '#ffe14d' }),
       ]},
-      { id: 'tropical', name: I.tpl.tropical, els: [
-        { type: 'sticker', text: '🌴', size: 30, x: 34, y: 40, rot: -8 },
-        { type: 'sticker', text: '🌺', size: 18, x: 70, y: 60, rot: 12 },
-        { type: 'text', text: I.tpl.summer, font: F('caveat'), color: '#16a34a', size: 18, x: 52, y: 78, rot: -4 },
+      { id: 'tropical', name: I.tpl.tropical, bg: 'menthe', els: [
+        S('🌴', 30, 34, 40, -8), S('🌺', 18, 70, 60, 12),
+        T(I.tpl.summer, 'caveat', 21, 52, 78, 'menthe', { rot: -4 }),
       ]},
-      { id: 'vague', name: I.tpl.vague, els: [
-        { type: 'sticker', text: '🌊', size: 34, x: 50, y: 58, rot: 0 },
-        { type: 'text', text: I.tpl.ocean, font: F('oswald'), color: '#2563eb', size: 13, x: 50, y: 34, rot: 0 },
+      { id: 'vague', name: I.tpl.vague, bg: 'ciel', els: [
+        S('🌊', 36, 50, 58),
+        T(I.tpl.ocean, 'oswald', 16, 50, 34, 'ciel'),
       ]},
-      { id: 'coeur', name: I.tpl.coeur, els: [
-        { type: 'sticker', text: '🤍', size: 30, x: 50, y: 44, rot: 0 },
-        { type: 'text', text: 'love you', font: F('dancing'), color: '#e11d48', size: 14, x: 50, y: 64, rot: -3 },
+      { id: 'coeur', name: I.tpl.coeur, bg: 'cerise', els: [
+        S('🤍', 30, 50, 44),
+        T('love you', 'dancing', 17, 50, 64, 'cerise', { rot: -3 }),
       ]},
-      { id: 'minimal', name: I.tpl.minimal, els: [
-        { type: 'text', text: '·', font: F('inter'), color: '#111113', size: 22, x: 50, y: 40, rot: 0 },
-        { type: 'text', text: 'less is more', font: F('mono'), color: '#111113', size: 7, x: 50, y: 52, rot: 0 },
+      { id: 'minimal', name: I.tpl.minimal, bg: 'menthe', els: [
+        T('✦', 'inter', 14, 50, 40, 'menthe'),
+        T('less is more', 'mono', 8, 50, 52, 'menthe'),
       ]},
-      { id: 'fete', name: I.tpl.fete, els: [
-        { type: 'sticker', text: '🪩', size: 26, x: 50, y: 36, rot: 0 },
-        { type: 'sticker', text: '🎀', size: 13, x: 26, y: 60, rot: -14 },
-        { type: 'sticker', text: '✨', size: 11, x: 74, y: 58, rot: 10 },
-        { type: 'text', text: 'good vibes', font: F('caveat'), color: '#7c3aed', size: 14, x: 50, y: 72, rot: 0 },
+      { id: 'fete', name: I.tpl.fete, bg: 'menthe', els: [
+        S('🪩', 26, 50, 36), S('🎀', 13, 26, 60, -14), S('✨', 11, 74, 58, 10),
+        T('good vibes', 'caveat', 17, 50, 72, 'menthe'),
       ]},
     ];
 
     /* ── État ────────────────────────────────────────────────────── */
-    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', elements: [] };
+    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, elements: [] };
     var nodes = new Map();
     var selectedId = null, seq = 0, gesture = null, editingId = null;
     var history = [], hIndex = -1, activePane = null;
@@ -1857,6 +1866,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
 
     /* ── Rendu des éléments ─────────────────────────────────────── */
+    // Contour de texte : huit ombres décalées, rendu identique partout (le
+    // fichier d'impression, lui, trace un vrai contour, cf. renderDesign).
+    function outlineCss(c) {
+      if (!c) return '';
+      return [[1,0],[-1,0],[0,1],[0,-1],[.7,.7],[-.7,.7],[.7,-.7],[-.7,-.7]].map(function (p) {
+        return (p[0] * .055).toFixed(3) + 'em ' + (p[1] * .055).toFixed(3) + 'em 0 ' + c;
+      }).join(',');
+    }
     function applyStyles(el) {
       var ref = nodes.get(el.id); if (!ref) return;
       ref.node.style.left = el.x + '%';
@@ -1865,7 +1882,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (el.type === 'image') ref.content.style.width = el.size + 'cqw';
       else {
         ref.content.style.fontSize = el.size + 'cqw';
-        if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; }
+        if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; ref.content.style.textShadow = outlineCss(el.outline); }
       }
       if (el.id === selectedId) positionGizmo(el);
     }
@@ -1905,7 +1922,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       applyStyles(el);
     }
 
+    var caseBgEl = root.querySelector('[data-casebg]');
+    function bgSrc() { return state.bg && BG[state.bg] ? BG[state.bg].src : ''; }
+    function renderBg() { caseBgEl.style.backgroundImage = bgSrc() ? 'url("' + bgSrc() + '")' : ''; }
     function renderAll() {
+      renderBg();
       design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
       nodes.clear();
       state.elements.forEach(createNode);
@@ -1913,7 +1934,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (selectedId && !findEl(selectedId)) selectedId = null;
       applySelection();
     }
-    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0; }
+    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0 || !!bgSrc(); }
 
     /* ── Historique + sauvegarde ────────────────────────────────── */
     function snapshot() { return JSON.stringify(state); }
@@ -1933,9 +1954,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     undoBtn.addEventListener('click', undo);
     redoBtn.addEventListener('click', redo);
     root.querySelector('[data-reset]').addEventListener('click', function () {
-      if (!state.elements.length) return;
+      if (!state.elements.length && !state.bg) return;
       if (!window.confirm(I.confirmReset)) return;
-      state.elements = []; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
+      state.elements = []; state.bg = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
     });
 
     /* ── Ajout / suppression ────────────────────────────────────── */
@@ -2283,6 +2304,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', I.design + ' ' + t.name);
       var thumb = document.createElement('span');
       thumb.className = 'tpl-thumb';
+      if (t.bg) thumb.style.backgroundImage = 'url("' + BG[t.bg].src.replace('.webp', '-thumb.webp') + '")';
       t.els.forEach(function (e) {
         var s = document.createElement('span');
         s.className = 'tel';
@@ -2291,7 +2313,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         s.style.top = e.y + '%';
         s.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
         s.style.fontSize = e.size + 'cqw';
-        if (e.type === 'text') { s.style.fontFamily = e.font; s.style.color = e.color; }
+        if (e.type === 'text') { s.style.fontFamily = e.font; s.style.color = e.color; s.style.textShadow = outlineCss(e.outline); }
         thumb.appendChild(s);
       });
       var nm = document.createElement('span');
@@ -2302,8 +2324,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     });
 
     function applyTemplate(t) {
-      if (state.elements.length &&
+      if ((state.elements.length || state.bg) &&
           !window.confirm(fill(I.confirmTpl, t.name))) return;
+      state.bg = t.bg || null;
       state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
       selectedId = null;
       renderAll(); pushHistory();
@@ -2632,8 +2655,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       cv.width = w; cv.height = h;
       var g = cv.getContext('2d');
 
-      return Promise.all([loadImages(!!opts.hi), loadFonts(scale)]).then(function (out) {
-        var images = out[0];
+      var bgP = new Promise(function (done) {
+        if (!bgSrc()) return done(null);
+        var bi = new Image();
+        bi.onload = function () { done(bi); };
+        bi.onerror = function () { done(null); };
+        bi.src = bgSrc();
+      });
+      return Promise.all([loadImages(!!opts.hi), loadFonts(scale), bgP]).then(function (out) {
+        var images = out[0], bgImg = out[2];
 
         // Le fond pleine page vient AVANT le détourage : en JPEG il n'y a pas
         // de transparence, sans lui le hors-coque virerait au noir.
@@ -2649,6 +2679,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           // design flotterait sur le fond et se lirait mal.
           g.fillStyle = 'rgba(255,255,255,.72)';
           g.fillRect(0, 0, w, h);
+        }
+        // Fond de coque : couvre tout, comme en CSS (cover, centré).
+        if (bgImg && bgImg.naturalWidth) {
+          var k = Math.max(w / bgImg.naturalWidth, h / bgImg.naturalHeight);
+          var bw = bgImg.naturalWidth * k, bh = bgImg.naturalHeight * k;
+          g.drawImage(bgImg, (w - bw) / 2, (h - bh) / 2, bw, bh);
         }
 
         state.elements.forEach(function (el) {
@@ -2667,6 +2703,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             g.font = fs + 'px ' + (el.type === 'text' ? el.font : EMOJI_FONT);
             g.textAlign = 'center';
             g.textBaseline = 'middle';
+            if (el.type === 'text' && el.outline) {
+              g.lineJoin = 'round'; g.lineWidth = fs * .11; g.strokeStyle = el.outline;
+              g.strokeText(el.text || '', 0, 0);
+            }
             g.fillStyle = el.type === 'text' ? el.color : '#111113';
             g.fillText(el.text || '', 0, 0);
           }
@@ -2932,7 +2972,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     // lieu qu'à l'ajout réel : inutile d'envoyer un design que le client va
     // peut-être abandonner ici.
     nextBtn.addEventListener('click', function (e) {
-      if (!state.elements.length) {
+      if (!state.elements.length && !state.bg) {
         e.preventDefault(); e.stopPropagation();
         toast('Ajoutez au moins un élément à votre coque.', 'warn');
         openPane('design');
