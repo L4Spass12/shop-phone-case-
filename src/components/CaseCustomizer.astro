@@ -1809,7 +1809,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var el = findEl(id); if (!el) return;
       var c = Object.assign({}, el); delete c.id;
       c.x = clamp(el.x + 7, 6, 94); c.y = clamp(el.y + 7, 6, 94);
-      addElement(c);
+      var copie = addElement(c);
+      if (typeof hiRes !== 'undefined' && hiRes[el.id]) hiRes[copie.id] = hiRes[el.id];
     }
     function reorder(id, dir) {
       var i = state.elements.findIndex(function (e) { return e.id === id; });
@@ -2120,6 +2121,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     /* ── Photos ─────────────────────────────────────────────────── */
     root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
+    /* Copie haute définition des photos, pour le SEUL fichier d'impression.
+       L'éditeur et la sauvegarde travaillent sur une version 1 400 px (légère,
+       elle tient dans le stockage du navigateur) ; imprimer cette version sur
+       tout le dos d'une coque ne donnait qu'environ 220 dpi. Gardée en mémoire
+       seulement : après un rechargement de page, l'impression repart de la
+       version 1 400 px, comme avant. Clé : identifiant de l'élément. */
+    var hiRes = {};
+    var HI_MAX = 3200;
     function importFile(file) {
       if (!file || !/^image\//.test(file.type)) { toast(I.notImage, 'warn'); return; }
       var reader = new FileReader();
@@ -2134,7 +2143,23 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           cv.getContext('2d').drawImage(img, 0, 0, w, h);
           var out; try { out = cv.toDataURL('image/webp', .85); } catch (_) { out = ''; }
           if (!out || out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
-          addElement({ type: 'image', src: out, size: 46 });
+          var hi = '', hw = img.width, hh = img.height;
+          if (hw > HI_MAX || hh > HI_MAX) { var hs = Math.min(HI_MAX / hw, HI_MAX / hh); hw = Math.round(hw * hs); hh = Math.round(hh * hs); }
+          if (hw > w || hh > h) {
+            var hc = document.createElement('canvas'); hc.width = hw; hc.height = hh;
+            hc.getContext('2d').drawImage(img, 0, 0, hw, hh);
+            // JPEG pour une photo ; une image qui peut avoir de la transparence
+            // (PNG, autocollant) garde sa couche alpha (WebP, sinon PNG).
+            try {
+              if (file.type === 'image/jpeg') hi = hc.toDataURL('image/jpeg', .93);
+              else {
+                hi = hc.toDataURL('image/webp', .95);
+                if (hi.indexOf('data:image/webp') !== 0) hi = hc.toDataURL('image/png');
+              }
+            } catch (_) { hi = ''; }
+          }
+          var added = addElement({ type: 'image', src: out, size: 46 });
+          if (hi) hiRes[added.id] = hi;
           toast(I.photoAdded);
         };
         img.onerror = function () { toast(I.unreadable, 'warn'); };
@@ -2319,14 +2344,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     // Les images sont des data URL : elles doivent être décodées AVANT le
     // dessin, sinon le canvas sort vide sans lever d'erreur.
-    function loadImages() {
+    function loadImages(hi) {
       var jobs = state.elements.filter(function (e) { return e.type === 'image' && e.src; });
       return Promise.all(jobs.map(function (el) {
         return new Promise(function (resolve) {
           var img = new Image();
           img.onload = function () { resolve({ id: el.id, img: img }); };
           img.onerror = function () { resolve(null); };
-          img.src = el.src;
+          img.src = (hi && hiRes[el.id]) || el.src;
         });
       })).then(function (list) {
         var map = {};
@@ -2363,7 +2388,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       cv.width = w; cv.height = h;
       var g = cv.getContext('2d');
 
-      return Promise.all([loadImages(), loadFonts(scale)]).then(function (out) {
+      return Promise.all([loadImages(!!opts.hi), loadFonts(scale)]).then(function (out) {
         var images = out[0];
 
         // Le fond pleine page vient AVANT le détourage : en JPEG il n'y a pas
@@ -2506,6 +2531,19 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       });
     }
 
+    /* Fichier d'impression en PNG, avec sa résolution inscrite. Le serveur
+       refuse au-delà de 24 Mo : si une photo très détaillée fait dépasser,
+       on redessine un peu moins grand (et la résolution inscrite suit, pour
+       garder la taille réelle de la coque) plutôt que de bloquer le client. */
+    var PRINT_MAX_CHARS = 31 * 1000 * 1000;   // ~23 Mo une fois décodé
+    function printFile(f) {
+      return renderDesign({ width: printWidthPx() * f, hi: true }).then(function (cv) {
+        var url = pngWithDpi(cv.toDataURL('image/png'), Math.round(PRINT_DPI * f));
+        if (url.length > PRINT_MAX_CHARS && f > 0.5) return printFile(Math.round(f * 85) / 100);
+        return url;
+      });
+    }
+
     function uploadDesign(step) {
       var say = step || function () {};
       var hash = snapshot();
@@ -2516,7 +2554,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return paintPause().then(function () {
         return Promise.all([
           renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
-          renderDesign({ width: printWidthPx() }),
+          printFile(1),
         ]);
       }).then(function (canvases) {
         say(I.printFile);
@@ -2532,7 +2570,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             finish: state.finish,
             state: exportState(),
             preview: canvases[0].toDataURL('image/jpeg', 0.82),
-            print: pngWithDpi(canvases[1].toDataURL('image/png'), PRINT_DPI),
+            print: canvases[1],
           }),
         });
       }).then(function (r) {
