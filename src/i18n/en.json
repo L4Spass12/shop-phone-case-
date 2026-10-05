@@ -17,9 +17,9 @@
     "inStock": "In stock",
     "from": "From",
     "secureDelivery": "Secure shipping",
-    "secureDeliverySub": "tracked & insured",
-    "return30Days": "30-day returns",
-    "return30DaysSub": "free and easy",
+    "secureDeliverySub": "tracked parcel",
+    "return30Days": "14-day returns",
+    "return30DaysSub": "quick and easy",
     "deliveryWindow": "You'll receive your order {window}.",
     "popular": "Popular",
     "viewAll": "View all",
@@ -72,7 +72,7 @@
     "explore": "Explore",
     "categories": "Categories",
     "stayInformed": "Stay in the loop",
-    "newsletterIntro": "The best new arrivals & offers, once a week.",
+    "newsletterIntro": "New arrivals and exclusive offers, no spam.",
     "emailPlaceholder": "Email address",
     "join": "Subscribe",
     "newsletterSuccess": "✓ Thanks! You're subscribed.",
@@ -151,12 +151,12 @@
     "or": "or"
   },
   "fabrication": {
-    "eyebrow": "Performance & Durability",
-    "title": "High-Precision Manufacturing",
-    "bullet1": "Superior build quality",
-    "bullet2": "Flawless and durable finish",
-    "bullet3": "Optimal resistance",
-    "imageAlt": "Handcrafted production of a product in our workshop"
+    "eyebrow": "Handmade",
+    "title": "Printed in our workshop",
+    "bullet1": "High-definition printing, one at a time",
+    "bullet2": "Ink applied directly onto the case",
+    "bullet3": "Every case checked before shipping",
+    "imageAlt": "A case being printed in our workshop"
   },
   "cookies": {
     "title": "Cookies",

@@ -44,7 +44,7 @@ const collectionSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   name: `Boutique ${siteConfig.name}`,
-  description: `Les produits sélectionnés par ${siteConfig.name}. Livraison sécurisée, retour 30 jours.`,
+  description: `Les produits sélectionnés par ${siteConfig.name}. Livraison suivie, retour sous 14 jours.`,
   url: `${SITE_URL}/boutique`,
   inLanguage: 'fr-FR',
   isPartOf: { '@type': 'WebSite', name: siteConfig.name, url: SITE_URL },
@@ -62,7 +62,7 @@ const breadcrumbSchema = {
 
 <BaseLayout
   title={`Boutique - ${siteConfig.name}`}
-  description={`Notre sélection de produits de qualité. Livraison sécurisée, retour 30 jours.`}
+  description={`Coques iPhone imprimées à l'unité dans notre atelier en France. Livraison suivie, retour sous 14 jours.`}
   jsonLd={[collectionSchema, breadcrumbSchema]}
 >
   <section class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
@@ -76,7 +76,7 @@ const breadcrumbSchema = {
         <Icon name="shield-check" size={14} strokeWidth={1.5} />
         <span>Livraison sécurisée</span>
         <span class="mx-2">·</span>
-        <span>Retour 30 jours</span>
+        <span>Retour sous 14 jours</span>
       </div>
     </div>
 

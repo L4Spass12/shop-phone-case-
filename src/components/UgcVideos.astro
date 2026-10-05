@@ -13,10 +13,10 @@ import { localeFromPath } from '../lib/i18n';
 // Libellés d'accessibilité, dans la langue de la page.
 const lang = localeFromPath(Astro.url.pathname);
 const L = {
-  fr: { section: 'Vidéos de clients', soundOn: 'Activer le son', soundOff: 'Couper le son' },
-  en: { section: 'Customer videos', soundOn: 'Turn sound on', soundOff: 'Mute' },
-  de: { section: 'Kundenvideos', soundOn: 'Ton einschalten', soundOff: 'Ton ausschalten' },
-}[lang] ?? { section: 'Vidéos de clients', soundOn: 'Activer le son', soundOff: 'Couper le son' };
+  fr: { section: 'Nos coques en vidéo', soundOn: 'Activer le son', soundOff: 'Couper le son' },
+  en: { section: 'Our cases on video', soundOn: 'Turn sound on', soundOff: 'Mute' },
+  de: { section: 'Unsere Hüllen im Video', soundOn: 'Ton einschalten', soundOff: 'Ton ausschalten' },
+}[lang] ?? { section: 'Nos coques en vidéo', soundOn: 'Activer le son', soundOff: 'Couper le son' };
 
 // Clips clients. Vidéos de démonstration : à remplacer par de vrais .mp4
 // (déposez-les dans /public/videos et un poster dans /public/images/ugc).

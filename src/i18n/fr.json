@@ -17,9 +17,9 @@
     "inStock": "En stock",
     "from": "Dès",
     "secureDelivery": "Livraison sécurisée",
-    "secureDeliverySub": "colis suivi & assuré",
-    "return30Days": "Retour 30 jours",
-    "return30DaysSub": "gratuit et simple",
+    "secureDeliverySub": "colis suivi",
+    "return30Days": "Retour sous 14 jours",
+    "return30DaysSub": "simple et rapide",
     "deliveryWindow": "Vous recevez votre colis {window}.",
     "popular": "Populaire",
     "viewAll": "Voir tout",
@@ -72,7 +72,7 @@
     "explore": "Explorer",
     "categories": "Catégories",
     "stayInformed": "Restez informé",
-    "newsletterIntro": "Les meilleures nouveautés & offres, une fois par semaine.",
+    "newsletterIntro": "Nouveautés et offres exclusives, sans spam.",
     "emailPlaceholder": "Adresse email",
     "join": "Rejoindre",
     "newsletterSuccess": "✓ Merci ! Vous êtes bien inscrit.",
@@ -151,12 +151,12 @@
     "or": "ou"
   },
   "fabrication": {
-    "eyebrow": "Performance & Durabilité",
-    "title": "Fabrication Haute Précision",
-    "bullet1": "Qualité de fabrication supérieure",
-    "bullet2": "Finition parfaite & durable",
-    "bullet3": "Résistance optimale",
-    "imageAlt": "Fabrication artisanale d'un produit dans notre atelier"
+    "eyebrow": "Fait main",
+    "title": "Imprimée dans notre atelier",
+    "bullet1": "Impression haute définition, à l'unité",
+    "bullet2": "Encre déposée directement sur la coque",
+    "bullet3": "Chaque coque contrôlée avant envoi",
+    "imageAlt": "Impression d'une coque dans notre atelier"
   },
   "cookies": {
     "title": "Cookies",

@@ -8,6 +8,8 @@
  *
  * Délai en jours OUVRÉS (week-ends sautés) : commande préparée sous 24 à
  * 48 h puis Lettre suivie La Poste, soit 3 à 5 jours ouvrés au total.
+ * Tant que le domicile est « bientôt disponible », c'est le délai du point
+ * relais France qui s'affiche : 4 à 7 jours ouvrés.
  */
 import { t, type Locale } from '../lib/i18n';
 
@@ -16,7 +18,7 @@ interface Props {
   min?: number;
   max?: number;
 }
-const { lang = 'fr', min = 3, max = 5 } = Astro.props;
+const { lang = 'fr', min = 4, max = 7 } = Astro.props;
 
 const generique = {
   fr: `en ${min} à ${max} jours ouvrés`,

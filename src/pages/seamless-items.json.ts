@@ -74,7 +74,7 @@ export const GET: APIRoute = async () => {
           const attr = attributes?.find((a) => a.name === attrName);
           return attr?.values.find((val) => val.slug === slug)?.label ?? slug;
         });
-        return parts.length ? `${name} — ${parts.join(' / ')}` : name;
+        return parts.length ? `${name} - ${parts.join(' / ')}` : name;
       };
 
       return [
@@ -122,7 +122,7 @@ export const GET: APIRoute = async () => {
   if (siteConfig.shop?.customCasePriceCents) {
     items.push({
       key: 'custom',
-      label: 'Coque personnalisée — à plat',
+      label: 'Coque personnalisée - à plat',
       price: siteConfig.shop.customCasePriceCents,
       image: null,
     });
@@ -133,7 +133,7 @@ export const GET: APIRoute = async () => {
   if (siteConfig.shop?.customCaseReliefPriceCents) {
     items.push({
       key: 'custom-relief',
-      label: 'Coque personnalisée — en relief',
+      label: 'Coque personnalisée - en relief',
       price: siteConfig.shop.customCaseReliefPriceCents,
       image: null,
     });

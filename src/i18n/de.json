@@ -17,9 +17,9 @@
     "inStock": "Auf Lager",
     "from": "Ab",
     "secureDelivery": "Sichere Lieferung",
-    "secureDeliverySub": "Paket verfolgt & versichert",
-    "return30Days": "30 Tage Rückgabe",
-    "return30DaysSub": "kostenlos und einfach",
+    "secureDeliverySub": "Paket mit Sendungsverfolgung",
+    "return30Days": "14 Tage Rückgabe",
+    "return30DaysSub": "schnell und einfach",
     "deliveryWindow": "Du erhältst deine Bestellung {window}.",
     "popular": "Beliebt",
     "viewAll": "Alle ansehen",
@@ -72,7 +72,7 @@
     "explore": "Entdecken",
     "categories": "Kategorien",
     "stayInformed": "Auf dem Laufenden bleiben",
-    "newsletterIntro": "Die besten Neuheiten & Angebote, einmal pro Woche.",
+    "newsletterIntro": "Neuheiten und exklusive Angebote, kein Spam.",
     "emailPlaceholder": "E-Mail-Adresse",
     "join": "Abonnieren",
     "newsletterSuccess": "✓ Danke! Du bist angemeldet.",
@@ -151,12 +151,12 @@
     "or": "oder"
   },
   "fabrication": {
-    "eyebrow": "Performance & Haltbarkeit",
-    "title": "Hochpräzise Fertigung",
-    "bullet1": "Überlegene Verarbeitungsqualität",
-    "bullet2": "Makellose und langlebige Verarbeitung",
-    "bullet3": "Optimale Belastbarkeit",
-    "imageAlt": "Handwerkliche Fertigung eines Produkts in unserer Werkstatt"
+    "eyebrow": "Handgemacht",
+    "title": "In unserem Atelier bedruckt",
+    "bullet1": "Hochauflösender Druck, Stück für Stück",
+    "bullet2": "Tinte direkt auf die Hülle aufgetragen",
+    "bullet3": "Jede Hülle vor dem Versand geprüft",
+    "imageAlt": "Eine Hülle wird in unserem Atelier bedruckt"
   },
   "cookies": {
     "title": "Cookies",

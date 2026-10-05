@@ -2944,7 +2944,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           quantity: 1,
         });
         showSuccess(I.success[mode === 'relief' ? 'relief' : 'flat']
-                    + ' — ' + (state.model || m));
+                    + ' · ' + (state.model || m));
       }).catch(function (err) {
         console.error('[studio] ajout au panier', err);
         setUploading(false);
