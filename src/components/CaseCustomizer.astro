@@ -2260,7 +2260,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        composition ; la copie expire au bout de 7 jours (ménage au démarrage).
        Sans IndexedDB (rare), on retombe sur la version 1 400 px. */
     var hiRes = {};
-    var HI_MAX = 3200;
     var HI_DB = 'moroji-studio', HI_OS = 'hires', HI_TTL = 7 * 24 * 3600 * 1000;
     function hiDb() {
       return new Promise(function (done) {
@@ -2324,35 +2323,18 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         if (!out || out.length < 100) { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); return; }
 
         var data = { type: 'image', src: out, size: 46 };
-        var hw = W0, hh = H0;
-        if (hw > HI_MAX || hh > HI_MAX) { var hs = Math.min(HI_MAX / hw, HI_MAX / hh); hw = Math.round(hw * hs); hh = Math.round(hh * hs); }
-        var wantHi = hw > w || hh > h;
-        if (wantHi) data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        // Version HD pour l'impression : le FICHIER ORIGINAL tel quel, gardé
+        // dans le navigateur. Aucun redessin à l'import (un canvas de 3 200 px
+        // en plus faisait lâcher Safari sur iPhone : la photo n'apparaissait
+        // pas). Il n'est décodé qu'au moment de préparer le fichier
+        // d'impression.
+        if (W0 > w || H0 > h) {
+          data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+          hiRes[data.hk] = srcUrl;
+          hiStore(data.hk, file);
+        } else URL.revokeObjectURL(srcUrl);
         addElement(data);
         toast(I.photoAdded);
-
-        if (!wantHi) { URL.revokeObjectURL(srcUrl); return; }
-        // Copie HD pour l'impression, APRÈS l'ajout : si le téléphone manque
-        // de mémoire, la photo est déjà là et l'impression reprend l'aperçu.
-        setTimeout(function () {
-          var hc = document.createElement('canvas'); hc.width = hw; hc.height = hh;
-          var done = function (blob) {
-            freeCanvas(hc); URL.revokeObjectURL(srcUrl);
-            if (!blob || blob.size < 100) return;
-            hiRes[data.hk] = URL.createObjectURL(blob);
-            hiStore(data.hk, blob);
-          };
-          try {
-            hc.getContext('2d').drawImage(img, 0, 0, hw, hh);
-            // JPEG pour une photo ; une image qui peut avoir de la transparence
-            // (PNG, autocollant) garde sa couche alpha.
-            if (file.type === 'image/jpeg' || /hei[cf]/.test(file.type)) hc.toBlob(done, 'image/jpeg', .93);
-            else hc.toBlob(function (b) {
-              if (b && b.type === 'image/webp') done(b);
-              else hc.toBlob(done, 'image/png');
-            }, 'image/webp', .95);
-          } catch (_) { done(null); }
-        }, 60);
       };
       img.onerror = function () { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); };
       img.src = srcUrl;
