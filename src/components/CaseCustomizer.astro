@@ -3254,7 +3254,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       restoreFromUrl();
       // On ouvre d'emblée les designs : démarrer d'une base plutôt que d'une
       // page blanche. Le modèle, lui, se choisit dans la barre du haut.
-      if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
+      // Lien direct vers l'aide (/personnaliser/?aide, depuis la FAQ) : le
+      // formulaire « On crée votre design » s'ouvre tout de suite.
+      if (/[?&]aide\b/.test(location.search)) openPane('help');
+      else if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
     })();
   })();
 </script>

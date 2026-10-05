@@ -43,6 +43,8 @@ const TEXTS = {
         a: "En France métropolitaine, vous recevez votre colis en point relais Mondial Relay 4 à 7 jours ouvrés après votre commande (la livraison à domicile arrive bientôt). En Belgique et au Luxembourg, comptez 5 à 8 jours en point relais, 5 à 9 jours dans les autres pays de l'Union européenne, et jusqu'à 14 jours vers les États-Unis et le Canada. Vous recevez un numéro de suivi dès l'expédition." },
       { q: 'Puis-je retourner un article ?',
         a: "Oui, vous disposez de 14 jours après réception pour changer d'avis. Le produit doit être retourné dans son état d'origine. Consultez notre page dédiée pour connaître la marche à suivre." },
+      { q: "J'ai une idée, mais je ne sais pas comment la réaliser",
+        a: "Pas de souci, on s'en occupe ! Dans le studio, ouvrez [l'onglet Aide](/personnaliser/?aide) : décrivez votre idée, ajoutez vos photos ou inspirations, et notre atelier crée votre design. Vous le recevez par e-mail sous 48 à 72 h, gratuitement et sans engagement." },
       { q: 'Une coque personnalisée est-elle reprise ?',
         a: "Une coque créée dans le studio est fabriquée d'après votre visuel, pour vous seul : elle ne peut pas être remise en vente et n'entre donc pas dans le droit de rétractation. Relisez bien votre aperçu avant de valider. Un défaut de fabrication reste évidemment pris en charge." },
     ],
@@ -67,6 +69,8 @@ const TEXTS = {
         a: 'In mainland France, your parcel reaches your Mondial Relay pickup point 4 to 7 business days after your order (home delivery is coming soon). Allow 5 to 8 days to a pickup point in Belgium and Luxembourg, 5 to 9 days elsewhere in the European Union, and up to 14 days to the United States and Canada. You receive a tracking number as soon as your order ships.' },
       { q: 'Can I return an item?',
         a: 'Yes, you have 14 days after receipt to change your mind. The product must be returned in its original condition. See our dedicated page for the procedure.' },
+      { q: "I have an idea but don't know how to make it",
+        a: "No problem, we'll take care of it! In the studio, open [the Help tab](/en/personnaliser/?aide): describe your idea, add your photos or inspiration, and our workshop creates your design. You receive it by email within 48 to 72 hours, free and with no obligation." },
       { q: 'Can a custom case be returned?',
         a: 'A case created in the studio is made from your own design, just for you: it cannot be resold, so it is not covered by the right of withdrawal. Please check your preview carefully before ordering. A manufacturing defect is of course always covered.' },
     ],
@@ -91,6 +95,8 @@ const TEXTS = {
         a: 'In Frankreich (Festland) liegt dein Paket 4 bis 7 Werktage nach deiner Bestellung an deiner Mondial-Relay-Abholstelle (Lieferung nach Hause folgt bald). Rechne mit 5 bis 8 Tagen an eine Abholstelle in Belgien und Luxemburg, 5 bis 9 Tagen im Rest der Europäischen Union und bis zu 14 Tagen in die USA und nach Kanada. Du erhältst eine Sendungsnummer, sobald deine Bestellung verschickt wird.' },
       { q: 'Kann ich einen Artikel zurückgeben?',
         a: 'Ja, du hast nach Erhalt 14 Tage Zeit, deine Meinung zu ändern. Das Produkt muss im Originalzustand zurückgeschickt werden. Auf unserer Infoseite findest du das Vorgehen.' },
+      { q: 'Ich habe eine Idee, weiß aber nicht, wie ich sie umsetze',
+        a: 'Kein Problem, wir kümmern uns darum! Öffne im Studio [den Hilfe-Tab](/de/personnaliser/?aide): Beschreibe deine Idee, füge deine Fotos oder Inspirationen hinzu, und unser Atelier gestaltet dein Design. Du bekommst es innerhalb von 48 bis 72 Stunden per E-Mail, kostenlos und unverbindlich.' },
       { q: 'Kann eine personalisierte Hülle zurückgegeben werden?',
         a: 'Eine im Studio gestaltete Hülle wird nach deinem eigenen Motiv nur für dich gefertigt: Sie kann nicht weiterverkauft werden und ist daher vom Widerrufsrecht ausgenommen. Prüfe deine Vorschau vor der Bestellung sorgfältig. Ein Fertigungsfehler wird selbstverständlich immer übernommen.' },
     ],
@@ -181,7 +187,7 @@ const faqSchema = {
   mainEntity: faqs.map(f => ({
     '@type': 'Question',
     name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
+    acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') },
   })),
 };
 ---
