@@ -68,7 +68,7 @@ const TEXTS = {
   fr: {
     ui: {
       studio: 'Studio de personnalisation', undo: 'Annuler', undoTitle: 'Annuler (Ctrl+Z)', redo: 'Rétablir',
-      reset: 'Tout effacer', cont: 'Continuer', tools: 'Outils', designs: 'Designs', text: 'Texte', photos: 'Photos',
+      reset: 'Tout effacer', cont: 'Continuer', priceFrom: 'À partir de', tools: 'Outils', designs: 'Designs', text: 'Texte', photos: 'Photos',
       panel: 'Panneau', closePanel: 'Fermer le panneau',
       designsHint: 'Partez d’une base, puis modifiez tout : textes, couleurs, positions.',
       addText: '+ Ajouter un texte', content: 'Contenu', yourText: 'Votre texte', font: 'Police', textColor: 'Couleur du texte',
@@ -111,7 +111,7 @@ const TEXTS = {
   en: {
     ui: {
       studio: 'Customisation studio', undo: 'Undo', undoTitle: 'Undo (Ctrl+Z)', redo: 'Redo',
-      reset: 'Clear all', cont: 'Continue', tools: 'Tools', designs: 'Designs', text: 'Text', photos: 'Photos',
+      reset: 'Clear all', cont: 'Continue', priceFrom: 'From', tools: 'Tools', designs: 'Designs', text: 'Text', photos: 'Photos',
       panel: 'Panel', closePanel: 'Close panel',
       designsHint: 'Start from a base, then change everything: texts, colours, positions.',
       addText: '+ Add text', content: 'Content', yourText: 'Your text', font: 'Font', textColor: 'Text colour',
@@ -154,7 +154,7 @@ const TEXTS = {
   de: {
     ui: {
       studio: 'Gestaltungsstudio', undo: 'Rückgängig', undoTitle: 'Rückgängig (Strg+Z)', redo: 'Wiederholen',
-      reset: 'Alles löschen', cont: 'Weiter', tools: 'Werkzeuge', designs: 'Designs', text: 'Text', photos: 'Fotos',
+      reset: 'Alles löschen', cont: 'Weiter', priceFrom: 'Ab', tools: 'Werkzeuge', designs: 'Designs', text: 'Text', photos: 'Fotos',
       panel: 'Bereich', closePanel: 'Bereich schließen',
       designsHint: 'Starte mit einer Vorlage und ändere dann alles: Texte, Farben, Positionen.',
       addText: '+ Text hinzufügen', content: 'Inhalt', yourText: 'Dein Text', font: 'Schrift', textColor: 'Textfarbe',
@@ -237,7 +237,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <div class="bar-mp"><ModelPicker id="studio-model" lang={lang} /></div>
       </div>
       <div class="bar-r">
-        <span class="bar-price price-amount">{price}</span>
+        {/* « À partir de » : c'est le prix à plat, le relief coûte plus. */}
+        <span class="bar-price price-amount"><span class="bar-from">{U.priceFrom}</span> {price}</span>
         {/* « Continuer » et non « Ajouter » : le mode d'impression se choisit
             à l'étape suivante, et il change le prix. Annoncer l'ajout ici
             reviendrait à cacher une décision qui coûte 5 €. */}
@@ -818,6 +819,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      d'acheter. Tronqué à « iPhon… », il ne servait à rien. */
   @media (max-width: 560px) { .bar-price { display: none; } }
   .bar-price { font-size: 1.1rem; font-weight: 600; white-space: nowrap; }
+  .bar-from { font-size: .72em; font-weight: 500; opacity: .7; }
   .bar-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; white-space: nowrap; }
   /* Le libellé long ne tient pas à 375 px à côté du prix et des annulations :
      on bascule sur « Ajouter » (l'intitulé reste explicite en contexte).
