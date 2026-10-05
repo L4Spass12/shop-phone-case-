@@ -89,7 +89,7 @@
   },
   "contact": {
     "title": "Kontakt",
-    "subtitle": "Eine Frage zu unseren Produkten, einer Bestellung oder zum Versand? Unser Team antwortet meist innerhalb von 24 Stunden.",
+    "subtitle": "Eine Frage zu unseren Produkten, einer Bestellung oder zum Versand? Unser Team antwortet innerhalb von 24 bis 48 Stunden.",
     "firstname": "Vorname",
     "lastname": "Nachname",
     "email": "E-Mail",
@@ -106,8 +106,8 @@
     "messagePlaceholder": "Beschreibe deine Anfrage in wenigen Zeilen…",
     "send": "Nachricht senden",
     "sending": "Wird gesendet…",
-    "responseDelay": "Antwort innerhalb von 24 Werktagsstunden · Deine Daten bleiben vertraulich.",
-    "success": "✓ Nachricht gesendet! Unser Team antwortet innerhalb von 24 Stunden.",
+    "responseDelay": "Antwort innerhalb von 24 bis 48 Stunden · Deine Daten bleiben vertraulich.",
+    "success": "✓ Nachricht gesendet! Unser Team antwortet innerhalb von 24 bis 48 Stunden.",
     "error": "Ein Fehler ist aufgetreten. Bitte erneut versuchen oder schreib uns direkt an"
   },
   "home": {

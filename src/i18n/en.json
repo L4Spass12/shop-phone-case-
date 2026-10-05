@@ -89,7 +89,7 @@
   },
   "contact": {
     "title": "Contact",
-    "subtitle": "A question about our products, an order, or delivery? Our team usually replies within 24 hours.",
+    "subtitle": "A question about our products, an order, or delivery? Our team replies within 24 to 48 hours.",
     "firstname": "First name",
     "lastname": "Last name",
     "email": "Email",
@@ -106,8 +106,8 @@
     "messagePlaceholder": "Tell us about your request in a few lines…",
     "send": "Send message",
     "sending": "Sending…",
-    "responseDelay": "Reply within 24 business hours · Your data stays confidential.",
-    "success": "✓ Message sent! Our team replies within 24 hours.",
+    "responseDelay": "Reply within 24 to 48 hours · Your data stays confidential.",
+    "success": "✓ Message sent! Our team replies within 24 to 48 hours.",
     "error": "Something went wrong. Please retry or email us at"
   },
   "home": {
