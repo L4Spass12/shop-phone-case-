@@ -342,13 +342,6 @@ html[data-theme='sunfreaks'] .section-title {
 @media (max-width: 767px) {
   .hero-section img.hero-bg { object-position: 74% 28%; }
 }
-/* Visuel « printemps » (coques dans les cerisiers) : les coques sont dans
-   la moitié droite du bandeau, le ciel à gauche reçoit le texte. Sur
-   téléphone, c'est un visuel portrait, centré. */
-.hero-section img.hero-bg.hero-bg--printemps { object-position: 100% 50%; }
-@media (max-width: 767px) {
-  .hero-section img.hero-bg.hero-bg--printemps { object-position: center 30%; }
-}
 
 /* ─── Place du texte ──────────────────────────────────────────────────── */
 
@@ -965,10 +958,7 @@ html[data-theme='sunfreaks'] main > section.hero-section {
     border-radius: 0;
     /* Plus haute qu'avant (75vh) puisqu'elle accueille désormais le header.
        Bornée en vw pour qu'un écran large et bas ne la rende pas démesurée. */
-    /* Calée sur le visuel principal du diaporama (bandeau 2000 x 770) : il
-       s'affiche quasi entier au lieu d'être agrandi. 520 px au minimum pour
-       le texte sur les écrans moyens. */
-    min-height: max(38.5vw, 520px);
+    min-height: min(88vh, 58vw);
   }
 }
 

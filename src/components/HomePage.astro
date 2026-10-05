@@ -27,7 +27,6 @@ const TEXTS = {
     title: `Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`,
     description: "Choisissez un motif ou créez le vôtre. Coques pour iPhone imprimées à l'unité en France.",
     heroAlt: "Une femme tend une coque de téléphone vers le ciel, d'autres coques à motifs flottent autour d'elle",
-    heroAlt2: 'Trois coques Moroji, Paysage Sakura, Pont au Couchant et Mosaïque Soleil, parmi des fleurs de cerisier sous un ciel bleu', heroSlides: 'Visuels de la bannière', heroSlide: 'Visuel',
     eyebrow: "L'art sur votre téléphone", title1: 'Votre coque', title2: 'votre style',
     seeCollection: 'Voir la collection', createCase: 'Créer ma coque',
     selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'À partir de',
@@ -54,7 +53,6 @@ const TEXTS = {
     title: `Unique phone cases, printed in France | ${siteConfig.name}`,
     description: 'Pick a design or create your own. iPhone cases printed one by one in France.',
     heroAlt: 'A woman holds a phone case up to the sky, other patterned cases floating around her',
-    heroAlt2: 'Three Moroji cases, Sakura Landscape, Sunset Bridge and Sun Mosaic, among cherry blossoms under a blue sky', heroSlides: 'Banner images', heroSlide: 'Image',
     eyebrow: 'Art on your phone', title1: 'Your case', title2: 'your style',
     seeCollection: 'View the collection', createCase: 'Create my case',
     selection: 'Selection', featured: 'Featured products', viewAll: 'View all', from: 'From',
@@ -81,7 +79,6 @@ const TEXTS = {
     title: `Einzigartige Handyhüllen, gedruckt in Frankreich | ${siteConfig.name}`,
     description: 'Wähle ein Motiv oder gestalte dein eigenes. iPhone-Hüllen, einzeln in Frankreich gedruckt.',
     heroAlt: 'Eine Frau hält eine Handyhülle in den Himmel, um sie herum schweben weitere gemusterte Hüllen',
-    heroAlt2: 'Drei Moroji-Hüllen, Sakura-Landschaft, Brücke im Abendrot und Sonnenmosaik, zwischen Kirschblüten unter blauem Himmel', heroSlides: 'Banner-Bilder', heroSlide: 'Bild',
     eyebrow: 'Kunst auf deinem Handy', title1: 'Deine Hülle', title2: 'dein Stil',
     seeCollection: 'Zur Kollektion', createCase: 'Hülle gestalten',
     selection: 'Auswahl', featured: 'Ausgewählte Produkte', viewAll: 'Alle ansehen', from: 'Ab',
@@ -200,11 +197,8 @@ const faqSchema = {
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-printemps-portrait.webp', media: '(max-width: 767px)',
-      imagesrcset: '/images/hero-printemps-portrait-640w.webp 640w, /images/hero-printemps-portrait.webp 1122w',
-      imagesizes: '100vw' },
-    { href: '/images/hero-printemps.webp', media: '(min-width: 768px)',
-      imagesrcset: '/images/hero-printemps-800w.webp 800w, /images/hero-printemps-1280w.webp 1280w, /images/hero-printemps.webp 2000w',
+    { href: '/images/hero-coques.webp',
+      imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
       imagesizes: '100vw' },
   ]}
 >
@@ -213,46 +207,22 @@ const faqSchema = {
        - L'image hero est un <img> direct de la section (pas de wrapper z-indexé)
        - Le voile sombre est appliqué via `::after` en CSS pur (pas de div overlay) -->
   <section class="hero-section relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
-    {/* Diaporama : deux visuels en fondu. Le premier (coques dans les
-        cerisiers) a deux formats, portrait sur téléphone et bandeau sur
-        ordinateur ; il est le seul chargé d'emblée (image principale de la
-        page). Le second ne se charge qu'au premier changement. */}
-    <div class="hero-slides" data-hero-slides>
-      <picture class="hero-slide is-on">
-        <source media="(max-width: 767px)" srcset="/images/hero-printemps-portrait-640w.webp 640w, /images/hero-printemps-portrait.webp 1122w" sizes="100vw" />
-        <img
-          src="/images/hero-printemps.webp"
-          srcset="/images/hero-printemps-800w.webp 800w, /images/hero-printemps-1280w.webp 1280w, /images/hero-printemps.webp 2000w"
-          sizes="100vw"
-          alt={T.heroAlt2}
-          class="hero-img hero-bg hero-bg--printemps"
-          fetchpriority="high"
-          loading="eager"
-          decoding="async"
-          width="2000"
-          height="770"
-        />
-        {/* Voile bleu à gauche (ordinateur) : la première coque passe en
-            partie sous le titre, le voile garde le texte blanc lisible. */}
-        <span class="hero-veil" aria-hidden="true"></span>
-      </picture>
-      <picture class="hero-slide">
-        <img
-          data-src="/images/hero-coques.webp"
-          data-srcset="/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w"
-          sizes="100vw"
-          alt={T.heroAlt}
-          class="hero-img hero-bg"
-          decoding="async"
-          width="1696"
-          height="960"
-        />
-      </picture>
-    </div>
-    <div class="hero-dots" role="tablist" aria-label={T.heroSlides}>
-      <button type="button" class="hero-dot is-on" role="tab" aria-selected="true" aria-label={`${T.heroSlide} 1`} data-hero-dot="0"></button>
-      <button type="button" class="hero-dot" role="tab" aria-selected="false" aria-label={`${T.heroSlide} 2`} data-hero-dot="1"></button>
-    </div>
+    <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
+    <img
+      src="/images/hero-coques.webp"
+      srcset="/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w"
+      {/* 100vw : la bannière n'est plus agrandie. Le visuel réserve lui-même
+          sa moitié gauche au texte, le zoom de 26 % qui servait à dégager
+          cette place n'a plus lieu d'être (cf. global.css). */}
+      sizes="100vw"
+      alt={T.heroAlt}
+      class="hero-img hero-bg"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      width="1696"
+      height="960"
+    />
 
     {/* Le bloc de texte occupe la MOITIÉ GAUCHE et s'y centre, au lieu d'être
         collé au bord. C'est ce qui fait la différence avec une bannière de
@@ -515,29 +485,6 @@ const faqSchema = {
        Le voile sombre est un ::after en CSS (pas un div overlay dans le DOM
        → Lighthouse voit l'image comme non couverte). */
     .hero-section { isolation: isolate; }
-    /* Diaporama : visuels superposés, le visible en fondu. */
-    .hero-slides { position: absolute; inset: 0; z-index: 0; }
-    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
-    .hero-slide.is-on { opacity: 1; }
-    .hero-veil { display: none; }
-    @media (min-width: 768px) {
-      .hero-veil {
-        display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-        background: linear-gradient(90deg, rgba(8, 34, 74, .55) 0%, rgba(8, 34, 74, .38) 30%, rgba(8, 34, 74, .12) 48%, transparent 60%);
-      }
-    }
-    @media (prefers-reduced-motion: reduce) { .hero-slide { transition: none; } }
-    .hero-dots {
-      position: absolute; left: 50%; bottom: 1.1rem; z-index: 3;
-      transform: translateX(-50%);
-      display: flex; gap: .5rem;
-    }
-    .hero-dot {
-      width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px;
-      background: rgb(255 255 255 / .55); cursor: pointer;
-      transition: width .3s ease, background .3s ease;
-    }
-    .hero-dot.is-on { width: 22px; background: #fff; }
     /* Image hero : absolute fill de la section, z-index 0 */
     .hero-img {
       position: absolute;
@@ -737,40 +684,4 @@ const faqSchema = {
     </div>
   </section>
 
-
-<script>
-  // Diaporama de la bannière : fondu toutes les 6 s, points pour choisir.
-  // Le second visuel ne se charge qu'au premier passage. Pas d'avance
-  // automatique si l'utilisateur préfère réduire les animations.
-  const root = document.querySelector<HTMLElement>('[data-hero-slides]');
-  if (root) {
-    const slides = Array.from(root.querySelectorAll<HTMLElement>('.hero-slide'));
-    const dots = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-hero-dot]'));
-    let cur = 0;
-    let timer: number | undefined;
-    const load = (i: number) => {
-      const img = slides[i]?.querySelector<HTMLImageElement>('img[data-src]');
-      if (!img) return;
-      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-      img.src = img.dataset.src || '';
-      img.removeAttribute('data-src'); img.removeAttribute('data-srcset');
-    };
-    const show = (i: number) => {
-      cur = (i + slides.length) % slides.length;
-      load(cur);
-      slides.forEach((s, k) => s.classList.toggle('is-on', k === cur));
-      dots.forEach((d, k) => { d.classList.toggle('is-on', k === cur); d.setAttribute('aria-selected', String(k === cur)); });
-    };
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const start = () => {
-      if (reduce || slides.length < 2) return;
-      window.clearInterval(timer);
-      timer = window.setInterval(() => show(cur + 1), 6000);
-    };
-    dots.forEach((d, k) => d.addEventListener('click', () => { show(k); start(); }));
-    // Le second visuel se prépare en arrière-plan, après le chargement.
-    window.addEventListener('load', () => setTimeout(() => load(1), 1500), { once: true });
-    start();
-  }
-</script>
 </BaseLayout>
