@@ -79,8 +79,8 @@ const TEXTS = {
       edit: 'Éditer', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
       printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
       printMode: 'Mode d’impression',
-      flat: 'À plat', flatDesc: 'L’encre affleure la coque. Surface lisse, rendu net et couleurs franches.',
-      relief: 'En relief', reliefDesc: 'Plusieurs passes d’encre : le motif se sent sous le doigt. Effet matière.',
+      flat: 'À plat', flatDesc: 'Surface lisse et couleurs éclatantes : le motif est imprimé à plat sur la coque.',
+      relief: 'En relief', reliefDesc: 'Le motif ressort de la coque et se sent sous les doigts. Un rendu plus original.',
       total: 'Total', addToCart: 'Ajouter au panier', preparing: 'Préparation…', wait: 'Quelques secondes, ne fermez pas la page.',
       seeCart: 'Voir mon panier', another: 'Créer une autre coque',
       help: 'Aide', helpTitle: 'On crée votre design',
@@ -122,8 +122,8 @@ const TEXTS = {
       edit: 'Edit', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
       printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
       printMode: 'Print finish',
-      flat: 'Flat', flatDesc: 'The ink sits flush with the case. Smooth surface, crisp result and bold colours.',
-      relief: 'Raised', reliefDesc: 'Several layers of ink: you can feel the design under your finger. Textured effect.',
+      flat: 'Flat', flatDesc: 'Smooth surface and vivid colours: the design is printed flat on the case.',
+      relief: 'Raised', reliefDesc: 'The design stands out from the case and you can feel it under your fingers. A more unique look.',
       total: 'Total', addToCart: 'Add to cart', preparing: 'Preparing…', wait: 'Just a few seconds, please don’t close the page.',
       seeCart: 'View my cart', another: 'Create another case',
       help: 'Help', helpTitle: 'We design it for you',
@@ -165,8 +165,8 @@ const TEXTS = {
       edit: 'Bearbeiten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
       printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
       printMode: 'Druckart',
-      flat: 'Flach', flatDesc: 'Die Tinte schließt bündig mit der Hülle ab. Glatte Oberfläche, klares Ergebnis und kräftige Farben.',
-      relief: 'Erhaben', reliefDesc: 'Mehrere Tintenschichten: Das Motiv ist unter dem Finger spürbar. Struktureffekt.',
+      flat: 'Flach', flatDesc: 'Glatte Oberfläche und leuchtende Farben: Das Motiv wird flach auf die Hülle gedruckt.',
+      relief: 'Erhaben', reliefDesc: 'Das Motiv hebt sich von der Hülle ab und ist unter den Fingern spürbar. Ein besonderer Look.',
       total: 'Gesamt', addToCart: 'In den Warenkorb', preparing: 'Wird vorbereitet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.',
       seeCart: 'Zum Warenkorb', another: 'Weitere Hülle gestalten',
       help: 'Hilfe', helpTitle: 'Wir gestalten für dich',
@@ -442,7 +442,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <span class="mode-bg" aria-hidden="true"></span>
         {/* Même illustration que sur les fiches produit : tranche en haut, dos
             en dessous. C'est la comparaison des deux cartes qui explique. */}
-        <img class="mode-illu" src="/images/print-mode-flat.svg" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
+        <img class="mode-illu" src="/images/print-mode-flat.svg?v=2" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.flat}</span>
           <span class="mode-desc">{U.flatDesc}</span>
