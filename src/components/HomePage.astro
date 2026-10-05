@@ -29,7 +29,7 @@ const TEXTS = {
     heroAlt: "Une femme tend une coque de téléphone vers le ciel, d'autres coques à motifs flottent autour d'elle",
     eyebrow: "L'art sur votre téléphone", title1: 'Votre coque', title2: 'votre style',
     seeCollection: 'Voir la collection', createCase: 'Créer ma coque',
-    selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'Dès',
+    selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'À partir de',
     studioAlt: "Une table de travail où l'on choisit ses visuels : la coque vierge d'un côté, les coques imprimées alignées de l'autre",
     studioTitle: 'Personnalisez votre coque', collection: 'Collection',
     prevProducts: 'Produits précédents', nextProducts: 'Produits suivants', swipe: 'Glissez pour explorer',
@@ -159,10 +159,9 @@ const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
   style: 'currency', currency: siteConfig.shop.currency,
 }).format(n);
 
-const displayPrice = (d: any) =>
-  d.priceRange && d.priceRange.min !== d.priceRange.max
-    ? `${T.from} ${formatPrice(listPrice(d))}`
-    : formatPrice(listPrice(d));
+// Toujours « À partir de » : le prix affiché est celui du rendu à plat, le
+// relief coûte plus cher. Sans la mention, on croirait à un prix unique.
+const displayPrice = (d: any) => `${T.from} ${formatPrice(listPrice(d))}`;
 
 // ─── Schemas JSON-LD ──────────────────────────────────────────────────────
 const SITE_URL = siteConfig.url;
