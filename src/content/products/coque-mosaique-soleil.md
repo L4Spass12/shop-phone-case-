@@ -5,7 +5,7 @@ price: 19.90
 image: "/images/products/coque-mosaique-soleil-relief.webp"
 flatImage: "/images/products/coque-mosaique-soleil-plat.webp"
 imageAlt: "Coque iPhone en relief imitant une mosaïque de petits carreaux rouges, orange, jaunes et verts disposés en cercles autour d'un cabochon bleu"
-categories: ["categorie-exemple"]
+categories: ["coques-iphone"]
 shortDescription: "Une mosaïque solaire de petits carreaux colorés disposés en cercles autour d'un cœur bleu profond."
 featured: true
 pubDate: 2026-10-01

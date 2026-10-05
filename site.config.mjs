@@ -27,7 +27,7 @@ const config = {
   // ses trois graisses, et distribuée par --font-display. Elle habille les
   // titres, les libellés des boutons, les prix et le pied de page.
   description:
-    'Moroji - coques et accessoires pour téléphone. Des pièces choisies pour durer, expédiées depuis la France.', // TODO: affiner le pitch (150-160 car.)
+    "Moroji : coques iPhone imprimées à l'unité dans notre atelier en France, à plat ou en relief. Motifs exclusifs ou votre propre design, du 13 au 17 Pro Max.",
 
   // ─── Internationalisation ────────────────────────────────────────
   // Stratégie : sous-dossier, la locale par défaut n'a PAS de préfixe
@@ -77,12 +77,12 @@ const config = {
   // ─── Génération d'articles IA (scripts/generate-article.mjs) ──────
   // Sert à construire le prompt. Plus c'est précis, meilleur est l'article.
   article: {
-    context: 'une boutique en ligne', // TODO: ex. "un site français spécialisé dans les coques de téléphone"
-    theme: "les produits de la boutique et les conseils d'achat associés", // TODO
-    cta: 'Découvrir la sélection', // TODO
-    author: "L'équipe MyShop", // TODO
-    unsplashContext: 'product', // TODO: mot-clé ajouté aux recherches d'images
-    coverFallbackKeyword: 'product', // TODO
+    context: "Moroji, un atelier français qui imprime à l'unité des coques iPhone transparentes, à plat ou en relief",
+    theme: "les coques iPhone, la personnalisation, l'impression en relief et l'entretien d'une coque",
+    cta: 'Découvrir les coques',
+    author: "L'équipe Moroji",
+    unsplashContext: 'iphone case',
+    coverFallbackKeyword: 'iphone case',
   },
 
   // ─── Catégories produits ─────────────────────────────────────────
@@ -90,7 +90,7 @@ const config = {
   // Un fichier src/content/productCategories/<slug>.md (optionnel) y ajoute
   // le contenu SEO (intro, guide d'achat, FAQ).
   productCategories: [
-    { slug: 'categorie-exemple', label: 'Catégorie exemple' },
+    { slug: 'coques-iphone', label: 'Coques iPhone' },
   ],
 
   // ─── Modèles de téléphone compatibles ────────────────────────────

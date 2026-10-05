@@ -27,6 +27,7 @@
     "collectionCount": "{n} products tested and selected.",
     "collectionEmpty": "First products coming soon…",
     "bestseller": "Bestseller",
+    "new": "New",
     "sale": "Sale",
     "categoryLabel": "Category",
     "categoryAll": "All",
@@ -108,7 +109,7 @@
   },
   "home": {
     "heroTitle": "Your case",
-    "heroSubtitle": "Pick a pattern or design your own. Cases printed one at a time in France for iPhone, Samsung, Pixel and Xiaomi.",
+    "heroSubtitle": "Pick a pattern or design your own. Cases printed one at a time in France, from iPhone 13 to iPhone 17 Pro Max.",
     "ctaDiscover": "View the collection",
     "featuredLabel": "Selection",
     "featuredTitle": "Featured products",

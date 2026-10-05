@@ -55,6 +55,9 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: t('shop.breadcrumbShop', lang), item: `${SITE_URL}${lp}/boutique` },
   ],
 };
+// Badge « Nouveau » : produit publié il y a moins de 60 jours. Remplace
+// l'ancien « Bestseller », qui s'affichait sur des nouveautés sans ventes.
+const isNew = (d: any) => d.pubDate && Date.now() - new Date(d.pubDate).getTime() < 60 * 864e5;
 ---
 
 <BaseLayout
@@ -148,8 +151,8 @@ const breadcrumbSchema = {
                   fetchpriority={i === 0 ? 'high' : undefined}
                   decoding="async"
                 />
-                {product.data.featured ? (
-                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('shop.bestseller', lang)}</span>
+                {isNew(product.data) ? (
+                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('shop.new', lang)}</span>
                 ) : product.data.compareAtPrice ? (
                   <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">{t('shop.sale', lang)}</span>
                 ) : null}

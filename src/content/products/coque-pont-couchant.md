@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-pont-couchant-plat.webp"
 imageAlt: "Coque iPhone peinte d'un coucher de soleil flamboyant sur des montagnes, un pont de pierre, un village perché et une rivière tumultueuse"
 printModes: ["flat"]
-categories: ["categorie-exemple"]
+categories: ["coques-iphone"]
 shortDescription: "Un coucher de soleil flamboyant sur un vieux pont de pierre, un village perché et une rivière aux mille couleurs."
 featured: true
 pubDate: 2026-10-01

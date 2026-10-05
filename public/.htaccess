@@ -20,6 +20,14 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
+# ─── Anciennes pages de démonstration du starter (supprimées) ─────────────
+# La catégorie d'exemple devient « Coques iPhone » ; les produits et l'article
+# d'exemple renvoient vers la boutique et le blog.
+RewriteRule ^((?:en/|de/)?)product-category/categorie-exemple/?$ /$1product-category/coques-iphone/ [L,R=301]
+RewriteRule ^((?:en/|de/)?)product/produit-(?:exemple|test)[^/]*/?$ /$1boutique/ [L,R=301]
+RewriteRule ^((?:en/|de/)?)blog/article-exemple/?$ /$1blog/ [L,R=301]
+RewriteRule ^((?:en/|de/)?)article-exemple/?$ /$1blog/ [L,R=301]
+
 # 3. Retire index.html des URLs (/foo/index.html → /foo/)
 RewriteCond %{THE_REQUEST} \s/+(.*?)index\.html[\s?] [NC]
 RewriteRule ^ /%1 [L,R=301]

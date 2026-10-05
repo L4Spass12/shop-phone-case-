@@ -27,6 +27,7 @@
     "collectionCount": "{n} getestete und ausgewählte Produkte.",
     "collectionEmpty": "Die ersten Produkte kommen bald…",
     "bestseller": "Bestseller",
+    "new": "Neu",
     "sale": "Angebot",
     "categoryLabel": "Kategorie",
     "categoryAll": "Alle",
@@ -108,7 +109,7 @@
   },
   "home": {
     "heroTitle": "Deine Hülle",
-    "heroSubtitle": "Wähle ein Muster oder gestalte dein eigenes. Hüllen, einzeln in Frankreich gedruckt, für iPhone, Samsung, Pixel und Xiaomi.",
+    "heroSubtitle": "Wähle ein Muster oder gestalte dein eigenes. Hüllen, einzeln in Frankreich gedruckt, vom iPhone 13 bis zum iPhone 17 Pro Max.",
     "ctaDiscover": "Zur Kollektion",
     "featuredLabel": "Auswahl",
     "featuredTitle": "Empfohlene Produkte",

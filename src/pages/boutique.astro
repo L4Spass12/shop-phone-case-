@@ -29,9 +29,15 @@ const displayPrice = (d: any) =>
     ? `Dès ${formatPrice(listPrice(d))}`
     : formatPrice(listPrice(d));
 
-// Transforme slug en label lisible : "categorie-exemple" → "Categorie exemple"
+// Libellé d'une catégorie : celui de site.config, sinon le slug rendu lisible.
 const catLabel = (slug: string) =>
-  slug.replace(/^boutique-/, '').replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  siteConfig.productCategories?.find((c: { slug: string }) => c.slug === slug)?.label
+  ?? slug.replace(/^boutique-/, '').replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+
+// Badge « Nouveau » : produit publié il y a moins de 60 jours. Remplace
+// l'ancien « Bestseller », qui s'affichait sur des nouveautés sans ventes.
+const isNew = (d: any) => d.pubDate && Date.now() - new Date(d.pubDate).getTime() < 60 * 864e5;
+
 
 const SITE_URL = siteConfig.url;
 const collectionSchema = {
@@ -146,8 +152,8 @@ const breadcrumbSchema = {
                   fetchpriority={i === 0 ? 'high' : undefined}
                   decoding="async"
                 />
-                {product.data.featured ? (
-                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">Bestseller</span>
+                {isNew(product.data) ? (
+                  <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">Nouveau</span>
                 ) : product.data.compareAtPrice ? (
                   <span class="absolute top-3 left-3 bg-accent text-dark text-[10px] font-medium px-2 py-1 rounded-sm uppercase tracking-wider">Promo</span>
                 ) : null}
