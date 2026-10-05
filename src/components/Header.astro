@@ -91,25 +91,27 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
               la boutique, et le studio (mis en avant, jaune des boutons). */}
           {siteConfig.shop?.enabled && (
             <div class="hdr-feature">
-              <a href={url('/boutique')} class={`hdr-card ${isShop ? 'is-active' : ''}`} aria-current={isShop ? 'page' : undefined}>
-                <span class="hdr-card-ic" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-                </span>
-                <span class="hdr-card-txt">
+              {/* Images posées en data-src : elles ne se chargent qu'à la
+                  première ouverture du menu, pas sur chaque page. */}
+              <a href={url('/boutique')} class={`hdr-tile ${isShop ? 'is-active' : ''}`} aria-current={isShop ? 'page' : undefined}>
+                <img class="hdr-tile-img" data-src="/images/insta/insta-2.webp" alt="" width="800" height="800" decoding="async" style="object-position: 30% 60%" />
+                <span class="hdr-tile-txt">
                   <strong>{t('nav.shop', lang)}</strong>
                   <small>{t('nav.shopSub', lang)}</small>
                 </span>
-                <svg class="hdr-card-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a href={url('/personnaliser')} class={`hdr-card hdr-card--create ${isStudio ? 'is-active' : ''}`} aria-current={isStudio ? 'page' : undefined}>
-                <span class="hdr-card-ic" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 1.9 1.9.8-1.9.8L19 20.4l-.8-1.9-1.9-.8 1.9-.8z"/></svg>
+                <span class="hdr-tile-go" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
                 </span>
-                <span class="hdr-card-txt">
+              </a>
+              <a href={url('/personnaliser')} class={`hdr-tile ${isStudio ? 'is-active' : ''}`} aria-current={isStudio ? 'page' : undefined}>
+                <img class="hdr-tile-img" data-src="/images/studio-banner-b-800w.webp" alt="" width="800" height="453" decoding="async" style="object-position: 62% 50%" />
+                <span class="hdr-tile-txt">
                   <strong>{t('nav.create', lang)}</strong>
                   <small>{t('nav.createSub', lang)}</small>
                 </span>
-                <svg class="hdr-card-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <span class="hdr-tile-go" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                </span>
               </a>
             </div>
           )}
@@ -224,57 +226,53 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
   .hdr-link:hover { color: rgb(var(--c-cream)); }
   .hdr-link.is-active { color: rgb(var(--c-cream)); font-weight: 600; }
 
-  /* Cartes Boutique / Créer ma coque : pleine largeur, côte à côte. */
+  /* Tuiles photo Boutique / Créer ma coque : pleine largeur, côte à côte,
+     titre blanc posé sur un dégradé sombre en bas de l'image. */
   .hdr-feature {
     grid-column: 1 / -1;
     display: grid; grid-template-columns: 1fr 1fr; gap: .6rem;
   }
-  .hdr-card {
-    position: relative;
-    display: flex; flex-direction: column; align-items: flex-start; gap: .7rem;
-    padding: .85rem .9rem .9rem;
-    border-radius: 16px;
-    background: #fff;
-    border: 1.5px solid rgb(var(--c-cream) / .12);
-    color: rgb(var(--c-cream));
-    box-shadow: 0 2px 0 rgb(var(--c-cream) / .06);
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  .hdr-tile {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; align-items: flex-end;
+    aspect-ratio: 4 / 5;
+    border-radius: 18px;
+    background: rgb(var(--c-cream) / .08);
+    color: #fff;
   }
-  .hdr-card:hover { transform: translateY(-2px); border-color: rgb(var(--c-cream) / .25); box-shadow: 0 8px 18px -12px rgb(var(--c-cream) / .45); }
-  .hdr-card:active { transform: translateY(0); }
-  .hdr-card.is-active { border-color: rgb(var(--accent-rgb)); }
-  .hdr-card-ic {
+  .hdr-tile-img {
+    position: absolute; inset: 0; z-index: -2;
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.01);
+    transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+  }
+  .hdr-tile::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to top, rgb(20 10 12 / .8) 0%, rgb(20 10 12 / .38) 45%, transparent 72%);
+  }
+  .hdr-tile:hover .hdr-tile-img { transform: scale(1.06); }
+  .hdr-tile.is-active { box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px rgb(var(--accent-rgb)); }
+  .hdr-tile-txt { display: flex; flex-direction: column; gap: .2rem; padding: .9rem .9rem 1rem; min-width: 0; }
+  .hdr-tile-txt strong {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.12rem; line-height: 1.08; letter-spacing: -.01em;
+  }
+  .hdr-tile-txt small { font-size: .72rem; line-height: 1.3; opacity: .85; }
+  .hdr-tile-go {
+    position: absolute; top: .65rem; right: .65rem;
     display: grid; place-items: center;
-    width: 38px; height: 38px; border-radius: 11px;
-    background: rgb(var(--accent-rgb) / .1); color: rgb(var(--accent-rgb));
+    width: 30px; height: 30px; border-radius: 999px;
+    background: rgb(255 255 255 / .92); color: #1c1012;
+    transition: transform .25s ease;
   }
-  .hdr-card-ic svg { width: 21px; height: 21px; }
-  .hdr-card-txt { display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
-  .hdr-card-txt strong { font-family: var(--font-display); font-size: 1rem; font-weight: 700; line-height: 1.15; }
-  .hdr-card-txt small { font-size: .74rem; line-height: 1.3; color: rgb(var(--c-n500)); }
-  .hdr-card-go {
-    position: absolute; top: .95rem; right: .9rem;
-    width: 17px; height: 17px; opacity: .45;
-    transition: transform .18s ease, opacity .18s ease;
-  }
-  .hdr-card:hover .hdr-card-go { transform: translateX(3px); opacity: .9; }
+  .hdr-tile-go svg { width: 15px; height: 15px; }
+  .hdr-tile:hover .hdr-tile-go { transform: rotate(45deg); }
 
-  /* Le studio, mis en avant : l'aplat jaune et l'encre sombre des boutons
-     principaux du site. */
-  .hdr-card--create {
-    background: var(--sun-yellow, #ffe14d);
-    border-color: rgb(var(--c-cream));
-    color: #2a1147;
-    box-shadow: 0 2px 0 rgb(var(--c-cream) / .55);
-  }
-  .hdr-card--create:hover { border-color: rgb(var(--c-cream)); box-shadow: 0 2px 0 rgb(var(--c-cream) / .55), 0 10px 20px -12px rgb(var(--c-cream) / .6); }
-  .hdr-card--create .hdr-card-ic { background: #2a1147; color: var(--sun-yellow, #ffe14d); }
-  .hdr-card--create .hdr-card-txt small { color: #2a1147; opacity: .7; }
-  .hdr-card--create .hdr-card-go { opacity: .7; }
-
+  /* Plus large : tuiles en bandeau, moins hautes. */
   @media (min-width: 640px) {
-    .hdr-card { flex-direction: row; align-items: center; gap: .85rem; padding: 1rem 2.6rem 1rem 1rem; }
-    .hdr-card-go { top: 50%; margin-top: -8.5px; }
+    .hdr-tile { aspect-ratio: auto; height: 150px; }
+    .hdr-tile-txt strong { font-size: 1.3rem; }
+    .hdr-tile-txt small { font-size: .8rem; }
   }
 
   /* Choix (thème / langue) */
@@ -304,8 +302,16 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     btn?.setAttribute('aria-expanded', String(open));
   };
 
+  // Images des tuiles : chargées à la première ouverture seulement.
+  const loadTiles = () => nav?.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+    img.src = img.dataset.src || ''; img.removeAttribute('data-src');
+  });
+  btn?.addEventListener('pointerenter', loadTiles, { once: true });
+  btn?.addEventListener('touchstart', loadTiles, { once: true, passive: true });
+
   btn?.addEventListener('click', (e) => {
     e.stopPropagation();
+    loadTiles();
     setMenu(!isMenuOpen());
   });
 
