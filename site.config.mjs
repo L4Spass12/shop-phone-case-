@@ -156,18 +156,24 @@ const config = {
     // Source unique : le studio l'affiche, le manifeste /seamless-items.json le
     // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser
     // un prix falsifié. Le changer ici suffit.
-    customCasePriceCents: 2990,
+    customCasePriceCents: 1990,
     // Impression EN RELIEF : l'encre est déposée en plusieurs passes, le motif
     // se sent sous le doigt. Plus long à imprimer, donc plus cher. Le studio
     // fait choisir entre les deux avant l'ajout au panier, et envoie la clé
     // « custom-relief » quand c'est ce mode qui est retenu.
-    customCaseReliefPriceCents: 3490,
+    customCaseReliefPriceCents: 2490,
     // Supplément RELIEF sur les coques du CATALOGUE (le studio, lui, a ses
     // deux prix complets ci-dessus). Ajouté au prix du produit quand l'acheteur
     // choisit le relief sur la fiche.
     // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
     // et le serveur de paiement refuse un relief payé au tarif du plat.
     catalogueReliefSurchargeCents: 500,
+    // Offre de lancement du RELIEF (studio et catalogue : 24,90 €). Prix qui
+    // s'appliquera ensuite, annoncé à côté (« puis 31,90 € »). Un prix barré
+    // exigerait d'avoir déjà vendu à ce prix dans les 30 derniers jours
+    // (règle des annonces de réduction) : on annonce donc le prix à venir.
+    // null pour retirer la mention à la fin de l'offre.
+    reliefLaunchNextCents: 3190,
     // Sticker décoratif posé sur la photo produit. Chemin d'image, ou null
     // pour ne rien afficher : la fiche ne doit pas dépendre d'un fichier qui
     // n'existerait pas encore.

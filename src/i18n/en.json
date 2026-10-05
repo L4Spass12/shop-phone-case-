@@ -207,6 +207,8 @@
     "flat": "Flat design",
     "flatDesc": "Smooth surface",
     "relief": "Raised design",
-    "reliefDesc": "Raised texture"
+    "reliefDesc": "Raised texture",
+    "launch": "Launch offer",
+    "launchThen": "then {price}"
   }
 }

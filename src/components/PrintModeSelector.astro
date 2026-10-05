@@ -48,6 +48,8 @@ const fmt = (cents: number) =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(cents / 100);
 
 const basePriceCents = Math.round(price * 100);
+// Offre de lancement du relief : prix à venir, annoncé sous le prix actuel.
+const launchNext = siteConfig.shop.reliefLaunchNextCents ?? null;
 ---
 
 <div
@@ -123,6 +125,9 @@ const basePriceCents = Math.round(price * 100);
         <span class="pm-price">{fmt(basePriceCents + surcharge)}</span>
         <span class="pm-radio" aria-hidden="true"></span>
       </span>
+      {launchNext && (
+        <span class="pm-launch">{t('print.launch', lang)}<br />{t('print.launchThen', lang, { price: fmt(launchNext) })}</span>
+      )}
     </button>
     )}
   </div>
@@ -199,6 +204,14 @@ const basePriceCents = Math.round(price * 100);
     font-variant-numeric: tabular-nums;
   }
   .pm-opt.is-on .pm-price { color: rgb(var(--accent-rgb)); }
+  .pm-launch {
+    display: block;
+    font-size: 9.5px;
+    line-height: 1.25;
+    font-weight: 600;
+    text-align: center;
+    color: #b0185a;
+  }
 
   /* Prix et radio sur la même ligne, en pied de carte. Dans le coin, le radio
      se posait par-dessus l'illustration et masquait les éclats du relief. */
@@ -291,6 +304,10 @@ const basePriceCents = Math.round(price * 100);
       // Tous les prix affichés suivent : celui du bouton, mais aussi celui de
       // la barre collante. Une étiquette qui contredit ce qui part au panier
       // est pire que pas d'étiquette du tout.
+      // Mention « Offre de lancement » sous le prix : relief seulement.
+      document.querySelectorAll<HTMLElement>('[data-relief-launch]').forEach((el) => {
+        el.hidden = !relief;
+      });
       if (shownPrice !== null) {
         const text = fmt(shownPrice);
         document.querySelectorAll<HTMLElement>('[data-buy-price]').forEach((el) => {

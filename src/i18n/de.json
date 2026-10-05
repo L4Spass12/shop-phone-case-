@@ -207,6 +207,8 @@
     "flat": "Flaches Design",
     "flatDesc": "Glatte Oberfläche",
     "relief": "Erhabenes Design",
-    "reliefDesc": "Erhabene Struktur"
+    "reliefDesc": "Erhabene Struktur",
+    "launch": "Einführungsangebot",
+    "launchThen": "danach {price}"
   }
 }

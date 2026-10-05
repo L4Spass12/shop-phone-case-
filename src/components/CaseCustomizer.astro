@@ -20,7 +20,7 @@
  */
 import ModelPicker from './ModelPicker.astro';
 import siteConfig from '../../site.config.mjs';
-import type { Locale } from '../lib/i18n';
+import { t, type Locale } from '../lib/i18n';
 
 interface Props { lang?: Locale }
 const { lang = 'fr' } = Astro.props;
@@ -54,6 +54,8 @@ const RELIEF_PRICE_CENTS = siteConfig.shop?.customCaseReliefPriceCents ?? PRICE_
 const fmt = (c: number) => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const price = fmt(PRICE_CENTS);
 const reliefPrice = fmt(RELIEF_PRICE_CENTS);
+/* Offre de lancement du relief : prix à venir, annoncé sous le prix. */
+const LAUNCH_NEXT = siteConfig.shop?.reliefLaunchNextCents ?? null;
 
 /* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les
    fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
@@ -439,18 +441,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     <div class="step-grid" role="radiogroup" aria-label={U.printMode}>
       <button type="button" class="mode" data-mode="flat" role="radio" aria-checked="true">
         <span class="mode-bg" aria-hidden="true"></span>
-        {/* Coupe transversale, centrée dans la carte : c'est elle qui explique
-            la différence d'épaisseur, une photo la montre mais ne la mesure
-            pas. Elle tient aussi lieu d'illustration tant que la photo de fond
-            n'est pas fournie. */}
-        <span class="mode-figwrap" aria-hidden="true">
-          <svg class="mode-fig" viewBox="0 0 120 56" fill="none">
-            <rect x="8" y="30" width="104" height="14" rx="5" fill="currentColor" opacity=".16"/>
-            <rect x="8" y="26" width="104" height="5" rx="2.5" fill="currentColor"/>
-            <path d="M8 20h104" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" opacity=".45"/>
-            <path d="M4 26v-6M4 20h6M4 26H0" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
-          </svg>
-        </span>
+        {/* Même illustration que sur les fiches produit : tranche en haut, dos
+            en dessous. C'est la comparaison des deux cartes qui explique. */}
+        <img class="mode-illu" src="/images/print-mode-flat.webp" alt="" width="320" height="282" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.flat}</span>
           <span class="mode-desc">{U.flatDesc}</span>
@@ -463,18 +456,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
       <button type="button" class="mode" data-mode="relief" role="radio" aria-checked="false">
         <span class="mode-bg" aria-hidden="true"></span>
-        <span class="mode-figwrap" aria-hidden="true">
-          <svg class="mode-fig" viewBox="0 0 120 56" fill="none">
-            <rect x="8" y="30" width="104" height="14" rx="5" fill="currentColor" opacity=".16"/>
-            <path d="M8 30h104v-4a4 4 0 0 0-4-4h-8a4 4 0 0 1-4-4v-3a4 4 0 0 0-4-4H44a4 4 0 0 0-4 4v3a4 4 0 0 1-4 4h-8a4 4 0 0 0-4 4z" fill="currentColor"/>
-            <path d="M8 8h104" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" opacity=".45"/>
-            <path d="M4 30V8M4 8h6M4 30H0" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
-          </svg>
-        </span>
+        <img class="mode-illu" src="/images/print-mode-relief.webp" alt="" width="320" height="282" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.relief}</span>
           <span class="mode-desc">{U.reliefDesc}</span>
           <span class="mode-price">{reliefPrice}</span>
+          {LAUNCH_NEXT && (
+            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT) })}</span>
+          )}
         </span>
         <span class="mode-check" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
@@ -619,42 +608,25 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     position: absolute; inset: 0;
     background-size: cover; background-position: center;
   }
-  .mode[data-mode="flat"] .mode-bg {
-    background-color: rgb(var(--c-panel));
-    background-image: linear-gradient(155deg, rgb(var(--c-panel)), rgb(var(--c-beige)));
+  /* Fond uni et illustration au trait (celle des fiches produit), centrée
+     dans l'espace au-dessus du texte. `multiply` fond son blanc dans la
+     carte. */
+  .mode-bg { background: rgb(var(--c-panel)); }
+  .mode[aria-checked="true"] .mode-bg { background: rgb(var(--accent-rgb) / .05); }
+  /* Dans le flux, au-dessus du texte : elle prend la hauteur restante et
+     ne chevauche jamais le titre, même quand la carte est basse. */
+  .mode { flex-direction: column; align-items: stretch; }
+  .mode-illu {
+    position: relative;
+    flex: 1 1 0; min-height: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    padding: 1rem 1rem 0;
+    mix-blend-mode: multiply;
+    pointer-events: none;
   }
-  .mode[data-mode="relief"] .mode-bg {
-    background-color: rgb(var(--c-beige));
-    background-image: linear-gradient(155deg, rgb(var(--accent-rgb) / .1), rgb(var(--c-beige)));
-  }
-  /* Photos de fond, quand elles existent : déclarées APRÈS les dégradés, donc
-     elles les remplacent dès que les fichiers sont déposés. */
-  .mode[data-mode="flat"] .mode-bg   { background-image: url("/images/print-flat.webp"); }
-  .mode[data-mode="relief"] .mode-bg { background-image: url("/images/print-relief.webp"); }
-  /* Voile dégradé : le texte est en bas, l'image reste lisible en haut. */
-  .mode-bg::after {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(to top,
-      rgb(var(--c-dark) / .95) 0%, rgb(var(--c-dark) / .82) 34%, rgb(var(--c-dark) / .12) 72%, transparent 100%);
-  }
-
-  /* La figure est une PASTILLE posée sur la photo, pas un filigrane : un
-     schéma en trait fin se perdait dans une photo chargée. Son fond dépoli lui
-     garantit un contraste constant, quelle que soit l'image derrière. */
-  .mode-figwrap {
-    position: absolute; left: 1.1rem; top: 1.1rem;
-    display: flex; align-items: center; justify-content: center;
-    padding: .5rem .7rem;
-    border-radius: 14px;
-    background: rgb(var(--c-dark) / .8);
-    -webkit-backdrop-filter: blur(10px) saturate(1.3);
-    backdrop-filter: blur(10px) saturate(1.3);
-    border: 1px solid rgb(var(--c-cream) / .1);
-  }
-  .mode-fig { width: 84px; height: auto; color: rgb(var(--c-cream) / .8); }
   @media (min-width: 768px) {
-    .mode-figwrap { left: 1.5rem; top: 1.5rem; padding: .6rem .85rem; border-radius: 16px; }
-    .mode-fig { width: 104px; }
+    .mode-illu { padding: 2.5rem 2rem 0; }
   }
 
   .mode-body {
@@ -664,6 +636,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .mode-name { font-size: 1.15rem; font-weight: 700; line-height: 1.1; }
   .mode-desc { font-size: .78rem; line-height: 1.45; color: rgb(var(--c-n400)); max-width: 34ch; }
   .mode-price { margin-top: .35rem; font-size: 1.05rem; font-weight: 700; }
+  .mode-launch { font-size: .74rem; color: rgb(var(--c-n400)); display: flex; align-items: center; flex-wrap: wrap; gap: .35rem; }
+  .mode-launch-tag {
+    font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    background: #fde2ee; color: #b0185a; padding: .18rem .42rem; border-radius: 4px;
+  }
   @media (min-width: 768px) {
     .mode-body { padding: 1.4rem 1.5rem 1.5rem; gap: .38rem; }
     .mode-name { font-size: 1.4rem; }

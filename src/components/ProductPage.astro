@@ -206,6 +206,7 @@ const printMode = defaultPrintMode(printModes);
 const reliefDefault = printMode === 'relief';
 const modeKeySuffix = reliefDefault ? '-relief' : '';
 const modeExtra = reliefDefault ? reliefSurcharge : 0;
+const launchNext: number | null = siteConfig.shop?.reliefLaunchNextCents ?? null;
 const shownPrice = price + modeExtra;
 const shownMin = (priceRange?.min ?? price) + modeExtra;
 
@@ -549,6 +550,14 @@ const pickModelLabel = t('model.placeholder', lang);
           {compareAtPrice && (
             <span class="text-[10px] font-medium bg-cream text-dark px-2 py-1 rounded-sm uppercase tracking-wider">
               -{Math.round((1 - price / compareAtPrice) * 100)}%
+            </span>
+          )}
+          {/* Offre de lancement du relief : visible quand le relief est coché
+              (le sélecteur de rendu la bascule). */}
+          {launchNext && printModes.includes('relief') && (
+            <span data-relief-launch hidden={!reliefDefault} class="relief-launch">
+              <span class="relief-launch-tag">{t('print.launch', lang)}</span>
+              {t('print.launchThen', lang, { price: formatPrice(launchNext / 100) })}
             </span>
           )}
         </div>
@@ -1748,6 +1757,16 @@ const pickModelLabel = t('model.placeholder', lang);
   </script>
 )}
 <style is:global>
+  /* Offre de lancement du relief, à côté du prix. */
+  .relief-launch {
+    display: inline-flex; align-items: center; flex-wrap: wrap; gap: .4rem;
+    font-size: 12px; color: rgb(var(--c-n500)); align-self: center;
+  }
+  .relief-launch[hidden] { display: none; }
+  .relief-launch-tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    background: #fde2ee; color: #b0185a; padding: .2rem .45rem; border-radius: 4px;
+  }
   /* ═══ Mise en page façon fiche produit moderne ═══════════════════════
      Fond de page gris très clair, visuel produit posé à nu dessus, et le
      bloc d'achat rassemblé dans une carte blanche. Le gris détache la

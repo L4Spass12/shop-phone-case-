@@ -207,6 +207,8 @@
     "flat": "Design à plat",
     "flatDesc": "Surface lisse",
     "relief": "Design en relief",
-    "reliefDesc": "Texture en relief"
+    "reliefDesc": "Texture en relief",
+    "launch": "Offre de lancement",
+    "launchThen": "puis {price}"
   }
 }
