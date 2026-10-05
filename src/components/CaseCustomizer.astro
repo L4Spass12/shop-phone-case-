@@ -438,7 +438,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         <span class="mode-bg" aria-hidden="true"></span>
         {/* Même illustration que sur les fiches produit : tranche en haut, dos
             en dessous. C'est la comparaison des deux cartes qui explique. */}
-        <img class="mode-illu" src="/images/print-mode-flat.svg" alt="" width="320" height="282" loading="lazy" decoding="async" />
+        <img class="mode-illu" src="/images/print-mode-flat.svg" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.flat}</span>
           <span class="mode-desc">{U.flatDesc}</span>
@@ -454,7 +454,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
       <button type="button" class="mode" data-mode="relief" role="radio" aria-checked="false">
         <span class="mode-bg" aria-hidden="true"></span>
-        <img class="mode-illu" src="/images/print-mode-relief.svg" alt="" width="320" height="282" loading="lazy" decoding="async" />
+        <img class="mode-illu" src="/images/print-mode-relief.svg" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
         <span class="mode-body">
           <span class="mode-name">{U.relief}</span>
           <span class="mode-desc">{U.reliefDesc}</span>
@@ -624,7 +624,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     pointer-events: none;
   }
   @media (min-width: 768px) {
-    .mode-illu { padding: 2.5rem 2rem 0; }
+    /* Ordinateur : un quart plus petites, elles écrasaient la carte. */
+    .mode-illu { padding: 3.5rem 17% .75rem; }
   }
 
   .mode-body {
