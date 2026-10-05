@@ -2144,11 +2144,18 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         } catch (_) { done(null); }
       });
     }
+    // Conversion directe data URL vers Blob : un fetch() de data URL est
+    // bloqué par la politique de sécurité du site (connect-src).
+    function dataUrlToBlob(u) {
+      var i = u.indexOf(','), mime = u.slice(5, u.indexOf(';'));
+      var bin = atob(u.slice(i + 1)), buf = new Uint8Array(bin.length);
+      for (var j = 0; j < bin.length; j++) buf[j] = bin.charCodeAt(j);
+      return new Blob([buf], { type: mime });
+    }
     function hiStore(k, dataUrl) {
-      fetch(dataUrl).then(function (r) { return r.blob(); }).then(function (b) {
-        return hiDb().then(function (db) {
-          if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: b, t: Date.now() }, k);
-        });
+      var b; try { b = dataUrlToBlob(dataUrl); } catch (_) { return; }
+      hiDb().then(function (db) {
+        if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: b, t: Date.now() }, k);
       }).catch(function () {});
     }
     /* Recharge les copies HD des photos de la composition, et supprime les
