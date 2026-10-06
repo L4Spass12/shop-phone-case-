@@ -2281,3 +2281,33 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   html[data-theme='sunfreaks'] main > section.hero-section--printemps { min-height: 140vw; }
   html[data-theme='sunfreaks'] .hero-section--printemps img.hero-bg { object-position: center 20%; }
 }
+
+/* ─── Section studio, visuel « ciel » (celui de la tuile du menu) ───────
+   Texte blanc posé sur l'image, avec un fondu sombre en bas pour le lire.
+   Ordinateur : la section prend les proportions de l'image (1400 × 560).
+   Mobile : image portrait (520 × 650), même principe, rien n'est rogné. */
+.studio-b--ciel .studio-b-copy h2 { color: #fff; text-shadow: 0 2px 12px rgb(0 0 0 / .25); }
+.studio-b--ciel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgb(10 20 40 / .55) 0%, rgb(10 20 40 / .2) 32%, transparent 55%);
+}
+@media (min-width: 768px) {
+  .studio-b.studio-b--ciel { aspect-ratio: 1400 / 560; }
+  .studio-b--ciel .studio-b-bg { object-position: center; }
+}
+@media (max-width: 767px) {
+  .studio-b.studio-b--ciel { display: flex; aspect-ratio: 520 / 650; }
+  .studio-b--ciel .studio-b-bg {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+  }
+  .studio-b--ciel .studio-b-copy { background: none; padding-bottom: 1.25rem; }
+  .studio-b--ciel .studio-b-copy::before,
+  .studio-b--ciel .studio-b-copy::after { content: none; }
+}

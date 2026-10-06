@@ -354,18 +354,21 @@ const faqSchema = {
       decoding="async"
     />
   </div>
-  <section class="studio-b relative overflow-hidden below-fold-defer flex items-end">
-    <img
-      src="/images/studio-banner-b.webp"
-      srcset="/images/studio-banner-b-800w.webp 800w, /images/studio-banner-b-1280w.webp 1280w, /images/studio-banner-b.webp 1696w"
-      sizes="100vw"
-      alt={T.studioAlt}
-      width="1672"
-      height="941"
-      loading="lazy"
-      decoding="async"
-      class="studio-b-bg"
-    />
+  <section class="studio-b studio-b--ciel relative overflow-hidden below-fold-defer flex items-end">
+    {/* Même visuel que la tuile « Créer ma coque » du menu : large sur
+        ordinateur, portrait sur mobile. */}
+    <picture>
+      <source media="(max-width: 767px)" srcset="/images/menu-studio.webp" width="520" height="650" />
+      <img
+        src="/images/menu-studio-wide.webp"
+        alt={T.studioAlt}
+        width="1400"
+        height="560"
+        loading="lazy"
+        decoding="async"
+        class="studio-b-bg"
+      />
+    </picture>
     {/* Toute la section mène au studio, pas seulement le bouton : un clic ou
         un doigt n'importe où sur l'image ouvre la même page. Ce lien couvre
         la surface entière, mais il est retiré de l'arbre d'accessibilité et
