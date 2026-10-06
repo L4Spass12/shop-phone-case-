@@ -42,7 +42,7 @@ const {
           l'écran : preload="none" et aucune source tant qu'elle est loin, donc
           rien ne pèse sur le chargement de la fiche. Muette, en boucle, lue
           en ligne (iPhone). Sans mouvement réduit demandé, sinon l'affiche
-          reste seule. WebM (VP9, 280 Ko) d'abord, MP4 (H.264) en repli. */}
+          reste seule. WebM (VP9, ~470 Ko) d'abord, MP4 (H.264) en repli. */}
       <div class="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-video">
         <video
           class="fab-video w-full h-full object-cover"
@@ -55,8 +55,8 @@ const {
           height="720"
           aria-label={t('fabrication.imageAlt', lang)}
         >
-          <source data-src="/videos/atelier-impression.webm" type="video/webm" />
-          <source data-src="/videos/atelier-impression.mp4" type="video/mp4" />
+          <source data-src="/videos/atelier-impression.webm?v=2" type="video/webm" />
+          <source data-src="/videos/atelier-impression.mp4?v=2" type="video/mp4" />
         </video>
       </div>
     </div>
