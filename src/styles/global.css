@@ -2259,9 +2259,7 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
 /* ─── Bannière printemps : l'image n'est jamais recadrée ────────────────
    Ordinateur : la bannière prend presque les proportions de l'image
    (1672 × 941), `cover` n'en coupe qu'une fine bande.
-   Mobile : une image portrait dédiée (1122 × 1402) s'affiche entière sur
-   toute la largeur, sous le header transparent, et le texte passe dessous,
-   sur le fond de la page. */
+   Mobile : une image portrait dédiée (1122 × 1402), le texte passe dessus. */
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section--printemps {
     min-height: 0;
@@ -2277,28 +2275,9 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   }
 }
 @media (max-width: 767px) {
-  html[data-theme='sunfreaks'] main > section.hero-section--printemps {
-    display: block;
-    min-height: 0;
-    /* L'image portrait passe sous le header transparent, comme sur ordinateur. */
-    padding-top: 0;
-  }
-  html[data-theme] .hero-section--printemps img.hero-img {
-    position: relative;
-    inset: auto;
-    height: auto;
-    aspect-ratio: 1122 / 1402;
-  }
-  /* Sous l'image, le texte passe sur le fond de la page : il prend donc
-     l'encre brune du site au lieu du blanc posé pour la photo. */
-  html[data-theme='sunfreaks'] main > section.hero-section--printemps { background: rgb(var(--c-dark)); }
-  html[data-theme='sunfreaks'] .hero-section--printemps .hero-eyebrow,
-  html[data-theme='sunfreaks'] .hero-section--printemps .hero-title,
-  html[data-theme='sunfreaks'] .hero-section--printemps .hero-trait { color: rgb(var(--c-cream)); }
-  html[data-theme='sunfreaks'] .hero-section--printemps .hero-title .creux { -webkit-text-stroke-color: rgb(var(--c-cream)); }
-  html[data-theme='sunfreaks'] .hero-section--printemps::after { content: none; }
-  html[data-theme='sunfreaks'] .hero-section--printemps .hero-shell {
-    padding-top: 1.75rem;
-    padding-bottom: 2.25rem;
-  }
+  /* Mobile : image portrait dédiée, texte posé dessus en bas avec le fondu
+     habituel. Hauteur proche des proportions de l'image (140 % de la largeur
+     pour 125 %) : à peine rognée sur les côtés. */
+  html[data-theme='sunfreaks'] main > section.hero-section--printemps { min-height: 140vw; }
+  html[data-theme='sunfreaks'] .hero-section--printemps img.hero-bg { object-position: center 20%; }
 }
