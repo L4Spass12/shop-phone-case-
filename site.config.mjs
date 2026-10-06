@@ -27,7 +27,7 @@ const config = {
   // ses trois graisses, et distribuée par --font-display. Elle habille les
   // titres, les libellés des boutons, les prix et le pied de page.
   description:
-    "Moroji : coques iPhone imprimées à l'unité dans notre atelier en France, à plat ou en relief. Motifs exclusifs ou votre propre design, du 13 au 17 Pro Max.",
+    "Moroji : coques iPhone imprimées à l'unité dans notre atelier en France, à plat ou en relief. Motifs exclusifs ou votre propre design, pour iPhone et Samsung Galaxy.",
 
   // ─── Internationalisation ────────────────────────────────────────
   // Stratégie : sous-dossier, la locale par défaut n'a PAS de préfixe
@@ -128,6 +128,21 @@ const config = {
           { label: 'iPhone 15', popular: true },
           { label: 'iPhone 14', popular: true },
           { label: 'iPhone 13', popular: true },
+        ],
+      },
+      {
+        // Stock Samsung (commande du 06/10/2026) : coques transparentes « Aura ».
+        id: 'samsung',
+        label: 'Samsung Galaxy',
+        models: [
+          { label: 'Galaxy S26 Ultra', popular: true },
+          { label: 'Galaxy S26', popular: true },
+          { label: 'Galaxy S25 Ultra', popular: true },
+          { label: 'Galaxy S25', popular: true },
+          { label: 'Galaxy S24 Ultra', popular: true },
+          { label: 'Galaxy S24', popular: true },
+          { label: 'Galaxy A56 5G', popular: true },
+          { label: 'Galaxy A36 5G', popular: true },
         ],
       },
     ],

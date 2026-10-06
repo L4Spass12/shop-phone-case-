@@ -112,7 +112,7 @@
   },
   "home": {
     "heroTitle": "Your case",
-    "heroSubtitle": "Pick a pattern or design your own. Cases printed one at a time in France, from iPhone 13 to iPhone 17 Pro Max.",
+    "heroSubtitle": "Pick a pattern or design your own. Cases printed one at a time in France, for iPhone and Samsung Galaxy.",
     "ctaDiscover": "View the collection",
     "featuredLabel": "Selection",
     "featuredTitle": "Featured products",
@@ -193,7 +193,7 @@
     "label": "Phone model",
     "placeholder": "Choose my model",
     "dialogTitle": "Which phone do you have?",
-    "search": "Search: iPhone 17, 16 Pro…",
+    "search": "Search: iPhone 17, Galaxy S25…",
     "popular": "Most requested",
     "allBrands": "All brands",
     "allShort": "All",

@@ -25,4 +25,4 @@ Choisissez votre rendu : **à plat** pour une surface parfaitement lisse, ou **e
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse) ou en relief (texture)
-- Disponible pour iPhone 13 à iPhone 17 Pro Max
+- Disponible pour iPhone 13 à 17 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

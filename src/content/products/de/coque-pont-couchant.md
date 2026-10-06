@@ -15,4 +15,4 @@ Orange-blauer Himmel, die Sonne geht über den Bergen unter, eine alte Steinbrü
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
 - Flaches Finish (glatte Oberfläche)
-- Erhältlich für iPhone 13 bis iPhone 17 Pro Max
+- Erhältlich für iPhone 13 bis 17 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)

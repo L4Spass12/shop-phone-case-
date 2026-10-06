@@ -15,4 +15,4 @@ Orange and blue sky, the sun setting over the mountains, an old stone bridge, a 
 
 - Printed one by one in our workshop in France
 - Flat finish (smooth surface)
-- Available for iPhone 13 to iPhone 17 Pro Max
+- Available for iPhone 13 to 17 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)

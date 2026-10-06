@@ -17,4 +17,4 @@ Wähle dein Finish: **flach** für eine perfekt glatte Oberfläche oder **mit Re
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
 - Flaches Finish (glatte Oberfläche) oder Relief (Struktur)
-- Erhältlich für iPhone 13 bis iPhone 17 Pro Max
+- Erhältlich für iPhone 13 bis 17 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)
