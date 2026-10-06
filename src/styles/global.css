@@ -2290,7 +2290,7 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
     position: absolute;
     inset: -40px;
     z-index: -1;
-    background: #1d4f8f url('/images/hero-cerisiers-800w.webp') center / cover no-repeat;
+    background: #1d4f8f url('/images/hero-ciel-800w.webp') center / cover no-repeat;
     filter: blur(28px) brightness(.55) saturate(1.15);
   }
   html[data-theme='sunfreaks'] .hero-section--printemps::after { content: none; }
