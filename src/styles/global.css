@@ -2257,8 +2257,8 @@ html[data-theme='sunfreaks'] footer input {
 img[src*="/images/products/"] { mix-blend-mode: multiply; }
 
 /* ─── Bannière printemps : l'image n'est jamais recadrée ────────────────
-   Ordinateur : la bannière prend exactement les proportions de l'image
-   (1672 × 941), `cover` n'a donc rien à couper.
+   Ordinateur : la bannière prend presque les proportions de l'image
+   (1672 × 941), `cover` n'en coupe qu'une fine bande.
    Mobile : un écran vertical ne peut pas contenir une image horizontale sans
    la zoomer. L'image s'affiche donc entière sur toute la largeur, sous le
    header, et le texte passe dessous, sur une version floutée et assombrie de
@@ -2266,9 +2266,12 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section--printemps {
     min-height: 0;
-    aspect-ratio: 1672 / 941;
+    /* Un peu moins haute que l'image (941 px) : environ 12 % de ciel vide en
+       haut et de fleurs en bas sont rognés, les coques restent entières. */
+    aspect-ratio: 1672 / 830;
     align-items: center;
   }
+  html[data-theme='sunfreaks'] .hero-section--printemps img.hero-bg { object-position: center 55%; }
   html[data-theme='sunfreaks'] .hero-section--printemps .hero-shell {
     padding-top: 0;
     padding-bottom: 0;
