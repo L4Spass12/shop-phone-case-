@@ -41,13 +41,13 @@ const {
       {/* Vidéo de l'atelier, chargée seulement quand la section approche de
           l'écran : preload="none" et aucune source tant qu'elle est loin, donc
           rien ne pèse sur le chargement de la fiche. Muette, en boucle, lue
-          en ligne (iPhone). Sans mouvement réduit demandé, sinon l'affiche
-          reste seule. WebM (VP9, ~470 Ko) d'abord, MP4 (H.264) en repli. */}
+          en ligne (iPhone). MP4 (H.264, 420 Ko) seul : lu partout, iPhone compris. */}
       <div class="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-video">
         <video
           class="fab-video w-full h-full object-cover"
           poster="/images/atelier-impression-poster.webp"
           muted
+          autoplay
           loop
           playsinline
           preload="none"
@@ -55,7 +55,6 @@ const {
           height="720"
           aria-label={t('fabrication.imageAlt', lang)}
         >
-          <source data-src="/videos/atelier-impression.webm?v=2" type="video/webm" />
           <source data-src="/videos/atelier-impression.mp4?v=2" type="video/mp4" />
         </video>
       </div>
@@ -87,8 +86,10 @@ const {
 
 <script>
   const videos = document.querySelectorAll<HTMLVideoElement>('.fab-video');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (videos.length && !reduce && 'IntersectionObserver' in window) {
+  // Pas de test « mouvement réduit » : sur Android, le réglage « supprimer
+  // les animations » l'active souvent, et la vidéo restait figée pour
+  // beaucoup de visiteurs. Elle est muette, courte et sans flash.
+  if (videos.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         const v = e.target as HTMLVideoElement;
@@ -111,5 +112,10 @@ const {
       }
     }, { rootMargin: '200px 0px' });
     videos.forEach((v) => io.observe(v));
+    // Dernier recours (mode économie d'énergie, lecture auto bloquée) : la
+    // vidéo démarre au premier contact avec la page.
+    const kick = () => videos.forEach((v) => { if (v.dataset.loaded && v.paused) { v.muted = true; v.play().catch(() => {}); } });
+    window.addEventListener('touchstart', kick, { passive: true });
+    window.addEventListener('scroll', kick, { passive: true });
   }
 </script>
