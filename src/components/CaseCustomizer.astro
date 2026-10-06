@@ -1452,10 +1452,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       0 0 0 1px rgba(0,0,0,.06);
   }
   .studio .cam-cut.is-pill { border-radius: 999px; }
+  /* Petits trous ronds (Galaxy) : un simple filet blanc se perdait sur une
+     coque claire, la coque passait pour une feuille vierge. Un léger creux
+     ombré et un liseré gris les font lire comme de vraies découpes. */
   .studio .cam-hole {
     position: absolute; aspect-ratio: 1; border-radius: 22%;
-    background: rgba(255,255,255,.05);
-    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.75), inset 0 0 0 4px rgba(255,255,255,.12);
+    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.04), rgba(0,0,0,.13));
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,.14),
+      0 1px 0 1.5px rgba(255,255,255,.85),
+      inset 0 2px 5px rgba(0,0,0,.28),
+      inset 0 0 0 1px rgba(0,0,0,.08);
   }
   .studio .cam-hole.is-round { border-radius: 50%; }
 
