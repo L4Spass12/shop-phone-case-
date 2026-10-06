@@ -9,7 +9,6 @@
  * de fiche : il n'est pas affiché.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import InstaGrid from './InstaGrid.astro';
 import siteConfig from '../../site.config.mjs';
 import { listPrice } from '../lib/printModes';
 import { getCollection } from 'astro:content';
@@ -659,7 +658,8 @@ const faqSchema = {
       personnalisation et avant la FAQ : il montre le produit porté, ce qui
       prolonge l'envie née de la section studio, puis la FAQ vient lever les
       dernières objections. */}
-  <InstaGrid />
+  {/* Section Instagram masquée le temps que le compte @bymoroji se
+      remplisse : remettre <InstaGrid /> ici (et son import). */}
 
   <!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
   <section class="py-20 md:py-24 px-6 border-t border-white/[0.04] bg-panel below-fold-defer">

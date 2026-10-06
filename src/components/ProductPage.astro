@@ -15,7 +15,6 @@ import FabricationSection from './FabricationSection.astro';
 import ModelPicker from './ModelPicker.astro';
 import PrintModeSelector from './PrintModeSelector.astro';
 import { defaultPrintMode, listPrice } from '../lib/printModes';
-import InstaGrid from './InstaGrid.astro';
 import DeliveryWindow from './DeliveryWindow.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
@@ -1249,7 +1248,8 @@ const pickModelLabel = t('model.placeholder', lang);
   )}
 
   <!-- Grille « feed Instagram » : visuels lifestyle en bas de fiche -->
-  <InstaGrid />
+  {/* Section Instagram masquée le temps que le compte @bymoroji se
+      remplisse : remettre <InstaGrid /> ici (et son import). */}
 
   <!-- ═══════════════════════════ JS PRODUIT ═══════════════════════════
        Trois modules indépendants, tous différés via requestIdleCallback :
