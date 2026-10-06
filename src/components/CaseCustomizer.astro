@@ -1788,9 +1788,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         var four = fam.cam === 'lenses4';
         s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = four ? '38%' : '30%';
         var tops = four ? [1, 26, 51, 76] : [2, 36, 70];
-        html = tops.map(function (t) {
-          return onPhone ? lens(12, t, 78) : hole(12, t, 78, true);
-        }).join('');
+        // Coque seule : une seule découpe verticale arrondie autour de la
+        // colonne d'objectifs, comme sur les coques Galaxy réelles. Trois ou
+        // quatre petits trous isolés ne se voyaient pas, la coque avait l'air
+        // d'une feuille blanche.
+        html = onPhone
+          ? tops.map(function (t) { return lens(12, t, 78); }).join('')
+          : '<span class="cam-cut is-pill"></span>';
       } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
         // Pixel : barre horizontale traversante (3 objectifs sur les Pro)
         s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
