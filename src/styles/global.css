@@ -2255,10 +2255,3 @@ html[data-theme='sunfreaks'] footer input {
    reste de la photo. Le site n'a pas de thème sombre, où ce mode assombrirait
    l'image. */
 img[src*="/images/products/"] { mix-blend-mode: multiply; }
-
-/* Visuel printemps : les coques sont dans la moitié droite, le ciel à gauche
-   accueille le texte. Sur mobile, la bande visible est tirée vers les coques. */
-.hero-section img.hero-bg--printemps { object-position: center 50%; }
-@media (max-width: 767px) {
-  .hero-section img.hero-bg--printemps { object-position: 77% 50%; }
-}
