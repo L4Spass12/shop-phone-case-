@@ -2259,10 +2259,9 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
 /* ─── Bannière printemps : l'image n'est jamais recadrée ────────────────
    Ordinateur : la bannière prend presque les proportions de l'image
    (1672 × 941), `cover` n'en coupe qu'une fine bande.
-   Mobile : un écran vertical ne peut pas contenir une image horizontale sans
-   la zoomer. L'image s'affiche donc entière sur toute la largeur, sous le
-   header, et le texte passe dessous, sur une version floutée et assombrie de
-   la même image qui sert de fond. */
+   Mobile : une image portrait dédiée (1122 × 1402) s'affiche entière sur
+   toute la largeur, sous le header transparent, et le texte passe dessous,
+   sur une version floutée et assombrie de la même image qui sert de fond. */
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section--printemps {
     min-height: 0;
@@ -2281,19 +2280,21 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   html[data-theme='sunfreaks'] main > section.hero-section--printemps {
     display: block;
     min-height: 0;
+    /* L'image portrait passe sous le header transparent, comme sur ordinateur. */
+    padding-top: 0;
   }
   html[data-theme] .hero-section--printemps img.hero-img {
     position: relative;
     inset: auto;
     height: auto;
-    aspect-ratio: 1672 / 941;
+    aspect-ratio: 1122 / 1402;
   }
   .hero-section--printemps::before {
     content: "";
     position: absolute;
     inset: -40px;
     z-index: -1;
-    background: #1d4f8f url('/images/hero-ciel-800w.webp') center / cover no-repeat;
+    background: #1d4f8f url('/images/hero-ciel-mobile-750w.webp') center / cover no-repeat;
     filter: blur(28px) brightness(.55) saturate(1.15);
   }
   html[data-theme='sunfreaks'] .hero-section--printemps::after { content: none; }

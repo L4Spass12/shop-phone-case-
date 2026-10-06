@@ -196,7 +196,10 @@ const faqSchema = {
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-ciel.webp',
+    { href: '/images/hero-ciel-mobile-750w.webp', media: '(max-width: 767px)',
+      imagesrcset: '/images/hero-ciel-mobile-750w.webp 750w, /images/hero-ciel-mobile.webp 1122w',
+      imagesizes: '100vw' },
+    { media: '(min-width: 768px)', href: '/images/hero-ciel.webp',
       imagesrcset: '/images/hero-ciel-800w.webp 800w, /images/hero-ciel-1280w.webp 1280w, /images/hero-ciel.webp 1672w',
       imagesizes: '100vw' },
   ]}
@@ -207,6 +210,8 @@ const faqSchema = {
        - Le voile sombre est appliqué via `::after` en CSS pur (pas de div overlay) -->
   <section class="hero-section hero-section--printemps relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
     <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
+    <picture>
+    <source media="(max-width: 767px)" srcset="/images/hero-ciel-mobile-750w.webp 750w, /images/hero-ciel-mobile.webp 1122w" sizes="100vw" width="1122" height="1402" />
     <img
       src="/images/hero-ciel.webp"
       srcset="/images/hero-ciel-800w.webp 800w, /images/hero-ciel-1280w.webp 1280w, /images/hero-ciel.webp 1672w"
@@ -222,6 +227,7 @@ const faqSchema = {
       width="1672"
       height="941"
     />
+    </picture>
 
     {/* Le bloc de texte occupe la MOITIÉ GAUCHE et s'y centre, au lieu d'être
         collé au bord. C'est ce qui fait la différence avec une bannière de
