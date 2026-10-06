@@ -64,10 +64,9 @@ const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
   style: 'currency', currency: localeMeta(lang).currency || 'EUR',
 }).format(n);
 
-const displayPrice = (d: any) =>
-  d.priceRange && d.priceRange.min !== d.priceRange.max
-    ? `${t('shop.from', lang)} ${formatPrice(listPrice(d))}`
-    : formatPrice(listPrice(d));
+// Toujours « À partir de » : le prix affiché est celui du rendu à plat, le
+// relief coûte plus cher (même règle que l'accueil).
+const displayPrice = (d: any) => `${t('shop.from', lang)} ${formatPrice(listPrice(d))}`;
 
 const SITE_URL = siteConfig.url;
 const pageUrl = `${SITE_URL}${lp}/product-category/${category.slug}/`;
