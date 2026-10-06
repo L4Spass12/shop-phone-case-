@@ -38,18 +38,26 @@ const {
   <div class="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
     <!-- Image machine -->
     <div class="relative">
-      <div class="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-[4/3]">
-        <img
-          src="/images/placeholder.webp"
-          srcset="/images/placeholder-400w.webp 400w, /images/placeholder-800w.webp 800w, /images/placeholder.webp 1200w"
-          sizes="(max-width: 768px) 100vw, 500px"
-          alt={t('fabrication.imageAlt', lang)}
-          class="w-full h-full object-cover"
-          width="1536"
-          height="1024"
-          loading="lazy"
-          decoding="async"
-        />
+      {/* Vidéo de l'atelier, chargée seulement quand la section approche de
+          l'écran : preload="none" et aucune source tant qu'elle est loin, donc
+          rien ne pèse sur le chargement de la fiche. Muette, en boucle, lue
+          en ligne (iPhone). Sans mouvement réduit demandé, sinon l'affiche
+          reste seule. WebM (VP9, 280 Ko) d'abord, MP4 (H.264) en repli. */}
+      <div class="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-video">
+        <video
+          class="fab-video w-full h-full object-cover"
+          poster="/images/atelier-impression-poster.webp"
+          muted
+          loop
+          playsinline
+          preload="none"
+          width="1280"
+          height="720"
+          aria-label={t('fabrication.imageAlt', lang)}
+        >
+          <source data-src="/videos/atelier-impression.webm" type="video/webm" />
+          <source data-src="/videos/atelier-impression.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
 
@@ -76,3 +84,32 @@ const {
     </div>
   </div>
 </section>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>('.fab-video');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (videos.length && !reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) {
+          if (!v.dataset.loaded) {
+            v.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((s) => { s.src = s.dataset.src!; });
+            v.load();
+            v.dataset.loaded = '1';
+            // Premier chargement : relance dès que la vidéo est prête, un
+            // play() lancé pendant le chargement peut être ignoré.
+            v.addEventListener('canplay', () => { v.muted = true; v.play().catch(() => {}); }, { once: true });
+          }
+          // Muette aussi par la propriété : certains navigateurs ne lisent
+          // l'attribut `muted` qu'au rendu et refusent alors la lecture auto.
+          v.muted = true;
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      }
+    }, { rootMargin: '200px 0px' });
+    videos.forEach((v) => io.observe(v));
+  }
+</script>
