@@ -1443,13 +1443,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
   /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
      plastique qui borde le trou — on doit voir le décor au travers. */
+  /* Même creux ombré que les trous ronds des Galaxy (cf. .cam-hole). */
   .studio .cam-cut {
     position: absolute; inset: 0; border-radius: 26%;
-    background: rgba(255,255,255,.05);
+    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.04), rgba(0,0,0,.13));
     box-shadow:
-      inset 0 0 0 1.5px rgba(255,255,255,.75),
-      inset 0 0 0 5px rgba(255,255,255,.12),
-      0 0 0 1px rgba(0,0,0,.06);
+      0 0 0 1px rgba(0,0,0,.14),
+      0 1px 0 1.5px rgba(255,255,255,.85),
+      inset 0 3px 8px rgba(0,0,0,.28),
+      inset 0 0 0 1px rgba(0,0,0,.08);
   }
   .studio .cam-cut.is-pill { border-radius: 999px; }
   /* Petits trous ronds (Galaxy) : un simple filet blanc se perdait sur une
