@@ -27,7 +27,7 @@ const config = {
   // ses trois graisses, et distribuée par --font-display. Elle habille les
   // titres, les libellés des boutons, les prix et le pied de page.
   description:
-    "Moroji : coques iPhone imprimées à l'unité dans notre atelier en France, à plat ou en relief. Motifs exclusifs ou votre propre design, pour iPhone et Samsung Galaxy.",
+    "Moroji : coques de téléphone imprimées à l'unité dans notre atelier en France, à plat ou en relief. Motifs exclusifs ou votre propre design, pour iPhone et Samsung Galaxy.",
 
   // ─── Internationalisation ────────────────────────────────────────
   // Stratégie : sous-dossier, la locale par défaut n'a PAS de préfixe
