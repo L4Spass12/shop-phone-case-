@@ -2255,3 +2255,47 @@ html[data-theme='sunfreaks'] footer input {
    reste de la photo. Le site n'a pas de thème sombre, où ce mode assombrirait
    l'image. */
 img[src*="/images/products/"] { mix-blend-mode: multiply; }
+
+/* ─── Bannière printemps : l'image n'est jamais recadrée ────────────────
+   Ordinateur : la bannière prend exactement les proportions de l'image
+   (1672 × 941), `cover` n'a donc rien à couper.
+   Mobile : un écran vertical ne peut pas contenir une image horizontale sans
+   la zoomer. L'image s'affiche donc entière sur toute la largeur, sous le
+   header, et le texte passe dessous, sur une version floutée et assombrie de
+   la même image qui sert de fond. */
+@media (min-width: 768px) {
+  html[data-theme='sunfreaks'] main > section.hero-section--printemps {
+    min-height: 0;
+    aspect-ratio: 1672 / 941;
+    align-items: center;
+  }
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-shell {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] main > section.hero-section--printemps {
+    display: block;
+    min-height: 0;
+  }
+  html[data-theme] .hero-section--printemps img.hero-img {
+    position: relative;
+    inset: auto;
+    height: auto;
+    aspect-ratio: 1672 / 941;
+  }
+  .hero-section--printemps::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    z-index: -1;
+    background: #1d4f8f url('/images/hero-printemps-800w.webp') center / cover no-repeat;
+    filter: blur(28px) brightness(.55) saturate(1.15);
+  }
+  html[data-theme='sunfreaks'] .hero-section--printemps::after { content: none; }
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-shell {
+    padding-top: 1.75rem;
+    padding-bottom: 2.25rem;
+  }
+}

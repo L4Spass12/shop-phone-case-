@@ -25,7 +25,7 @@ const TEXTS = {
   fr: {
     title: `Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`,
     description: "Choisissez un motif ou créez le vôtre. Coques pour iPhone imprimées à l'unité en France.",
-    heroAlt: "Une femme tend une coque de téléphone vers le ciel, d'autres coques à motifs flottent autour d'elle",
+    heroAlt: 'Trois coques à motifs peints devant un paysage méditerranéen fleuri',
     eyebrow: "L'art sur votre téléphone", title1: 'Votre coque', title2: 'votre style',
     seeCollection: 'Voir la collection', createCase: 'Créer ma coque',
     selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'À partir de',
@@ -51,7 +51,7 @@ const TEXTS = {
   en: {
     title: `Unique phone cases, printed in France | ${siteConfig.name}`,
     description: 'Pick a design or create your own. iPhone cases printed one by one in France.',
-    heroAlt: 'A woman holds a phone case up to the sky, other patterned cases floating around her',
+    heroAlt: 'Three painted-pattern phone cases in front of a blossoming Mediterranean landscape',
     eyebrow: 'Art on your phone', title1: 'Your case', title2: 'your style',
     seeCollection: 'View the collection', createCase: 'Create my case',
     selection: 'Selection', featured: 'Featured products', viewAll: 'View all', from: 'From',
@@ -77,7 +77,7 @@ const TEXTS = {
   de: {
     title: `Einzigartige Handyhüllen, gedruckt in Frankreich | ${siteConfig.name}`,
     description: 'Wähle ein Motiv oder gestalte dein eigenes. iPhone-Hüllen, einzeln in Frankreich gedruckt.',
-    heroAlt: 'Eine Frau hält eine Handyhülle in den Himmel, um sie herum schweben weitere gemusterte Hüllen',
+    heroAlt: 'Drei Hüllen mit gemalten Motiven vor einer blühenden Mittelmeerlandschaft',
     eyebrow: 'Kunst auf deinem Handy', title1: 'Deine Hülle', title2: 'dein Stil',
     seeCollection: 'Zur Kollektion', createCase: 'Hülle gestalten',
     selection: 'Auswahl', featured: 'Ausgewählte Produkte', viewAll: 'Alle ansehen', from: 'Ab',
@@ -196,8 +196,8 @@ const faqSchema = {
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-coques.webp',
-      imagesrcset: '/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w',
+    { href: '/images/hero-printemps.webp',
+      imagesrcset: '/images/hero-printemps-800w.webp 800w, /images/hero-printemps-1280w.webp 1280w, /images/hero-printemps.webp 1672w',
       imagesizes: '100vw' },
   ]}
 >
@@ -205,11 +205,11 @@ const faqSchema = {
   <!-- Structure simplifiée pour LCP détectable :
        - L'image hero est un <img> direct de la section (pas de wrapper z-indexé)
        - Le voile sombre est appliqué via `::after` en CSS pur (pas de div overlay) -->
-  <section class="hero-section relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
+  <section class="hero-section hero-section--printemps relative overflow-hidden min-h-[70vh] md:min-h-[75vh] flex items-center">
     <!-- Un seul <img> avec srcset (plus simple, LCP-friendly) -->
     <img
-      src="/images/hero-coques.webp"
-      srcset="/images/hero-coques-800w.webp 800w, /images/hero-coques-1280w.webp 1280w, /images/hero-coques.webp 1696w"
+      src="/images/hero-printemps.webp"
+      srcset="/images/hero-printemps-800w.webp 800w, /images/hero-printemps-1280w.webp 1280w, /images/hero-printemps.webp 1672w"
       {/* 100vw : la bannière n'est plus agrandie. Le visuel réserve lui-même
           sa moitié gauche au texte, le zoom de 26 % qui servait à dégager
           cette place n'a plus lieu d'être (cf. global.css). */}
@@ -219,8 +219,8 @@ const faqSchema = {
       fetchpriority="high"
       loading="eager"
       decoding="async"
-      width="1696"
-      height="960"
+      width="1672"
+      height="941"
     />
 
     {/* Le bloc de texte occupe la MOITIÉ GAUCHE et s'y centre, au lieu d'être
@@ -354,8 +354,8 @@ const faqSchema = {
       srcset="/images/studio-banner-b-800w.webp 800w, /images/studio-banner-b-1280w.webp 1280w, /images/studio-banner-b.webp 1696w"
       sizes="100vw"
       alt={T.studioAlt}
-      width="1696"
-      height="960"
+      width="1672"
+      height="941"
       loading="lazy"
       decoding="async"
       class="studio-b-bg"
