@@ -1451,7 +1451,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       inset 0 0 0 5px rgba(255,255,255,.12),
       0 0 0 1px rgba(0,0,0,.06);
   }
-  .studio .cam-cut.is-pill, .studio .cam-island.is-pill { border-radius: 999px; }
+  .studio .cam-cut.is-pill { border-radius: 999px; }
   .studio .cam-hole {
     position: absolute; aspect-ratio: 1; border-radius: 22%;
     background: rgba(255,255,255,.05);
@@ -1626,11 +1626,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       'iphone-se':    { ratio: .486, radius: 8,  cam: 'single' },
       'iphone-xr':    { ratio: .502, radius: 13, cam: 'single' },
       'iphone-xs':    { ratio: .494, radius: 13, cam: 'dualv' },
-      // look : rendu de l'aperçu seulement (le fichier d'impression suit cam).
-      'galaxy-ultra': { ratio: .477, radius: 4,  cam: 'lenses4', look: 'gUltra' },
-      'galaxy':       { ratio: .480, radius: 9,  cam: 'lenses3', look: 'gS' },
-      'galaxy-s26':   { ratio: .480, radius: 9,  cam: 'lenses3', look: 'gPill' },
-      'galaxy-a':     { ratio: .475, radius: 9,  cam: 'lenses3', look: 'gPill' },
+      'galaxy-ultra': { ratio: .477, radius: 4,  cam: 'lenses4' },
+      'galaxy':       { ratio: .480, radius: 9,  cam: 'lenses3' },
+      'galaxy-a':     { ratio: .475, radius: 9,  cam: 'lenses3' },
       'pixel-pro':    { ratio: .471, radius: 12, cam: 'bar3' },
       'pixel':        { ratio: .471, radius: 12, cam: 'bar2' },
       'xiaomi':       { ratio: .468, radius: 11, cam: 'islandBig' },
@@ -1649,7 +1647,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (/galaxy|samsung/.test(l)) {
         if (/ultra/.test(l)) return 'galaxy-ultra';
         if (/galaxy a/.test(l)) return 'galaxy-a';
-        if (/s26/.test(l)) return 'galaxy-s26';
         return 'galaxy';
       }
       if (/pixel/.test(l)) return /pro/.test(l) ? 'pixel-pro' : 'pixel';
@@ -1665,7 +1662,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         ratio: mm ? mm[0] / mm[1] : fam.ratio,
         radius: fam.radius,
         cam: fam.cam,
-        look: fam.look || null,
         mm: mm || null,
       };
     }
@@ -1792,19 +1788,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         var four = fam.cam === 'lenses4';
         s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = four ? '38%' : '30%';
         var tops = four ? [1, 26, 51, 76] : [2, 36, 70];
-        // Coque seule : une seule découpe verticale arrondie autour de la
-        // colonne d'objectifs, comme sur les coques Galaxy réelles. Trois ou
-        // quatre petits trous isolés ne se voyaient pas, la coque avait l'air
-        // d'une feuille blanche.
-        // Les objectifs restent visibles même en coque seule : sans eux, tous
-        // les Galaxy se ressemblaient. Le reste du module change par gamme :
-        // S24/S25 objectifs isolés et flash à côté, S26 et A objectifs dans
-        // un îlot en pilule, Ultra une seconde colonne (capteur et flash).
-        var look = fam.look || 'gS';
-        var socle = look === 'gPill' ? '<span class="cam-island is-pill"></span>' : '';
-        html = socle + tops.map(function (t) { return lens(12, t, 78); }).join('');
-        if (look === 'gUltra') html += lens(118, 3, 46) + flash(124, 30, 30);
-        else html += flash(116, 5, 32);
+        html = tops.map(function (t) {
+          return onPhone ? lens(12, t, 78) : hole(12, t, 78, true);
+        }).join('');
       } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
         // Pixel : barre horizontale traversante (3 objectifs sur les Pro)
         s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
