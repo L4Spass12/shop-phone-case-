@@ -2261,7 +2261,7 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
    (1672 × 941), `cover` n'en coupe qu'une fine bande.
    Mobile : une image portrait dédiée (1122 × 1402) s'affiche entière sur
    toute la largeur, sous le header transparent, et le texte passe dessous,
-   sur une version floutée et assombrie de la même image qui sert de fond. */
+   sur le fond de la page. */
 @media (min-width: 768px) {
   html[data-theme='sunfreaks'] main > section.hero-section--printemps {
     min-height: 0;
@@ -2289,14 +2289,13 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
     height: auto;
     aspect-ratio: 1122 / 1402;
   }
-  .hero-section--printemps::before {
-    content: "";
-    position: absolute;
-    inset: -40px;
-    z-index: -1;
-    background: #1d4f8f url('/images/hero-ciel-mobile-750w.webp') center / cover no-repeat;
-    filter: blur(28px) brightness(.55) saturate(1.15);
-  }
+  /* Sous l'image, le texte passe sur le fond de la page : il prend donc
+     l'encre brune du site au lieu du blanc posé pour la photo. */
+  html[data-theme='sunfreaks'] main > section.hero-section--printemps { background: rgb(var(--c-dark)); }
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-eyebrow,
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-title,
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-trait { color: rgb(var(--c-cream)); }
+  html[data-theme='sunfreaks'] .hero-section--printemps .hero-title .creux { -webkit-text-stroke-color: rgb(var(--c-cream)); }
   html[data-theme='sunfreaks'] .hero-section--printemps::after { content: none; }
   html[data-theme='sunfreaks'] .hero-section--printemps .hero-shell {
     padding-top: 1.75rem;
