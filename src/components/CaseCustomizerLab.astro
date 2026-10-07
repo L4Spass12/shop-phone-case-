@@ -1520,7 +1520,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .studio .el[data-type="image"] .el-content img { display: block; width: 100%; height: auto; pointer-events: none; }
   /* Photo du calque briques : invisible mais toujours manipulable (cadre de
      sélection, glisser, pincer) ; c'est le calque qui la montre en briques. */
-  .studio .el[data-fx="bricks"] .el-content { opacity: 0; }
+  .studio .design[data-fx="bricks"] .el[data-photo] .el-content { opacity: 0; }
   /* Cadre Polaroid : bord blanc, marge basse plus large, photo carrée
      recadrée. Mêmes proportions que le fichier d'impression (POLA). */
   .studio .pola {
@@ -1799,7 +1799,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         P(46, 64, 77, 5),
       ]},
       // Briques : la photo devient une mosaïque de briques à plots.
-      { id: 'briques', name: I.tpl.briques, bg: null, els: [
+      { id: 'briques', name: I.tpl.briques, bg: null, fx: 'bricks', els: [
         B(),
       ]},
       // Manga : une case de BD (photo en noir et blanc tramé) et des onomatopées.
@@ -1822,7 +1822,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     ];
 
     /* ── État ────────────────────────────────────────────────────── */
-    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, elements: [] };
+    // fx : effet appliqué à TOUTE la coque ('bricks' = mosaïque de briques).
+    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, fx: null, elements: [] };
     var nodes = new Map();
     var selectedId = null, seq = 0, gesture = null, editingId = null;
     var history = [], hIndex = -1, activePane = null;
@@ -1949,7 +1950,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; ref.content.style.textShadow = outlineCss(el.outline); }
       }
       if (el.id === selectedId) positionGizmo(el);
-      if (el.fx === 'bricks') scheduleBricks();
+      if (state.fx === 'bricks' && el.type === 'image') scheduleBricks();
     }
 
     // Cale le cadre de sélection (calque hors du clip) sur l'élément : même
@@ -1967,7 +1968,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function createNode(el) {
       var node = document.createElement('div');
       node.className = 'el'; node.dataset.type = el.type; node.dataset.id = String(el.id);
-      if (el.fx === 'bricks' && el.src) node.dataset.fx = 'bricks';
+      if (el.type === 'image' && el.src) node.dataset.photo = '';
       var content = document.createElement('div');
       content.className = 'el-content';
       if (el.type === 'image') {
@@ -1988,7 +1989,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           // hauteur passe de zéro à sa valeur réelle.
           img.addEventListener('load', function () {
             if (selectedId === el.id) positionGizmo(el);
-            if (el.fx === 'bricks') scheduleBricks();
+            if (state.fx === 'bricks') scheduleBricks();
           });
           host.appendChild(img);
         } else {
@@ -2016,6 +2017,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
       nodes.clear();
       state.elements.forEach(createNode);
+      if (state.fx) design.dataset.fx = state.fx; else delete design.dataset.fx;
       renderCase(); applyFinish(); refreshEmpty(); scheduleBricks();
       if (selectedId && !findEl(selectedId)) selectedId = null;
       applySelection();
@@ -2042,7 +2044,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     root.querySelector('[data-reset]').addEventListener('click', function () {
       if (!state.elements.length && !state.bg) return;
       if (!window.confirm(I.confirmReset)) return;
-      state.elements = []; state.bg = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
+      state.elements = []; state.bg = null; state.fx = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
     });
 
     /* ── Ajout / suppression ────────────────────────────────────── */
@@ -2431,6 +2433,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if ((state.elements.length || state.bg) &&
           !window.confirm(fill(I.confirmTpl, t.name))) return;
       state.bg = t.bg || null;
+      state.fx = t.fx || null;
       state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
       selectedId = null;
       renderAll(); pushHistory();
@@ -2503,17 +2506,35 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        brique prend la couleur de la photo à son emplacement. Même calcul à
        l'écran et dans le fichier d'impression. */
     var BRICK_COLS = 32;
-    // Couleurs de la photo à la résolution de la grille (cols x rows).
-    function brickSample(img, el, cols, rows) {
+    // Couleur de base des briques sans photo dessous : la grille couvre
+    // toujours toute la coque.
+    var BRICK_BASE = [242, 239, 233];
+    // Couleurs de toutes les photos (dans l'ordre d'empilement) à la
+    // résolution de la grille (cols x rows).
+    function brickSample(list, cols, rows) {
       var cv = document.createElement('canvas'); cv.width = cols; cv.height = rows;
       var g = cv.getContext('2d');
       g.imageSmoothingQuality = 'high';
-      var iw = el.size / 100 * cols, ih = iw * ((img.naturalHeight || 1) / (img.naturalWidth || 1));
-      g.translate(el.x / 100 * cols, el.y / 100 * rows);
-      g.rotate(el.rot * Math.PI / 180);
-      g.drawImage(img, -iw / 2, -ih / 2, iw, ih);
+      list.forEach(function (it) {
+        var el = it.el, img = it.img;
+        var iw = el.size / 100 * cols, ih = iw * ((img.naturalHeight || 1) / (img.naturalWidth || 1));
+        g.save();
+        g.translate(el.x / 100 * cols, el.y / 100 * rows);
+        g.rotate(el.rot * Math.PI / 180);
+        g.drawImage(img, -iw / 2, -ih / 2, iw, ih);
+        g.restore();
+      });
       var px = g.getImageData(0, 0, cols, rows).data;
       freeCanvas(cv);
+      // Mélange avec la couleur de base là où la photo est absente ou
+      // partiellement transparente (bords).
+      for (var i = 0; i < px.length; i += 4) {
+        var a = px[i + 3] / 255;
+        px[i] = Math.round(px[i] * a + BRICK_BASE[0] * (1 - a));
+        px[i + 1] = Math.round(px[i + 1] * a + BRICK_BASE[1] * (1 - a));
+        px[i + 2] = Math.round(px[i + 2] * a + BRICK_BASE[2] * (1 - a));
+        px[i + 3] = 255;
+      }
       return px;
     }
     // Dessine les briques dans un contexte de W x H.
@@ -2521,7 +2542,6 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var cw = W / cols, ch = H / rows, e = Math.max(1, cw * .06);
       for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
         var i = (y * cols + x) * 4;
-        if (px[i + 3] < 110) continue;               // pas de photo ici
         var col = 'rgb(' + px[i] + ',' + px[i + 1] + ',' + px[i + 2] + ')';
         var X0 = x * cw, Y0 = y * ch;
         g.fillStyle = col; g.fillRect(X0, Y0, cw + .5, ch + .5);
@@ -2543,9 +2563,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       brickRaf = document.hidden ? setTimeout(run, 16) : requestAnimationFrame(run);
     }
     function drawBrickLayer() {
-      var el = state.elements.filter(function (e) { return e.type === 'image' && e.fx === 'bricks' && e.src; })[0];
-      var ref = el && nodes.get(el.id), img = ref && ref.node.querySelector('img');
-      if (!el || !img || !img.naturalWidth) { brickLayer.hidden = true; return; }
+      if (state.fx !== 'bricks') { brickLayer.hidden = true; return; }
+      var list = [];
+      state.elements.forEach(function (el) {
+        if (el.type !== 'image' || !el.src) return;
+        var ref = nodes.get(el.id), img = ref && ref.node.querySelector('img');
+        if (img && img.naturalWidth) list.push({ el: el, img: img });
+      });
       var r = design.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
       var W = Math.round(r.width * dpr), H = Math.round(r.height * dpr);
       if (!W || !H) return;
@@ -2553,7 +2577,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var rows = brickRows(r.width, r.height);
       var g = brickLayer.getContext('2d');
       g.clearRect(0, 0, W, H);
-      drawBricks(g, brickSample(img, el, BRICK_COLS, rows), BRICK_COLS, rows, W, H);
+      drawBricks(g, brickSample(list, BRICK_COLS, rows), BRICK_COLS, rows, W, H);
       brickLayer.hidden = false;
     }
     window.addEventListener('resize', scheduleBricks);
@@ -2959,15 +2983,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           g.drawImage(bgImg, (w - bw) / 2, (h - bh) / 2, bw, bh);
         }
 
+        // Mode briques : toutes les photos passent dans la grille, posée sur
+        // toute la coque ; les textes restent dessinés par-dessus.
+        if (state.fx === 'bricks') {
+          var blist = state.elements
+            .filter(function (e) { return e.type === 'image' && images[e.id] && images[e.id].naturalWidth; })
+            .map(function (e) { return { el: e, img: images[e.id] }; });
+          var brows = brickRows(w, h);
+          drawBricks(g, brickSample(blist, BRICK_COLS, brows), BRICK_COLS, brows, w, h);
+        }
         state.elements.forEach(function (el) {
-          if (el.type === 'image' && el.fx === 'bricks') {
-            var bimg = images[el.id];
-            if (bimg && bimg.naturalWidth) {
-              var rows = brickRows(w, h);
-              drawBricks(g, brickSample(bimg, el, BRICK_COLS, rows), BRICK_COLS, rows, w, h);
-            }
-            return;
-          }
+          if (state.fx === 'bricks' && el.type === 'image') return;
           g.save();
           g.translate(el.x * w / 100, el.y * h / 100);
           g.rotate(el.rot * Math.PI / 180);
