@@ -1279,6 +1279,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .ctx button svg { width: 18px; height: 18px; }
   .ctx button:hover { background: rgba(255,255,255,.15); }
   .ctx button[data-on] { background: rgb(var(--accent-rgb)); }
+  .ctx button[hidden] { display: none; }
   .studio .el[data-cropping] { cursor: move; outline: .5cqw dashed rgb(var(--accent-rgb)); }
   .ctx .ctx-del:hover { background: #e11d48; }
   /* Mobile et tablette : colonne verticale au bord droit du plan de travail.
@@ -1588,7 +1589,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
     pointer-events: auto;
   }
-  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
+  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; border-radius: 6px; }
+  /* Pictos des poignées : flèche circulaire (tourner), double flèche en
+     diagonale (agrandir). Masque teinté à la couleur d'accent. */
+  .studio .h::before {
+    content: ""; position: absolute; inset: 3px; background: rgb(var(--accent-rgb));
+    -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat;
+  }
+  .studio .h-rotate { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 12a8 8 0 1 1-2.4-5.7'/%3E%3Cpath d='M20 4v5h-5'/%3E%3C/svg%3E"); }
+  .studio .h-resize { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5l14 14'/%3E%3Cpath d='M5 11V5h6'/%3E%3Cpath d='M19 13v6h-6'/%3E%3C/svg%3E"); }
   .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
   .studio .h-rotate::after {
     content: ""; position: absolute; left: 50%; top: 100%; width: 1.5px; height: 16px;
