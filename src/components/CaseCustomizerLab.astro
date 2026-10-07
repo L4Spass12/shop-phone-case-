@@ -4,7 +4,7 @@
 // validées, les nouveautés seront reportées dans l'original.
 /**
  * ═══════════════════════════════════════════════════════════════════════
- *  STUDIO — builder de coque personnalisée (esprit Canva / Printify)
+ *  STUDIO, builder de coque personnalisée (esprit Canva / Printify)
  * ═══════════════════════════════════════════════════════════════════════
  *  Organisation : rail d'icônes → panneau contextuel → plan de travail.
  *  Sur mobile le rail passe en bas, le panneau devient une feuille.
@@ -28,7 +28,7 @@ import { t, type Locale } from '../lib/i18n';
 interface Props { lang?: Locale }
 const { lang = 'fr' } = Astro.props;
 
-/* Polices de personnalisation — importées ICI et non dans global.css :
+/* Polices de personnalisation, importées ICI et non dans global.css :
    elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
    du site. Un seul graisse/subset latin par famille. */
 import '@fontsource/bodoni-moda/900.css';
@@ -486,8 +486,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       </button>
     </div>
 
-    {/* Voile de travail. La préparation dure quelques secondes — un rendu en
-        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien dire.
+    {/* Voile de travail. La préparation dure quelques secondes, un rendu en
+        600 dpi puis un envoi, et sans lui l'écran restait figé sans rien dire.
         L'anneau est une VRAIE progression, pas un sablier : il avance d'un
         quart à chaque étape franchie. Un tourniquet sans fin ne dit pas si on
         en est au début ou à la fin. */}
@@ -523,7 +523,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* ── Mobile : une application à hauteur fixe ─────────────────────
      Colonne barre / plan de travail / panneau / rail. Le panneau est DANS
      le flux (et non posé par-dessus) : quand il s'ouvre, le plan de travail
-     se réduit et la coque reste visible — on voit ce qu'on est en train de
+     se réduit et la coque reste visible, on voit ce qu'on est en train de
      modifier, ce qui n'était pas le cas avec une feuille en surimpression. */
   .builder {
     display: flex;
@@ -807,7 +807,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   @media (max-width: 520px) { .bar-model { display: none; } }
   /* Sous 420 px, la barre ne tient plus : annuler, rétablir, effacer, modèle,
      prix et bouton d'achat se disputent 375 px. Plutôt que de sacrifier un
-     élément, on resserre les cibles secondaires — le prix et l'achat, eux,
+     élément, on resserre les cibles secondaires, le prix et l'achat, eux,
      gardent leur taille. */
   @media (max-width: 420px) {
     .sbtn { width: 30px; height: 30px; }
@@ -898,7 +898,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .rbtn:active { transform: scale(.94); }
 
   /* Outil actif : pastille violette pleine. Un voile à 16 % se confondait avec
-     le survol sur une surface déjà translucide — il fallait un aplat franc.
+     le survol sur une surface déjà translucide, il fallait un aplat franc.
      Le dégradé reprend les trois nuances de l'accent du site (clair, accent,
      foncé) : c'est le même violet que les boutons et le prix, pas une seconde
      teinte inventée pour l'occasion. Le liseré clair en haut et l'ombre portée
@@ -1060,7 +1060,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .field:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
 
-  /* NB : polices et pastilles de couleur sont créées en JS — leurs règles
+  /* NB : polices et pastilles de couleur sont créées en JS, leurs règles
      vivent dans le bloc <style is:global>. */
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
@@ -1185,12 +1185,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
   /* Module caméra : dessiné par le JS selon la famille d'appareils */
   .cam { position: absolute; z-index: 6; pointer-events: none; }
-  /* NB : le contenu du module caméra est injecté en JS — ses règles vivent
+  /* NB : le contenu du module caméra est injecté en JS, ses règles vivent
      dans le bloc <style is:global> (pas d'attribut de scope Astro). */
 
   /* La coque elle-même : épaisseur du TPU + reflet */
   /* La coque elle-même. En finition transparente elle ne pose AUCUN fond :
-     on voit le plan de travail au travers — c'est ça qui fait lire « coque
+     on voit le plan de travail au travers, c'est ça qui fait lire « coque
      transparente » plutôt que « téléphone noir ». Seules les arêtes du TPU,
      sa paroi et les reflets sont dessinés. */
   .shell {
@@ -1297,7 +1297,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
      Verrou étendu au DESKTOP : la mise en îlots du rail et du panneau a
      introduit des marges qui débordaient de quelques pixels, et la page se
-     mettait à défiler pour rien. Un éditeur ne défile pas — ce sont ses
+     mettait à défiler pour rien. Un éditeur ne défile pas, ce sont ses
      panneaux qui défilent, chacun chez lui. */
   html[data-studio-app], html[data-studio-app] body {
     overflow: hidden;
@@ -1312,7 +1312,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      sunfreaks le header flotte, son îlot occupe un peu plus que --header-h, et
      le bas de la coque se retrouvait coupé. Ici `main` remplit la page, son
      padding haut est compris dans sa hauteur (border-box), et l'éditeur prend
-     ce qui reste — quelle que soit la hauteur du header. */
+     ce qui reste, quelle que soit la hauteur du header. */
   html[data-studio-app] .site-main {
     height: 100%;
     box-sizing: border-box;
@@ -1320,7 +1320,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   /* La chaîne des hauteurs doit être continue : une seule hauteur `auto` sur
      le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
-     son contenu — soit 1440 px de haut et une grille écrasée. */
+     son contenu, soit 1440 px de haut et une grille écrasée. */
   html[data-studio-app] .studio { height: 100%; }
   /* Clavier ouvert (mobile) : iOS pose le clavier PAR-DESSUS la page sans la
      réduire. La page prend donc la hauteur réellement visible (--vvh, mesurée
@@ -1340,7 +1340,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   /* En sunfreaks le header est un ÎLOT : il flotte 9 px sous le haut de page,
      donc son bas dépasse --header-h d'autant. `main` se décalait de
-     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils —
+     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils ,
      visible surtout sur mobile, où le bouton d'achat passait dessous. */
   html[data-theme='sunfreaks'][data-studio-app] .site-main {
     padding-top: calc(var(--header-total) + 18px);
@@ -1351,8 +1351,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* ── <ModelPicker> posé dans la barre du studio ──────────────────
      Le composant est conçu pour une fiche produit : étiquette au-dessus,
      champ pleine largeur, marge basse. Dans une barre d'outils il doit se
-     réduire à une pastille. On ne touche PAS au composant lui-même — sa
-     feuille et sa logique servent aussi aux fiches produit — on ne fait que
+     réduire à une pastille. On ne touche PAS au composant lui-même, sa
+     feuille et sa logique servent aussi aux fiches produit, on ne fait que
      le remettre en forme ici. */
   .studio .bar-mp { min-width: 0; flex: 0 1 auto; margin-left: .3rem; }
   .studio .bar-mp .mp { margin-bottom: 0; }
@@ -1445,7 +1445,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      Il doit TRANCHER sur le dos du téléphone : sombre sur sombre, il
      disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
   /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
-     plastique qui borde le trou — on doit voir le décor au travers. */
+     plastique qui borde le trou, on doit voir le décor au travers. */
   /* Même creux ombré que les trous ronds des Galaxy (cf. .cam-hole). */
   .studio .cam-cut {
     position: absolute; inset: 0; border-radius: 26%;
@@ -1544,8 +1544,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* Cadre de sélection : calque unique, positionné par le JS pour coïncider
      avec l'élément sélectionné. Hors du .design (donc non rogné) : le cadre et
      ses poignées restent visibles même quand l'image déborde de la coque.
-     Le cadre lui-même ne capte pas les clics (pointer-events: none) — seules
-     les poignées le font — pour ne pas bloquer le glisser de l'image dessous. */
+     Le cadre lui-même ne capte pas les clics (pointer-events: none), seules
+     les poignées le font, pour ne pas bloquer le glisser de l'image dessous. */
   .studio .gizmo {
     position: absolute; left: 50%; top: 50%;
     border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px;
@@ -2047,7 +2047,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* Le cadre se mesure sur le nœud. Or un nœud qui vient d'apparaître n'a
        pas encore sa taille définitive : une image importée ne connaît la
        sienne qu'une fois décodée, un texte qu'une fois sa police chargée. Le
-       cadre se posait donc sur un nœud encore plat — une barre large et fine,
+       cadre se posait donc sur un nœud encore plat, une barre large et fine,
        qui ne se recalait qu'au premier redimensionnement.
        On suit désormais la taille réelle du nœud sélectionné : dès qu'elle
        change, le cadre suit. */
@@ -2085,7 +2085,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       else if (a === 'back') reorder(selectedId, -1);
       else if (a === 'edit') openPane('text');
     });
-    // Cliquer n'importe où sur le plan de travail — coque OU fond autour —
+    // Cliquer n'importe où sur le plan de travail, coque OU fond autour ,
     // désélectionne. Seuls un élément (.el, poignées comprises) et la barre
     // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
     // qu'on vient de faire, ou l'action qu'on s'apprête à déclencher.
@@ -2407,7 +2407,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Finition + téléphone ───────────────────────────────────────
        Plus d'interface : la boutique n'imprime que sur coque transparente, et
        l'aperçu reste « coque seule ». L'état et le rendu gardent les champs
-       (`finish`, `device`, `mount`) — un design déjà enregistré avec une autre
+       (`finish`, `device`, `mount`), un design déjà enregistré avec une autre
        finition continue de se rouvrir correctement, et rouvrir le choix plus
        tard ne demandera que de remettre les boutons. */
 
@@ -3024,7 +3024,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Étape 2 : mode d'impression ────────────────────────────────
        Le mode change le PRIX, donc la clé d'article : « custom » à plat,
        « custom-relief » en relief. C'est cette clé que le serveur de paiement
-       relit dans le manifeste de la vitrine pour fixer le montant — annoncer
+       relit dans le manifeste de la vitrine pour fixer le montant, annoncer
        un supplément depuis le navigateur ne protégerait rien. */
     var stepEl   = root.querySelector('[data-step]');
     var nextBtn  = root.querySelector('[data-next]');
