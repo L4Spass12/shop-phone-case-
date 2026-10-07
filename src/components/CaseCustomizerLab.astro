@@ -106,7 +106,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
       itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
       success: { flat: 'Coque à plat', relief: 'Coque en relief' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', souvenirsTpl: 'Souvenirs', amourRose: 'Amour rose', amourNuit: 'Amour nuit', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', souvenirsTpl: 'Souvenirs', amourRose: 'Amour rose', amourNuit: 'Amour nuit', toiMoi: 'Toi & Moi', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
         tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
         since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
     },
@@ -149,7 +149,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
       itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
       success: { flat: 'Flat-print case', relief: 'Raised-print case' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', souvenirsTpl: 'Memories', amourRose: 'Pink love', amourNuit: 'Night love', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', souvenirsTpl: 'Memories', amourRose: 'Pink love', amourNuit: 'Night love', toiMoi: 'You & Me', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
         tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
         since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
     },
@@ -192,7 +192,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
       itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
       success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', souvenirsTpl: 'Erinnerungen', amourRose: 'Rosa Liebe', amourNuit: 'Nacht-Liebe', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', souvenirsTpl: 'Erinnerungen', amourRose: 'Rosa Liebe', amourNuit: 'Nacht-Liebe', toiMoi: 'Du & Ich', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
         tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
         since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
     },
@@ -1794,17 +1794,26 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
       // NB : cadres hors de la zone caméra (haut-gauche).
-      // Mur de souvenirs : des Polaroid qui couvrent toute la coque (le coin
-      // haut gauche reste libre pour l'appareil photo).
+      // Mur de souvenirs : des Polaroid partout, qui débordent volontairement
+      // de la coque (le coin haut gauche reste dégagé pour l'appareil photo).
       { id: 'polaroid', name: I.tpl.polaroid, bg: null, els: [
-        P(40, 73, 12, 6),
-        P(42, 28, 33, -8),
-        P(40, 71, 33, 4),
-        P(42, 32, 53, 5),
-        P(40, 69, 54, -6),
-        P(42, 29, 74, -4),
-        P(40, 71, 75, 7),
-        P(42, 49, 93, -3),
+        P(38, 62, 6, 6),
+        P(38, 97, 10, -5),
+        P(38, 30, 30, -7),
+        P(38, 66, 25, 4),
+        P(38, 100, 31, -8),
+        P(38, 8, 44, 5),
+        P(38, 44, 45, -5),
+        P(38, 80, 42, 7),
+        P(38, 26, 61, 6),
+        P(38, 62, 63, -6),
+        P(38, 98, 59, 4),
+        P(38, 6, 78, -4),
+        P(38, 42, 80, 7),
+        P(38, 78, 77, -6),
+        P(38, 22, 95, 5),
+        P(38, 58, 97, -3),
+        P(38, 92, 94, 6),
       ]},
       { id: 'pelemele', name: I.tpl.pelemele, bg: null, els: [
         P(46, 68, 27, 7),
@@ -1821,6 +1830,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         thumb: '/images/studio-bg/tpl-amour-rose.webp', els: [
         Q(51, 39.9, 29.7, 1.03, '', '', -9.2),
         Q(49, 65.2, 59.1, 1.0, '', '', 10),
+      ]},
+      { id: 'toi-moi', name: I.tpl.toiMoi, bg: null, overlay: '/images/studio-bg/toi-moi.webp',
+        thumb: '/images/studio-bg/tpl-toi-moi.webp', els: [
+        Q(42, 40.4, 41, 1.0, '', '', -9.8),
+        Q(41.5, 63.6, 62, .95, '', '', 10.8),
       ]},
       { id: 'amour-nuit', name: I.tpl.amourNuit, bg: null, overlay: '/images/studio-bg/amour-nuit.webp',
         thumb: '/images/studio-bg/tpl-amour-nuit.webp', els: [
