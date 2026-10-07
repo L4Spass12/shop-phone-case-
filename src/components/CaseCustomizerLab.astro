@@ -1,0 +1,3379 @@
+---
+// COPIE DE TRAVAIL du studio (page cachée /studio-test/). Les essais se font
+// ici ; le studio en ligne (CaseCustomizer.astro) n'est pas touché. Une fois
+// validées, les nouveautés seront reportées dans l'original.
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ *  STUDIO — builder de coque personnalisée (esprit Canva / Printify)
+ * ═══════════════════════════════════════════════════════════════════════
+ *  Organisation : rail d'icônes → panneau contextuel → plan de travail.
+ *  Sur mobile le rail passe en bas, le panneau devient une feuille.
+ *
+ *  Choix structurants :
+ *   1. UN SEUL ÉTAT SÉRIALISABLE (`state`) ; le DOM n'en est que le rendu.
+ *      D'où, gratuitement : annuler/rétablir, sauvegarde auto, envoi au panier.
+ *   2. LA COQUE SUIT LE MODÈLE. Chaque famille d'appareils a son gabarit
+ *      (proportions, rayon des angles, découpe caméra) : changer de modèle
+ *      change réellement la coque affichée, pas seulement une étiquette.
+ *   3. RENDU RÉALISTE. La coque est transparente par défaut : on voit le
+ *      téléphone au travers, le TPU a une épaisseur et un reflet. C'est ce qui
+ *      permet au client de juger son visuel avant d'acheter.
+ *   4. GESTES UNIFIÉS souris + tactile (Pointer Events).
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+import ModelPicker from './ModelPicker.astro';
+import siteConfig from '../../site.config.mjs';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale }
+const { lang = 'fr' } = Astro.props;
+
+/* Polices de personnalisation — importées ICI et non dans global.css :
+   elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
+   du site. Un seul graisse/subset latin par famille. */
+import '@fontsource/bodoni-moda/900.css';
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/abril-fatface/400.css';
+import '@fontsource/bebas-neue/400.css';
+import '@fontsource/anton/400.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/oswald/400.css';
+import '@fontsource/dancing-script/400.css';
+import '@fontsource/caveat/400.css';
+import '@fontsource/space-mono/400.css';
+
+/* Prix de la coque personnalisée. En CENTIMES : c'est l'unité attendue par le
+   panier et par Stripe, et le libellé affiché en découle. Défini dans
+   site.config.mjs, qui alimente AUSSI le manifeste /seamless-items.json sur
+   lequel le serveur de paiement s'appuie pour refuser un prix falsifié. */
+const PRICE_CENTS = siteConfig.shop?.customCasePriceCents ?? 2990;
+/* Clé d'article. Doit correspondre à l'entrée du manifeste : le serveur coupe
+   l'identifiant de panier au « :: » (custom::<design_id>) pour la retrouver. */
+const SKU = 'custom';
+/* Impression en relief : seconde configuration achetable, seconde clé. C'est la
+   clé qui porte le prix faisant foi côté serveur (cf. seamless-items.json), donc
+   un « relief » vendu au tarif du plat ne peut pas passer. */
+const RELIEF_PRICE_CENTS = siteConfig.shop?.customCaseReliefPriceCents ?? PRICE_CENTS;
+const fmt = (c: number) => (c / 100).toFixed(2).replace('.', ',') + ' €';
+const price = fmt(PRICE_CENTS);
+const reliefPrice = fmt(RELIEF_PRICE_CENTS);
+/* Offre de lancement du relief : prix à venir, annoncé sous le prix. */
+const LAUNCH_NEXT = siteConfig.shop?.launchNextCents ?? null;
+
+/* Config du panier. Le studio n'utilise PAS les attributs data-item-* comme les
+   fiches produit : il doit d'abord envoyer le design au serveur, puis ajouter
+   la ligne avec l'identifiant reçu. Il lui faut donc l'URL de l'API et le
+   shop_id en clair. */
+
+/* Textes du studio, par langue. `ui` : gabarit ; `js` : messages du script,
+   transmis par l'attribut data-i18n (le script est commun aux trois langues). */
+const TEXTS = {
+  fr: {
+    ui: {
+      studio: 'Studio de personnalisation', undo: 'Annuler', undoTitle: 'Annuler (Ctrl+Z)', redo: 'Rétablir',
+      reset: 'Tout effacer', cont: 'Continuer', priceFrom: 'À partir de', tools: 'Outils', designs: 'Designs', text: 'Texte', photos: 'Photos',
+      panel: 'Panneau', closePanel: 'Fermer le panneau',
+      designsHint: 'Partez d’une base, puis modifiez tout : textes, couleurs, positions.',
+      addText: '+ Ajouter un texte', content: 'Contenu', yourText: 'Votre texte', font: 'Police', textColor: 'Couleur du texte',
+      textEmpty: 'Sélectionnez un texte sur la coque pour le modifier.',
+      importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
+      pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
+      emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
+      edit: 'Éditer', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
+      printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
+      printMode: 'Mode d’impression',
+      flat: 'À plat', flatDesc: 'Le motif est imprimé à plat : la coque reste parfaitement lisse au toucher.',
+      relief: 'En relief', reliefDesc: 'Le motif ressort de la coque et se sent sous les doigts. Un rendu plus original.',
+      total: 'Total', addToCart: 'Ajouter au panier', preparing: 'Préparation…', wait: 'Quelques secondes, ne fermez pas la page.',
+      seeCart: 'Voir mon panier', another: 'Créer une autre coque',
+      help: 'Aide', helpTitle: 'On crée votre design',
+      helpText: 'Décrivez votre idée et ajoutez vos images : on crée votre coque pour vous.',
+      helpDesc: 'Votre idée', helpDescPh: 'Ex. : ma photo de vacances en fond, notre prénom en blanc en bas, style doux et coloré…',
+      helpImages: 'Vos images (5 max.)', helpAddImages: 'Ajouter des images', helpImagesHint: 'Photos, inspirations, logo · JPG, PNG, WebP',
+      helpModel: 'Modèle', helpModelNone: 'Choisir mon modèle', helpModelChange: 'Changer',
+      helpEmail: 'E-mail', helpSend: 'Envoyer ma demande', helpNote: 'Réponse sous 48 à 72 h · Gratuit et sans engagement',
+      helpDoneTitle: 'Demande envoyée !', helpDoneText: 'Merci ! Vous allez recevoir un e-mail de confirmation. Notre atelier revient vers vous sous 48 à 72 h avec votre design.',
+    },
+    js: {
+      confirmReset: 'Effacer tous les éléments de la coque ?', resetDone: 'Coque réinitialisée',
+      titles: { design: 'Designs', text: 'Texte', photo: 'Photos', help: 'On crée votre design' }, helpSending: 'Envoi…', helpErr: "Envoi impossible pour l'instant. Réessayez dans un instant.", helpMissing: 'Décrivez votre idée (10 caractères au moins) et indiquez un e-mail valide.', helpTooMany: '5 images au maximum.', yourText: 'Votre texte', textColor: 'Texte',
+      design: 'Design', confirmTpl: 'Remplacer votre composition actuelle par le design « {n} » ?', tplApplied: 'Design « {n} » appliqué',
+      slotAdd: 'Ajouter une photo', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
+      cartNotSet: 'Panier non configuré.', rendering: 'Rendu de votre visuel…', printFile: 'Préparation du fichier d’impression…',
+      sending: 'Envoi à l’atelier…', wait: 'Quelques secondes, ne fermez pas la page.', added: 'Ajouté au panier !',
+      addOne: 'Ajoutez au moins un élément à votre coque.', preparingCase: 'Préparation de votre coque…',
+      addingCart: 'Ajout au panier…', cartUnavailable: 'Panier indisponible.', addFailed: 'Ajout impossible pour l’instant. Réessayez.',
+      reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
+      itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
+      success: { flat: 'Coque à plat', relief: 'Coque en relief' },
+      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+        tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
+        since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
+    },
+  },
+  en: {
+    ui: {
+      studio: 'Customisation studio', undo: 'Undo', undoTitle: 'Undo (Ctrl+Z)', redo: 'Redo',
+      reset: 'Clear all', cont: 'Continue', priceFrom: 'From', tools: 'Tools', designs: 'Designs', text: 'Text', photos: 'Photos',
+      panel: 'Panel', closePanel: 'Close panel',
+      designsHint: 'Start from a base, then change everything: texts, colours, positions.',
+      addText: '+ Add text', content: 'Content', yourText: 'Your text', font: 'Font', textColor: 'Text colour',
+      textEmpty: 'Select a text on the case to edit it.',
+      importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
+      pasteHint: 'Tip: you can also paste an image (Ctrl+V).',
+      emptyTitle: 'Your case is blank', emptySub: 'Choose a tool to get started',
+      edit: 'Edit', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
+      printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
+      printMode: 'Print finish',
+      flat: 'Flat', flatDesc: 'The design is printed flat: the case stays perfectly smooth to the touch.',
+      relief: 'Raised', reliefDesc: 'The design stands out from the case and you can feel it under your fingers. A more unique look.',
+      total: 'Total', addToCart: 'Add to cart', preparing: 'Preparing…', wait: 'Just a few seconds, please don’t close the page.',
+      seeCart: 'View my cart', another: 'Create another case',
+      help: 'Help', helpTitle: 'We design it for you',
+      helpText: 'Describe your idea and add your images: we create your case for you.',
+      helpDesc: 'Your idea', helpDescPh: 'E.g. my holiday photo as the background, our first name in white at the bottom, soft and colourful style…',
+      helpImages: 'Your images (5 max)', helpAddImages: 'Add images', helpImagesHint: 'Photos, inspiration, logo · JPG, PNG, WebP',
+      helpModel: 'Model', helpModelNone: 'Choose my model', helpModelChange: 'Change',
+      helpEmail: 'Email', helpSend: 'Send my request', helpNote: 'Reply within 48 to 72 hours · Free, no commitment',
+      helpDoneTitle: 'Request sent!', helpDoneText: 'Thank you! You will receive a confirmation email. Our workshop will get back to you within 48 to 72 hours with your design.',
+    },
+    js: {
+      confirmReset: 'Remove all elements from the case?', resetDone: 'Case cleared',
+      titles: { design: 'Designs', text: 'Text', photo: 'Photos', help: 'We design it for you' }, helpSending: 'Sending…', helpErr: 'Could not send right now. Please try again shortly.', helpMissing: 'Describe your idea (at least 10 characters) and enter a valid email.', helpTooMany: '5 images maximum.', yourText: 'Your text', textColor: 'Text',
+      design: 'Design', confirmTpl: 'Replace your current design with the “{n}” design?', tplApplied: '“{n}” design applied',
+      slotAdd: 'Add a photo', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
+      cartNotSet: 'Cart not configured.', rendering: 'Rendering your design…', printFile: 'Preparing the print file…',
+      sending: 'Sending to the workshop…', wait: 'Just a few seconds, please don’t close the page.', added: 'Added to cart!',
+      addOne: 'Add at least one element to your case.', preparingCase: 'Preparing your case…',
+      addingCart: 'Adding to cart…', cartUnavailable: 'Cart unavailable.', addFailed: 'Could not add it right now. Please try again.',
+      reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
+      itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
+      success: { flat: 'Flat-print case', relief: 'Raised-print case' },
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+        tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
+        since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
+    },
+  },
+  de: {
+    ui: {
+      studio: 'Gestaltungsstudio', undo: 'Rückgängig', undoTitle: 'Rückgängig (Strg+Z)', redo: 'Wiederholen',
+      reset: 'Alles löschen', cont: 'Weiter', priceFrom: 'Ab', tools: 'Werkzeuge', designs: 'Designs', text: 'Text', photos: 'Fotos',
+      panel: 'Bereich', closePanel: 'Bereich schließen',
+      designsHint: 'Starte mit einer Vorlage und ändere dann alles: Texte, Farben, Positionen.',
+      addText: '+ Text hinzufügen', content: 'Inhalt', yourText: 'Dein Text', font: 'Schrift', textColor: 'Textfarbe',
+      textEmpty: 'Wähle einen Text auf der Hülle aus, um ihn zu bearbeiten.',
+      importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
+      pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
+      emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
+      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
+      printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
+      printMode: 'Druckart',
+      flat: 'Flach', flatDesc: 'Das Motiv wird flach gedruckt: Die Hülle bleibt glatt.',
+      relief: 'Erhaben', reliefDesc: 'Das Motiv hebt sich von der Hülle ab und ist unter den Fingern spürbar. Ein besonderer Look.',
+      total: 'Gesamt', addToCart: 'In den Warenkorb', preparing: 'Wird vorbereitet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.',
+      seeCart: 'Zum Warenkorb', another: 'Weitere Hülle gestalten',
+      help: 'Hilfe', helpTitle: 'Wir gestalten für dich',
+      helpText: 'Beschreibe deine Idee und füge deine Bilder hinzu: Wir gestalten deine Hülle für dich.',
+      helpDesc: 'Deine Idee', helpDescPh: 'Z. B. mein Urlaubsfoto als Hintergrund, unser Vorname in Weiß unten, sanfter und bunter Stil…',
+      helpImages: 'Deine Bilder (max. 5)', helpAddImages: 'Bilder hinzufügen', helpImagesHint: 'Fotos, Inspiration, Logo · JPG, PNG, WebP',
+      helpModel: 'Modell', helpModelNone: 'Modell wählen', helpModelChange: 'Ändern',
+      helpEmail: 'E-Mail', helpSend: 'Anfrage senden', helpNote: 'Antwort in 48 bis 72 Stunden · Kostenlos und unverbindlich',
+      helpDoneTitle: 'Anfrage gesendet!', helpDoneText: 'Danke! Du erhältst eine Bestätigung per E-Mail. Unsere Werkstatt meldet sich innerhalb von 48 bis 72 Stunden mit deinem Design.',
+    },
+    js: {
+      confirmReset: 'Alle Elemente von der Hülle entfernen?', resetDone: 'Hülle zurückgesetzt',
+      titles: { design: 'Designs', text: 'Text', photo: 'Fotos', help: 'Wir gestalten für dich' }, helpSending: 'Wird gesendet…', helpErr: 'Senden gerade nicht möglich. Bitte versuche es gleich noch einmal.', helpMissing: 'Beschreibe deine Idee (mindestens 10 Zeichen) und gib eine gültige E-Mail an.', helpTooMany: 'Maximal 5 Bilder.', yourText: 'Dein Text', textColor: 'Text',
+      design: 'Design', confirmTpl: 'Deine aktuelle Gestaltung durch das Design „{n}“ ersetzen?', tplApplied: 'Design „{n}“ übernommen',
+      slotAdd: 'Foto hinzufügen', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
+      cartNotSet: 'Warenkorb nicht eingerichtet.', rendering: 'Dein Motiv wird gerendert…', printFile: 'Druckdatei wird vorbereitet…',
+      sending: 'Wird an die Werkstatt gesendet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.', added: 'Zum Warenkorb hinzugefügt!',
+      addOne: 'Füge deiner Hülle mindestens ein Element hinzu.', preparingCase: 'Deine Hülle wird vorbereitet…',
+      addingCart: 'Wird in den Warenkorb gelegt…', cartUnavailable: 'Warenkorb nicht verfügbar.', addFailed: 'Hinzufügen gerade nicht möglich. Bitte versuche es erneut.',
+      reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
+      itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
+      success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+        tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
+        since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
+    },
+  },
+}[lang] ?? null;
+if (!TEXTS) throw new Error(`CaseCustomizer : langue non prise en charge (${lang})`);
+const U = TEXTS.ui;
+
+const atelier = siteConfig.shop?.atelier ?? {};
+const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
+---
+
+<section
+  class="studio"
+  data-studio
+  aria-label={U.studio}
+  data-i18n={JSON.stringify(TEXTS.js)}
+  data-shop-id={atelier.shopId ?? ''}
+  data-api={apiOrigin}
+  data-sku={SKU}
+  data-price={String(PRICE_CENTS)}
+  data-relief-price={String(RELIEF_PRICE_CENTS)}
+  data-inset-mm={String(siteConfig.shop?.printInsetMm ?? 0)}
+  data-lang={lang}
+>
+  <div class="builder">
+
+    <!-- ─── Barre supérieure ─────────────────────────────────────── -->
+    <header class="bar">
+      <div class="bar-l">
+        <button type="button" class="sbtn" data-undo disabled aria-label={U.undo} title={U.undoTitle}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+        </button>
+        <button type="button" class="sbtn" data-redo disabled aria-label={U.redo} title={U.redo}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
+        </button>
+        <span class="bar-sep" aria-hidden="true"></span>
+        <button type="button" class="sbtn" data-reset aria-label={U.reset} title={U.reset}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
+        </button>
+        <!-- Le choix du modèle vit dans la barre plutôt que dans le rail : c'est
+             une décision qu'on prend UNE fois, avant de dessiner, pas un outil
+             qu'on rouvre en travaillant. Le rail ne garde que ce qui sert à
+             composer. -->
+        <div class="bar-mp"><ModelPicker id="studio-model" lang={lang} /></div>
+      </div>
+      <div class="bar-r">
+        {/* « À partir de » : c'est le prix à plat, le relief coûte plus. */}
+        <span class="bar-price price-amount"><span class="bar-from">{U.priceFrom}</span> {price}</span>
+        {/* « Continuer » et non « Ajouter » : le mode d'impression se choisit
+            à l'étape suivante, et il change le prix. Annoncer l'ajout ici
+            reviendrait à cacher une décision qui coûte 5 €. */}
+        <button type="button" class="btn-atc buy-button bar-add" data-next>
+          <span class="add-full">{U.cont}</span>
+          <span class="add-mini">{U.cont}</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ─── Rail d'outils ────────────────────────────────────────── -->
+    <nav class="rail" aria-label={U.tools}>
+      {/* Une SEULE pastille pour tous les outils : elle glisse de l'un à
+          l'autre au lieu de s'éteindre ici et de se rallumer là. C'est le
+          déplacement qui rend le changement lisible. */}
+      <span class="rail-ind" data-railind aria-hidden="true"></span>
+      <div class="rail-group">
+      <button type="button" class="rbtn" data-panel="design" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 4 1.6 3.4L19 9l-3.4 1.6L14 14l-1.6-3.4L9 9l3.4-1.6z"/><path d="M6 14.5 6.9 16.4 9 17.3l-2.1.9L6 20.1l-.9-1.9L3 17.3l2.1-.9z"/></svg>
+        <span>{U.designs}</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="text" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7V5h16v2M9 5v14m-2 0h4"/></svg>
+        <span>{U.text}</span>
+      </button>
+      <button type="button" class="rbtn" data-panel="photo" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.4"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>
+        <span>{U.photos}</span>
+      </button>
+      </div>
+      <!-- L'aide à part : ce n'est pas un outil de composition mais un
+           service (l'atelier crée la coque pour le client). -->
+      <div class="rail-group rail-group-help">
+      <button type="button" class="rbtn rbtn-help" data-panel="help" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.3"/><path d="M12 16.5h.01"/></svg>
+        <span>{U.help}</span>
+      </button>
+      </div>
+    </nav>
+
+    <!-- ─── Panneau contextuel ───────────────────────────────────── -->
+    <aside class="panel" data-panelwrap hidden>
+      <div class="panel-head">
+        <h2 data-paneltitle>{U.panel}</h2>
+        <button type="button" class="panel-x" data-panelclose aria-label={U.closePanel}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6 18 18M18 6 6 18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Designs prêts à l'emploi -->
+      <div class="pane" data-pane="design" hidden>
+        <p class="pane-hint" style="margin-top:0">{U.designsHint}</p>
+        <div class="tpl-grid" data-templates></div>
+      </div>
+
+      <!-- Texte -->
+      <div class="pane" data-pane="text" hidden>
+        <button type="button" class="pane-cta" data-addtext>{U.addText}</button>
+        <div data-textedit hidden>
+          <label class="pane-label" for="studio-text">{U.content}</label>
+          <input id="studio-text" type="text" class="field" data-textinput placeholder={U.yourText} maxlength="40" autocomplete="off" />
+          <label class="pane-label">{U.font}</label>
+          <div class="font-row" data-fonts></div>
+          <label class="pane-label">{U.textColor}</label>
+          <div class="swatch-row" data-textcolors></div>
+        </div>
+        <p class="pane-empty" data-textempty>{U.textEmpty}</p>
+      </div>
+
+      <!-- Photos -->
+      <div class="pane" data-pane="photo" hidden>
+        <button type="button" class="dropzone" data-pick>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <strong>{U.importPhoto}</strong>
+          <span>{U.importHint}</span>
+        </button>
+        <p class="pane-hint">{U.pasteHint}</p>
+      </div>
+
+      <!-- Demande de design : l'atelier crée la coque pour le client -->
+      <div class="pane" data-pane="help" hidden>
+        <form class="help-form" data-helpform novalidate>
+          <div class="help-intro">
+            <p>{U.helpText}</p>
+          </div>
+          <label class="pane-label" for="help-desc">{U.helpDesc}</label>
+          <textarea id="help-desc" class="field field-area" data-helpdesc rows="5" maxlength="3000" placeholder={U.helpDescPh}></textarea>
+
+          <label class="pane-label">{U.helpImages}</label>
+          <div class="help-thumbs" data-helpthumbs></div>
+          <button type="button" class="dropzone help-drop" data-helppick>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <strong>{U.helpAddImages}</strong>
+            <span>{U.helpImagesHint}</span>
+          </button>
+          <input type="file" accept="image/*" multiple hidden data-helpfile />
+
+          <label class="pane-label">{U.helpModel}</label>
+          {/* Ouvre le même sélecteur que la barre du studio : le modèle choisi
+              ici vaut pour toute la composition. */}
+          <button type="button" class="field help-model" data-helpmodel>
+            <span data-helpmodelval>{U.helpModelNone}</span>
+            <span class="help-model-act" aria-hidden="true">{U.helpModelChange}</span>
+          </button>
+
+          <label class="pane-label" for="help-email">{U.helpEmail}</label>
+          <input id="help-email" class="field" data-helpemail type="email" maxlength="200" autocomplete="email" inputmode="email" />
+          <input class="help-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" data-helphp />
+
+          <button type="submit" class="btn-atc buy-button help-send" data-helpsend>{U.helpSend}</button>
+          <p class="pane-hint help-note">{U.helpNote}</p>
+        </form>
+        <div class="help-done" data-helpdone hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+          <strong>{U.helpDoneTitle}</strong>
+          <p>{U.helpDoneText}</p>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ─── Plan de travail ──────────────────────────────────────── -->
+    <main class="canvas" data-canvas>
+      <div class="case" data-case data-finish="clear" data-mount="alone">
+        <!-- Verre dépoli : floute et voile légèrement le décor DERRIÈRE la
+             coque (finition transparente). Placé avant le design pour que les
+             stickers/textes restent nets par-dessus. -->
+        <div class="frost" data-frost aria-hidden="true"></div>
+        <div class="phone" data-phone></div>
+        <div class="design" data-design>
+          {/* Fond de coque (posé par un design) : couvre toute la coque, sous
+              les éléments, et ne se sélectionne pas. */}
+          <div class="case-bg" data-casebg aria-hidden="true"></div>
+          <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
+          <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
+        </div>
+        <div class="cam" data-cam aria-hidden="true"></div>
+        <div class="shell" aria-hidden="true"><span class="sheen"></span></div>
+        <span class="side side-l" aria-hidden="true"></span>
+        <span class="side side-r" aria-hidden="true"></span>
+
+        <div class="empty" data-empty>
+          <p>{U.emptyTitle}</p>
+          <span>{U.emptySub}</span>
+        </div>
+
+        <!-- Cadre de sélection : calque UNIQUE hors du .design (qui, lui, rogne
+             l'image à la coque). Ainsi le cadre et ses poignées restent
+             visibles et attrapables même quand l'élément déborde de la coque,
+             alors que l'image reste rognée au bord. -->
+        <div class="gizmo" data-gizmo hidden aria-hidden="true">
+          <span class="h h-rotate" data-handle="rotate"></span>
+          <span class="h h-resize" data-handle="resize"></span>
+        </div>
+      </div>
+
+      <!-- Barre d'actions : ancrée au plan de travail et non à la coque, qui
+           devient trop étroite quand un panneau est ouvert en mobile. -->
+      <div class="ctx" data-ctx hidden>
+          <button type="button" data-act="edit" hidden aria-label={U.edit} title={U.edit}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+          </button>
+          <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
+          {/* Superposition, icônes à la manière de Canva : un calque vu en
+              perspective (losange) et une flèche qui en sort vers le haut
+              (avancer) ou vers le bas (reculer). */}
+          <button type="button" data-act="front" aria-label={U.front} title={U.front}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13.2 4 15.5l8 4 8-4-5-2.3"/><path d="M12 15.5V3.5M8.5 7 12 3.5 15.5 7"/></svg>
+          </button>
+          <button type="button" data-act="back" aria-label={U.back} title={U.back}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l8-4 8 4-8 4z"/><path d="M12 12.5v8M8.5 17 12 20.5 15.5 17"/></svg>
+          </button>
+          <button type="button" data-act="del" class="ctx-del" aria-label={U.del} title={U.del}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
+          </button>
+      </div>
+    </main>
+  </div>
+
+
+  {/* ─── Étape 2 : mode d'impression ─────────────────────────────────
+      Posée par-dessus l'éditeur plutôt que sur une autre page : changer d'URL
+      ferait perdre la composition en cours, et il faudrait la re-téléverser
+      pour revenir en arrière. Ici, « Retour » ramène au dessin intact. */}
+  <section class="step" data-step hidden aria-label={U.printChoice}>
+    <header class="step-bar">
+      <button type="button" class="step-back" data-stepback>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        {U.goBack}
+      </button>
+      <p class="step-title">{U.howPrint}</p>
+      <span class="step-spacer" aria-hidden="true"></span>
+    </header>
+
+    <div class="step-grid" role="radiogroup" aria-label={U.printMode}>
+      <button type="button" class="mode" data-mode="flat" role="radio" aria-checked="true">
+        <span class="mode-bg" aria-hidden="true"></span>
+        {/* Même illustration que sur les fiches produit : tranche en haut, dos
+            en dessous. C'est la comparaison des deux cartes qui explique. */}
+        <img class="mode-illu" src="/images/print-mode-flat.svg?v=2" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
+        <span class="mode-body">
+          <span class="mode-name">{U.flat}</span>
+          <span class="mode-desc">{U.flatDesc}</span>
+          <span class="mode-price">{price}</span>
+          {LAUNCH_NEXT?.flat && (
+            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT.flat) })}</span>
+          )}
+        </span>
+        <span class="mode-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+        </span>
+      </button>
+
+      <button type="button" class="mode" data-mode="relief" role="radio" aria-checked="false">
+        <span class="mode-bg" aria-hidden="true"></span>
+        <img class="mode-illu" src="/images/print-mode-relief.svg" alt="" width="320" height="282" loading="eager" fetchpriority="low" decoding="async" />
+        <span class="mode-body">
+          <span class="mode-name">{U.relief}</span>
+          <span class="mode-desc">{U.reliefDesc}</span>
+          <span class="mode-price">{reliefPrice}</span>
+          {LAUNCH_NEXT?.relief && (
+            <span class="mode-launch"><span class="mode-launch-tag">{t('print.launch', lang)}</span> {t('print.launchThen', lang, { price: fmt(LAUNCH_NEXT.relief) })}</span>
+          )}
+        </span>
+        <span class="mode-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="step-foot">
+      <span class="step-total">
+        <span class="step-total-l">{U.total}</span>
+        <span class="step-total-v" data-steptotal>{price}</span>
+      </span>
+      <button type="button" class="btn-atc buy-button step-add" data-add>
+        <span class="step-add-l">{U.addToCart}</span>
+      </button>
+    </div>
+
+    {/* Voile de travail. La préparation dure quelques secondes — un rendu en
+        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien dire.
+        L'anneau est une VRAIE progression, pas un sablier : il avance d'un
+        quart à chaque étape franchie. Un tourniquet sans fin ne dit pas si on
+        en est au début ou à la fin. */}
+    <div class="busy" data-busy hidden>
+      <div class="busy-card" data-busycard>
+        <span class="busy-viz" aria-hidden="true">
+          <svg class="busy-ring" viewBox="0 0 48 48">
+            <circle class="busy-track" cx="24" cy="24" r="20" />
+            <circle class="busy-arc" cx="24" cy="24" r="20" data-busyarc />
+          </svg>
+          <svg class="busy-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12.5 4.5 4.5L19 7.5" />
+          </svg>
+        </span>
+        <p class="busy-msg" data-busymsg role="status">{U.preparing}</p>
+        <p class="busy-sub" data-busysub>{U.wait}</p>
+        <div class="busy-actions" data-busyactions hidden>
+          <button type="button" class="busy-cart" data-opencart>{U.seeCart}</button>
+          <button type="button" class="busy-more" data-busyclose>{U.another}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" data-toast hidden role="status"></div>
+  <input type="file" accept="image/*" hidden data-file />
+</section>
+
+<style>
+  .studio { --rail: 78px; --panel: 272px; }
+
+  /* ── Mobile : une application à hauteur fixe ─────────────────────
+     Colonne barre / plan de travail / panneau / rail. Le panneau est DANS
+     le flux (et non posé par-dessus) : quand il s'ouvre, le plan de travail
+     se réduit et la coque reste visible — on voit ce qu'on est en train de
+     modifier, ce qui n'était pas le cas avec une feuille en surimpression. */
+  .builder {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  .builder > .bar    { flex: none; order: 0; }
+  .builder > .canvas { flex: 1 1 auto; min-height: 0; order: 1; }
+  .builder > .panel  { flex: none; order: 2; }
+  .builder > .rail   { flex: none; order: 3; }
+
+  /* En thème sunfreaks (mobile), l'îlot flottant du header descend un peu plus
+     bas que --header-h ne le prévoit et chevauchait la barre d'action (ATC).
+     On décale la colonne vers le bas et on réduit d'autant sa hauteur. */
+  @media (min-width: 1024px) {
+    .builder {
+      display: grid;
+      grid-template-columns: var(--rail) auto minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-areas: "bar bar bar" "rail panel canvas";
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+
+  /* ── Étape 2 : mode d'impression ─────────────────────────────────
+     Couche posée sur l'éditeur. `visibility` plutôt que `display` pour que
+     l'ouverture et la fermeture soient toutes deux animables ; `hidden` reste
+     l'état de repos, retiré par le JS avant de lancer la transition. */
+  .step {
+    position: fixed; inset: 0; z-index: 10010;
+    display: flex; flex-direction: column;
+    background: rgb(var(--c-dark));
+    opacity: 0;
+    transform: translateY(14px) scale(.985);
+    transition: opacity .34s cubic-bezier(.22,.61,.36,1),
+                transform .34s cubic-bezier(.22,.61,.36,1);
+  }
+  .step[hidden] { display: none; }
+  .step.step--in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .step { transition: none; } }
+
+  .step-bar {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    gap: .75rem; padding: .85rem 1rem;
+    border-bottom: 1px solid rgb(var(--c-cream) / .1);
+  }
+  .step-back, .step-spacer { flex: 0 0 auto; min-width: 76px; }
+  .step-back {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .82rem; font-weight: 500; color: rgb(var(--c-cream) / .7); cursor: pointer;
+  }
+  .step-back svg { width: 17px; height: 17px; }
+  .step-back:hover { color: rgb(var(--c-cream)); }
+  .step-title { flex: 1 1 auto; text-align: center; font-size: .95rem; font-weight: 600; }
+  @media (max-width: 560px) { .step-title { font-size: .86rem; } }
+
+  /* Deux moitiés franches : c'est la comparaison qui doit sauter aux yeux. */
+  .step-grid {
+    flex: 1 1 auto; min-height: 0;
+    display: grid; gap: 10px; padding: 10px;
+    grid-template-rows: 1fr 1fr;
+  }
+  @media (min-width: 768px) {
+    .step-grid { grid-template-rows: none; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; }
+  }
+
+  .mode {
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+    border-radius: 20px; cursor: pointer; color: inherit; text-align: left;
+    border: 2px solid rgb(var(--c-cream) / .12);
+    transition: border-color .2s, transform .12s, box-shadow .2s;
+  }
+  .mode:hover { border-color: rgb(var(--c-cream) / .3); }
+  .mode:active { transform: scale(.99); }
+  .mode[aria-checked="true"] {
+    border-color: rgb(var(--accent-rgb));
+    box-shadow: 0 0 0 4px rgb(var(--accent-rgb) / .14);
+  }
+
+  /* Fond photo. Tant que l'image n'est pas fournie, le dégradé tient le rôle :
+     la carte reste lisible plutôt que blanche. */
+  .mode-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+  }
+  /* Fond uni et illustration au trait (celle des fiches produit), centrée
+     dans l'espace au-dessus du texte. `multiply` fond son blanc dans la
+     carte. */
+  .mode-bg { background: rgb(var(--c-panel)); }
+  .mode[aria-checked="true"] .mode-bg { background: rgb(var(--accent-rgb) / .05); }
+  /* Dans le flux, au-dessus du texte : elle prend la hauteur restante et
+     ne chevauche jamais le titre, même quand la carte est basse. */
+  .mode { flex-direction: column; align-items: stretch; }
+  .mode-illu {
+    position: relative;
+    flex: 1 1 0; min-height: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    padding: 1rem 1rem 0;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  @media (min-width: 768px) {
+    /* Ordinateur : un quart plus petites, elles écrasaient la carte. */
+    .mode-illu { padding: 3.5rem 17% .75rem; }
+  }
+
+  .mode-body {
+    position: relative; display: flex; flex-direction: column; gap: .3rem;
+    padding: 1rem 1.1rem 1.15rem; width: 100%;
+  }
+  .mode-name { font-size: 1.15rem; font-weight: 700; line-height: 1.1; }
+  .mode-desc { font-size: .78rem; line-height: 1.45; color: rgb(var(--c-n400)); max-width: 34ch; }
+  .mode-price { margin-top: .35rem; font-size: 1.05rem; font-weight: 700; }
+  .mode-launch { font-size: .74rem; color: rgb(var(--c-n400)); display: flex; align-items: center; flex-wrap: wrap; gap: .35rem; }
+  .mode-launch-tag {
+    font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    background: #fde2ee; color: #b0185a; padding: .18rem .42rem; border-radius: 4px;
+  }
+  @media (min-width: 768px) {
+    .mode-body { padding: 1.4rem 1.5rem 1.5rem; gap: .38rem; }
+    .mode-name { font-size: 1.4rem; }
+    .mode-desc { font-size: .84rem; }
+    .mode-price { font-size: 1.2rem; }
+  }
+
+  .mode-check {
+    position: absolute; top: .7rem; right: .7rem;
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 999px;
+    background: rgb(var(--accent-rgb)); color: #fff;
+    opacity: 0; transform: scale(.7);
+    transition: opacity .2s, transform .2s cubic-bezier(.34,1.56,.64,1);
+  }
+  .mode-check svg { width: 15px; height: 15px; }
+  .mode[aria-checked="true"] .mode-check { opacity: 1; transform: none; }
+
+  .step-foot {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: .8rem 1rem calc(.8rem + env(safe-area-inset-bottom));
+    border-top: 1px solid rgb(var(--c-cream) / .1);
+  }
+  .step-total { flex: none; display: flex; flex-direction: column; line-height: 1.15; }
+  .step-total-l { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: rgb(var(--c-n500)); }
+  .step-total-v { font-size: 1.35rem; font-weight: 700; white-space: nowrap; }
+  .step-add { flex: 0 1 auto; padding-left: 1.6rem; padding-right: 1.6rem; }
+
+  /* ── Voile de travail ────────────────────────────────────────────
+     Posé DANS l'étape, donc au-dessus des deux cartes et de la barre d'action :
+     pendant la préparation, plus rien n'est cliquable, et ça se voit. */
+  .busy {
+    position: absolute; inset: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    background: rgb(var(--c-dark) / .78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .busy[hidden] { display: none; }
+  .busy-card {
+    display: flex; flex-direction: column; align-items: center; gap: .55rem;
+    padding: 1.5rem 1.8rem; max-width: 20rem; text-align: center;
+    border-radius: 20px;
+    background: rgb(var(--c-dark));
+    border: 1px solid rgb(var(--c-cream) / .1);
+    box-shadow: 0 18px 40px -22px rgb(var(--c-cream) / .4);
+  }
+  /* L'anneau : une piste discrète, un arc qui avance par étapes, et une
+     rotation lente par-dessus pour que ça respire même entre deux étapes. */
+  .busy-viz { position: relative; display: block; width: 62px; height: 62px; }
+  .busy-ring {
+    width: 100%; height: 100%;
+    transform: rotate(-90deg);        /* départ à midi */
+    animation: busy-breathe 3.2s linear infinite;
+  }
+  @keyframes busy-breathe { to { transform: rotate(270deg); } }
+  .busy-track {
+    fill: none; stroke: rgb(var(--c-cream) / .1); stroke-width: 4;
+  }
+  .busy-arc {
+    fill: none; stroke: rgb(var(--accent-rgb)); stroke-width: 4; stroke-linecap: round;
+    /* 2πr avec r = 20 */
+    stroke-dasharray: 125.66;
+    stroke-dashoffset: 125.66;
+    transition: stroke-dashoffset .5s cubic-bezier(.22,.61,.36,1), stroke .3s;
+  }
+  .busy-tick {
+    position: absolute; inset: 0; margin: auto;
+    width: 30px; height: 30px; color: rgb(var(--accent-rgb));
+    opacity: 0; transform: scale(.5);
+    transition: opacity .25s, transform .4s cubic-bezier(.34,1.7,.5,1);
+  }
+  /* Fin de course : l'anneau se fige plein et la coche éclôt au centre. */
+  .busy-card[data-done] .busy-ring { animation: none; }
+  .busy-card[data-done] .busy-tick { opacity: 1; transform: none; }
+  .busy-card[data-done] .busy-viz::after {
+    content: ""; position: absolute; inset: -6px;
+    border-radius: 50%; border: 2px solid rgb(var(--accent-rgb) / .45);
+    animation: busy-pulse .7s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes busy-pulse {
+    from { opacity: .9; transform: scale(.82); }
+    to   { opacity: 0;  transform: scale(1.28); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .busy-ring { animation: none; }
+    .busy-card[data-done] .busy-viz::after { animation: none; opacity: 0; }
+  }
+
+  .busy-msg { font-size: 1rem; font-weight: 700; }
+  .busy-sub { font-size: .78rem; color: rgb(var(--c-n500)); line-height: 1.45; }
+
+  .busy-actions { display: flex; flex-direction: column; gap: .45rem; width: 100%; margin-top: .5rem; }
+  .busy-actions[hidden] { display: none; }
+  .busy-cart, .busy-more {
+    padding: .6rem 1rem; border-radius: 12px; cursor: pointer;
+    font-size: .84rem; font-weight: 600; transition: background .15s, border-color .15s;
+  }
+  .busy-cart { background: rgb(var(--accent-rgb)); color: #fff; }
+  .busy-cart:hover { background: rgb(var(--accent-dark-rgb)); }
+  .busy-more {
+    border: 1px solid rgb(var(--c-cream) / .18); color: rgb(var(--c-cream) / .8);
+  }
+  .busy-more:hover { border-color: rgb(var(--c-cream) / .4); color: rgb(var(--c-cream)); }
+  @media (min-width: 768px) {
+    .step-foot { padding: 1rem 1.4rem; }
+    .step-total-v { font-size: 1.5rem; }
+  }
+
+  /* ── Barre ───────────────────────────────────────────────────────
+     Bandeau plein, à la différence du rail et du panneau : en îlot, ses marges
+     et son ombre coûtaient une vingtaine de pixels de hauteur au plan de
+     travail, qui est la partie utile de l'écran.
+     PAS de backdrop-filter non plus : un filtre fait de l'élément le BLOC
+     CONTENEUR de ses descendants en `position: fixed`. Le tiroir du sélecteur
+     de modèle, qui vit dans cette barre, s'ancrait alors sur la barre au lieu
+     du viewport, et la feuille mobile s'ouvrait à cheval sur le haut. */
+  .bar {
+    grid-area: bar;
+    display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+    padding: .35rem .7rem;
+    background: rgb(var(--c-dark));
+    border-bottom: 1px solid rgb(var(--c-cream) / .1);
+    z-index: 60;
+  }
+  @media (min-width: 1024px) {
+    .bar { padding: .4rem .9rem; }
+  }
+  /* Le tiroir du sélecteur de modèle est un enfant de la barre. Or la barre
+     porte un z-index : elle crée donc un CONTEXTE D'EMPILEMENT, dans lequel le z-index 10002 du tiroir ne vaut plus
+     rien face au header, qui est à 10000 dans le contexte racine. Le tiroir
+     s'ouvrait derrière lui.
+     Tant qu'il est ouvert, on hisse la barre entière au-dessus du header ; le
+     voile et le panneau retrouvent alors leur superposition normale à
+     l'intérieur. Le reste du temps la barre repasse sous le header, pour que
+     les menus déroulants de celui-ci la recouvrent comme avant. */
+  .bar:has(.mp-panel:not([hidden])) { z-index: 10005; }
+
+  /* Plus de `position: sticky` : la page ne défile plus, c'est la grille qui
+     tient la barre en haut. Le `top: var(--header-h)` de l'ancienne règle la
+     décalait de 72 px vers le bas, par-dessus le panneau. */
+  .bar-l, .bar-r { display: flex; align-items: center; gap: .4rem; }
+  .bar-l { min-width: 0; flex: 1 1 auto; }
+  .bar-r { flex: none; }
+  .sbtn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 9px; cursor: pointer; color: inherit;
+    transition: background .15s, opacity .15s;
+  }
+  .sbtn svg { width: 18px; height: 18px; }
+  .sbtn:hover:not(:disabled) { background: rgb(var(--c-cream) / .08); }
+  .sbtn:disabled { opacity: .28; cursor: default; }
+  .bar-sep { width: 1px; height: 20px; background: rgb(var(--c-cream) / .15); margin: 0 .2rem; }
+  .bar-model {
+    font-size: .74rem; opacity: .65; margin-left: .4rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw;
+  }
+  @media (max-width: 520px) { .bar-model { display: none; } }
+  /* Sous 420 px, la barre ne tient plus : annuler, rétablir, effacer, modèle,
+     prix et bouton d'achat se disputent 375 px. Plutôt que de sacrifier un
+     élément, on resserre les cibles secondaires — le prix et l'achat, eux,
+     gardent leur taille. */
+  @media (max-width: 420px) {
+    .sbtn { width: 30px; height: 30px; }
+    .bar-sep { margin: 0; }
+    .bar-l { gap: .15rem; }
+    .bar-add { padding-left: .7rem; padding-right: .7rem; }
+  }
+  /* Sur mobile, le prix cède sa place au nom du modèle.
+     Arbitrage assumé : le prix est fixe et déjà connu du visiteur (il vient
+     d'une page qui l'annonce, et le panier le redonne), alors que le modèle
+     est le seul réglage obligatoire et celui qu'on vérifie du regard avant
+     d'acheter. Tronqué à « iPhon… », il ne servait à rien. */
+  @media (max-width: 560px) { .bar-price { display: none; } }
+  .bar-price { font-size: 1.1rem; font-weight: 600; white-space: nowrap; }
+  .bar-from { font-size: .72em; font-weight: 500; opacity: .7; }
+  .bar-add { font-size: .74rem; padding-left: 1rem; padding-right: 1rem; white-space: nowrap; }
+  /* Le libellé long ne tient pas à 375 px à côté du prix et des annulations :
+     on bascule sur « Ajouter » (l'intitulé reste explicite en contexte).
+     `font-size: 1em` annule la réduction que .btn-atc applique à ses <span>. */
+  .bar-add .add-full, .bar-add .add-mini { font-size: 1em; font-weight: inherit; }
+  .bar-add .add-mini { display: none; }
+  @media (max-width: 700px) {
+    .bar-add .add-full { display: none; }
+    .bar-add .add-mini { display: inline; }
+  }
+  @media (min-width: 1024px) { .bar-price { font-size: 1.3rem; } .bar-add { font-size: .8rem; } }
+
+  /* ── Rail d'outils ───────────────────────────────────────────────
+     Îlot flottant, comme le header : détaché des bords, arrondi, fond
+     translucide et flou d'arrière-plan. Les mêmes valeurs que l'îlot du
+     header (82 % d'opacité, blur 16 saturate 1.4, filet à 10 %) pour que les
+     deux surfaces se lisent comme une seule famille.
+
+     Quatre outils seulement depuis que le modèle est remonté dans la barre :
+     chaque cible respire, et l'outil actif se lit d'un coup d'œil. En mobile
+     l'îlot est posé en bas, en desktop contre le bord gauche. */
+  /* Le rail porte deux îlots : les outils de composition, puis l'aide à part.
+     Le fond de chaque îlot est un pseudo-élément placé SOUS la pastille
+     violette (z-index -1 dans le contexte isolé du rail) : la pastille peut
+     ainsi glisser d'un îlot à l'autre en restant visible. */
+  .rail {
+    position: relative;          /* repère de la pastille glissante */
+    isolation: isolate;
+    grid-area: rail;
+    display: flex; gap: .5rem;
+    margin: 0 10px calc(10px + env(safe-area-inset-bottom));
+    z-index: 60;
+  }
+  .rail-group { position: relative; display: flex; gap: .3rem; padding: .4rem .45rem; flex: 1; }
+  .rail-group-help { flex: none; }
+  .rail-group::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: rgb(var(--c-dark) / .82);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid rgb(var(--c-cream) / .1);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
+                0 1px 0 rgb(255 255 255 / .5) inset;
+  }
+  @media (min-width: 1024px) {
+    .rail {
+      flex-direction: column; gap: .6rem;
+      /* Collé en haut : une colonne étirée sur toute la hauteur éloignerait le
+         dernier outil du plan de travail. `align-self` l'empêche de s'étirer
+         sur la rangée de la grille. */
+      align-self: start;
+      margin: 12px 0 12px 12px;
+    }
+    .rail-group { flex-direction: column; gap: .35rem; padding: .8rem .5rem; flex: none; }
+    .rail-group::before { border-radius: 24px; }
+  }
+  @media (max-width: 1023px) {
+    .rail-group-help .rbtn { padding-left: .85rem; padding-right: .85rem; }
+  }
+
+  .rbtn {
+    position: relative;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .3rem; padding: .5rem .2rem;
+    border-radius: 14px; cursor: pointer;
+    color: rgb(var(--c-cream) / .6);
+    font-size: .63rem; font-weight: 500; letter-spacing: .02em;
+    transition: background .18s, color .18s, transform .12s;
+  }
+  .rbtn svg { width: 22px; height: 22px; }
+  .rbtn:hover { background: rgb(var(--c-cream) / .06); color: rgb(var(--c-cream) / .9); }
+  .rbtn:active { transform: scale(.94); }
+
+  /* Outil actif : pastille violette pleine. Un voile à 16 % se confondait avec
+     le survol sur une surface déjà translucide — il fallait un aplat franc.
+     Le dégradé reprend les trois nuances de l'accent du site (clair, accent,
+     foncé) : c'est le même violet que les boutons et le prix, pas une seconde
+     teinte inventée pour l'occasion. Le liseré clair en haut et l'ombre portée
+     colorée donnent le relief. */
+  /* Le fond violet vit sur .rail-ind, pas sur le bouton : c'est ce qui lui
+     permet de glisser d'un outil à l'autre. Le bouton ne change que sa
+     couleur d'encre, et il doit passer AU-DESSUS de la pastille. */
+  .rbtn { z-index: 1; }
+  .rbtn[aria-pressed="true"] { color: #fff; font-weight: 600; }
+  .rbtn[aria-pressed="true"]:hover { background: none; }
+
+  .rail-ind {
+    position: absolute; left: 0; top: 0; z-index: 0;
+    border-radius: 14px;
+    background: linear-gradient(155deg,
+      rgb(var(--accent-light-rgb)) 0%,
+      rgb(var(--accent-rgb)) 52%,
+      rgb(var(--accent-dark-rgb)) 100%);
+    box-shadow: 0 6px 15px -7px rgb(var(--accent-rgb) / .75),
+                0 1px 0 rgb(255 255 255 / .28) inset;
+    opacity: 0;
+    pointer-events: none;
+    /* Le ressort léger sur la position donne le glissement ; la taille et
+       l'opacité suivent sans rebond, sinon la pastille « respire » à chaque
+       changement. */
+    transition: transform .38s cubic-bezier(.34, 1.28, .48, 1),
+                width .3s cubic-bezier(.22,.61,.36,1),
+                height .3s cubic-bezier(.22,.61,.36,1),
+                opacity .2s ease;
+  }
+  .rail-ind[data-on] { opacity: 1; }
+  @media (min-width: 1024px) { .rail-ind { border-radius: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .rail-ind { transition: opacity .2s ease; } }
+
+  /* L'anneau de focus global est du même violet que le remplissage : sur un
+     bouton actif il se collait au fond et formait un gros bloc. On l'écarte et
+     on l'assombrit pour qu'il se lise comme un contour. */
+  .rbtn:focus-visible { outline: 2px solid rgb(var(--accent-rgb)); outline-offset: 3px; }
+  .rbtn[aria-pressed="true"]:focus-visible {
+    outline-color: rgb(var(--accent-dark-rgb));
+    outline-offset: 3px;
+  }
+
+  @media (min-width: 1024px) {
+    .rbtn { flex: none; padding: .7rem .3rem; font-size: .64rem; gap: .34rem; border-radius: 16px; }
+    .rbtn svg { width: 23px; height: 23px; }
+  }
+  /* Compacté en mobile : chaque pixel gagné va au plan de travail, qui est la
+     partie utile. */
+  @media (max-width: 1023px) {
+    .sbtn { width: 34px; height: 34px; }
+    .rbtn { padding: .42rem .2rem; font-size: .61rem; gap: .2rem; }
+    .rbtn svg { width: 20px; height: 20px; }
+  }
+
+  /* ── Panneau ─────────────────────────────────────────────────── */
+  .panel { grid-area: panel; background: rgb(var(--c-dark)); }
+  .panel[hidden] { display: none; }
+  @media (min-width: 1024px) {
+    /* Îlot, comme la barre et le rail : un panneau à bord franc collé contre
+       le rail flottant cassait la famille de surfaces. */
+    .panel {
+      width: var(--panel); padding: 1rem;
+      align-self: start;
+      margin: 12px 0 12px 10px;
+      background: rgb(var(--c-dark) / .82);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid rgb(var(--c-cream) / .1);
+      border-radius: 22px;
+      box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .28),
+                  0 1px 0 rgb(255 255 255 / .5) inset;
+      /* La rangée de la grille borne déjà la hauteur ; `align-self: start`
+         empêche l'étirement, et 100% de la rangée moins les marges donne la
+         limite de défilement. */
+      overflow-y: auto; max-height: calc(100% - 24px);
+    }
+    /* L'entête collant doit masquer le contenu qui défile dessous : sur une
+       surface translucide, un fond translucide ne masque rien. */
+    .panel-head { background: rgb(var(--c-dark)); }
+  }
+  @media (max-width: 1023px) {
+    /* Feuille du bas. Fermée = hauteur 0 ; ouverte = .panel--open. La bascule
+       de max-height s'anime → ouverture ET fermeture lentes et fluides (le
+       plan de travail se réajuste doucement en même temps). */
+    .panel {
+      max-height: 0; overflow-y: auto;
+      overscroll-behavior: contain;          /* le défilement ne fuit pas vers la page */
+      padding: 0 1rem;
+      margin: 0 10px;
+      border-radius: 20px;
+      background: rgb(var(--c-dark) / .9);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
+      box-shadow: 0 -14px 34px -20px rgba(0,0,0,.4);
+      border: 1px solid rgb(var(--c-cream) / .12);
+    }
+    /* L'animation ne joue QUE pendant une ouverture ou une fermeture
+       (.panel--anim, posée le temps du geste) : sans ça, tout changement de
+       hauteur rejouait le « tiroir », par exemple à l'ouverture du clavier. */
+    .panel.panel--anim {
+      transition: max-height .45s cubic-bezier(.33, 1, .68, 1),
+                  padding .45s cubic-bezier(.33, 1, .68, 1);
+    }
+    /* svh (petite hauteur d'écran, fixe) et non dvh : la hauteur dynamique
+       change quand le clavier ou la barre du navigateur apparaît. */
+    .panel.panel--open { max-height: 46svh; padding: 0 1rem .9rem; }
+    /* « Aide » : un formulaire à remplir, pas une retouche de la coque. Le
+       plan de travail s'efface et le panneau prend toute la hauteur, pour
+       que les champs ne soient pas à l'étroit. */
+    .builder--help > .canvas { display: none; }
+    .builder--help > .panel.panel--open {
+      flex: 1 1 auto; min-height: 0; max-height: 100svh;
+      margin-top: 10px; margin-bottom: 10px;
+    }
+    /* Clavier ouvert sur un champ du panneau (html.kb-open, posé par le JS) :
+       l'éditeur est calé sur la zone visible AU-DESSUS du clavier. Barre
+       d'outils et rail ne servent pas pendant la saisie, ils laissent la
+       place ; le panneau garde au plus la moitié de l'écran restant, sauf en
+       « Aide » où il prend tout. */
+    :global(html.kb-open) .builder > .bar,
+    :global(html.kb-open) .builder > .rail { display: none; }
+    :global(html.kb-open) .panel.panel--open { max-height: 55%; margin-top: 8px; margin-bottom: 8px; }
+    :global(html.kb-open) .builder--help > .panel.panel--open { max-height: none; }
+
+    /* Le header (titre + croix) reste collé en haut pendant le scroll, avec un
+       fond, pour que la croix soit toujours visible. */
+    .panel-head {
+      position: sticky; top: 0; z-index: 6;
+      background: rgb(var(--c-dark));
+      margin: 0 -1rem .4rem; padding: .55rem 1rem .5rem;
+    }
+    .panel-x { background: rgb(var(--c-cream) / .08); }
+  }
+
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
+  .panel-head h2 { font-size: .95rem; }
+  .panel-x {
+    width: 32px; height: 32px; border-radius: 8px; cursor: pointer; color: inherit;
+    display: flex; align-items: center; justify-content: center; flex: none;
+    transition: background .15s;
+  }
+  .panel-x svg { width: 17px; height: 17px; }
+  .panel-x:hover { background: rgb(var(--c-cream) / .14); }
+  @media (min-width: 1024px) { .panel-x { display: none; } }
+  .pane[hidden] { display: none; }
+  .pane-label { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
+  .pane-hint { font-size: .72rem; opacity: .6; margin-top: .7rem; line-height: 1.45; }
+  .pane-empty { font-size: .75rem; opacity: .6; margin-top: .8rem; }
+  .pane-cta {
+    width: 100%; padding: .7rem; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .82rem;
+    border: 1px dashed rgb(var(--c-cream) / .3); background: rgb(var(--c-cream) / .03); color: inherit;
+  }
+  .pane-cta:hover { border-color: rgb(var(--accent-rgb)); color: rgb(var(--accent-dark-rgb)); }
+
+  .field {
+    width: 100%; padding: .7rem .75rem; border-radius: 8px; font-size: 16px; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .18); background: rgb(var(--c-cream) / .03);
+  }
+  .field:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
+
+  /* NB : polices et pastilles de couleur sont créées en JS — leurs règles
+     vivent dans le bloc <style is:global>. */
+  .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+  .tpl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  @media (max-width: 1023px) { .tpl-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .seg { display: flex; gap: .25rem; padding: .2rem; border-radius: 10px; background: rgb(var(--c-cream) / .05); }
+  .seg button {
+    flex: 1; padding: .45rem .3rem; border-radius: 8px; cursor: pointer; color: inherit;
+    font-size: .74rem; font-weight: 500; transition: background .15s, color .15s;
+  }
+  .seg button[aria-pressed="true"] { background: rgb(var(--accent-rgb)); color: #fff; }
+
+  .dropzone {
+    width: 100%; display: flex; flex-direction: column; align-items: center; gap: .35rem;
+    padding: 1.5rem 1rem; border-radius: 12px; cursor: pointer; color: inherit; text-align: center;
+    border: 1.5px dashed rgb(var(--c-cream) / .28); background: rgb(var(--c-cream) / .03);
+  }
+  .dropzone:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .05); }
+  .dropzone svg { width: 26px; height: 26px; opacity: .7; }
+  .dropzone strong { font-size: .85rem; }
+  .dropzone span { font-size: .7rem; opacity: .6; }
+
+  /* ── Demande de design ───────────────────────────────────────── */
+  .help-intro { padding: .85rem .9rem; border-radius: 12px; background: rgb(var(--accent-rgb) / .08); border: 1px solid rgb(var(--accent-rgb) / .22); }
+  .help-intro strong { display: block; font-size: .92rem; margin-bottom: .3rem; }
+  .help-intro p { font-size: .76rem; line-height: 1.5; opacity: .8; margin: 0; }
+  .field-area { min-height: 110px; resize: vertical; line-height: 1.45; font-family: inherit; }
+  .help-drop { padding: 1rem; }
+  .help-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; margin-bottom: .5rem; }
+  .help-thumbs:empty { display: none; }
+  .help-model { display: flex; align-items: center; justify-content: space-between; gap: .5rem; width: 100%; text-align: left; cursor: pointer; }
+  .help-model-act { font-size: .72rem; font-weight: 600; color: rgb(var(--accent-rgb)); flex: none; }
+  .help-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .help-send { width: 100%; margin-top: 1.1rem; justify-content: center; }
+  .help-send[disabled] { opacity: .6; cursor: wait; }
+  .help-note { text-align: center; }
+  .help-done { text-align: center; padding: 1.5rem .5rem; }
+  .help-done svg { width: 40px; height: 40px; padding: 8px; border-radius: 999px; background: rgb(var(--accent-rgb)); color: #fff; }
+  .help-done strong { display: block; font-size: 1rem; margin: .8rem 0 .4rem; }
+  .help-done p { font-size: .8rem; line-height: 1.5; opacity: .8; margin: 0; }
+
+
+  /* ── Plan de travail ─────────────────────────────────────────── */
+  /* Le plan de travail porte un décor doux : c'est en le voyant AU TRAVERS
+     de la coque qu'on comprend qu'elle est transparente. */
+  .canvas {
+    grid-area: canvas;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.25rem 1rem; min-height: 0;
+    background: rgb(var(--c-panel) / .5);
+    /* Un glissement sur le plan de travail compose, il ne fait pas défiler
+       la page derrière (indispensable au confort tactile). */
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+  /* Fond « craft » : une grille type papier millimétré / tapis de découpe.
+     Deux échelles (fine + large) posées sur le panneau clair. La coque étant
+     transparente, on voit la grille au travers, ce qui souligne la matière. */
+  .canvas::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-color: rgb(var(--c-panel));
+    background-image:
+      linear-gradient(rgb(var(--accent-rgb) / .09) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent-rgb) / .09) 1px, transparent 1px),
+      linear-gradient(rgb(var(--accent-rgb) / .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent-rgb) / .045) 1px, transparent 1px);
+    background-size: 104px 104px, 104px 104px, 26px 26px, 26px 26px;
+    background-position: center;
+    z-index: 0;   /* le décor reste sous la coque et la barre d'actions, qui
+                     sont positionnées et peintes après lui */
+  }
+
+  /* ── La coque ────────────────────────────────────────────────── */
+  .case {
+    position: relative;
+    width: 250px;                     /* recalculé par fitCase() */
+    aspect-ratio: var(--ratio, .476);
+    border-radius: var(--radius, 13%) / calc(var(--radius, 13%) / 2.1);
+    container-type: inline-size;
+    touch-action: none;
+    /* Ombre portée en box-shadow (et non filter) : un ancêtre avec `filter`
+       désactive le backdrop-filter du verre dépoli à l'intérieur. box-shadow
+       suit tout autant le rayon arrondi. */
+    box-shadow: 0 24px 40px -6px rgba(0,0,0,.34);
+  }
+  .case[data-over] { outline: 2px dashed rgb(var(--accent-rgb)); outline-offset: 8px; }
+
+  /* Le téléphone : affiché seulement en aperçu « sur le téléphone ». Par
+     défaut la coque est présentée seule, comme sur une photo produit. */
+  .phone {
+    position: absolute; inset: 0; border-radius: inherit; display: none;
+    background: var(--device, linear-gradient(158deg, #3c3c42, #17171b 46%, #2b2b31));
+  }
+  .case[data-mount="phone"] .phone { display: block; }
+  /* Finition opaque : la coque est teintée, elle masque alors le téléphone. */
+  .case[data-finish="solid"] .phone { display: block; background: var(--caseColor, #f4eee2); }
+
+  /* Verre dépoli de la coque transparente : floute le décor derrière + un
+     voile blanc très léger. Sous le design, donc les éléments restent nets.
+     Si backdrop-filter n'est pas supporté, le voile suffit à adoucir. */
+  .frost {
+    position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+    pointer-events: none;
+    background: rgba(255,255,255,.2);
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+  }
+  /* Finition opaque ou montée sur téléphone : le dos n'est plus transparent,
+     il n'y a rien à flouter. */
+  .case[data-finish="solid"] .frost,
+  .case[data-mount="phone"] .frost { display: none; }
+
+  .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
+  .case-bg { position: absolute; inset: 0; background: center / cover no-repeat; pointer-events: none; }
+
+  .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
+  .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
+  .guide-h { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
+
+  /* Module caméra : dessiné par le JS selon la famille d'appareils */
+  .cam { position: absolute; z-index: 6; pointer-events: none; }
+  /* NB : le contenu du module caméra est injecté en JS — ses règles vivent
+     dans le bloc <style is:global> (pas d'attribut de scope Astro). */
+
+  /* La coque elle-même : épaisseur du TPU + reflet */
+  /* La coque elle-même. En finition transparente elle ne pose AUCUN fond :
+     on voit le plan de travail au travers — c'est ça qui fait lire « coque
+     transparente » plutôt que « téléphone noir ». Seules les arêtes du TPU,
+     sa paroi et les reflets sont dessinés. */
+  .shell {
+    position: absolute; inset: 0; border-radius: inherit; z-index: 8; pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 42%, rgba(255,255,255,.09));
+    border: 1px solid rgba(255,255,255,.8);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.55),   /* arête extérieure */
+      inset 0 0 0 9px  rgba(255,255,255,.09),    /* paroi (épaisseur du TPU) */
+      inset 0 0 0 10px rgba(255,255,255,.5),     /* arête intérieure */
+      inset 0 3px 7px rgba(255,255,255,.4),      /* lumière du haut */
+      inset 0 -3px 7px rgba(255,255,255,.22),
+      0 1px 1px rgba(255,255,255,.5),
+      0 22px 44px -20px rgba(0,0,0,.4);
+  }
+  /* Montée sur un téléphone : le dos opaque reprend le dessus, on adoucit
+     donc les reflets pour ne pas voiler le visuel. */
+  .case[data-mount="phone"] .shell,
+  .case[data-finish="solid"] .shell {
+    background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,0) 45%, rgba(255,255,255,.06));
+    border-color: rgba(255,255,255,.5);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.35),
+      inset 0 0 0 9px rgba(255,255,255,.06),
+      inset 0 0 0 10px rgba(255,255,255,.28),
+      inset 0 3px 6px rgba(255,255,255,.28),
+      0 22px 44px -20px rgba(0,0,0,.45);
+  }
+  .case[data-finish="solid"] .shell {
+    border-color: rgba(255,255,255,.28);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), inset 0 2px 3px rgba(255,255,255,.22);
+  }
+  .sheen {
+    position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(112deg,
+      rgba(255,255,255,.26) 0%, rgba(255,255,255,.05) 22%,
+      rgba(255,255,255,0) 46%, rgba(255,255,255,0) 66%,
+      rgba(255,255,255,.16) 82%, rgba(255,255,255,.02) 100%);
+  }
+  /* Boutons latéraux moulés dans la coque */
+  .side { position: absolute; width: 2.4%; border-radius: 2px; background: rgba(255,255,255,.30); box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); z-index: 9; }
+  .side-l { left: -1.6%; top: 20%; height: 7%; }
+  .side-r { right: -1.6%; top: 26%; height: 11%; }
+
+  .empty {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: .3rem; text-align: center;
+    z-index: 4; pointer-events: none; padding: 0 10%;
+  }
+  .empty[hidden] { display: none; }
+  .empty p { font-size: 4.2cqw; color: rgba(0,0,0,.48); }
+  .empty span { font-size: 3.2cqw; color: rgba(0,0,0,.34); }
+  .case[data-dark] .empty p { color: rgba(255,255,255,.75); }
+  .case[data-dark] .empty span { color: rgba(255,255,255,.48); }
+
+  /* ── Barre contextuelle ──────────────────────────────────────── */
+  /* Flottante en bas du PLAN DE TRAVAIL : rattachée à la coque, elle
+     débordait dès que celle-ci rétrécissait (panneau ouvert en mobile). */
+  .ctx {
+    position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
+    display: flex; gap: 2px; padding: 4px; border-radius: 10px;
+    background: rgba(24,24,27,.88); backdrop-filter: blur(6px);
+    box-shadow: 0 10px 26px -10px rgba(0,0,0,.6); z-index: 40;
+  }
+  .ctx[hidden] { display: none; }
+  .ctx button {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 38px; height: 38px; padding: 0 9px; border-radius: 7px;
+    color: #fff; background: transparent; font-size: .78rem; cursor: pointer;
+  }
+  .ctx button svg { width: 18px; height: 18px; }
+  .ctx button:hover { background: rgba(255,255,255,.15); }
+  .ctx .ctx-del:hover { background: #e11d48; }
+  /* Mobile et tablette : colonne verticale au bord droit du plan de travail.
+     En bas, la barre recouvrait le bas de la coque, là où l'on travaille. */
+  @media (max-width: 1023px) {
+    .ctx {
+      left: auto; right: 8px; bottom: auto; top: 50%;
+      transform: translateY(-50%);
+      flex-direction: column;
+    }
+    .ctx button { min-width: 40px; height: 40px; padding: 0; }
+  }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+    z-index: 10060; padding: .7rem 1.15rem; border-radius: 999px;
+    background: #16a34a; color: #fff; font-size: .85rem; font-weight: 500;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,.5);
+  }
+  .toast[data-kind="warn"] { background: #b45309; }
+  @media (min-width: 1024px) { .toast { bottom: 26px; } }
+
+  @media (prefers-reduced-motion: reduce) { .panel { transition: none } }
+</style>
+
+<!-- Éléments créés en JS : pas d'attribut de scope Astro, règles globales. -->
+<style is:global>
+  /* ── L'éditeur est une APPLICATION plein écran ────────────────────
+     Sans ça la page défile de plusieurs centaines de pixels (le pied de page
+     vit sous l'éditeur) : on perd la barre d'outils en glissant, ce qui rend
+     l'édition pénible. Le drapeau est posé par le script du studio, donc ces
+     règles ne touchent que cette page.
+
+     Verrou étendu au DESKTOP : la mise en îlots du rail et du panneau a
+     introduit des marges qui débordaient de quelques pixels, et la page se
+     mettait à défiler pour rien. Un éditeur ne défile pas — ce sont ses
+     panneaux qui défilent, chacun chez lui. */
+  html[data-studio-app], html[data-studio-app] body {
+    overflow: hidden;
+    height: 100%;
+    /* iOS ignore overflow:hidden sur <html> quand le geste part d'une zone
+       non défilable ; la position fixe, elle, tient. */
+    overscroll-behavior: none;
+  }
+  html[data-studio-app] footer { display: none; }
+  /* Le plan de travail se cale sur la hauteur RÉELLE restante, sans calcul.
+     `calc(100dvh - var(--header-h))` se trompait de six pixels : en thème
+     sunfreaks le header flotte, son îlot occupe un peu plus que --header-h, et
+     le bas de la coque se retrouvait coupé. Ici `main` remplit la page, son
+     padding haut est compris dans sa hauteur (border-box), et l'éditeur prend
+     ce qui reste — quelle que soit la hauteur du header. */
+  html[data-studio-app] .site-main {
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  /* La chaîne des hauteurs doit être continue : une seule hauteur `auto` sur
+     le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
+     son contenu — soit 1440 px de haut et une grille écrasée. */
+  html[data-studio-app] .studio { height: 100%; }
+  /* Clavier ouvert (mobile) : iOS pose le clavier PAR-DESSUS la page sans la
+     réduire. La page prend donc la hauteur réellement visible (--vvh, mesurée
+     par visualViewport) et l'en-tête s'efface le temps de la saisie. */
+  @media (max-width: 1023px) {
+    /* L'éditeur est FIXÉ sur la zone visible : son haut (--vvt, décalage de
+       la zone visible que iOS fait glisser) et sa hauteur (--vvh). La hauteur
+       de la page, elle, ne change pas : l'allonger poussait iOS à décaler la
+       zone visible encore plus loin. */
+    html[data-studio-app].kb-open #site-header { display: none; }
+    html[data-studio-app].kb-open .site-main,
+    html[data-theme='sunfreaks'][data-studio-app].kb-open .site-main {
+      position: fixed; left: 0; right: 0; z-index: 10001;
+      top: var(--vvt, 0px); height: var(--vvh, 100%);
+      padding-top: max(8px, env(safe-area-inset-top));
+    }
+  }
+  /* En sunfreaks le header est un ÎLOT : il flotte 9 px sous le haut de page,
+     donc son bas dépasse --header-h d'autant. `main` se décalait de
+     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils —
+     visible surtout sur mobile, où le bouton d'achat passait dessous. */
+  html[data-theme='sunfreaks'][data-studio-app] .site-main {
+    padding-top: calc(var(--header-total) + 18px);
+  }
+</style>
+
+<style is:global>
+  /* ── <ModelPicker> posé dans la barre du studio ──────────────────
+     Le composant est conçu pour une fiche produit : étiquette au-dessus,
+     champ pleine largeur, marge basse. Dans une barre d'outils il doit se
+     réduire à une pastille. On ne touche PAS au composant lui-même — sa
+     feuille et sa logique servent aussi aux fiches produit — on ne fait que
+     le remettre en forme ici. */
+  .studio .bar-mp { min-width: 0; flex: 0 1 auto; margin-left: .3rem; }
+  .studio .bar-mp .mp { margin-bottom: 0; }
+  .studio .bar-mp .mp > label { display: none; }
+  .studio .bar-mp .mp-trigger {
+    width: auto; min-width: 0; max-width: 46vw;
+    min-height: 34px;
+    gap: .45rem; padding: .3rem .7rem;
+    border-radius: 999px; font-size: .74rem;
+    border-color: rgb(var(--c-cream) / .22);
+    background: rgb(var(--c-cream) / .06);
+    color: rgb(var(--c-cream));
+    transition: border-color .15s, background .15s;
+  }
+  .studio .bar-mp .mp-trigger:hover { border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .1); }
+  .studio .bar-mp .mp-trigger-value {
+    color: rgb(var(--c-cream) / .6);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* Modèle choisi : la pastille s'allume. C'est le seul réglage obligatoire
+     de la page, son état doit se lire sans chercher. */
+  .studio .bar-mp .mp[data-mp-chosen] .mp-trigger {
+    border-color: rgb(var(--accent-rgb) / .55);
+    background: rgb(var(--accent-rgb) / .14);
+  }
+  .studio .bar-mp .mp[data-mp-chosen] .mp-trigger-value { color: rgb(var(--c-cream)); font-weight: 500; }
+  .studio .bar-mp .mp-error { display: none; }
+  /* Petits écrans : le libellé complet « Choisir mon modèle » mangeait la
+     place du prix et du bouton d'achat. Tant qu'aucun modèle n'est retenu on
+     n'affiche que « Modèle » ; dès qu'il l'est, c'est son nom qui compte et
+     il reprend toute la largeur disponible. Texte en dur : le studio n'existe
+     qu'en français (cf. data-design-edit-path dans BaseLayout). */
+  @media (max-width: 560px) {
+    .studio .bar-mp .mp:not([data-mp-chosen]) .mp-trigger-value { display: none; }
+    .studio .bar-mp .mp:not([data-mp-chosen]) .mp-trigger::before { content: "Modèle"; }
+    /* Le mot « CHANGER » du composant coûte 60 px pour une information que la
+       pastille donne déjà : elle est cliquable, donc elle se change. */
+    .studio .bar-mp .mp[data-mp-chosen] .mp-trigger-action { display: none; }
+    .studio .bar-mp .mp-trigger { max-width: 46vw; padding: .3rem .6rem; }
+  }
+  @media (min-width: 1024px) {
+    .studio .bar-mp .mp-trigger { max-width: 260px; min-height: 38px; font-size: .78rem; padding: .35rem .85rem; }
+  }
+
+  /* ── Vignettes de designs (créées en JS) ───────────────────────── */
+  .studio .tpl {
+    display: flex; flex-direction: column; gap: .35rem; padding: .4rem;
+    border-radius: 10px; cursor: pointer; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .12); background: rgb(var(--c-cream) / .02);
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .studio .tpl:hover { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .05); }
+  .studio .tpl:active { transform: scale(.97); }
+  .studio .tpl-thumb {
+    position: relative; display: block; width: 100%; aspect-ratio: .476;
+    border-radius: 9px; overflow: hidden;
+    container-type: inline-size;             /* les cqw des éléments suivent la vignette */
+    background: linear-gradient(150deg, #f6f2ea, #e9e3d7);
+    background-size: cover; background-position: center;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
+  }
+  .studio .tel {
+    position: absolute; left: 50%; top: 50%;
+    white-space: nowrap; line-height: 1.05; pointer-events: none;
+  }
+  .studio .tpl-name { font-size: .68rem; text-align: center; opacity: .75; }
+
+  /* ── Contrôles des panneaux (créés en JS) ──────────────────────── */
+
+
+  .studio .swatch {
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgb(var(--c-cream) / .3); transition: transform .1s;
+  }
+  .studio .swatch:hover { transform: scale(1.08); }
+  .studio .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px rgb(var(--c-dark)), 0 0 0 4px rgb(var(--accent-rgb)); }
+  .studio .swatch--clear {
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.2)),
+      repeating-conic-gradient(#d8d8dc 0% 25%, #f4f4f6 0% 50%) 50% / 10px 10px;
+  }
+
+  .studio .font-chip {
+    padding: .45rem .8rem; border-radius: 8px; cursor: pointer; font-size: 1rem; color: inherit;
+    border: 1px solid rgb(var(--c-cream) / .18); background: transparent;
+  }
+  .studio .font-chip[aria-pressed="true"] { border-color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .1); }
+
+  /* ── Module caméra (injecté en JS) ──────────────────────────────
+     Il doit TRANCHER sur le dos du téléphone : sombre sur sombre, il
+     disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
+  /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
+     plastique qui borde le trou — on doit voir le décor au travers. */
+  /* Même creux ombré que les trous ronds des Galaxy (cf. .cam-hole). */
+  .studio .cam-cut {
+    position: absolute; inset: 0; border-radius: 26%;
+    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.04), rgba(0,0,0,.13));
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,.14),
+      0 1px 0 1.5px rgba(255,255,255,.85),
+      inset 0 3px 8px rgba(0,0,0,.28),
+      inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+  .studio .cam-cut.is-pill { border-radius: 999px; }
+  /* Petits trous ronds (Galaxy) : un simple filet blanc se perdait sur une
+     coque claire, la coque passait pour une feuille vierge. Un léger creux
+     ombré et un liseré gris les font lire comme de vraies découpes. */
+  .studio .cam-hole {
+    position: absolute; aspect-ratio: 1; border-radius: 22%;
+    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.04), rgba(0,0,0,.13));
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,.14),
+      0 1px 0 1.5px rgba(255,255,255,.85),
+      inset 0 2px 5px rgba(0,0,0,.28),
+      inset 0 0 0 1px rgba(0,0,0,.08);
+  }
+  .studio .cam-hole.is-round { border-radius: 50%; }
+
+  .studio .cam-island {
+    position: absolute; inset: 0; border-radius: 26%;
+    background: linear-gradient(150deg, #43434d, #1d1d24 60%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.30),
+      inset 0 0 0 1px rgba(255,255,255,.18),
+      0 2px 6px rgba(0,0,0,.55);
+  }
+  .studio .cam-bar {
+    position: absolute; inset: 0; border-radius: 999px;
+    background: linear-gradient(160deg, #3e3e48, #16161c 60%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1px rgba(255,255,255,.18), 0 2px 6px rgba(0,0,0,.5);
+  }
+  /* aspect-ratio plutôt qu'une hauteur en % : la boîte du module n'est pas
+     carrée (colonne étroite chez Galaxy, barre large chez Pixel), les
+     objectifs sortaient donc ovales. */
+  .studio .lens {
+    position: absolute; border-radius: 50%; aspect-ratio: 1;
+    background: radial-gradient(circle at 34% 28%, #8ea0bb 0%, #2d3442 42%, #07070b 78%);
+    box-shadow:
+      0 0 0 1.5px rgba(214,222,235,.65),   /* bague métallique */
+      0 0 0 3px rgba(0,0,0,.55),
+      inset 0 0 4px rgba(0,0,0,.9);
+  }
+  .studio .lens::after {
+    content: ""; position: absolute; left: 22%; top: 18%; width: 30%; height: 30%;
+    border-radius: 50%; background: rgba(255,255,255,.75); filter: blur(.4px);
+  }
+  .studio .flash {
+    position: absolute; border-radius: 50%; aspect-ratio: 1;
+    background: radial-gradient(circle at 40% 35%, #fff7de, #d9b169 70%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.45), 0 0 6px rgba(255,236,180,.5);
+  }
+
+  .studio .el {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
+  }
+  .studio .el:active { cursor: grabbing; }
+  .studio .el-content { display: block; line-height: 1.05; white-space: nowrap; pointer-events: none; }
+  .studio .el[data-type="image"] .el-content img { display: block; width: 100%; height: auto; pointer-events: none; }
+  /* Cadre Polaroid : bord blanc, marge basse plus large, photo carrée
+     recadrée. Mêmes proportions que le fichier d'impression (POLA). */
+  .studio .pola {
+    display: block; background: #fff; padding: 6% 6% 24%;
+    box-shadow: 0 .6cqw 1.6cqw rgba(0,0,0,.28), 0 0 0 .15cqw rgba(0,0,0,.06);
+  }
+  .studio .el[data-type="image"] .pola img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+  /* Case photo vide : invite à toucher pour ajouter sa photo. */
+  .studio .slot-empty {
+    display: grid; place-items: center; aspect-ratio: 1; width: 100%;
+    background: repeating-linear-gradient(135deg, #eceae4 0 6px, #f4f2ed 6px 12px);
+    color: #6b6359; font: 600 3.4cqw/1.2 Inter, system-ui, sans-serif; text-align: center;
+    white-space: normal;
+  }
+  .studio .slot-empty span { display: block; font-size: 9cqw; line-height: 1; margin-bottom: .6cqw; }
+  .studio .slot-plain { border: .5cqw dashed #9a9184; }
+  .studio .tel-pola {
+    position: absolute; background: #fff; aspect-ratio: 1 / 1.18;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
+  .studio .tel-pola::after {
+    content: ""; position: absolute; left: 6%; right: 6%; top: 5%; aspect-ratio: 1;
+    background: linear-gradient(160deg, #cfd8e3, #a9b6c6);
+  }
+  .studio .el[data-type="text"] .el-content { padding: 0 .06em; }
+  .studio .el[data-editing] { cursor: text; }
+  .studio .el[data-editing] .el-content { pointer-events: auto; white-space: pre; outline: none; }
+
+  /* Cadre de sélection : calque unique, positionné par le JS pour coïncider
+     avec l'élément sélectionné. Hors du .design (donc non rogné) : le cadre et
+     ses poignées restent visibles même quand l'image déborde de la coque.
+     Le cadre lui-même ne capte pas les clics (pointer-events: none) — seules
+     les poignées le font — pour ne pas bloquer le glisser de l'image dessous. */
+  .studio .gizmo {
+    position: absolute; left: 50%; top: 50%;
+    border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px;
+    z-index: 20; pointer-events: none;
+  }
+  .studio .gizmo[hidden] { display: none; }
+  .studio .h {
+    position: absolute; width: 22px; height: 22px; background: #fff;
+    border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,.35);
+    pointer-events: auto;
+  }
+  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
+  .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
+  .studio .h-rotate::after {
+    content: ""; position: absolute; left: 50%; top: 100%; width: 1.5px; height: 16px;
+    background: rgb(var(--accent-rgb)); transform: translateX(-50%);
+  }
+  /* Demande de design et mode atelier : éléments créés en JS (sans attribut
+     de scope Astro), donc règles globales. */
+  .studio .help-thumb { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: rgb(var(--c-cream) / .06); }
+  .studio .help-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .studio .help-thumb button {
+    position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; border-radius: 999px;
+    background: rgba(0,0,0,.6); color: #fff; font-size: 13px; line-height: 20px; text-align: center; cursor: pointer;
+  }
+  /* ── Mode atelier (création pour une demande client) ─────────── */
+  .atelier-bar {
+    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 60;
+    width: min(680px, calc(100% - 24px)); max-height: 46vh; overflow: auto;
+    padding: .8rem .95rem; border-radius: 14px; color: #fff;
+    background: #2b2350; box-shadow: 0 12px 34px rgba(0,0,0,.28); font-size: .8rem;
+  }
+  .atelier-bar strong { font-size: .85rem; }
+  .atelier-bar p { margin: .35rem 0 .55rem; white-space: pre-wrap; line-height: 1.45; opacity: .9; }
+  .atelier-imgs { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .atelier-imgs button { position: relative; width: 62px; height: 62px; border-radius: 9px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,255,255,.35); }
+  .atelier-imgs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .atelier-imgs span { position: absolute; inset: auto 0 0 0; font-size: 9px; font-weight: 700; background: rgba(0,0,0,.6); padding: 2px 0; }
+
+</style>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-studio]');
+    if (!root) return;
+    // Textes dans la langue de la page (cf. TEXTS dans le frontmatter).
+    var I = JSON.parse(root.getAttribute('data-i18n') || '{}');
+    var fill = function (msg, n) { return String(msg).replace('{n}', n); };
+
+    var design   = root.querySelector('[data-design]');
+    var caseEl   = root.querySelector('[data-case]');
+    var canvasEl = root.querySelector('[data-canvas]');
+    var camEl    = root.querySelector('[data-cam]');
+    var phoneEl  = root.querySelector('[data-phone]');
+    var emptyEl  = root.querySelector('[data-empty]');
+    var ctx      = root.querySelector('[data-ctx]');
+    var panel    = root.querySelector('[data-panelwrap]');
+    var fileInput= root.querySelector('[data-file]');
+    var toastEl  = root.querySelector('[data-toast]');
+    var guideV   = root.querySelector('[data-guide-v]');
+    var guideH   = root.querySelector('[data-guide-h]');
+    var gizmoEl  = root.querySelector('[data-gizmo]');
+    var undoBtn  = root.querySelector('[data-undo]');
+    var redoBtn  = root.querySelector('[data-redo]');
+
+    var STORE = 'vareska:studio-design-lab';
+    var MODEL_KEY = 'vareska:phone-model';
+
+    /* ── Gabarits par famille d'appareils ───────────────────────────
+       Ce sont ces différences (proportions, angles, découpe caméra) qui
+       font qu'on RECONNAÎT son téléphone dans l'aperçu. */
+    /* ── Dimensions réelles des appareils (largeur × hauteur, en mm) ──
+       Ce sont elles qui donnent les PROPORTIONS de la coque : sans ça, un
+       S25 Ultra et un iPhone 13 mini s'affichaient à l'identique.
+       ⚠️ Ces cotes servent l'aperçu. Avant production, elles doivent être
+       recoupées avec la fiche technique du fournisseur de coques. */
+    var MM = {
+      // Apple
+      'iPhone 17 Pro Max': [78.0, 163.4], 'iPhone 17 Pro': [71.9, 150.0], 'iPhone 17': [71.5, 147.6],
+      'iPhone 16 Pro Max': [77.6, 163.0], 'iPhone 16 Pro': [71.5, 149.6], 'iPhone 16 Plus': [77.8, 160.9], 'iPhone 16': [71.6, 147.6],
+      'iPhone 15 Pro Max': [76.7, 159.9], 'iPhone 15 Pro': [70.6, 146.6], 'iPhone 15 Plus': [77.8, 160.9], 'iPhone 15': [71.6, 147.6],
+      'iPhone 14 Pro Max': [77.6, 160.7], 'iPhone 14 Pro': [71.5, 147.5], 'iPhone 14 Plus': [78.1, 160.8], 'iPhone 14': [71.5, 146.7],
+      'iPhone 13 Pro Max': [78.1, 160.8], 'iPhone 13 Pro': [71.5, 146.7], 'iPhone 13': [71.5, 146.7], 'iPhone 13 mini': [64.2, 131.5],
+      'iPhone 12 Pro Max': [78.1, 160.8], 'iPhone 12 Pro': [71.5, 146.7], 'iPhone 12': [71.5, 146.7], 'iPhone 12 mini': [64.2, 131.5],
+      'iPhone 11 Pro Max': [77.8, 158.0], 'iPhone 11 Pro': [71.4, 144.0], 'iPhone 11': [75.7, 150.9],
+      'iPhone SE (2022)': [67.3, 138.4], 'iPhone XR': [75.7, 150.9], 'iPhone XS Max': [77.4, 157.5], 'iPhone XS': [70.9, 143.6],
+      // Samsung
+      'Galaxy S26 Ultra': [78.1, 163.6], 'Galaxy S26': [71.7, 149.6],
+      'Galaxy S25 Ultra': [77.6, 162.8], 'Galaxy S25+': [75.8, 158.4], 'Galaxy S25': [70.5, 146.9],
+      'Galaxy S24 Ultra': [79.0, 162.3], 'Galaxy S24+': [75.9, 158.5], 'Galaxy S24': [70.6, 147.0],
+      'Galaxy S23 Ultra': [78.1, 163.4], 'Galaxy S23+': [76.2, 157.8], 'Galaxy S23': [70.9, 146.3],
+      'Galaxy S22 Ultra': [77.9, 163.3], 'Galaxy S22+': [75.8, 157.4], 'Galaxy S22': [70.6, 146.0],
+      'Galaxy A56 5G': [77.5, 162.2], 'Galaxy A36 5G': [77.9, 162.9],
+      'Galaxy A56': [77.5, 162.2], 'Galaxy A55': [76.5, 161.1], 'Galaxy A36': [77.9, 162.9],
+      'Galaxy A35': [78.0, 161.7], 'Galaxy A26': [77.9, 164.0], 'Galaxy A25': [76.5, 161.0],
+      'Galaxy A16': [77.9, 164.4], 'Galaxy A15': [76.8, 160.1],
+      // Google
+      'Pixel 9 Pro XL': [76.6, 162.8], 'Pixel 9 Pro': [72.0, 152.8], 'Pixel 9': [72.0, 152.8],
+      'Pixel 8 Pro': [76.5, 162.6], 'Pixel 8': [70.8, 150.5], 'Pixel 8a': [72.7, 152.1],
+      'Pixel 7 Pro': [76.6, 162.9], 'Pixel 7': [73.2, 155.6], 'Pixel 7a': [72.9, 152.0],
+      // Xiaomi
+      'Xiaomi 15': [71.2, 152.3], 'Xiaomi 14': [71.5, 152.8],
+      'Redmi Note 14 Pro': [74.4, 162.4], 'Redmi Note 14': [74.0, 161.4],
+      'Redmi Note 13 Pro': [74.2, 161.4], 'Redmi Note 13': [75.5, 161.1],
+    };
+
+    // Angles et module photo : propres à chaque génération, pas aux cotes.
+    var FAMILIES = {
+      'iphone-pro':   { ratio: .476, radius: 13, cam: 'island3' },
+      'iphone':       { ratio: .485, radius: 13, cam: 'island2' },
+      'iphone-11pro': { ratio: .492, radius: 13, cam: 'island3' },
+      'iphone-11':    { ratio: .502, radius: 13, cam: 'island2' },
+      'iphone-se':    { ratio: .486, radius: 8,  cam: 'single' },
+      'iphone-xr':    { ratio: .502, radius: 13, cam: 'single' },
+      'iphone-xs':    { ratio: .494, radius: 13, cam: 'dualv' },
+      'galaxy-ultra': { ratio: .477, radius: 4,  cam: 'lenses4' },
+      'galaxy':       { ratio: .480, radius: 9,  cam: 'lenses3' },
+      'galaxy-a':     { ratio: .475, radius: 9,  cam: 'lenses3' },
+      'pixel-pro':    { ratio: .471, radius: 12, cam: 'bar3' },
+      'pixel':        { ratio: .471, radius: 12, cam: 'bar2' },
+      'xiaomi':       { ratio: .468, radius: 11, cam: 'islandBig' },
+    };
+    function familyOf(label) {
+      var l = (label || '').toLowerCase();
+      if (/iphone/.test(l)) {
+        if (/\bse\b/.test(l)) return 'iphone-se';
+        if (/xr/.test(l)) return 'iphone-xr';
+        if (/xs/.test(l)) return 'iphone-xs';
+        if (/11 pro/.test(l)) return 'iphone-11pro';
+        if (/\b11\b/.test(l)) return 'iphone-11';
+        if (/pro|max/.test(l)) return 'iphone-pro';
+        return 'iphone';
+      }
+      if (/galaxy|samsung/.test(l)) {
+        if (/ultra/.test(l)) return 'galaxy-ultra';
+        if (/galaxy a/.test(l)) return 'galaxy-a';
+        return 'galaxy';
+      }
+      if (/pixel/.test(l)) return /pro/.test(l) ? 'pixel-pro' : 'pixel';
+      if (/xiaomi|redmi|poco/.test(l)) return 'xiaomi';
+      return 'iphone-pro';
+    }
+    // Proportions issues des cotes réelles quand on les connaît, repli sur la
+    // famille sinon (un modèle ajouté au catalogue reste ainsi affichable).
+    function specOf(label) {
+      var fam = FAMILIES[familyOf(label)] || FAMILIES['iphone-pro'];
+      var mm = MM[label];
+      return {
+        ratio: mm ? mm[0] / mm[1] : fam.ratio,
+        radius: fam.radius,
+        cam: fam.cam,
+        mm: mm || null,
+      };
+    }
+
+    var FINISHES = [
+      { id: 'clear', label: 'Transparente' },
+      { id: '#f4eee2', label: 'Crème' }, { id: '#ffffff', label: 'Blanc' },
+      { id: '#e7decf', label: 'Sable' },  { id: '#c7b8a1', label: 'Grège' },
+      { id: '#8a9a5b', label: 'Olive' },  { id: '#3b4a6b', label: 'Bleu nuit' },
+      { id: '#2c0a09', label: 'Bordeaux' }, { id: '#111113', label: 'Noir' },
+    ];
+    var DEVICES = [
+      { id: 'linear-gradient(158deg,#3c3c42,#17171b 46%,#2b2b31)', label: 'Noir',   dark: true },
+      { id: 'linear-gradient(158deg,#e6e6ea,#b9b9c2 48%,#d7d7dd)', label: 'Argent', dark: false },
+      { id: 'linear-gradient(158deg,#e8d9bd,#bda079 48%,#dcc9a6)', label: 'Or',     dark: false },
+      { id: 'linear-gradient(158deg,#9fb3cd,#4d6a80 48%,#7f97b4)', label: 'Bleu',   dark: true },
+    ];
+    // id → utilisé par les templates ; css → appliqué à l'élément.
+    var FONTS = [
+      { id: 'bodoni',   label: 'Bodoni',    css: "'Bodoni Moda', Georgia, serif" },
+      { id: 'playfair', label: 'Playfair',  css: "'Playfair Display', Georgia, serif" },
+      { id: 'abril',    label: 'Abril',     css: "'Abril Fatface', Georgia, serif" },
+      { id: 'pinyon',   label: 'Pinyon',    css: "'Pinyon Script', cursive" },
+      { id: 'dancing',  label: 'Dancing',   css: "'Dancing Script', cursive" },
+      { id: 'caveat',   label: 'Caveat',    css: "'Caveat', cursive" },
+      { id: 'bebas',    label: 'Bebas',     css: "'Bebas Neue', Impact, sans-serif" },
+      { id: 'anton',    label: 'Anton',     css: "'Anton', Impact, sans-serif" },
+      { id: 'oswald',   label: 'Oswald',    css: "'Oswald', Impact, sans-serif" },
+      { id: 'montserrat', label: 'Montserrat', css: "'Montserrat', system-ui, sans-serif" },
+      { id: 'inter',    label: 'Inter',     css: "'Inter', system-ui, sans-serif" },
+      { id: 'mono',     label: 'Mono',      css: "'Space Mono', 'Courier New', monospace" },
+      { id: 'georgia',  label: 'Georgia',   css: "Georgia, 'Times New Roman', serif" },
+      { id: 'trebuchet', label: 'Trebuchet', css: "'Trebuchet MS', system-ui, sans-serif" },
+    ];
+    function F(id) {
+      for (var i = 0; i < FONTS.length; i++) if (FONTS[i].id === id) return FONTS[i].css;
+      return FONTS[0].css;
+    }
+    var TEXT_COLORS = ['#111113','#ffffff','#ff3b14','#e11d48','#f59e0b','#16a34a','#2563eb','#7c3aed','#db2777','#a1731f'];
+
+    /* ── Designs prêts à l'emploi ───────────────────────────────────
+       Point de départ éditable : on pose des éléments normaux, que le
+       client déplace/modifie ensuite comme s'il les avait ajoutés. */
+    // Fonds de coque (rayures peintes) et couleur du contour de texte assortie :
+    // un texte blanc cerné d'une teinte sombre du fond reste lisible sur les
+    // rayures claires comme sur les foncées.
+    var BG = {
+      cerise: { src: '/images/studio-bg/cerise.webp', ink: '#8f1f00' },
+      ciel:   { src: '/images/studio-bg/ciel.webp',   ink: '#2f6fa8' },
+      menthe: { src: '/images/studio-bg/menthe.webp', ink: '#00796f' },
+    };
+    function T(text, font, size, x, y, bg, extra) {
+      return Object.assign({ type: 'text', text: text, font: F(font), color: '#ffffff', outline: BG[bg].ink, size: size, x: x, y: y, rot: 0 }, extra || {});
+    }
+    function S(text, size, x, y, rot) { return { type: 'sticker', text: text, size: size, x: x, y: y, rot: rot || 0 }; }
+    // Case photo d'un modèle (vide au départ, remplie par la photo du client).
+    function P(size, x, y, rot) { return { type: 'image', slot: true, frame: 'polaroid', src: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    // Texte manuscrit sombre, pour les modèles sur coque transparente.
+    function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    var TEMPLATES = [
+      // NB : cadres hors de la zone caméra (haut-gauche).
+      { id: 'polaroid', name: I.tpl.polaroid, bg: null, els: [
+        P(64, 50, 55, -3),
+        W(I.tpl.souvenirs, 12, 52, 83, -3),
+      ]},
+      { id: 'pelemele', name: I.tpl.pelemele, bg: null, els: [
+        P(46, 68, 27, 7),
+        P(46, 34, 52, -8),
+        P(46, 64, 77, 5),
+      ]},
+      { id: 'prenom', name: I.tpl.prenom, bg: 'cerise', els: [
+        T('Camille', 'pinyon', 24, 50, 52, 'cerise'),
+      ]},
+      { id: 'monogramme', name: I.tpl.monogramme, bg: 'ciel', els: [
+        T('A M', 'bodoni', 32, 50, 46, 'ciel'),
+        T(I.tpl.since, 'montserrat', 6, 50, 60, 'ciel'),
+      ]},
+      // NB : on garde les éléments hors de la zone caméra (haut-gauche).
+      { id: 'floral', name: I.tpl.floral, bg: 'menthe', els: [
+        S('🌸', 20, 27, 37, -12), S('🌿', 17, 76, 34, 14),
+        T('Bloom', 'dancing', 21, 50, 53, 'menthe'),
+        S('🌷', 18, 30, 74, 8), S('🍃', 15, 72, 78, -16),
+      ]},
+      { id: 'citation', name: I.tpl.citation, bg: 'cerise', els: [
+        T('CARPE', 'anton', 24, 50, 42, 'cerise'),
+        T('DIEM', 'anton', 24, 50, 57, 'cerise', { color: '#ffe14d' }),
+      ]},
+      { id: 'tropical', name: I.tpl.tropical, bg: 'menthe', els: [
+        S('🌴', 30, 34, 40, -8), S('🌺', 18, 70, 60, 12),
+        T(I.tpl.summer, 'caveat', 21, 52, 78, 'menthe', { rot: -4 }),
+      ]},
+      { id: 'coeur', name: I.tpl.coeur, bg: 'cerise', els: [
+        S('🤍', 30, 50, 44),
+        T('love you', 'dancing', 17, 50, 64, 'cerise', { rot: -3 }),
+      ]},
+    ];
+
+    /* ── État ────────────────────────────────────────────────────── */
+    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, elements: [] };
+    var nodes = new Map();
+    var selectedId = null, seq = 0, gesture = null, editingId = null;
+    var history = [], hIndex = -1, activePane = null;
+
+    var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+    var findEl = function (id) { for (var i = 0; i < state.elements.length; i++) if (state.elements[i].id === id) return state.elements[i]; return null; };
+
+    /* ── Coque : gabarit + caméra ───────────────────────────────── */
+    // Seule la largeur est donnée : la hauteur suit via aspect-ratio: 1.
+    function lens(l, t, w) { return '<span class="lens" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
+    function flash(l, t, w) { return '<span class="flash" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>'; }
+    function hole(l, t, w, round) {
+      return '<span class="cam-hole' + (round ? ' is-round' : '') + '" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>';
+    }
+
+    function renderCase() {
+      var fam = specOf(state.model);
+      caseEl.style.setProperty('--ratio', fam.ratio.toFixed(4));
+      caseEl.style.setProperty('--radius', fam.radius + '%');
+
+      // Coque seule → la découpe est un TROU (on voit au travers).
+      // Coque montée → on dessine le module photo du téléphone.
+      var onPhone = state.mount === 'phone';
+      var s = camEl.style, html = '';
+
+      if (fam.cam === 'island3' || fam.cam === 'islandBig') {
+        var big = fam.cam === 'islandBig';
+        s.left = '6%'; s.top = '3.2%'; s.width = big ? '42%' : '39%'; s.height = big ? '20.5%' : '19%';
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(9, 8, 36) + lens(53, 8, 36) + lens(9, 52, 36) + flash(60, 58, 18)
+          : '<span class="cam-cut"></span>';
+      } else if (fam.cam === 'island2') {
+        s.left = '6%'; s.top = '3.2%'; s.width = '30%'; s.height = '14.5%';
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(8, 10, 40) + lens(52, 48, 40)
+          : '<span class="cam-cut"></span>';
+      } else if (fam.cam === 'lenses3' || fam.cam === 'lenses4') {
+        // Galaxy : pas d'îlot, des découpes rondes séparées (4 sur les Ultra)
+        var four = fam.cam === 'lenses4';
+        s.left = '7%'; s.top = '3.5%'; s.width = '16%'; s.height = four ? '38%' : '30%';
+        var tops = four ? [1, 26, 51, 76] : [2, 36, 70];
+        html = tops.map(function (t) {
+          return onPhone ? lens(12, t, 78) : hole(12, t, 78, true);
+        }).join('');
+      } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
+        // Pixel : barre horizontale traversante (3 objectifs sur les Pro)
+        s.left = '4%'; s.top = '6.5%'; s.width = '92%'; s.height = '8.2%';
+        html = onPhone
+          ? '<span class="cam-bar"></span>' + lens(8, 12, 9) + lens(20, 12, 9)
+            + (fam.cam === 'bar3' ? lens(32, 12, 9) : '') + flash(fam.cam === 'bar3' ? 45 : 33, 34, 4.5)
+          : '<span class="cam-cut is-pill"></span>';
+      } else if (fam.cam === 'single') {
+        // iPhone SE / XR : un seul objectif, pas d'îlot
+        s.left = '7%'; s.top = '3.5%'; s.width = '15%'; s.height = '9%';
+        html = onPhone ? lens(0, 0, 100) : hole(0, 0, 100, true);
+      } else if (fam.cam === 'dualv') {
+        // iPhone XS : deux objectifs alignés verticalement dans un îlot
+        s.left = '6%'; s.top = '3.4%'; s.width = '16%'; s.height = '17%';
+        html = onPhone
+          ? '<span class="cam-island"></span>' + lens(11, 4, 78) + lens(11, 52, 78)
+          : '<span class="cam-cut"></span>';
+      }
+      camEl.innerHTML = html;
+      fitCase();
+    }
+
+    // La coque doit tenir dans le plan de travail : on calcule sa largeur à
+    // partir de la place disponible (une largeur explicite est indispensable
+    // au conteneur `inline-size` qui pilote les unités cqw des éléments).
+    function fitCase() {
+      var spec = specOf(state.model);
+      var r = canvasEl.getBoundingClientRect();
+      if (!r.height) return;
+      // Aucun plancher élevé ici : un minimum de 220 px de haut empêchait la
+      // coque de rétrécir quand un panneau s'ouvre en mobile, et elle
+      // débordait alors du plan de travail par le haut.
+      var maxW = Math.max(70, r.width - 28);
+      var maxH = Math.max(110, r.height - 20);
+      caseEl.style.width = Math.round(Math.min(maxW, maxH * spec.ratio, 300)) + 'px';
+      // La coque a changé de taille : recale le cadre de sélection.
+      if (selectedId != null) { var s = findEl(selectedId); if (s) positionGizmo(s); }
+    }
+    // Le plan de travail change de taille à chaque ouverture/fermeture de
+    // panneau (mobile), rotation ou apparition du clavier : on observe la
+    // boîte plutôt que de rappeler fitCase() à chaque endroit concerné.
+    if (window.ResizeObserver) new ResizeObserver(fitCase).observe(canvasEl);
+    else window.addEventListener('resize', fitCase);
+
+    function applyFinish() {
+      if (state.finish === 'clear') {
+        caseEl.dataset.finish = 'clear';
+      } else {
+        caseEl.dataset.finish = 'solid';
+        caseEl.style.setProperty('--caseColor', state.finish);
+      }
+      caseEl.dataset.mount = state.mount;
+      phoneEl.style.setProperty('--device', state.device);
+      // Fond sombre derrière le visuel ? Sert à choisir la couleur des
+      // libellés de l'état vide pour qu'ils restent lisibles.
+      var dev = DEVICES.filter(function (d) { return d.id === state.device; })[0];
+      var darkBack = state.finish !== 'clear'
+        ? isDark(state.finish)
+        : (state.mount === 'phone' && dev && dev.dark);
+      caseEl.toggleAttribute('data-dark', !!darkBack);
+    }
+
+    /* ── Rendu des éléments ─────────────────────────────────────── */
+    // Contour de texte : huit ombres décalées, rendu identique partout (le
+    // fichier d'impression, lui, trace un vrai contour, cf. renderDesign).
+    function outlineCss(c) {
+      if (!c) return '';
+      return [[1,0],[-1,0],[0,1],[0,-1],[.7,.7],[-.7,.7],[.7,-.7],[-.7,-.7]].map(function (p) {
+        return (p[0] * .055).toFixed(3) + 'em ' + (p[1] * .055).toFixed(3) + 'em 0 ' + c;
+      }).join(',');
+    }
+    function applyStyles(el) {
+      var ref = nodes.get(el.id); if (!ref) return;
+      ref.node.style.left = el.x + '%';
+      ref.node.style.top = el.y + '%';
+      ref.node.style.transform = 'translate(-50%,-50%) rotate(' + el.rot + 'deg)';
+      if (el.type === 'image') ref.content.style.width = el.size + 'cqw';
+      else {
+        ref.content.style.fontSize = el.size + 'cqw';
+        if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; ref.content.style.textShadow = outlineCss(el.outline); }
+      }
+      if (el.id === selectedId) positionGizmo(el);
+    }
+
+    // Cale le cadre de sélection (calque hors du clip) sur l'élément : même
+    // centre (x/y %), même taille (mesurée sur le nœud) et même rotation, avec
+    // 7px de marge tout autour comme l'ancien cadre.
+    function positionGizmo(el) {
+      var ref = nodes.get(el.id); if (!ref) { gizmoEl.hidden = true; return; }
+      gizmoEl.style.left = el.x + '%';
+      gizmoEl.style.top = el.y + '%';
+      gizmoEl.style.width = (ref.node.offsetWidth + 14) + 'px';
+      gizmoEl.style.height = (ref.node.offsetHeight + 14) + 'px';
+      gizmoEl.style.transform = 'translate(-50%,-50%) rotate(' + el.rot + 'deg)';
+    }
+
+    function createNode(el) {
+      var node = document.createElement('div');
+      node.className = 'el'; node.dataset.type = el.type; node.dataset.id = String(el.id);
+      var content = document.createElement('div');
+      content.className = 'el-content';
+      if (el.type === 'image') {
+        // Case photo d'un modèle : cadre Polaroid éventuel, et tant qu'elle
+        // est vide, une invite « Ajouter une photo » (toucher la case ouvre
+        // le choix de photo, cf. onUp).
+        var host = content;
+        if (el.frame === 'polaroid') {
+          host = document.createElement('div'); host.className = 'pola';
+          content.appendChild(host);
+        }
+        if (el.src) {
+          var img = document.createElement('img');
+          img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
+          // Filet pour les navigateurs sans ResizeObserver : au décodage, la
+          // hauteur passe de zéro à sa valeur réelle.
+          img.addEventListener('load', function () {
+            if (selectedId === el.id) positionGizmo(el);
+          });
+          host.appendChild(img);
+        } else {
+          var ph = document.createElement('div');
+          ph.className = 'slot-empty' + (el.frame ? '' : ' slot-plain');
+          ph.innerHTML = '<div><span>+</span></div>';
+          ph.firstChild.appendChild(document.createTextNode(I.slotAdd));
+          host.appendChild(ph);
+        }
+      } else content.textContent = el.text;
+      node.append(content);
+      node.addEventListener('pointerdown', function (e) { onDown(e, el.id); });
+      if (el.type === 'text') node.addEventListener('dblclick', function () { enterEdit(el.id); });
+      design.appendChild(node);
+      nodes.set(el.id, { node: node, content: content });
+      applyStyles(el);
+    }
+
+    var caseBgEl = root.querySelector('[data-casebg]');
+    function bgSrc() { return state.bg && BG[state.bg] ? BG[state.bg].src : ''; }
+    function renderBg() { caseBgEl.style.backgroundImage = bgSrc() ? 'url("' + bgSrc() + '")' : ''; }
+    function renderAll() {
+      renderBg();
+      design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
+      nodes.clear();
+      state.elements.forEach(createNode);
+      renderCase(); applyFinish(); refreshEmpty();
+      if (selectedId && !findEl(selectedId)) selectedId = null;
+      applySelection();
+    }
+    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0 || !!bgSrc(); }
+
+    /* ── Historique + sauvegarde ────────────────────────────────── */
+    function snapshot() { return JSON.stringify(state); }
+    function pushHistory() {
+      history = history.slice(0, hIndex + 1);
+      history.push(snapshot());
+      if (history.length > 60) history.shift();
+      hIndex = history.length - 1;
+      syncHistory(); save();
+    }
+    function syncHistory() { undoBtn.disabled = hIndex <= 0; redoBtn.disabled = hIndex >= history.length - 1; }
+    function restore(json) { state = JSON.parse(json); seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id); }, 0); renderAll(); save(); }
+    function undo() { if (hIndex > 0) { hIndex--; restore(history[hIndex]); syncHistory(); } }
+    function redo() { if (hIndex < history.length - 1) { hIndex++; restore(history[hIndex]); syncHistory(); } }
+    function save() { try { localStorage.setItem(STORE, snapshot()); } catch (e) {} }
+
+    undoBtn.addEventListener('click', undo);
+    redoBtn.addEventListener('click', redo);
+    root.querySelector('[data-reset]').addEventListener('click', function () {
+      if (!state.elements.length && !state.bg) return;
+      if (!window.confirm(I.confirmReset)) return;
+      state.elements = []; state.bg = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
+    });
+
+    /* ── Ajout / suppression ────────────────────────────────────── */
+    function addElement(data) {
+      var n = state.elements.length;
+      var el = Object.assign({ id: ++seq, x: clamp(50 + (n % 3 - 1) * 9, 12, 88), y: clamp(46 + (n % 4) * 7, 26, 88), rot: 0 }, data);
+      state.elements.push(el); createNode(el); refreshEmpty(); select(el.id); pushHistory();
+      return el;
+    }
+    function removeElement(id) {
+      var ref = nodes.get(id); if (ref) { ref.node.remove(); nodes.delete(id); }
+      state.elements = state.elements.filter(function (e) { return e.id !== id; });
+      if (selectedId === id) { selectedId = null; applySelection(); }
+      refreshEmpty(); pushHistory();
+    }
+    function duplicate(id) {
+      var el = findEl(id); if (!el) return;
+      var c = Object.assign({}, el); delete c.id;
+      c.x = clamp(el.x + 7, 6, 94); c.y = clamp(el.y + 7, 6, 94);
+      // La copie garde la même clé `hk` : elle partage la photo HD.
+      addElement(c);
+    }
+    function reorder(id, dir) {
+      var i = state.elements.findIndex(function (e) { return e.id === id; });
+      var j = i + dir; if (i < 0 || j < 0 || j >= state.elements.length) return;
+      var t = state.elements[i]; state.elements[i] = state.elements[j]; state.elements[j] = t;
+      state.elements.forEach(function (e) { design.appendChild(nodes.get(e.id).node); });
+      pushHistory();
+    }
+
+    /* ── Sélection ──────────────────────────────────────────────── */
+    function select(id) { selectedId = id; applySelection(); }
+    function deselect() { if (editingId) exitEdit(); selectedId = null; applySelection(); }
+    /* Le cadre se mesure sur le nœud. Or un nœud qui vient d'apparaître n'a
+       pas encore sa taille définitive : une image importée ne connaît la
+       sienne qu'une fois décodée, un texte qu'une fois sa police chargée. Le
+       cadre se posait donc sur un nœud encore plat — une barre large et fine,
+       qui ne se recalait qu'au premier redimensionnement.
+       On suit désormais la taille réelle du nœud sélectionné : dès qu'elle
+       change, le cadre suit. */
+    var gizmoWatch = null;
+    var sizeObserver = typeof ResizeObserver === 'function'
+      ? new ResizeObserver(function () {
+          var el = selectedId ? findEl(selectedId) : null;
+          if (el) positionGizmo(el);
+        })
+      : null;
+
+    function watchSelected(node) {
+      if (!sizeObserver) return;
+      if (gizmoWatch) sizeObserver.unobserve(gizmoWatch);
+      gizmoWatch = node || null;
+      if (gizmoWatch) sizeObserver.observe(gizmoWatch);
+    }
+
+    function applySelection() {
+      nodes.forEach(function (ref, id) { ref.node.classList.toggle('sel', id === selectedId); });
+      var el = selectedId ? findEl(selectedId) : null;
+      var ref = el ? nodes.get(el.id) : null;
+      watchSelected(ref ? ref.node : null);
+      if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
+      ctx.hidden = !el;
+      if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
+      syncTextPane();
+    }
+    ctx.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b || !selectedId) return;
+      var a = b.dataset.act;
+      if (a === 'del') removeElement(selectedId);
+      else if (a === 'dup') duplicate(selectedId);
+      else if (a === 'front') reorder(selectedId, 1);
+      else if (a === 'back') reorder(selectedId, -1);
+      else if (a === 'edit') openPane('text');
+    });
+    // Cliquer n'importe où sur le plan de travail — coque OU fond autour —
+    // désélectionne. Seuls un élément (.el, poignées comprises) et la barre
+    // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
+    // qu'on vient de faire, ou l'action qu'on s'apprête à déclencher.
+    canvasEl.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.el') || e.target.closest('[data-gizmo]') || e.target.closest('[data-ctx]')) return;
+      deselect();
+    });
+
+    // Poignées du cadre (redimensionner / pivoter) : elles vivent sur le calque
+    // hors du clip, donc leur pointerdown doit déclencher le geste sur
+    // l'élément sélectionné.
+    gizmoEl.addEventListener('pointerdown', function (e) {
+      var handle = e.target && e.target.dataset ? e.target.dataset.handle : null;
+      if (!handle || selectedId == null) return;
+      onDown(e, selectedId);
+    });
+
+    /* ── Gestes ─────────────────────────────────────────────────── */
+    var SNAP = 2.2;
+    function onDown(e, id) {
+      if (editingId === id) return;
+      e.preventDefault(); select(id);
+      var el = findEl(id); if (!el) return;
+      var handle = e.target.dataset ? e.target.dataset.handle : null;
+      var d = design.getBoundingClientRect(), b = nodes.get(id).node.getBoundingClientRect();
+      var cx = b.left + b.width / 2, cy = b.top + b.height / 2;
+      gesture = {
+        el: el, mode: handle || 'drag', px: e.clientX, py: e.clientY,
+        sx: el.x, sy: el.y, srot: el.rot, ssize: el.size, cx: cx, cy: cy,
+        a0: Math.atan2(e.clientY - cy, e.clientX - cx),
+        d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1,
+        cw: d.width, ch: d.height, moved: false,
+      };
+      try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    }
+    function onMove(e) {
+      if (!gesture) return;
+      var g = gesture; g.moved = true;
+      if (g.mode === 'drag') {
+        var nx = g.sx + (e.clientX - g.px) / g.cw * 100, ny = g.sy + (e.clientY - g.py) / g.ch * 100;
+        var sv = Math.abs(nx - 50) < SNAP, sh = Math.abs(ny - 50) < SNAP;
+        if (sv) nx = 50; if (sh) ny = 50;
+        guideV.style.display = sv ? 'block' : 'none';
+        guideH.style.display = sh ? 'block' : 'none';
+        g.el.x = clamp(nx, 0, 100); g.el.y = clamp(ny, 0, 100);
+      } else if (g.mode === 'rotate') {
+        var a = Math.atan2(e.clientY - g.cy, e.clientX - g.cx);
+        var deg = g.srot + (a - g.a0) * 180 / Math.PI;
+        if (Math.abs(deg % 90) < 5) deg = Math.round(deg / 90) * 90;
+        g.el.rot = deg;
+      } else if (g.mode === 'resize') {
+        var dd = Math.hypot(e.clientX - g.cx, e.clientY - g.cy);
+        // Les images peuvent déborder très largement la coque : le design est
+        // en overflow:hidden, donc le débord est rogné proprement au bord et
+        // on ne voit aucune coupure. Plafond bien plus haut que pour le texte.
+        var maxSize = g.el.type === 'image' ? 400 : 96;
+        g.el.size = clamp(g.ssize * (dd / g.d0), 4, maxSize);
+      }
+      applyStyles(g.el);
+    }
+    var pendingSlot = null;
+    function isEmptySlot(el) { return !!(el && el.type === 'image' && el.slot && !el.src); }
+    function onUp(e) {
+      var g0 = gesture;
+      if (g0 && g0.mode === 'drag' && isEmptySlot(g0.el) && e &&
+          Math.hypot(e.clientX - g0.px, e.clientY - g0.py) < 8) {
+        pendingSlot = g0.el.id; fileInput.click();
+      }
+      if (gesture && gesture.moved) pushHistory();
+      gesture = null;
+      guideV.style.display = 'none'; guideH.style.display = 'none';
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+    }
+
+    /* ── Édition de texte en place ──────────────────────────────── */
+    function enterEdit(id) {
+      var ref = nodes.get(id); if (!ref) return;
+      editingId = id; ref.node.dataset.editing = '';
+      ref.content.contentEditable = 'true'; ref.content.focus();
+      var s = document.getSelection(); if (s) s.selectAllChildren(ref.content);
+    }
+    function exitEdit() {
+      if (!editingId) return;
+      var el = findEl(editingId), ref = nodes.get(editingId);
+      if (ref) { ref.content.contentEditable = 'false'; delete ref.node.dataset.editing; }
+      if (el && ref) {
+        var v = ref.content.textContent.trim();
+        if (!v) { var id = editingId; editingId = null; removeElement(id); return; }
+        if (v !== el.text) { el.text = v; pushHistory(); }
+      }
+      editingId = null;
+    }
+
+    /* ── Pastille glissante du rail ─────────────────────────────────
+       Une seule pastille pour tous les outils : elle se déplace vers celui
+       qu'on vient de choisir. Les positions sont mesurées sur les boutons
+       eux-mêmes (offsetLeft/offsetTop, relatifs au rail qui est en
+       `position: relative`), donc ça marche aussi bien pour la colonne du
+       desktop que pour la barre horizontale du mobile, sans code séparé. */
+    var railInd = root.querySelector('[data-railind]');
+    var railIndPlaced = false;
+
+    function moveRailInd(animate) {
+      var b = root.querySelector('.rbtn[aria-pressed="true"]');
+      if (!b) { railInd.removeAttribute('data-on'); railIndPlaced = false; return; }
+      // Premier placement (ou changement de format) : on pose la pastille sans
+      // transition, sinon elle traverse l'écran depuis le coin au chargement.
+      if (!railIndPlaced) animate = false;
+      railIndPlaced = true;
+      if (!animate) railInd.style.transition = 'none';
+      // Position mesurée par rapport au rail (et non offsetLeft) : les boutons
+      // sont rangés dans deux îlots, chacun son propre repère.
+      var rr = railInd.parentElement.getBoundingClientRect(), br = b.getBoundingClientRect();
+      railInd.style.width = b.offsetWidth + 'px';
+      railInd.style.height = b.offsetHeight + 'px';
+      railInd.style.transform = 'translate3d(' + (br.left - rr.left) + 'px,' + (br.top - rr.top) + 'px,0)';
+      railInd.setAttribute('data-on', '');
+      if (!animate) { void railInd.offsetWidth; railInd.style.transition = ''; }
+    }
+
+    // Le rail bascule de la colonne à la barre au changement de format : la
+    // pastille doit se recaler sans animer ce saut-là.
+    window.addEventListener('resize', function () { moveRailInd(false); });
+
+    /* ── Panneaux ───────────────────────────────────────────────── */
+    var TITLES = I.titles;
+    var builderEl = root.querySelector('.builder');
+    var paneCloseTimer = null;
+    function openPane(name) {
+      activePane = name;
+      if (paneCloseTimer) { clearTimeout(paneCloseTimer); paneCloseTimer = null; }
+      panel.hidden = false;
+      root.querySelector('[data-paneltitle]').textContent = TITLES[name] || '';
+      panel.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.dataset.pane !== name; });
+      root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.panel === name)); });
+      moveRailInd(true);
+      if (name === 'text') syncTextPane();
+      if (name === 'help') helpSyncModel();
+      // Déclenche l'animation d'ouverture : on force un reflow (état fermé
+      // max-height:0 committé) PUIS on ajoute la classe, pour que la transition
+      // de max-height se joue. (Plus fiable que requestAnimationFrame.)
+      void panel.offsetHeight;
+      animatePanel();
+      panel.classList.add('panel--open');
+      builderEl.classList.toggle('builder--help', name === 'help');
+      fitCase();
+    }
+    var panelAnimTimer = null;
+    function animatePanel() {
+      panel.classList.add('panel--anim');
+      if (panelAnimTimer) clearTimeout(panelAnimTimer);
+      panelAnimTimer = setTimeout(function () { panel.classList.remove('panel--anim'); panelAnimTimer = null; }, 500);
+    }
+    function closePane() {
+      activePane = null;
+      root.querySelectorAll('.rbtn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      moveRailInd(true);
+      animatePanel();
+      panel.classList.remove('panel--open');
+      builderEl.classList.remove('builder--help');
+      // Mobile : on laisse l'animation de fermeture se jouer avant de masquer.
+      // Desktop : pas de transition → on masque tout de suite.
+      var animated = window.matchMedia('(max-width: 1023px)').matches;
+      if (animated) {
+        if (paneCloseTimer) clearTimeout(paneCloseTimer);
+        paneCloseTimer = setTimeout(function () { panel.hidden = true; paneCloseTimer = null; fitCase(); }, 470);
+      } else {
+        panel.hidden = true;
+      }
+      fitCase();
+    }
+    root.querySelectorAll('.rbtn').forEach(function (b) {
+      b.addEventListener('click', function () { activePane === b.dataset.panel ? closePane() : openPane(b.dataset.panel); });
+    });
+    panel.querySelectorAll('[data-panelclose]').forEach(function (b) { b.addEventListener('click', closePane); });
+
+    /* ── Clavier mobile ─────────────────────────────────────────────
+       Sur iPhone, le clavier recouvre le bas de l'écran sans réduire la page :
+       un champ du panneau finissait caché dessous. Tant qu'un champ du panneau
+       a le focus et que le clavier est ouvert, on cale l'éditeur sur la zone
+       visible (visualViewport) et on amène le champ au milieu de cette zone.
+       Limité aux champs du panneau : le sélecteur de modèle, lui, vit dans la
+       barre, qui s'efface dans ce mode. */
+    (function keyboardFit() {
+      var vv = window.visualViewport; if (!vv) return;
+      var mq = window.matchMedia('(max-width: 1023px)');
+      var de = document.documentElement;
+      function field(el) {
+        if (!el || !panel.contains(el)) return false;
+        if (el.tagName === 'TEXTAREA') return true;
+        return el.tagName === 'INPUT' && !/^(button|checkbox|radio|file|submit|range|color|hidden)$/.test(el.type);
+      }
+      // Hauteur visible de référence, mesurée sans clavier : le clavier est
+      // ouvert quand la zone visible en a perdu une bonne part. (innerHeight
+      // ne sert pas de référence : selon la version d'iOS, il suit le clavier.)
+      var full = vv.height;
+      function update() {
+        if (!field(document.activeElement)) full = vv.height;
+        var kb = mq.matches && field(document.activeElement) && full - vv.height > 120;
+        de.classList.toggle('kb-open', kb);
+        if (kb) {
+          de.style.setProperty('--vvh', Math.round(vv.height) + 'px');
+          de.style.setProperty('--vvt', Math.round(Math.max(0, vv.offsetTop)) + 'px');
+        } else { de.style.removeProperty('--vvh'); de.style.removeProperty('--vvt'); }
+      }
+      function reveal() {
+        var a = document.activeElement;
+        if (field(a) && de.classList.contains('kb-open')) a.scrollIntoView({ block: 'center' });
+      }
+      vv.addEventListener('resize', function () { update(); setTimeout(reveal, 60); });
+      vv.addEventListener('scroll', update);
+      panel.addEventListener('focusin', function () { setTimeout(function () { update(); reveal(); }, 320); });
+      panel.addEventListener('focusout', function () { setTimeout(update, 120); });
+    })();
+
+    /* ── Textes ─────────────────────────────────────────────────── */
+    var textInput = root.querySelector('[data-textinput]');
+    var fontRow = root.querySelector('[data-fonts]');
+    var textColors = root.querySelector('[data-textcolors]');
+    var textEdit = root.querySelector('[data-textedit]');
+    var textEmpty = root.querySelector('[data-textempty]');
+    var textTimer = null;
+
+    root.querySelector('[data-addtext]').addEventListener('click', function () {
+      addElement({ type: 'text', text: I.yourText, font: F('bodoni'), color: TEXT_COLORS[0], size: 11 });
+      setTimeout(function () { textInput.focus(); textInput.select(); }, 60);
+    });
+    FONTS.forEach(function (f) {
+      var c = document.createElement('button');
+      c.type = 'button'; c.className = 'font-chip';
+      c.textContent = f.label;              // le nom rendu DANS la police : on choisit à l'œil
+      c.style.fontFamily = f.css; c.dataset.f = f.css; c.title = f.label;
+      c.addEventListener('click', function () {
+        var el = selectedId && findEl(selectedId);
+        if (el && el.type === 'text') { el.font = f.css; applyStyles(el); syncTextPane(); pushHistory(); }
+      });
+      fontRow.appendChild(c);
+    });
+    TEXT_COLORS.forEach(function (col) {
+      var s = document.createElement('button');
+      s.type = 'button'; s.className = 'swatch'; s.dataset.c = col; s.style.background = col;
+      s.setAttribute('aria-label', I.textColor + ' ' + col);
+      s.addEventListener('click', function () {
+        var el = selectedId && findEl(selectedId);
+        if (el && el.type === 'text') { el.color = col; applyStyles(el); syncTextPane(); pushHistory(); }
+      });
+      textColors.appendChild(s);
+    });
+    textInput.addEventListener('input', function () {
+      var el = selectedId && findEl(selectedId); if (!el || el.type !== 'text') return;
+      el.text = textInput.value;
+      nodes.get(el.id).content.textContent = textInput.value;
+      clearTimeout(textTimer); textTimer = setTimeout(pushHistory, 500);
+    });
+    function syncTextPane() {
+      var el = selectedId && findEl(selectedId);
+      var isText = !!(el && el.type === 'text');
+      textEdit.hidden = !isText; textEmpty.hidden = isText;
+      if (!isText) return;
+      textInput.value = el.text;
+      fontRow.querySelectorAll('.font-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.f === el.font)); });
+      textColors.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(s.dataset.c === el.color)); });
+    }
+
+    /* ── Designs prêts à l'emploi ───────────────────────────────── */
+    // La vignette est une mini-coque : comme les éléments se dimensionnent en
+    // cqw (unité du conteneur), le même jeu de valeurs sert à l'aperçu et à
+    // la coque réelle, sans facteur d'échelle à maintenir.
+    var tplGrid = root.querySelector('[data-templates]');
+    TEMPLATES.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', I.design + ' ' + t.name);
+      var thumb = document.createElement('span');
+      thumb.className = 'tpl-thumb';
+      if (t.bg) thumb.style.backgroundImage = 'url("' + BG[t.bg].src.replace('.webp', '-thumb.webp') + '")';
+      t.els.forEach(function (e) {
+        if (e.type === 'image') {
+          var p = document.createElement('span');
+          p.className = 'tel-pola';
+          p.style.left = e.x + '%'; p.style.top = e.y + '%'; p.style.width = e.size + '%';
+          p.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
+          thumb.appendChild(p);
+          return;
+        }
+        var s = document.createElement('span');
+        s.className = 'tel';
+        s.textContent = e.text;
+        s.style.left = e.x + '%';
+        s.style.top = e.y + '%';
+        s.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
+        s.style.fontSize = e.size + 'cqw';
+        if (e.type === 'text') { s.style.fontFamily = e.font; s.style.color = e.color; s.style.textShadow = outlineCss(e.outline); }
+        thumb.appendChild(s);
+      });
+      var nm = document.createElement('span');
+      nm.className = 'tpl-name'; nm.textContent = t.name;
+      b.append(thumb, nm);
+      b.addEventListener('click', function () { applyTemplate(t); });
+      tplGrid.appendChild(b);
+    });
+
+    function applyTemplate(t) {
+      if ((state.elements.length || state.bg) &&
+          !window.confirm(fill(I.confirmTpl, t.name))) return;
+      state.bg = t.bg || null;
+      state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
+      selectedId = null;
+      renderAll(); pushHistory();
+      toast(fill(I.tplApplied, t.name));
+      // On garde le panneau ouvert : la coque restant visible en mobile, on
+      // peut comparer plusieurs designs sans faire d'aller-retour.
+    }
+
+    /* ── Finition + téléphone ───────────────────────────────────────
+       Plus d'interface : la boutique n'imprime que sur coque transparente, et
+       l'aperçu reste « coque seule ». L'état et le rendu gardent les champs
+       (`finish`, `device`, `mount`) — un design déjà enregistré avec une autre
+       finition continue de se rouvrir correctement, et rouvrir le choix plus
+       tard ne demandera que de remettre les boutons. */
+
+    /* ── Photos ─────────────────────────────────────────────────── */
+    root.querySelector('[data-pick]').addEventListener('click', function () { fileInput.click(); });
+    /* Copie haute définition des photos, pour le SEUL fichier d'impression.
+       L'éditeur et la sauvegarde travaillent sur une version 1 400 px (légère,
+       elle tient dans le localStorage) ; imprimer cette version sur tout le
+       dos d'une coque ne donnait qu'environ 220 dpi.
+
+       La copie HD reste dans le NAVIGATEUR du client (IndexedDB, fait pour les
+       gros fichiers), jamais sur le serveur : elle survit à un rechargement de
+       page sans rien coûter à la base. Chaque photo porte une clé `hk` dans la
+       composition ; la copie expire au bout de 7 jours (ménage au démarrage).
+       Sans IndexedDB (rare), on retombe sur la version 1 400 px. */
+    var hiRes = {};
+    var HI_DB = 'moroji-studio', HI_OS = 'hires', HI_TTL = 7 * 24 * 3600 * 1000;
+    function hiDb() {
+      return new Promise(function (done) {
+        try {
+          var rq = indexedDB.open(HI_DB, 1);
+          rq.onupgradeneeded = function () { rq.result.createObjectStore(HI_OS); };
+          rq.onsuccess = function () { done(rq.result); };
+          rq.onerror = function () { done(null); };
+        } catch (_) { done(null); }
+      });
+    }
+    function hiStore(k, blob) {
+      hiDb().then(function (db) {
+        if (db) db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).put({ b: blob, t: Date.now() }, k);
+      }).catch(function () {});
+    }
+    /* Recharge les copies HD des photos de la composition, et supprime les
+       copies expirées. */
+    function hiRestore() {
+      var refs = {};
+      state.elements.forEach(function (e) { if (e.hk) refs[e.hk] = 1; });
+      hiDb().then(function (db) {
+        if (!db) return;
+        var now = Date.now();
+        var rq = db.transaction(HI_OS, 'readwrite').objectStore(HI_OS).openCursor();
+        rq.onsuccess = function () {
+          var cur = rq.result; if (!cur) return;
+          var v = cur.value;
+          if (!v || !v.b || now - v.t > HI_TTL) cur.delete();
+          else if (refs[cur.key] && !hiRes[cur.key]) hiRes[cur.key] = URL.createObjectURL(v.b);
+          cur.continue();
+        };
+      }).catch(function () {});
+    }
+    /* Libère la mémoire d'un canvas tout de suite : Safari sur iPhone plafonne
+       la mémoire de TOUS les canvas de la page, et au-delà il dessine du vide
+       sans lever d'erreur (la photo « ne s'ajoutait pas »). */
+    function freeCanvas(c) { try { c.width = 0; c.height = 0; } catch (_) {} }
+    function importFile(file) {
+      // Type vide : certains téléphones ne le renseignent pas. On tente le
+      // décodage, l'échec est signalé plus bas.
+      if (!file || (file.type && !/^image\//.test(file.type))) { toast(I.notImage, 'warn'); return; }
+      // URL d'objet plutôt que FileReader : pas de copie base64 de 10 Mo en
+      // mémoire juste pour décoder la photo.
+      var srcUrl = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        // Aperçu enregistré dans la composition : 1 400 px suffisent à l'écran
+        // et au quota de sauvegarde.
+        var max = 1400, w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        var W0 = w, H0 = h;
+        if (w > max || h > max) { var s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
+        var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        var out = '';
+        try {
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+          out = cv.toDataURL('image/webp', .85);
+          if (out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .85);
+        } catch (_) { out = ''; }
+        freeCanvas(cv);
+        if (!out || out.length < 100) { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); return; }
+
+        var data = { type: 'image', src: out, size: 46 };
+        // Version HD pour l'impression : le FICHIER ORIGINAL tel quel, gardé
+        // dans le navigateur. Aucun redessin à l'import (un canvas de 3 200 px
+        // en plus faisait lâcher Safari sur iPhone : la photo n'apparaissait
+        // pas). Il n'est décodé qu'au moment de préparer le fichier
+        // d'impression.
+        if (W0 > w || H0 > h) {
+          data.hk = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+          hiRes[data.hk] = srcUrl;
+          hiStore(data.hk, file);
+        } else URL.revokeObjectURL(srcUrl);
+        // Une case photo de modèle attend : la photo s'y place, recadrée par
+        // le cadre. Sinon, nouvelle photo libre comme avant.
+        var slot = pendingSlot != null ? findEl(pendingSlot) : null;
+        if (!isEmptySlot(slot)) slot = state.elements.filter(isEmptySlot)[0] || null;
+        pendingSlot = null;
+        if (slot) {
+          slot.src = data.src;
+          if (data.hk) slot.hk = data.hk;
+          var ref = nodes.get(slot.id);
+          if (ref) { ref.node.remove(); nodes.delete(slot.id); }
+          createNode(slot);
+          // Garde l'ordre d'empilement d'origine.
+          state.elements.forEach(function (x) { var r = nodes.get(x.id); if (r) design.appendChild(r.node); });
+          select(slot.id); pushHistory();
+        } else addElement(data);
+        toast(I.photoAdded);
+      };
+      img.onerror = function () { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); };
+      img.src = srcUrl;
+    }
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);
+      else pendingSlot = null;
+      fileInput.value = '';
+    });
+    ['dragenter', 'dragover'].forEach(function (ev) { caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.setAttribute('data-over', ''); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.removeAttribute('data-over'); }); });
+    caseEl.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files[0]) importFile(e.dataTransfer.files[0]); });
+    document.addEventListener('paste', function (e) {
+      if (!e.clipboardData) return;
+      var it = e.clipboardData.items;
+      for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image') === 0) { importFile(it[i].getAsFile()); break; }
+    });
+
+    /* ── Modèle ─────────────────────────────────────────────────── */
+    function setModel(label) {
+      // Le libellé est affiché par <ModelPicker> lui-même, désormais posé dans
+      // la barre : rien à recopier ici.
+      state.model = label || '';
+      renderCase();
+    }
+    document.addEventListener('model:change', function (e) {
+      if (e.detail && e.detail.model) { setModel(e.detail.model); pushHistory(); }
+    });
+
+    /* ── Clavier ────────────────────────────────────────────────── */
+    document.addEventListener('keydown', function (e) {
+      if (editingId) { if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); exitEdit(); } return; }
+      var tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
+      if (!selectedId) return;
+      var el = findEl(selectedId); if (!el) return;
+      if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeElement(selectedId); return; }
+      if (e.key === 'Escape') { deselect(); return; }
+      var step = e.shiftKey ? 5 : 1, moved = true;
+      if (e.key === 'ArrowLeft') el.x = clamp(el.x - step, 0, 100);
+      else if (e.key === 'ArrowRight') el.x = clamp(el.x + step, 0, 100);
+      else if (e.key === 'ArrowUp') el.y = clamp(el.y - step, 0, 100);
+      else if (e.key === 'ArrowDown') el.y = clamp(el.y + step, 0, 100);
+      else moved = false;
+      if (moved) { e.preventDefault(); applyStyles(el); clearTimeout(textTimer); textTimer = setTimeout(pushHistory, 400); }
+    });
+
+    function toast(msg, kind) {
+      toastEl.textContent = msg;
+      if (kind) toastEl.dataset.kind = kind; else delete toastEl.dataset.kind;
+      toastEl.hidden = false;
+      clearTimeout(toast._t); toast._t = setTimeout(function () { toastEl.hidden = true; }, 2600);
+    }
+
+    /* ── Rendu pour la production ───────────────────────────────────
+       Le studio compose en CSS ; l'atelier a besoin d'un fichier. On rejoue
+       donc l'état sur un canvas, aux dimensions RÉELLES de la coque (les cotes
+       en mm servent déjà aux proportions de l'aperçu).
+
+       Deux sorties, volontairement :
+        · l'aperçu, léger, affiché dans le panier et sur la fiche commande ;
+        · le fichier d'impression à 300 dpi, celui qu'on envoie à l'imprimeur.
+       Les découpes (caméra, boutons) ne sont PAS percées ici : le fichier est
+       à fond perdu et c'est la production qui découpe. */
+    // 600 dpi : la xTool O1 Omni sort en 720x1440 dpi, mais c'est la
+    // résolution des têtes, pas celle attendue du fichier. 600 dpi donne des
+    // lettrages et des liserés nets sans quadrupler inutilement le poids.
+    var PRINT_DPI = 600;
+    // Cadre Polaroid, en part de la largeur du cadre (comme .pola en CSS :
+    // padding 6 % 6 % 24 %).
+    var POLA = { side: .06, bottom: .24 };
+    var PREVIEW_W = 520;
+    var DEFAULT_MM = [71.5, 147.6];
+    var INSET_MM = parseFloat(root.dataset.insetMm) || 0;
+    var EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+    function caseMm() { return specOf(state.model).mm || DEFAULT_MM; }
+    function printWidthPx() { return Math.round(caseMm()[0] * PRINT_DPI / 25.4); }
+
+    // Contour arrondi repris du CSS : rayon horizontal en % de la LARGEUR,
+    // rayon vertical 2,1 fois plus plat, rapporté à la HAUTEUR.
+    function roundedRect(g, x, y, w, h, rx, ry) {
+      rx = Math.min(rx, w / 2); ry = Math.min(ry, h / 2);
+      var HALF = Math.PI / 2;
+      g.beginPath();
+      g.moveTo(x + rx, y);
+      g.lineTo(x + w - rx, y);
+      g.ellipse(x + w - rx, y + ry, rx, ry, 0, -HALF, 0);
+      g.lineTo(x + w, y + h - ry);
+      g.ellipse(x + w - rx, y + h - ry, rx, ry, 0, 0, HALF);
+      g.lineTo(x + rx, y + h);
+      g.ellipse(x + rx, y + h - ry, rx, ry, 0, HALF, Math.PI);
+      g.lineTo(x, y + ry);
+      g.ellipse(x + rx, y + ry, rx, ry, 0, Math.PI, Math.PI + HALF);
+      g.closePath();
+    }
+
+    // `inset` en pixels : bande périphérique laissée SANS encre. Les bords de
+    // la coque s'arrondissent, l'encre y accroche mal ; la valeur se calibre
+    // dans site.config.mjs après une première impression.
+    function casePath(g, w, h, radiusPct, inset) {
+      inset = inset || 0;
+      roundedRect(
+        g, inset, inset, w - 2 * inset, h - 2 * inset,
+        Math.max(0, w * radiusPct / 100 - inset),
+        Math.max(0, h * (radiusPct / 2.1) / 100 - inset)
+      );
+    }
+
+    /* ── Découpe caméra ─────────────────────────────────────────────
+       Le trou de l'objectif ne doit RIEN recevoir : la coque imprimée est
+       percée, une encre posée là finirait sur le plateau de la machine. On
+       reprend donc exactement la géométrie de renderCase(), en fractions de
+       la coque, pour l'évider du fichier.
+       Repères : le conteneur .cam est placé en % de la coque, et les formes
+       à l'intérieur en % de ce conteneur. */
+    function camShapes(fam) {
+      var box, shapes = [];
+      function rrect(radiusPct) {
+        shapes.push({ kind: 'rrect', box: box, radius: radiusPct });
+      }
+      // Cercles répartis dans le conteneur (Galaxy, objectif unique) : la
+      // largeur donne le diamètre, la hauteur suit (aspect-ratio: 1).
+      function circles(leftPct, tops, sizePct) {
+        tops.forEach(function (t) {
+          shapes.push({ kind: 'circle', box: box, left: leftPct, top: t, size: sizePct });
+        });
+      }
+
+      if (fam.cam === 'island3' || fam.cam === 'islandBig') {
+        var big = fam.cam === 'islandBig';
+        box = { l: 6, t: 3.2, w: big ? 42 : 39, h: big ? 20.5 : 19 };
+        rrect(26);
+      } else if (fam.cam === 'island2') {
+        box = { l: 6, t: 3.2, w: 30, h: 14.5 };
+        rrect(26);
+      } else if (fam.cam === 'lenses3' || fam.cam === 'lenses4') {
+        var four = fam.cam === 'lenses4';
+        box = { l: 7, t: 3.5, w: 16, h: four ? 38 : 30 };
+        circles(12, four ? [1, 26, 51, 76] : [2, 36, 70], 78);
+      } else if (fam.cam === 'bar2' || fam.cam === 'bar3') {
+        box = { l: 4, t: 6.5, w: 92, h: 8.2 };
+        rrect(null);            // pilule : rayon = demi-hauteur
+      } else if (fam.cam === 'single') {
+        box = { l: 7, t: 3.5, w: 15, h: 9 };
+        circles(0, [0], 100);
+      } else if (fam.cam === 'dualv') {
+        box = { l: 6, t: 3.4, w: 16, h: 17 };
+        rrect(26);
+      }
+      return shapes;
+    }
+
+    /**
+     * Évide (ou remplit) la zone caméra.
+     * @param fill couleur pour l'aperçu ; null = découpe réelle pour l'impression
+     */
+    function punchCamera(g, w, h, fam, fill) {
+      var shapes = camShapes(fam);
+      if (!shapes.length) return;
+      g.save();
+      if (fill) g.fillStyle = fill;
+      else g.globalCompositeOperation = 'destination-out';
+      shapes.forEach(function (sh) {
+        var bx = sh.box.l * w / 100, by = sh.box.t * h / 100;
+        var bw = sh.box.w * w / 100, bh = sh.box.h * h / 100;
+        if (sh.kind === 'rrect') {
+          var rx = sh.radius === null ? bh / 2 : bw * sh.radius / 100;
+          var ry = sh.radius === null ? bh / 2 : bh * sh.radius / 100;
+          roundedRect(g, bx, by, bw, bh, rx, ry);
+        } else {
+          var d = sh.size * bw / 100;
+          var cx = bx + sh.left * bw / 100 + d / 2;
+          var cy = by + sh.top * bh / 100 + d / 2;
+          g.beginPath();
+          g.ellipse(cx, cy, d / 2, d / 2, 0, 0, Math.PI * 2);
+        }
+        g.fill();
+      });
+      g.restore();
+    }
+
+    // Les images sont des data URL : elles doivent être décodées AVANT le
+    // dessin, sinon le canvas sort vide sans lever d'erreur.
+    function loadImages(hi) {
+      var jobs = state.elements.filter(function (e) { return e.type === 'image' && e.src; });
+      return Promise.all(jobs.map(function (el) {
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.onload = function () { resolve({ id: el.id, img: img }); };
+          img.onerror = function () { resolve(null); };
+          img.src = (hi && el.hk && hiRes[el.hk]) || el.src;
+        });
+      })).then(function (list) {
+        var map = {};
+        list.forEach(function (r) { if (r) map[r.id] = r.img; });
+        return map;
+      });
+    }
+
+    // Idem pour les polices : une police pas encore chargée est remplacée en
+    // silence par la police par défaut sur le canvas.
+    function loadFonts(scale) {
+      if (!document.fonts || !document.fonts.load) return Promise.resolve();
+      var jobs = state.elements
+        .filter(function (e) { return e.type === 'text' && e.font; })
+        .map(function (e) {
+          return document.fonts.load(Math.round(e.size * scale) + 'px ' + e.font, e.text || 'A')
+            .catch(function () {});
+        });
+      return Promise.all(jobs);
+    }
+
+    /**
+     * Dessine la coque courante.
+     * @param opts.width      largeur de sortie en pixels
+     * @param opts.background couleur de fond pleine page (aperçu JPEG), sinon
+     *                        le hors-coque reste transparent (fichier PNG)
+     */
+    function renderDesign(opts) {
+      var mm = caseMm();
+      var w = Math.round(opts.width);
+      var h = Math.round(w * mm[1] / mm[0]);
+      var scale = w / 100;                    // 1 cqw = 1 % de la largeur
+      var cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      var g = cv.getContext('2d');
+
+      var bgP = new Promise(function (done) {
+        if (!bgSrc()) return done(null);
+        var bi = new Image();
+        bi.onload = function () { done(bi); };
+        bi.onerror = function () { done(null); };
+        bi.src = bgSrc();
+      });
+      return Promise.all([loadImages(!!opts.hi), loadFonts(scale), bgP]).then(function (out) {
+        var images = out[0], bgImg = out[2];
+
+        // Le fond pleine page vient AVANT le détourage : en JPEG il n'y a pas
+        // de transparence, sans lui le hors-coque virerait au noir.
+        if (opts.background) { g.fillStyle = opts.background; g.fillRect(0, 0, w, h); }
+
+        g.save();
+        casePath(g, w, h, specOf(state.model).radius, INSET_MM * (w / mm[0]));
+        g.clip();
+
+        if (state.finish !== 'clear') { g.fillStyle = state.finish; g.fillRect(0, 0, w, h); }
+        else if (opts.background) {
+          // Coque transparente : sur l'aperçu on pose un voile clair, sinon le
+          // design flotterait sur le fond et se lirait mal.
+          g.fillStyle = 'rgba(255,255,255,.72)';
+          g.fillRect(0, 0, w, h);
+        }
+        // Fond de coque : couvre tout, comme en CSS (cover, centré).
+        if (bgImg && bgImg.naturalWidth) {
+          var k = Math.max(w / bgImg.naturalWidth, h / bgImg.naturalHeight);
+          var bw = bgImg.naturalWidth * k, bh = bgImg.naturalHeight * k;
+          g.drawImage(bgImg, (w - bw) / 2, (h - bh) / 2, bw, bh);
+        }
+
+        state.elements.forEach(function (el) {
+          g.save();
+          g.translate(el.x * w / 100, el.y * h / 100);
+          g.rotate(el.rot * Math.PI / 180);
+          if (el.type === 'image' && el.frame === 'polaroid') {
+            var pimg = images[el.id];
+            if (pimg && pimg.naturalWidth) {
+              var fw = el.size * scale, pad = fw * POLA.side, ps = fw - 2 * pad;
+              var fh = pad + ps + fw * POLA.bottom;
+              g.save();
+              g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = fw * .03; g.shadowOffsetY = fw * .012;
+              g.fillStyle = '#ffffff'; g.fillRect(-fw / 2, -fh / 2, fw, fh);
+              g.restore();
+              // Photo carrée, recadrée au centre comme object-fit: cover.
+              var nw = pimg.naturalWidth, nh = pimg.naturalHeight, c = Math.min(nw, nh);
+              g.drawImage(pimg, (nw - c) / 2, (nh - c) / 2, c, c, -fw / 2 + pad, -fh / 2 + pad, ps, ps);
+            }
+          } else if (el.type === 'image') {
+            var img = images[el.id];
+            if (img && img.naturalWidth) {
+              var iw = el.size * scale;
+              var ih = iw * (img.naturalHeight / img.naturalWidth);
+              g.drawImage(img, -iw / 2, -ih / 2, iw, ih);
+            }
+          } else {
+            var fs = el.size * scale;
+            g.font = fs + 'px ' + (el.type === 'text' ? el.font : EMOJI_FONT);
+            g.textAlign = 'center';
+            g.textBaseline = 'middle';
+            if (el.type === 'text' && el.outline) {
+              g.lineJoin = 'round'; g.lineWidth = fs * .11; g.strokeStyle = el.outline;
+              g.strokeText(el.text || '', 0, 0);
+            }
+            g.fillStyle = el.type === 'text' ? el.color : '#111113';
+            g.fillText(el.text || '', 0, 0);
+          }
+          g.restore();
+        });
+
+        g.restore();
+        // Après le détourage : l'évidement de la caméra vaut aussi pour
+        // l'aperçu, pour que le client voie ce qui sera réellement imprimé.
+        punchCamera(g, w, h, specOf(state.model), opts.background || null);
+        return cv;
+      });
+    }
+
+    /* ── Taille physique du PNG (chunk pHYs) ────────────────────────
+       Un PNG sans pHYs s'ouvre à 72 dpi : la coque arriverait à ~14 cm de
+       large dans le logiciel d'impression, et il faudrait la remettre à
+       l'échelle à la main à chaque commande. On inscrit donc la résolution
+       réelle dans le fichier, en pixels par mètre. */
+    function pngWithDpi(dataUrl, dpi) {
+      var b64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
+      var bin = atob(b64);
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+
+      // Table CRC32, exigée par le format pour chaque chunk.
+      var table = pngWithDpi._t;
+      if (!table) {
+        table = pngWithDpi._t = new Uint32Array(256);
+        for (var n = 0; n < 256; n++) {
+          var c = n;
+          for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+      }
+      function crc32(buf) {
+        var c = 0xFFFFFFFF;
+        for (var i = 0; i < buf.length; i++) c = table[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+        return (c ^ 0xFFFFFFFF) >>> 0;
+      }
+
+      var ppm = Math.round(dpi / 0.0254);   // pixels par mètre
+      var chunk = new Uint8Array(21);       // 4 taille + 4 type + 9 donnees + 4 crc
+      var dv = new DataView(chunk.buffer);
+      dv.setUint32(0, 9);
+      chunk.set([0x70, 0x48, 0x59, 0x73], 4);   // « pHYs »
+      dv.setUint32(8, ppm);
+      dv.setUint32(12, ppm);
+      chunk[16] = 1;                             // unite : le metre
+      dv.setUint32(17, crc32(chunk.subarray(4, 17)));
+
+      // Le chunk se place juste apres IHDR (signature 8 o + 25 o d'IHDR).
+      var at = 33;
+      var out = new Uint8Array(bytes.length + chunk.length);
+      out.set(bytes.subarray(0, at), 0);
+      out.set(chunk, at);
+      out.set(bytes.subarray(at), at + chunk.length);
+
+      var str = '';
+      for (var j = 0; j < out.length; j += 8192) {
+        str += String.fromCharCode.apply(null, out.subarray(j, j + 8192));
+      }
+      return 'data:image/png;base64,' + btoa(str);
+    }
+
+    /* ── Panier ─────────────────────────────────────────────────────
+       Le studio n'utilise pas les attributs data-item-* des fiches produit :
+       il doit d'abord envoyer le design au serveur, puis ajouter la ligne avec
+       l'identifiant reçu. D'où l'appel direct à l'API du widget. */
+    var SHOP_ID = root.dataset.shopId || '';
+    var API = root.dataset.api || '';
+    var SKU = root.dataset.sku || 'coque-personnalisee';
+    var PRICE_CENTS = parseInt(root.dataset.price, 10) || 0;
+    var RELIEF_SKU = 'custom-relief';
+    var RELIEF_PRICE_CENTS = parseInt(root.dataset.reliefPrice, 10) || PRICE_CENTS;
+    // Au-delà, on n'embarque pas les photos dans la composition sauvegardée :
+    // la commande reste juste (le PNG fait foi), seule la réédition perd les
+    // images. Mieux que de faire échouer l'envoi.
+    var STATE_MAX = 4 * 1024 * 1024;
+
+    var addBtn = root.querySelector('[data-add]');
+    var uploading = false;
+    // Un même design ne remonte qu'une fois : recliquer sur « Ajouter » sans
+    // rien changer réutilise l'identifiant au lieu d'empiler des doublons.
+    var lastUpload = { hash: '', id: '', previewUrl: '' };
+
+    function exportState() {
+      var full = JSON.parse(snapshot());
+      if (JSON.stringify(full).length <= STATE_MAX) return full;
+      full.elements = full.elements.map(function (e) {
+        if (e.type !== 'image') return e;
+        var copy = Object.assign({}, e);
+        delete copy.src;
+        return copy;
+      });
+      full.imagesStripped = true;
+      return full;
+    }
+
+    /* Rend la main au navigateur le temps d'un vrai rendu. Le tracé du fichier
+       d'impression bloque le fil principal une seconde ou deux : sans cette
+       pause, le voile de chargement n'est peint qu'APRÈS, donc jamais vu. */
+    function paintPause() {
+      return new Promise(function (done) {
+        requestAnimationFrame(function () { requestAnimationFrame(function () { done(); }); });
+      });
+    }
+
+    /* Fichier d'impression en PNG, avec sa résolution inscrite. Le serveur
+       refuse au-delà de 24 Mo : si une photo très détaillée fait dépasser,
+       on redessine un peu moins grand (et la résolution inscrite suit, pour
+       garder la taille réelle de la coque) plutôt que de bloquer le client. */
+    var PRINT_MAX_CHARS = 31 * 1000 * 1000;   // ~23 Mo une fois décodé
+    function printFile(f) {
+      return renderDesign({ width: printWidthPx() * f, hi: true }).then(function (cv) {
+        var url = pngWithDpi(cv.toDataURL('image/png'), Math.round(PRINT_DPI * f));
+        if (url.length > PRINT_MAX_CHARS && f > 0.5) return printFile(Math.round(f * 85) / 100);
+        return url;
+      });
+    }
+
+    function uploadDesign(step) {
+      var say = step || function () {};
+      var hash = snapshot();
+      if (lastUpload.hash === hash && lastUpload.id) return Promise.resolve(lastUpload);
+      if (!API || !SHOP_ID) return Promise.reject(new Error(I.cartNotSet));
+
+      say(I.rendering);
+      return paintPause().then(function () {
+        return Promise.all([
+          renderDesign({ width: PREVIEW_W, background: '#f1f0ed' }),
+          printFile(1),
+        ]);
+      }).then(function (canvases) {
+        say(I.printFile);
+        return paintPause().then(function () { return canvases; });
+      }).then(function (canvases) {
+        say(I.sending);
+        return fetch(API + '/api/public/design', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            shop_id: SHOP_ID,
+            model: state.model,
+            finish: state.finish,
+            state: exportState(),
+            preview: canvases[0].toDataURL('image/jpeg', 0.82),
+            print: canvases[1],
+          }),
+        });
+      }).then(function (r) {
+        if (!r.ok) return r.json().then(function (e) { throw new Error(e.error || 'HTTP ' + r.status); });
+        return r.json();
+      }).then(function (res) {
+        lastUpload = { hash: hash, id: res.id, previewUrl: res.previewUrl };
+        return lastUpload;
+      });
+    }
+
+    var busyEl   = root.querySelector('[data-busy]');
+    var busyCard = root.querySelector('[data-busycard]');
+    var busyMsg  = root.querySelector('[data-busymsg]');
+    var busySub  = root.querySelector('[data-busysub]');
+    var busyArc  = root.querySelector('[data-busyarc]');
+    var busyActs = root.querySelector('[data-busyactions]');
+    var RING = 125.66;                 // 2πr, r = 20
+    var STEPS = 4;                     // rendu, fichier, envoi, panier
+
+    /* Avance l'anneau. Une progression par étapes plutôt qu'un pourcentage
+       inventé : les quatre étapes sont réelles et de durées comparables, donc
+       le quart franchi veut dire quelque chose. */
+    function busyStep(n, msg) {
+      if (msg) busyMsg.textContent = msg;
+      busyArc.style.strokeDashoffset = String(RING * (1 - Math.min(n, STEPS) / STEPS));
+    }
+
+    function setUploading(on, msg) {
+      uploading = on;
+      addBtn.disabled = on;
+      addBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+      if (on) {
+        busyCard.removeAttribute('data-done');
+        busyActs.hidden = true;
+        busySub.textContent = I.wait;
+        busyArc.style.strokeDashoffset = String(RING);
+        if (msg) busyMsg.textContent = msg;
+      }
+      busyEl.hidden = !on;
+    }
+
+    /* Succès : on NE referme pas tout seul. Voir la coche, lire « ajouté » et
+       décider soi-même entre le panier et une nouvelle création vaut mieux
+       qu'un écran qui disparaît avant d'avoir été lu. */
+    function showSuccess(label) {
+      busyStep(STEPS);
+      busyCard.setAttribute('data-done', '');
+      busyMsg.textContent = I.added;
+      busySub.textContent = label;
+      busyActs.hidden = false;
+      addBtn.disabled = false;
+      addBtn.setAttribute('aria-busy', 'false');
+      uploading = false;
+    }
+
+    root.querySelector('[data-opencart]').addEventListener('click', function () {
+      busyEl.hidden = true;
+      closeStep();
+      if (window.AtelierCheckout && window.AtelierCheckout.open) window.AtelierCheckout.open();
+    });
+    root.querySelector('[data-busyclose]').addEventListener('click', function () {
+      busyEl.hidden = true;
+      closeStep();
+    });
+
+    /* ── Étape 2 : mode d'impression ────────────────────────────────
+       Le mode change le PRIX, donc la clé d'article : « custom » à plat,
+       « custom-relief » en relief. C'est cette clé que le serveur de paiement
+       relit dans le manifeste de la vitrine pour fixer le montant — annoncer
+       un supplément depuis le navigateur ne protégerait rien. */
+    var stepEl   = root.querySelector('[data-step]');
+    var nextBtn  = root.querySelector('[data-next]');
+    var backBtn  = root.querySelector('[data-stepback]');
+    var totalEl  = root.querySelector('[data-steptotal]');
+    var modeBtns = Array.prototype.slice.call(root.querySelectorAll('[data-mode]'));
+    var printMode = 'flat';
+
+    function money(cents) { return (cents / 100).toFixed(2).replace('.', ',') + ' \u20AC'; }
+    function modePrice() { return printMode === 'relief' ? RELIEF_PRICE_CENTS : PRICE_CENTS; }
+
+    function setMode(mode) {
+      printMode = mode === 'relief' ? 'relief' : 'flat';
+      modeBtns.forEach(function (b) {
+        b.setAttribute('aria-checked', String(b.dataset.mode === printMode));
+      });
+      totalEl.textContent = money(modePrice());
+    }
+    modeBtns.forEach(function (b) {
+      b.addEventListener('click', function () { setMode(b.dataset.mode); });
+    });
+
+    function openStep() {
+      stepEl.hidden = false;
+      // Reflow avant d'ajouter la classe : sans lui l'état de départ n'est pas
+      // committé et la transition ne se joue pas (même mécanique que le
+      // panneau latéral).
+      void stepEl.offsetHeight;
+      stepEl.classList.add('step--in');
+      var checked = modeBtns.filter(function (b) { return b.getAttribute('aria-checked') === 'true'; })[0];
+      if (checked) checked.focus();
+    }
+    function closeStep() {
+      stepEl.classList.remove('step--in');
+      setTimeout(function () { stepEl.hidden = true; }, 340);
+      nextBtn.focus();
+    }
+    backBtn.addEventListener('click', closeStep);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !stepEl.hidden) closeStep();
+    });
+
+    // « Continuer » : mêmes garde-fous qu'avant (modèle choisi, coque non
+    // vide), mais on ouvre l'étape au lieu d'ajouter. Le téléversement n'a
+    // lieu qu'à l'ajout réel : inutile d'envoyer un design que le client va
+    // peut-être abandonner ici.
+    nextBtn.addEventListener('click', function (e) {
+      if (!state.elements.length && !state.bg) {
+        e.preventDefault(); e.stopPropagation();
+        toast('Ajoutez au moins un élément à votre coque.', 'warn');
+        openPane('design');
+        return;
+      }
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      if (!m) return;   // le sélecteur de modèle prend la main
+
+      e.preventDefault();
+      save();
+      deselect();
+      openStep();
+    });
+
+    addBtn.addEventListener('click', function (e) {
+      if (uploading) { e.preventDefault(); e.stopPropagation(); return; }
+      // Mode atelier : le design est rattaché à la demande du client au lieu
+      // d'aller dans le panier.
+      if (atelier && atelier.info) { e.preventDefault(); saveForRequest(); return; }
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      e.preventDefault();
+      var vides = state.elements.filter(isEmptySlot).length;
+      if (vides && !window.confirm(fill(I.slotsLeft, vides))) return;
+      setUploading(true, I.preparingCase);
+
+      var mode = printMode;
+      var sku = mode === 'relief' ? RELIEF_SKU : SKU;
+      var cents = modePrice();
+
+      var done = 0;
+      uploadDesign(function (m) { busyStep(done++, m); }).then(function (up) {
+        busyStep(3, I.addingCart);
+        if (!window.AtelierCheckout || !window.AtelierCheckout.add) {
+          throw new Error(I.cartUnavailable);
+        }
+        window.AtelierCheckout.add({
+          product: {
+            // La clé ET l'identifiant du design rendent la ligne unique : la
+            // même composition commandée à plat puis en relief donne deux
+            // lignes, pas une quantité 2 au mauvais prix.
+            id: sku + '::' + up.id,
+            name: I.itemName[mode === 'relief' ? 'relief' : 'flat']
+                  + ' · ' + (state.model || m),
+            price: cents,
+            image: up.previewUrl,
+            // Ce que l'atelier lit pour savoir quoi imprimer, et comment.
+            meta: {
+              design_id: up.id,
+              model: state.model || m,
+              finish: state.finish,
+              sku: sku,
+              print_mode: mode,
+            },
+          },
+          quantity: 1,
+        });
+        showSuccess(I.success[mode === 'relief' ? 'relief' : 'flat']
+                    + ' · ' + (state.model || m));
+      }).catch(function (err) {
+        console.error('[studio] ajout au panier', err);
+        setUploading(false);
+        toast(I.addFailed, 'warn');
+      });
+    });
+
+    /* ── Réédition d'un design déjà au panier ───────────────────────
+       Le panier renvoie ici avec ?design=<id>. On récupère la composition
+       côté serveur : la copie locale peut avoir été écrasée depuis (autre
+       appareil, autre design commencé entre-temps). */
+    var DESIGN_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    function restoreFromUrl() {
+      var id = '';
+      try { id = new URL(window.location.href).searchParams.get('design') || ''; } catch (_) {}
+      if (!id || !DESIGN_ID_RE.test(id) || !API) return;
+
+      fetch(API + '/api/public/design/' + id)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || !d.state || !Array.isArray(d.state.elements)) return;
+          state = Object.assign(state, d.state);
+          seq = state.elements.reduce(function (mx, e) { return Math.max(mx, e.id || 0); }, 0);
+          hiRestore();
+          if (d.model) {
+            state.model = d.model;
+            try { localStorage.setItem(MODEL_KEY, d.model); } catch (_) {}
+            setModel(d.model);
+          }
+          renderAll();
+          save();
+          history = [snapshot()]; hIndex = 0; syncHistory();
+          // Le design rechargé EST celui déjà au panier : on mémorise son
+          // identifiant pour qu'un « Ajouter » sans modification ne crée pas
+          // un second exemplaire côté serveur.
+          lastUpload = { hash: snapshot(), id: d.id, previewUrl: API + '/api/public/design/' + d.id + '/preview' };
+          if (d.state.imagesStripped) {
+            toast(I.reloadedNoPhotos, 'warn');
+          } else {
+            toast(I.reloaded);
+          }
+        })
+        .catch(function () {});
+    }
+
+
+    /* ── Demande de design (« On crée votre design ») ──────────────
+       Le client décrit son idée et joint ses images ; l'atelier crée la
+       coque et la lui renvoie par e-mail. Les images sont recompressées ici
+       (2 400 px au plus) : assez pour servir de matière à l'impression, assez
+       léger pour l'envoi depuis un téléphone. */
+    var LANG = root.dataset.lang || 'fr';
+    var helpForm = root.querySelector('[data-helpform]');
+    var helpDone = root.querySelector('[data-helpdone]');
+    var helpThumbs = root.querySelector('[data-helpthumbs]');
+    var helpFile = root.querySelector('[data-helpfile]');
+    var helpModelEl = root.querySelector('[data-helpmodelval]');
+    var helpModelNone = helpModelEl ? helpModelEl.textContent : '';
+    var helpImgs = [];
+    var HELP_MAX_CHARS = 8000000; // ~6 Mo décodés, la limite du serveur
+
+    function helpSyncModel() {
+      if (helpModelEl) helpModelEl.textContent = state.model || helpModelNone;
+    }
+    function helpCompress(file) {
+      return new Promise(function (done) {
+        var rd = new FileReader();
+        rd.onload = function () {
+          var img = new Image();
+          img.onload = function () {
+            var max = 2400, w = img.width, h = img.height;
+            if (w > max || h > max) { var k = Math.min(max / w, max / h); w = Math.round(w * k); h = Math.round(h * k); }
+            var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+            cv.getContext('2d').drawImage(img, 0, 0, w, h);
+            var out = '';
+            try {
+              if (file.type === 'image/png') {
+                out = cv.toDataURL('image/webp', .92);
+                if (out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/png');
+              } else out = cv.toDataURL('image/jpeg', .9);
+              if (out.length > HELP_MAX_CHARS) out = cv.toDataURL('image/jpeg', .82);
+            } catch (_) { out = ''; }
+            done(out || null);
+          };
+          img.onerror = function () { done(null); };
+          img.src = rd.result;
+        };
+        rd.onerror = function () { done(null); };
+        rd.readAsDataURL(file);
+      });
+    }
+    function helpRender() {
+      helpThumbs.innerHTML = '';
+      helpImgs.forEach(function (src, i) {
+        var d = document.createElement('div'); d.className = 'help-thumb';
+        var im = document.createElement('img'); im.src = src; im.alt = '';
+        var x = document.createElement('button'); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', I.del || 'x');
+        x.addEventListener('click', function () { helpImgs.splice(i, 1); helpRender(); });
+        d.appendChild(im); d.appendChild(x); helpThumbs.appendChild(d);
+      });
+    }
+    function helpAdd(files) {
+      var list = Array.prototype.slice.call(files || []).filter(function (f) { return /^image\//.test(f.type); });
+      if (helpImgs.length + list.length > 5) toast(I.helpTooMany, 'warn');
+      list = list.slice(0, Math.max(0, 5 - helpImgs.length));
+      list.reduce(function (p, f) {
+        return p.then(function () { return helpCompress(f); }).then(function (u) {
+          if (u) { helpImgs.push(u); helpRender(); } else toast(I.unreadable, 'warn');
+        });
+      }, Promise.resolve());
+    }
+    if (helpForm) {
+      root.querySelector('[data-helppick]').addEventListener('click', function () { helpFile.click(); });
+      helpFile.addEventListener('change', function () { helpAdd(helpFile.files); helpFile.value = ''; });
+      root.querySelector('[data-helpmodel]').addEventListener('click', function () {
+        var tr = root.querySelector('#studio-model [data-mp-trigger]') || root.querySelector('[data-mp-trigger]');
+        if (tr) tr.click();
+      });
+      document.addEventListener('model:change', helpSyncModel);
+      helpForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var desc = root.querySelector('[data-helpdesc]').value.trim();
+        var email = root.querySelector('[data-helpemail]').value.trim();
+        if (desc.length < 10 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast(I.helpMissing, 'warn'); return; }
+        if (!API || !SHOP_ID) { toast(I.helpErr, 'warn'); return; }
+        var btn = root.querySelector('[data-helpsend]');
+        var label = btn.textContent;
+        btn.disabled = true; btn.textContent = I.helpSending;
+        var body = {
+          shop_id: SHOP_ID, email: email, description: desc, lang: LANG,
+          images: helpImgs, website: root.querySelector('[data-helphp]').value,
+        };
+        if (state.model) body.model = state.model;
+        fetch(API + '/api/public/design-request', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+        }).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          helpForm.hidden = true; helpDone.hidden = false;
+          helpImgs = []; helpRender();
+        }).catch(function (err) {
+          console.error('[studio] demande de design', err);
+          toast(I.helpErr, 'warn');
+        }).then(function () { btn.disabled = false; btn.textContent = label; });
+      });
+    }
+
+    /* ── Mode atelier ───────────────────────────────────────────────
+       Ouvert depuis l'admin (« Créer dans le studio ») avec
+       ?atelier=<demande>.<jeton> : la demande s'affiche en bandeau, ses
+       images s'ajoutent à la coque en un clic, et le bouton final rattache
+       le design à la demande au lieu de l'ajouter au panier. */
+    var atelier = null;
+    (function () {
+      var p = '';
+      try { p = new URL(window.location.href).searchParams.get('atelier') || ''; } catch (_) {}
+      var m = /^([0-9a-f-]{36})\.([0-9a-f]{32})$/i.exec(p);
+      if (!m || !API) return;
+      atelier = { id: m[1], t: m[2], info: null };
+      var base = API + '/api/public/design-request/' + atelier.id;
+      fetch(base + '?t=' + atelier.t).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (!d) { toast('Demande introuvable ou lien expiré.', 'warn'); atelier = null; return; }
+        atelier.info = d;
+        if (d.model) setModel(d.model);
+        var lbl = root.querySelector('.step-add-l');
+        if (lbl) lbl.textContent = 'Enregistrer pour ' + d.name;
+        var bar = document.createElement('div');
+        bar.className = 'atelier-bar';
+        var title = document.createElement('strong');
+        title.textContent = 'Mode atelier · demande de ' + d.name
+          + (d.model ? ' · ' + d.model : '')
+          + (d.finish ? ' · ' + (d.finish === 'relief' ? 'relief' : 'à plat') : '');
+        var desc = document.createElement('p'); desc.textContent = d.description;
+        var imgs = document.createElement('div'); imgs.className = 'atelier-imgs';
+        for (var n = 1; n <= (d.images || 0); n++) {
+          (function (n) {
+            var url = base + '/image/' + n + '?t=' + atelier.t;
+            var b = document.createElement('button'); b.type = 'button'; b.title = 'Ajouter cette image à la coque';
+            var im = document.createElement('img'); im.src = url; im.alt = '';
+            var sp = document.createElement('span'); sp.textContent = 'Utiliser';
+            b.appendChild(im); b.appendChild(sp);
+            b.addEventListener('click', function () {
+              fetch(url).then(function (r) { return r.blob(); }).then(function (blob) {
+                importFile(new File([blob], 'demande-' + n, { type: blob.type || 'image/jpeg' }));
+              }).catch(function () { toast(I.unreadable, 'warn'); });
+            });
+            imgs.appendChild(b);
+          })(n);
+        }
+        bar.appendChild(title); bar.appendChild(desc); bar.appendChild(imgs);
+        document.body.appendChild(bar);
+      }).catch(function () { atelier = null; });
+    })();
+
+    function saveForRequest() {
+      setUploading(true, I.preparingCase);
+      var done = 0;
+      uploadDesign(function (m) { busyStep(done++, m); }).then(function (up) {
+        busyStep(3, 'Rattachement à la demande…');
+        return fetch(API + '/api/public/design-request/' + atelier.id, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ t: atelier.t, design_id: up.id }),
+        }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); });
+      }).then(function () {
+        showSuccess('');
+        busyMsg.textContent = 'Design enregistré pour ' + atelier.info.name;
+        busySub.textContent = "Envoyez-le depuis l'admin, onglet Demandes de design.";
+        var oc = root.querySelector('[data-opencart]'); if (oc) oc.hidden = true;
+      }).catch(function (err) {
+        console.error('[studio] atelier', err);
+        setUploading(false);
+        toast('Enregistrement impossible, réessayez.', 'warn');
+      });
+    }
+
+    /* ── Démarrage ──────────────────────────────────────────────── */
+    (function init() {
+      // Signale que cette page est l'éditeur : verrouille le défilement et
+      // masque le pied de page en mobile (cf. <style is:global>).
+      document.documentElement.setAttribute('data-studio-app', '');
+      var saved = null; try { saved = localStorage.getItem(STORE); } catch (_) {}
+      if (saved) {
+        try {
+          var d = JSON.parse(saved);
+          if (d && Array.isArray(d.elements)) { state = Object.assign(state, d); seq = state.elements.reduce(function (m, e) { return Math.max(m, e.id || 0); }, 0); }
+        } catch (_) {}
+      }
+      var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
+      if (m) state.model = m;
+      setModel(state.model);
+      renderAll();
+      history = [snapshot()]; hIndex = 0; syncHistory();
+      hiRestore();
+      // Réédition depuis le panier (/personnaliser?design=<id>) : on recharge
+      // la composition telle qu'elle a été envoyée. Asynchrone, donc posé
+      // APRÈS le premier rendu pour ne pas retarder l'affichage.
+      restoreFromUrl();
+      // On ouvre d'emblée les designs : démarrer d'une base plutôt que d'une
+      // page blanche. Le modèle, lui, se choisit dans la barre du haut.
+      // Lien direct vers l'aide (/personnaliser/?aide, depuis la FAQ) : le
+      // formulaire « On crée votre design » s'ouvre tout de suite.
+      if (/[?&]aide\b/.test(location.search)) openPane('help');
+      else if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
+    })();
+  })();
+</script>

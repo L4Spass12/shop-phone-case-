@@ -1,0 +1,16 @@
+---
+// PAGE CACHÉE : essais du studio (cases photo, styles prêts à remplir).
+// Aucun lien vers elle, exclue du sitemap et marquée noindex. Le studio en
+// ligne (/personnaliser) reste intact.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseCustomizerLab from '../components/CaseCustomizerLab.astro';
+import siteConfig from '../../site.config.mjs';
+---
+
+<BaseLayout
+  title={`Studio (test) - ${siteConfig.name}`}
+  description="Page de test du studio."
+  noindex={true}
+>
+  <CaseCustomizerLab lang="fr" />
+</BaseLayout>
