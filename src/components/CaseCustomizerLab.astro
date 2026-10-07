@@ -106,7 +106,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
       itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
       success: { flat: 'Coque à plat', relief: 'Coque en relief' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
         tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
         since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
     },
@@ -149,7 +149,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
       itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
       success: { flat: 'Flat-print case', relief: 'Raised-print case' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
         tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
         since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
     },
@@ -192,7 +192,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
       itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
       success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
         tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
         since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
     },
@@ -1529,6 +1529,16 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .studio .slot-empty span { display: block; font-size: 9cqw; line-height: 1; margin-bottom: .6cqw; }
   .studio .slot-plain { border: .5cqw dashed #9a9184; }
+  /* Case de BD : bord blanc cerné de noir. */
+  .studio .panel { display: block; background: #fff; padding: 2.5%; box-shadow: 0 0 0 .9cqw #111; }
+  .studio .el[data-type="image"] .panel img,
+  .studio .el[data-type="image"] .fill { display: block; width: 100%; height: auto; object-fit: cover; }
+  .studio .tel-slot { position: absolute; background: linear-gradient(160deg, #cfd8e3, #a9b6c6); }
+  .studio .tel-slot[data-fx="bricks"] {
+    background: radial-gradient(circle at 50% 45%, rgba(255,255,255,.35) 0 28%, transparent 30%) 0 0 / 12% auto,
+      linear-gradient(160deg, #e2574c, #f2b134 50%, #3c8dde);
+  }
+  .studio .tel-slot[data-fx="manga"] { background: radial-gradient(circle, #555 0 30%, #fff 32%) 0 0 / 6% auto; box-shadow: 0 0 0 2px #111; }
   .studio .tel-pola {
     position: absolute; background: #fff; aspect-ratio: 1 / 1.18;
     box-shadow: 0 1px 3px rgba(0,0,0,.3);
@@ -1748,6 +1758,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       cerise: { src: '/images/studio-bg/cerise.webp', ink: '#8f1f00' },
       ciel:   { src: '/images/studio-bg/ciel.webp',   ink: '#2f6fa8' },
       menthe: { src: '/images/studio-bg/menthe.webp', ink: '#00796f' },
+      // Fonds unis « premium » (léger grain, lumière douce) pour la typographie.
+      nuit:     { src: '/images/studio-bg/nuit.webp',     ink: '' },
+      emeraude: { src: '/images/studio-bg/emeraude.webp', ink: '' },
+      creme:    { src: '/images/studio-bg/creme.webp',    ink: '' },
     };
     function T(text, font, size, x, y, bg, extra) {
       return Object.assign({ type: 'text', text: text, font: F(font), color: '#ffffff', outline: BG[bg].ink, size: size, x: x, y: y, rot: 0 }, extra || {});
@@ -1755,6 +1769,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function S(text, size, x, y, rot) { return { type: 'sticker', text: text, size: size, x: x, y: y, rot: rot || 0 }; }
     // Case photo d'un modèle (vide au départ, remplie par la photo du client).
     function P(size, x, y, rot) { return { type: 'image', slot: true, frame: 'polaroid', src: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    // Case photo pleine (sans cadre Polaroid) : `ar` = hauteur / largeur,
+    // `fx` = effet appliqué à la photo (bricks, manga), `frame` = 'panel'
+    // pour une case de BD (bord blanc cerné de noir).
+    function Q(size, x, y, ar, fx, frame, rot) { return { type: 'image', slot: true, frame: frame || '', fx: fx || '', ar: ar, src: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    // Texte libre (couleur et contour au choix).
+    function X(text, font, size, x, y, color, outline, rot, extra) { return Object.assign({ type: 'text', text: text, font: F(font), color: color, outline: outline || '', size: size, x: x, y: y, rot: rot || 0 }, extra || {}); }
+    // Proportions de la coque (largeur / hauteur), pour une case qui la couvre.
+    var CASE_AR = .48;
     // Texte manuscrit sombre, pour les modèles sur coque transparente.
     function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
@@ -1768,30 +1790,26 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         P(46, 34, 52, -8),
         P(46, 64, 77, 5),
       ]},
-      { id: 'prenom', name: I.tpl.prenom, bg: 'cerise', els: [
-        T('Camille', 'pinyon', 24, 50, 52, 'cerise'),
+      // Briques : la photo devient une mosaïque de briques à plots.
+      { id: 'briques', name: I.tpl.briques, bg: null, els: [
+        Q(100, 50, 50, 1 / CASE_AR, 'bricks'),
       ]},
-      { id: 'monogramme', name: I.tpl.monogramme, bg: 'ciel', els: [
-        T('A M', 'bodoni', 32, 50, 46, 'ciel'),
-        T(I.tpl.since, 'montserrat', 6, 50, 60, 'ciel'),
+      // Manga : une case de BD (photo en noir et blanc tramé) et des onomatopées.
+      { id: 'manga', name: I.tpl.manga, bg: null, els: [
+        Q(88, 50, 58, 1.3, 'manga', 'panel', -2),
+        X('BAM !', 'anton', 17, 70, 23, '#ffd400', '#111111', 9),
+        X('WAOUH !', 'anton', 11, 32, 90, '#ffffff', '#111111', -7),
       ]},
-      // NB : on garde les éléments hors de la zone caméra (haut-gauche).
-      { id: 'floral', name: I.tpl.floral, bg: 'menthe', els: [
-        S('🌸', 20, 27, 37, -12), S('🌿', 17, 76, 34, 14),
-        T('Bloom', 'dancing', 21, 50, 53, 'menthe'),
-        S('🌷', 18, 30, 74, 8), S('🍃', 15, 72, 78, -16),
+      // Typographie élégante : des initiales sur un fond premium.
+      { id: 'initiales-or', name: I.tpl.initialesOr, bg: 'nuit', els: [
+        X('A · M', 'bodoni', 22, 50, 50, '#d9b46c', '', 0),
+        X('2 0 2 6', 'montserrat', 4.2, 50, 60, '#d9b46c', '', 0),
       ]},
-      { id: 'citation', name: I.tpl.citation, bg: 'cerise', els: [
-        T('CARPE', 'anton', 24, 50, 42, 'cerise'),
-        T('DIEM', 'anton', 24, 50, 57, 'cerise', { color: '#ffe14d' }),
+      { id: 'initiales-creme', name: I.tpl.initialesCreme, bg: 'creme', els: [
+        X('L', 'pinyon', 46, 50, 52, '#3b2f25', '', 0),
       ]},
-      { id: 'tropical', name: I.tpl.tropical, bg: 'menthe', els: [
-        S('🌴', 30, 34, 40, -8), S('🌺', 18, 70, 60, 12),
-        T(I.tpl.summer, 'caveat', 21, 52, 78, 'menthe', { rot: -4 }),
-      ]},
-      { id: 'coeur', name: I.tpl.coeur, bg: 'cerise', els: [
-        S('🤍', 30, 50, 44),
-        T('love you', 'dancing', 17, 50, 64, 'cerise', { rot: -3 }),
+      { id: 'emeraude', name: I.tpl.emeraude, bg: 'emeraude', els: [
+        X('C.', 'playfair', 34, 50, 52, '#e9d9b0', '', 0),
       ]},
     ];
 
@@ -1947,13 +1965,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         // est vide, une invite « Ajouter une photo » (toucher la case ouvre
         // le choix de photo, cf. onUp).
         var host = content;
-        if (el.frame === 'polaroid') {
-          host = document.createElement('div'); host.className = 'pola';
+        if (el.frame === 'polaroid' || el.frame === 'panel') {
+          host = document.createElement('div'); host.className = el.frame === 'panel' ? 'panel' : 'pola';
           content.appendChild(host);
         }
         if (el.src) {
           var img = document.createElement('img');
           img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
+          // Case d'un modèle : photo recadrée aux proportions de la case.
+          if (el.slot && el.frame !== 'polaroid') { img.className = 'fill'; img.style.aspectRatio = String(1 / (el.ar || 1)); }
           // Filet pour les navigateurs sans ResizeObserver : au décodage, la
           // hauteur passe de zéro à sa valeur réelle.
           img.addEventListener('load', function () {
@@ -1963,6 +1983,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         } else {
           var ph = document.createElement('div');
           ph.className = 'slot-empty' + (el.frame ? '' : ' slot-plain');
+          ph.style.aspectRatio = String(1 / (el.ar || 1));
           ph.innerHTML = '<div><span>+</span></div>';
           ph.firstChild.appendChild(document.createTextNode(I.slotAdd));
           host.appendChild(ph);
@@ -2369,7 +2390,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       t.els.forEach(function (e) {
         if (e.type === 'image') {
           var p = document.createElement('span');
-          p.className = 'tel-pola';
+          p.className = e.frame === 'polaroid' ? 'tel-pola' : 'tel-slot';
+          if (e.fx) p.dataset.fx = e.fx;
+          if (e.frame !== 'polaroid') p.style.aspectRatio = String(1 / (e.ar || 1));
           p.style.left = e.x + '%'; p.style.top = e.y + '%'; p.style.width = e.size + '%';
           p.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
           thumb.appendChild(p);
@@ -2462,6 +2485,81 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        la mémoire de TOUS les canvas de la page, et au-delà il dessine du vide
        sans lever d'erreur (la photo « ne s'ajoutait pas »). */
     function freeCanvas(c) { try { c.width = 0; c.height = 0; } catch (_) {} }
+    /* ── Effets de photo des modèles ─────────────────────────────── */
+    // Recadre la photo au centre aux proportions `ar` (hauteur / largeur) et
+    // renvoie un canvas de `w` pixels de large.
+    function cropTo(img, ar, w) {
+      var nw = img.naturalWidth || img.width, nh = img.naturalHeight || img.height;
+      var sw = nw, sh = nw * ar;
+      if (sh > nh) { sh = nh; sw = nh / ar; }
+      var cv = document.createElement('canvas'); cv.width = w; cv.height = Math.round(w * ar);
+      cv.getContext('2d').drawImage(img, (nw - sw) / 2, (nh - sh) / 2, sw, sh, 0, 0, cv.width, cv.height);
+      return cv;
+    }
+    // Briques : la photo réduite à une grille de 32 colonnes, chaque case
+    // dessinée comme une brique à plot (ombre et reflet).
+    function fxBricks(img, ar) {
+      var cols = 32, rows = Math.round(cols * ar);
+      var small = cropTo(img, ar, cols);
+      var px = small.getContext('2d').getImageData(0, 0, cols, rows).data;
+      freeCanvas(small);
+      var c = 48, out = document.createElement('canvas');
+      out.width = cols * c; out.height = rows * c;
+      var g = out.getContext('2d');
+      for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+        var i = (y * cols + x) * 4, col = 'rgb(' + px[i] + ',' + px[i + 1] + ',' + px[i + 2] + ')';
+        var X0 = x * c, Y0 = y * c;
+        g.fillStyle = col; g.fillRect(X0, Y0, c, c);
+        g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(X0, Y0 + c - 3, c, 3); g.fillRect(X0 + c - 3, Y0, 3, c);
+        g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(X0, Y0, c, 2); g.fillRect(X0, Y0, 2, c);
+        // Plot : ombre portée, disque de la couleur, reflet en haut à gauche.
+        var cx = X0 + c / 2, cy = Y0 + c / 2, r = c * .3;
+        g.beginPath(); g.arc(cx + 2, cy + 3, r, 0, Math.PI * 2); g.fillStyle = 'rgba(0,0,0,.3)'; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fillStyle = col; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, Math.PI * 1.05, Math.PI * 1.7); g.lineWidth = 3; g.strokeStyle = 'rgba(255,255,255,.55)'; g.stroke();
+      }
+      return out;
+    }
+    // Manga : noir et blanc sombre, contours encrés (détection des bords)
+    // et demi-teintes en trame de points, comme une case de BD imprimée.
+    function fxManga(img, ar) {
+      var W = 1200, cv = cropTo(img, ar, W), H = cv.height, g = cv.getContext('2d');
+      var d = g.getImageData(0, 0, W, H), p = d.data, lum = new Float32Array(W * H);
+      for (var i = 0, k = 0; i < p.length; i += 4, k++) {
+        var l = (.299 * p[i] + .587 * p[i + 1] + .114 * p[i + 2]) / 255;
+        lum[k] = Math.pow(Math.min(1, Math.max(0, (l - .5) * 1.35 + .5)), 1.25);   // contraste, plus sombre
+      }
+      var cell = 7, half = cell / 2;
+      for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
+        var k2 = y * W + x, v = 255;
+        // Contour : gradient de Sobel sur la luminance.
+        if (x > 0 && y > 0 && x < W - 1 && y < H - 1) {
+          var gx = lum[k2 - W + 1] + 2 * lum[k2 + 1] + lum[k2 + W + 1] - lum[k2 - W - 1] - 2 * lum[k2 - 1] - lum[k2 + W - 1];
+          var gy = lum[k2 + W - 1] + 2 * lum[k2 + W] + lum[k2 + W + 1] - lum[k2 - W - 1] - 2 * lum[k2 - W] - lum[k2 - W + 1];
+          if (gx * gx + gy * gy > .09) v = 17;
+        }
+        if (v === 255) {
+          var l3 = lum[k2];
+          if (l3 < .14) v = 17;                                   // aplat noir
+          else if (l3 < .86) {                                    // trame
+            var cx = x % cell - half, cy = y % cell - half;
+            if (Math.sqrt(cx * cx + cy * cy) < (1 - l3) * cell * .62) v = 17;
+          }
+        }
+        var o = k2 * 4; p[o] = p[o + 1] = p[o + 2] = v; p[o + 3] = 255;
+      }
+      g.putImageData(d, 0, 0);
+      return cv;
+    }
+    function applyFx(img, fx, ar) {
+      var cv = null;
+      try { cv = fx === 'bricks' ? fxBricks(img, ar) : fx === 'manga' ? fxManga(img, ar) : null; } catch (_) { cv = null; }
+      if (!cv) return '';
+      var out = cv.toDataURL('image/webp', .9);
+      if (out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .92);
+      freeCanvas(cv);
+      return out;
+    }
     function importFile(file) {
       // Type vide : certains téléphones ne le renseignent pas. On tente le
       // décodage, l'échec est signalé plus bas.
@@ -2502,9 +2600,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         var slot = pendingSlot != null ? findEl(pendingSlot) : null;
         if (!isEmptySlot(slot)) slot = state.elements.filter(isEmptySlot)[0] || null;
         pendingSlot = null;
+        if (slot && slot.fx) {
+          // Effet (briques, manga) : calculé une fois ici, sur la photo
+          // d'origine recadrée aux proportions de la case. Le résultat est
+          // l'image imprimée : pas de copie HD à garder.
+          var fxOut = applyFx(img, slot.fx, slot.ar || 1);
+          if (data.hk) { try { URL.revokeObjectURL(hiRes[data.hk]); } catch (_) {} delete hiRes[data.hk]; delete data.hk; }
+          if (fxOut) data.src = fxOut;
+        }
         if (slot) {
           slot.src = data.src;
-          if (data.hk) slot.hk = data.hk;
+          if (data.hk) slot.hk = data.hk; else delete slot.hk;
           var ref = nodes.get(slot.id);
           if (ref) { ref.node.remove(); nodes.delete(slot.id); }
           createNode(slot);
@@ -2778,18 +2884,25 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           g.save();
           g.translate(el.x * w / 100, el.y * h / 100);
           g.rotate(el.rot * Math.PI / 180);
-          if (el.type === 'image' && el.frame === 'polaroid') {
+          if (el.type === 'image' && el.slot) {
             var pimg = images[el.id];
             if (pimg && pimg.naturalWidth) {
-              var fw = el.size * scale, pad = fw * POLA.side, ps = fw - 2 * pad;
-              var fh = pad + ps + fw * POLA.bottom;
-              g.save();
-              g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = fw * .03; g.shadowOffsetY = fw * .012;
-              g.fillStyle = '#ffffff'; g.fillRect(-fw / 2, -fh / 2, fw, fh);
-              g.restore();
-              // Photo carrée, recadrée au centre comme object-fit: cover.
-              var nw = pimg.naturalWidth, nh = pimg.naturalHeight, c = Math.min(nw, nh);
-              g.drawImage(pimg, (nw - c) / 2, (nh - c) / 2, c, c, -fw / 2 + pad, -fh / 2 + pad, ps, ps);
+              // Case d'un modèle : cadre éventuel, puis photo recadrée aux
+              // proportions de la case (comme object-fit: cover).
+              var fw = el.size * scale, ar = el.frame === 'polaroid' ? 1 : (el.ar || 1);
+              var pad = el.frame === 'polaroid' ? fw * POLA.side : el.frame === 'panel' ? fw * .025 : 0;
+              var pw = fw - 2 * pad, ph = pw * ar;
+              var fh = pad + ph + (el.frame === 'polaroid' ? fw * POLA.bottom : pad);
+              if (el.frame) {
+                g.save();
+                if (el.frame === 'polaroid') { g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = fw * .03; g.shadowOffsetY = fw * .012; }
+                g.fillStyle = '#ffffff'; g.fillRect(-fw / 2, -fh / 2, fw, fh);
+                g.restore();
+                if (el.frame === 'panel') { g.lineWidth = scale * 1.8; g.strokeStyle = '#111111'; g.strokeRect(-fw / 2, -fh / 2, fw, fh); }
+              }
+              var nw = pimg.naturalWidth, nh = pimg.naturalHeight, sw = nw, sh = nw * ar;
+              if (sh > nh) { sh = nh; sw = nh / ar; }
+              g.drawImage(pimg, (nw - sw) / 2, (nh - sh) / 2, sw, sh, -fw / 2 + pad, -fh / 2 + pad, pw, ph);
             }
           } else if (el.type === 'image') {
             var img = images[el.id];
