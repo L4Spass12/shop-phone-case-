@@ -41,7 +41,7 @@ export async function getStaticPaths() {
           categoryLabels,
           products: langProducts
             .filter(p => (p.data.categories || []).includes(cat.slug))
-            .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+            .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
         },
       });
     }

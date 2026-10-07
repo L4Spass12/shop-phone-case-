@@ -23,7 +23,7 @@ const productHref = (slug: string) => url('/product/' + parseEntrySlug(slug).slu
 // Données des fiches FR, textes traduits (cf. src/lib/products.ts).
 const products = (await localizedProducts(lang))
   .filter(p => (p.data.categories ?? []).length > 0)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 
 const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';

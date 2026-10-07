@@ -152,6 +152,9 @@ const products = defineCollection({
     stock: z.number().int().nonnegative().nullable().optional(),
     sku: z.string().optional(),
     featured: z.boolean().default(false),
+    // Rang d'affichage dans la boutique et l'accueil : 0 par défaut, un rang
+    // plus grand passe après (à rang égal, le plus récent d'abord).
+    order: z.number().int().default(0),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     // Style du bouton "Ajouter au panier" (test A/B) :

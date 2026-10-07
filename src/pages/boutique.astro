@@ -15,7 +15,7 @@ const allProducts = await getCollection('products');
 const products = allProducts
   .filter(p => parseEntrySlug(p.slug).lang === 'fr')
   .filter(p => (p.data.categories ?? []).length > 0)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Collect unique category slugs from all products (array field)
 const categorySlugs = [...new Set(products.flatMap(p => p.data.categories || []))].sort();
