@@ -82,8 +82,8 @@ const currentYear = new Date().getFullYear();
             <span data-newsletter-label data-newsletter-label-default={t('footer.join', lang)}>{t('footer.join', lang)}</span>
           </button>
         </div>
-        <p id="newsletter-success" class="hidden text-[11px] text-sage">{t('footer.newsletterSuccess', lang)}</p>
-        <p id="newsletter-error" class="hidden text-[11px] text-terracotta">{t('footer.newsletterError', lang)}</p>
+        <p id="newsletter-success" class="hidden newsletter-msg" style="color:#2a1147;background:#fbe36b;">{t('footer.newsletterSuccess', lang)}</p>
+        <p id="newsletter-error" class="hidden newsletter-msg" style="color:#fff;background:#e11d48;">{t('footer.newsletterError', lang)}</p>
       </form>
     </div>
   </div>
@@ -104,6 +104,16 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<style>
+  /* Messages de la newsletter : pastille pleine, lisible sur le fond violet
+     du pied de page (le vert pâle d'origine s'y perdait). */
+  .newsletter-msg {
+    display: inline-block; margin-top: .35rem; padding: .45rem .8rem;
+    border-radius: 999px; font-size: .8rem; font-weight: 600; line-height: 1.3;
+  }
+  .newsletter-msg.hidden { display: none; }
+</style>
 
 <!-- Newsletter submit (Web3Forms) — différé via requestIdleCallback pour ne pas bloquer le LCP -->
 <script is:inline>
