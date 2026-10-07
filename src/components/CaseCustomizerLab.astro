@@ -1794,9 +1794,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
       // NB : cadres hors de la zone caméra (haut-gauche).
+      // Mur de souvenirs : des Polaroid qui couvrent toute la coque (le coin
+      // haut gauche reste libre pour l'appareil photo).
       { id: 'polaroid', name: I.tpl.polaroid, bg: null, els: [
-        P(64, 50, 55, -3),
-        W(I.tpl.souvenirs, 12, 52, 83, -3),
+        P(40, 73, 12, 6),
+        P(42, 28, 33, -8),
+        P(40, 71, 33, 4),
+        P(42, 32, 53, 5),
+        P(40, 69, 54, -6),
+        P(42, 29, 74, -4),
+        P(40, 71, 75, 7),
+        P(42, 49, 93, -3),
       ]},
       { id: 'pelemele', name: I.tpl.pelemele, bg: null, els: [
         P(46, 68, 27, 7),
