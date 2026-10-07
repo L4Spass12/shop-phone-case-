@@ -1818,6 +1818,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     // Texte manuscrit sombre, pour les modèles sur coque transparente.
     function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
+      // Manga : une case de BD (photo en noir et blanc tramé) et des onomatopées.
+      // Manga : planche de BD dessinée, la photo du client (en noir et blanc
+      // tramé) apparaît dans la grande case centrale.
+      { id: 'manga', name: I.tpl.manga, bg: null, overlay: '/images/studio-bg/manga-planche-v2.webp',
+        thumb: '/images/studio-bg/tpl-manga-planche-v2.webp', els: [
+        Q(67, 53, 52.5, 1.67, 'manga', '', -5.2),
+      ]},
+      // Briques : la photo devient une mosaïque de briques à plots.
+      { id: 'briques', name: I.tpl.briques, bg: null, fx: 'bricks', els: [
+        B(),
+      ]},
+      { id: 'toi-moi', name: I.tpl.toiMoi, bg: null, overlay: '/images/studio-bg/toi-moi.webp',
+        thumb: '/images/studio-bg/tpl-toi-moi.webp', els: [
+        Q(42, 40.4, 41, 1.0, '', '', -9.8),
+        Q(41.5, 63.6, 62, .95, '', '', 10.8),
+      ]},
       // NB : cadres hors de la zone caméra (haut-gauche).
       // Mur de souvenirs : des Polaroid partout, qui débordent volontairement
       // de la coque (le coin haut gauche reste dégagé pour l'appareil photo).
@@ -1856,26 +1872,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         Q(51, 39.9, 29.7, 1.03, '', '', -9.2),
         Q(49, 65.2, 59.1, 1.0, '', '', 10),
       ]},
-      { id: 'toi-moi', name: I.tpl.toiMoi, bg: null, overlay: '/images/studio-bg/toi-moi.webp',
-        thumb: '/images/studio-bg/tpl-toi-moi.webp', els: [
-        Q(42, 40.4, 41, 1.0, '', '', -9.8),
-        Q(41.5, 63.6, 62, .95, '', '', 10.8),
-      ]},
       { id: 'amour-nuit', name: I.tpl.amourNuit, bg: null, overlay: '/images/studio-bg/amour-nuit.webp',
         thumb: '/images/studio-bg/tpl-amour-nuit.webp', els: [
         Q(43.5, 38.5, 39.1, 1.04, '', '', -10.2),
         Q(41.5, 60.5, 61.3, 1.05, '', '', 10),
-      ]},
-      // Briques : la photo devient une mosaïque de briques à plots.
-      { id: 'briques', name: I.tpl.briques, bg: null, fx: 'bricks', els: [
-        B(),
-      ]},
-      // Manga : une case de BD (photo en noir et blanc tramé) et des onomatopées.
-      // Manga : planche de BD dessinée, la photo du client (en noir et blanc
-      // tramé) apparaît dans la grande case centrale.
-      { id: 'manga', name: I.tpl.manga, bg: null, overlay: '/images/studio-bg/manga-planche-v2.webp',
-        thumb: '/images/studio-bg/tpl-manga-planche-v2.webp', els: [
-        Q(67, 53, 52.5, 1.67, 'manga', '', -5.2),
       ]},
       // Typographie élégante : des initiales sur un fond premium.
       { id: 'initiales-or', name: I.tpl.initialesOr, bg: 'nuit', els: [
