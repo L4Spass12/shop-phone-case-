@@ -9,6 +9,7 @@
  * peuvent donc plus diverger (avant, EN/DE avaient leur propre gabarit,
  * resté des semaines en retard, et des coloris hérités du modèle de départ).
  */
+import { existsSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
 import FabricationSection from './FabricationSection.astro';
@@ -34,6 +35,8 @@ const { product, lang, translation } = Astro.props;
 const lp = localePrefix(lang);
 const url = (path: string) => `${lp}${path}`;
 const slug = parseEntrySlug(product.slug).slug;
+// Motif HD disponible : la coque peut servir de base dans le studio.
+const canCustomize = existsSync(`public/images/designs/${slug}.webp`);
 
 // Textes : la traduction si elle existe, sinon le français.
 const { Content } = await (translation ?? product).render();
@@ -51,6 +54,7 @@ const L = {
     quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo',
     home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
     prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
+    customize: 'Personnaliser cette coque', customizeSub: 'Ajoutez un prénom, une photo… à partir de ce motif',
     from: 'Dès', fromLower: 'dès', unavailable: 'Indisponible', comboUnavailable: 'Combinaison indisponible',
     inStock: 'En stock', outOfStock: 'Rupture', size: 'Taille', mostPopular: ' (le plus populaire)', popular: 'Populaire',
     secureShipping: 'Livraison sécurisée', secureShippingSub: 'colis suivi',
@@ -72,6 +76,7 @@ const L = {
     quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video',
     home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
     prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
+    customize: 'Customise this case', customizeSub: 'Add a name, a photo… on top of this design',
     from: 'From', fromLower: 'from', unavailable: 'Unavailable', comboUnavailable: 'Combination unavailable',
     inStock: 'In stock', outOfStock: 'Out of stock', size: 'Size', mostPopular: ' (most popular)', popular: 'Popular',
     secureShipping: 'Secure shipping', secureShippingSub: 'tracked parcel',
@@ -93,6 +98,7 @@ const L = {
     quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen',
     home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
     prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
+    customize: 'Diese Hülle gestalten', customizeSub: 'Name, Foto… zu diesem Motiv hinzufügen',
     from: 'Ab', fromLower: 'ab', unavailable: 'Nicht verfügbar', comboUnavailable: 'Kombination nicht verfügbar',
     inStock: 'Auf Lager', outOfStock: 'Ausverkauft', size: 'Größe', mostPopular: ' (am beliebtesten)', popular: 'Beliebt',
     secureShipping: 'Sicherer Versand', secureShippingSub: 'mit Sendungsverfolgung',
@@ -803,6 +809,13 @@ const pickModelLabel = t('model.placeholder', lang);
               <>{addToCartLabel} <span class="opacity-70 font-normal" data-buy-price>{priceRange && priceRange.min !== priceRange.max ? `${L.fromLower} ${formatPrice(shownMin)}` : formatPrice(shownPrice)}</span></>
             ) : L.unavailable}
           </button>
+        )}
+
+        {canCustomize && (
+          <a href={url(`/personnaliser/?base=${slug}`)} class="customize-link">
+            <span class="customize-ico" aria-hidden="true">✦</span>
+            <span><strong>{L.customize}</strong><small>{L.customizeSub}</small></span>
+          </a>
         )}
 
         <!-- Garanties -->
@@ -1969,6 +1982,19 @@ const pickModelLabel = t('model.placeholder', lang);
     .pdp-sticker { width: 85px; top: -26px; right: -7px; }
     .pdp-card { border-radius: 20px; padding: 22px 18px 20px; }
     .pdp-panel { border-radius: 16px; padding: 4px 16px 8px; }
+  }
+  /* Lien « Personnaliser cette coque » : ouvre le studio avec ce motif. */
+  .customize-link {
+    display: flex; align-items: center; gap: .75rem; margin-top: .75rem; padding: .8rem 1rem;
+    border-radius: 14px; border: 1.5px dashed rgb(var(--c-cream) / .3); color: rgb(var(--c-cream));
+    transition: background .2s, border-color .2s;
+  }
+  .customize-link:hover { background: rgb(var(--c-cream) / .05); border-color: rgb(var(--c-cream) / .55); }
+  .customize-link strong { display: block; font-size: .9rem; font-weight: 600; }
+  .customize-link small { display: block; font-size: .75rem; opacity: .7; margin-top: .1rem; }
+  .customize-ico {
+    display: grid; place-items: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+    background: var(--sun-yellow, #fbe36b); color: #2a1147; font-size: 1rem;
   }
 </style>
 

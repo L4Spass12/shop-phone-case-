@@ -20,10 +20,27 @@
  */
 import ModelPicker from './ModelPicker.astro';
 import siteConfig from '../../site.config.mjs';
-import { t, type Locale } from '../lib/i18n';
+import { t, parseEntrySlug, type Locale } from '../lib/i18n';
+import { getCollection } from 'astro:content';
+import { existsSync } from 'node:fs';
 
 interface Props { lang?: Locale }
 const { lang = 'fr' } = Astro.props;
+
+// Coques de la boutique qui peuvent servir de base dans le studio : celles
+// dont le motif HD existe (public/images/designs/<slug>.webp). Nom traduit
+// quand la fiche existe dans la langue.
+const allProducts = await getCollection('products');
+const BASES = allProducts
+  .filter((p) => parseEntrySlug(p.slug).lang === 'fr' && (p.data.categories ?? []).length > 0)
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map((p) => {
+    const slug = parseEntrySlug(p.slug).slug;
+    const tr = lang === 'fr' ? null : allProducts.find((x) => x.slug === `${lang}/${slug}`);
+    return { slug, name: (tr ?? p).data.name.replace(/^(Coque|Hülle)\s+/i, '').replace(/\s+Case$/i, ''),
+             src: `/images/designs/${slug}.webp`, thumb: `/images/designs/${slug}-thumb.webp` };
+  })
+  .filter((b) => existsSync(`public/images/designs/${b.slug}.webp`));
 
 /* Polices de personnalisation, importées ICI et non dans global.css :
    elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
@@ -71,6 +88,7 @@ const TEXTS = {
       reset: 'Tout effacer', cont: 'Continuer', priceFrom: 'À partir de', tools: 'Outils', designs: 'Designs', text: 'Texte', photos: 'Photos',
       panel: 'Panneau', closePanel: 'Fermer le panneau',
       designsHint: 'Partez d’une base, puis modifiez tout : textes, couleurs, positions.',
+      fromShop: 'Partir d’une coque de la boutique', fromShopHint: 'Gardez son motif et ajoutez prénom, photo, stickers…',
       addText: '+ Ajouter un texte', content: 'Contenu', yourText: 'Votre texte', font: 'Police', textColor: 'Couleur du texte',
       textEmpty: 'Sélectionnez un texte sur la coque pour le modifier.',
       importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
@@ -114,6 +132,7 @@ const TEXTS = {
       reset: 'Clear all', cont: 'Continue', priceFrom: 'From', tools: 'Tools', designs: 'Designs', text: 'Text', photos: 'Photos',
       panel: 'Panel', closePanel: 'Close panel',
       designsHint: 'Start from a base, then change everything: texts, colours, positions.',
+      fromShop: 'Start from a shop case', fromShopHint: 'Keep its design and add a name, a photo, stickers…',
       addText: '+ Add text', content: 'Content', yourText: 'Your text', font: 'Font', textColor: 'Text colour',
       textEmpty: 'Select a text on the case to edit it.',
       importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
@@ -157,6 +176,7 @@ const TEXTS = {
       reset: 'Alles löschen', cont: 'Weiter', priceFrom: 'Ab', tools: 'Werkzeuge', designs: 'Designs', text: 'Text', photos: 'Fotos',
       panel: 'Bereich', closePanel: 'Bereich schließen',
       designsHint: 'Starte mit einer Vorlage und ändere dann alles: Texte, Farben, Positionen.',
+      fromShop: 'Mit einer Hülle aus dem Shop starten', fromShopHint: 'Motiv behalten und Name, Foto, Sticker hinzufügen…',
       addText: '+ Text hinzufügen', content: 'Inhalt', yourText: 'Dein Text', font: 'Schrift', textColor: 'Textfarbe',
       textEmpty: 'Wähle einen Text auf der Hülle aus, um ihn zu bearbeiten.',
       importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
@@ -293,6 +313,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       <!-- Designs prêts à l'emploi -->
       <div class="pane" data-pane="design" hidden>
         <p class="pane-hint" style="margin-top:0">{U.designsHint}</p>
+        {BASES.length > 0 && (
+          <button type="button" class="from-shop" data-fromshop aria-expanded="false">
+            <span class="from-shop-thumbs" aria-hidden="true">
+              {BASES.slice(0, 3).map((b) => <img src={b.thumb} alt="" loading="lazy" />)}
+            </span>
+            <span class="from-shop-txt"><strong>{U.fromShop}</strong><small>{U.fromShopHint}</small></span>
+          </button>
+        )}
+        <div class="tpl-grid shop-grid" data-shopgrid hidden>
+          {BASES.map((b) => (
+            <button type="button" class="tpl" data-base={b.slug} data-src={b.src} aria-label={b.name}>
+              <span class="tpl-thumb" style={`background-image:url('${b.thumb}')`}></span>
+              <span class="tpl-name">{b.name}</span>
+            </button>
+          ))}
+        </div>
         <div class="tpl-grid" data-templates></div>
       </div>
 
@@ -1074,6 +1110,19 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
   .tpl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  .tpl-grid[hidden] { display: none; }
+  .from-shop {
+    display: flex; align-items: center; gap: .7rem; width: 100%; margin-bottom: .7rem;
+    padding: .6rem .7rem; border-radius: 12px; cursor: pointer; text-align: left; color: inherit;
+    background: rgb(var(--accent-rgb) / .08); border: 1px solid rgb(var(--accent-rgb) / .25);
+  }
+  .from-shop[aria-expanded="true"] { background: rgb(var(--accent-rgb) / .16); }
+  .from-shop-thumbs { display: flex; flex-shrink: 0; }
+  .from-shop-thumbs img { width: 22px; height: 44px; object-fit: cover; border-radius: 5px; box-shadow: 0 0 0 2px #fff; }
+  .from-shop-thumbs img + img { margin-left: -7px; }
+  .from-shop-txt strong { display: block; font-size: .82rem; }
+  .from-shop-txt small { display: block; font-size: .7rem; opacity: .7; margin-top: .1rem; }
+  .shop-grid { margin-bottom: .9rem; padding-bottom: .9rem; border-bottom: 1px solid rgb(var(--c-cream) / .1); }
   @media (max-width: 1023px) { .tpl-grid { grid-template-columns: repeat(3, 1fr); } }
 
   .seg { display: flex; gap: .25rem; padding: .2rem; border-radius: 10px; background: rgb(var(--c-cream) / .05); }
@@ -2084,7 +2133,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     var caseBgEl = root.querySelector('[data-casebg]');
     var overlayEl = root.querySelector('[data-overlay]');
-    function bgSrc() { return state.bg && BG[state.bg] ? BG[state.bg].src : ''; }
+    // Fond : un des fonds du studio (clé de BG) ou le motif d'une coque de la
+    // boutique (chemin d'image direct).
+    function bgSrc() {
+      if (!state.bg) return '';
+      if (BG[state.bg]) return BG[state.bg].src;
+      return /^\/images\/designs\/[a-z0-9-]+\.webp$/.test(state.bg) ? state.bg : '';
+    }
     function renderBg() { caseBgEl.style.backgroundImage = bgSrc() ? 'url("' + bgSrc() + '")' : ''; }
     function renderAll() {
       renderBg();
@@ -2553,6 +2608,30 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       b.addEventListener('click', function () { applyTemplate(t); });
       tplGrid.appendChild(b);
     });
+
+    /* ── Partir d'une coque de la boutique ─────────────────────────── */
+    var fromShopBtn = root.querySelector('[data-fromshop]');
+    var shopGrid = root.querySelector('[data-shopgrid]');
+    if (fromShopBtn && shopGrid) {
+      fromShopBtn.addEventListener('click', function () {
+        var open = shopGrid.hidden;
+        shopGrid.hidden = !open;
+        fromShopBtn.setAttribute('aria-expanded', String(open));
+      });
+      shopGrid.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-base]'); if (!b) return;
+        applyBase(b.dataset.src, b.getAttribute('aria-label'));
+      });
+    }
+    function applyBase(src, name, quiet) {
+      if (!quiet && (state.elements.length || state.bg) &&
+          !window.confirm(fill(I.confirmTpl, name))) return;
+      state.bg = src; state.fx = null; state.overlay = null;
+      state.elements = [];
+      selectedId = null;
+      renderAll(); pushHistory();
+      toast(fill(I.tplApplied, name));
+    }
 
     function applyTemplate(t) {
       if ((state.elements.length || state.bg) &&
@@ -3750,6 +3829,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // page blanche. Le modèle, lui, se choisit dans la barre du haut.
       // Lien direct vers l'aide (/personnaliser/?aide, depuis la FAQ) : le
       // formulaire « On crée votre design » s'ouvre tout de suite.
+      // Depuis une fiche produit (/personnaliser/?base=<slug>) : le motif de
+      // la coque est posé d'emblée.
+      var baseM = /[?&]base=([a-z0-9-]+)/.exec(location.search);
+      var baseBtn = baseM && shopGrid ? shopGrid.querySelector('[data-base="' + baseM[1] + '"]') : null;
+      if (baseBtn) applyBase(baseBtn.dataset.src, baseBtn.getAttribute('aria-label'), true);
       if (/[?&]aide\b/.test(location.search)) openPane('help');
       else if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
     })();
