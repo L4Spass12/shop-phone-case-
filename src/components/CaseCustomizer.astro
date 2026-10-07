@@ -1,7 +1,7 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════════════════
- *  STUDIO — builder de coque personnalisée (esprit Canva / Printify)
+ *  STUDIO, builder de coque personnalisée (esprit Canva / Printify)
  * ═══════════════════════════════════════════════════════════════════════
  *  Organisation : rail d'icônes → panneau contextuel → plan de travail.
  *  Sur mobile le rail passe en bas, le panneau devient une feuille.
@@ -25,7 +25,7 @@ import { t, type Locale } from '../lib/i18n';
 interface Props { lang?: Locale }
 const { lang = 'fr' } = Astro.props;
 
-/* Polices de personnalisation — importées ICI et non dans global.css :
+/* Polices de personnalisation, importées ICI et non dans global.css :
    elles ne servent qu'au studio, elles ne doivent pas peser sur le reste
    du site. Un seul graisse/subset latin par famille. */
 import '@fontsource/bodoni-moda/900.css';
@@ -76,7 +76,7 @@ const TEXTS = {
       importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
       pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
       emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
-      edit: 'Éditer', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
+      edit: 'Éditer', crop: 'Recadrer la photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
       printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
       printMode: 'Mode d’impression',
       flat: 'À plat', flatDesc: 'Le motif est imprimé à plat : la coque reste parfaitement lisse au toucher.',
@@ -95,7 +95,7 @@ const TEXTS = {
       confirmReset: 'Effacer tous les éléments de la coque ?', resetDone: 'Coque réinitialisée',
       titles: { design: 'Designs', text: 'Texte', photo: 'Photos', help: 'On crée votre design' }, helpSending: 'Envoi…', helpErr: "Envoi impossible pour l'instant. Réessayez dans un instant.", helpMissing: 'Décrivez votre idée (10 caractères au moins) et indiquez un e-mail valide.', helpTooMany: '5 images au maximum.', yourText: 'Votre texte', textColor: 'Texte',
       design: 'Design', confirmTpl: 'Remplacer votre composition actuelle par le design « {n} » ?', tplApplied: 'Design « {n} » appliqué',
-      notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
+      slotAdd: 'Ajouter une photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
       cartNotSet: 'Panier non configuré.', rendering: 'Rendu de votre visuel…', printFile: 'Préparation du fichier d’impression…',
       sending: 'Envoi à l’atelier…', wait: 'Quelques secondes, ne fermez pas la page.', added: 'Ajouté au panier !',
       addOne: 'Ajoutez au moins un élément à votre coque.', preparingCase: 'Préparation de votre coque…',
@@ -103,7 +103,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
       itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
       success: { flat: 'Coque à plat', relief: 'Coque en relief' },
-      tpl: { prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', souvenirsTpl: 'Souvenirs', amourRose: 'Amour rose', amourNuit: 'Amour nuit', toiMoi: 'Toi & Moi', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
         tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
         since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
     },
@@ -119,7 +119,7 @@ const TEXTS = {
       importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
       pasteHint: 'Tip: you can also paste an image (Ctrl+V).',
       emptyTitle: 'Your case is blank', emptySub: 'Choose a tool to get started',
-      edit: 'Edit', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
+      edit: 'Edit', crop: 'Reframe photo', cropOn: 'Drag the photo to reframe it in the frame', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
       printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
       printMode: 'Print finish',
       flat: 'Flat', flatDesc: 'The design is printed flat: the case stays perfectly smooth to the touch.',
@@ -138,7 +138,7 @@ const TEXTS = {
       confirmReset: 'Remove all elements from the case?', resetDone: 'Case cleared',
       titles: { design: 'Designs', text: 'Text', photo: 'Photos', help: 'We design it for you' }, helpSending: 'Sending…', helpErr: 'Could not send right now. Please try again shortly.', helpMissing: 'Describe your idea (at least 10 characters) and enter a valid email.', helpTooMany: '5 images maximum.', yourText: 'Your text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Replace your current design with the “{n}” design?', tplApplied: '“{n}” design applied',
-      notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
+      slotAdd: 'Add a photo', cropOn: 'Drag the photo to reframe it in the frame', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
       cartNotSet: 'Cart not configured.', rendering: 'Rendering your design…', printFile: 'Preparing the print file…',
       sending: 'Sending to the workshop…', wait: 'Just a few seconds, please don’t close the page.', added: 'Added to cart!',
       addOne: 'Add at least one element to your case.', preparingCase: 'Preparing your case…',
@@ -146,7 +146,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
       itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
       success: { flat: 'Flat-print case', relief: 'Raised-print case' },
-      tpl: { prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', souvenirsTpl: 'Memories', amourRose: 'Pink love', amourNuit: 'Night love', toiMoi: 'You & Me', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
         tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
         since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
     },
@@ -162,7 +162,7 @@ const TEXTS = {
       importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
       pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
       emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
-      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
+      edit: 'Bearbeiten', crop: 'Foto zuschneiden', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
       printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
       printMode: 'Druckart',
       flat: 'Flach', flatDesc: 'Das Motiv wird flach gedruckt: Die Hülle bleibt glatt.',
@@ -181,7 +181,7 @@ const TEXTS = {
       confirmReset: 'Alle Elemente von der Hülle entfernen?', resetDone: 'Hülle zurückgesetzt',
       titles: { design: 'Designs', text: 'Text', photo: 'Fotos', help: 'Wir gestalten für dich' }, helpSending: 'Wird gesendet…', helpErr: 'Senden gerade nicht möglich. Bitte versuche es gleich noch einmal.', helpMissing: 'Beschreibe deine Idee (mindestens 10 Zeichen) und gib eine gültige E-Mail an.', helpTooMany: 'Maximal 5 Bilder.', yourText: 'Dein Text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Deine aktuelle Gestaltung durch das Design „{n}“ ersetzen?', tplApplied: 'Design „{n}“ übernommen',
-      notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
+      slotAdd: 'Foto hinzufügen', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
       cartNotSet: 'Warenkorb nicht eingerichtet.', rendering: 'Dein Motiv wird gerendert…', printFile: 'Druckdatei wird vorbereitet…',
       sending: 'Wird an die Werkstatt gesendet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.', added: 'Zum Warenkorb hinzugefügt!',
       addOne: 'Füge deiner Hülle mindestens ein Element hinzu.', preparingCase: 'Deine Hülle wird vorbereitet…',
@@ -189,7 +189,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
       itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
       success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
-      tpl: { prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', souvenirsTpl: 'Erinnerungen', amourRose: 'Rosa Liebe', amourNuit: 'Nacht-Liebe', toiMoi: 'Du & Ich', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
         tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
         since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
     },
@@ -374,6 +374,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           {/* Fond de coque (posé par un design) : couvre toute la coque, sous
               les éléments, et ne se sélectionne pas. */}
           <div class="case-bg" data-casebg aria-hidden="true"></div>
+          {/* Calque « briques » : grille fixe sur la coque, la photo bouge
+              dessous (cf. drawBrickLayer). */}
+          <canvas class="brick-layer" data-bricks aria-hidden="true" hidden></canvas>
+          {/* Planche posée AU-DESSUS des photos (case centrale transparente) :
+              la photo se glisse dessous et n'apparaît que dans la case. Ne
+              capte pas les clics, la photo reste manipulable au travers. */}
+          <div class="case-overlay" data-overlay aria-hidden="true" hidden></div>
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
           <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
         </div>
@@ -402,6 +409,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       <div class="ctx" data-ctx hidden>
           <button type="button" data-act="edit" hidden aria-label={U.edit} title={U.edit}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+          </button>
+          {/* Recadrer : la photo glisse dans son cadre (cases des modèles). */}
+          <button type="button" data-act="crop" hidden aria-label={U.crop} title={U.crop}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
           </button>
           <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -483,8 +494,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       </button>
     </div>
 
-    {/* Voile de travail. La préparation dure quelques secondes — un rendu en
-        600 dpi puis un envoi — et sans lui l'écran restait figé sans rien dire.
+    {/* Voile de travail. La préparation dure quelques secondes, un rendu en
+        600 dpi puis un envoi, et sans lui l'écran restait figé sans rien dire.
         L'anneau est une VRAIE progression, pas un sablier : il avance d'un
         quart à chaque étape franchie. Un tourniquet sans fin ne dit pas si on
         en est au début ou à la fin. */}
@@ -520,7 +531,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* ── Mobile : une application à hauteur fixe ─────────────────────
      Colonne barre / plan de travail / panneau / rail. Le panneau est DANS
      le flux (et non posé par-dessus) : quand il s'ouvre, le plan de travail
-     se réduit et la coque reste visible — on voit ce qu'on est en train de
+     se réduit et la coque reste visible, on voit ce qu'on est en train de
      modifier, ce qui n'était pas le cas avec une feuille en surimpression. */
   .builder {
     display: flex;
@@ -804,7 +815,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   @media (max-width: 520px) { .bar-model { display: none; } }
   /* Sous 420 px, la barre ne tient plus : annuler, rétablir, effacer, modèle,
      prix et bouton d'achat se disputent 375 px. Plutôt que de sacrifier un
-     élément, on resserre les cibles secondaires — le prix et l'achat, eux,
+     élément, on resserre les cibles secondaires, le prix et l'achat, eux,
      gardent leur taille. */
   @media (max-width: 420px) {
     .sbtn { width: 30px; height: 30px; }
@@ -895,7 +906,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .rbtn:active { transform: scale(.94); }
 
   /* Outil actif : pastille violette pleine. Un voile à 16 % se confondait avec
-     le survol sur une surface déjà translucide — il fallait un aplat franc.
+     le survol sur une surface déjà translucide, il fallait un aplat franc.
      Le dégradé reprend les trois nuances de l'accent du site (clair, accent,
      foncé) : c'est le même violet que les boutons et le prix, pas une seconde
      teinte inventée pour l'occasion. Le liseré clair en haut et l'ombre portée
@@ -1057,7 +1068,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .field:focus { outline: none; border-color: rgb(var(--accent-rgb)); }
 
-  /* NB : polices et pastilles de couleur sont créées en JS — leurs règles
+  /* NB : polices et pastilles de couleur sont créées en JS, leurs règles
      vivent dans le bloc <style is:global>. */
   .swatch-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
@@ -1175,6 +1186,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
   .design { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
   .case-bg { position: absolute; inset: 0; background: center / cover no-repeat; pointer-events: none; }
+  .brick-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .case-overlay { position: absolute; inset: 0; z-index: 5; background: center / 100% 100% no-repeat; pointer-events: none; }
+
+
 
   .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
   .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
@@ -1182,12 +1197,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
   /* Module caméra : dessiné par le JS selon la famille d'appareils */
   .cam { position: absolute; z-index: 6; pointer-events: none; }
-  /* NB : le contenu du module caméra est injecté en JS — ses règles vivent
+  /* NB : le contenu du module caméra est injecté en JS, ses règles vivent
      dans le bloc <style is:global> (pas d'attribut de scope Astro). */
 
   /* La coque elle-même : épaisseur du TPU + reflet */
   /* La coque elle-même. En finition transparente elle ne pose AUCUN fond :
-     on voit le plan de travail au travers — c'est ça qui fait lire « coque
+     on voit le plan de travail au travers, c'est ça qui fait lire « coque
      transparente » plutôt que « téléphone noir ». Seules les arêtes du TPU,
      sa paroi et les reflets sont dessinés. */
   .shell {
@@ -1260,6 +1275,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .ctx button svg { width: 18px; height: 18px; }
   .ctx button:hover { background: rgba(255,255,255,.15); }
+  .ctx button[data-on] { background: rgb(var(--accent-rgb)); }
+  .ctx button[hidden] { display: none; }
+  .studio .el[data-cropping] { cursor: move; outline: .5cqw dashed rgb(var(--accent-rgb)); }
   .ctx .ctx-del:hover { background: #e11d48; }
   /* Mobile et tablette : colonne verticale au bord droit du plan de travail.
      En bas, la barre recouvrait le bas de la coque, là où l'on travaille. */
@@ -1270,6 +1288,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       flex-direction: column;
     }
     .ctx button { min-width: 40px; height: 40px; padding: 0; }
+    /* Plan de travail trop bas (panneau ouvert) : la colonne ne tient plus,
+       la barre passe en ligne en haut du plan de travail (cf. fitCtx). */
+    .ctx[data-row] {
+      top: 6px; right: auto; left: 50%; transform: translateX(-50%);
+      flex-direction: row;
+    }
   }
 
   .toast {
@@ -1294,7 +1318,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
      Verrou étendu au DESKTOP : la mise en îlots du rail et du panneau a
      introduit des marges qui débordaient de quelques pixels, et la page se
-     mettait à défiler pour rien. Un éditeur ne défile pas — ce sont ses
+     mettait à défiler pour rien. Un éditeur ne défile pas, ce sont ses
      panneaux qui défilent, chacun chez lui. */
   html[data-studio-app], html[data-studio-app] body {
     overflow: hidden;
@@ -1309,7 +1333,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      sunfreaks le header flotte, son îlot occupe un peu plus que --header-h, et
      le bas de la coque se retrouvait coupé. Ici `main` remplit la page, son
      padding haut est compris dans sa hauteur (border-box), et l'éditeur prend
-     ce qui reste — quelle que soit la hauteur du header. */
+     ce qui reste, quelle que soit la hauteur du header. */
   html[data-studio-app] .site-main {
     height: 100%;
     box-sizing: border-box;
@@ -1317,7 +1341,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   /* La chaîne des hauteurs doit être continue : une seule hauteur `auto` sur
      le parcours et le pourcentage de l'éditeur redevient indéfini, donc égal à
-     son contenu — soit 1440 px de haut et une grille écrasée. */
+     son contenu, soit 1440 px de haut et une grille écrasée. */
   html[data-studio-app] .studio { height: 100%; }
   /* Clavier ouvert (mobile) : iOS pose le clavier PAR-DESSUS la page sans la
      réduire. La page prend donc la hauteur réellement visible (--vvh, mesurée
@@ -1337,7 +1361,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   /* En sunfreaks le header est un ÎLOT : il flotte 9 px sous le haut de page,
      donc son bas dépasse --header-h d'autant. `main` se décalait de
-     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils —
+     --header-h seulement, et l'îlot recouvrait le haut de la barre d'outils ,
      visible surtout sur mobile, où le bouton d'achat passait dessous. */
   html[data-theme='sunfreaks'][data-studio-app] .site-main {
     padding-top: calc(var(--header-total) + 18px);
@@ -1348,8 +1372,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* ── <ModelPicker> posé dans la barre du studio ──────────────────
      Le composant est conçu pour une fiche produit : étiquette au-dessus,
      champ pleine largeur, marge basse. Dans une barre d'outils il doit se
-     réduire à une pastille. On ne touche PAS au composant lui-même — sa
-     feuille et sa logique servent aussi aux fiches produit — on ne fait que
+     réduire à une pastille. On ne touche PAS au composant lui-même, sa
+     feuille et sa logique servent aussi aux fiches produit, on ne fait que
      le remettre en forme ici. */
   .studio .bar-mp { min-width: 0; flex: 0 1 auto; margin-left: .3rem; }
   .studio .bar-mp .mp { margin-bottom: 0; }
@@ -1442,7 +1466,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
      Il doit TRANCHER sur le dos du téléphone : sombre sur sombre, il
      disparaissait et l'aperçu ne se lisait plus comme un dos de coque. */
   /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
-     plastique qui borde le trou — on doit voir le décor au travers. */
+     plastique qui borde le trou, on doit voir le décor au travers. */
   /* Même creux ombré que les trous ronds des Galaxy (cf. .cam-hole). */
   .studio .cam-cut {
     position: absolute; inset: 0; border-radius: 26%;
@@ -1508,8 +1532,45 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
   }
   .studio .el:active { cursor: grabbing; }
+  /* Textes, stickers et photos ajoutés par le client passent AU-DESSUS de la
+     planche ; seules les photos des cadres restent dessous. */
+  .studio .el:not([data-slot]) { z-index: 6; }
   .studio .el-content { display: block; line-height: 1.05; white-space: nowrap; pointer-events: none; }
   .studio .el[data-type="image"] .el-content img { display: block; width: 100%; height: auto; pointer-events: none; }
+  /* Photo du calque briques : invisible mais toujours manipulable (cadre de
+     sélection, glisser, pincer) ; c'est le calque qui la montre en briques. */
+  .studio .design[data-fx="bricks"] .el[data-photo] .el-content { opacity: 0; }
+  /* Cadre Polaroid : bord blanc, marge basse plus large, photo carrée
+     recadrée. Mêmes proportions que le fichier d'impression (POLA). */
+  .studio .pola {
+    display: block; background: #fff; padding: 6% 6% 24%;
+    box-shadow: 0 .6cqw 1.6cqw rgba(0,0,0,.28), 0 0 0 .15cqw rgba(0,0,0,.06);
+  }
+  .studio .el[data-type="image"] .pola img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+  /* Case photo vide : invite à toucher pour ajouter sa photo. */
+  .studio .slot-empty {
+    display: grid; place-items: center; aspect-ratio: 1; width: 100%;
+    background: repeating-linear-gradient(135deg, #eceae4 0 6px, #f4f2ed 6px 12px);
+    color: #6b6359; font: 600 3.4cqw/1.2 Inter, system-ui, sans-serif; text-align: center;
+    white-space: normal;
+  }
+  .studio .slot-empty span { display: block; font-size: 9cqw; line-height: 1; margin-bottom: .6cqw; }
+  .studio .slot-plain { border: .5cqw dashed #9a9184; }
+  /* Case de BD : bord blanc cerné de noir. */
+  .studio .panel { display: block; background: #fff; padding: 2.5%; box-shadow: 0 0 0 .9cqw #111; }
+  .studio .el[data-type="image"] .panel img,
+  .studio .el[data-type="image"] .fill { display: block; width: 100%; height: auto; object-fit: cover; }
+  .studio .tel-slot { position: absolute; background: linear-gradient(160deg, #cfd8e3, #a9b6c6); }
+  .studio .tel-slot[data-fx="bricks"] { background: url('/images/studio-bg/tpl-briques.webp') center / cover; }
+  .studio .tel-slot[data-fx="manga"] { background: #fff url('/images/studio-bg/tpl-manga.webp') center / cover; box-shadow: 0 0 0 2px #111; border: 2px solid #fff; }
+  .studio .tel-pola {
+    position: absolute; background: #fff; aspect-ratio: 1 / 1.18;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  }
+  .studio .tel-pola::after {
+    content: ""; position: absolute; left: 6%; right: 6%; top: 5%; aspect-ratio: 1;
+    background: linear-gradient(160deg, #cfd8e3, #a9b6c6);
+  }
   .studio .el[data-type="text"] .el-content { padding: 0 .06em; }
   .studio .el[data-editing] { cursor: text; }
   .studio .el[data-editing] .el-content { pointer-events: auto; white-space: pre; outline: none; }
@@ -1517,8 +1578,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* Cadre de sélection : calque unique, positionné par le JS pour coïncider
      avec l'élément sélectionné. Hors du .design (donc non rogné) : le cadre et
      ses poignées restent visibles même quand l'image déborde de la coque.
-     Le cadre lui-même ne capte pas les clics (pointer-events: none) — seules
-     les poignées le font — pour ne pas bloquer le glisser de l'image dessous. */
+     Le cadre lui-même ne capte pas les clics (pointer-events: none), seules
+     les poignées le font, pour ne pas bloquer le glisser de l'image dessous. */
   .studio .gizmo {
     position: absolute; left: 50%; top: 50%;
     border: 1.5px solid rgb(var(--accent-rgb)); border-radius: 3px;
@@ -1531,7 +1592,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
     pointer-events: auto;
   }
-  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; }
+  .studio .h-resize { right: -11px; bottom: -11px; cursor: nwse-resize; touch-action: none; border-radius: 6px; }
+  /* Pictos des poignées : flèche circulaire (tourner), double flèche en
+     diagonale (agrandir). Masque teinté à la couleur d'accent. */
+  .studio .h::before {
+    content: ""; position: absolute; inset: 3px; background: rgb(var(--accent-rgb));
+    -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat;
+  }
+  .studio .h-rotate { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 12a8 8 0 1 1-2.4-5.7'/%3E%3Cpath d='M20 4v5h-5'/%3E%3C/svg%3E"); }
+  .studio .h-resize { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5l14 14'/%3E%3Cpath d='M5 11V5h6'/%3E%3Cpath d='M19 13v6h-6'/%3E%3C/svg%3E"); }
   .studio .h-rotate { left: 50%; top: -34px; transform: translateX(-50%); cursor: grab; touch-action: none; }
   .studio .h-rotate::after {
     content: ""; position: absolute; left: 50%; top: 100%; width: 1.5px; height: 16px;
@@ -1721,41 +1790,107 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       cerise: { src: '/images/studio-bg/cerise.webp', ink: '#8f1f00' },
       ciel:   { src: '/images/studio-bg/ciel.webp',   ink: '#2f6fa8' },
       menthe: { src: '/images/studio-bg/menthe.webp', ink: '#00796f' },
+      // Fonds unis « premium » (léger grain, lumière douce) pour la typographie.
+      nuit:     { src: '/images/studio-bg/nuit.webp',     ink: '' },
+      emeraude: { src: '/images/studio-bg/emeraude.webp', ink: '' },
+      creme:    { src: '/images/studio-bg/creme.webp',    ink: '' },
     };
     function T(text, font, size, x, y, bg, extra) {
       return Object.assign({ type: 'text', text: text, font: F(font), color: '#ffffff', outline: BG[bg].ink, size: size, x: x, y: y, rot: 0 }, extra || {});
     }
     function S(text, size, x, y, rot) { return { type: 'sticker', text: text, size: size, x: x, y: y, rot: rot || 0 }; }
+    // Case photo d'un modèle (vide au départ, remplie par la photo du client).
+    function P(size, x, y, rot) { return { type: 'image', slot: true, frame: 'polaroid', src: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    // Case photo pleine (sans cadre Polaroid) : `ar` = hauteur / largeur,
+    // `fx` = effet appliqué à la photo (bricks, manga), `frame` = 'panel'
+    // pour une case de BD (bord blanc cerné de noir).
+    function Q(size, x, y, ar, fx, frame, rot) { return { type: 'image', slot: true, frame: frame || '', fx: fx || '', ar: ar, src: '', size: size, x: x, y: y, rot: rot || 0 }; }
+    // Texte libre (couleur et contour au choix).
+    function X(text, font, size, x, y, color, outline, rot, extra) { return Object.assign({ type: 'text', text: text, font: F(font), color: color, outline: outline || '', size: size, x: x, y: y, rot: rot || 0 }, extra || {}); }
+    // Photo du calque briques : libre (pas de recadrage), l'effet est une
+    // grille fixe sur toute la coque.
+    function B() { return { type: 'image', slot: true, frame: '', fx: 'bricks', ar: 1 / CASE_AR, src: '', size: 100, x: 50, y: 50, rot: 0 }; }
+    // Proportions de la coque (largeur / hauteur), pour une case qui la couvre.
+    var CASE_AR = .48;
+    // Texte manuscrit sombre, pour les modèles sur coque transparente.
+    function W(text, size, x, y, rot) { return { type: 'text', text: text, font: F('caveat'), color: '#2b2622', outline: '', size: size, x: x, y: y, rot: rot || 0 }; }
     var TEMPLATES = [
-      { id: 'prenom', name: I.tpl.prenom, bg: 'cerise', els: [
-        T('Camille', 'pinyon', 24, 50, 52, 'cerise'),
+      // Manga : une case de BD (photo en noir et blanc tramé) et des onomatopées.
+      // Manga : planche de BD dessinée, la photo du client (en noir et blanc
+      // tramé) apparaît dans la grande case centrale.
+      { id: 'manga', name: I.tpl.manga, bg: null, overlay: '/images/studio-bg/manga-planche-v2.webp',
+        thumb: '/images/studio-bg/tpl-manga-planche-v2.webp', els: [
+        Q(67, 53, 52.5, 1.67, 'manga', '', -5.2),
       ]},
-      { id: 'monogramme', name: I.tpl.monogramme, bg: 'ciel', els: [
-        T('A M', 'bodoni', 32, 50, 46, 'ciel'),
-        T(I.tpl.since, 'montserrat', 6, 50, 60, 'ciel'),
+      // Briques : la photo devient une mosaïque de briques à plots.
+      { id: 'briques', name: I.tpl.briques, bg: null, fx: 'bricks', els: [
+        B(),
       ]},
-      // NB : on garde les éléments hors de la zone caméra (haut-gauche).
-      { id: 'floral', name: I.tpl.floral, bg: 'menthe', els: [
-        S('🌸', 20, 27, 37, -12), S('🌿', 17, 76, 34, 14),
-        T('Bloom', 'dancing', 21, 50, 53, 'menthe'),
-        S('🌷', 18, 30, 74, 8), S('🍃', 15, 72, 78, -16),
+      { id: 'toi-moi', name: I.tpl.toiMoi, bg: null, overlay: '/images/studio-bg/toi-moi.webp',
+        thumb: '/images/studio-bg/tpl-toi-moi.webp', els: [
+        Q(42, 40.4, 41, 1.0, '', '', -9.8),
+        Q(41.5, 63.6, 62, .95, '', '', 10.8),
       ]},
-      { id: 'citation', name: I.tpl.citation, bg: 'cerise', els: [
-        T('CARPE', 'anton', 24, 50, 42, 'cerise'),
-        T('DIEM', 'anton', 24, 50, 57, 'cerise', { color: '#ffe14d' }),
+      // NB : cadres hors de la zone caméra (haut-gauche).
+      // Mur de souvenirs : des Polaroid partout, qui débordent volontairement
+      // de la coque (le coin haut gauche reste dégagé pour l'appareil photo).
+      { id: 'polaroid', name: I.tpl.polaroid, bg: null, els: [
+        P(38, 62, 6, 6),
+        P(38, 97, 10, -5),
+        P(38, 30, 30, -7),
+        P(38, 66, 25, 4),
+        P(38, 100, 31, -8),
+        P(38, 8, 44, 5),
+        P(38, 44, 45, -5),
+        P(38, 80, 42, 7),
+        P(38, 26, 61, 6),
+        P(38, 62, 63, -6),
+        P(38, 98, 59, 4),
+        P(38, 6, 78, -4),
+        P(38, 42, 80, 7),
+        P(38, 78, 77, -6),
+        P(38, 22, 95, 5),
+        P(38, 58, 97, -3),
+        P(38, 92, 94, 6),
       ]},
-      { id: 'tropical', name: I.tpl.tropical, bg: 'menthe', els: [
-        S('🌴', 30, 34, 40, -8), S('🌺', 18, 70, 60, 12),
-        T(I.tpl.summer, 'caveat', 21, 52, 78, 'menthe', { rot: -4 }),
+      { id: 'pelemele', name: I.tpl.pelemele, bg: null, els: [
+        P(46, 68, 27, 7),
+        P(46, 34, 52, -8),
+        P(46, 64, 77, 5),
       ]},
-      { id: 'coeur', name: I.tpl.coeur, bg: 'cerise', els: [
-        S('🤍', 30, 50, 44),
-        T('love you', 'dancing', 17, 50, 64, 'cerise', { rot: -3 }),
+      // Planches scrapbook : décor posé AU-DESSUS, les photos du client
+      // apparaissent dans les cadres Polaroid découpés.
+      { id: 'souvenirs', name: I.tpl.souvenirsTpl, bg: null, overlay: '/images/studio-bg/souvenirs.webp',
+        thumb: '/images/studio-bg/tpl-souvenirs.webp', els: [
+        Q(56, 54.3, 47.6, 1.22, '', '', -5),
+      ]},
+      { id: 'amour-rose', name: I.tpl.amourRose, bg: null, overlay: '/images/studio-bg/amour-rose.webp',
+        thumb: '/images/studio-bg/tpl-amour-rose.webp', els: [
+        Q(51, 39.9, 29.7, 1.03, '', '', -9.2),
+        Q(49, 65.2, 59.1, 1.0, '', '', 10),
+      ]},
+      { id: 'amour-nuit', name: I.tpl.amourNuit, bg: null, overlay: '/images/studio-bg/amour-nuit.webp',
+        thumb: '/images/studio-bg/tpl-amour-nuit.webp', els: [
+        Q(43.5, 38.5, 39.1, 1.04, '', '', -10.2),
+        Q(41.5, 60.5, 61.3, 1.05, '', '', 10),
+      ]},
+      // Typographie élégante : des initiales sur un fond premium.
+      { id: 'initiales-or', name: I.tpl.initialesOr, bg: 'nuit', els: [
+        X('A · M', 'bodoni', 22, 50, 50, '#d9b46c', '', 0),
+        X('2 0 2 6', 'montserrat', 4.2, 50, 60, '#d9b46c', '', 0),
+      ]},
+      { id: 'initiales-creme', name: I.tpl.initialesCreme, bg: 'creme', els: [
+        X('L', 'pinyon', 46, 50, 52, '#3b2f25', '', 0),
+      ]},
+      { id: 'emeraude', name: I.tpl.emeraude, bg: 'emeraude', els: [
+        X('C.', 'playfair', 34, 50, 52, '#e9d9b0', '', 0),
       ]},
     ];
 
     /* ── État ────────────────────────────────────────────────────── */
-    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, elements: [] };
+    // fx : effet appliqué à TOUTE la coque ('bricks' = mosaïque de briques).
+    // overlay : planche posée au-dessus des photos (modèle Manga).
+    var state = { finish: 'clear', device: DEVICES[0].id, mount: 'alone', model: '', bg: null, fx: null, overlay: null, elements: [] };
     var nodes = new Map();
     var selectedId = null, seq = 0, gesture = null, editingId = null;
     var history = [], hIndex = -1, activePane = null;
@@ -1871,6 +2006,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         return (p[0] * .055).toFixed(3) + 'em ' + (p[1] * .055).toFixed(3) + 'em 0 ' + c;
       }).join(',');
     }
+    function applyCrop(el) {
+      var ref = nodes.get(el.id), im = ref && ref.node.querySelector('img');
+      if (im) im.style.objectPosition = ((el.ox == null ? .5 : el.ox) * 100) + '% ' + ((el.oy == null ? .5 : el.oy) * 100) + '%';
+    }
     function applyStyles(el) {
       var ref = nodes.get(el.id); if (!ref) return;
       ref.node.style.left = el.x + '%';
@@ -1882,6 +2021,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         if (el.type === 'text') { ref.content.style.fontFamily = el.font; ref.content.style.color = el.color; ref.content.style.textShadow = outlineCss(el.outline); }
       }
       if (el.id === selectedId) positionGizmo(el);
+      if (state.fx === 'bricks' && el.type === 'image') scheduleBricks();
     }
 
     // Cale le cadre de sélection (calque hors du clip) sur l'élément : même
@@ -1899,17 +2039,40 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function createNode(el) {
       var node = document.createElement('div');
       node.className = 'el'; node.dataset.type = el.type; node.dataset.id = String(el.id);
+      if (el.type === 'image' && el.src) node.dataset.photo = '';
+      if (el.slot) node.dataset.slot = '';
       var content = document.createElement('div');
       content.className = 'el-content';
       if (el.type === 'image') {
-        var img = document.createElement('img');
-        img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
-        // Filet pour les navigateurs sans ResizeObserver : au décodage, la
-        // hauteur passe de zéro à sa valeur réelle.
-        img.addEventListener('load', function () {
-          if (selectedId === el.id) positionGizmo(el);
-        });
-        content.appendChild(img);
+        // Case photo d'un modèle : cadre Polaroid éventuel, et tant qu'elle
+        // est vide, une invite « Ajouter une photo » (toucher la case ouvre
+        // le choix de photo, cf. onUp).
+        var host = content;
+        if (el.frame === 'polaroid' || el.frame === 'panel') {
+          host = document.createElement('div'); host.className = el.frame === 'panel' ? 'panel' : 'pola';
+          content.appendChild(host);
+        }
+        if (el.src) {
+          var img = document.createElement('img');
+          img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
+          // Case d'un modèle : photo recadrée aux proportions de la case.
+          if (el.slot && el.frame !== 'polaroid' && el.fx !== 'bricks') { img.className = 'fill'; img.style.aspectRatio = String(1 / (el.ar || 1)); }
+          if (el.slot) img.style.objectPosition = ((el.ox == null ? .5 : el.ox) * 100) + '% ' + ((el.oy == null ? .5 : el.oy) * 100) + '%';
+          // Filet pour les navigateurs sans ResizeObserver : au décodage, la
+          // hauteur passe de zéro à sa valeur réelle.
+          img.addEventListener('load', function () {
+            if (selectedId === el.id) positionGizmo(el);
+            if (state.fx === 'bricks') scheduleBricks();
+          });
+          host.appendChild(img);
+        } else {
+          var ph = document.createElement('div');
+          ph.className = 'slot-empty' + (el.frame ? '' : ' slot-plain');
+          ph.style.aspectRatio = String(1 / (el.ar || 1));
+          ph.innerHTML = '<div><span>+</span></div>';
+          ph.firstChild.appendChild(document.createTextNode(I.slotAdd));
+          host.appendChild(ph);
+        }
       } else content.textContent = el.text;
       node.append(content);
       node.addEventListener('pointerdown', function (e) { onDown(e, el.id); });
@@ -1920,6 +2083,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
 
     var caseBgEl = root.querySelector('[data-casebg]');
+    var overlayEl = root.querySelector('[data-overlay]');
     function bgSrc() { return state.bg && BG[state.bg] ? BG[state.bg].src : ''; }
     function renderBg() { caseBgEl.style.backgroundImage = bgSrc() ? 'url("' + bgSrc() + '")' : ''; }
     function renderAll() {
@@ -1927,11 +2091,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       design.querySelectorAll('.el').forEach(function (n) { n.remove(); });
       nodes.clear();
       state.elements.forEach(createNode);
-      renderCase(); applyFinish(); refreshEmpty();
+      if (state.fx) design.dataset.fx = state.fx; else delete design.dataset.fx;
+      overlayEl.hidden = !state.overlay;
+      overlayEl.style.backgroundImage = state.overlay ? 'url("' + state.overlay + '")' : '';
+      renderCase(); applyFinish(); refreshEmpty(); scheduleBricks();
       if (selectedId && !findEl(selectedId)) selectedId = null;
       applySelection();
     }
-    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0 || !!bgSrc(); }
+    function refreshEmpty() { emptyEl.hidden = state.elements.length > 0 || !!bgSrc() || !!state.overlay; }
 
     /* ── Historique + sauvegarde ────────────────────────────────── */
     function snapshot() { return JSON.stringify(state); }
@@ -1953,7 +2120,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     root.querySelector('[data-reset]').addEventListener('click', function () {
       if (!state.elements.length && !state.bg) return;
       if (!window.confirm(I.confirmReset)) return;
-      state.elements = []; state.bg = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
+      state.elements = []; state.bg = null; state.fx = null; state.overlay = null; selectedId = null; renderAll(); pushHistory(); toast(I.resetDone);
     });
 
     /* ── Ajout / suppression ────────────────────────────────────── */
@@ -1964,9 +2131,21 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return el;
     }
     function removeElement(id) {
+      // Photo d'une case de modèle : on vide la case au lieu de la retirer,
+      // pour que la photo suivante retrouve le même cadre et le même effet.
+      var sl = findEl(id);
+      if (sl && sl.type === 'image' && sl.slot && sl.src) {
+        sl.src = ''; delete sl.hk;
+        var r0 = nodes.get(id); if (r0) { r0.node.remove(); nodes.delete(id); }
+        createNode(sl);
+        state.elements.forEach(function (x) { var r = nodes.get(x.id); if (r) design.appendChild(r.node); });
+        selectedId = null; applySelection(); scheduleBricks(); pushHistory();
+        return;
+      }
       var ref = nodes.get(id); if (ref) { ref.node.remove(); nodes.delete(id); }
       state.elements = state.elements.filter(function (e) { return e.id !== id; });
       if (selectedId === id) { selectedId = null; applySelection(); }
+      scheduleBricks();
       refreshEmpty(); pushHistory();
     }
     function duplicate(id) {
@@ -1990,7 +2169,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* Le cadre se mesure sur le nœud. Or un nœud qui vient d'apparaître n'a
        pas encore sa taille définitive : une image importée ne connaît la
        sienne qu'une fois décodée, un texte qu'une fois sa police chargée. Le
-       cadre se posait donc sur un nœud encore plat — une barre large et fine,
+       cadre se posait donc sur un nœud encore plat, une barre large et fine,
        qui ne se recalait qu'au premier redimensionnement.
        On suit désormais la taille réelle du nœud sélectionné : dès qu'elle
        change, le cadre suit. */
@@ -2017,8 +2196,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
+      fitCtxSoon();
+      if (el) ctx.querySelector('[data-act="crop"]').hidden = !(el.type === 'image' && el.slot && el.src && el.fx !== 'bricks');
+      if (!el || el.id !== cropId) setCrop(null);
       syncTextPane();
     }
+    // La colonne d'actions (mobile) doit tenir dans le plan de travail.
+    function fitCtx() {
+      if (ctx.hidden) return;
+      ctx.removeAttribute('data-row');
+      if (window.innerWidth > 1023) return;
+      var avail = canvasEl.getBoundingClientRect().height - 16;
+      if (ctx.getBoundingClientRect().height > avail) ctx.setAttribute('data-row', '');
+    }
+    function fitCtxSoon() { requestAnimationFrame(fitCtx); }
+    if (typeof ResizeObserver === 'function') new ResizeObserver(fitCtx).observe(canvasEl);
+    window.addEventListener('resize', fitCtx);
     ctx.addEventListener('click', function (e) {
       var b = e.target.closest('[data-act]'); if (!b || !selectedId) return;
       var a = b.dataset.act;
@@ -2027,8 +2220,21 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       else if (a === 'front') reorder(selectedId, 1);
       else if (a === 'back') reorder(selectedId, -1);
       else if (a === 'edit') openPane('text');
+      else if (a === 'crop') setCrop(cropId === selectedId ? null : selectedId);
     });
-    // Cliquer n'importe où sur le plan de travail — coque OU fond autour —
+    /* Recadrage : en mode recadrage, glisser déplace la photo DANS son cadre
+       (point de cadrage ox/oy, de 0 à 1) au lieu de déplacer le cadre. */
+    var cropId = null;
+    function setCrop(id) {
+      if (cropId === id) return;
+      if (cropId != null) { var r0 = nodes.get(cropId); if (r0) delete r0.node.dataset.cropping; }
+      cropId = id;
+      var btn = ctx.querySelector('[data-act="crop"]');
+      if (id != null) { var r1 = nodes.get(id); if (r1) r1.node.dataset.cropping = ''; btn.dataset.on = ''; toast(U_CROP_ON); }
+      else delete btn.dataset.on;
+    }
+    var U_CROP_ON = I.cropOn || '';
+    // Cliquer n'importe où sur le plan de travail, coque OU fond autour ,
     // désélectionne. Seuls un élément (.el, poignées comprises) et la barre
     // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
     // qu'on vient de faire, ou l'action qu'on s'apprête à déclencher.
@@ -2056,7 +2262,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var d = design.getBoundingClientRect(), b = nodes.get(id).node.getBoundingClientRect();
       var cx = b.left + b.width / 2, cy = b.top + b.height / 2;
       gesture = {
-        el: el, mode: handle || 'drag', px: e.clientX, py: e.clientY,
+        el: el, mode: handle || (cropId === id ? 'pan' : 'drag'), px: e.clientX, py: e.clientY,
+        sox: el.ox == null ? .5 : el.ox, soy: el.oy == null ? .5 : el.oy, bw: b.width, bh: b.height,
         sx: el.x, sy: el.y, srot: el.rot, ssize: el.size, cx: cx, cy: cy,
         a0: Math.atan2(e.clientY - cy, e.clientX - cx),
         d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1,
@@ -2070,6 +2277,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function onMove(e) {
       if (!gesture) return;
       var g = gesture; g.moved = true;
+      if (g.mode === 'pan') {
+        // Glisser vers le bas montre le HAUT de la photo : le point de
+        // cadrage recule.
+        g.el.ox = clamp(g.sox - (e.clientX - g.px) / g.bw * 1.6, 0, 1);
+        g.el.oy = clamp(g.soy - (e.clientY - g.py) / g.bh * 1.6, 0, 1);
+        applyCrop(g.el);
+        return;
+      }
       if (g.mode === 'drag') {
         var nx = g.sx + (e.clientX - g.px) / g.cw * 100, ny = g.sy + (e.clientY - g.py) / g.ch * 100;
         var sv = Math.abs(nx - 50) < SNAP, sh = Math.abs(ny - 50) < SNAP;
@@ -2092,7 +2307,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       }
       applyStyles(g.el);
     }
-    function onUp() {
+    var pendingSlot = null;
+    function isEmptySlot(el) { return !!(el && el.type === 'image' && el.slot && !el.src); }
+    function onUp(e) {
+      var g0 = gesture;
+      if (g0 && g0.mode === 'drag' && isEmptySlot(g0.el) && e &&
+          Math.hypot(e.clientX - g0.px, e.clientY - g0.py) < 8) {
+        pendingSlot = g0.el.id; fileInput.click();
+      }
       if (gesture && gesture.moved) pushHistory();
       gesture = null;
       guideV.style.display = 'none'; guideH.style.display = 'none';
@@ -2302,7 +2524,19 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var thumb = document.createElement('span');
       thumb.className = 'tpl-thumb';
       if (t.bg) thumb.style.backgroundImage = 'url("' + BG[t.bg].src.replace('.webp', '-thumb.webp') + '")';
+      if (t.thumb) thumb.style.backgroundImage = 'url("' + t.thumb + '")';
       t.els.forEach(function (e) {
+        if (e.type === 'image' && t.thumb) return;
+        if (e.type === 'image') {
+          var p = document.createElement('span');
+          p.className = e.frame === 'polaroid' ? 'tel-pola' : 'tel-slot';
+          if (e.fx) p.dataset.fx = e.fx;
+          if (e.frame !== 'polaroid') p.style.aspectRatio = String(1 / (e.ar || 1));
+          p.style.left = e.x + '%'; p.style.top = e.y + '%'; p.style.width = e.size + '%';
+          p.style.transform = 'translate(-50%,-50%) rotate(' + (e.rot || 0) + 'deg)';
+          thumb.appendChild(p);
+          return;
+        }
         var s = document.createElement('span');
         s.className = 'tel';
         s.textContent = e.text;
@@ -2324,6 +2558,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if ((state.elements.length || state.bg) &&
           !window.confirm(fill(I.confirmTpl, t.name))) return;
       state.bg = t.bg || null;
+      state.fx = t.fx || null;
+      state.overlay = t.overlay || null;
       state.elements = t.els.map(function (e) { return Object.assign({}, e, { id: ++seq }); });
       selectedId = null;
       renderAll(); pushHistory();
@@ -2335,7 +2571,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Finition + téléphone ───────────────────────────────────────
        Plus d'interface : la boutique n'imprime que sur coque transparente, et
        l'aperçu reste « coque seule ». L'état et le rendu gardent les champs
-       (`finish`, `device`, `mount`) — un design déjà enregistré avec une autre
+       (`finish`, `device`, `mount`), un design déjà enregistré avec une autre
        finition continue de se rouvrir correctement, et rouvrir le choix plus
        tard ne demandera que de remettre les boutons. */
 
@@ -2390,6 +2626,163 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        la mémoire de TOUS les canvas de la page, et au-delà il dessine du vide
        sans lever d'erreur (la photo « ne s'ajoutait pas »). */
     function freeCanvas(c) { try { c.width = 0; c.height = 0; } catch (_) {} }
+    /* ── Calque briques ────────────────────────────────────────────
+       La grille est FIXE sur la coque (BRICK_COLS colonnes de briques
+       carrées) : la photo glisse, tourne ou rétrécit dessous, et chaque
+       brique prend la couleur de la photo à son emplacement. Même calcul à
+       l'écran et dans le fichier d'impression. */
+    var BRICK_COLS = 32;
+    // Couleur de base des briques sans photo dessous : la grille couvre
+    // toujours toute la coque.
+    var BRICK_BASE = [242, 239, 233];
+    // Couleurs de toutes les photos (dans l'ordre d'empilement) à la
+    // résolution de la grille (cols x rows).
+    function brickSample(list, cols, rows) {
+      var cv = document.createElement('canvas'); cv.width = cols; cv.height = rows;
+      var g = cv.getContext('2d');
+      g.imageSmoothingQuality = 'high';
+      list.forEach(function (it) {
+        var el = it.el, img = it.img;
+        var iw = el.size / 100 * cols, ih = iw * ((img.naturalHeight || 1) / (img.naturalWidth || 1));
+        g.save();
+        g.translate(el.x / 100 * cols, el.y / 100 * rows);
+        g.rotate(el.rot * Math.PI / 180);
+        g.drawImage(img, -iw / 2, -ih / 2, iw, ih);
+        g.restore();
+      });
+      var px = g.getImageData(0, 0, cols, rows).data;
+      freeCanvas(cv);
+      // Mélange avec la couleur de base là où la photo est absente ou
+      // partiellement transparente (bords).
+      for (var i = 0; i < px.length; i += 4) {
+        var a = px[i + 3] / 255;
+        px[i] = Math.round(px[i] * a + BRICK_BASE[0] * (1 - a));
+        px[i + 1] = Math.round(px[i + 1] * a + BRICK_BASE[1] * (1 - a));
+        px[i + 2] = Math.round(px[i + 2] * a + BRICK_BASE[2] * (1 - a));
+        px[i + 3] = 255;
+      }
+      return px;
+    }
+    // Dessine les briques dans un contexte de W x H.
+    function drawBricks(g, px, cols, rows, W, H) {
+      var cw = W / cols, ch = H / rows, e = Math.max(1, cw * .06);
+      for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+        var i = (y * cols + x) * 4;
+        var col = 'rgb(' + px[i] + ',' + px[i + 1] + ',' + px[i + 2] + ')';
+        var X0 = x * cw, Y0 = y * ch;
+        g.fillStyle = col; g.fillRect(X0, Y0, cw + .5, ch + .5);
+        g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(X0, Y0 + ch - e, cw, e); g.fillRect(X0 + cw - e, Y0, e, ch);
+        g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(X0, Y0, cw, e * .7); g.fillRect(X0, Y0, e * .7, ch);
+        var cx = X0 + cw / 2, cy = Y0 + ch / 2, r = Math.min(cw, ch) * .3;
+        g.beginPath(); g.arc(cx + e * .7, cy + e, r, 0, Math.PI * 2); g.fillStyle = 'rgba(0,0,0,.3)'; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fillStyle = col; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, Math.PI * 1.05, Math.PI * 1.7); g.lineWidth = e; g.strokeStyle = 'rgba(255,255,255,.55)'; g.stroke();
+      }
+    }
+    function brickRows(W, H) { return Math.max(1, Math.round(BRICK_COLS * H / W)); }
+    var brickLayer = root.querySelector('[data-bricks]'), brickRaf = 0;
+    function scheduleBricks() {
+      if (brickRaf) return;
+      // requestAnimationFrame est suspendu quand l'onglet est caché :
+      // repli sur un délai court.
+      var run = function () { brickRaf = 0; drawBrickLayer(); };
+      brickRaf = document.hidden ? setTimeout(run, 16) : requestAnimationFrame(run);
+    }
+    function drawBrickLayer() {
+      if (state.fx !== 'bricks') { brickLayer.hidden = true; return; }
+      var list = [];
+      state.elements.forEach(function (el) {
+        if (el.type !== 'image' || !el.src) return;
+        var ref = nodes.get(el.id), img = ref && ref.node.querySelector('img');
+        if (img && img.naturalWidth) list.push({ el: el, img: img });
+      });
+      var r = design.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      var W = Math.round(r.width * dpr), H = Math.round(r.height * dpr);
+      if (!W || !H) return;
+      if (brickLayer.width !== W || brickLayer.height !== H) { brickLayer.width = W; brickLayer.height = H; }
+      var rows = brickRows(r.width, r.height);
+      var g = brickLayer.getContext('2d');
+      g.clearRect(0, 0, W, H);
+      drawBricks(g, brickSample(list, BRICK_COLS, rows), BRICK_COLS, rows, W, H);
+      brickLayer.hidden = false;
+    }
+    window.addEventListener('resize', scheduleBricks);
+
+    /* ── Effets de photo des modèles ─────────────────────────────── */
+    // Recadre la photo au centre aux proportions `ar` (hauteur / largeur) et
+    // renvoie un canvas de `w` pixels de large.
+    function cropTo(img, ar, w) {
+      var nw = img.naturalWidth || img.width, nh = img.naturalHeight || img.height;
+      var sw = nw, sh = nw * ar;
+      if (sh > nh) { sh = nh; sw = nh / ar; }
+      var cv = document.createElement('canvas'); cv.width = w; cv.height = Math.round(w * ar);
+      cv.getContext('2d').drawImage(img, (nw - sw) / 2, (nh - sh) / 2, sw, sh, 0, 0, cv.width, cv.height);
+      return cv;
+    }
+    // Briques : la photo réduite à une grille de 32 colonnes, chaque case
+    // dessinée comme une brique à plot (ombre et reflet).
+    function fxBricks(img, ar) {
+      var cols = 32, rows = Math.round(cols * ar);
+      var small = cropTo(img, ar, cols);
+      var px = small.getContext('2d').getImageData(0, 0, cols, rows).data;
+      freeCanvas(small);
+      var c = 48, out = document.createElement('canvas');
+      out.width = cols * c; out.height = rows * c;
+      var g = out.getContext('2d');
+      for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+        var i = (y * cols + x) * 4, col = 'rgb(' + px[i] + ',' + px[i + 1] + ',' + px[i + 2] + ')';
+        var X0 = x * c, Y0 = y * c;
+        g.fillStyle = col; g.fillRect(X0, Y0, c, c);
+        g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(X0, Y0 + c - 3, c, 3); g.fillRect(X0 + c - 3, Y0, 3, c);
+        g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(X0, Y0, c, 2); g.fillRect(X0, Y0, 2, c);
+        // Plot : ombre portée, disque de la couleur, reflet en haut à gauche.
+        var cx = X0 + c / 2, cy = Y0 + c / 2, r = c * .3;
+        g.beginPath(); g.arc(cx + 2, cy + 3, r, 0, Math.PI * 2); g.fillStyle = 'rgba(0,0,0,.3)'; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.fillStyle = col; g.fill();
+        g.beginPath(); g.arc(cx, cy, r, Math.PI * 1.05, Math.PI * 1.7); g.lineWidth = 3; g.strokeStyle = 'rgba(255,255,255,.55)'; g.stroke();
+      }
+      return out;
+    }
+    // Manga : noir et blanc sombre, contours encrés (détection des bords)
+    // et demi-teintes en trame de points, comme une case de BD imprimée.
+    function fxManga(img, ar) {
+      var W = 1200, cv = cropTo(img, ar, W), H = cv.height, g = cv.getContext('2d');
+      var d = g.getImageData(0, 0, W, H), p = d.data, lum = new Float32Array(W * H);
+      for (var i = 0, k = 0; i < p.length; i += 4, k++) {
+        var l = (.299 * p[i] + .587 * p[i + 1] + .114 * p[i + 2]) / 255;
+        lum[k] = Math.pow(Math.min(1, Math.max(0, (l - .5) * 1.35 + .5)), 1.25);   // contraste, plus sombre
+      }
+      var cell = 7, half = cell / 2;
+      for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
+        var k2 = y * W + x, v = 255;
+        // Contour : gradient de Sobel sur la luminance.
+        if (x > 0 && y > 0 && x < W - 1 && y < H - 1) {
+          var gx = lum[k2 - W + 1] + 2 * lum[k2 + 1] + lum[k2 + W + 1] - lum[k2 - W - 1] - 2 * lum[k2 - 1] - lum[k2 + W - 1];
+          var gy = lum[k2 + W - 1] + 2 * lum[k2 + W] + lum[k2 + W + 1] - lum[k2 - W - 1] - 2 * lum[k2 - W] - lum[k2 - W + 1];
+          if (gx * gx + gy * gy > .09) v = 17;
+        }
+        if (v === 255) {
+          var l3 = lum[k2];
+          if (l3 < .14) v = 17;                                   // aplat noir
+          else if (l3 < .86) {                                    // trame
+            var cx = x % cell - half, cy = y % cell - half;
+            if (Math.sqrt(cx * cx + cy * cy) < (1 - l3) * cell * .62) v = 17;
+          }
+        }
+        var o = k2 * 4; p[o] = p[o + 1] = p[o + 2] = v; p[o + 3] = 255;
+      }
+      g.putImageData(d, 0, 0);
+      return cv;
+    }
+    function applyFx(img, fx, ar) {
+      var cv = null;
+      try { cv = fx === 'bricks' ? fxBricks(img, ar) : fx === 'manga' ? fxManga(img, ar) : null; } catch (_) { cv = null; }
+      if (!cv) return '';
+      var out = cv.toDataURL('image/webp', .9);
+      if (out.indexOf('data:image/webp') !== 0) out = cv.toDataURL('image/jpeg', .92);
+      freeCanvas(cv);
+      return out;
+    }
     function importFile(file) {
       // Type vide : certains téléphones ne le renseignent pas. On tente le
       // décodage, l'échec est signalé plus bas.
@@ -2425,7 +2818,42 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           hiRes[data.hk] = srcUrl;
           hiStore(data.hk, file);
         } else URL.revokeObjectURL(srcUrl);
-        addElement(data);
+        // Une case photo de modèle attend : la photo s'y place, recadrée par
+        // le cadre. Sinon, nouvelle photo libre comme avant.
+        var slot = pendingSlot != null ? findEl(pendingSlot) : null;
+        if (!isEmptySlot(slot)) slot = state.elements.filter(isEmptySlot)[0] || null;
+        pendingSlot = null;
+        if (slot) {
+          // Photo verticale : on cadre sur le haut (les visages), sinon au centre.
+          var pr = (img.naturalHeight || 1) / (img.naturalWidth || 1);
+          slot.ox = .5; slot.oy = pr > (slot.frame === 'polaroid' ? 1 : (slot.ar || 1)) * 1.05 ? .25 : .5;
+        }
+        if (slot && slot.fx === 'bricks') {
+          // La photo reste une vraie photo, déplaçable ; elle part en
+          // couvrant toute la coque.
+          var ratioImg = (img.naturalHeight || 1) / (img.naturalWidth || 1);
+          slot.size = Math.max(100, Math.round(100 * (1 / CASE_AR) / ratioImg));
+          slot.x = 50; slot.y = 50; slot.rot = 0;
+        } else if (slot && slot.fx) {
+          // Effet (briques, manga) : calculé une fois ici, sur la photo
+          // d'origine recadrée aux proportions de la case. Le résultat est
+          // l'image imprimée : pas de copie HD à garder.
+          // Effet calculé sur la photo ENTIÈRE (pas recadrée) : le cadrage se
+          // règle ensuite avec « Recadrer ».
+          var fxOut = applyFx(img, slot.fx, (img.naturalHeight || 1) / (img.naturalWidth || 1));
+          if (data.hk) { try { URL.revokeObjectURL(hiRes[data.hk]); } catch (_) {} delete hiRes[data.hk]; delete data.hk; }
+          if (fxOut) data.src = fxOut;
+        }
+        if (slot) {
+          slot.src = data.src;
+          if (data.hk) slot.hk = data.hk; else delete slot.hk;
+          var ref = nodes.get(slot.id);
+          if (ref) { ref.node.remove(); nodes.delete(slot.id); }
+          createNode(slot);
+          // Garde l'ordre d'empilement d'origine.
+          state.elements.forEach(function (x) { var r = nodes.get(x.id); if (r) design.appendChild(r.node); });
+          select(slot.id); pushHistory();
+        } else addElement(data);
         toast(I.photoAdded);
       };
       img.onerror = function () { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); };
@@ -2433,6 +2861,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
     fileInput.addEventListener('change', function () {
       if (fileInput.files && fileInput.files[0]) importFile(fileInput.files[0]);
+      else pendingSlot = null;
       fileInput.value = '';
     });
     ['dragenter', 'dragover'].forEach(function (ev) { caseEl.addEventListener(ev, function (e) { e.preventDefault(); caseEl.setAttribute('data-over', ''); }); });
@@ -2495,6 +2924,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     // résolution des têtes, pas celle attendue du fichier. 600 dpi donne des
     // lettrages et des liserés nets sans quadrupler inutilement le poids.
     var PRINT_DPI = 600;
+    // Cadre Polaroid, en part de la largeur du cadre (comme .pola en CSS :
+    // padding 6 % 6 % 24 %).
+    var POLA = { side: .06, bottom: .24 };
     var PREVIEW_W = 520;
     var DEFAULT_MM = [71.5, 147.6];
     var INSET_MM = parseFloat(root.dataset.insetMm) || 0;
@@ -2659,8 +3091,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         bi.onerror = function () { done(null); };
         bi.src = bgSrc();
       });
-      return Promise.all([loadImages(!!opts.hi), loadFonts(scale), bgP]).then(function (out) {
-        var images = out[0], bgImg = out[2];
+      var ovP = new Promise(function (done) {
+        if (!state.overlay) return done(null);
+        var oi = new Image();
+        oi.onload = function () { done(oi); };
+        oi.onerror = function () { done(null); };
+        oi.src = state.overlay;
+      });
+      return Promise.all([loadImages(!!opts.hi), loadFonts(scale), bgP, ovP]).then(function (out) {
+        var images = out[0], bgImg = out[2], ovImg = out[3];
 
         // Le fond pleine page vient AVANT le détourage : en JPEG il n'y a pas
         // de transparence, sans lui le hors-coque virerait au noir.
@@ -2684,11 +3123,42 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           g.drawImage(bgImg, (w - bw) / 2, (h - bh) / 2, bw, bh);
         }
 
-        state.elements.forEach(function (el) {
+        // Mode briques : toutes les photos passent dans la grille, posée sur
+        // toute la coque ; les textes restent dessinés par-dessus.
+        if (state.fx === 'bricks') {
+          var blist = state.elements
+            .filter(function (e) { return e.type === 'image' && images[e.id] && images[e.id].naturalWidth; })
+            .map(function (e) { return { el: e, img: images[e.id] }; });
+          var brows = brickRows(w, h);
+          drawBricks(g, brickSample(blist, BRICK_COLS, brows), BRICK_COLS, brows, w, h);
+        }
+        function drawEl(el) {
+          if (state.fx === 'bricks' && el.type === 'image') return;
           g.save();
           g.translate(el.x * w / 100, el.y * h / 100);
           g.rotate(el.rot * Math.PI / 180);
-          if (el.type === 'image') {
+          if (el.type === 'image' && el.slot) {
+            var pimg = images[el.id];
+            if (pimg && pimg.naturalWidth) {
+              // Case d'un modèle : cadre éventuel, puis photo recadrée aux
+              // proportions de la case (comme object-fit: cover).
+              var fw = el.size * scale, ar = el.frame === 'polaroid' ? 1 : (el.ar || 1);
+              var pad = el.frame === 'polaroid' ? fw * POLA.side : el.frame === 'panel' ? fw * .025 : 0;
+              var pw = fw - 2 * pad, ph = pw * ar;
+              var fh = pad + ph + (el.frame === 'polaroid' ? fw * POLA.bottom : pad);
+              if (el.frame) {
+                g.save();
+                if (el.frame === 'polaroid') { g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = fw * .03; g.shadowOffsetY = fw * .012; }
+                g.fillStyle = '#ffffff'; g.fillRect(-fw / 2, -fh / 2, fw, fh);
+                g.restore();
+                if (el.frame === 'panel') { g.lineWidth = scale * 1.8; g.strokeStyle = '#111111'; g.strokeRect(-fw / 2, -fh / 2, fw, fh); }
+              }
+              var nw = pimg.naturalWidth, nh = pimg.naturalHeight, sw = nw, sh = nw * ar;
+              if (sh > nh) { sh = nh; sw = nh / ar; }
+              var ox = el.ox == null ? .5 : el.ox, oy = el.oy == null ? .5 : el.oy;
+              g.drawImage(pimg, (nw - sw) * ox, (nh - sh) * oy, sw, sh, -fw / 2 + pad, -fh / 2 + pad, pw, ph);
+            }
+          } else if (el.type === 'image') {
             var img = images[el.id];
             if (img && img.naturalWidth) {
               var iw = el.size * scale;
@@ -2708,7 +3178,18 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             g.fillText(el.text || '', 0, 0);
           }
           g.restore();
-        });
+        }
+
+        // Avec une planche : les photos des cadres dessous, la planche, puis
+        // les éléments ajoutés par le client par-dessus (comme à l'écran).
+        var under = state.elements, over = [];
+        if (ovImg && ovImg.naturalWidth) {
+          under = state.elements.filter(function (e) { return e.slot; });
+          over = state.elements.filter(function (e) { return !e.slot; });
+        }
+        under.forEach(drawEl);
+        if (ovImg && ovImg.naturalWidth) g.drawImage(ovImg, 0, 0, w, h);
+        over.forEach(drawEl);
 
         g.restore();
         // Après le détourage : l'évidement de la caméra vaut aussi pour
@@ -2921,7 +3402,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     /* ── Étape 2 : mode d'impression ────────────────────────────────
        Le mode change le PRIX, donc la clé d'article : « custom » à plat,
        « custom-relief » en relief. C'est cette clé que le serveur de paiement
-       relit dans le manifeste de la vitrine pour fixer le montant — annoncer
+       relit dans le manifeste de la vitrine pour fixer le montant, annoncer
        un supplément depuis le navigateur ne protégerait rien. */
     var stepEl   = root.querySelector('[data-step]');
     var nextBtn  = root.querySelector('[data-next]');
@@ -2991,6 +3472,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (atelier && atelier.info) { e.preventDefault(); saveForRequest(); return; }
       var m = ''; try { m = localStorage.getItem(MODEL_KEY) || ''; } catch (_) {}
       e.preventDefault();
+      var vides = state.elements.filter(isEmptySlot).length;
+      if (vides && !window.confirm(fill(I.slotsLeft, vides))) return;
       setUploading(true, I.preparingCase);
 
       var mode = printMode;
