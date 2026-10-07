@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import siteConfig from '../../site.config.mjs';
+// Envoi des formulaires : serveur de la boutique (e-mail à l'adresse d'alerte).
+const FORM_API = (() => { try { return new URL(siteConfig.shop?.atelier?.widgetUrl ?? '').origin + '/api/public/contact'; } catch { return ''; } })();
 import { t, localeFromPath } from '../lib/i18n';
 
 const lang = localeFromPath(Astro.url.pathname);
 const title = t('contact.title', lang);
 const description = t('contact.subtitle', lang);
-const web3formsKey = siteConfig.forms?.web3formsKey ?? '';
 const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 ---
 
@@ -22,11 +23,8 @@ const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
     </p>
 
     <!-- Formulaire -->
-    <form id="contact-form" class="space-y-5" novalidate>
+    <form id="contact-form" data-api={FORM_API} data-shop={siteConfig.shop?.atelier?.shopId ?? ''} data-kind="contact" data-lang={lang} class="space-y-5" novalidate>
       <!-- Champs cachés Web3Forms -->
-      <input type="hidden" name="access_key" value={web3formsKey} />
-      <input type="hidden" name="subject" value={`Nouveau message contact - ${siteConfig.name}`} />
-      <input type="hidden" name="from_name" value={`Formulaire ${siteConfig.name}`} />
       <!-- Honeypot anti-bot (laissez vide) -->
       <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -167,17 +165,23 @@ const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
         spin.classList.remove('hidden');
 
         try {
-          const res = await fetch('https://api.web3forms.com/submit', {
+          const fd = new FormData(form);
+          const fields = {};
+          fd.forEach((v, k) => { if (k !== 'email' && k !== 'botcheck' && typeof v === 'string') fields[k] = v; });
+          const res = await fetch(form.dataset.api, {
             method: 'POST',
-            headers: { 'Accept': 'application/json' },
-            body: new FormData(form),
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              shop_id: form.dataset.shop, kind: form.dataset.kind, lang: form.dataset.lang || 'fr',
+              email: String(fd.get('email') || ''), botcheck: fd.get('botcheck') ? 'x' : '', fields,
+            }),
           });
-          const data = await res.json();
+          const data = await res.json().catch(() => ({}));
           if (res.ok && data.success) {
             okBox.classList.remove('hidden');
             form.reset();
           } else {
-            console.error('Web3Forms error', data);
+            console.error('Form error', data);
             errBox.classList.remove('hidden');
           }
         } catch (err) {

@@ -26,12 +26,13 @@
  * service de formulaire, ou traite les emails reçus sous 24 h.
  */
 import siteConfig from '../../site.config.mjs';
+// Envoi des formulaires : serveur de la boutique (e-mail à l'adresse d'alerte).
+const FORM_API = (() => { try { return new URL(siteConfig.shop?.atelier?.widgetUrl ?? '').origin + '/api/public/contact'; } catch { return ''; } })();
 import { t, type Locale } from '../lib/i18n';
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 
-const web3formsKey = siteConfig.forms?.web3formsKey ?? '';
 const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 
 const field = 'w-full bg-panel border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-cream placeholder-n-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors';
@@ -39,10 +40,7 @@ const label = 'block text-xs text-n-400 font-medium mb-2';
 const hint  = 'text-[11px] text-n-500 font-light mt-1.5';
 ---
 
-<form id="retract-form" class="space-y-5" novalidate>
-  <input type="hidden" name="access_key" value={web3formsKey} />
-  <input type="hidden" name="subject" value={`RÉTRACTATION / RETOUR - ${siteConfig.name}`} />
-  <input type="hidden" name="from_name" value={`Rétractation ${siteConfig.name}`} />
+<form id="retract-form" data-api={FORM_API} data-shop={siteConfig.shop?.atelier?.shopId ?? ''} data-kind="retractation" data-lang={lang} class="space-y-5" novalidate>
   {/* Horodatage : sert de preuve de la date d'exercice du droit */}
   <input type="hidden" name="demande_envoyee_le" id="retract-timestamp" value="" />
   <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -127,17 +125,23 @@ const hint  = 'text-[11px] text-n-500 font-light mt-1.5';
       spin.classList.remove('hidden');
 
       try {
-        const res = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: new FormData(form),
-        });
-        const data = await res.json();
+        const fd = new FormData(form);
+          const fields = {};
+          fd.forEach((v, k) => { if (k !== 'email' && k !== 'botcheck' && typeof v === 'string') fields[k] = v; });
+          const res = await fetch(form.dataset.api, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              shop_id: form.dataset.shop, kind: form.dataset.kind, lang: form.dataset.lang || 'fr',
+              email: String(fd.get('email') || ''), botcheck: fd.get('botcheck') ? 'x' : '', fields,
+            }),
+          });
+          const data = await res.json().catch(() => ({}));
         if (res.ok && data.success) {
           okBox.classList.remove('hidden');
           form.reset();
         } else {
-          console.error('Web3Forms error', data);
+          console.error('Form error', data);
           errBox.classList.remove('hidden');
         }
       } catch (err) {
