@@ -79,7 +79,7 @@ const TEXTS = {
       importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
       pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
       emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
-      edit: 'Éditer', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
+      edit: 'Éditer', crop: 'Recadrer la photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
       printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
       printMode: 'Mode d’impression',
       flat: 'À plat', flatDesc: 'Le motif est imprimé à plat : la coque reste parfaitement lisse au toucher.',
@@ -98,7 +98,7 @@ const TEXTS = {
       confirmReset: 'Effacer tous les éléments de la coque ?', resetDone: 'Coque réinitialisée',
       titles: { design: 'Designs', text: 'Texte', photo: 'Photos', help: 'On crée votre design' }, helpSending: 'Envoi…', helpErr: "Envoi impossible pour l'instant. Réessayez dans un instant.", helpMissing: 'Décrivez votre idée (10 caractères au moins) et indiquez un e-mail valide.', helpTooMany: '5 images au maximum.', yourText: 'Votre texte', textColor: 'Texte',
       design: 'Design', confirmTpl: 'Remplacer votre composition actuelle par le design « {n} » ?', tplApplied: 'Design « {n} » appliqué',
-      slotAdd: 'Ajouter une photo', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
+      slotAdd: 'Ajouter une photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
       cartNotSet: 'Panier non configuré.', rendering: 'Rendu de votre visuel…', printFile: 'Préparation du fichier d’impression…',
       sending: 'Envoi à l’atelier…', wait: 'Quelques secondes, ne fermez pas la page.', added: 'Ajouté au panier !',
       addOne: 'Ajoutez au moins un élément à votre coque.', preparingCase: 'Préparation de votre coque…',
@@ -122,7 +122,7 @@ const TEXTS = {
       importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
       pasteHint: 'Tip: you can also paste an image (Ctrl+V).',
       emptyTitle: 'Your case is blank', emptySub: 'Choose a tool to get started',
-      edit: 'Edit', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
+      edit: 'Edit', crop: 'Reframe photo', cropOn: 'Drag the photo to reframe it in the frame', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
       printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
       printMode: 'Print finish',
       flat: 'Flat', flatDesc: 'The design is printed flat: the case stays perfectly smooth to the touch.',
@@ -141,7 +141,7 @@ const TEXTS = {
       confirmReset: 'Remove all elements from the case?', resetDone: 'Case cleared',
       titles: { design: 'Designs', text: 'Text', photo: 'Photos', help: 'We design it for you' }, helpSending: 'Sending…', helpErr: 'Could not send right now. Please try again shortly.', helpMissing: 'Describe your idea (at least 10 characters) and enter a valid email.', helpTooMany: '5 images maximum.', yourText: 'Your text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Replace your current design with the “{n}” design?', tplApplied: '“{n}” design applied',
-      slotAdd: 'Add a photo', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
+      slotAdd: 'Add a photo', cropOn: 'Drag the photo to reframe it in the frame', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
       cartNotSet: 'Cart not configured.', rendering: 'Rendering your design…', printFile: 'Preparing the print file…',
       sending: 'Sending to the workshop…', wait: 'Just a few seconds, please don’t close the page.', added: 'Added to cart!',
       addOne: 'Add at least one element to your case.', preparingCase: 'Preparing your case…',
@@ -165,7 +165,7 @@ const TEXTS = {
       importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
       pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
       emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
-      edit: 'Bearbeiten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
+      edit: 'Bearbeiten', crop: 'Foto zuschneiden', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
       printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
       printMode: 'Druckart',
       flat: 'Flach', flatDesc: 'Das Motiv wird flach gedruckt: Die Hülle bleibt glatt.',
@@ -184,7 +184,7 @@ const TEXTS = {
       confirmReset: 'Alle Elemente von der Hülle entfernen?', resetDone: 'Hülle zurückgesetzt',
       titles: { design: 'Designs', text: 'Text', photo: 'Fotos', help: 'Wir gestalten für dich' }, helpSending: 'Wird gesendet…', helpErr: 'Senden gerade nicht möglich. Bitte versuche es gleich noch einmal.', helpMissing: 'Beschreibe deine Idee (mindestens 10 Zeichen) und gib eine gültige E-Mail an.', helpTooMany: 'Maximal 5 Bilder.', yourText: 'Dein Text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Deine aktuelle Gestaltung durch das Design „{n}“ ersetzen?', tplApplied: 'Design „{n}“ übernommen',
-      slotAdd: 'Foto hinzufügen', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
+      slotAdd: 'Foto hinzufügen', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
       cartNotSet: 'Warenkorb nicht eingerichtet.', rendering: 'Dein Motiv wird gerendert…', printFile: 'Druckdatei wird vorbereitet…',
       sending: 'Wird an die Werkstatt gesendet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.', added: 'Zum Warenkorb hinzugefügt!',
       addOne: 'Füge deiner Hülle mindestens ein Element hinzu.', preparingCase: 'Deine Hülle wird vorbereitet…',
@@ -412,6 +412,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       <div class="ctx" data-ctx hidden>
           <button type="button" data-act="edit" hidden aria-label={U.edit} title={U.edit}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+          </button>
+          {/* Recadrer : la photo glisse dans son cadre (cases des modèles). */}
+          <button type="button" data-act="crop" hidden aria-label={U.crop} title={U.crop}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg>
           </button>
           <button type="button" data-act="dup" aria-label={U.dup} title={U.dup}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
@@ -1273,6 +1277,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   }
   .ctx button svg { width: 18px; height: 18px; }
   .ctx button:hover { background: rgba(255,255,255,.15); }
+  .ctx button[data-on] { background: rgb(var(--accent-rgb)); }
+  .studio .el[data-cropping] { cursor: move; outline: .5cqw dashed rgb(var(--accent-rgb)); }
   .ctx .ctx-del:hover { background: #e11d48; }
   /* Mobile et tablette : colonne verticale au bord droit du plan de travail.
      En bas, la barre recouvrait le bas de la coque, là où l'on travaille. */
@@ -1984,6 +1990,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         return (p[0] * .055).toFixed(3) + 'em ' + (p[1] * .055).toFixed(3) + 'em 0 ' + c;
       }).join(',');
     }
+    function applyCrop(el) {
+      var ref = nodes.get(el.id), im = ref && ref.node.querySelector('img');
+      if (im) im.style.objectPosition = ((el.ox == null ? .5 : el.ox) * 100) + '% ' + ((el.oy == null ? .5 : el.oy) * 100) + '%';
+    }
     function applyStyles(el) {
       var ref = nodes.get(el.id); if (!ref) return;
       ref.node.style.left = el.x + '%';
@@ -2030,6 +2040,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           img.src = el.src; img.alt = 'Visuel importé'; img.draggable = false;
           // Case d'un modèle : photo recadrée aux proportions de la case.
           if (el.slot && el.frame !== 'polaroid' && el.fx !== 'bricks') { img.className = 'fill'; img.style.aspectRatio = String(1 / (el.ar || 1)); }
+          if (el.slot) img.style.objectPosition = ((el.ox == null ? .5 : el.ox) * 100) + '% ' + ((el.oy == null ? .5 : el.oy) * 100) + '%';
           // Filet pour les navigateurs sans ResizeObserver : au décodage, la
           // hauteur passe de zéro à sa valeur réelle.
           img.addEventListener('load', function () {
@@ -2168,6 +2179,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
+      if (el) ctx.querySelector('[data-act="crop"]').hidden = !(el.type === 'image' && el.slot && el.src && el.fx !== 'bricks');
+      if (!el || el.id !== cropId) setCrop(null);
       syncTextPane();
     }
     ctx.addEventListener('click', function (e) {
@@ -2178,7 +2191,20 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       else if (a === 'front') reorder(selectedId, 1);
       else if (a === 'back') reorder(selectedId, -1);
       else if (a === 'edit') openPane('text');
+      else if (a === 'crop') setCrop(cropId === selectedId ? null : selectedId);
     });
+    /* Recadrage : en mode recadrage, glisser déplace la photo DANS son cadre
+       (point de cadrage ox/oy, de 0 à 1) au lieu de déplacer le cadre. */
+    var cropId = null;
+    function setCrop(id) {
+      if (cropId === id) return;
+      if (cropId != null) { var r0 = nodes.get(cropId); if (r0) delete r0.node.dataset.cropping; }
+      cropId = id;
+      var btn = ctx.querySelector('[data-act="crop"]');
+      if (id != null) { var r1 = nodes.get(id); if (r1) r1.node.dataset.cropping = ''; btn.dataset.on = ''; toast(U_CROP_ON); }
+      else delete btn.dataset.on;
+    }
+    var U_CROP_ON = I.cropOn || '';
     // Cliquer n'importe où sur le plan de travail, coque OU fond autour ,
     // désélectionne. Seuls un élément (.el, poignées comprises) et la barre
     // d'actions (data-ctx) en sont exclus : sinon on annulerait la sélection
@@ -2207,7 +2233,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var d = design.getBoundingClientRect(), b = nodes.get(id).node.getBoundingClientRect();
       var cx = b.left + b.width / 2, cy = b.top + b.height / 2;
       gesture = {
-        el: el, mode: handle || 'drag', px: e.clientX, py: e.clientY,
+        el: el, mode: handle || (cropId === id ? 'pan' : 'drag'), px: e.clientX, py: e.clientY,
+        sox: el.ox == null ? .5 : el.ox, soy: el.oy == null ? .5 : el.oy, bw: b.width, bh: b.height,
         sx: el.x, sy: el.y, srot: el.rot, ssize: el.size, cx: cx, cy: cy,
         a0: Math.atan2(e.clientY - cy, e.clientX - cx),
         d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1,
@@ -2221,6 +2248,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     function onMove(e) {
       if (!gesture) return;
       var g = gesture; g.moved = true;
+      if (g.mode === 'pan') {
+        // Glisser vers le bas montre le HAUT de la photo : le point de
+        // cadrage recule.
+        g.el.ox = clamp(g.sox - (e.clientX - g.px) / g.bw * 1.6, 0, 1);
+        g.el.oy = clamp(g.soy - (e.clientY - g.py) / g.bh * 1.6, 0, 1);
+        applyCrop(g.el);
+        return;
+      }
       if (g.mode === 'drag') {
         var nx = g.sx + (e.clientX - g.px) / g.cw * 100, ny = g.sy + (e.clientY - g.py) / g.ch * 100;
         var sv = Math.abs(nx - 50) < SNAP, sh = Math.abs(ny - 50) < SNAP;
@@ -2759,6 +2794,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         var slot = pendingSlot != null ? findEl(pendingSlot) : null;
         if (!isEmptySlot(slot)) slot = state.elements.filter(isEmptySlot)[0] || null;
         pendingSlot = null;
+        if (slot) {
+          // Photo verticale : on cadre sur le haut (les visages), sinon au centre.
+          var pr = (img.naturalHeight || 1) / (img.naturalWidth || 1);
+          slot.ox = .5; slot.oy = pr > (slot.frame === 'polaroid' ? 1 : (slot.ar || 1)) * 1.05 ? .25 : .5;
+        }
         if (slot && slot.fx === 'bricks') {
           // La photo reste une vraie photo, déplaçable ; elle part en
           // couvrant toute la coque.
@@ -2769,7 +2809,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           // Effet (briques, manga) : calculé une fois ici, sur la photo
           // d'origine recadrée aux proportions de la case. Le résultat est
           // l'image imprimée : pas de copie HD à garder.
-          var fxOut = applyFx(img, slot.fx, slot.ar || 1);
+          // Effet calculé sur la photo ENTIÈRE (pas recadrée) : le cadrage se
+          // règle ensuite avec « Recadrer ».
+          var fxOut = applyFx(img, slot.fx, (img.naturalHeight || 1) / (img.naturalWidth || 1));
           if (data.hk) { try { URL.revokeObjectURL(hiRes[data.hk]); } catch (_) {} delete hiRes[data.hk]; delete data.hk; }
           if (fxOut) data.src = fxOut;
         }
@@ -3084,7 +3126,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
               }
               var nw = pimg.naturalWidth, nh = pimg.naturalHeight, sw = nw, sh = nw * ar;
               if (sh > nh) { sh = nh; sw = nh / ar; }
-              g.drawImage(pimg, (nw - sw) / 2, (nh - sh) / 2, sw, sh, -fw / 2 + pad, -fh / 2 + pad, pw, ph);
+              var ox = el.ox == null ? .5 : el.ox, oy = el.oy == null ? .5 : el.oy;
+              g.drawImage(pimg, (nw - sw) * ox, (nh - sh) * oy, sw, sh, -fw / 2 + pad, -fh / 2 + pad, pw, ph);
             }
           } else if (el.type === 'image') {
             var img = images[el.id];
