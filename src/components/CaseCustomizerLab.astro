@@ -1193,6 +1193,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .case-overlay { position: absolute; inset: 0; z-index: 5; background: center / 100% 100% no-repeat; pointer-events: none; }
 
 
+
   .guide { position: absolute; background: rgb(var(--accent-rgb)); display: none; z-index: 30; pointer-events: none; }
   .guide-v { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-.5px); }
   .guide-h { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-.5px); }
@@ -1527,6 +1528,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
   }
   .studio .el:active { cursor: grabbing; }
+  /* Textes, stickers et photos ajoutés par le client passent AU-DESSUS de la
+     planche ; seules les photos des cadres restent dessous. */
+  .studio .el:not([data-slot]) { z-index: 6; }
   .studio .el-content { display: block; line-height: 1.05; white-space: nowrap; pointer-events: none; }
   .studio .el[data-type="image"] .el-content img { display: block; width: 100%; height: auto; pointer-events: none; }
   /* Photo du calque briques : invisible mais toujours manipulable (cadre de
@@ -2024,6 +2028,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var node = document.createElement('div');
       node.className = 'el'; node.dataset.type = el.type; node.dataset.id = String(el.id);
       if (el.type === 'image' && el.src) node.dataset.photo = '';
+      if (el.slot) node.dataset.slot = '';
       var content = document.createElement('div');
       content.className = 'el-content';
       if (el.type === 'image') {
@@ -3103,7 +3108,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           var brows = brickRows(w, h);
           drawBricks(g, brickSample(blist, BRICK_COLS, brows), BRICK_COLS, brows, w, h);
         }
-        state.elements.forEach(function (el) {
+        function drawEl(el) {
           if (state.fx === 'bricks' && el.type === 'image') return;
           g.save();
           g.translate(el.x * w / 100, el.y * h / 100);
@@ -3149,10 +3154,18 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             g.fillText(el.text || '', 0, 0);
           }
           g.restore();
-        });
+        }
 
-        // Planche au-dessus des photos, étirée sur toute la coque.
+        // Avec une planche : les photos des cadres dessous, la planche, puis
+        // les éléments ajoutés par le client par-dessus (comme à l'écran).
+        var under = state.elements, over = [];
+        if (ovImg && ovImg.naturalWidth) {
+          under = state.elements.filter(function (e) { return e.slot; });
+          over = state.elements.filter(function (e) { return !e.slot; });
+        }
+        under.forEach(drawEl);
         if (ovImg && ovImg.naturalWidth) g.drawImage(ovImg, 0, 0, w, h);
+        over.forEach(drawEl);
 
         g.restore();
         // Après le détourage : l'évidement de la caméra vaut aussi pour
