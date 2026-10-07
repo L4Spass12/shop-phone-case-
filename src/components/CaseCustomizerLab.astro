@@ -106,7 +106,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Composition rechargée, sauf les photos importées.', reloaded: 'Composition rechargée.',
       itemName: { flat: 'Coque personnalisée à plat', relief: 'Coque personnalisée en relief' },
       success: { flat: 'Coque à plat', relief: 'Coque en relief' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Pêle-mêle', souvenirs: 'nos souvenirs', briques: 'Briques', manga: 'Manga', souvenirsTpl: 'Souvenirs', amourRose: 'Amour rose', amourNuit: 'Amour nuit', initialesOr: 'Initiales or', initialesCreme: 'Initiales crème', emeraude: 'Émeraude', prenom: 'Prénom', monogramme: 'Monogramme', floral: 'Floral', celeste: 'Céleste', citation: 'Citation',
         tropical: 'Tropical', vague: 'Vague', coeur: 'Cœur', minimal: 'Minimal', fete: 'Fête',
         since: 'DEPUIS 2024', summer: 'Été', ocean: 'OCÉAN' },
     },
@@ -149,7 +149,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Design reloaded, except for uploaded photos.', reloaded: 'Design reloaded.',
       itemName: { flat: 'Custom case, flat print', relief: 'Custom case, raised print' },
       success: { flat: 'Flat-print case', relief: 'Raised-print case' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'our memories', briques: 'Bricks', manga: 'Manga', souvenirsTpl: 'Memories', amourRose: 'Pink love', amourNuit: 'Night love', initialesOr: 'Gold initials', initialesCreme: 'Cream initials', emeraude: 'Emerald', prenom: 'First name', monogramme: 'Monogram', floral: 'Floral', celeste: 'Celestial', citation: 'Quote',
         tropical: 'Tropical', vague: 'Wave', coeur: 'Heart', minimal: 'Minimal', fete: 'Party',
         since: 'SINCE 2024', summer: 'Summer', ocean: 'OCEAN' },
     },
@@ -192,7 +192,7 @@ const TEXTS = {
       reloadedNoPhotos: 'Gestaltung neu geladen, außer den hochgeladenen Fotos.', reloaded: 'Gestaltung neu geladen.',
       itemName: { flat: 'Personalisierte Hülle, flacher Druck', relief: 'Personalisierte Hülle, erhabener Druck' },
       success: { flat: 'Hülle mit flachem Druck', relief: 'Hülle mit erhabenem Druck' },
-      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
+      tpl: { polaroid: 'Polaroid', pelemele: 'Collage', souvenirs: 'unsere Erinnerungen', briques: 'Bausteine', manga: 'Manga', souvenirsTpl: 'Erinnerungen', amourRose: 'Rosa Liebe', amourNuit: 'Nacht-Liebe', initialesOr: 'Goldene Initialen', initialesCreme: 'Creme-Initialen', emeraude: 'Smaragd', prenom: 'Vorname', monogramme: 'Monogramm', floral: 'Floral', celeste: 'Himmlisch', citation: 'Zitat',
         tropical: 'Tropisch', vague: 'Welle', coeur: 'Herz', minimal: 'Minimal', fete: 'Party',
         since: 'SEIT 2024', summer: 'Sommer', ocean: 'OZEAN' },
     },
@@ -1803,6 +1803,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         P(46, 34, 52, -8),
         P(46, 64, 77, 5),
       ]},
+      // Planches scrapbook : décor posé AU-DESSUS, les photos du client
+      // apparaissent dans les cadres Polaroid découpés.
+      { id: 'souvenirs', name: I.tpl.souvenirsTpl, bg: null, overlay: '/images/studio-bg/souvenirs.webp',
+        thumb: '/images/studio-bg/tpl-souvenirs.webp', els: [
+        Q(56, 54.3, 47.6, 1.22, '', '', -5),
+      ]},
+      { id: 'amour-rose', name: I.tpl.amourRose, bg: null, overlay: '/images/studio-bg/amour-rose.webp',
+        thumb: '/images/studio-bg/tpl-amour-rose.webp', els: [
+        Q(51, 39.9, 29.7, 1.03, '', '', -9.2),
+        Q(49, 65.2, 59.1, 1.0, '', '', 10),
+      ]},
+      { id: 'amour-nuit', name: I.tpl.amourNuit, bg: null, overlay: '/images/studio-bg/amour-nuit.webp',
+        thumb: '/images/studio-bg/tpl-amour-nuit.webp', els: [
+        Q(43.5, 38.5, 39.1, 1.04, '', '', -10.2),
+        Q(41.5, 60.5, 61.3, 1.05, '', '', 10),
+      ]},
       // Briques : la photo devient une mosaïque de briques à plots.
       { id: 'briques', name: I.tpl.briques, bg: null, fx: 'bricks', els: [
         B(),
@@ -1812,7 +1828,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // tramé) apparaît dans la grande case centrale.
       { id: 'manga', name: I.tpl.manga, bg: null, overlay: '/images/studio-bg/manga-planche.webp',
         thumb: '/images/studio-bg/tpl-manga-planche.webp', els: [
-        Q(84, 51.6, 52.5, 1.3, 'manga', '', -5),
+        Q(67, 53, 52.5, 1.67, 'manga', '', -5.2),
       ]},
       // Typographie élégante : des initiales sur un fond premium.
       { id: 'initiales-or', name: I.tpl.initialesOr, bg: 'nuit', els: [
@@ -2065,6 +2081,17 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return el;
     }
     function removeElement(id) {
+      // Photo d'une case de modèle : on vide la case au lieu de la retirer,
+      // pour que la photo suivante retrouve le même cadre et le même effet.
+      var sl = findEl(id);
+      if (sl && sl.type === 'image' && sl.slot && sl.src) {
+        sl.src = ''; delete sl.hk;
+        var r0 = nodes.get(id); if (r0) { r0.node.remove(); nodes.delete(id); }
+        createNode(sl);
+        state.elements.forEach(function (x) { var r = nodes.get(x.id); if (r) design.appendChild(r.node); });
+        selectedId = null; applySelection(); scheduleBricks(); pushHistory();
+        return;
+      }
       var ref = nodes.get(id); if (ref) { ref.node.remove(); nodes.delete(id); }
       state.elements = state.elements.filter(function (e) { return e.id !== id; });
       if (selectedId === id) { selectedId = null; applySelection(); }
