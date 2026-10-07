@@ -1291,6 +1291,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       flex-direction: column;
     }
     .ctx button { min-width: 40px; height: 40px; padding: 0; }
+    /* Plan de travail trop bas (panneau ouvert) : la colonne ne tient plus,
+       la barre passe en ligne en haut du plan de travail (cf. fitCtx). */
+    .ctx[data-row] {
+      top: 6px; right: auto; left: 50%; transform: translateX(-50%);
+      flex-direction: row;
+    }
   }
 
   .toast {
@@ -2193,10 +2199,22 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       if (el) { gizmoEl.hidden = false; positionGizmo(el); } else { gizmoEl.hidden = true; }
       ctx.hidden = !el;
       if (el) ctx.querySelector('[data-act="edit"]').hidden = el.type !== 'text';
+      fitCtxSoon();
       if (el) ctx.querySelector('[data-act="crop"]').hidden = !(el.type === 'image' && el.slot && el.src && el.fx !== 'bricks');
       if (!el || el.id !== cropId) setCrop(null);
       syncTextPane();
     }
+    // La colonne d'actions (mobile) doit tenir dans le plan de travail.
+    function fitCtx() {
+      if (ctx.hidden) return;
+      ctx.removeAttribute('data-row');
+      if (window.innerWidth > 1023) return;
+      var avail = canvasEl.getBoundingClientRect().height - 16;
+      if (ctx.getBoundingClientRect().height > avail) ctx.setAttribute('data-row', '');
+    }
+    function fitCtxSoon() { requestAnimationFrame(fitCtx); }
+    if (typeof ResizeObserver === 'function') new ResizeObserver(fitCtx).observe(canvasEl);
+    window.addEventListener('resize', fitCtx);
     ctx.addEventListener('click', function (e) {
       var b = e.target.closest('[data-act]'); if (!b || !selectedId) return;
       var a = b.dataset.act;
