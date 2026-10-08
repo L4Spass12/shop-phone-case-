@@ -2,7 +2,7 @@
 name: "Coque Paysage Sakura"
 price: 19.90
 # Visuel principal = rendu EN RELIEF (le mode coché d'entrée sur la fiche).
-image: "/images/products/coque-paysage-sakura-relief.webp"
+image: "/images/products/coque-paysage-sakura-relief-v2.webp"
 imageAlt: "Coque iPhone illustrée d'un paysage d'estampe en relief : nuages roses, montagnes bleues, cascade, pavillon et cerisiers en fleurs rehaussés d'or"
 flatImage: "/images/products/coque-paysage-sakura-plat.webp"
 videos:

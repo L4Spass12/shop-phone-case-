@@ -3,7 +3,7 @@
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sakura-Landschaft"
 price: 19.90
-image: "/images/products/coque-paysage-sakura-relief.webp"
+image: "/images/products/coque-paysage-sakura-relief-v2.webp"
 imageAlt: "iPhone-Hülle mit einer Landschaft im Holzschnitt-Stil mit Relief: rosa Wolken, blaue Berge, Wasserfall, Pavillon und blühende Kirschbäume mit Goldakzenten"
 shortDescription: "Eine Landschaft im Holzschnitt-Stil mit rosa Wolken, blauen Bergen und Kirschblüten, veredelt mit Goldakzenten."
 pubDate: 2026-10-01
