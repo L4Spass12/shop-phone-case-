@@ -22,6 +22,7 @@ import siteConfig from '../../site.config.mjs';
 import { unsplashSrcset } from '../lib/image';
 import { smallerVariant } from '../lib/image-variants';
 import { parseEntrySlug, t, localePrefix, type Locale } from '../lib/i18n';
+import variantsData from '../data/variants.json';
 
 interface Props {
   /** Fiche FRANÇAISE : source de toutes les données du produit. */
@@ -35,6 +36,15 @@ const { product, lang, translation } = Astro.props;
 const lp = localePrefix(lang);
 const url = (path: string) => `${lp}${path}`;
 const slug = parseEntrySlug(product.slug).slug;
+// Photos du design à plat sur chaque modèle de téléphone (scripts/mockups) :
+// libellé du modèle (celui du sélecteur) → image. Le choix du modèle les
+// fait apparaître à la place de la photo à plat générique.
+const VD = variantsData as Record<string, Record<string, { plat?: string }>>;
+const modelVariants: Record<string, string> = {};
+for (const [id, label] of Object.entries((VD._models ?? {}) as unknown as Record<string, string>)) {
+  const src = VD[slug]?.[id]?.plat;
+  if (src) modelVariants[label] = src;
+}
 // Motif HD disponible : la coque peut servir de base dans le studio.
 const canCustomize = existsSync(`public/images/designs/${slug}.webp`);
 
@@ -321,6 +331,8 @@ const pickModelLabel = t('model.placeholder', lang);
           ...(videos || []).map(v => ({ kind: 'video', src: v.src, mode: v.mode, thumb: v.thumb ?? v.poster, poster: v.poster })),
         ];
         const modeOf = (g) => g.mode;
+        // Photo à plat, remplacée par celle du modèle choisi.
+        const flatSrc = flatImage ?? (printModes.length === 1 && printModes[0] === 'flat' ? image : null);
         const shown = (g) => g.mode === 'all' || g.mode === printMode;
         // Ordre : la photo du rendu choisi d'entrée en premier (c'est le LCP).
         const slides = [...allSlides.filter(shown), ...allSlides.filter(g => !shown(g))];
@@ -329,7 +341,7 @@ const pickModelLabel = t('model.placeholder', lang);
         const quickVideos = slides.filter(g => g.kind === 'video');
         const hasQuick = quickModes || quickVideos.length > 0;
         return (
-        <div class="product-gallery min-w-0" data-gallery data-slide-count={visibleCount}>
+        <div class="product-gallery min-w-0" data-gallery data-slide-count={visibleCount} data-model-variants={Object.keys(modelVariants).length ? JSON.stringify(modelVariants) : undefined}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
                sur desktop = flèches prev/next. Une seule image visible à la fois. -->
           {/* Vignettes en colonne à gauche de l'image, comme la plupart
@@ -344,6 +356,7 @@ const pickModelLabel = t('model.placeholder', lang);
                   <button
                     type="button"
                     data-gallery-thumb={i}
+                    data-flat-photo={g.kind === 'image' && g.src === flatSrc ? '' : undefined}
                     data-mode={modeOf(g)}
                     hidden={!shown(g)}
                     class={`gallery-thumb aspect-square rounded-lg overflow-hidden bg-dark border transition-colors ${i === 0 ? 'border-cream' : 'border-white/[0.08]'} hover:border-white/30`}
@@ -384,6 +397,7 @@ const pickModelLabel = t('model.placeholder', lang);
                   <div class="flex-none w-full h-full snap-start snap-always" data-mode={modeOf(g)} hidden={!shown(g)}>
                     <img
                       data-gallery-slide={i}
+                      data-flat-photo={g.src === flatSrc ? '' : undefined}
                       src={g.src}
                       srcset={unsplashSrcset(g.src)}
                       {/* Largeurs MESURÉES dans la mise en page actuelle, pas
@@ -1286,6 +1300,42 @@ const pickModelLabel = t('model.placeholder', lang);
     (function() {
 
     /* ─── 1. GALERIE ───────────────────────────────────────────────── */
+    /* Photo à plat du modèle choisi : la galerie montre la coque sur le
+       téléphone sélectionné quand cette photo existe, sinon la photo
+       générique. Le choix vient du sélecteur ou du dernier choix mémorisé. */
+    function initModelPhotos() {
+      const gal = document.querySelector('[data-model-variants]');
+      if (!gal) return;
+      let map = {};
+      try { map = JSON.parse(gal.getAttribute('data-model-variants') || '{}'); } catch (e) { return; }
+      const imgs = gal.querySelectorAll('img[data-flat-photo]');
+      const thumbs = gal.querySelectorAll('button[data-flat-photo] img');
+      imgs.forEach((im) => { im.dataset.origSrc = im.getAttribute('src') || ''; im.dataset.origSrcset = im.getAttribute('srcset') || ''; });
+      thumbs.forEach((im) => { im.dataset.origSrc = im.getAttribute('src') || ''; });
+      const apply = (label) => {
+        const src = map[label];
+        imgs.forEach((im) => {
+          if (src) {
+            const small = src.replace(/\.webp$/, '-500w.webp');
+            im.srcset = small + ' 500w, ' + src + ' 1000w';
+            im.src = src;
+            im.classList.add('is-model-photo');
+          } else {
+            if (im.dataset.origSrcset) im.srcset = im.dataset.origSrcset; else im.removeAttribute('srcset');
+            im.src = im.dataset.origSrc;
+            im.classList.remove('is-model-photo');
+          }
+        });
+        thumbs.forEach((im) => {
+          im.src = src ? src.replace(/\.webp$/, '-500w.webp') : im.dataset.origSrc;
+        });
+      };
+      let saved = '';
+      try { saved = localStorage.getItem('vareska:phone-model') || ''; } catch (e) {}
+      if (saved) apply(saved);
+      document.addEventListener('model:change', (e) => { if (e.detail && e.detail.model) apply(e.detail.model); });
+    }
+
     function initGallery() {
       const root = document.querySelector('[data-gallery]');
       if (!root) return null;
@@ -1726,6 +1776,7 @@ const pickModelLabel = t('model.placeholder', lang);
 
     /* ─── ENTRYPOINT : tout différé jusqu'à idle (post-LCP) ─────────── */
     function bootProductJS() {
+      initModelPhotos();
       const galleryApi = initGallery();
       initRelatedSlider();
       const stickyRefs = initStickyAtc();
@@ -2003,6 +2054,9 @@ const pickModelLabel = t('model.placeholder', lang);
   .customize-link strong { display: block; font-size: .9rem; font-weight: 600; }
   .customize-link small { display: block; font-size: .75rem; opacity: .7; margin-top: .1rem; }
   .customize-ico { width: 40px; height: 40px; flex-shrink: 0; display: block; }
+  /* Photo du modèle choisi : coque entière sur fond transparent (format 2:3),
+     affichée en entier dans le cadre 4:5 au lieu d'être rognée. */
+  img.is-model-photo { object-fit: contain !important; padding: 2% 0; }
 </style>
 
 <script>

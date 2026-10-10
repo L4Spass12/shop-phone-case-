@@ -26,7 +26,7 @@ réglage par modèle, un JSON avec les valeurs des curseurs de l'application :
 (zoom de 1 à 2,5 ; x et y de -1 à 1).
 
 ## Sortie
-- `public/images/products/variants/<slug>/<modele>-<mode>.webp` (1200 px) + `-800w`, `-400w`
+- `public/images/products/variants/<slug>/<modele>-<mode>.webp` (1000 px) + `-500w`
 - `src/data/variants.json` : `<slug> → <modele> → <mode> → image`, et `_models`
   qui associe chaque identifiant au libellé EXACT de `site.config.mjs`
   (le script refuse un modèle absent du site).

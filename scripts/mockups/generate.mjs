@@ -15,7 +15,7 @@
 //               x et y de -1 à 1). Défaut : centré, comme l'application.
 //
 // Sortie : public/images/products/variants/<slug>/<model-id>-<mode>.webp
-//          (1200 px de large, + -800w et -400w) et src/data/variants.json, qui
+//          (1000 px de large, + -500w) et src/data/variants.json, qui
 //          associe chaque fichier au modèle EXACT du site (libellés de
 //          site.config.mjs → phoneModels ; le script s'arrête si un modèle de
 //          l'atelier n'y figure pas).
@@ -89,10 +89,9 @@ for (let i = 0; i < ids.length; i++) {
   const pngBuf = Buffer.from(b64, 'base64');
   const base = `${outDir}/${id}-${mode}`;
   if (keepPng) writeFileSync(base + '.png', pngBuf);
-  // 1200 px suffisent à l'écran (zoom compris) ; l'export 1600 px reste
-  // disponible avec --png.
-  await sharp(pngBuf).resize(1200).webp({ quality: 82, alphaQuality: 90 }).toFile(base + '.webp');
-  for (const w of [800, 400]) await sharp(pngBuf).resize(w).webp({ quality: 80, alphaQuality: 90 }).toFile(`${base}-${w}w.webp`);
+  // 1000 px suffisent à l'écran ; l'export 1600 px reste disponible avec --png.
+  await sharp(pngBuf).resize(1000).webp({ quality: 80, alphaQuality: 90 }).toFile(base + '.webp');
+  await sharp(pngBuf).resize(500).webp({ quality: 78, alphaQuality: 90 }).toFile(`${base}-500w.webp`);
   manifest[slug][id] ??= {};
   manifest[slug][id][mode] = `/${base.replace(/^public\//, '')}.webp`;
   console.log('✓ ' + id);
