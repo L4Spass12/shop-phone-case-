@@ -2337,3 +2337,13 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
 .mp-global > label, .mp-global > .mp-trigger, .mp-global > .mp-error { display: none !important; }
 /* Coque photographiée sur le modèle choisi : image entière, sans rognage. */
 img.is-model-photo { object-fit: contain !important; }
+/* Sur la bannière (header transparent) : bouton du modèle en blanc. */
+html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-model {
+  color: #fff;
+  border-color: rgb(255 255 255 / .55);
+  background: rgb(255 255 255 / .08);
+}
+html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-model:hover { border-color: #fff; background: rgb(255 255 255 / .16); }
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-model {
+  color: rgb(var(--c-cream)); border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .04);
+}
