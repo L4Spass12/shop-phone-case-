@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "mockups": "node scripts/mockups/generate.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",
@@ -50,6 +51,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.1",
+    "playwright-core": "^1.64.0",
     "sharp": "^0.34.5",
     "turndown": "^7.2.4"
   }

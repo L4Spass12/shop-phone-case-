@@ -1,0 +1,82 @@
+{
+  "coque-vache": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-vache/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-vache/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-vache/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-vache/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-vache/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-vache/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-vache/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-vache/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-vache/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-vache/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-vache/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-vache/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-vache/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-vache/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "_models": {
+    "iphone-17-pro-max": "iPhone 17 Pro Max",
+    "iphone-17-pro": "iPhone 17 Pro",
+    "iphone-17": "iPhone 17",
+    "iphone-16-pro-max": "iPhone 16 Pro Max",
+    "iphone-16-pro": "iPhone 16 Pro",
+    "iphone-16": "iPhone 16",
+    "iphone-15-pro-max": "iPhone 15 Pro Max",
+    "iphone-15-pro": "iPhone 15 Pro",
+    "iphone-15": "iPhone 15",
+    "iphone-14": "iPhone 14",
+    "iphone-13": "iPhone 13",
+    "galaxy-s26-ultra": "Galaxy S26 Ultra",
+    "galaxy-s26": "Galaxy S26",
+    "galaxy-s25-ultra": "Galaxy S25 Ultra",
+    "galaxy-s25": "Galaxy S25",
+    "galaxy-s24-ultra": "Galaxy S24 Ultra",
+    "galaxy-s24": "Galaxy S24",
+    "galaxy-a56-5g": "Galaxy A56 5G",
+    "galaxy-a36-5g": "Galaxy A36 5G"
+  }
+}
