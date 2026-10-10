@@ -3,7 +3,7 @@ name: "Coque Lune sur la Colline"
 price: 19.90
 image: "/images/products/coque-lune-colline-plat.webp"
 imageAlt: "Coque Lune sur la Colline : une lune dorée au-dessus d'une colline et d'un village"
-categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une lune dorée au-dessus d'une colline et d'un village."
 order: 110
 pubDate: 2026-10-10

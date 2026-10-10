@@ -3,7 +3,7 @@ name: "Coque Grenouilles et Fraises"
 price: 19.90
 image: "/images/products/coque-grenouilles-fraises-plat.webp"
 imageAlt: "Coque Grenouilles et Fraises : de petites grenouilles kawaii et des fraises sur un vert tendre"
-categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-gourmand"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "De petites grenouilles kawaii et des fraises sur un vert tendre."
 order: 27
 pubDate: 2026-10-10

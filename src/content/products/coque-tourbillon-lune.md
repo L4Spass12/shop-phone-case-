@@ -5,7 +5,7 @@ price: 19.90
 image: "/images/products/coque-tourbillon-lune-relief.webp"
 flatImage: "/images/products/coque-tourbillon-lune-plat.webp"
 imageAlt: "Coque iPhone bleu ciel peinte d'un tourbillon où nagent des poissons pastel, des étoiles filantes et des petites fleurs autour d'une lune dorée"
-categories: ["coques-iphone", "coques-ciel"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un tourbillon bleu ciel où des poissons pastel nagent entre étoiles filantes et petites fleurs, autour d'une lune dorée."
 featured: true
 pubDate: 2026-10-06

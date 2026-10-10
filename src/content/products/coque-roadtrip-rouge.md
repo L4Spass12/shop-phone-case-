@@ -3,7 +3,7 @@ name: "Coque Road Trip"
 price: 19.90
 image: "/images/products/coque-roadtrip-rouge-plat.webp"
 imageAlt: "Coque Road Trip : un cabriolet rouge qui file sur une route fleurie au bord de la mer"
-categories: ["coques-iphone", "coques-paysages"]
+categories: ["coques-iphone", "coques-auto"]
 shortDescription: "Un cabriolet rouge qui file sur une route fleurie au bord de la mer."
 order: 146
 pubDate: 2026-10-10

@@ -3,7 +3,7 @@ name: "Coque Voiture Néon"
 price: 19.90
 image: "/images/products/coque-voiture-neon-plat.webp"
 imageAlt: "Coque Voiture Néon : une voiture de course lancée à toute vitesse dans des lumières néon"
-categories: ["coques-iphone", "coques-paysages"]
+categories: ["coques-iphone", "coques-auto"]
 shortDescription: "Une voiture de course lancée à toute vitesse dans des lumières néon."
 order: 143
 pubDate: 2026-10-10

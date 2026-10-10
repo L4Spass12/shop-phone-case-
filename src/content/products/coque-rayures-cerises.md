@@ -3,7 +3,7 @@ name: "Coque Rayures Cerises"
 price: 19.90
 image: "/images/products/coque-rayures-cerises-plat.webp"
 imageAlt: "Coque Rayures Cerises : de fines rayures de petites cerises et de nœuds"
-categories: ["coques-iphone", "coques-motifs", "coques-gourmand"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "De fines rayures de petites cerises et de nœuds."
 order: 133
 pubDate: 2026-10-10

@@ -3,7 +3,7 @@ name: "Coque Keep Your Sweetness"
 price: 19.90
 image: "/images/products/coque-keep-sweetness-plat.webp"
 imageAlt: "Coque Keep Your Sweetness : des fraises et « keep your sweetness, stay wild » sur un rose vif"
-categories: ["coques-iphone", "coques-gourmand", "coques-citations"]
+categories: ["coques-iphone", "coques-citations"]
 shortDescription: "Des fraises et « keep your sweetness, stay wild » sur un rose vif."
 order: 39
 pubDate: 2026-10-10

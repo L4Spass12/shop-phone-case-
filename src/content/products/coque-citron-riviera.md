@@ -3,7 +3,7 @@ name: "Coque Citron Riviera"
 price: 19.90
 image: "/images/products/coque-citron-riviera-plat.webp"
 imageAlt: "Coque iPhone à rayures bleues et blanches peintes, avec un citron jaune et ses feuilles au centre"
-categories: ["coques-iphone", "coques-motifs", "coques-gourmand"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un citron jaune sur des rayures bleues et blanches, comme un été sur la Riviera."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 15

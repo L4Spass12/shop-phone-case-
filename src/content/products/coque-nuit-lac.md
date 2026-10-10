@@ -3,7 +3,7 @@ name: "Coque Nuit sur le Lac"
 price: 19.90
 image: "/images/products/coque-nuit-lac-plat.webp"
 imageAlt: "Coque Nuit sur le Lac : une nuit étoilée tourbillonnante au-dessus d'un lac de montagne"
-categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une nuit étoilée tourbillonnante au-dessus d'un lac de montagne."
 order: 115
 pubDate: 2026-10-10

@@ -3,7 +3,7 @@ name: "Coque Losanges Cerises"
 price: 19.90
 image: "/images/products/coque-losanges-cerises-plat.webp"
 imageAlt: "Coque Losanges Cerises : des losanges verts et roses semés de cerises, de cœurs et de nœuds"
-categories: ["coques-iphone", "coques-motifs", "coques-gourmand"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des losanges verts et roses semés de cerises, de cœurs et de nœuds."
 order: 48
 pubDate: 2026-10-10
