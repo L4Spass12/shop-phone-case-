@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-reve-rose-plat.webp"
 imageAlt: "Coque Rêve Rose : des cœurs et des fleurs flous dans un nuage rose lumineux"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-kawaii", "coques-romantique"]
 shortDescription: "Des cœurs et des fleurs flous dans un nuage rose lumineux."
 order: 30
 pubDate: 2026-10-10

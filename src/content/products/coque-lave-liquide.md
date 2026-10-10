@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-lave-liquide-plat.webp"
 imageAlt: "Coque Lave Liquide : des reflets liquides orange et rouge, intenses et brillants"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des reflets liquides orange et rouge, intenses et brillants."
 order: 75
 pubDate: 2026-10-10

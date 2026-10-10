@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-arbre-miroir-plat.webp"
 imageAlt: "Coque Arbre Miroir : un arbre majestueux qui se reflète dans un lac étoilé"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un arbre majestueux qui se reflète dans un lac étoilé."
 order: 119
 pubDate: 2026-10-10

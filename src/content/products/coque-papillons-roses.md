@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-papillons-roses-plat.webp"
 imageAlt: "Coque Papillons Lumineux : des papillons lumineux sur un dégradé rose et vert"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-romantique"]
 shortDescription: "Des papillons lumineux sur un dégradé rose et vert."
 order: 47
 pubDate: 2026-10-10

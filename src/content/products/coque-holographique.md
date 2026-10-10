@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-holographique-plat.webp"
 imageAlt: "Coque Holographique : un dégradé holographique bleu, vert et rose aux reflets liquides"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un dégradé holographique bleu, vert et rose aux reflets liquides."
 order: 77
 pubDate: 2026-10-10

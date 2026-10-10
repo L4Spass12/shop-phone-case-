@@ -434,30 +434,48 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
     var data = null;
     function manifest() {
       if (data) return data;
-      try { data = JSON.parse(document.getElementById('model-variants').textContent); } catch (e) { data = { models: {}, slugs: [] }; }
+      // Le manifeste est posé APRÈS le header : tant qu'il n'est pas lu, on ne
+      // met rien en cache (le sélecteur peut annoncer le modèle avant).
+      var el = document.getElementById('model-variants');
+      if (!el) return { models: {}, slugs: [], byLabel: {}, set: {} };
+      try { data = JSON.parse(el.textContent); } catch (e) { data = { models: {}, slugs: [] }; }
       data.byLabel = {};
       for (var id in data.models) data.byLabel[data.models[id]] = id;
       data.set = {};
       data.slugs.forEach(function (s) { data.set[s] = 1; });
       return data;
     }
+    // Une carte ne change de photo qu'en approchant de l'écran : avec plus
+    // de 150 coques, tout basculer d'un coup lancerait des dizaines de
+    // téléchargements inutiles. Les cartes encore masquées (chargement au
+    // défilement) seront traitées quand elles apparaîtront.
+    var currentId = null, io = null;
+    function swapOne(im) {
+      var d = manifest();
+      var a = im.closest('a'); if (!a) return;
+      var m = /\/product\/([a-z0-9-]+)/.exec(a.getAttribute('href') || '');
+      if (!m) return;
+      if (!im.dataset.origSrc) { im.dataset.origSrc = im.getAttribute('src') || ''; im.dataset.origSrcset = im.getAttribute('srcset') || ''; }
+      if (currentId && d.set[m[1]]) {
+        var want = '/images/products/variants/' + m[1] + '/' + currentId + '-plat-500w.webp';
+        if (im.getAttribute('src') !== want) { im.removeAttribute('srcset'); im.src = want; }
+        im.classList.add('is-model-photo');
+      } else if (im.classList.contains('is-model-photo')) {
+        if (im.dataset.origSrcset) im.setAttribute('srcset', im.dataset.origSrcset);
+        im.src = im.dataset.origSrc;
+        im.classList.remove('is-model-photo');
+      }
+    }
+    function cards() {
+      return Array.prototype.filter.call(document.querySelectorAll('a[href*="/product/"] img'), function (im) { return !im.closest('[data-gallery]'); });
+    }
     function swapCards(label) {
-      var d = manifest(), id = d.byLabel[label];
-      document.querySelectorAll('a[href*="/product/"] img').forEach(function (im) {
-        if (im.closest('[data-gallery]')) return;
-        var m = /\/product\/([a-z0-9-]+)/.exec(im.closest('a').getAttribute('href'));
-        if (!m) return;
-        if (!im.dataset.origSrc) { im.dataset.origSrc = im.getAttribute('src') || ''; im.dataset.origSrcset = im.getAttribute('srcset') || ''; }
-        if (id && d.set[m[1]]) {
-          im.removeAttribute('srcset');
-          im.src = '/images/products/variants/' + m[1] + '/' + id + '-plat-500w.webp';
-          im.classList.add('is-model-photo');
-        } else if (im.classList.contains('is-model-photo')) {
-          if (im.dataset.origSrcset) im.setAttribute('srcset', im.dataset.origSrcset);
-          im.src = im.dataset.origSrc;
-          im.classList.remove('is-model-photo');
-        }
-      });
+      currentId = manifest().byLabel[label] || null;
+      if (!('IntersectionObserver' in window)) { cards().forEach(swapOne); return; }
+      if (!io) io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { swapOne(e.target); io.unobserve(e.target); } });
+      }, { rootMargin: '400px 0px' });
+      cards().forEach(function (im) { io.unobserve(im); io.observe(im); });
     }
     function apply(label) {
       if (lab) lab.textContent = label || dflt;

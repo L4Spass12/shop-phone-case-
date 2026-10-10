@@ -5,7 +5,7 @@ price: 19.90
 image: "/images/products/coque-tigres-lune-relief.webp"
 flatImage: "/images/products/coque-tigres-lune-plat.webp"
 imageAlt: "Coque iPhone bleu nuit avec deux tigres qui se font face, entourés d'un soleil, d'un croissant de lune, d'étoiles et de feuillages dorés"
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-ciel"]
 shortDescription: "Deux tigres face à face sous le soleil et la lune, sur un bleu nuit profond semé d'étoiles et de feuillages dorés."
 featured: true
 pubDate: 2026-10-06

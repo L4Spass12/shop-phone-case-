@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-toile-jouy-rouge-plat.webp"
 imageAlt: "Coque Toile de Jouy : une scène de neige façon toile de Jouy sous un ciel rouge"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une scène de neige façon toile de Jouy sous un ciel rouge."
 order: 107
 pubDate: 2026-10-10

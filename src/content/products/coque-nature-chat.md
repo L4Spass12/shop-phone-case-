@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-nature-chat-plat.webp"
 imageAlt: "Coque Nature : une affiche « nature » avec un chat roux qui se prélasse dans l'herbe"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Une affiche « nature » avec un chat roux qui se prélasse dans l'herbe."
 order: 46
 pubDate: 2026-10-10

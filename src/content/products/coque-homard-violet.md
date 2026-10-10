@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-homard-violet-plat.webp"
 imageAlt: "Coque Homard Prune : un homard qui trinque sur des rayures prune"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-motifs"]
 shortDescription: "Un homard qui trinque sur des rayures prune."
 order: 72
 pubDate: 2026-10-10

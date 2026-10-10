@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-chevalier-plat.webp"
 imageAlt: "Coque Chevalier : un chevalier en armure dorée dans des drapés bleus"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages", "coques-art"]
 shortDescription: "Un chevalier en armure dorée dans des drapés bleus."
 order: 108
 pubDate: 2026-10-10

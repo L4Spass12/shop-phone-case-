@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-coucher-or-plat.webp"
 imageAlt: "Coque Coucher Doré : un coucher de soleil doré vu depuis une forêt fleurie"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Un coucher de soleil doré vu depuis une forêt fleurie."
 order: 121
 pubDate: 2026-10-10

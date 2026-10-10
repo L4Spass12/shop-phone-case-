@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-matcha-plat.webp"
 imageAlt: "Coque Matcha : des verres de matcha latte et des petits nœuds sur des rayures roses"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-kawaii", "coques-gourmand"]
 shortDescription: "Des verres de matcha latte et des petits nœuds sur des rayures roses."
 order: 60
 pubDate: 2026-10-10

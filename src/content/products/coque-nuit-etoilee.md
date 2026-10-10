@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-nuit-etoilee-plat.webp"
 imageAlt: "Coque iPhone bleu profond couverte d'étoiles scintillantes et de reflets lumineux"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-ciel"]
 shortDescription: "Un ciel bleu profond qui scintille d'étoiles, intense et lumineux."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 12

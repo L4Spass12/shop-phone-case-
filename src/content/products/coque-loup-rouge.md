@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-loup-rouge-plat.webp"
 imageAlt: "Coque Loup Rouge : un loup rouge lumineux dans la nuit, sur un rocher"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-art"]
 shortDescription: "Un loup rouge lumineux dans la nuit, sur un rocher."
 order: 106
 pubDate: 2026-10-10

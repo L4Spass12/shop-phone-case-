@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-cote-fleurie-plat.webp"
 imageAlt: "Coque Côte Fleurie : une côte fleurie au coucher du soleil, peinte à grosses touches"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Une côte fleurie au coucher du soleil, peinte à grosses touches."
 order: 113
 pubDate: 2026-10-10

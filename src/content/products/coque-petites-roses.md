@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-petites-roses-plat.webp"
 imageAlt: "Coque Petites Roses : de petites roses rouges semées sur un rose pâle"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs"]
 shortDescription: "De petites roses rouges semées sur un rose pâle."
 order: 56
 pubDate: 2026-10-10

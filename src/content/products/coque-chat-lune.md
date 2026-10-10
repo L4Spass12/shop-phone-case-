@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-chat-lune-plat.webp"
 imageAlt: "Coque iPhone bleu nuit avec un chat assis sur un balcon de marbre qui contemple la lune, entre lys blancs, citrons et nuages dorés"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Un chat contemple la lune depuis un balcon de marbre, entre lys blancs, citrons et nuages dorés."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 18

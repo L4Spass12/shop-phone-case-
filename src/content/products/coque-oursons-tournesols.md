@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-oursons-tournesols-plat.webp"
 imageAlt: "Coque Oursons Tournesols : des oursons et des tournesols sur un carreau jaune"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Des oursons et des tournesols sur un carreau jaune."
 order: 65
 pubDate: 2026-10-10

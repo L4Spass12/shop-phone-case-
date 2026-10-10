@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-pois-timbre-plat.webp"
 imageAlt: "Coque Pois et Timbre : des pois crème sur fond chocolat et un timbre fleuri"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des pois crème sur fond chocolat et un timbre fleuri."
 order: 78
 pubDate: 2026-10-10

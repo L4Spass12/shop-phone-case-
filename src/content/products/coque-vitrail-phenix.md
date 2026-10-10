@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-vitrail-phenix-plat.webp"
 imageAlt: "Coque Vitrail Phénix : un phénix multicolore dans un vitrail, au clair de lune"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages", "coques-art"]
 shortDescription: "Un phénix multicolore dans un vitrail, au clair de lune."
 order: 104
 pubDate: 2026-10-10

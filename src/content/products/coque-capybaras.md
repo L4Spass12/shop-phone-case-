@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-capybaras-plat.webp"
 imageAlt: "Coque Capybaras : des capybaras amoureux qui s'échangent des lettres et des cœurs"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-romantique"]
 shortDescription: "Des capybaras amoureux qui s'échangent des lettres et des cœurs."
 order: 62
 pubDate: 2026-10-10

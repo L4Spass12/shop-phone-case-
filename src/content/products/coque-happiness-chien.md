@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-happiness-chien-plat.webp"
 imageAlt: "Coque Happiness is Free : un chien qui fait un cœur et « happiness is free » sur des rayures violettes"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-motifs", "coques-citations"]
 shortDescription: "Un chien qui fait un cœur et « happiness is free » sur des rayures violettes."
 order: 74
 pubDate: 2026-10-10

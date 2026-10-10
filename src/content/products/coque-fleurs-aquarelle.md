@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-fleurs-aquarelle-plat.webp"
 imageAlt: "Coque Fleurs Aquarelle : des fleurs à l'aquarelle alignées entre de fines rayures vertes"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]
 shortDescription: "Des fleurs à l'aquarelle alignées entre de fines rayures vertes."
 order: 58
 pubDate: 2026-10-10

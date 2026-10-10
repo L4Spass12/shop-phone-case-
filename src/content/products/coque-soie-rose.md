@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-soie-rose-plat.webp"
 imageAlt: "Coque Soie Rose : des ondulations de soie rose et vert acidulé"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des ondulations de soie rose et vert acidulé."
 order: 76
 pubDate: 2026-10-10

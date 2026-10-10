@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-talavera-plat.webp"
 imageAlt: "Coque Talavera : des carreaux colorés façon céramique mexicaine, soleils, lunes et fleurs"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs", "coques-art"]
 shortDescription: "Des carreaux colorés façon céramique mexicaine, soleils, lunes et fleurs."
 order: 43
 pubDate: 2026-10-10

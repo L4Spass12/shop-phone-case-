@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-canard-roi-plat.webp"
 imageAlt: "Coque Canard Roi : un petit canard couronné à lunettes noires sur des rayures bleues"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-motifs"]
 shortDescription: "Un petit canard couronné à lunettes noires sur des rayures bleues."
 order: 70
 pubDate: 2026-10-10

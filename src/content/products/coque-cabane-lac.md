@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-cabane-lac-plat.webp"
 imageAlt: "Coque Cabane au Lac : une cabane colorée au bord d'un lac de montagne au crépuscule"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une cabane colorée au bord d'un lac de montagne au crépuscule."
 order: 125
 pubDate: 2026-10-10

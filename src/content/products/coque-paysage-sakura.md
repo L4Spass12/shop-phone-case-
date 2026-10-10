@@ -11,7 +11,7 @@ videos:
     poster: "/images/video-posters/coque-paysage-sakura-relief-montage-v2-full.webp"
     thumb: "/images/video-posters/coque-paysage-sakura-relief-montage-v2.webp"
     mode: "relief"
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-paysages", "coques-asie"]
 shortDescription: "Un paysage d'estampe aux nuages roses, montagnes bleues et cerisiers en fleurs, rehaussé de touches dorées."
 featured: true
 pubDate: 2026-10-01

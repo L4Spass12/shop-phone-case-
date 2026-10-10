@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-clair-lune-plat.webp"
 imageAlt: "Coque Clair de Lune : une baie au clair de lune avec un pin sur les rochers"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une baie au clair de lune avec un pin sur les rochers."
 order: 118
 pubDate: 2026-10-10

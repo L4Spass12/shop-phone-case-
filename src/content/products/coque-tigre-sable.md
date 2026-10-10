@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-tigre-sable-plat.webp"
 imageAlt: "Coque Tigre Sable : des rayures de tigre sur un pelage sable"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-imprimes-animaux"]
 shortDescription: "Des rayures de tigre sur un pelage sable."
 order: 87
 pubDate: 2026-10-10

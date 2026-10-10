@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-papillon-lumiere-plat.webp"
 imageAlt: "Coque iPhone vert lumineux avec un papillon jaune qui brille au milieu d'étincelles"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Un papillon de lumière jaune s'envole dans un tourbillon vert plein d'étincelles."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 9

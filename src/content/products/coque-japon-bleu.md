@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-japon-bleu-plat.webp"
 imageAlt: "Coque Japon Bleu : un pin, un torii et des fleurs sous la lune, en camaïeu de bleus"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-asie"]
 shortDescription: "Un pin, un torii et des fleurs sous la lune, en camaïeu de bleus."
 order: 117
 pubDate: 2026-10-10

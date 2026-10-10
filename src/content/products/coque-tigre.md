@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-tigre-plat.webp"
 imageAlt: "Coque Tigre : un pelage de tigre orange et noir, effet fourrure"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-imprimes-animaux"]
 shortDescription: "Un pelage de tigre orange et noir, effet fourrure."
 order: 97
 pubDate: 2026-10-10

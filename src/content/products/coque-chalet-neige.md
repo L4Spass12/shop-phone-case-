@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-chalet-neige-plat.webp"
 imageAlt: "Coque Chalet sous la Neige : un chalet enneigé avec un chat, au bord d'une rivière"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Un chalet enneigé avec un chat, au bord d'une rivière."
 order: 126
 pubDate: 2026-10-10

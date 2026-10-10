@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-ciel-chat-plat.webp"
 imageAlt: "Coque Chat sous les Étoiles : un petit chat qui contemple un ciel étoilé aux couleurs de rêve"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-ciel"]
 shortDescription: "Un petit chat qui contemple un ciel étoilé aux couleurs de rêve."
 order: 38
 pubDate: 2026-10-10

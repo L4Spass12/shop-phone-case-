@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-coeurs-pastel-plat.webp"
 imageAlt: "Coque iPhone rose aux reflets irisés, avec des cœurs flous et des étoiles scintillantes"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-kawaii", "coques-romantique"]
 shortDescription: "Des cœurs flous et des étoiles qui scintillent sur un rose irisé, comme un rêve tout doux."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 7

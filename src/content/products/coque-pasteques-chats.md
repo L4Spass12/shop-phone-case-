@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-pasteques-chats-plat.webp"
 imageAlt: "Coque Pastèques Chats : des pastèques et des goyaves aux bouilles de chat, fraîches et rigolotes"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-gourmand"]
 shortDescription: "Des pastèques et des goyaves aux bouilles de chat, fraîches et rigolotes."
 order: 33
 pubDate: 2026-10-10

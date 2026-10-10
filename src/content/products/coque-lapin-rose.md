@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-lapin-rose-plat.webp"
 imageAlt: "Coque Lapin Rose : un petit lapin blanc dans une lueur rose toute douce"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Un petit lapin blanc dans une lueur rose toute douce."
 order: 54
 pubDate: 2026-10-10

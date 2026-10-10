@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-cactus-plat.webp"
 imageAlt: "Coque Cactus : des cactus verts tout ronds sur un fond pêche"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs"]
 shortDescription: "Des cactus verts tout ronds sur un fond pêche."
 order: 63
 pubDate: 2026-10-10

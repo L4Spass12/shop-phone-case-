@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-zebre-plat.webp"
 imageAlt: "Coque Zèbre : des rayures de zèbre noires et crème"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-imprimes-animaux"]
 shortDescription: "Des rayures de zèbre noires et crème."
 order: 96
 pubDate: 2026-10-10

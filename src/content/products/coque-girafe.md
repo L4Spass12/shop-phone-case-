@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-girafe-plat.webp"
 imageAlt: "Coque Girafe : le pelage d'une girafe, effet fourrure"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-imprimes-animaux"]
 shortDescription: "Le pelage d'une girafe, effet fourrure."
 order: 92
 pubDate: 2026-10-10

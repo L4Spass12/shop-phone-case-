@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-mosaique-verte-plat.webp"
 imageAlt: "Coque Mosaïque Verte : de petits carreaux de céramique vert d'eau brillants"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "De petits carreaux de céramique vert d'eau brillants."
 order: 79
 pubDate: 2026-10-10

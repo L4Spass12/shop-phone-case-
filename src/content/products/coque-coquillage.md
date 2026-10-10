@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-coquillage-plat.webp"
 imageAlt: "Coque Coquillage : un coquillage peint sur des rayures bleu ciel"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un coquillage peint sur des rayures bleu ciel."
 order: 66
 pubDate: 2026-10-10

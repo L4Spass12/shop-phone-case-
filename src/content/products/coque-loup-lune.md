@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-loup-lune-plat.webp"
 imageAlt: "Coque Loup et Lune : un loup blanc sous la lune dans un paysage pastel fleuri"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Un loup blanc sous la lune dans un paysage pastel fleuri."
 order: 124
 pubDate: 2026-10-10

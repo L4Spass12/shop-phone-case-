@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-coeur-noeud-plat.webp"
 imageAlt: "Coque Cœur et Nœud : un cœur bordeaux noué d'un ruban, sur un beige tout doux"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-romantique"]
 shortDescription: "Un cœur bordeaux noué d'un ruban, sur un beige tout doux."
 order: 29
 pubDate: 2026-10-10

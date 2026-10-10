@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-voyageur-cote-plat.webp"
 imageAlt: "Coque iPhone montrant un voyageur et son chien sur un sentier rocheux, contemplant un village côtier, des cyprès et une mer bleu profond sous la lune"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un voyageur et son chien contemplent un village côtier et la mer bleu profond sous la lune."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 22

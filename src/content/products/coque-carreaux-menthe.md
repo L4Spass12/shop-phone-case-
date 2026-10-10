@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-carreaux-menthe-plat.webp"
 imageAlt: "Coque Carreaux Menthe : de petits carreaux menthe à l'aspect émaillé"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "De petits carreaux menthe à l'aspect émaillé."
 order: 86
 pubDate: 2026-10-10

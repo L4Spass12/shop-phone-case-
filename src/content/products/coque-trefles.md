@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-trefles-plat.webp"
 imageAlt: "Coque Trèfles : une pluie de trèfles verts, symboles de chance"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs"]
 shortDescription: "Une pluie de trèfles verts, symboles de chance."
 order: 25
 pubDate: 2026-10-10

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-oursons-plat.webp"
 imageAlt: "Coque iPhone à larges rayures beige et crème, avec des têtes d'oursons marron"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Des têtes d'oursons toutes rondes sur de larges rayures beige et crème, tout en douceur."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 4

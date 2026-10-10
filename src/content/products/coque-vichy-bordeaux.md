@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-vichy-bordeaux-plat.webp"
 imageAlt: "Coque Vichy Bordeaux : un vichy bordeaux et crème, façon nappe de bistrot"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un vichy bordeaux et crème, façon nappe de bistrot."
 order: 89
 pubDate: 2026-10-10

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-nuage-reveuse-plat.webp"
 imageAlt: "Coque Rêveuse : une jeune femme endormie dans un nuage de coton"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-ciel", "coques-art"]
 shortDescription: "Une jeune femme endormie dans un nuage de coton."
 order: 137
 pubDate: 2026-10-10

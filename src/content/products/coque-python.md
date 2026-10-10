@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-python-plat.webp"
 imageAlt: "Coque Python : des écailles de python naturelles, beige et brun"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-imprimes-animaux"]
 shortDescription: "Des écailles de python naturelles, beige et brun."
 order: 93
 pubDate: 2026-10-10

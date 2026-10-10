@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-carreaux-anciens-plat.webp"
 imageAlt: "Coque Carreaux Anciens : des carreaux vert-gris patinés par le temps"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des carreaux vert-gris patinés par le temps."
 order: 84
 pubDate: 2026-10-10

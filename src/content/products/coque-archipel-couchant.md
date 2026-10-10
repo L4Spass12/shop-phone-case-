@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-archipel-couchant-plat.webp"
 imageAlt: "Coque iPhone aux couleurs vives : un soleil couchant sur un archipel, un ciel arc-en-ciel, des collines vertes et un pin sur la falaise"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un soleil couchant sur un archipel, sous un ciel arc-en-ciel aux couleurs éclatantes."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 19

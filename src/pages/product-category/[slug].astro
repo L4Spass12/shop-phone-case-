@@ -1,4 +1,5 @@
 ---
+import CategoryChips from '../../components/CategoryChips.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../../site.config.mjs';
@@ -141,56 +142,12 @@ if (faqSchema) jsonLd.push(faqSchema);
         </details>
       )}
     </header>
-
-    <!-- Dropdown catégories -->
-    <nav class="mb-12" aria-label="Catégories de produits">
-      <details class="cat-dropdown relative inline-block">
-        <summary
-          class="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-white/[0.12] bg-white/[0.03] text-sm font-medium text-cream cursor-pointer hover:border-white/25 hover:bg-white/[0.06] transition-colors select-none"
-          aria-label="Choisir une catégorie"
-        >
-          <span class="text-n-500 text-xs uppercase tracking-widest">Catégorie</span>
-          <span class="text-cream">{category.label}</span>
-          <svg class="w-4 h-4 cat-chevron text-n-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </summary>
-        <div
-          class="cat-panel absolute top-full left-0 mt-2 min-w-[280px] md:min-w-[320px] rounded-2xl border border-white/[0.12] bg-panel shadow-2xl p-2 z-20"
-          role="menu"
-        >
-          <a
-            href="/boutique"
-            class="flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm text-n-400 hover:bg-white/[0.05] hover:text-cream transition-colors"
-            role="menuitem"
-          >
-            <span>Toutes les catégories</span>
-            <span class="text-[10px] text-n-500 uppercase tracking-widest">Boutique</span>
-          </a>
-          <div class="h-px bg-white/[0.06] my-2 mx-2"></div>
-          {(siteConfig.productCategories as {slug:string; label:string}[]).map(c => (
-            <a
-              href={`/product-category/${c.slug}`}
-              class={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${c.slug === category.slug ? 'bg-cream text-dark font-medium' : 'text-n-400 hover:bg-white/[0.05] hover:text-cream'}`}
-              aria-current={c.slug === category.slug ? 'page' : undefined}
-              role="menuitem"
-            >
-              <span>{c.label}</span>
-              {c.slug === category.slug && (
-                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              )}
-            </a>
-          ))}
-        </div>
-      </details>
-    </nav>
+    <CategoryChips lang={'fr'} active={category.slug} />
 
     {products.length > 0 ? (
       <>
       <section aria-label="Produits de la catégorie">
-        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-12">
           {products.map((product, i) => (
             <article class="product-card">
               <a href={`/product/${product.slug}`} class="group block">
@@ -212,15 +169,15 @@ if (faqSchema) jsonLd.push(faqSchema);
                     </div>
                   )}
                 </div>
-                <div class="flex justify-between items-start gap-4">
+                <div class="flex flex-col xl:flex-row xl:justify-between xl:items-start gap-1 xl:gap-4">
                   <div class="min-w-0">
-                    <h2 class="text-base font-medium text-cream mb-1 tracking-tight group-hover:underline underline-offset-4 truncate">
+                    <h2 class="text-sm md:text-base font-medium text-cream mb-1 tracking-tight group-hover:underline underline-offset-4 line-clamp-1">
                       {product.data.name}
                     </h2>
-                    <p class="text-xs text-n-500 font-light truncate">{product.data.shortDescription}</p>
+                    <p class="hidden md:block text-xs text-n-500 font-light truncate">{product.data.shortDescription}</p>
                   </div>
-                  <div class="flex items-baseline gap-2 shrink-0">
-                    <span class="text-sm text-cream font-medium whitespace-nowrap">{displayPrice(product.data)}</span>
+                  <div class="flex items-baseline gap-2 xl:shrink-0">
+                    <span class="text-sm text-cream font-medium whitespace-nowrap order-last lg:order-none">{displayPrice(product.data)}</span>
                   </div>
                 </div>
               </a>

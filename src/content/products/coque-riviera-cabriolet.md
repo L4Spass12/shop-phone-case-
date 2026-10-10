@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-riviera-cabriolet-plat.webp"
 imageAlt: "Coque Riviera Cabriolet : une virée en voiture sur une route de bord de mer ensoleillée"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-voitures"]
 shortDescription: "Une virée en voiture sur une route de bord de mer ensoleillée."
 order: 145
 pubDate: 2026-10-10

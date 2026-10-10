@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-lac-gravure-plat.webp"
 imageAlt: "Coque Lac Gravure : un paysage de lac gravé sous un ciel vert forêt"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un paysage de lac gravé sous un ciel vert forêt."
 order: 109
 pubDate: 2026-10-10

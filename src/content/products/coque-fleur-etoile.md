@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-fleur-etoile-plat.webp"
 imageAlt: "Coque iPhone bleu nuit où un lapin blanc contemple une fleur lumineuse en forme d'étoile aux couleurs irisées"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-ciel"]
 shortDescription: "Un petit lapin blanc contemple une fleur d'étoile lumineuse dans la nuit bleue."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 8

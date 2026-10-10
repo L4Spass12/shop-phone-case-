@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-chaton-paillettes-plat.webp"
 imageAlt: "Coque Chaton Paillettes : un chaton ailé entouré de rubans, de cœurs et d'étoiles roses"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Un chaton ailé entouré de rubans, de cœurs et d'étoiles roses."
 order: 36
 pubDate: 2026-10-10

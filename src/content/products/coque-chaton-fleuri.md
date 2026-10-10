@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-chaton-fleuri-plat.webp"
 imageAlt: "Coque iPhone couverte de fleurs multicolores, avec un petit chaton qui sort la tête au milieu"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-animaux", "coques-fleurs", "coques-kawaii"]
 shortDescription: "Un petit chaton pointe le bout de son nez au milieu d'un champ de fleurs multicolores."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 23

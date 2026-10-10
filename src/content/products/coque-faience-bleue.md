@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-faience-bleue-plat.webp"
 imageAlt: "Coque Faïence Bleue : un motif de faïence bleue sur fond blanc"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un motif de faïence bleue sur fond blanc."
 order: 100
 pubDate: 2026-10-10

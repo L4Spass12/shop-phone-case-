@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-damas-vert-plat.webp"
 imageAlt: "Coque Damas Vert : un motif damassé ton sur ton vert anis"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]
 shortDescription: "Un motif damassé ton sur ton vert anis."
 order: 82
 pubDate: 2026-10-10

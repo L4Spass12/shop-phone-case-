@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-azulejos-plat.webp"
 imageAlt: "Coque Azulejos : des carreaux azulejos bleus et blancs, façon Lisbonne"
 printModes: ["flat"]
-categories: ["coques-iphone"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des carreaux azulejos bleus et blancs, façon Lisbonne."
 order: 99
 pubDate: 2026-10-10
