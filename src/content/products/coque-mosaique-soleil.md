@@ -4,6 +4,12 @@ price: 19.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-mosaique-soleil-relief.webp"
 flatImage: "/images/products/coque-mosaique-soleil-plat.webp"
+videos:
+  # Exemple du rendu en relief (vidéo TikTok @bymoroji, sans son).
+  - src: "/videos/exemple-relief.mp4"
+    poster: "/images/exemple-relief-poster.webp"
+    thumb: "/images/exemple-relief-thumb.webp"
+    mode: "relief"
 imageAlt: "Coque iPhone en relief imitant une mosaïque de petits carreaux rouges, orange, jaunes et verts disposés en cercles autour d'un cabochon bleu"
 categories: ["coques-iphone", "coques-paysages", "coques-motifs"]
 shortDescription: "Une mosaïque solaire de petits carreaux colorés disposés en cercles autour d'un cœur bleu profond."

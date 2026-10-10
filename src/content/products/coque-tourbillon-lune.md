@@ -4,6 +4,12 @@ price: 19.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-tourbillon-lune-relief.webp"
 flatImage: "/images/products/coque-tourbillon-lune-plat.webp"
+videos:
+  # Exemple du rendu en relief (vidéo TikTok @bymoroji, sans son).
+  - src: "/videos/exemple-relief.mp4"
+    poster: "/images/exemple-relief-poster.webp"
+    thumb: "/images/exemple-relief-thumb.webp"
+    mode: "relief"
 imageAlt: "Coque iPhone bleu ciel peinte d'un tourbillon où nagent des poissons pastel, des étoiles filantes et des petites fleurs autour d'une lune dorée"
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un tourbillon bleu ciel où des poissons pastel nagent entre étoiles filantes et petites fleurs, autour d'une lune dorée."

@@ -4,6 +4,12 @@ price: 19.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-tigres-lune-relief.webp"
 flatImage: "/images/products/coque-tigres-lune-plat.webp"
+videos:
+  # Exemple du rendu en relief (vidéo TikTok @bymoroji, sans son).
+  - src: "/videos/exemple-relief.mp4"
+    poster: "/images/exemple-relief-poster.webp"
+    thumb: "/images/exemple-relief-thumb.webp"
+    mode: "relief"
 imageAlt: "Coque iPhone bleu nuit avec deux tigres qui se font face, entourés d'un soleil, d'un croissant de lune, d'étoiles et de feuillages dorés"
 categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Deux tigres face à face sous le soleil et la lune, sur un bleu nuit profond semé d'étoiles et de feuillages dorés."

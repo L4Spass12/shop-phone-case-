@@ -180,8 +180,8 @@ const config = {
     // encore leur propre photo relief (vignette « Exemple » et lien).
     // video : chemin d'une courte vidéo verticale (mp4), vide tant qu'absente.
     reliefExample: {
-      video: '',
-      poster: '',
+      video: '/videos/exemple-relief.mp4',
+      poster: '/images/exemple-relief-poster.webp',
       photos: [
         '/images/products/coque-paysage-sakura-relief-v2.webp',
         '/images/products/coque-mosaique-soleil-relief.webp',
