@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-leopard-plat.webp"
 imageAlt: "Coque Léopard : un imprimé léopard classique, intemporel"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-imprimes-animaux"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un imprimé léopard classique, intemporel."
 order: 88
 pubDate: 2026-10-10

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-girafe-rose-plat.webp"
 imageAlt: "Coque iPhone imitant une fourrure de girafe rose et blanche à l'aspect tout doux"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-imprimes-animaux"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un motif girafe façon fourrure rose et blanche, doux à l'œil et plein de caractère."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 6

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-dragon-nuages-plat.webp"
 imageAlt: "Coque Dragon des Nuages : un dragon japonais qui serpente entre des nuages rouges et bleus"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-art", "coques-asie"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un dragon japonais qui serpente entre des nuages rouges et bleus."
 order: 102
 pubDate: 2026-10-10

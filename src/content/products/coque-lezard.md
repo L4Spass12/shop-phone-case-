@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-lezard-plat.webp"
 imageAlt: "Coque Lézard : une peau de lézard vert olive aux mille écailles"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-imprimes-animaux"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Une peau de lézard vert olive aux mille écailles."
 order: 91
 pubDate: 2026-10-10

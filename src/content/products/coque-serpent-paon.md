@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-serpent-paon-plat.webp"
 imageAlt: "Coque Serpent Paon : des écailles de serpent aux couleurs de paon, vert et turquoise"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-imprimes-animaux"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des écailles de serpent aux couleurs de paon, vert et turquoise."
 order: 90
 pubDate: 2026-10-10

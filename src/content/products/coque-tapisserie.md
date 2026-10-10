@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-tapisserie-plat.webp"
 imageAlt: "Coque Tapisserie : une tapisserie médiévale avec chevaliers, lune et grimoires"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-paysages", "coques-art"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une tapisserie médiévale avec chevaliers, lune et grimoires."
 order: 101
 pubDate: 2026-10-10

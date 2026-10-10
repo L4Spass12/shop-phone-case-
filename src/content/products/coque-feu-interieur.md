@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-feu-interieur-plat.webp"
 imageAlt: "Coque Feu Intérieur : une silhouette en flammes orangées sur un fond de feu"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-art"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une silhouette en flammes orangées sur un fond de feu."
 order: 138
 pubDate: 2026-10-10

@@ -93,18 +93,13 @@ const config = {
   productCategories: [
     { slug: 'coques-iphone', label: 'Coques iPhone' },
     { slug: 'coques-animaux', label: 'Animaux', labels: { en: 'Animals', de: 'Tiere' }, theme: true },
+    { slug: 'coques-kawaii', label: 'Mignon & kawaii', labels: { en: 'Cute & kawaii', de: 'Süß & Kawaii' }, theme: true },
     { slug: 'coques-fleurs', label: 'Fleurs & nature', labels: { en: 'Flowers & nature', de: 'Blumen & Natur' }, theme: true },
-    { slug: 'coques-kawaii', label: 'Kawaii', labels: { en: 'Kawaii', de: 'Kawaii' }, theme: true },
-    { slug: 'coques-imprimes-animaux', label: 'Imprimés animaux', labels: { en: 'Animal prints', de: 'Animal Prints' }, theme: true },
-    { slug: 'coques-paysages', label: 'Paysages', labels: { en: 'Landscapes', de: 'Landschaften' }, theme: true },
+    { slug: 'coques-paysages', label: 'Paysages & art', labels: { en: 'Landscapes & art', de: 'Landschaften & Kunst' }, theme: true },
     { slug: 'coques-ciel', label: 'Ciel & étoiles', labels: { en: 'Sky & stars', de: 'Himmel & Sterne' }, theme: true },
+    { slug: 'coques-motifs', label: 'Motifs & imprimés', labels: { en: 'Patterns & prints', de: 'Muster & Prints' }, theme: true },
     { slug: 'coques-gourmand', label: 'Fruits & gourmandises', labels: { en: 'Fruits & treats', de: 'Früchte & Leckereien' }, theme: true },
-    { slug: 'coques-motifs', label: 'Rayures & motifs', labels: { en: 'Stripes & patterns', de: 'Streifen & Muster' }, theme: true },
-    { slug: 'coques-romantique', label: 'Romantique', labels: { en: 'Romantic', de: 'Romantisch' }, theme: true },
-    { slug: 'coques-art', label: 'Art & peinture', labels: { en: 'Art & painting', de: 'Kunst & Malerei' }, theme: true },
-    { slug: 'coques-asie', label: 'Japon', labels: { en: 'Japan', de: 'Japan' }, theme: true },
-    { slug: 'coques-citations', label: 'Citations', labels: { en: 'Quotes', de: 'Sprüche' }, theme: true },
-    { slug: 'coques-voitures', label: 'Voitures', labels: { en: 'Cars', de: 'Autos' }, theme: true },
+    { slug: 'coques-pop', label: 'Pop & citations', labels: { en: 'Pop & quotes', de: 'Pop & Sprüche' }, theme: true },
   ],
 
   // ─── Modèles de téléphone compatibles ────────────────────────────

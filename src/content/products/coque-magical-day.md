@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-magical-day-plat.webp"
 imageAlt: "Coque Magical Day : « make this day a little magical » en grosses lettres vert olive"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-citations"]
+categories: ["coques-iphone", "coques-pop"]
 shortDescription: "« make this day a little magical » en grosses lettres vert olive."
 order: 52
 pubDate: 2026-10-10

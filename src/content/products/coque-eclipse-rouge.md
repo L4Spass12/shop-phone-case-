@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-eclipse-rouge-plat.webp"
 imageAlt: "Coque Éclipse Rouge : une silhouette assise face à une planète rouge, dans des nuages"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-ciel", "coques-art"]
+categories: ["coques-iphone", "coques-ciel", "coques-paysages"]
 shortDescription: "Une silhouette assise face à une planète rouge, dans des nuages."
 order: 131
 pubDate: 2026-10-10

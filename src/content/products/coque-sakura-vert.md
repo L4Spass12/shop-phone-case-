@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-sakura-vert-plat.webp"
 imageAlt: "Coque Sakura Jade : des fleurs de cerisier et des volutes sur un vert jade"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-fleurs", "coques-asie"]
+categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Des fleurs de cerisier et des volutes sur un vert jade."
 order: 127
 pubDate: 2026-10-10

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-unhinged-plat.webp"
 imageAlt: "Coque Unhinged : une petite créature verte et « I will make it, because I am unhinged »"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-kawaii", "coques-citations"]
+categories: ["coques-iphone", "coques-kawaii", "coques-pop"]
 shortDescription: "Une petite créature verte et « I will make it, because I am unhinged »."
 order: 44
 pubDate: 2026-10-10

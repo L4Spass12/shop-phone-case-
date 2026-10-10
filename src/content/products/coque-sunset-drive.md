@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-sunset-drive-plat.webp"
 imageAlt: "Coque Sunset Drive : une voiture rétro au bord de mer, sous un ciel rose et un regard dessiné"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-voitures"]
+categories: ["coques-iphone", "coques-pop"]
 shortDescription: "Une voiture rétro au bord de mer, sous un ciel rose et un regard dessiné."
 order: 142
 pubDate: 2026-10-10

@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-crocodile-plat.webp"
 imageAlt: "Coque Crocodile : une peau de crocodile vert foncé"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-imprimes-animaux"]
+categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Une peau de crocodile vert foncé."
 order: 94
 pubDate: 2026-10-10

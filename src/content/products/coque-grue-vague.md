@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-grue-vague-plat.webp"
 imageAlt: "Coque Grue et Vague : une grue en vol au-dessus de vagues noires et or"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-animaux", "coques-asie"]
+categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Une grue en vol au-dessus de vagues noires et or."
 order: 112
 pubDate: 2026-10-10

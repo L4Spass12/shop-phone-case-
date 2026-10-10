@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-vitrail-soleil-plat.webp"
 imageAlt: "Coque Vitrail Soleil : un vitrail lumineux avec soleil levant, montagnes et lac"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-paysages", "coques-art"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un vitrail lumineux avec soleil levant, montagnes et lac."
 order: 103
 pubDate: 2026-10-10
