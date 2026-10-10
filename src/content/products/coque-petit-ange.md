@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-petit-ange-plat.webp"
 imageAlt: "Coque iPhone bleu ciel avec un petit lapin tout doux aux ailes d'ange, entouré d'étoiles et d'un cœur rose"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
+categories: ["coques-iphone", "coques-animaux", "coques-romantique", "coques-kawaii"]
 shortDescription: "Un petit lapin tout doux aux ailes d'ange flotte sur un bleu ciel apaisant, entre étoiles et cœur rose."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 3

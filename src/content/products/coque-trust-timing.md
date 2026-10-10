@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-trust-timing-plat.webp"
 imageAlt: "Coque Trust Your Timing : une femme, des fleurs et des papillons, avec « trust your own timing »"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-paysages", "coques-pop"]
+categories: ["coques-iphone", "coques-paysages", "coques-citations"]
 shortDescription: "Une femme, des fleurs et des papillons, avec « trust your own timing »."
 order: 41
 pubDate: 2026-10-10

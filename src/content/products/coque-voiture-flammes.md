@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-voiture-flammes-plat.webp"
 imageAlt: "Coque Voiture Flammes : une voiture de course chromée au milieu de flammes rétro"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-pop"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture de course chromée au milieu de flammes rétro."
 order: 141
 pubDate: 2026-10-10

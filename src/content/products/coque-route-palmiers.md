@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-route-palmiers-plat.webp"
 imageAlt: "Coque Route des Palmiers : une voiture blanche sur la route côtière, entre palmiers et coucher de soleil"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-pop"]
+categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture blanche sur la route côtière, entre palmiers et coucher de soleil."
 order: 140
 pubDate: 2026-10-10

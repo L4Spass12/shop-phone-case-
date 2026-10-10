@@ -6,7 +6,7 @@ price: 19.90
 image: "/images/products/coque-coeurs-papillons-plat.webp"
 imageAlt: "Coque Cœurs et Papillons : des cœurs bordeaux flous et des papillons sur un beige rosé"
 printModes: ["flat"]
-categories: ["coques-iphone", "coques-kawaii"]
+categories: ["coques-iphone", "coques-romantique"]
 shortDescription: "Des cœurs bordeaux flous et des papillons sur un beige rosé."
 order: 49
 pubDate: 2026-10-10
