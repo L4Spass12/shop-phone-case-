@@ -2001,7 +2001,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         st.width = pc(b[2] / p[2]); st.height = pc(b[3] / p[3]);
       }
       if (imgs[0].getAttribute('src') !== r.m) { imgs[0].src = r.m; imgs[1].src = r.k; }
-      caseEl.style.setProperty('--ratio', (p[2] / p[3]).toFixed(4));
+      // La coque garde les proportions réelles (celles du fichier d'impression) :
+      // les calques, placés en %, s'étirent de 1 à 2 % pour s'y caler.
       var rad = p[4] != null ? p[4] : p[2] * .13;
       caseEl.style.borderRadius = pc(rad / p[2]) + ' / ' + pc(rad / p[3]);
       caseEl.setAttribute('data-real', '');
@@ -2074,16 +2075,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // débordait alors du plan de travail par le haut.
       var maxW = Math.max(70, r.width - 28);
       var maxH = Math.max(110, r.height - 20);
-      var ratio = spec.ratio;
       // Aperçu réaliste : le téléphone déborde de la zone imprimable, on
       // garde la place pour lui.
       var real = realOf(state.model);
       if (real && realEl) {
         var p = real.panel, b = real.box;
-        ratio = p[2] / p[3];
         maxW = maxW * p[2] / b[2]; maxH = maxH * p[3] / b[3];
       }
-      caseEl.style.width = Math.round(Math.min(maxW, maxH * ratio, 300)) + 'px';
+      caseEl.style.width = Math.round(Math.min(maxW, maxH * spec.ratio, 300)) + 'px';
       // La coque a changé de taille : recale le cadre de sélection.
       if (selectedId != null) { var s = findEl(selectedId); if (s) positionGizmo(s); }
     }
