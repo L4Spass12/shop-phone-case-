@@ -1,0 +1,5488 @@
+{
+  "items": [
+    {
+      "key": "coque-arbre-miroir",
+      "label": "Coque Arbre Miroir",
+      "price": 1990,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "coque-arbre-miroir-relief",
+      "label": "Coque Arbre Miroir · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "coque-archipel-couchant",
+      "label": "Coque Archipel au Couchant",
+      "price": 1990,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "coque-archipel-couchant-relief",
+      "label": "Coque Archipel au Couchant · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "coque-azulejos",
+      "label": "Coque Azulejos",
+      "price": 1990,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "coque-azulejos-relief",
+      "label": "Coque Azulejos · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "coque-baleines-celestes",
+      "label": "Coque Baleines Célestes",
+      "price": 1990,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "coque-baleines-celestes-relief",
+      "label": "Coque Baleines Célestes · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "coque-bisou",
+      "label": "Coque Bisou",
+      "price": 1990,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "coque-bisou-relief",
+      "label": "Coque Bisou · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "coque-boule-disco",
+      "label": "Coque Boule Disco",
+      "price": 1990,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "coque-boule-disco-relief",
+      "label": "Coque Boule Disco · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "coque-cabane-lac",
+      "label": "Coque Cabane au Lac",
+      "price": 1990,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "coque-cabane-lac-relief",
+      "label": "Coque Cabane au Lac · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "coque-cactus",
+      "label": "Coque Cactus",
+      "price": 1990,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "coque-cactus-relief",
+      "label": "Coque Cactus · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "coque-canard-roi",
+      "label": "Coque Canard Roi",
+      "price": 1990,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "coque-canard-roi-relief",
+      "label": "Coque Canard Roi · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "coque-capybaras",
+      "label": "Coque Capybaras",
+      "price": 1990,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "coque-capybaras-relief",
+      "label": "Coque Capybaras · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-ambre",
+      "label": "Coque Carreaux Ambre",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-ambre-relief",
+      "label": "Coque Carreaux Ambre · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-anciens",
+      "label": "Coque Carreaux Anciens",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-anciens-relief",
+      "label": "Coque Carreaux Anciens · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-menthe",
+      "label": "Coque Carreaux Menthe",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "coque-carreaux-menthe-relief",
+      "label": "Coque Carreaux Menthe · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "coque-cascade-nuit",
+      "label": "Coque Cascade de Nuit",
+      "price": 1990,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "coque-cascade-nuit-relief",
+      "label": "Coque Cascade de Nuit · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "coque-cerises-pastel",
+      "label": "Coque Cerises Pastel",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "coque-cerises-pastel-relief",
+      "label": "Coque Cerises Pastel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "coque-cerises-rubans",
+      "label": "Coque Cerises et Rubans",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "coque-cerises-rubans-relief",
+      "label": "Coque Cerises et Rubans · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "coque-cerises-vin",
+      "label": "Coque Cerises et Vin",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "coque-cerises-vin-relief",
+      "label": "Coque Cerises et Vin · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "coque-chalet-neige",
+      "label": "Coque Chalet sous la Neige",
+      "price": 1990,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "coque-chalet-neige-relief",
+      "label": "Coque Chalet sous la Neige · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "coque-chat-lune",
+      "label": "Coque Chat au Clair de Lune",
+      "price": 1990,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "coque-chat-lune-relief",
+      "label": "Coque Chat au Clair de Lune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "coque-chaton-etoile",
+      "label": "Coque Chaton des Étoiles",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "coque-chaton-etoile-relief",
+      "label": "Coque Chaton des Étoiles · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "coque-chaton-fleuri",
+      "label": "Coque Chaton Fleuri",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "coque-chaton-fleuri-relief",
+      "label": "Coque Chaton Fleuri · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "coque-chaton-paillettes",
+      "label": "Coque Chaton Paillettes",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "coque-chaton-paillettes-relief",
+      "label": "Coque Chaton Paillettes · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "coque-chatons-pastel",
+      "label": "Coque Chatons Pastel",
+      "price": 1990,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "coque-chatons-pastel-relief",
+      "label": "Coque Chatons Pastel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "coque-chats-amoureux",
+      "label": "Coque Chats Amoureux",
+      "price": 1990,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "coque-chats-amoureux-relief",
+      "label": "Coque Chats Amoureux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "coque-chevalier",
+      "label": "Coque Chevalier",
+      "price": 1990,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "coque-chevalier-relief",
+      "label": "Coque Chevalier · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "coque-chiens-amoureux",
+      "label": "Coque Chiens Amoureux",
+      "price": 1990,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "coque-chiens-amoureux-relief",
+      "label": "Coque Chiens Amoureux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "coque-ciel-chat",
+      "label": "Coque Chat sous les Étoiles",
+      "price": 1990,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "coque-ciel-chat-relief",
+      "label": "Coque Chat sous les Étoiles · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "coque-citron-riviera",
+      "label": "Coque Citron Riviera",
+      "price": 1990,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "coque-citron-riviera-relief",
+      "label": "Coque Citron Riviera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "coque-citrons-fleurs",
+      "label": "Coque Citrons Fleuris",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "coque-citrons-fleurs-relief",
+      "label": "Coque Citrons Fleuris · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "coque-clair-lune",
+      "label": "Coque Clair de Lune",
+      "price": 1990,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "coque-clair-lune-relief",
+      "label": "Coque Clair de Lune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "coque-cocktail",
+      "label": "Coque Cocktail",
+      "price": 1990,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "coque-cocktail-relief",
+      "label": "Coque Cocktail · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "coque-coeur-noeud",
+      "label": "Coque Cœur et Nœud",
+      "price": 1990,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "coque-coeur-noeud-relief",
+      "label": "Coque Cœur et Nœud · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-papillons",
+      "label": "Coque Cœurs et Papillons",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-papillons-relief",
+      "label": "Coque Cœurs et Papillons · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-pastel",
+      "label": "Coque Cœurs Pastel",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-pastel-relief",
+      "label": "Coque Cœurs Pastel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-ruban",
+      "label": "Coque Cœurs au Ruban",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "coque-coeurs-ruban-relief",
+      "label": "Coque Cœurs au Ruban · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "coque-coquillage",
+      "label": "Coque Coquillage",
+      "price": 1990,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "coque-coquillage-relief",
+      "label": "Coque Coquillage · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "coque-cote-fleurie",
+      "label": "Coque Côte Fleurie",
+      "price": 1990,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "coque-cote-fleurie-relief",
+      "label": "Coque Côte Fleurie · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "coque-coucher-or",
+      "label": "Coque Coucher Doré",
+      "price": 1990,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "coque-coucher-or-relief",
+      "label": "Coque Coucher Doré · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "coque-crocodile",
+      "label": "Coque Crocodile",
+      "price": 1990,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "coque-crocodile-relief",
+      "label": "Coque Crocodile · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "coque-croissant-paris",
+      "label": "Coque Croissant Paris",
+      "price": 1990,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "coque-croissant-paris-relief",
+      "label": "Coque Croissant Paris · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "coque-damas-vert",
+      "label": "Coque Damas Vert",
+      "price": 1990,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "coque-damas-vert-relief",
+      "label": "Coque Damas Vert · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "coque-dragon-nuages",
+      "label": "Coque Dragon des Nuages",
+      "price": 1990,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "coque-dragon-nuages-relief",
+      "label": "Coque Dragon des Nuages · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-bleue",
+      "label": "Coque Éclipse Bleue",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-bleue-relief",
+      "label": "Coque Éclipse Bleue · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-rouge",
+      "label": "Coque Éclipse Rouge",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-rouge-relief",
+      "label": "Coque Éclipse Rouge · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-verte",
+      "label": "Coque Éclipse Jade",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "coque-eclipse-verte-relief",
+      "label": "Coque Éclipse Jade · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "coque-emotional-spiral",
+      "label": "Coque Emotional Spiral",
+      "price": 1990,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "coque-emotional-spiral-relief",
+      "label": "Coque Emotional Spiral · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "coque-faience-bleue",
+      "label": "Coque Faïence Bleue",
+      "price": 1990,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "coque-faience-bleue-relief",
+      "label": "Coque Faïence Bleue · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "coque-feu-interieur",
+      "label": "Coque Feu Intérieur",
+      "price": 1990,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "coque-feu-interieur-relief",
+      "label": "Coque Feu Intérieur · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "coque-feux-artifice",
+      "label": "Coque Feux d'Artifice",
+      "price": 1990,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "coque-feux-artifice-relief",
+      "label": "Coque Feux d'Artifice · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "coque-fleur-etoile",
+      "label": "Coque Fleur d'Étoile",
+      "price": 1990,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "coque-fleur-etoile-relief",
+      "label": "Coque Fleur d'Étoile · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "coque-fleurettes-jaunes",
+      "label": "Coque Fleurettes Jaunes",
+      "price": 1990,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "coque-fleurettes-jaunes-relief",
+      "label": "Coque Fleurettes Jaunes · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "coque-fleurs-aquarelle",
+      "label": "Coque Fleurs Aquarelle",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "coque-fleurs-aquarelle-relief",
+      "label": "Coque Fleurs Aquarelle · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "coque-fleurs-bleues",
+      "label": "Coque Fleurs Bleues",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "coque-fleurs-bleues-relief",
+      "label": "Coque Fleurs Bleues · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "coque-fourrure-leopard",
+      "label": "Coque Fourrure Léopard",
+      "price": 1990,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "coque-fourrure-leopard-relief",
+      "label": "Coque Fourrure Léopard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "coque-fraises-carreaux",
+      "label": "Coque Fraises à Carreaux",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "coque-fraises-carreaux-relief",
+      "label": "Coque Fraises à Carreaux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "coque-fraises-fleurettes",
+      "label": "Coque Fraises Fleuries",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "coque-fraises-fleurettes-relief",
+      "label": "Coque Fraises Fleuries · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "coque-fraises-rubans",
+      "label": "Coque Fraises et Rubans",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "coque-fraises-rubans-relief",
+      "label": "Coque Fraises et Rubans · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "coque-girafe-rose",
+      "label": "Coque Girafe Rose",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "coque-girafe-rose-relief",
+      "label": "Coque Girafe Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "coque-girafe",
+      "label": "Coque Girafe",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "coque-girafe-relief",
+      "label": "Coque Girafe · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "coque-grenouilles-fraises",
+      "label": "Coque Grenouilles et Fraises",
+      "price": 1990,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "coque-grenouilles-fraises-relief",
+      "label": "Coque Grenouilles et Fraises · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "coque-grue-vague",
+      "label": "Coque Grue et Vague",
+      "price": 1990,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "coque-grue-vague-relief",
+      "label": "Coque Grue et Vague · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "coque-grues-dorees",
+      "label": "Coque Grues Dorées",
+      "price": 1990,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "coque-grues-dorees-relief",
+      "label": "Coque Grues Dorées · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "coque-grues-sakura",
+      "label": "Coque Grues et Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "coque-grues-sakura-relief",
+      "label": "Coque Grues et Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "coque-happiness-chien",
+      "label": "Coque Happiness is Free",
+      "price": 1990,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "coque-happiness-chien-relief",
+      "label": "Coque Happiness is Free · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "coque-holographique",
+      "label": "Coque Holographique",
+      "price": 1990,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "coque-holographique-relief",
+      "label": "Coque Holographique · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "coque-homard-bleu",
+      "label": "Coque Homard Chic",
+      "price": 1990,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "coque-homard-bleu-relief",
+      "label": "Coque Homard Chic · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "coque-homard-violet",
+      "label": "Coque Homard Prune",
+      "price": 1990,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "coque-homard-violet-relief",
+      "label": "Coque Homard Prune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "coque-japon-bleu",
+      "label": "Coque Japon Bleu",
+      "price": 1990,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "coque-japon-bleu-relief",
+      "label": "Coque Japon Bleu · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "coque-jungle-fleurie",
+      "label": "Coque Jungle Fleurie",
+      "price": 1990,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "coque-jungle-fleurie-relief",
+      "label": "Coque Jungle Fleurie · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "coque-keep-sweetness",
+      "label": "Coque Keep Your Sweetness",
+      "price": 1990,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "coque-keep-sweetness-relief",
+      "label": "Coque Keep Your Sweetness · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "coque-koi",
+      "label": "Coque Carpes Koï",
+      "price": 1990,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "coque-koi-relief",
+      "label": "Coque Carpes Koï · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "coque-lac-gravure",
+      "label": "Coque Lac Gravure",
+      "price": 1990,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "coque-lac-gravure-relief",
+      "label": "Coque Lac Gravure · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "coque-lapin-fleur",
+      "label": "Coque Lapin Fleur",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "coque-lapin-fleur-relief",
+      "label": "Coque Lapin Fleur · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "coque-lapin-rose",
+      "label": "Coque Lapin Rose",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "coque-lapin-rose-relief",
+      "label": "Coque Lapin Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "coque-lave-liquide",
+      "label": "Coque Lave Liquide",
+      "price": 1990,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "coque-lave-liquide-relief",
+      "label": "Coque Lave Liquide · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "coque-leopard-dore",
+      "label": "Coque Léopard Doré",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "coque-leopard-dore-relief",
+      "label": "Coque Léopard Doré · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "coque-leopard-rose",
+      "label": "Coque Léopard Rose",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "coque-leopard-rose-relief",
+      "label": "Coque Léopard Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "coque-leopard",
+      "label": "Coque Léopard",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "coque-leopard-relief",
+      "label": "Coque Léopard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "coque-lezard",
+      "label": "Coque Lézard",
+      "price": 1990,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "coque-lezard-relief",
+      "label": "Coque Lézard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "coque-losanges-cerises",
+      "label": "Coque Losanges Cerises",
+      "price": 1990,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "coque-losanges-cerises-relief",
+      "label": "Coque Losanges Cerises · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "coque-loup-lune",
+      "label": "Coque Loup et Lune",
+      "price": 1990,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "coque-loup-lune-relief",
+      "label": "Coque Loup et Lune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "coque-loup-rouge",
+      "label": "Coque Loup Rouge",
+      "price": 1990,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "coque-loup-rouge-relief",
+      "label": "Coque Loup Rouge · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "coque-lune-colline",
+      "label": "Coque Lune sur la Colline",
+      "price": 1990,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "coque-lune-colline-relief",
+      "label": "Coque Lune sur la Colline · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "coque-lune-neon",
+      "label": "Coque Lune Néon",
+      "price": 1990,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "coque-lune-neon-relief",
+      "label": "Coque Lune Néon · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "coque-lys-pastel",
+      "label": "Coque Lys Pastel",
+      "price": 1990,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "coque-lys-pastel-relief",
+      "label": "Coque Lys Pastel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "coque-macarons",
+      "label": "Coque Macarons",
+      "price": 1990,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "coque-macarons-relief",
+      "label": "Coque Macarons · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "coque-magical-day",
+      "label": "Coque Magical Day",
+      "price": 1990,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "coque-magical-day-relief",
+      "label": "Coque Magical Day · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "coque-mains-fleurs",
+      "label": "Coque Mains et Fleurs",
+      "price": 1990,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "coque-mains-fleurs-relief",
+      "label": "Coque Mains et Fleurs · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "coque-maison-falaise",
+      "label": "Coque Maison sur la Falaise",
+      "price": 1990,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "coque-maison-falaise-relief",
+      "label": "Coque Maison sur la Falaise · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "coque-matcha",
+      "label": "Coque Matcha",
+      "price": 1990,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "coque-matcha-relief",
+      "label": "Coque Matcha · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "coque-mosaique-soleil",
+      "label": "Coque Mosaïque Soleil",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "coque-mosaique-soleil-relief",
+      "label": "Coque Mosaïque Soleil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "coque-mosaique-verte",
+      "label": "Coque Mosaïque Verte",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "coque-mosaique-verte-relief",
+      "label": "Coque Mosaïque Verte · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "coque-nature-chat",
+      "label": "Coque Nature",
+      "price": 1990,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "coque-nature-chat-relief",
+      "label": "Coque Nature · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "coque-nuage-reveuse",
+      "label": "Coque Rêveuse",
+      "price": 1990,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "coque-nuage-reveuse-relief",
+      "label": "Coque Rêveuse · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "coque-nuit-etoilee",
+      "label": "Coque Nuit Étoilée",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "coque-nuit-etoilee-relief",
+      "label": "Coque Nuit Étoilée · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "coque-nuit-lac",
+      "label": "Coque Nuit sur le Lac",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "coque-nuit-lac-relief",
+      "label": "Coque Nuit sur le Lac · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "coque-nympheas",
+      "label": "Coque Nymphéas",
+      "price": 1990,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "coque-nympheas-relief",
+      "label": "Coque Nymphéas · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "coque-ocelot",
+      "label": "Coque Ocelot",
+      "price": 1990,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "coque-ocelot-relief",
+      "label": "Coque Ocelot · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "coque-oursons-chocolat",
+      "label": "Coque Oursons Chocolat",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "coque-oursons-chocolat-relief",
+      "label": "Coque Oursons Chocolat · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "coque-oursons-tournesols",
+      "label": "Coque Oursons Tournesols",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "coque-oursons-tournesols-relief",
+      "label": "Coque Oursons Tournesols · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "coque-oursons",
+      "label": "Coque Oursons",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "coque-oursons-relief",
+      "label": "Coque Oursons · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "coque-papillon-lumiere",
+      "label": "Coque Papillon de Lumière",
+      "price": 1990,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "coque-papillon-lumiere-relief",
+      "label": "Coque Papillon de Lumière · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "coque-papillons-roses",
+      "label": "Coque Papillons Lumineux",
+      "price": 1990,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "coque-papillons-roses-relief",
+      "label": "Coque Papillons Lumineux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "coque-pasteques-chats",
+      "label": "Coque Pastèques Chats",
+      "price": 1990,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "coque-pasteques-chats-relief",
+      "label": "Coque Pastèques Chats · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "coque-paysage-sakura",
+      "label": "Coque Paysage Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "coque-paysage-sakura-relief",
+      "label": "Coque Paysage Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief-v2.webp"
+    },
+    {
+      "key": "coque-petit-ange",
+      "label": "Coque Petit Ange",
+      "price": 1990,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "coque-petit-ange-relief",
+      "label": "Coque Petit Ange · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "coque-petites-roses",
+      "label": "Coque Petites Roses",
+      "price": 1990,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "coque-petites-roses-relief",
+      "label": "Coque Petites Roses · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "coque-planete-groovy",
+      "label": "Coque Planète Groovy",
+      "price": 1990,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "coque-planete-groovy-relief",
+      "label": "Coque Planète Groovy · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "coque-pois-timbre",
+      "label": "Coque Pois et Timbre",
+      "price": 1990,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "coque-pois-timbre-relief",
+      "label": "Coque Pois et Timbre · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "coque-pont-couchant",
+      "label": "Coque Pont au Couchant",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "coque-pont-couchant-relief",
+      "label": "Coque Pont au Couchant · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "coque-pothos",
+      "label": "Coque Pothos",
+      "price": 1990,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "coque-pothos-relief",
+      "label": "Coque Pothos · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "coque-python-violet",
+      "label": "Coque Python Violet",
+      "price": 1990,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "coque-python-violet-relief",
+      "label": "Coque Python Violet · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "coque-python",
+      "label": "Coque Python",
+      "price": 1990,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "coque-python-relief",
+      "label": "Coque Python · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "coque-rayures-abeilles",
+      "label": "Coque Rayures Abeilles",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "coque-rayures-abeilles-relief",
+      "label": "Coque Rayures Abeilles · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "coque-rayures-cerises",
+      "label": "Coque Rayures Cerises",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "coque-rayures-cerises-relief",
+      "label": "Coque Rayures Cerises · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "coque-reve-rose",
+      "label": "Coque Rêve Rose",
+      "price": 1990,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "coque-reve-rose-relief",
+      "label": "Coque Rêve Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "coque-riviera-cabriolet",
+      "label": "Coque Riviera Cabriolet",
+      "price": 1990,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "coque-riviera-cabriolet-relief",
+      "label": "Coque Riviera Cabriolet · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "coque-roadtrip-rouge",
+      "label": "Coque Road Trip",
+      "price": 1990,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "coque-roadtrip-rouge-relief",
+      "label": "Coque Road Trip · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "coque-route-palmiers",
+      "label": "Coque Route des Palmiers",
+      "price": 1990,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "coque-route-palmiers-relief",
+      "label": "Coque Route des Palmiers · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "coque-sakura-vert",
+      "label": "Coque Sakura Jade",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "coque-sakura-vert-relief",
+      "label": "Coque Sakura Jade · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "coque-salon-the",
+      "label": "Coque Salon de Thé",
+      "price": 1990,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "coque-salon-the-relief",
+      "label": "Coque Salon de Thé · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "coque-serpent-paon",
+      "label": "Coque Serpent Paon",
+      "price": 1990,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "coque-serpent-paon-relief",
+      "label": "Coque Serpent Paon · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "coque-soie-rose",
+      "label": "Coque Soie Rose",
+      "price": 1990,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "coque-soie-rose-relief",
+      "label": "Coque Soie Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "coque-soleil-cosmique",
+      "label": "Coque Soleil Cosmique",
+      "price": 1990,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "coque-soleil-cosmique-relief",
+      "label": "Coque Soleil Cosmique · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "coque-stay-kind",
+      "label": "Coque Stay Kind",
+      "price": 1990,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "coque-stay-kind-relief",
+      "label": "Coque Stay Kind · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "coque-sunset-drive",
+      "label": "Coque Sunset Drive",
+      "price": 1990,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "coque-sunset-drive-relief",
+      "label": "Coque Sunset Drive · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "coque-synthwave",
+      "label": "Coque Synthwave",
+      "price": 1990,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "coque-synthwave-relief",
+      "label": "Coque Synthwave · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "coque-talavera",
+      "label": "Coque Talavera",
+      "price": 1990,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "coque-talavera-relief",
+      "label": "Coque Talavera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "coque-tapisserie",
+      "label": "Coque Tapisserie",
+      "price": 1990,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "coque-tapisserie-relief",
+      "label": "Coque Tapisserie · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "coque-tartan-beige",
+      "label": "Coque Tartan Beige",
+      "price": 1990,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "coque-tartan-beige-relief",
+      "label": "Coque Tartan Beige · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-riviera",
+      "label": "Coque Terrasse Riviera",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-riviera-relief",
+      "label": "Coque Terrasse Riviera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "coque-tigre-sable",
+      "label": "Coque Tigre Sable",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "coque-tigre-sable-relief",
+      "label": "Coque Tigre Sable · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "coque-tigre",
+      "label": "Coque Tigre",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "coque-tigre-relief",
+      "label": "Coque Tigre · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "coque-tigres-lune",
+      "label": "Coque Tigres de Lune",
+      "price": 1990,
+      "image": "/images/products/coque-tigres-lune-plat.webp"
+    },
+    {
+      "key": "coque-tigres-lune-relief",
+      "label": "Coque Tigres de Lune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigres-lune-relief.webp"
+    },
+    {
+      "key": "coque-toile-jouy-rouge",
+      "label": "Coque Toile de Jouy",
+      "price": 1990,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "coque-toile-jouy-rouge-relief",
+      "label": "Coque Toile de Jouy · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "coque-toile-rose",
+      "label": "Coque Toile Rose",
+      "price": 1990,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "coque-toile-rose-relief",
+      "label": "Coque Toile Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "coque-tourbillon-lune",
+      "label": "Coque Tourbillon de Lune",
+      "price": 1990,
+      "image": "/images/products/coque-tourbillon-lune-plat.webp"
+    },
+    {
+      "key": "coque-tourbillon-lune-relief",
+      "label": "Coque Tourbillon de Lune · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tourbillon-lune-relief.webp"
+    },
+    {
+      "key": "coque-trefles",
+      "label": "Coque Trèfles",
+      "price": 1990,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "coque-trefles-relief",
+      "label": "Coque Trèfles · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "coque-trois-ciels",
+      "label": "Coque Trois Ciels",
+      "price": 1990,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "coque-trois-ciels-relief",
+      "label": "Coque Trois Ciels · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "coque-trust-timing",
+      "label": "Coque Trust Your Timing",
+      "price": 1990,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "coque-trust-timing-relief",
+      "label": "Coque Trust Your Timing · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "coque-unhinged",
+      "label": "Coque Unhinged",
+      "price": 1990,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "coque-unhinged-relief",
+      "label": "Coque Unhinged · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "coque-vache",
+      "label": "Coque Vache",
+      "price": 1990,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "coque-vache-relief",
+      "label": "Coque Vache · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "coque-vague-doree",
+      "label": "Coque Vague Dorée",
+      "price": 1990,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "coque-vague-doree-relief",
+      "label": "Coque Vague Dorée · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "coque-vichy-bordeaux",
+      "label": "Coque Vichy Bordeaux",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "coque-vichy-bordeaux-relief",
+      "label": "Coque Vichy Bordeaux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "coque-vichy-noeuds",
+      "label": "Coque Vichy Nœuds",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "coque-vichy-noeuds-relief",
+      "label": "Coque Vichy Nœuds · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "coque-vichy-rose-vert",
+      "label": "Coque Vichy Rose et Vert",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "coque-vichy-rose-vert-relief",
+      "label": "Coque Vichy Rose et Vert · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "coque-vitrail-phenix",
+      "label": "Coque Vitrail Phénix",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "coque-vitrail-phenix-relief",
+      "label": "Coque Vitrail Phénix · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "coque-vitrail-soleil",
+      "label": "Coque Vitrail Soleil",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "coque-vitrail-soleil-relief",
+      "label": "Coque Vitrail Soleil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "coque-voiture-flammes",
+      "label": "Coque Voiture Flammes",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "coque-voiture-flammes-relief",
+      "label": "Coque Voiture Flammes · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "coque-voiture-neon",
+      "label": "Coque Voiture Néon",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "coque-voiture-neon-relief",
+      "label": "Coque Voiture Néon · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "coque-voyageur-cote",
+      "label": "Coque Voyageur de la Côte",
+      "price": 1990,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "coque-voyageur-cote-relief",
+      "label": "Coque Voyageur de la Côte · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "coque-zebre",
+      "label": "Coque Zèbre",
+      "price": 1990,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "coque-zebre-relief",
+      "label": "Coque Zèbre · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "de/coque-arbre-miroir",
+      "label": "Hülle Spiegelbaum",
+      "price": 1990,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "de/coque-arbre-miroir-relief",
+      "label": "Hülle Spiegelbaum · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "de/coque-archipel-couchant",
+      "label": "Hülle Archipel im Abendrot",
+      "price": 1990,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "de/coque-archipel-couchant-relief",
+      "label": "Hülle Archipel im Abendrot · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "de/coque-azulejos",
+      "label": "Hülle Azulejos",
+      "price": 1990,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "de/coque-azulejos-relief",
+      "label": "Hülle Azulejos · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "de/coque-baleines-celestes",
+      "label": "Hülle Himmelswale",
+      "price": 1990,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "de/coque-baleines-celestes-relief",
+      "label": "Hülle Himmelswale · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "de/coque-bisou",
+      "label": "Hülle Kussmund",
+      "price": 1990,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "de/coque-bisou-relief",
+      "label": "Hülle Kussmund · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "de/coque-boule-disco",
+      "label": "Hülle Discokugel",
+      "price": 1990,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "de/coque-boule-disco-relief",
+      "label": "Hülle Discokugel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "de/coque-cabane-lac",
+      "label": "Hülle Seehütte",
+      "price": 1990,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "de/coque-cabane-lac-relief",
+      "label": "Hülle Seehütte · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "de/coque-cactus",
+      "label": "Hülle Kakteen",
+      "price": 1990,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "de/coque-cactus-relief",
+      "label": "Hülle Kakteen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "de/coque-canard-roi",
+      "label": "Hülle Königsente",
+      "price": 1990,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "de/coque-canard-roi-relief",
+      "label": "Hülle Königsente · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "de/coque-capybaras",
+      "label": "Hülle Capybaras",
+      "price": 1990,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "de/coque-capybaras-relief",
+      "label": "Hülle Capybaras · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-ambre",
+      "label": "Hülle Bernsteinfliesen",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-ambre-relief",
+      "label": "Hülle Bernsteinfliesen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-anciens",
+      "label": "Hülle Alte Fliesen",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-anciens-relief",
+      "label": "Hülle Alte Fliesen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-menthe",
+      "label": "Hülle Mintfliesen",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "de/coque-carreaux-menthe-relief",
+      "label": "Hülle Mintfliesen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "de/coque-cascade-nuit",
+      "label": "Hülle Nachtwasserfall",
+      "price": 1990,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "de/coque-cascade-nuit-relief",
+      "label": "Hülle Nachtwasserfall · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-pastel",
+      "label": "Hülle Pastellkirschen",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-pastel-relief",
+      "label": "Hülle Pastellkirschen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-rubans",
+      "label": "Hülle Kirschen und Schleifen",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-rubans-relief",
+      "label": "Hülle Kirschen und Schleifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-vin",
+      "label": "Hülle Kirschen und Wein",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "de/coque-cerises-vin-relief",
+      "label": "Hülle Kirschen und Wein · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "de/coque-chalet-neige",
+      "label": "Hülle Schneechalet",
+      "price": 1990,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "de/coque-chalet-neige-relief",
+      "label": "Hülle Schneechalet · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "de/coque-chat-lune",
+      "label": "Hülle Mondscheinkatze",
+      "price": 1990,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-chat-lune-relief",
+      "label": "Hülle Mondscheinkatze · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-etoile",
+      "label": "Hülle Sternenkätzchen",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-etoile-relief",
+      "label": "Hülle Sternenkätzchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-fleuri",
+      "label": "Hülle Blumenkätzchen",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-fleuri-relief",
+      "label": "Hülle Blumenkätzchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-paillettes",
+      "label": "Hülle Glitzerkätzchen",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "de/coque-chaton-paillettes-relief",
+      "label": "Hülle Glitzerkätzchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "de/coque-chatons-pastel",
+      "label": "Hülle Pastellkätzchen",
+      "price": 1990,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-chatons-pastel-relief",
+      "label": "Hülle Pastellkätzchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-chats-amoureux",
+      "label": "Hülle Verliebte Katzen",
+      "price": 1990,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "de/coque-chats-amoureux-relief",
+      "label": "Hülle Verliebte Katzen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "de/coque-chevalier",
+      "label": "Hülle Ritter",
+      "price": 1990,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "de/coque-chevalier-relief",
+      "label": "Hülle Ritter · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "de/coque-chiens-amoureux",
+      "label": "Hülle Verliebte Hunde",
+      "price": 1990,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "de/coque-chiens-amoureux-relief",
+      "label": "Hülle Verliebte Hunde · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "de/coque-ciel-chat",
+      "label": "Hülle Sternenkatze",
+      "price": 1990,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "de/coque-ciel-chat-relief",
+      "label": "Hülle Sternenkatze · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "de/coque-citron-riviera",
+      "label": "Hülle Riviera-Zitrone",
+      "price": 1990,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "de/coque-citron-riviera-relief",
+      "label": "Hülle Riviera-Zitrone · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "de/coque-citrons-fleurs",
+      "label": "Hülle Zitronenblüten",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "de/coque-citrons-fleurs-relief",
+      "label": "Hülle Zitronenblüten · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "de/coque-clair-lune",
+      "label": "Hülle Mondlicht",
+      "price": 1990,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-clair-lune-relief",
+      "label": "Hülle Mondlicht · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-cocktail",
+      "label": "Hülle Cocktail",
+      "price": 1990,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "de/coque-cocktail-relief",
+      "label": "Hülle Cocktail · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "de/coque-coeur-noeud",
+      "label": "Hülle Herz und Schleife",
+      "price": 1990,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "de/coque-coeur-noeud-relief",
+      "label": "Hülle Herz und Schleife · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-papillons",
+      "label": "Hülle Herzen und Schmetterlinge",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-papillons-relief",
+      "label": "Hülle Herzen und Schmetterlinge · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-pastel",
+      "label": "Hülle Pastellherzen",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-pastel-relief",
+      "label": "Hülle Pastellherzen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-ruban",
+      "label": "Hülle Bänderherzen",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "de/coque-coeurs-ruban-relief",
+      "label": "Hülle Bänderherzen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "de/coque-coquillage",
+      "label": "Hülle Muschel",
+      "price": 1990,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "de/coque-coquillage-relief",
+      "label": "Hülle Muschel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "de/coque-cote-fleurie",
+      "label": "Hülle Blühende Küste",
+      "price": 1990,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "de/coque-cote-fleurie-relief",
+      "label": "Hülle Blühende Küste · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "de/coque-coucher-or",
+      "label": "Hülle Goldener Sonnenuntergang",
+      "price": 1990,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "de/coque-coucher-or-relief",
+      "label": "Hülle Goldener Sonnenuntergang · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "de/coque-crocodile",
+      "label": "Hülle Krokodil",
+      "price": 1990,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "de/coque-crocodile-relief",
+      "label": "Hülle Krokodil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "de/coque-croissant-paris",
+      "label": "Hülle Paris-Croissant",
+      "price": 1990,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "de/coque-croissant-paris-relief",
+      "label": "Hülle Paris-Croissant · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-vert",
+      "label": "Hülle Grüner Damast",
+      "price": 1990,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-vert-relief",
+      "label": "Hülle Grüner Damast · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-dragon-nuages",
+      "label": "Hülle Wolkendrache",
+      "price": 1990,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "de/coque-dragon-nuages-relief",
+      "label": "Hülle Wolkendrache · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-bleue",
+      "label": "Hülle Blaue Finsternis",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-bleue-relief",
+      "label": "Hülle Blaue Finsternis · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-rouge",
+      "label": "Hülle Rote Finsternis",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-rouge-relief",
+      "label": "Hülle Rote Finsternis · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-verte",
+      "label": "Hülle Jade-Finsternis",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "de/coque-eclipse-verte-relief",
+      "label": "Hülle Jade-Finsternis · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "de/coque-emotional-spiral",
+      "label": "Hülle Emotional Spiral",
+      "price": 1990,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "de/coque-emotional-spiral-relief",
+      "label": "Hülle Emotional Spiral · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "de/coque-faience-bleue",
+      "label": "Hülle Blaue Fayence",
+      "price": 1990,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "de/coque-faience-bleue-relief",
+      "label": "Hülle Blaue Fayence · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "de/coque-feu-interieur",
+      "label": "Hülle Inneres Feuer",
+      "price": 1990,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "de/coque-feu-interieur-relief",
+      "label": "Hülle Inneres Feuer · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "de/coque-feux-artifice",
+      "label": "Hülle Feuerwerk",
+      "price": 1990,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "de/coque-feux-artifice-relief",
+      "label": "Hülle Feuerwerk · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "de/coque-fleur-etoile",
+      "label": "Hülle Sternenblume",
+      "price": 1990,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "de/coque-fleur-etoile-relief",
+      "label": "Hülle Sternenblume · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurettes-jaunes",
+      "label": "Hülle Gelbe Blümchen",
+      "price": 1990,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurettes-jaunes-relief",
+      "label": "Hülle Gelbe Blümchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurs-aquarelle",
+      "label": "Hülle Aquarellblumen",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurs-aquarelle-relief",
+      "label": "Hülle Aquarellblumen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurs-bleues",
+      "label": "Hülle Blaue Blümchen",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "de/coque-fleurs-bleues-relief",
+      "label": "Hülle Blaue Blümchen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "de/coque-fourrure-leopard",
+      "label": "Hülle Leopardenfell",
+      "price": 1990,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "de/coque-fourrure-leopard-relief",
+      "label": "Hülle Leopardenfell · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-carreaux",
+      "label": "Hülle Karo-Erdbeeren",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-carreaux-relief",
+      "label": "Hülle Karo-Erdbeeren · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-fleurettes",
+      "label": "Hülle Erdbeerblüten",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-fleurettes-relief",
+      "label": "Hülle Erdbeerblüten · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-rubans",
+      "label": "Hülle Erdbeeren und Schleifen",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-rubans-relief",
+      "label": "Hülle Erdbeeren und Schleifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "de/coque-girafe-rose",
+      "label": "Hülle Rosa Giraffe",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-girafe-rose-relief",
+      "label": "Hülle Rosa Giraffe · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-girafe",
+      "label": "Hülle Giraffe",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "de/coque-girafe-relief",
+      "label": "Hülle Giraffe · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "de/coque-grenouilles-fraises",
+      "label": "Hülle Frösche und Erdbeeren",
+      "price": 1990,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "de/coque-grenouilles-fraises-relief",
+      "label": "Hülle Frösche und Erdbeeren · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "de/coque-grue-vague",
+      "label": "Hülle Kranich und Welle",
+      "price": 1990,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "de/coque-grue-vague-relief",
+      "label": "Hülle Kranich und Welle · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "de/coque-grues-dorees",
+      "label": "Hülle Goldene Kraniche",
+      "price": 1990,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "de/coque-grues-dorees-relief",
+      "label": "Hülle Goldene Kraniche · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "de/coque-grues-sakura",
+      "label": "Hülle Kraniche und Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-grues-sakura-relief",
+      "label": "Hülle Kraniche und Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-happiness-chien",
+      "label": "Hülle Happiness is Free",
+      "price": 1990,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "de/coque-happiness-chien-relief",
+      "label": "Hülle Happiness is Free · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "de/coque-holographique",
+      "label": "Hülle Holografisch",
+      "price": 1990,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "de/coque-holographique-relief",
+      "label": "Hülle Holografisch · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "de/coque-homard-bleu",
+      "label": "Hülle Schicker Hummer",
+      "price": 1990,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "de/coque-homard-bleu-relief",
+      "label": "Hülle Schicker Hummer · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "de/coque-homard-violet",
+      "label": "Hülle Pflaumen-Hummer",
+      "price": 1990,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "de/coque-homard-violet-relief",
+      "label": "Hülle Pflaumen-Hummer · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "de/coque-japon-bleu",
+      "label": "Hülle Blaues Japan",
+      "price": 1990,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "de/coque-japon-bleu-relief",
+      "label": "Hülle Blaues Japan · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "de/coque-jungle-fleurie",
+      "label": "Hülle Blumendschungel",
+      "price": 1990,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "de/coque-jungle-fleurie-relief",
+      "label": "Hülle Blumendschungel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "de/coque-keep-sweetness",
+      "label": "Hülle Keep Your Sweetness",
+      "price": 1990,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "de/coque-keep-sweetness-relief",
+      "label": "Hülle Keep Your Sweetness · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "de/coque-koi",
+      "label": "Hülle Koi",
+      "price": 1990,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "de/coque-koi-relief",
+      "label": "Hülle Koi · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "de/coque-lac-gravure",
+      "label": "Hülle Seegravur",
+      "price": 1990,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "de/coque-lac-gravure-relief",
+      "label": "Hülle Seegravur · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "de/coque-lapin-fleur",
+      "label": "Hülle Blumenhase",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "de/coque-lapin-fleur-relief",
+      "label": "Hülle Blumenhase · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "de/coque-lapin-rose",
+      "label": "Hülle Rosa Hase",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-lapin-rose-relief",
+      "label": "Hülle Rosa Hase · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-lave-liquide",
+      "label": "Hülle Flüssige Lava",
+      "price": 1990,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "de/coque-lave-liquide-relief",
+      "label": "Hülle Flüssige Lava · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard-dore",
+      "label": "Hülle Goldleopard",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard-dore-relief",
+      "label": "Hülle Goldleopard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard-rose",
+      "label": "Hülle Rosa Leopard",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard-rose-relief",
+      "label": "Hülle Rosa Leopard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard",
+      "label": "Hülle Leopard",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "de/coque-leopard-relief",
+      "label": "Hülle Leopard · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "de/coque-lezard",
+      "label": "Hülle Eidechse",
+      "price": 1990,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "de/coque-lezard-relief",
+      "label": "Hülle Eidechse · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "de/coque-losanges-cerises",
+      "label": "Hülle Kirschrauten",
+      "price": 1990,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "de/coque-losanges-cerises-relief",
+      "label": "Hülle Kirschrauten · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "de/coque-loup-lune",
+      "label": "Hülle Wolf und Mond",
+      "price": 1990,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-loup-lune-relief",
+      "label": "Hülle Wolf und Mond · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-loup-rouge",
+      "label": "Hülle Roter Wolf",
+      "price": 1990,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-loup-rouge-relief",
+      "label": "Hülle Roter Wolf · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-lune-colline",
+      "label": "Hülle Mondhügel",
+      "price": 1990,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "de/coque-lune-colline-relief",
+      "label": "Hülle Mondhügel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "de/coque-lune-neon",
+      "label": "Hülle Neonmond",
+      "price": 1990,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "de/coque-lune-neon-relief",
+      "label": "Hülle Neonmond · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "de/coque-lys-pastel",
+      "label": "Hülle Pastelllilien",
+      "price": 1990,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-lys-pastel-relief",
+      "label": "Hülle Pastelllilien · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "de/coque-macarons",
+      "label": "Hülle Macarons",
+      "price": 1990,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "de/coque-macarons-relief",
+      "label": "Hülle Macarons · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "de/coque-magical-day",
+      "label": "Hülle Magical Day",
+      "price": 1990,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "de/coque-magical-day-relief",
+      "label": "Hülle Magical Day · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "de/coque-mains-fleurs",
+      "label": "Hülle Hände und Blumen",
+      "price": 1990,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "de/coque-mains-fleurs-relief",
+      "label": "Hülle Hände und Blumen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "de/coque-maison-falaise",
+      "label": "Hülle Klippenhaus",
+      "price": 1990,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "de/coque-maison-falaise-relief",
+      "label": "Hülle Klippenhaus · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "de/coque-matcha",
+      "label": "Hülle Matcha",
+      "price": 1990,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "de/coque-matcha-relief",
+      "label": "Hülle Matcha · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "de/coque-mosaique-soleil",
+      "label": "Hülle Sonnenmosaik",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-mosaique-soleil-relief",
+      "label": "Hülle Sonnenmosaik · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "de/coque-mosaique-verte",
+      "label": "Hülle Grüne Fliesen",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "de/coque-mosaique-verte-relief",
+      "label": "Hülle Grüne Fliesen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "de/coque-nature-chat",
+      "label": "Hülle Natur",
+      "price": 1990,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "de/coque-nature-chat-relief",
+      "label": "Hülle Natur · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "de/coque-nuage-reveuse",
+      "label": "Hülle Träumerin",
+      "price": 1990,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "de/coque-nuage-reveuse-relief",
+      "label": "Hülle Träumerin · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "de/coque-nuit-etoilee",
+      "label": "Hülle Sternennacht",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "de/coque-nuit-etoilee-relief",
+      "label": "Hülle Sternennacht · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "de/coque-nuit-lac",
+      "label": "Hülle Nachtsee",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "de/coque-nuit-lac-relief",
+      "label": "Hülle Nachtsee · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "de/coque-nympheas",
+      "label": "Hülle Seerosen",
+      "price": 1990,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "de/coque-nympheas-relief",
+      "label": "Hülle Seerosen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "de/coque-ocelot",
+      "label": "Hülle Ozelot",
+      "price": 1990,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "de/coque-ocelot-relief",
+      "label": "Hülle Ozelot · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons-chocolat",
+      "label": "Hülle Schokobären",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons-chocolat-relief",
+      "label": "Hülle Schokobären · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons-tournesols",
+      "label": "Hülle Sonnenblumenbären",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons-tournesols-relief",
+      "label": "Hülle Sonnenblumenbären · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons",
+      "label": "Hülle Teddybären",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "de/coque-oursons-relief",
+      "label": "Hülle Teddybären · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "de/coque-papillon-lumiere",
+      "label": "Hülle Lichtfalter",
+      "price": 1990,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "de/coque-papillon-lumiere-relief",
+      "label": "Hülle Lichtfalter · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "de/coque-papillons-roses",
+      "label": "Hülle Leuchtende Schmetterlinge",
+      "price": 1990,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "de/coque-papillons-roses-relief",
+      "label": "Hülle Leuchtende Schmetterlinge · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "de/coque-pasteques-chats",
+      "label": "Hülle Melonenkatzen",
+      "price": 1990,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "de/coque-pasteques-chats-relief",
+      "label": "Hülle Melonenkatzen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "de/coque-paysage-sakura",
+      "label": "Hülle Sakura-Landschaft",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-paysage-sakura-relief",
+      "label": "Hülle Sakura-Landschaft · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief-v2.webp"
+    },
+    {
+      "key": "de/coque-petit-ange",
+      "label": "Hülle Kleiner Engel",
+      "price": 1990,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "de/coque-petit-ange-relief",
+      "label": "Hülle Kleiner Engel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "de/coque-petites-roses",
+      "label": "Hülle Kleine Rosen",
+      "price": 1990,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "de/coque-petites-roses-relief",
+      "label": "Hülle Kleine Rosen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "de/coque-planete-groovy",
+      "label": "Hülle Groovy Planet",
+      "price": 1990,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "de/coque-planete-groovy-relief",
+      "label": "Hülle Groovy Planet · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "de/coque-pois-timbre",
+      "label": "Hülle Punkte und Briefmarke",
+      "price": 1990,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "de/coque-pois-timbre-relief",
+      "label": "Hülle Punkte und Briefmarke · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "de/coque-pont-couchant",
+      "label": "Hülle Brücke im Abendrot",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "de/coque-pont-couchant-relief",
+      "label": "Hülle Brücke im Abendrot · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "de/coque-pothos",
+      "label": "Hülle Pothos",
+      "price": 1990,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "de/coque-pothos-relief",
+      "label": "Hülle Pothos · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "de/coque-python-violet",
+      "label": "Hülle Lila Python",
+      "price": 1990,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "de/coque-python-violet-relief",
+      "label": "Hülle Lila Python · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "de/coque-python",
+      "label": "Hülle Python",
+      "price": 1990,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "de/coque-python-relief",
+      "label": "Hülle Python · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "de/coque-rayures-abeilles",
+      "label": "Hülle Bienenstreifen",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "de/coque-rayures-abeilles-relief",
+      "label": "Hülle Bienenstreifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "de/coque-rayures-cerises",
+      "label": "Hülle Kirschstreifen",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "de/coque-rayures-cerises-relief",
+      "label": "Hülle Kirschstreifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "de/coque-reve-rose",
+      "label": "Hülle Rosa Traum",
+      "price": 1990,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-reve-rose-relief",
+      "label": "Hülle Rosa Traum · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-riviera-cabriolet",
+      "label": "Hülle Riviera-Cabrio",
+      "price": 1990,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "de/coque-riviera-cabriolet-relief",
+      "label": "Hülle Riviera-Cabrio · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "de/coque-roadtrip-rouge",
+      "label": "Hülle Roadtrip",
+      "price": 1990,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-roadtrip-rouge-relief",
+      "label": "Hülle Roadtrip · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-route-palmiers",
+      "label": "Hülle Palmenstraße",
+      "price": 1990,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "de/coque-route-palmiers-relief",
+      "label": "Hülle Palmenstraße · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "de/coque-sakura-vert",
+      "label": "Hülle Jade-Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-sakura-vert-relief",
+      "label": "Hülle Jade-Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-salon-the",
+      "label": "Hülle Teesalon",
+      "price": 1990,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "de/coque-salon-the-relief",
+      "label": "Hülle Teesalon · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "de/coque-serpent-paon",
+      "label": "Hülle Pfauenschlange",
+      "price": 1990,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "de/coque-serpent-paon-relief",
+      "label": "Hülle Pfauenschlange · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "de/coque-soie-rose",
+      "label": "Hülle Rosa Seide",
+      "price": 1990,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-soie-rose-relief",
+      "label": "Hülle Rosa Seide · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-soleil-cosmique",
+      "label": "Hülle Kosmische Sonne",
+      "price": 1990,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "de/coque-soleil-cosmique-relief",
+      "label": "Hülle Kosmische Sonne · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "de/coque-stay-kind",
+      "label": "Hülle Stay Kind",
+      "price": 1990,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "de/coque-stay-kind-relief",
+      "label": "Hülle Stay Kind · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "de/coque-sunset-drive",
+      "label": "Hülle Sunset Drive",
+      "price": 1990,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "de/coque-sunset-drive-relief",
+      "label": "Hülle Sunset Drive · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "de/coque-synthwave",
+      "label": "Hülle Synthwave",
+      "price": 1990,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "de/coque-synthwave-relief",
+      "label": "Hülle Synthwave · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "de/coque-talavera",
+      "label": "Hülle Talavera",
+      "price": 1990,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "de/coque-talavera-relief",
+      "label": "Hülle Talavera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "de/coque-tapisserie",
+      "label": "Hülle Wandteppich",
+      "price": 1990,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "de/coque-tapisserie-relief",
+      "label": "Hülle Wandteppich · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "de/coque-tartan-beige",
+      "label": "Hülle Beiges Karo",
+      "price": 1990,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "de/coque-tartan-beige-relief",
+      "label": "Hülle Beiges Karo · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-riviera",
+      "label": "Hülle Riviera-Terrasse",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-riviera-relief",
+      "label": "Hülle Riviera-Terrasse · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "de/coque-tigre-sable",
+      "label": "Hülle Sandtiger",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "de/coque-tigre-sable-relief",
+      "label": "Hülle Sandtiger · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "de/coque-tigre",
+      "label": "Hülle Tiger",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "de/coque-tigre-relief",
+      "label": "Hülle Tiger · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "de/coque-tigres-lune",
+      "label": "Hülle Mondtiger",
+      "price": 1990,
+      "image": "/images/products/coque-tigres-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-tigres-lune-relief",
+      "label": "Hülle Mondtiger · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigres-lune-relief.webp"
+    },
+    {
+      "key": "de/coque-toile-jouy-rouge",
+      "label": "Hülle Toile de Jouy",
+      "price": 1990,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-toile-jouy-rouge-relief",
+      "label": "Hülle Toile de Jouy · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "de/coque-toile-rose",
+      "label": "Hülle Rosa Netz",
+      "price": 1990,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-toile-rose-relief",
+      "label": "Hülle Rosa Netz · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-tourbillon-lune",
+      "label": "Hülle Mondwirbel",
+      "price": 1990,
+      "image": "/images/products/coque-tourbillon-lune-plat.webp"
+    },
+    {
+      "key": "de/coque-tourbillon-lune-relief",
+      "label": "Hülle Mondwirbel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tourbillon-lune-relief.webp"
+    },
+    {
+      "key": "de/coque-trefles",
+      "label": "Hülle Kleeblätter",
+      "price": 1990,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "de/coque-trefles-relief",
+      "label": "Hülle Kleeblätter · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "de/coque-trois-ciels",
+      "label": "Hülle Drei Himmel",
+      "price": 1990,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "de/coque-trois-ciels-relief",
+      "label": "Hülle Drei Himmel · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "de/coque-trust-timing",
+      "label": "Hülle Trust Your Timing",
+      "price": 1990,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "de/coque-trust-timing-relief",
+      "label": "Hülle Trust Your Timing · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "de/coque-unhinged",
+      "label": "Hülle Unhinged",
+      "price": 1990,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "de/coque-unhinged-relief",
+      "label": "Hülle Unhinged · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "de/coque-vache",
+      "label": "Hülle Kuhfell",
+      "price": 1990,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "de/coque-vache-relief",
+      "label": "Hülle Kuhfell · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "de/coque-vague-doree",
+      "label": "Hülle Goldene Welle",
+      "price": 1990,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "de/coque-vague-doree-relief",
+      "label": "Hülle Goldene Welle · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-bordeaux",
+      "label": "Hülle Bordeaux-Vichy",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-bordeaux-relief",
+      "label": "Hülle Bordeaux-Vichy · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-noeuds",
+      "label": "Hülle Vichy Schleifen",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-noeuds-relief",
+      "label": "Hülle Vichy Schleifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-rose-vert",
+      "label": "Hülle Vichy Rosa-Grün",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-vichy-rose-vert-relief",
+      "label": "Hülle Vichy Rosa-Grün · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "de/coque-vitrail-phenix",
+      "label": "Hülle Phönixfenster",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "de/coque-vitrail-phenix-relief",
+      "label": "Hülle Phönixfenster · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "de/coque-vitrail-soleil",
+      "label": "Hülle Sonnenfenster",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-vitrail-soleil-relief",
+      "label": "Hülle Sonnenfenster · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-voiture-flammes",
+      "label": "Hülle Flammenauto",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "de/coque-voiture-flammes-relief",
+      "label": "Hülle Flammenauto · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "de/coque-voiture-neon",
+      "label": "Hülle Neonauto",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "de/coque-voiture-neon-relief",
+      "label": "Hülle Neonauto · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "de/coque-voyageur-cote",
+      "label": "Hülle Küstenwanderer",
+      "price": 1990,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "de/coque-voyageur-cote-relief",
+      "label": "Hülle Küstenwanderer · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "de/coque-zebre",
+      "label": "Hülle Zebra",
+      "price": 1990,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "de/coque-zebre-relief",
+      "label": "Hülle Zebra · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "en/coque-arbre-miroir",
+      "label": "Mirror Tree Case",
+      "price": 1990,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "en/coque-arbre-miroir-relief",
+      "label": "Mirror Tree Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-arbre-miroir-plat.webp"
+    },
+    {
+      "key": "en/coque-archipel-couchant",
+      "label": "Sunset Archipelago Case",
+      "price": 1990,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "en/coque-archipel-couchant-relief",
+      "label": "Sunset Archipelago Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-archipel-couchant-plat.webp"
+    },
+    {
+      "key": "en/coque-azulejos",
+      "label": "Azulejos Case",
+      "price": 1990,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "en/coque-azulejos-relief",
+      "label": "Azulejos Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-azulejos-plat.webp"
+    },
+    {
+      "key": "en/coque-baleines-celestes",
+      "label": "Celestial Whales Case",
+      "price": 1990,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "en/coque-baleines-celestes-relief",
+      "label": "Celestial Whales Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-baleines-celestes-plat.webp"
+    },
+    {
+      "key": "en/coque-bisou",
+      "label": "Kiss Case",
+      "price": 1990,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "en/coque-bisou-relief",
+      "label": "Kiss Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-bisou-plat.webp"
+    },
+    {
+      "key": "en/coque-boule-disco",
+      "label": "Disco Ball Case",
+      "price": 1990,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "en/coque-boule-disco-relief",
+      "label": "Disco Ball Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-boule-disco-plat.webp"
+    },
+    {
+      "key": "en/coque-cabane-lac",
+      "label": "Lake Cabin Case",
+      "price": 1990,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "en/coque-cabane-lac-relief",
+      "label": "Lake Cabin Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "en/coque-cactus",
+      "label": "Cactus Case",
+      "price": 1990,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "en/coque-cactus-relief",
+      "label": "Cactus Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cactus-plat.webp"
+    },
+    {
+      "key": "en/coque-canard-roi",
+      "label": "King Duck Case",
+      "price": 1990,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "en/coque-canard-roi-relief",
+      "label": "King Duck Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-canard-roi-plat.webp"
+    },
+    {
+      "key": "en/coque-capybaras",
+      "label": "Capybaras Case",
+      "price": 1990,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "en/coque-capybaras-relief",
+      "label": "Capybaras Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-capybaras-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-ambre",
+      "label": "Amber Tiles Case",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-ambre-relief",
+      "label": "Amber Tiles Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-ambre-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-anciens",
+      "label": "Vintage Tiles Case",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-anciens-relief",
+      "label": "Vintage Tiles Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-anciens-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-menthe",
+      "label": "Mint Tiles Case",
+      "price": 1990,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "en/coque-carreaux-menthe-relief",
+      "label": "Mint Tiles Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-carreaux-menthe-plat.webp"
+    },
+    {
+      "key": "en/coque-cascade-nuit",
+      "label": "Night Waterfall Case",
+      "price": 1990,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "en/coque-cascade-nuit-relief",
+      "label": "Night Waterfall Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cascade-nuit-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-pastel",
+      "label": "Pastel Cherries Case",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-pastel-relief",
+      "label": "Pastel Cherries Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-rubans",
+      "label": "Cherries & Ribbons Case",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-rubans-relief",
+      "label": "Cherries & Ribbons Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-rubans-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-vin",
+      "label": "Cherries & Wine Case",
+      "price": 1990,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "en/coque-cerises-vin-relief",
+      "label": "Cherries & Wine Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cerises-vin-plat.webp"
+    },
+    {
+      "key": "en/coque-chalet-neige",
+      "label": "Snowy Chalet Case",
+      "price": 1990,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "en/coque-chalet-neige-relief",
+      "label": "Snowy Chalet Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chalet-neige-plat.webp"
+    },
+    {
+      "key": "en/coque-chat-lune",
+      "label": "Moonlit Cat Case",
+      "price": 1990,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-chat-lune-relief",
+      "label": "Moonlit Cat Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-etoile",
+      "label": "Kitten Stardust Case",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-etoile-relief",
+      "label": "Kitten Stardust Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-etoile-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-fleuri",
+      "label": "Flower Kitten Case",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-fleuri-relief",
+      "label": "Flower Kitten Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-fleuri-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-paillettes",
+      "label": "Glitter Kitten Case",
+      "price": 1990,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "en/coque-chaton-paillettes-relief",
+      "label": "Glitter Kitten Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chaton-paillettes-plat.webp"
+    },
+    {
+      "key": "en/coque-chatons-pastel",
+      "label": "Pastel Kittens Case",
+      "price": 1990,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-chatons-pastel-relief",
+      "label": "Pastel Kittens Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chatons-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-chats-amoureux",
+      "label": "Cats in Love Case",
+      "price": 1990,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "en/coque-chats-amoureux-relief",
+      "label": "Cats in Love Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chats-amoureux-plat.webp"
+    },
+    {
+      "key": "en/coque-chevalier",
+      "label": "Knight Case",
+      "price": 1990,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "en/coque-chevalier-relief",
+      "label": "Knight Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chevalier-plat.webp"
+    },
+    {
+      "key": "en/coque-chiens-amoureux",
+      "label": "Dogs in Love Case",
+      "price": 1990,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "en/coque-chiens-amoureux-relief",
+      "label": "Dogs in Love Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "en/coque-ciel-chat",
+      "label": "Starry Cat Case",
+      "price": 1990,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "en/coque-ciel-chat-relief",
+      "label": "Starry Cat Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciel-chat-plat.webp"
+    },
+    {
+      "key": "en/coque-citron-riviera",
+      "label": "Riviera Lemon Case",
+      "price": 1990,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "en/coque-citron-riviera-relief",
+      "label": "Riviera Lemon Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citron-riviera-plat.webp"
+    },
+    {
+      "key": "en/coque-citrons-fleurs",
+      "label": "Lemon Blossom Case",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "en/coque-citrons-fleurs-relief",
+      "label": "Lemon Blossom Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-fleurs-plat.webp"
+    },
+    {
+      "key": "en/coque-clair-lune",
+      "label": "Moonlight Case",
+      "price": 1990,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-clair-lune-relief",
+      "label": "Moonlight Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-clair-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-cocktail",
+      "label": "Cocktail Case",
+      "price": 1990,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "en/coque-cocktail-relief",
+      "label": "Cocktail Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cocktail-plat.webp"
+    },
+    {
+      "key": "en/coque-coeur-noeud",
+      "label": "Heart & Bow Case",
+      "price": 1990,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "en/coque-coeur-noeud-relief",
+      "label": "Heart & Bow Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeur-noeud-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-papillons",
+      "label": "Hearts & Butterflies Case",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-papillons-relief",
+      "label": "Hearts & Butterflies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-papillons-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-pastel",
+      "label": "Pastel Hearts Case",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-pastel-relief",
+      "label": "Pastel Hearts Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-ruban",
+      "label": "Ribbon Hearts Case",
+      "price": 1990,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "en/coque-coeurs-ruban-relief",
+      "label": "Ribbon Hearts Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coeurs-ruban-plat.webp"
+    },
+    {
+      "key": "en/coque-coquillage",
+      "label": "Seashell Case",
+      "price": 1990,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "en/coque-coquillage-relief",
+      "label": "Seashell Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "en/coque-cote-fleurie",
+      "label": "Flowery Coast Case",
+      "price": 1990,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "en/coque-cote-fleurie-relief",
+      "label": "Flowery Coast Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cote-fleurie-plat.webp"
+    },
+    {
+      "key": "en/coque-coucher-or",
+      "label": "Golden Sunset Case",
+      "price": 1990,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "en/coque-coucher-or-relief",
+      "label": "Golden Sunset Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-coucher-or-plat.webp"
+    },
+    {
+      "key": "en/coque-crocodile",
+      "label": "Crocodile Case",
+      "price": 1990,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "en/coque-crocodile-relief",
+      "label": "Crocodile Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-crocodile-plat.webp"
+    },
+    {
+      "key": "en/coque-croissant-paris",
+      "label": "Paris Croissant Case",
+      "price": 1990,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "en/coque-croissant-paris-relief",
+      "label": "Paris Croissant Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-vert",
+      "label": "Green Damask Case",
+      "price": 1990,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-vert-relief",
+      "label": "Green Damask Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-dragon-nuages",
+      "label": "Cloud Dragon Case",
+      "price": 1990,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "en/coque-dragon-nuages-relief",
+      "label": "Cloud Dragon Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-dragon-nuages-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-bleue",
+      "label": "Blue Eclipse Case",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-bleue-relief",
+      "label": "Blue Eclipse Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-bleue-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-rouge",
+      "label": "Red Eclipse Case",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-rouge-relief",
+      "label": "Red Eclipse Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-verte",
+      "label": "Jade Eclipse Case",
+      "price": 1990,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "en/coque-eclipse-verte-relief",
+      "label": "Jade Eclipse Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-eclipse-verte-plat.webp"
+    },
+    {
+      "key": "en/coque-emotional-spiral",
+      "label": "Emotional Spiral Case",
+      "price": 1990,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "en/coque-emotional-spiral-relief",
+      "label": "Emotional Spiral Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-emotional-spiral-plat.webp"
+    },
+    {
+      "key": "en/coque-faience-bleue",
+      "label": "Blue Faience Case",
+      "price": 1990,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "en/coque-faience-bleue-relief",
+      "label": "Blue Faience Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-faience-bleue-plat.webp"
+    },
+    {
+      "key": "en/coque-feu-interieur",
+      "label": "Inner Fire Case",
+      "price": 1990,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "en/coque-feu-interieur-relief",
+      "label": "Inner Fire Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feu-interieur-plat.webp"
+    },
+    {
+      "key": "en/coque-feux-artifice",
+      "label": "Fireworks Case",
+      "price": 1990,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "en/coque-feux-artifice-relief",
+      "label": "Fireworks Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-feux-artifice-plat.webp"
+    },
+    {
+      "key": "en/coque-fleur-etoile",
+      "label": "Star Flower Case",
+      "price": 1990,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "en/coque-fleur-etoile-relief",
+      "label": "Star Flower Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleur-etoile-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurettes-jaunes",
+      "label": "Yellow Florets Case",
+      "price": 1990,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurettes-jaunes-relief",
+      "label": "Yellow Florets Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurettes-jaunes-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurs-aquarelle",
+      "label": "Watercolour Flowers Case",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurs-aquarelle-relief",
+      "label": "Watercolour Flowers Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-aquarelle-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurs-bleues",
+      "label": "Blue Daisies Case",
+      "price": 1990,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "en/coque-fleurs-bleues-relief",
+      "label": "Blue Daisies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fleurs-bleues-plat.webp"
+    },
+    {
+      "key": "en/coque-fourrure-leopard",
+      "label": "Leopard Fur Case",
+      "price": 1990,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "en/coque-fourrure-leopard-relief",
+      "label": "Leopard Fur Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fourrure-leopard-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-carreaux",
+      "label": "Gingham Strawberries Case",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-carreaux-relief",
+      "label": "Gingham Strawberries Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-carreaux-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-fleurettes",
+      "label": "Strawberry Blossom Case",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-fleurettes-relief",
+      "label": "Strawberry Blossom Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-rubans",
+      "label": "Strawberries & Bows Case",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-rubans-relief",
+      "label": "Strawberries & Bows Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "en/coque-girafe-rose",
+      "label": "Pink Giraffe Case",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-girafe-rose-relief",
+      "label": "Pink Giraffe Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-girafe",
+      "label": "Giraffe Case",
+      "price": 1990,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "en/coque-girafe-relief",
+      "label": "Giraffe Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "en/coque-grenouilles-fraises",
+      "label": "Frogs & Strawberries Case",
+      "price": 1990,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "en/coque-grenouilles-fraises-relief",
+      "label": "Frogs & Strawberries Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grenouilles-fraises-plat.webp"
+    },
+    {
+      "key": "en/coque-grue-vague",
+      "label": "Crane & Wave Case",
+      "price": 1990,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "en/coque-grue-vague-relief",
+      "label": "Crane & Wave Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grue-vague-plat.webp"
+    },
+    {
+      "key": "en/coque-grues-dorees",
+      "label": "Golden Cranes Case",
+      "price": 1990,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "en/coque-grues-dorees-relief",
+      "label": "Golden Cranes Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-dorees-plat.webp"
+    },
+    {
+      "key": "en/coque-grues-sakura",
+      "label": "Cranes & Sakura Case",
+      "price": 1990,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-grues-sakura-relief",
+      "label": "Cranes & Sakura Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grues-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-happiness-chien",
+      "label": "Happiness is Free Case",
+      "price": 1990,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "en/coque-happiness-chien-relief",
+      "label": "Happiness is Free Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-happiness-chien-plat.webp"
+    },
+    {
+      "key": "en/coque-holographique",
+      "label": "Holographic Case",
+      "price": 1990,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "en/coque-holographique-relief",
+      "label": "Holographic Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-holographique-plat.webp"
+    },
+    {
+      "key": "en/coque-homard-bleu",
+      "label": "Chic Lobster Case",
+      "price": 1990,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "en/coque-homard-bleu-relief",
+      "label": "Chic Lobster Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-bleu-plat.webp"
+    },
+    {
+      "key": "en/coque-homard-violet",
+      "label": "Plum Lobster Case",
+      "price": 1990,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "en/coque-homard-violet-relief",
+      "label": "Plum Lobster Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-homard-violet-plat.webp"
+    },
+    {
+      "key": "en/coque-japon-bleu",
+      "label": "Blue Japan Case",
+      "price": 1990,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "en/coque-japon-bleu-relief",
+      "label": "Blue Japan Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-japon-bleu-plat.webp"
+    },
+    {
+      "key": "en/coque-jungle-fleurie",
+      "label": "Floral Jungle Case",
+      "price": 1990,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "en/coque-jungle-fleurie-relief",
+      "label": "Floral Jungle Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-jungle-fleurie-plat.webp"
+    },
+    {
+      "key": "en/coque-keep-sweetness",
+      "label": "Keep Your Sweetness Case",
+      "price": 1990,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "en/coque-keep-sweetness-relief",
+      "label": "Keep Your Sweetness Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-keep-sweetness-plat.webp"
+    },
+    {
+      "key": "en/coque-koi",
+      "label": "Koi Case",
+      "price": 1990,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "en/coque-koi-relief",
+      "label": "Koi Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-koi-plat.webp"
+    },
+    {
+      "key": "en/coque-lac-gravure",
+      "label": "Lake Etching Case",
+      "price": 1990,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "en/coque-lac-gravure-relief",
+      "label": "Lake Etching Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-gravure-plat.webp"
+    },
+    {
+      "key": "en/coque-lapin-fleur",
+      "label": "Flower Bunny Case",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "en/coque-lapin-fleur-relief",
+      "label": "Flower Bunny Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-fleur-plat.webp"
+    },
+    {
+      "key": "en/coque-lapin-rose",
+      "label": "Pink Bunny Case",
+      "price": 1990,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-lapin-rose-relief",
+      "label": "Pink Bunny Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lapin-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-lave-liquide",
+      "label": "Liquid Lava Case",
+      "price": 1990,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "en/coque-lave-liquide-relief",
+      "label": "Liquid Lava Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lave-liquide-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard-dore",
+      "label": "Golden Leopard Case",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard-dore-relief",
+      "label": "Golden Leopard Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-dore-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard-rose",
+      "label": "Pink Leopard Case",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard-rose-relief",
+      "label": "Pink Leopard Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard",
+      "label": "Leopard Case",
+      "price": 1990,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "en/coque-leopard-relief",
+      "label": "Leopard Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-leopard-plat.webp"
+    },
+    {
+      "key": "en/coque-lezard",
+      "label": "Lizard Case",
+      "price": 1990,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "en/coque-lezard-relief",
+      "label": "Lizard Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lezard-plat.webp"
+    },
+    {
+      "key": "en/coque-losanges-cerises",
+      "label": "Cherry Diamonds Case",
+      "price": 1990,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "en/coque-losanges-cerises-relief",
+      "label": "Cherry Diamonds Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "en/coque-loup-lune",
+      "label": "Wolf & Moon Case",
+      "price": 1990,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-loup-lune-relief",
+      "label": "Wolf & Moon Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-loup-rouge",
+      "label": "Red Wolf Case",
+      "price": 1990,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-loup-rouge-relief",
+      "label": "Red Wolf Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-loup-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-lune-colline",
+      "label": "Moon Hill Case",
+      "price": 1990,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "en/coque-lune-colline-relief",
+      "label": "Moon Hill Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-colline-plat.webp"
+    },
+    {
+      "key": "en/coque-lune-neon",
+      "label": "Neon Moon Case",
+      "price": 1990,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "en/coque-lune-neon-relief",
+      "label": "Neon Moon Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lune-neon-plat.webp"
+    },
+    {
+      "key": "en/coque-lys-pastel",
+      "label": "Pastel Lilies Case",
+      "price": 1990,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-lys-pastel-relief",
+      "label": "Pastel Lilies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lys-pastel-plat.webp"
+    },
+    {
+      "key": "en/coque-macarons",
+      "label": "Macarons Case",
+      "price": 1990,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "en/coque-macarons-relief",
+      "label": "Macarons Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-macarons-plat.webp"
+    },
+    {
+      "key": "en/coque-magical-day",
+      "label": "Magical Day Case",
+      "price": 1990,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "en/coque-magical-day-relief",
+      "label": "Magical Day Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-magical-day-plat.webp"
+    },
+    {
+      "key": "en/coque-mains-fleurs",
+      "label": "Hands & Flowers Case",
+      "price": 1990,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "en/coque-mains-fleurs-relief",
+      "label": "Hands & Flowers Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mains-fleurs-plat.webp"
+    },
+    {
+      "key": "en/coque-maison-falaise",
+      "label": "Cliff House Case",
+      "price": 1990,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "en/coque-maison-falaise-relief",
+      "label": "Cliff House Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-maison-falaise-plat.webp"
+    },
+    {
+      "key": "en/coque-matcha",
+      "label": "Matcha Case",
+      "price": 1990,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "en/coque-matcha-relief",
+      "label": "Matcha Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-matcha-plat.webp"
+    },
+    {
+      "key": "en/coque-mosaique-soleil",
+      "label": "Sun Mosaic Case",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-mosaique-soleil-relief",
+      "label": "Sun Mosaic Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-soleil-relief.webp"
+    },
+    {
+      "key": "en/coque-mosaique-verte",
+      "label": "Green Tiles Case",
+      "price": 1990,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "en/coque-mosaique-verte-relief",
+      "label": "Green Tiles Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-mosaique-verte-plat.webp"
+    },
+    {
+      "key": "en/coque-nature-chat",
+      "label": "Nature Case",
+      "price": 1990,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "en/coque-nature-chat-relief",
+      "label": "Nature Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nature-chat-plat.webp"
+    },
+    {
+      "key": "en/coque-nuage-reveuse",
+      "label": "Dreamer Case",
+      "price": 1990,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "en/coque-nuage-reveuse-relief",
+      "label": "Dreamer Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuage-reveuse-plat.webp"
+    },
+    {
+      "key": "en/coque-nuit-etoilee",
+      "label": "Starry Night Case",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "en/coque-nuit-etoilee-relief",
+      "label": "Starry Night Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-etoilee-plat.webp"
+    },
+    {
+      "key": "en/coque-nuit-lac",
+      "label": "Night Lake Case",
+      "price": 1990,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "en/coque-nuit-lac-relief",
+      "label": "Night Lake Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nuit-lac-plat.webp"
+    },
+    {
+      "key": "en/coque-nympheas",
+      "label": "Water Lilies Case",
+      "price": 1990,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "en/coque-nympheas-relief",
+      "label": "Water Lilies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-nympheas-plat.webp"
+    },
+    {
+      "key": "en/coque-ocelot",
+      "label": "Ocelot Case",
+      "price": 1990,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "en/coque-ocelot-relief",
+      "label": "Ocelot Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ocelot-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons-chocolat",
+      "label": "Chocolate Bears Case",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons-chocolat-relief",
+      "label": "Chocolate Bears Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-chocolat-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons-tournesols",
+      "label": "Sunflower Bears Case",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons-tournesols-relief",
+      "label": "Sunflower Bears Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-tournesols-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons",
+      "label": "Teddy Bears Case",
+      "price": 1990,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "en/coque-oursons-relief",
+      "label": "Teddy Bears Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-oursons-plat.webp"
+    },
+    {
+      "key": "en/coque-papillon-lumiere",
+      "label": "Light Butterfly Case",
+      "price": 1990,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "en/coque-papillon-lumiere-relief",
+      "label": "Light Butterfly Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillon-lumiere-plat.webp"
+    },
+    {
+      "key": "en/coque-papillons-roses",
+      "label": "Glowing Butterflies Case",
+      "price": 1990,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "en/coque-papillons-roses-relief",
+      "label": "Glowing Butterflies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-papillons-roses-plat.webp"
+    },
+    {
+      "key": "en/coque-pasteques-chats",
+      "label": "Watermelon Cats Case",
+      "price": 1990,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "en/coque-pasteques-chats-relief",
+      "label": "Watermelon Cats Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "en/coque-paysage-sakura",
+      "label": "Sakura Landscape Case",
+      "price": 1990,
+      "image": "/images/products/coque-paysage-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-paysage-sakura-relief",
+      "label": "Sakura Landscape Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paysage-sakura-relief-v2.webp"
+    },
+    {
+      "key": "en/coque-petit-ange",
+      "label": "Little Angel Case",
+      "price": 1990,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "en/coque-petit-ange-relief",
+      "label": "Little Angel Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petit-ange-plat.webp"
+    },
+    {
+      "key": "en/coque-petites-roses",
+      "label": "Little Roses Case",
+      "price": 1990,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "en/coque-petites-roses-relief",
+      "label": "Little Roses Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-petites-roses-plat.webp"
+    },
+    {
+      "key": "en/coque-planete-groovy",
+      "label": "Groovy Planet Case",
+      "price": 1990,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "en/coque-planete-groovy-relief",
+      "label": "Groovy Planet Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-planete-groovy-plat.webp"
+    },
+    {
+      "key": "en/coque-pois-timbre",
+      "label": "Dots & Stamp Case",
+      "price": 1990,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "en/coque-pois-timbre-relief",
+      "label": "Dots & Stamp Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pois-timbre-plat.webp"
+    },
+    {
+      "key": "en/coque-pont-couchant",
+      "label": "Sunset Bridge Case",
+      "price": 1990,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "en/coque-pont-couchant-relief",
+      "label": "Sunset Bridge Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pont-couchant-plat.webp"
+    },
+    {
+      "key": "en/coque-pothos",
+      "label": "Pothos Plant Case",
+      "price": 1990,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "en/coque-pothos-relief",
+      "label": "Pothos Plant Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pothos-plat.webp"
+    },
+    {
+      "key": "en/coque-python-violet",
+      "label": "Purple Python Case",
+      "price": 1990,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "en/coque-python-violet-relief",
+      "label": "Purple Python Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-violet-plat.webp"
+    },
+    {
+      "key": "en/coque-python",
+      "label": "Python Case",
+      "price": 1990,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "en/coque-python-relief",
+      "label": "Python Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-python-plat.webp"
+    },
+    {
+      "key": "en/coque-rayures-abeilles",
+      "label": "Bee Stripes Case",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "en/coque-rayures-abeilles-relief",
+      "label": "Bee Stripes Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-abeilles-plat.webp"
+    },
+    {
+      "key": "en/coque-rayures-cerises",
+      "label": "Cherry Stripes Case",
+      "price": 1990,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "en/coque-rayures-cerises-relief",
+      "label": "Cherry Stripes Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-rayures-cerises-plat.webp"
+    },
+    {
+      "key": "en/coque-reve-rose",
+      "label": "Pink Dream Case",
+      "price": 1990,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-reve-rose-relief",
+      "label": "Pink Dream Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-reve-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-riviera-cabriolet",
+      "label": "Riviera Convertible Case",
+      "price": 1990,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "en/coque-riviera-cabriolet-relief",
+      "label": "Riviera Convertible Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "en/coque-roadtrip-rouge",
+      "label": "Road Trip Case",
+      "price": 1990,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-roadtrip-rouge-relief",
+      "label": "Road Trip Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-roadtrip-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-route-palmiers",
+      "label": "Palm Road Case",
+      "price": 1990,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "en/coque-route-palmiers-relief",
+      "label": "Palm Road Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "en/coque-sakura-vert",
+      "label": "Jade Sakura Case",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-sakura-vert-relief",
+      "label": "Jade Sakura Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-salon-the",
+      "label": "Tea Room Case",
+      "price": 1990,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "en/coque-salon-the-relief",
+      "label": "Tea Room Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-salon-the-plat.webp"
+    },
+    {
+      "key": "en/coque-serpent-paon",
+      "label": "Peacock Snake Case",
+      "price": 1990,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "en/coque-serpent-paon-relief",
+      "label": "Peacock Snake Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-serpent-paon-plat.webp"
+    },
+    {
+      "key": "en/coque-soie-rose",
+      "label": "Pink Silk Case",
+      "price": 1990,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-soie-rose-relief",
+      "label": "Pink Silk Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soie-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-soleil-cosmique",
+      "label": "Cosmic Sun Case",
+      "price": 1990,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "en/coque-soleil-cosmique-relief",
+      "label": "Cosmic Sun Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-soleil-cosmique-plat.webp"
+    },
+    {
+      "key": "en/coque-stay-kind",
+      "label": "Stay Kind Case",
+      "price": 1990,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "en/coque-stay-kind-relief",
+      "label": "Stay Kind Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-stay-kind-plat.webp"
+    },
+    {
+      "key": "en/coque-sunset-drive",
+      "label": "Sunset Drive Case",
+      "price": 1990,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "en/coque-sunset-drive-relief",
+      "label": "Sunset Drive Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sunset-drive-plat.webp"
+    },
+    {
+      "key": "en/coque-synthwave",
+      "label": "Synthwave Case",
+      "price": 1990,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "en/coque-synthwave-relief",
+      "label": "Synthwave Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-synthwave-plat.webp"
+    },
+    {
+      "key": "en/coque-talavera",
+      "label": "Talavera Case",
+      "price": 1990,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "en/coque-talavera-relief",
+      "label": "Talavera Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-talavera-plat.webp"
+    },
+    {
+      "key": "en/coque-tapisserie",
+      "label": "Tapestry Case",
+      "price": 1990,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "en/coque-tapisserie-relief",
+      "label": "Tapestry Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tapisserie-plat.webp"
+    },
+    {
+      "key": "en/coque-tartan-beige",
+      "label": "Beige Tartan Case",
+      "price": 1990,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "en/coque-tartan-beige-relief",
+      "label": "Beige Tartan Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-riviera",
+      "label": "Riviera Terrace Case",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-riviera-relief",
+      "label": "Riviera Terrace Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-riviera-plat.webp"
+    },
+    {
+      "key": "en/coque-tigre-sable",
+      "label": "Sand Tiger Case",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "en/coque-tigre-sable-relief",
+      "label": "Sand Tiger Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-sable-plat.webp"
+    },
+    {
+      "key": "en/coque-tigre",
+      "label": "Tiger Case",
+      "price": 1990,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "en/coque-tigre-relief",
+      "label": "Tiger Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigre-plat.webp"
+    },
+    {
+      "key": "en/coque-tigres-lune",
+      "label": "Moon Tigers Case",
+      "price": 1990,
+      "image": "/images/products/coque-tigres-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-tigres-lune-relief",
+      "label": "Moon Tigers Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tigres-lune-relief.webp"
+    },
+    {
+      "key": "en/coque-toile-jouy-rouge",
+      "label": "Toile de Jouy Case",
+      "price": 1990,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-toile-jouy-rouge-relief",
+      "label": "Toile de Jouy Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-jouy-rouge-plat.webp"
+    },
+    {
+      "key": "en/coque-toile-rose",
+      "label": "Pink Web Case",
+      "price": 1990,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-toile-rose-relief",
+      "label": "Pink Web Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-toile-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-tourbillon-lune",
+      "label": "Moon Swirl Case",
+      "price": 1990,
+      "image": "/images/products/coque-tourbillon-lune-plat.webp"
+    },
+    {
+      "key": "en/coque-tourbillon-lune-relief",
+      "label": "Moon Swirl Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-tourbillon-lune-relief.webp"
+    },
+    {
+      "key": "en/coque-trefles",
+      "label": "Clover Case",
+      "price": 1990,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "en/coque-trefles-relief",
+      "label": "Clover Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trefles-plat.webp"
+    },
+    {
+      "key": "en/coque-trois-ciels",
+      "label": "Three Skies Case",
+      "price": 1990,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "en/coque-trois-ciels-relief",
+      "label": "Three Skies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trois-ciels-plat.webp"
+    },
+    {
+      "key": "en/coque-trust-timing",
+      "label": "Trust Your Timing Case",
+      "price": 1990,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "en/coque-trust-timing-relief",
+      "label": "Trust Your Timing Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-trust-timing-plat.webp"
+    },
+    {
+      "key": "en/coque-unhinged",
+      "label": "Unhinged Case",
+      "price": 1990,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "en/coque-unhinged-relief",
+      "label": "Unhinged Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-unhinged-plat.webp"
+    },
+    {
+      "key": "en/coque-vache",
+      "label": "Cowhide Case",
+      "price": 1990,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "en/coque-vache-relief",
+      "label": "Cowhide Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vache-plat.webp"
+    },
+    {
+      "key": "en/coque-vague-doree",
+      "label": "Golden Wave Case",
+      "price": 1990,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "en/coque-vague-doree-relief",
+      "label": "Golden Wave Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-bordeaux",
+      "label": "Burgundy Gingham Case",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-bordeaux-relief",
+      "label": "Burgundy Gingham Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-bordeaux-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-noeuds",
+      "label": "Gingham Bows Case",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-noeuds-relief",
+      "label": "Gingham Bows Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-noeuds-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-rose-vert",
+      "label": "Pink & Green Gingham Case",
+      "price": 1990,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-vichy-rose-vert-relief",
+      "label": "Pink & Green Gingham Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vichy-rose-vert-plat.webp"
+    },
+    {
+      "key": "en/coque-vitrail-phenix",
+      "label": "Phoenix Stained Glass Case",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "en/coque-vitrail-phenix-relief",
+      "label": "Phoenix Stained Glass Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+    },
+    {
+      "key": "en/coque-vitrail-soleil",
+      "label": "Sun Stained Glass Case",
+      "price": 1990,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-vitrail-soleil-relief",
+      "label": "Sun Stained Glass Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vitrail-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-voiture-flammes",
+      "label": "Flame Car Case",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "en/coque-voiture-flammes-relief",
+      "label": "Flame Car Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-flammes-plat.webp"
+    },
+    {
+      "key": "en/coque-voiture-neon",
+      "label": "Neon Car Case",
+      "price": 1990,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "en/coque-voiture-neon-relief",
+      "label": "Neon Car Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voiture-neon-plat.webp"
+    },
+    {
+      "key": "en/coque-voyageur-cote",
+      "label": "Coastal Wanderer Case",
+      "price": 1990,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "en/coque-voyageur-cote-relief",
+      "label": "Coastal Wanderer Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-voyageur-cote-plat.webp"
+    },
+    {
+      "key": "en/coque-zebre",
+      "label": "Zebra Case",
+      "price": 1990,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "en/coque-zebre-relief",
+      "label": "Zebra Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-zebre-plat.webp"
+    },
+    {
+      "key": "custom",
+      "label": "Coque personnalisée - à plat",
+      "price": 1990,
+      "image": null
+    },
+    {
+      "key": "custom-relief",
+      "label": "Coque personnalisée - en relief",
+      "price": 2490,
+      "image": null
+    }
+  ]
+}
