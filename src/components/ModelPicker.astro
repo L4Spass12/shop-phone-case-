@@ -39,8 +39,12 @@ interface Props {
   lang?: Locale;
   /** id du champ, si plusieurs sélecteurs coexistent sur une page */
   id?: string;
+  /** Instance du header (posée une fois par page) : champ masqué, seul le
+   *  panneau sert, ouvert par le bouton « modèle » du header. Elle ne bloque
+   *  pas les boutons d'achat, c'est le rôle du sélecteur de la fiche. */
+  global?: boolean;
 }
-const { lang = 'fr', id = 'model-picker' } = Astro.props;
+const { lang = 'fr', id = 'model-picker', global = false } = Astro.props;
 
 const brands = siteConfig.phoneModels?.brands ?? [];
 
@@ -84,7 +88,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
 ---
 
 {catalogue.length > 0 && (
-  <div class="mp mb-6" data-model-picker id={id}>
+  <div class:list={['mp', global ? 'mp-global' : 'mb-6']} data-model-picker data-mp-global={global ? '' : undefined} id={id}>
     <label class="block text-xs text-n-500 uppercase tracking-widest mb-2 font-medium" for={`${id}-trigger`}>
       {t('model.label', lang)}
     </label>
@@ -508,13 +512,33 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           }
         });
 
+        // ─── Plusieurs sélecteurs sur la page (header + fiche) ─────────────
+        // Un choix fait dans l'un met les autres à jour, sans renvoyer
+        // l'événement (select() le relancerait, d'où la garde sur le libellé).
+        document.addEventListener('model:change', function (e) {
+          if (e.target === root || !e.detail || !e.detail.model || e.detail.model === chosen) return;
+          if (MODELS.some(function (m) { return m.label === e.detail.model; })) {
+            chosen = e.detail.model;
+            current.textContent = chosen;
+            action.textContent = T.change;
+            root.setAttribute('data-mp-chosen', '');
+            root.removeAttribute('data-mp-invalid');
+            errorEl.hidden = true;
+            syncButtons();
+          }
+        });
+        // Le bouton du header ouvre l'instance globale.
+        if (root.hasAttribute('data-mp-global')) {
+          document.addEventListener('mp:open-global', function () { open(); });
+        }
+
         // ─── Modèle obligatoire ───────────────────────────────────────────
         // En phase de CAPTURE sur document : ce gestionnaire passe avant celui
         // du widget de paiement, qu'il soit posé sur le bouton ou délégué.
         //  · sans modèle → on bloque et on ouvre le sélecteur ;
         //  · avec modèle → on compose data-item-name juste avant l'envoi, ce
         //    qui reste correct quel que soit l'état du sélecteur de variantes.
-        document.addEventListener('click', function (e) {
+        if (!root.hasAttribute('data-mp-global')) document.addEventListener('click', function (e) {
           var btn = e.target.closest ? e.target.closest('.buy-button') : null;
           if (!btn || btn.disabled) return;
 

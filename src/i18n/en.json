@@ -191,6 +191,7 @@
     "step3": "We refund you in full within 14 days of receiving the item back."
   },
   "model": {
+    "short": "My phone",
     "label": "Phone model",
     "placeholder": "Choose my model",
     "dialogTitle": "Which phone do you have?",

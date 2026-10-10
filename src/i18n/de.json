@@ -191,6 +191,7 @@
     "step3": "Wir erstatten dir den Betrag innerhalb von 14 Tagen nach Erhalt der Ware."
   },
   "model": {
+    "short": "Mein Handy",
     "label": "Handymodell",
     "placeholder": "Modell auswählen",
     "dialogTitle": "Welches Handy haben Sie?",

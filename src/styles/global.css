@@ -2311,3 +2311,29 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   .studio-b--ciel .studio-b-copy::before,
   .studio-b--ciel .studio-b-copy::after { content: none; }
 }
+
+
+/* ─── Sélecteur de modèle du header ───────────────────────────────── */
+.hdr-model {
+  display: inline-flex; align-items: center; gap: .35rem; height: 36px; padding: 0 .7rem;
+  border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .18);
+  color: rgb(var(--c-cream)); font-size: .78rem; font-weight: 500; white-space: nowrap;
+  background: rgb(var(--c-cream) / .04); transition: border-color .2s, background .2s;
+}
+.hdr-model:hover { border-color: rgb(var(--c-cream) / .4); }
+.hdr-model[data-chosen] { border-color: rgb(var(--c-cream) / .45); }
+.hdr-model-label { max-width: 9.5rem; overflow: hidden; text-overflow: ellipsis; }
+/* Téléphone : le logo est centré, il ne reste que la place d'une icône. Un
+   point signale qu'un modèle est retenu. */
+@media (max-width: 640px) {
+  .hdr-model { width: 36px; padding: 0; justify-content: center; position: relative; }
+  .hdr-model-label, .hdr-model-caret { display: none; }
+  .hdr-model[data-chosen]::after {
+    content: ""; position: absolute; top: 5px; right: 6px; width: 7px; height: 7px;
+    border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 2px #fff;
+  }
+}
+/* Instance globale du sélecteur : seul son panneau sert. */
+.mp-global > label, .mp-global > .mp-trigger, .mp-global > .mp-error { display: none !important; }
+/* Coque photographiée sur le modèle choisi : image entière, sans rognage. */
+img.is-model-photo { object-fit: contain !important; }

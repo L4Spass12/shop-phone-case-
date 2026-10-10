@@ -75,7 +75,16 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
         {siteConfig.logoPrefix}{siteConfig.logoSuffix && <span class="text-n-400">{siteConfig.logoSuffix}</span>}
       </a>
 
-      <div class="-mr-2 min-w-[44px] flex items-center justify-end">
+      <div class="-mr-2 min-w-[44px] flex items-center justify-end gap-1">
+        {/* Modèle de téléphone : choisi une fois pour tout le site, il fait
+            apparaître chaque coque sur ce téléphone (boutique, fiches). */}
+        {siteConfig.shop?.enabled && (
+          <button type="button" class="hdr-model" data-hdr-model aria-haspopup="dialog" aria-label={t('model.label', lang)}>
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.8"/><path d="M10.5 18.5h3"/></svg>
+            <span class="hdr-model-label" data-hdr-model-label>{t('model.short', lang)}</span>
+            <svg class="hdr-model-caret" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+        )}
         {siteConfig.shop?.enabled && siteConfig.shop?.provider === 'atelier' && (
           <div data-atelier-cart-icon class="flex items-center"></div>
         )}
@@ -412,4 +421,54 @@ const cats = (siteConfig.productCategories || []) as {slug:string; label:string}
       requestAnimationFrame(update);
     }, { passive: true });
   }
+</script>
+
+<script is:inline>
+  /* Modèle de téléphone choisi : libellé du bouton du header, et photos des
+     coques sur ce téléphone partout où une carte produit l'affiche. */
+  (function () {
+    var KEY = 'vareska:phone-model';
+    var btn = document.querySelector('[data-hdr-model]');
+    var lab = document.querySelector('[data-hdr-model-label]');
+    var dflt = lab ? lab.textContent : '';
+    var data = null;
+    function manifest() {
+      if (data) return data;
+      try { data = JSON.parse(document.getElementById('model-variants').textContent); } catch (e) { data = { models: {}, slugs: [] }; }
+      data.byLabel = {};
+      for (var id in data.models) data.byLabel[data.models[id]] = id;
+      data.set = {};
+      data.slugs.forEach(function (s) { data.set[s] = 1; });
+      return data;
+    }
+    function swapCards(label) {
+      var d = manifest(), id = d.byLabel[label];
+      document.querySelectorAll('a[href*="/product/"] img').forEach(function (im) {
+        if (im.closest('[data-gallery]')) return;
+        var m = /\/product\/([a-z0-9-]+)/.exec(im.closest('a').getAttribute('href'));
+        if (!m) return;
+        if (!im.dataset.origSrc) { im.dataset.origSrc = im.getAttribute('src') || ''; im.dataset.origSrcset = im.getAttribute('srcset') || ''; }
+        if (id && d.set[m[1]]) {
+          im.removeAttribute('srcset');
+          im.src = '/images/products/variants/' + m[1] + '/' + id + '-plat-500w.webp';
+          im.classList.add('is-model-photo');
+        } else if (im.classList.contains('is-model-photo')) {
+          if (im.dataset.origSrcset) im.setAttribute('srcset', im.dataset.origSrcset);
+          im.src = im.dataset.origSrc;
+          im.classList.remove('is-model-photo');
+        }
+      });
+    }
+    function apply(label) {
+      if (lab) lab.textContent = label || dflt;
+      if (btn) btn.toggleAttribute('data-chosen', !!label);
+      if (label) swapCards(label);
+    }
+    if (btn) btn.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('mp:open-global')); });
+    document.addEventListener('model:change', function (e) { if (e.detail && e.detail.model) apply(e.detail.model); });
+    var saved = '';
+    try { saved = localStorage.getItem(KEY) || ''; } catch (e) {}
+    function boot() { apply(saved); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  })();
 </script>

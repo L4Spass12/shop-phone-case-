@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import siteConfig from '../../site.config.mjs';
 import Header from '../components/Header.astro';
+import ModelPicker from '../components/ModelPicker.astro';
+import variantsData from '../data/variants.json';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
@@ -277,6 +279,15 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         (src/components/Marquee.astro) pour pouvoir le remettre, mais on cesse
         d'expédier son balisage masqué sur les 56 pages du site. */}
     <Header langSwitcherFallbackHome={noindex} />
+    {/* Sélecteur de modèle global, ouvert par le bouton du header. */}
+    {siteConfig.shop?.enabled && <ModelPicker id="global-model" global lang={currentLocale} />}
+    {/* Photos par modèle : slugs qui en ont, et identifiant de chaque modèle. */}
+    {siteConfig.shop?.enabled && (
+      <script type="application/json" id="model-variants" set:html={JSON.stringify({
+        models: (variantsData as any)._models ?? {},
+        slugs: Object.keys(variantsData).filter((k) => k !== '_models'),
+      })} />
+    )}
     {/* Le décalage tient compte du bandeau, qui n'existe qu'en thème
         sunfreaks (--marquee-h vaut 0 ailleurs). */}
     <main class="site-main">

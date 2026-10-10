@@ -191,6 +191,7 @@
     "step3": "Nous vous remboursons intégralement sous 14 jours à compter de la récupération du bien."
   },
   "model": {
+    "short": "Mon modèle",
     "label": "Modèle de téléphone",
     "placeholder": "Choisir mon modèle",
     "dialogTitle": "Quel est votre téléphone ?",

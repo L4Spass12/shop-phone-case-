@@ -1789,5 +1789,2424 @@
     "galaxy-a36-5g": {
       "plat": "/images/products/variants/coque-voyageur-cote/galaxy-a36-5g-plat.webp"
     }
+  },
+  "coque-trefles": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-trefles/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-trefles/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-trefles/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-trefles/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-trefles/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-trefles/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-trefles/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-trefles/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-trefles/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-trefles/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-trefles/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-trefles/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-feux-artifice": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-feux-artifice/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-feux-artifice/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-grenouilles-fraises": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-grenouilles-fraises/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-pothos": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-pothos/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-pothos/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-pothos/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-pothos/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-pothos/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-pothos/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-pothos/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-pothos/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-pothos/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-pothos/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-pothos/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-pothos/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-coeur-noeud": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-coeur-noeud/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-reve-rose": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-reve-rose/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-reve-rose/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-lapin-fleur": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-lapin-fleur/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-lapin-fleur/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-oursons-chocolat": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-oursons-chocolat/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-pasteques-chats": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-pasteques-chats/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-pasteques-chats/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-cerises-rubans": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-cerises-rubans/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-emotional-spiral": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-emotional-spiral/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-emotional-spiral/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-chaton-paillettes": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-fraises-rubans": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-fraises-rubans/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-fraises-rubans/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-ciel-chat": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-ciel-chat/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-keep-sweetness": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-keep-sweetness/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-keep-sweetness/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-cerises-pastel": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-cerises-pastel/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-trust-timing": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-trust-timing/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-trust-timing/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-stay-kind": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-stay-kind/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-stay-kind/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-talavera": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-talavera/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-talavera/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-talavera/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-talavera/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-talavera/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-talavera/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-talavera/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-talavera/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-talavera/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-talavera/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-talavera/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-talavera/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-unhinged": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-unhinged/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-unhinged/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-coeurs-ruban": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-nature-chat": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-nature-chat/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-nature-chat/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-papillons-roses": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-papillons-roses/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-papillons-roses/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-losanges-cerises": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-losanges-cerises/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-losanges-cerises/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-coeurs-papillons": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-toile-rose": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-toile-rose/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-toile-rose/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-mains-fleurs": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-mains-fleurs/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-mains-fleurs/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-magical-day": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-magical-day/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-magical-day/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-chatons-pastel": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-chatons-pastel/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-lapin-rose": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-lapin-rose/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-lapin-rose/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-vichy-rose-vert": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-vichy-rose-vert/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-petites-roses": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-petites-roses/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-petites-roses/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-salon-the": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-salon-the/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-salon-the/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-fleurs-aquarelle": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-fleurs-aquarelle/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-chiens-amoureux": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-matcha": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-matcha/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-matcha/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-matcha/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-matcha/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-matcha/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-matcha/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-matcha/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-matcha/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-matcha/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-matcha/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-matcha/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-matcha/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-fraises-carreaux": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-fraises-carreaux/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-capybaras": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-capybaras/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-cactus": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-cactus/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-cactus/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-cactus/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-cactus/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-cactus/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-cactus/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-cactus/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-cactus/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-cactus/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-cactus/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-cactus/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-cactus/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-planete-groovy": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-planete-groovy/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-planete-groovy/galaxy-a36-5g-plat.webp"
+    }
+  },
+  "coque-oursons-tournesols": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-16-pro-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-15-pro-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/iphone-13-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-oursons-tournesols/galaxy-a36-5g-plat.webp"
+    }
   }
 }
