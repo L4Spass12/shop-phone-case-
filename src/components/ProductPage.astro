@@ -62,7 +62,7 @@ const imageAlt = translation?.data.imageAlt ?? product.data.imageAlt;
 // Libellés de la fiche, par langue.
 const L = {
   fr: {
-    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo', reliefExample: 'Voir un exemple du relief', reliefExampleShort: 'Exemple', reliefExampleTitle: 'Le rendu en relief', reliefExampleNote: 'Exemples de coques imprimées en relief dans notre atelier. Votre coque reprend votre design, avec la même texture en relief, que l’on sent sous les doigts.',
+    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo', reliefExample: 'Voir un exemple du relief', reliefExampleShort: 'Exemple relief', reliefExampleTitle: 'Le rendu en relief', reliefExampleNote: 'Exemples de coques imprimées en relief dans notre atelier. Votre coque reprend votre design, avec la même texture en relief, que l’on sent sous les doigts.',
     home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
     prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
     customize: 'Personnaliser cette coque', customizeSub: 'Ajoutez un prénom, une photo… à partir de ce motif',
@@ -84,7 +84,7 @@ const L = {
     seoTail: (p: string) => `Dès ${p}, imprimée en France, livraison suivie.`,
   },
   en: {
-    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video', reliefExample: 'See a raised example', reliefExampleShort: 'Example', reliefExampleTitle: 'The raised finish', reliefExampleNote: 'Examples of cases printed in relief in our workshop. Your case uses your design, with the same raised texture you can feel under your fingers.',
+    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video', reliefExample: 'See a raised example', reliefExampleShort: 'Raised example', reliefExampleTitle: 'The raised finish', reliefExampleNote: 'Examples of cases printed in relief in our workshop. Your case uses your design, with the same raised texture you can feel under your fingers.',
     home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
     prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
     customize: 'Customise this case', customizeSub: 'Add a name, a photo… on top of this design',
@@ -106,7 +106,7 @@ const L = {
     seoTail: (p: string) => `From ${p}, printed in France, tracked shipping.`,
   },
   de: {
-    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen', reliefExample: 'Relief-Beispiel ansehen', reliefExampleShort: 'Beispiel', reliefExampleTitle: 'Das Relief-Finish', reliefExampleNote: 'Beispiele für Hüllen, die in unserer Werkstatt mit Relief gedruckt wurden. Deine Hülle zeigt dein Design mit derselben fühlbaren Relief-Struktur.',
+    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen', reliefExample: 'Relief-Beispiel ansehen', reliefExampleShort: 'Relief-Beispiel', reliefExampleTitle: 'Das Relief-Finish', reliefExampleNote: 'Beispiele für Hüllen, die in unserer Werkstatt mit Relief gedruckt wurden. Deine Hülle zeigt dein Design mit derselben fühlbaren Relief-Struktur.',
     home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
     prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
     customize: 'Diese Hülle gestalten', customizeSub: 'Name, Foto… zu diesem Motiv hinzufügen',
@@ -505,7 +505,7 @@ const pickModelLabel = t('model.placeholder', lang);
                     <button type="button" class="pm-quick-video" data-relief-example aria-label={L.reliefExample}>
                       <img src="/images/exemple-relief-thumb.webp" alt="" width="160" height="284" loading="lazy" decoding="async" />
                       <span class="gal-play" aria-hidden="true"></span>
-                      <span class="pm-quick-video-label">{L.reliefExampleShort}</span>
+                      <span class="pm-quick-video-label is-2l">{L.reliefExampleShort}</span>
                     </button>
                   </div>
                   )}
@@ -808,11 +808,6 @@ const pickModelLabel = t('model.placeholder', lang);
               {RELIEF_EX.video && (
                 <video class="relief-ex-video" data-src={RELIEF_EX.video} poster={RELIEF_EX.poster || undefined} muted loop playsinline preload="none"></video>
               )}
-              <div class="relief-ex-photos">
-                {RELIEF_EX.photos.map((src: string) => (
-                  <img data-src={src.replace(/\.webp$/, '-800w.webp')} alt="" width="800" height="1000" decoding="async" />
-                ))}
-              </div>
               <p class="relief-ex-note">{L.reliefExampleNote}</p>
             </dialog>
           </>
@@ -2135,6 +2130,7 @@ const pickModelLabel = t('model.placeholder', lang);
   .relief-ex-photos { display: flex; gap: 10px; overflow-x: auto; padding: 14px 18px 4px; scroll-snap-type: x mandatory; }
   .relief-ex-photos img { flex: none; width: 72%; height: auto; border-radius: 14px; background: #f4f2ee; scroll-snap-align: start; }
   .relief-ex-note { margin: 0; padding: 10px 18px 20px; font-size: .85rem; line-height: 1.5; color: #6b6158; }
+  .pm-quick-video-label.is-2l { font-size: 9.5px; line-height: 1.15; padding: 14px 3px 5px; }
 </style>
 
 <script>
