@@ -23,9 +23,19 @@ import siteConfig from '../../site.config.mjs';
 import { t, parseEntrySlug, type Locale } from '../lib/i18n';
 import { getCollection } from 'astro:content';
 import { existsSync } from 'node:fs';
+import studioReal from '../data/studio-real.json';
 
-interface Props { lang?: Locale }
-const { lang = 'fr' } = Astro.props;
+interface Props { lang?: Locale; realistic?: boolean }
+const { lang = 'fr', realistic = false } = Astro.props;
+
+// Aperçu réaliste (page test) : calques extraits de l'atelier coques par
+// scripts/mockups/studio-bases.mjs, indexés par libellé de modèle du site.
+const REAL: Record<string, { k: string; m: string; panel: number[]; box: number[] }> = {};
+if (realistic) {
+  for (const [id, v] of Object.entries(studioReal as Record<string, { label: string; panel: number[]; box: number[] }>)) {
+    REAL[v.label] = { k: `/images/studio/real/${id}-k.webp`, m: `/images/studio/real/${id}-m.webp`, panel: v.panel, box: v.box };
+  }
+}
 
 // Coques de la boutique qui peuvent servir de base dans le studio : celles
 // dont le motif HD existe (public/images/designs/<slug>.webp). Nom traduit
@@ -234,6 +244,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   data-relief-price={String(RELIEF_PRICE_CENTS)}
   data-inset-mm={String(siteConfig.shop?.printInsetMm ?? 0)}
   data-lang={lang}
+  data-real={realistic ? JSON.stringify(REAL) : undefined}
 >
   <div class="builder">
 
@@ -420,6 +431,12 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           <span class="guide guide-v" data-guide-v aria-hidden="true"></span>
           <span class="guide guide-h" data-guide-h aria-hidden="true"></span>
         </div>
+        {realistic && (
+          <div class="real" data-real-layers aria-hidden="true" hidden>
+            <img class="real-m" alt="" decoding="async" />
+            <img class="real-k" alt="" decoding="async" />
+          </div>
+        )}
         <div class="cam" data-cam aria-hidden="true"></div>
         <div class="shell" aria-hidden="true"><span class="sheen"></span></div>
         <span class="side side-l" aria-hidden="true"></span>
@@ -1296,6 +1313,20 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .side-l { left: -1.6%; top: 20%; height: 7%; }
   .side-r { right: -1.6%; top: 26%; height: 11%; }
 
+  /* Aperçu réaliste : le rendu de l'atelier vaut K + M × motif (linéaire).
+     M (multiply) puis K (plus-lighter) composés sur le design, dans le
+     groupe isolé de la coque. Le reste de la coque dessinée disparaît. */
+  .real { display: contents; }
+  .real[hidden] { display: none; }
+  .real img { position: absolute; max-width: none; pointer-events: none; z-index: 7; user-select: none; }
+  .real-m { mix-blend-mode: multiply; }
+  .real-k { mix-blend-mode: plus-lighter; }
+  .case[data-real] { isolation: isolate; box-shadow: none; filter: drop-shadow(0 16px 22px rgba(0,0,0,.22)); }
+  .case[data-real] .cam,
+  .case[data-real] .shell,
+  .case[data-real] .side,
+  .case[data-real] .frost { display: none; }
+
   .empty {
     position: absolute; inset: 0; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: .3rem; text-align: center;
@@ -1955,10 +1986,35 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       return '<span class="cam-hole' + (round ? ' is-round' : '') + '" style="left:' + l + '%;top:' + t + '%;width:' + w + '%"></span>';
     }
 
+    // Aperçu réaliste (page test) : null hors page test ou modèle sans base.
+    var REAL = JSON.parse(root.getAttribute('data-real') || 'null');
+    var realEl = root.querySelector('[data-real-layers]');
+    function realOf(label) { return REAL && REAL[label] || null; }
+    function renderReal() {
+      var r = realOf(state.model);
+      if (!r || !realEl) { caseEl.removeAttribute('data-real'); if (realEl) realEl.hidden = true; return false; }
+      var p = r.panel, b = r.box, pc = function (v) { return (v * 100).toFixed(3) + '%'; };
+      var imgs = realEl.querySelectorAll('img');
+      for (var i = 0; i < imgs.length; i++) {
+        var st = imgs[i].style;
+        st.left = pc((b[0] - p[0]) / p[2]); st.top = pc((b[1] - p[1]) / p[3]);
+        st.width = pc(b[2] / p[2]); st.height = pc(b[3] / p[3]);
+      }
+      if (imgs[0].getAttribute('src') !== r.m) { imgs[0].src = r.m; imgs[1].src = r.k; }
+      caseEl.style.setProperty('--ratio', (p[2] / p[3]).toFixed(4));
+      var rad = p[4] != null ? p[4] : p[2] * .13;
+      caseEl.style.borderRadius = pc(rad / p[2]) + ' / ' + pc(rad / p[3]);
+      caseEl.setAttribute('data-real', '');
+      realEl.hidden = false;
+      return true;
+    }
+
     function renderCase() {
       var fam = specOf(state.model);
       caseEl.style.setProperty('--ratio', fam.ratio.toFixed(4));
       caseEl.style.setProperty('--radius', fam.radius + '%');
+      caseEl.style.borderRadius = '';
+      if (renderReal()) { camEl.innerHTML = ''; fitCase(); return; }
 
       // Coque seule → la découpe est un TROU (on voit au travers).
       // Coque montée → on dessine le module photo du téléphone.
@@ -2018,7 +2074,16 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       // débordait alors du plan de travail par le haut.
       var maxW = Math.max(70, r.width - 28);
       var maxH = Math.max(110, r.height - 20);
-      caseEl.style.width = Math.round(Math.min(maxW, maxH * spec.ratio, 300)) + 'px';
+      var ratio = spec.ratio;
+      // Aperçu réaliste : le téléphone déborde de la zone imprimable, on
+      // garde la place pour lui.
+      var real = realOf(state.model);
+      if (real && realEl) {
+        var p = real.panel, b = real.box;
+        ratio = p[2] / p[3];
+        maxW = maxW * p[2] / b[2]; maxH = maxH * p[3] / b[3];
+      }
+      caseEl.style.width = Math.round(Math.min(maxW, maxH * ratio, 300)) + 'px';
       // La coque a changé de taille : recale le cadre de sélection.
       if (selectedId != null) { var s = findEl(selectedId); if (s) positionGizmo(s); }
     }

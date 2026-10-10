@@ -6,8 +6,8 @@ import CaseCustomizer from './CaseCustomizer.astro';
 import siteConfig from '../../site.config.mjs';
 import { localePrefix, type Locale } from '../lib/i18n';
 
-interface Props { lang: Locale }
-const { lang } = Astro.props;
+interface Props { lang: Locale; realistic?: boolean }
+const { lang, realistic = false } = Astro.props;
 const lp = localePrefix(lang);
 
 const T = {
@@ -33,7 +33,8 @@ const breadcrumbSchema = {
 <BaseLayout
   title={`${T.title} - ${siteConfig.name}`}
   description={T.description}
-  jsonLd={breadcrumbSchema}
+  jsonLd={realistic ? undefined : breadcrumbSchema}
+  noindex={realistic}
 >
-  <CaseCustomizer lang={lang} />
+  <CaseCustomizer lang={lang} realistic={realistic} />
 </BaseLayout>
