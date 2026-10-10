@@ -1,11 +1,8 @@
 ---
 name: "Coque Sunset Drive"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-sunset-drive-plat.webp"
 imageAlt: "Coque Sunset Drive : une voiture rétro au bord de mer, sous un ciel rose et un regard dessiné"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture rétro au bord de mer, sous un ciel rose et un regard dessiné."
 order: 142

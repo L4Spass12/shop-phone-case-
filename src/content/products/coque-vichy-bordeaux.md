@@ -1,11 +1,8 @@
 ---
 name: "Coque Vichy Bordeaux"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vichy-bordeaux-plat.webp"
 imageAlt: "Coque Vichy Bordeaux : un vichy bordeaux et crème, façon nappe de bistrot"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un vichy bordeaux et crème, façon nappe de bistrot."
 order: 89

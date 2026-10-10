@@ -1,11 +1,8 @@
 ---
 name: "Coque Pois et Timbre"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-pois-timbre-plat.webp"
 imageAlt: "Coque Pois et Timbre : des pois crème sur fond chocolat et un timbre fleuri"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des pois crème sur fond chocolat et un timbre fleuri."
 order: 78

@@ -1,11 +1,8 @@
 ---
 name: "Coque Dragon des Nuages"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-dragon-nuages-plat.webp"
 imageAlt: "Coque Dragon des Nuages : un dragon japonais qui serpente entre des nuages rouges et bleus"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un dragon japonais qui serpente entre des nuages rouges et bleus."
 order: 102

@@ -1,11 +1,8 @@
 ---
 name: "Coque Python Violet"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-python-violet-plat.webp"
 imageAlt: "Coque Python Violet : des écailles de python violettes et blanches"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des écailles de python violettes et blanches."
 order: 81

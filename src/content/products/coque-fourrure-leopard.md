@@ -1,11 +1,8 @@
 ---
 name: "Coque Fourrure Léopard"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-fourrure-leopard-plat.webp"
 imageAlt: "Coque Fourrure Léopard : une fourrure léopard toute douce, en gros plan"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Une fourrure léopard toute douce, en gros plan."
 order: 98

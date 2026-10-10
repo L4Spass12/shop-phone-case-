@@ -1,11 +1,8 @@
 ---
 name: "Coque Cabane au Lac"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-cabane-lac-plat.webp"
 imageAlt: "Coque Cabane au Lac : une cabane colorée au bord d'un lac de montagne au crépuscule"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une cabane colorée au bord d'un lac de montagne au crépuscule."
 order: 125

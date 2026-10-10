@@ -1,11 +1,8 @@
 ---
 name: "Coque Léopard Doré"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-leopard-dore-plat.webp"
 imageAlt: "Coque Léopard Doré : un imprimé léopard aux reflets dorés"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un imprimé léopard aux reflets dorés."
 order: 80

@@ -1,11 +1,8 @@
 ---
 name: "Coque Mosaïque Verte"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-mosaique-verte-plat.webp"
 imageAlt: "Coque Mosaïque Verte : de petits carreaux de céramique vert d'eau brillants"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "De petits carreaux de céramique vert d'eau brillants."
 order: 79

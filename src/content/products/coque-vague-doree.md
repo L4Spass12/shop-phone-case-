@@ -1,11 +1,8 @@
 ---
 name: "Coque Vague Dorée"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vague-doree-plat.webp"
 imageAlt: "Coque Vague Dorée : des vagues japonaises noires et or sous un soleil doré"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Des vagues japonaises noires et or sous un soleil doré."
 order: 111

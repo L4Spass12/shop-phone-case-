@@ -1,11 +1,8 @@
 ---
 name: "Coque Zèbre"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-zebre-plat.webp"
 imageAlt: "Coque Zèbre : des rayures de zèbre noires et crème"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des rayures de zèbre noires et crème."
 order: 96

@@ -1,11 +1,8 @@
 ---
 name: "Coque Macarons"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-macarons-plat.webp"
 imageAlt: "Coque iPhone couverte de macarons colorés décorés d'ourson, de poussin, de lapin, de fraises et de fleurs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-kawaii", "coques-gourmand"]
 shortDescription: "Une gourmandise de macarons colorés aux petites bouilles kawaii, fraises et fleurs."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.

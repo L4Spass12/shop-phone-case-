@@ -1,11 +1,8 @@
 ---
 name: "Coque Tapisserie"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-tapisserie-plat.webp"
 imageAlt: "Coque Tapisserie : une tapisserie médiévale avec chevaliers, lune et grimoires"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une tapisserie médiévale avec chevaliers, lune et grimoires."
 order: 101

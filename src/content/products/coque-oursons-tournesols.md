@@ -1,11 +1,8 @@
 ---
 name: "Coque Oursons Tournesols"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-oursons-tournesols-plat.webp"
 imageAlt: "Coque Oursons Tournesols : des oursons et des tournesols sur un carreau jaune"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Des oursons et des tournesols sur un carreau jaune."
 order: 65

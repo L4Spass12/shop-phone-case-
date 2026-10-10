@@ -1,11 +1,8 @@
 ---
 name: "Coque Chevalier"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-chevalier-plat.webp"
 imageAlt: "Coque Chevalier : un chevalier en armure dorée dans des drapés bleus"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un chevalier en armure dorée dans des drapés bleus."
 order: 108

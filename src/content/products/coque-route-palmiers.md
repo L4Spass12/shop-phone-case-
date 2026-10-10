@@ -1,11 +1,8 @@
 ---
 name: "Coque Route des Palmiers"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-route-palmiers-plat.webp"
 imageAlt: "Coque Route des Palmiers : une voiture blanche sur la route côtière, entre palmiers et coucher de soleil"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture blanche sur la route côtière, entre palmiers et coucher de soleil."
 order: 140

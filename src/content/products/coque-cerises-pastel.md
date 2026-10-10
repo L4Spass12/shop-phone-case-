@@ -1,11 +1,8 @@
 ---
 name: "Coque Cerises Pastel"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-cerises-pastel-plat.webp"
 imageAlt: "Coque Cerises Pastel : des cerises et des nœuds roses tout doux sur un fond pastel"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-gourmand"]
 shortDescription: "Des cerises et des nœuds roses tout doux sur un fond pastel."
 order: 40

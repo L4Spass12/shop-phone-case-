@@ -1,11 +1,8 @@
 ---
 name: "Coque Éclipse Jade"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-eclipse-verte-plat.webp"
 imageAlt: "Coque Éclipse Jade : une silhouette face à une éclipse, dans des nuages roses sur un ciel vert"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une silhouette face à une éclipse, dans des nuages roses sur un ciel vert."
 order: 129

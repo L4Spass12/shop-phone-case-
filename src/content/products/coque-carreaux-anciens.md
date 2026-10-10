@@ -1,11 +1,8 @@
 ---
 name: "Coque Carreaux Anciens"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-carreaux-anciens-plat.webp"
 imageAlt: "Coque Carreaux Anciens : des carreaux vert-gris patinés par le temps"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des carreaux vert-gris patinés par le temps."
 order: 84

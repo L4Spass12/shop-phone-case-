@@ -1,11 +1,8 @@
 ---
 name: "Coque Baleines Célestes"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-baleines-celestes-plat.webp"
 imageAlt: "Coque iPhone montrant des baleines qui nagent dans un ciel rose plein d'étoiles et de planètes, au-dessus d'une terrasse face à un lac et un village"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-paysages", "coques-ciel"]
 shortDescription: "Des baleines nagent dans un ciel rose plein d'étoiles, au-dessus d'une terrasse face au lac."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.

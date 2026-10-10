@@ -1,11 +1,8 @@
 ---
 name: "Coque Oursons Chocolat"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-oursons-chocolat-plat.webp"
 imageAlt: "Coque Oursons Chocolat : des têtes d'oursons crème et caramel sur un fond chocolat"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Des têtes d'oursons crème et caramel sur un fond chocolat."
 order: 32

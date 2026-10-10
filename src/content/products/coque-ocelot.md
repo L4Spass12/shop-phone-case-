@@ -1,11 +1,8 @@
 ---
 name: "Coque Ocelot"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-ocelot-plat.webp"
 imageAlt: "Coque Ocelot : un pelage d'ocelot doré et brun"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un pelage d'ocelot doré et brun."
 order: 95

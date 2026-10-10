@@ -1,11 +1,8 @@
 ---
 name: "Coque Carreaux Ambre"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-carreaux-ambre-plat.webp"
 imageAlt: "Coque Carreaux Ambre : des carreaux ambrés et dorés posés en losange"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des carreaux ambrés et dorés posés en losange."
 order: 85

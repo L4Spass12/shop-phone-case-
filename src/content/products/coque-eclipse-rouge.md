@@ -1,11 +1,8 @@
 ---
 name: "Coque Éclipse Rouge"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-eclipse-rouge-plat.webp"
 imageAlt: "Coque Éclipse Rouge : une silhouette assise face à une planète rouge, dans des nuages"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une silhouette assise face à une planète rouge, dans des nuages."
 order: 131

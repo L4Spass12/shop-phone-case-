@@ -1,11 +1,8 @@
 ---
 name: "Coque Salon de Thé"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-salon-the-plat.webp"
 imageAlt: "Coque Salon de Thé : des losanges vert et rose avec théières, fleurs et petits nœuds"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des losanges vert et rose avec théières, fleurs et petits nœuds."
 order: 57

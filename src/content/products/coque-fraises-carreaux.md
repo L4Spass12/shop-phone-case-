@@ -1,11 +1,8 @@
 ---
 name: "Coque Fraises à Carreaux"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-fraises-carreaux-plat.webp"
 imageAlt: "Coque Fraises à Carreaux : de petites fraises sur un carreau rose et blanc"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs", "coques-gourmand"]
 shortDescription: "De petites fraises sur un carreau rose et blanc."
 order: 61

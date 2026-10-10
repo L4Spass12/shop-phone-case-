@@ -1,11 +1,8 @@
 ---
 name: "Coque Lave Liquide"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lave-liquide-plat.webp"
 imageAlt: "Coque Lave Liquide : des reflets liquides orange et rouge, intenses et brillants"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des reflets liquides orange et rouge, intenses et brillants."
 order: 75

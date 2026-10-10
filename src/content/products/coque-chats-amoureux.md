@@ -1,11 +1,8 @@
 ---
 name: "Coque Chats Amoureux"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-chats-amoureux-plat.webp"
 imageAlt: "Coque iPhone taupe avec un chat noir et un chat blanc aux yeux en cœur qui se regardent autour d'un grand cœur rose"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-romantique"]
 shortDescription: "Un chat noir et un chat blanc aux yeux en cœur se cherchent du regard autour d'un grand cœur rose."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.

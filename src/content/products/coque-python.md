@@ -1,11 +1,8 @@
 ---
 name: "Coque Python"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-python-plat.webp"
 imageAlt: "Coque Python : des écailles de python naturelles, beige et brun"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des écailles de python naturelles, beige et brun."
 order: 93

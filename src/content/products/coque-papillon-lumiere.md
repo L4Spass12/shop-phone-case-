@@ -1,11 +1,8 @@
 ---
 name: "Coque Papillon de Lumière"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-papillon-lumiere-plat.webp"
 imageAlt: "Coque iPhone vert lumineux avec un papillon jaune qui brille au milieu d'étincelles"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Un papillon de lumière jaune s'envole dans un tourbillon vert plein d'étincelles."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.

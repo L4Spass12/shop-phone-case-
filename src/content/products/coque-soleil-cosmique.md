@@ -1,11 +1,8 @@
 ---
 name: "Coque Soleil Cosmique"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-soleil-cosmique-plat.webp"
 imageAlt: "Coque Soleil Cosmique : un soleil, une lune et des planètes dans des vagues arc-en-ciel"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-ciel"]
 shortDescription: "Un soleil, une lune et des planètes dans des vagues arc-en-ciel."
 order: 123

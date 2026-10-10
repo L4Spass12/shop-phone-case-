@@ -1,11 +1,8 @@
 ---
 name: "Coque Vitrail Soleil"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vitrail-soleil-plat.webp"
 imageAlt: "Coque Vitrail Soleil : un vitrail lumineux avec soleil levant, montagnes et lac"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un vitrail lumineux avec soleil levant, montagnes et lac."
 order: 103

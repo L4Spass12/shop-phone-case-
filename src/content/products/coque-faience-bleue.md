@@ -1,11 +1,8 @@
 ---
 name: "Coque Faïence Bleue"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-faience-bleue-plat.webp"
 imageAlt: "Coque Faïence Bleue : un motif de faïence bleue sur fond blanc"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un motif de faïence bleue sur fond blanc."
 order: 100

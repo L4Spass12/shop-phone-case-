@@ -1,11 +1,8 @@
 ---
 name: "Coque Grenouilles et Fraises"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-grenouilles-fraises-plat.webp"
 imageAlt: "Coque Grenouilles et Fraises : de petites grenouilles kawaii et des fraises sur un vert tendre"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-gourmand"]
 shortDescription: "De petites grenouilles kawaii et des fraises sur un vert tendre."
 order: 27

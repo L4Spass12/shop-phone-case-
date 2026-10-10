@@ -1,11 +1,8 @@
 ---
 name: "Coque Côte Fleurie"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-cote-fleurie-plat.webp"
 imageAlt: "Coque Côte Fleurie : une côte fleurie au coucher du soleil, peinte à grosses touches"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Une côte fleurie au coucher du soleil, peinte à grosses touches."
 order: 113

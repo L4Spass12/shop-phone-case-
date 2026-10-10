@@ -1,11 +1,8 @@
 ---
 name: "Coque Lune Néon"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lune-neon-plat.webp"
 imageAlt: "Coque Lune Néon : une lune et des étoiles néon dans des nuages violets et un arc-en-ciel"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-ciel"]
 shortDescription: "Une lune et des étoiles néon dans des nuages violets et un arc-en-ciel."
 order: 139

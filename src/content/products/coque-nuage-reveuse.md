@@ -1,11 +1,8 @@
 ---
 name: "Coque Rêveuse"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-nuage-reveuse-plat.webp"
 imageAlt: "Coque Rêveuse : une jeune femme endormie dans un nuage de coton"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une jeune femme endormie dans un nuage de coton."
 order: 137

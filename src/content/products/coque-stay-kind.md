@@ -1,11 +1,8 @@
 ---
 name: "Coque Stay Kind"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-stay-kind-plat.webp"
 imageAlt: "Coque Stay Kind : « stay kind, stand firm » entre soleil, lune et fleurs gravées"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-citations"]
 shortDescription: "« stay kind, stand firm » entre soleil, lune et fleurs gravées."
 order: 42

@@ -1,11 +1,8 @@
 ---
 name: "Coque Chiens Amoureux"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-chiens-amoureux-plat.webp"
 imageAlt: "Coque Chiens Amoureux : des chiens amoureux dans des cadres en forme de cœur"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-romantique"]
 shortDescription: "Des chiens amoureux dans des cadres en forme de cœur."
 order: 59

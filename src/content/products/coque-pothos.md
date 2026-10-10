@@ -1,11 +1,8 @@
 ---
 name: "Coque Pothos"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-pothos-plat.webp"
 imageAlt: "Coque Pothos : une affiche botanique façon japonaise avec un pothos suspendu à la fenêtre"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Une affiche botanique façon japonaise avec un pothos suspendu à la fenêtre."
 order: 28

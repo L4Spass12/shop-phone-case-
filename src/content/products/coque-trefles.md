@@ -1,11 +1,8 @@
 ---
 name: "Coque Trèfles"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-trefles-plat.webp"
 imageAlt: "Coque Trèfles : une pluie de trèfles verts, symboles de chance"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs"]
 shortDescription: "Une pluie de trèfles verts, symboles de chance."
 order: 25

@@ -1,11 +1,8 @@
 ---
 name: "Coque Carpes Koï"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-koi-plat.webp"
 imageAlt: "Coque Carpes Koï : des carpes koï et des pivoines sur un fond pourpre"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Des carpes koï et des pivoines sur un fond pourpre."
 order: 105

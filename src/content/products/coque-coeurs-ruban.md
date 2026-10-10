@@ -1,11 +1,8 @@
 ---
 name: "Coque Cœurs au Ruban"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-coeurs-ruban-plat.webp"
 imageAlt: "Coque Cœurs au Ruban : des cœurs roses suspendus à un ruban, fins et délicats"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-romantique"]
 shortDescription: "Des cœurs roses suspendus à un ruban, fins et délicats."
 order: 45

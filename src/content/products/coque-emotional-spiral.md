@@ -1,11 +1,8 @@
 ---
 name: "Coque Emotional Spiral"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-emotional-spiral-plat.webp"
 imageAlt: "Coque Emotional Spiral : une typo rétro bordeaux, « a little emotional spiral later… », pleine d'humour"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-citations"]
 shortDescription: "Une typo rétro bordeaux, « a little emotional spiral later… », pleine d'humour."
 order: 35

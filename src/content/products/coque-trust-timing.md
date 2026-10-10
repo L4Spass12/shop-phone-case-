@@ -1,11 +1,8 @@
 ---
 name: "Coque Trust Your Timing"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-trust-timing-plat.webp"
 imageAlt: "Coque Trust Your Timing : une femme, des fleurs et des papillons, avec « trust your own timing »"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-citations"]
 shortDescription: "Une femme, des fleurs et des papillons, avec « trust your own timing »."
 order: 41

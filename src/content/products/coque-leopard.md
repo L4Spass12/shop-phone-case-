@@ -1,11 +1,8 @@
 ---
 name: "Coque Léopard"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-leopard-plat.webp"
 imageAlt: "Coque Léopard : un imprimé léopard classique, intemporel"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un imprimé léopard classique, intemporel."
 order: 88

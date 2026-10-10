@@ -1,11 +1,8 @@
 ---
 name: "Coque Rayures Abeilles"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-rayures-abeilles-plat.webp"
 imageAlt: "Coque Rayures Abeilles : des rayures jaunes avec des petites abeilles et des fleurs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-motifs"]
 shortDescription: "Des rayures jaunes avec des petites abeilles et des fleurs."
 order: 136

@@ -1,11 +1,8 @@
 ---
 name: "Coque Nuit sur le Lac"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-nuit-lac-plat.webp"
 imageAlt: "Coque Nuit sur le Lac : une nuit étoilée tourbillonnante au-dessus d'un lac de montagne"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une nuit étoilée tourbillonnante au-dessus d'un lac de montagne."
 order: 115

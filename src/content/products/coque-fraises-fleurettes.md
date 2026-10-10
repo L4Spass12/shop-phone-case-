@@ -1,11 +1,8 @@
 ---
 name: "Coque Fraises Fleuries"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-fraises-fleurettes-plat.webp"
 imageAlt: "Coque Fraises Fleuries : des fraises et des fleurettes sur un fond crème"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-gourmand"]
 shortDescription: "Des fraises et des fleurettes sur un fond crème."
 order: 135

@@ -1,11 +1,8 @@
 ---
 name: "Coque Lune sur la Colline"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lune-colline-plat.webp"
 imageAlt: "Coque Lune sur la Colline : une lune dorée au-dessus d'une colline et d'un village"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-ciel"]
 shortDescription: "Une lune dorée au-dessus d'une colline et d'un village."
 order: 110

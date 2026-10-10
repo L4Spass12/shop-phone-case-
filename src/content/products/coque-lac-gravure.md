@@ -1,11 +1,8 @@
 ---
 name: "Coque Lac Gravure"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lac-gravure-plat.webp"
 imageAlt: "Coque Lac Gravure : un paysage de lac gravé sous un ciel vert forêt"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un paysage de lac gravé sous un ciel vert forêt."
 order: 109

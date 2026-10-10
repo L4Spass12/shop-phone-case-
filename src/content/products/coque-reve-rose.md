@@ -1,11 +1,8 @@
 ---
 name: "Coque Rêve Rose"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-reve-rose-plat.webp"
 imageAlt: "Coque Rêve Rose : des cœurs et des fleurs flous dans un nuage rose lumineux"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-romantique", "coques-kawaii"]
 shortDescription: "Des cœurs et des fleurs flous dans un nuage rose lumineux."
 order: 30

@@ -1,11 +1,8 @@
 ---
 name: "Coque Fraises et Rubans"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-fraises-rubans-plat.webp"
 imageAlt: "Coque Fraises et Rubans : de grosses fraises nouées de rubans roses sur un rose poudré"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-gourmand"]
 shortDescription: "De grosses fraises nouées de rubans roses sur un rose poudré."
 order: 37

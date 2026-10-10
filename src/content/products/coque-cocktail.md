@@ -1,11 +1,8 @@
 ---
 name: "Coque Cocktail"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-cocktail-plat.webp"
 imageAlt: "Coque Cocktail : un cocktail rose sur des rayures vert d'eau"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs", "coques-gourmand"]
 shortDescription: "Un cocktail rose sur des rayures vert d'eau."
 order: 69

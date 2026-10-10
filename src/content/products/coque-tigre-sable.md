@@ -1,11 +1,8 @@
 ---
 name: "Coque Tigre Sable"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-tigre-sable-plat.webp"
 imageAlt: "Coque Tigre Sable : des rayures de tigre sur un pelage sable"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des rayures de tigre sur un pelage sable."
 order: 87

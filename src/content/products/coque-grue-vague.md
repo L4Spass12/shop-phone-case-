@@ -1,11 +1,8 @@
 ---
 name: "Coque Grue et Vague"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-grue-vague-plat.webp"
 imageAlt: "Coque Grue et Vague : une grue en vol au-dessus de vagues noires et or"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Une grue en vol au-dessus de vagues noires et or."
 order: 112

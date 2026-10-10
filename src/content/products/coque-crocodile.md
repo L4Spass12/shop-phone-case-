@@ -1,11 +1,8 @@
 ---
 name: "Coque Crocodile"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-crocodile-plat.webp"
 imageAlt: "Coque Crocodile : une peau de crocodile vert foncé"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Une peau de crocodile vert foncé."
 order: 94

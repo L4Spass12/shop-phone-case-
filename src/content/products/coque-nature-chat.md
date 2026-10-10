@@ -1,11 +1,8 @@
 ---
 name: "Coque Nature"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-nature-chat-plat.webp"
 imageAlt: "Coque Nature : une affiche « nature » avec un chat roux qui se prélasse dans l'herbe"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux"]
 shortDescription: "Une affiche « nature » avec un chat roux qui se prélasse dans l'herbe."
 order: 46

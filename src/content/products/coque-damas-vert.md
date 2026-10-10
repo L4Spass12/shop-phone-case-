@@ -1,11 +1,8 @@
 ---
 name: "Coque Damas Vert"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-damas-vert-plat.webp"
 imageAlt: "Coque Damas Vert : un motif damassé ton sur ton vert anis"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]
 shortDescription: "Un motif damassé ton sur ton vert anis."
 order: 82

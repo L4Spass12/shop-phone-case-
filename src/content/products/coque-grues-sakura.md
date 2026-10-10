@@ -1,11 +1,8 @@
 ---
 name: "Coque Grues et Sakura"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-grues-sakura-plat.webp"
 imageAlt: "Coque Grues et Sakura : des grues blanches entre les cerisiers en fleurs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
 shortDescription: "Des grues blanches entre les cerisiers en fleurs."
 order: 128

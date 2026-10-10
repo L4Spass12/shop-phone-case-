@@ -1,11 +1,8 @@
 ---
 name: "Coque Bisou"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-bisou-plat.webp"
 imageAlt: "Coque Bisou : des lèvres rouges peintes sur des rayures bordeaux et rose"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-romantique", "coques-motifs"]
 shortDescription: "Des lèvres rouges peintes sur des rayures bordeaux et rose."
 order: 68

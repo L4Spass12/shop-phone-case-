@@ -1,11 +1,8 @@
 ---
 name: "Coque Boule Disco"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-boule-disco-plat.webp"
 imageAlt: "Coque Boule Disco : une boule disco rose sur des rayures fuchsia"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Une boule disco rose sur des rayures fuchsia."
 order: 67

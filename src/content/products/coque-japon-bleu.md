@@ -1,11 +1,8 @@
 ---
 name: "Coque Japon Bleu"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-japon-bleu-plat.webp"
 imageAlt: "Coque Japon Bleu : un pin, un torii et des fleurs sous la lune, en camaïeu de bleus"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un pin, un torii et des fleurs sous la lune, en camaïeu de bleus."
 order: 117

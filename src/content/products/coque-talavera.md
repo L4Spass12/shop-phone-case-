@@ -1,11 +1,8 @@
 ---
 name: "Coque Talavera"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-talavera-plat.webp"
 imageAlt: "Coque Talavera : des carreaux colorés façon céramique mexicaine, soleils, lunes et fleurs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages", "coques-motifs"]
 shortDescription: "Des carreaux colorés façon céramique mexicaine, soleils, lunes et fleurs."
 order: 43

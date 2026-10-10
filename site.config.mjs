@@ -177,6 +177,19 @@ const config = {
       shopId: '7fa02d12-6ebc-47ae-85ad-7767ebba8cf7',
     },
     currency: 'EUR',
+    // Exemples du rendu en relief, montrés sur les fiches qui n'ont pas
+    // encore leur propre photo relief (vignette « Exemple » et lien).
+    // video : chemin d'une courte vidéo verticale (mp4), vide tant qu'absente.
+    reliefExample: {
+      video: '',
+      poster: '',
+      photos: [
+        '/images/products/coque-paysage-sakura-relief-v2.webp',
+        '/images/products/coque-mosaique-soleil-relief.webp',
+        '/images/products/coque-tigres-lune-relief.webp',
+        '/images/products/coque-tourbillon-lune-relief.webp',
+      ],
+    },
     // Prix de la coque personnalisée du studio, en CENTIMES.
     // Source unique : le studio l'affiche, le manifeste /seamless-items.json le
     // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser

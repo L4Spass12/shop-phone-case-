@@ -1,11 +1,8 @@
 ---
 name: "Coque Planète Groovy"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-planete-groovy-plat.webp"
 imageAlt: "Coque Planète Groovy : une petite planète souriante, des arcs-en-ciel et des fleurs rétro"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-kawaii"]
 shortDescription: "Une petite planète souriante, des arcs-en-ciel et des fleurs rétro."
 order: 64

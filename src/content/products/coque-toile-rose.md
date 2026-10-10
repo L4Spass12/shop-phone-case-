@@ -1,11 +1,8 @@
 ---
 name: "Coque Toile Rose"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-toile-rose-plat.webp"
 imageAlt: "Coque Toile Rose : une toile d'araignée délicate sur un rose aquarelle"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-romantique"]
 shortDescription: "Une toile d'araignée délicate sur un rose aquarelle."
 order: 50

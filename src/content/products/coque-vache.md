@@ -1,11 +1,8 @@
 ---
 name: "Coque Vache"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vache-plat.webp"
 imageAlt: "Coque iPhone imitant un pelage de vache marron et blanc à l'effet poil"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un pelage de vache marron et blanc à l'effet poil, nature et tendance."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.

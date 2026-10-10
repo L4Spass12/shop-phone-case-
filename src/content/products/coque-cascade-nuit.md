@@ -1,11 +1,8 @@
 ---
 name: "Coque Cascade de Nuit"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-cascade-nuit-plat.webp"
 imageAlt: "Coque Cascade de Nuit : une cascade et des arbres dorés sur un fond noir"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une cascade et des arbres dorés sur un fond noir."
 order: 120

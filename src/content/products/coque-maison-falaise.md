@@ -1,11 +1,8 @@
 ---
 name: "Coque Maison sur la Falaise"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-maison-falaise-plat.webp"
 imageAlt: "Coque Maison sur la Falaise : une petite maison sur une falaise, en ombres chinoises bleues"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une petite maison sur une falaise, en ombres chinoises bleues."
 order: 116

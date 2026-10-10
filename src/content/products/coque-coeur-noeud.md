@@ -1,11 +1,8 @@
 ---
 name: "Coque Cœur et Nœud"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-coeur-noeud-plat.webp"
 imageAlt: "Coque Cœur et Nœud : un cœur bordeaux noué d'un ruban, sur un beige tout doux"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-romantique"]
 shortDescription: "Un cœur bordeaux noué d'un ruban, sur un beige tout doux."
 order: 29

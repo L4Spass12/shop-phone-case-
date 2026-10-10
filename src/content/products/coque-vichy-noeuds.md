@@ -1,11 +1,8 @@
 ---
 name: "Coque Vichy Nœuds"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vichy-noeuds-plat.webp"
 imageAlt: "Coque iPhone à carreaux vichy vert sauge, avec des petits nœuds verts et des fleurs jaunes dans les carreaux blancs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un vichy vert sauge tout doux, semé de petits nœuds et de fleurs jaunes, pour un style frais et champêtre."
 featured: true

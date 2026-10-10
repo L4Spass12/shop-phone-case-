@@ -1,11 +1,8 @@
 ---
 name: "Coque Petites Roses"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-petites-roses-plat.webp"
 imageAlt: "Coque Petites Roses : de petites roses rouges semées sur un rose pâle"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs"]
 shortDescription: "De petites roses rouges semées sur un rose pâle."
 order: 56

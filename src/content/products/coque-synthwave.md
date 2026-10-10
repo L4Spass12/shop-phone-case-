@@ -1,11 +1,8 @@
 ---
 name: "Coque Synthwave"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-synthwave-plat.webp"
 imageAlt: "Coque Synthwave : une voiture et un couple face à un soleil couchant néon rose"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture et un couple face à un soleil couchant néon rose."
 order: 144

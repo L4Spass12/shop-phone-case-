@@ -1,11 +1,8 @@
 ---
 name: "Coque Soie Rose"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-soie-rose-plat.webp"
 imageAlt: "Coque Soie Rose : des ondulations de soie rose et vert acidulé"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des ondulations de soie rose et vert acidulé."
 order: 76

@@ -45,6 +45,7 @@ for (const [id, label] of Object.entries((VD._models ?? {}) as unknown as Record
   const src = VD[slug]?.[id]?.plat;
   if (src) modelVariants[label] = src;
 }
+const RELIEF_EX = (siteConfig.shop as any)?.reliefExample ?? { video: '', poster: '', photos: [] };
 // Motif HD disponible : la coque peut servir de base dans le studio.
 const canCustomize = existsSync(`public/images/designs/${slug}.webp`);
 
@@ -61,7 +62,7 @@ const imageAlt = translation?.data.imageAlt ?? product.data.imageAlt;
 // Libellés de la fiche, par langue.
 const L = {
   fr: {
-    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo',
+    quickFinish: 'Rendu', quickFlat: 'À plat', quickRelief: 'Relief', quickVideo: 'Vidéo', playVideo: 'Voir la vidéo', reliefExample: 'Voir un exemple du relief', reliefExampleShort: 'Exemple', reliefExampleTitle: 'Le rendu en relief', reliefExampleNote: 'Exemples de coques imprimées en relief dans notre atelier. Votre coque reprend votre design, avec la même texture en relief, que l’on sent sous les doigts.',
     home: 'Accueil', shop: 'Boutique', viewImage: (n: number) => `Voir l'image ${n}`,
     prevImage: 'Image précédente', nextImage: 'Image suivante', image: 'image',
     customize: 'Personnaliser cette coque', customizeSub: 'Ajoutez un prénom, une photo… à partir de ce motif',
@@ -83,7 +84,7 @@ const L = {
     seoTail: (p: string) => `Dès ${p}, imprimée en France, livraison suivie.`,
   },
   en: {
-    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video',
+    quickFinish: 'Finish', quickFlat: 'Flat', quickRelief: 'Raised', quickVideo: 'Video', playVideo: 'Watch the video', reliefExample: 'See a raised example', reliefExampleShort: 'Example', reliefExampleTitle: 'The raised finish', reliefExampleNote: 'Examples of cases printed in relief in our workshop. Your case uses your design, with the same raised texture you can feel under your fingers.',
     home: 'Home', shop: 'Shop', viewImage: (n: number) => `View image ${n}`,
     prevImage: 'Previous image', nextImage: 'Next image', image: 'image',
     customize: 'Customise this case', customizeSub: 'Add a name, a photo… on top of this design',
@@ -105,7 +106,7 @@ const L = {
     seoTail: (p: string) => `From ${p}, printed in France, tracked shipping.`,
   },
   de: {
-    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen',
+    quickFinish: 'Finish', quickFlat: 'Flach', quickRelief: 'Relief', quickVideo: 'Video', playVideo: 'Video ansehen', reliefExample: 'Relief-Beispiel ansehen', reliefExampleShort: 'Beispiel', reliefExampleTitle: 'Das Relief-Finish', reliefExampleNote: 'Beispiele für Hüllen, die in unserer Werkstatt mit Relief gedruckt wurden. Deine Hülle zeigt dein Design mit derselben fühlbaren Relief-Struktur.',
     home: 'Startseite', shop: 'Shop', viewImage: (n: number) => `Bild ${n} ansehen`,
     prevImage: 'Vorheriges Bild', nextImage: 'Nächstes Bild', image: 'Bild',
     customize: 'Diese Hülle gestalten', customizeSub: 'Name, Foto… zu diesem Motiv hinzufügen',
@@ -219,7 +220,9 @@ const priceStart = priceRange?.min ?? price;
 // La configuration de BASE (data-base-item-*) reste celle à plat : c'est
 // d'elle que le sélecteur dérive les deux modes.
 const reliefSurcharge = (siteConfig.shop?.catalogueReliefSurchargeCents ?? 0) / 100;
-const printMode = defaultPrintMode(printModes);
+// Sans vraie photo du relief, on ouvre la fiche sur le rendu à plat : la
+// photo affichée est celle du plat, le prix doit lui correspondre.
+const printMode = !flatImage && printModes.includes('flat') ? 'flat' : defaultPrintMode(printModes);
 const reliefDefault = printMode === 'relief';
 const modeKeySuffix = reliefDefault ? '-relief' : '';
 const modeExtra = reliefDefault ? reliefSurcharge : 0;
@@ -332,14 +335,17 @@ const pickModelLabel = t('model.placeholder', lang);
         ];
         const modeOf = (g) => g.mode;
         // Photo à plat, remplacée par celle du modèle choisi.
-        const flatSrc = flatImage ?? (printModes.length === 1 && printModes[0] === 'flat' ? image : null);
+        // Sans photo à plat dédiée, la photo principale EST le rendu à plat.
+        const flatSrc = flatImage ?? image;
         const shown = (g) => g.mode === 'all' || g.mode === printMode;
         // Ordre : la photo du rendu choisi d'entrée en premier (c'est le LCP).
         const slides = [...allSlides.filter(shown), ...allSlides.filter(g => !shown(g))];
         const visibleCount = slides.filter(shown).length;
-        const quickModes = !!flatImage && printModes.includes('flat') && printModes.includes('relief');
+        const quickModes = printModes.includes('flat') && printModes.includes('relief');
+        // Pas de vraie photo du relief : une vignette ouvre des exemples.
+        const reliefExample = !flatImage && printModes.includes('relief');
         const quickVideos = slides.filter(g => g.kind === 'video');
-        const hasQuick = quickModes || quickVideos.length > 0;
+        const hasQuick = quickModes || quickVideos.length > 0 || reliefExample;
         return (
         <div class="product-gallery min-w-0" data-gallery data-slide-count={visibleCount} data-model-variants={Object.keys(modelVariants).length ? JSON.stringify(modelVariants) : undefined}>
           <!-- Viewport : scroll-snap horizontal. Sur mobile = swipe natif,
@@ -494,6 +500,15 @@ const pickModelLabel = t('model.placeholder', lang);
                       flux : qu'une vidéo apparaisse ou disparaisse au
                       changement de rendu, « À plat » et « Relief » ne bougent
                       pas. Elles entrent et sortent en fondu (classe is-gone). */}
+                  {reliefExample && quickVideos.length === 0 && (
+                  <div class:list={['pm-quick-videos', !quickModes && 'is-solo']}>
+                    <button type="button" class="pm-quick-video" data-relief-example aria-label={L.reliefExample}>
+                      <img src="/images/products/coque-paysage-sakura-relief-v2-400w.webp" alt="" width="160" height="200" loading="lazy" decoding="async" style="object-position: 70% 60%; transform: scale(1.9);" />
+                      <span class="gal-play" aria-hidden="true"></span>
+                      <span class="pm-quick-video-label">{L.reliefExampleShort}</span>
+                    </button>
+                  </div>
+                  )}
                   {quickVideos.length > 0 && (
                   <div class:list={['pm-quick-videos', !quickModes && 'is-solo']}>
                   {quickVideos.map(g => (
@@ -775,6 +790,33 @@ const pickModelLabel = t('model.placeholder', lang);
           reliefImage={flatImage ? imageUrl : undefined}
           flatImage={flatImage ? new URL(flatImage, SITE_URL).toString() : undefined}
         />
+
+        {/* Pas encore de photo du relief pour ce design : lien vers des
+            exemples réels (vidéo et gros plans), dans une fenêtre. Sur mobile,
+            la même fenêtre s'ouvre depuis la vignette posée sur la photo. */}
+        {!flatImage && printModes.includes('relief') && (
+          <>
+            <button type="button" class="relief-ex-link hidden md:inline-flex" data-relief-example>
+              <span aria-hidden="true">▶</span>
+              {L.reliefExample}
+            </button>
+            <dialog class="relief-ex" data-relief-dialog aria-label={L.reliefExampleTitle}>
+              <div class="relief-ex-head">
+                <h2>{L.reliefExampleTitle}</h2>
+                <button type="button" data-relief-close aria-label="Fermer">✕</button>
+              </div>
+              {RELIEF_EX.video && (
+                <video class="relief-ex-video" data-src={RELIEF_EX.video} poster={RELIEF_EX.poster || undefined} muted loop playsinline preload="none"></video>
+              )}
+              <div class="relief-ex-photos">
+                {RELIEF_EX.photos.map((src: string) => (
+                  <img data-src={src.replace(/\.webp$/, '-800w.webp')} alt="" width="800" height="1000" decoding="async" />
+                ))}
+              </div>
+              <p class="relief-ex-note">{L.reliefExampleNote}</p>
+            </dialog>
+          </>
+        )}
 
         <!-- Bouton d'achat (Atelier) : style piloté par `atcVariant` du produit :
              'gradient' (défaut, .btn-atc), 'ink' (le même en noir) ou 'blob'
@@ -1303,6 +1345,24 @@ const pickModelLabel = t('model.placeholder', lang);
     /* Photo à plat du modèle choisi : la galerie montre la coque sur le
        téléphone sélectionné quand cette photo existe, sinon la photo
        générique. Le choix vient du sélecteur ou du dernier choix mémorisé. */
+    /* Exemples du relief : fenêtre ouverte depuis la vignette (mobile) ou le
+       lien (ordinateur). Images et vidéo chargées seulement à l'ouverture. */
+    function initReliefExample() {
+      const dlg = document.querySelector('[data-relief-dialog]');
+      if (!dlg) return;
+      const open = () => {
+        dlg.querySelectorAll('img[data-src]').forEach((im) => { im.src = im.dataset.src; im.removeAttribute('data-src'); });
+        const v = dlg.querySelector('video');
+        if (v && v.dataset.src) { v.src = v.dataset.src; v.removeAttribute('data-src'); }
+        dlg.showModal();
+        if (v) { v.muted = true; v.play().catch(() => {}); }
+      };
+      document.querySelectorAll('[data-relief-example]').forEach((b) => b.addEventListener('click', open));
+      dlg.querySelector('[data-relief-close]').addEventListener('click', () => dlg.close());
+      dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('close', () => { const v = dlg.querySelector('video'); if (v) v.pause(); });
+    }
+
     function initModelPhotos() {
       const gal = document.querySelector('[data-model-variants]');
       if (!gal) return;
@@ -1777,6 +1837,7 @@ const pickModelLabel = t('model.placeholder', lang);
     /* ─── ENTRYPOINT : tout différé jusqu'à idle (post-LCP) ─────────── */
     function bootProductJS() {
       initModelPhotos();
+      initReliefExample();
       const galleryApi = initGallery();
       initRelatedSlider();
       const stickyRefs = initStickyAtc();
@@ -2057,6 +2118,23 @@ const pickModelLabel = t('model.placeholder', lang);
   /* Photo du modèle choisi : coque entière sur fond transparent (format 2:3),
      affichée en entier dans le cadre 4:5 au lieu d'être rognée. */
   img.is-model-photo { object-fit: contain !important; padding: 2% 0; }
+  /* Lien et fenêtre « exemple du relief ». */
+  .relief-ex-link {
+    align-items: center; gap: .45rem; margin: .5rem 0 1.25rem; padding: 0;
+    font-size: .85rem; font-weight: 600; color: rgb(var(--accent-rgb)); text-decoration: underline; text-underline-offset: 3px;
+  }
+    .relief-ex {
+    width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); padding: 0; border: 0;
+    border-radius: 20px; overflow: auto; background: #fff; color: #1d1712;
+  }
+  .relief-ex::backdrop { background: rgb(0 0 0 / .5); }
+  .relief-ex-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #fff; }
+  .relief-ex-head h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+  .relief-ex-head button { width: 34px; height: 34px; border-radius: 50%; background: #f1eee8; font-size: .9rem; }
+  .relief-ex-video { display: block; width: 100%; max-height: 70dvh; object-fit: cover; background: #111; }
+  .relief-ex-photos { display: flex; gap: 10px; overflow-x: auto; padding: 14px 18px 4px; scroll-snap-type: x mandatory; }
+  .relief-ex-photos img { flex: none; width: 72%; height: auto; border-radius: 14px; background: #f4f2ee; scroll-snap-align: start; }
+  .relief-ex-note { margin: 0; padding: 10px 18px 20px; font-size: .85rem; line-height: 1.5; color: #6b6158; }
 </style>
 
 <script>

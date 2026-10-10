@@ -1,11 +1,8 @@
 ---
 name: "Coque Sakura Jade"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-sakura-vert-plat.webp"
 imageAlt: "Coque Sakura Jade : des fleurs de cerisier et des volutes sur un vert jade"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Des fleurs de cerisier et des volutes sur un vert jade."
 order: 127

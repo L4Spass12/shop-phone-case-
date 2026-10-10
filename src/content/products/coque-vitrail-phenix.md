@@ -1,11 +1,8 @@
 ---
 name: "Coque Vitrail Phénix"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vitrail-phenix-plat.webp"
 imageAlt: "Coque Vitrail Phénix : un phénix multicolore dans un vitrail, au clair de lune"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un phénix multicolore dans un vitrail, au clair de lune."
 order: 104

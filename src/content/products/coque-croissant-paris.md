@@ -1,11 +1,8 @@
 ---
 name: "Coque Croissant Paris"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-croissant-paris-plat.webp"
 imageAlt: "Coque Croissant Paris : un croissant doré et « Paris » sur des rayures bleues"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs", "coques-gourmand", "coques-citations"]
 shortDescription: "Un croissant doré et « Paris » sur des rayures bleues."
 order: 73

@@ -1,11 +1,8 @@
 ---
 name: "Coque Vichy Rose et Vert"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-vichy-rose-vert-plat.webp"
 imageAlt: "Coque Vichy Rose et Vert : un vichy rose et vert sauge, frais et printanier"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Un vichy rose et vert sauge, frais et printanier."
 order: 55

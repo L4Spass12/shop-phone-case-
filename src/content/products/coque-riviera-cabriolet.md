@@ -1,11 +1,8 @@
 ---
 name: "Coque Riviera Cabriolet"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-riviera-cabriolet-plat.webp"
 imageAlt: "Coque Riviera Cabriolet : une virée en voiture sur une route de bord de mer ensoleillée"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une virée en voiture sur une route de bord de mer ensoleillée."
 order: 145

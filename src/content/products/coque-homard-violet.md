@@ -1,11 +1,8 @@
 ---
 name: "Coque Homard Prune"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-homard-violet-plat.webp"
 imageAlt: "Coque Homard Prune : un homard qui trinque sur des rayures prune"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-motifs"]
 shortDescription: "Un homard qui trinque sur des rayures prune."
 order: 72

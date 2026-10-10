@@ -1,11 +1,8 @@
 ---
 name: "Coque Lapin Rose"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lapin-rose-plat.webp"
 imageAlt: "Coque Lapin Rose : un petit lapin blanc dans une lueur rose toute douce"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Un petit lapin blanc dans une lueur rose toute douce."
 order: 54

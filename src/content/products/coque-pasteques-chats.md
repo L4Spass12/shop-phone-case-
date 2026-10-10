@@ -1,11 +1,8 @@
 ---
 name: "Coque Pastèques Chats"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-pasteques-chats-plat.webp"
 imageAlt: "Coque Pastèques Chats : des pastèques et des goyaves aux bouilles de chat, fraîches et rigolotes"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-gourmand"]
 shortDescription: "Des pastèques et des goyaves aux bouilles de chat, fraîches et rigolotes."
 order: 33

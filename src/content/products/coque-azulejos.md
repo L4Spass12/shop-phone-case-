@@ -1,11 +1,8 @@
 ---
 name: "Coque Azulejos"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-azulejos-plat.webp"
 imageAlt: "Coque Azulejos : des carreaux azulejos bleus et blancs, façon Lisbonne"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-motifs"]
 shortDescription: "Des carreaux azulejos bleus et blancs, façon Lisbonne."
 order: 99

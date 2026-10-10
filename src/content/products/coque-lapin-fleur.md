@@ -1,11 +1,8 @@
 ---
 name: "Coque Lapin Fleur"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-lapin-fleur-plat.webp"
 imageAlt: "Coque Lapin Fleur : un petit lapin blanc au cœur d'une fleur, entouré d'étincelles roses"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-fleurs"]
 shortDescription: "Un petit lapin blanc au cœur d'une fleur, entouré d'étincelles roses."
 order: 31

@@ -1,11 +1,8 @@
 ---
 name: "Coque Toile de Jouy"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-toile-jouy-rouge-plat.webp"
 imageAlt: "Coque Toile de Jouy : une scène de neige façon toile de Jouy sous un ciel rouge"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une scène de neige façon toile de Jouy sous un ciel rouge."
 order: 107

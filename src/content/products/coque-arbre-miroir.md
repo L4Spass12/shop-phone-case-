@@ -1,11 +1,8 @@
 ---
 name: "Coque Arbre Miroir"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-arbre-miroir-plat.webp"
 imageAlt: "Coque Arbre Miroir : un arbre majestueux qui se reflète dans un lac étoilé"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Un arbre majestueux qui se reflète dans un lac étoilé."
 order: 119

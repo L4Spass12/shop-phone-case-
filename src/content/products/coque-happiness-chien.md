@@ -1,11 +1,8 @@
 ---
 name: "Coque Happiness is Free"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-happiness-chien-plat.webp"
 imageAlt: "Coque Happiness is Free : un chien qui fait un cœur et « happiness is free » sur des rayures violettes"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-motifs", "coques-citations"]
 shortDescription: "Un chien qui fait un cœur et « happiness is free » sur des rayures violettes."
 order: 74

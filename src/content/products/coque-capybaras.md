@@ -1,11 +1,8 @@
 ---
 name: "Coque Capybaras"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-capybaras-plat.webp"
 imageAlt: "Coque Capybaras : des capybaras amoureux qui s'échangent des lettres et des cœurs"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-romantique", "coques-kawaii"]
 shortDescription: "Des capybaras amoureux qui s'échangent des lettres et des cœurs."
 order: 62

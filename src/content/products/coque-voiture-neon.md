@@ -1,11 +1,8 @@
 ---
 name: "Coque Voiture Néon"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-voiture-neon-plat.webp"
 imageAlt: "Coque Voiture Néon : une voiture de course lancée à toute vitesse dans des lumières néon"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-paysages"]
 shortDescription: "Une voiture de course lancée à toute vitesse dans des lumières néon."
 order: 143

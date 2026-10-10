@@ -1,11 +1,8 @@
 ---
 name: "Coque Canard Roi"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-canard-roi-plat.webp"
 imageAlt: "Coque Canard Roi : un petit canard couronné à lunettes noires sur des rayures bleues"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-motifs"]
 shortDescription: "Un petit canard couronné à lunettes noires sur des rayures bleues."
 order: 70

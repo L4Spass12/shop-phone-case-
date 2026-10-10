@@ -1,11 +1,8 @@
 ---
 name: "Coque Chatons Pastel"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-chatons-pastel-plat.webp"
 imageAlt: "Coque Chatons Pastel : une ribambelle de chatons aux couleurs pastel"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Une ribambelle de chatons aux couleurs pastel."
 order: 53

@@ -1,11 +1,8 @@
 ---
 name: "Coque Chaton Paillettes"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-chaton-paillettes-plat.webp"
 imageAlt: "Coque Chaton Paillettes : un chaton ailé entouré de rubans, de cœurs et d'étoiles roses"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]
 shortDescription: "Un chaton ailé entouré de rubans, de cœurs et d'étoiles roses."
 order: 36

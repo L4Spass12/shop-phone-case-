@@ -1,11 +1,8 @@
 ---
 name: "Coque Coucher Doré"
 price: 19.90
-# À plat uniquement pour l'instant. Quand la photo du relief arrive : la
-# mettre en `image:`, passer celle-ci en `flatImage:` et retirer `printModes`.
 image: "/images/products/coque-coucher-or-plat.webp"
 imageAlt: "Coque Coucher Doré : un coucher de soleil doré vu depuis une forêt fleurie"
-printModes: ["flat"]
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]
 shortDescription: "Un coucher de soleil doré vu depuis une forêt fleurie."
 order: 121
