@@ -3335,9 +3335,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         over.forEach(drawEl);
 
         g.restore();
-        // Après le détourage : l'évidement de la caméra vaut aussi pour
-        // l'aperçu, pour que le client voie ce qui sera réellement imprimé.
-        punchCamera(g, w, h, specOf(state.model), opts.background || null);
+        // Zone caméra : dessinée sur l'aperçu seulement. Le fichier
+        // d'impression reste une image pleine, sans trou : l'ouverture de la
+        // coque fait déjà le travail, et l'atelier préfère une image entière.
+        if (opts.background) punchCamera(g, w, h, specOf(state.model), opts.background);
         return cv;
       });
     }
