@@ -1148,43 +1148,18 @@ html[data-theme='sunfreaks'] .tag {
   letter-spacing: 0.02em;
 }
 
-/* ─── Footer : ciel de nuit, en écho à la bannière « relief » ──────────
-   Le bleu du tourbillon de la coque, qui fonce vers le bas comme une nuit,
-   un halo doré en haut à droite pour la lune, et quelques étoiles fines.
-   Coins hauts arrondis conservés. */
+/* ─── Footer : lavande claire, coins hauts arrondis ─────────────────
+   Un mauve très doux, cousin du violet des accents mais clair, qui répond
+   au ciel pâle de la bannière d'accueil. Texte dans l'encre brune du site. */
 html[data-theme='sunfreaks'] footer {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background:
-    radial-gradient(520px 260px at 88% 0%, rgb(255 222 120 / .26), transparent 70%),
-    radial-gradient(760px 380px at 0% 100%, rgb(110 175 255 / .22), transparent 70%),
-    linear-gradient(165deg, #2259b8 0%, #183f8c 48%, #0f2657 100%);
+  background: linear-gradient(180deg, #f1ebfd 0%, #e7ddfb 100%);
   border-top: 0;
   border-radius: 34px 34px 0 0;
-  /* Texte clair sur le bleu nuit. */
-  --c-cream: 255 255 255;
-  --c-n400: 226 236 252;
-  --c-n500: 200 216 244;
+  --c-n400: 90 64 120;
+  --c-n500: 112 88 140;
 }
-/* Étoiles : de simples points, dessinés en CSS, sans image à charger. */
-html[data-theme='sunfreaks'] footer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(1.6px 1.6px at 12% 18%, rgb(255 236 170 / .9), transparent 60%),
-    radial-gradient(1.2px 1.2px at 27% 64%, rgb(255 255 255 / .7), transparent 60%),
-    radial-gradient(2px 2px at 44% 12%, rgb(255 236 170 / .85), transparent 60%),
-    radial-gradient(1.2px 1.2px at 58% 42%, rgb(255 255 255 / .6), transparent 60%),
-    radial-gradient(1.6px 1.6px at 71% 78%, rgb(255 236 170 / .8), transparent 60%),
-    radial-gradient(1.2px 1.2px at 83% 30%, rgb(255 255 255 / .7), transparent 60%),
-    radial-gradient(2px 2px at 93% 58%, rgb(255 236 170 / .8), transparent 60%),
-    radial-gradient(1.2px 1.2px at 6% 82%, rgb(255 255 255 / .6), transparent 60%),
-    radial-gradient(1.4px 1.4px at 36% 90%, rgb(255 255 255 / .55), transparent 60%);
-}
+html[data-theme='sunfreaks'] footer a[aria-label] { border-color: rgb(124 58 237 / .25); }
+html[data-theme='sunfreaks'] footer .border-t { border-color: rgb(124 58 237 / .14); }
 html[data-theme='sunfreaks'] footer h2 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -1198,8 +1173,8 @@ html[data-theme='sunfreaks'] footer h2 {
 html[data-theme='sunfreaks'] footer input {
   border-radius: 14px;
   background: #ffffff;
-  color: #0f2657;
-  border: 1px solid rgb(255 255 255 / .35);
+  color: #2a1147;
+  border: 1px solid rgb(124 58 237 / .22);
 }
 
 /* Champs de saisie à 16 px minimum sur écran tactile. En dessous, Safari
