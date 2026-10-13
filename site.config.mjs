@@ -96,7 +96,7 @@ const config = {
   // sur un modèle précis. `startDate` vide = flux vides (rien ne part) : la
   // poser le jour du branchement, sinon Pinterest publierait tout l'arriéré.
   pinterest: {
-    startDate: null, // ex. '2026-10-20'
+    startDate: '2026-10-13',
     perDay: 4,
   },
 
