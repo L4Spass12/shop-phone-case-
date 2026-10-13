@@ -2304,11 +2304,6 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title {
   margin: 0;
 }
 html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-child { font-size: 1.32em; line-height: .86; }
-.hero-section--relief .hero-sub {
-  color: rgb(255 255 255 / .9);
-  font-size: clamp(1rem, 1.3vw, 1.4rem);
-  margin: .9rem 0 1.4rem;
-}
 .hero-section--relief .hero-cta { justify-content: flex-start; }
 .hero-section--relief .hero-annot { display: none; }
 
@@ -2331,7 +2326,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   .hero-section--relief .hero-copy { width: auto; min-width: 0; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: max(.68rem, .85vw); margin-bottom: 1.2vw; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 4.2vw; }
-  .hero-section--relief .hero-sub { font-size: max(.9rem, 1.25vw); margin: .7vw 0 1.2vw; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { margin-bottom: 1.6vw; }
   /* Point d'ancrage = bout du trait, sur le dos du poisson rose
      (x 40.2 %, y 38.1 % de l'image). */
   .hero-section--relief .hero-annot {
@@ -2387,7 +2382,6 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   .hero-section--relief .hero-copy { display: flex; flex-direction: column; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: .62rem; letter-spacing: .28em; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 8.8vw; }
-  .hero-section--relief .hero-sub { font-size: .84rem; max-width: 55%; margin: .5rem 0 0; }
   .hero-section--relief .hero-cta { margin-top: auto; }
   .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .55); }
 }

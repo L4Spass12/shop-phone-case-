@@ -26,7 +26,7 @@ const TEXTS = {
     title: `Coques de téléphone uniques, imprimées en France | ${siteConfig.name}`,
     description: "Choisissez un motif ou créez le vôtre. Coques pour iPhone et Samsung Galaxy imprimées à l'unité en France.",
     heroAlt: 'Coque transparente imprimée en relief : poissons, étoiles et lune sur un ciel bleu tourbillonnant',
-    eyebrow: 'Coques en relief', heroLines: ['Le design', 'prend du', 'relief.'], heroSub: 'Des détails à voir. Une texture à sentir.',
+    eyebrow: 'Coques en relief', heroLines: ['Le design', 'prend du', 'relief.'],
     heroAnnot: 'Motifs en relief', seoH1: 'Coques de téléphone personnalisées pour iPhone et Samsung : ',
     seeCollection: 'Voir la collection', createCase: 'Créer ma coque',
     selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'À partir de',
@@ -53,7 +53,7 @@ const TEXTS = {
     title: `Unique phone cases, printed in France | ${siteConfig.name}`,
     description: 'Pick a design or create your own. iPhone and Samsung Galaxy cases printed one by one in France.',
     heroAlt: 'Clear case printed in relief: fish, stars and a moon on a swirling blue sky',
-    eyebrow: 'Raised-print cases', heroLines: ['Design', 'you can', 'feel.'], heroSub: 'Details to see. A texture to touch.',
+    eyebrow: 'Raised-print cases', heroLines: ['Design', 'you can', 'feel.'],
     heroAnnot: 'Raised patterns', seoH1: 'Custom phone cases for iPhone and Samsung: ',
     seeCollection: 'View the collection', createCase: 'Create my case',
     selection: 'Selection', featured: 'Featured products', viewAll: 'View all', from: 'From',
@@ -80,7 +80,7 @@ const TEXTS = {
     title: `Einzigartige Handyhüllen, gedruckt in Frankreich | ${siteConfig.name}`,
     description: 'Wähle ein Motiv oder gestalte dein eigenes. Hüllen für iPhone und Samsung Galaxy, einzeln in Frankreich gedruckt.',
     heroAlt: 'Transparente Hülle mit Reliefdruck: Fische, Sterne und ein Mond auf wirbelndem blauem Himmel',
-    eyebrow: 'Hüllen mit Relief', heroLines: ['Design', 'zum', 'Anfassen.'], heroSub: 'Details zum Sehen. Eine Textur zum Fühlen.',
+    eyebrow: 'Hüllen mit Relief', heroLines: ['Design', 'zum', 'Anfassen.'],
     heroAnnot: 'Motive im Relief', seoH1: 'Personalisierte Handyhüllen für iPhone und Samsung: ',
     seeCollection: 'Zur Kollektion', createCase: 'Hülle gestalten',
     selection: 'Auswahl', featured: 'Ausgewählte Produkte', viewAll: 'Alle ansehen', from: 'Ab',
@@ -246,7 +246,6 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
           <span class="sr-only">{T.seoH1}</span>
           {T.heroLines.map((l) => <span class="block">{l}</span>)}
         </h1>
-        <p class="hero-sub">{T.heroSub}</p>
         <div class="hero-cta flex items-center gap-3 sm:gap-4">
           <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">
             {T.seeCollection}
