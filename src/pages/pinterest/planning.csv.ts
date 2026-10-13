@@ -20,6 +20,7 @@ const NAMES: Record<string, string> = {
 };
 
 const FIRST_IMPORT_DAYS = 25;
+const LEAD_DAYS = 7;
 
 const c = (v: string) => `"${v.replace(/"/g, '""')}"`;
 
@@ -28,10 +29,12 @@ export const GET: APIRoute = async () => {
   const start = new Date(`${(siteConfig as any).pinterest?.startDate}T06:00:00Z`).getTime();
   const span = CSV_DAYS * 86_400_000;
   // Le 1er import (13/10/2026) couvrait 25 jours ; les périodes suivantes
-  // s'enchaînent à partir de là. Avant la 2e période, le fichier la propose
-  // déjà (import à l'avance) ; ensuite, c'est la période en cours.
+  // s'enchaînent à partir de là. Le fichier bascule sur la période suivante
+  // LEAD_DAYS jours avant son début : c'est le moment où l'e-mail de rappel
+  // (Worker seamless-cart, pinterest-reminder) demande de l'importer.
   const base = start + FIRST_IMPORT_DAYS * 86_400_000;
-  const from = now.getTime() < base ? base : base + Math.floor((now.getTime() - base) / span) * span;
+  const t = now.getTime() + LEAD_DAYS * 86_400_000;
+  const from = t < base ? base : base + Math.floor((t - base) / span) * span;
   const pins = (await duePins(now, Math.ceil((from + span - now.getTime()) / 86_400_000) + 1))
     .filter((p) => p.date.getTime() >= from && p.date.getTime() < from + span);
   const rows = pins.map((p) => [
