@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
 import { t, localeFromPath, localePrefix, localizeUrl, ACTIVE_LOCALES, localeMeta } from '../lib/i18n';
 
@@ -39,6 +40,15 @@ const isContact = stripped === '/contact';
 const isStudio  = stripped === '/personnaliser';
 
 // Ordre des catégories produit dans le menu
+// Vignette de chaque catégorie dans le menu : la première coque de la
+// catégorie (ordre de la boutique), en petite taille.
+const menuProducts = (await getCollection('products'))
+  .filter((p) => !p.slug.includes('/'))
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const catThumb = (slug: string) => {
+  const p = menuProducts.find((x) => (x.data.categories ?? []).includes(slug));
+  return p ? p.data.image.replace(/\.webp$/, '-400w.webp') : null;
+};
 // Seulement les catégories de style (pas « Coques iPhone », qui regroupe tout).
 const cats = ((siteConfig.productCategories || []) as {slug:string; label:string; labels?: Record<string, string>; theme?: boolean}[]).filter((c) => c.theme);
 
@@ -143,21 +153,31 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
           {/* Colonne 1 : navigation */}
           <div class="hdr-col">
             <span class="hdr-section-label">Navigation</span>
-            <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
-            <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
-            <a href={url('/compte')} class={`hdr-link ${isAccount ? 'is-active' : ''}`} aria-current={isAccount ? 'page' : undefined}>{accountLabel}</a>
+            {/* Sur une ligne en mobile, en colonne sur grand écran. */}
+            <div class="hdr-links">
+              <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+              <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+              <a href={url('/compte')} class={`hdr-link ${isAccount ? 'is-active' : ''}`} aria-current={isAccount ? 'page' : undefined}>{accountLabel}</a>
+            </div>
           </div>
 
           {/* Colonne 2 : catégories (listées directement, pas d'accordéon) */}
           {siteConfig.shop?.enabled && cats.length > 0 && (
-            <div class="hdr-col">
+            <div class="hdr-col hdr-col-cats">
               <span class="hdr-section-label">{t('nav.categories', lang)}</span>
-              {cats.map(c => {
-                const active = stripped === `/product-category/${c.slug}`;
-                return (
-                  <a href={url(`/product-category/${c.slug}`)} class={`hdr-link ${active ? 'is-active' : ''}`} aria-current={active ? 'page' : undefined}>{(lang !== 'fr' && c.labels?.[lang]) || c.label}</a>
-                );
-              })}
+              {/* Vignettes carrées, 4 par ligne : 2 rangées au lieu de 8 lignes. */}
+              <div class="hdr-cats">
+                {cats.map(c => {
+                  const active = stripped === `/product-category/${c.slug}`;
+                  const thumb = catThumb(c.slug);
+                  return (
+                    <a href={url(`/product-category/${c.slug}`)} class={`hdr-cat ${active ? 'is-active' : ''}`} aria-current={active ? 'page' : undefined}>
+                      <span class="hdr-cat-img">{thumb && <img data-src={thumb} alt="" width="400" height="500" decoding="async" />}</span>
+                      <span class="hdr-cat-name">{(lang !== 'fr' && c.labels?.[lang]) || c.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           )}
 
@@ -250,6 +270,25 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
     color: rgb(var(--c-n400)); transition: color .15s;
   }
   .hdr-link:hover { color: rgb(var(--c-cream)); }
+  /* Navigation : une ligne en mobile (moins de hauteur), une colonne ensuite. */
+  .hdr-links { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
+  @media (min-width: 1024px) { .hdr-links { flex-direction: column; gap: .1rem; } }
+
+  /* Catégories : vignettes carrées, 4 par ligne. */
+  .hdr-cats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem .55rem; }
+  .hdr-cat { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 0; color: rgb(var(--c-n400)); }
+  .hdr-cat-img {
+    display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 14px;
+    background: rgb(var(--c-cream) / .06); box-shadow: inset 0 0 0 1px rgb(var(--c-cream) / .06);
+  }
+  .hdr-cat-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+  .hdr-cat:hover .hdr-cat-img img { transform: scale(1.07); }
+  .hdr-cat-name { font-size: .72rem; line-height: 1.2; text-align: center; transition: color .15s; }
+  .hdr-cat:hover .hdr-cat-name, .hdr-cat.is-active .hdr-cat-name { color: rgb(var(--c-cream)); }
+  .hdr-cat.is-active .hdr-cat-name { font-weight: 600; }
+  .hdr-cat.is-active .hdr-cat-img { box-shadow: 0 0 0 2px rgb(var(--accent-rgb)); }
+  /* Grand écran : les vignettes occupent deux colonnes du méga-menu. */
+  @media (min-width: 640px) { .hdr-col-cats { grid-column: span 2; } .hdr-cat-name { font-size: .78rem; } }
   .hdr-link.is-active { color: rgb(var(--c-cream)); font-weight: 600; }
 
   /* Tuiles photo Boutique / Créer ma coque : pleine largeur, côte à côte,
