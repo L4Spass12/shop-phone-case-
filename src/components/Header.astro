@@ -39,7 +39,8 @@ const isContact = stripped === '/contact';
 const isStudio  = stripped === '/personnaliser';
 
 // Ordre des catégories produit dans le menu
-const cats = (siteConfig.productCategories || []) as {slug:string; label:string}[];
+// Seulement les catégories de style (pas « Coques iPhone », qui regroupe tout).
+const cats = ((siteConfig.productCategories || []) as {slug:string; label:string; labels?: Record<string, string>; theme?: boolean}[]).filter((c) => c.theme);
 
 // Compte client (/compte).
 const accountLabel = ({ fr: 'Mon compte', en: 'My account', de: 'Mein Konto' } as Record<string, string>)[lang] ?? 'Mon compte';
@@ -154,7 +155,7 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
               {cats.map(c => {
                 const active = stripped === `/product-category/${c.slug}`;
                 return (
-                  <a href={url(`/product-category/${c.slug}`)} class={`hdr-link ${active ? 'is-active' : ''}`} aria-current={active ? 'page' : undefined}>{c.label}</a>
+                  <a href={url(`/product-category/${c.slug}`)} class={`hdr-link ${active ? 'is-active' : ''}`} aria-current={active ? 'page' : undefined}>{(lang !== 'fr' && c.labels?.[lang]) || c.label}</a>
                 );
               })}
             </div>
