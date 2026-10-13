@@ -76,7 +76,7 @@ export async function duePins(now = new Date()): Promise<Pin[]> {
   const SITE = siteConfig.url;
   const M = PHONE_MODELS;
   const pins: Pin[] = [];
-  for (let k = 0; pins.length < due && k < products.length * M.length; k++) {
+  for (let k = 0; k < products.length * M.length; k++) {
     const pi = k % products.length;
     const round = Math.floor(k / products.length);
     const model = M[(round + 5 * pi) % M.length];
@@ -101,5 +101,16 @@ export async function duePins(now = new Date()): Promise<Pin[]> {
       date: new Date(start + Math.floor(idx / perDay) * DAY + (idx % perDay) * 4 * 3_600_000),
     });
   }
-  return pins.filter((p) => p.date.getTime() <= now.getTime() + DAY);
+  // Pinterest refuse de connecter un flux vide : chaque tableau reçoit dès
+  // le premier jour sa première épingle prévue, le reste suit le rythme.
+  const out = pins.slice(0, due);
+  const boards = new Set(out.map((p) => p.board));
+  for (const p of pins.slice(due)) {
+    if (boards.has(p.board)) continue;
+    boards.add(p.board);
+    out.push({ ...p, date: new Date(start) });
+  }
+  return out
+    .filter((p) => p.date.getTime() <= now.getTime() + DAY)
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
