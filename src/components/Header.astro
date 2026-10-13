@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { existsSync } from 'node:fs';
 import siteConfig from '../../site.config.mjs';
 import { t, localeFromPath, localePrefix, localizeUrl, ACTIVE_LOCALES, localeMeta } from '../lib/i18n';
 
@@ -40,12 +41,14 @@ const isContact = stripped === '/contact';
 const isStudio  = stripped === '/personnaliser';
 
 // Ordre des catégories produit dans le menu
-// Vignette de chaque catégorie dans le menu : la première coque de la
-// catégorie (ordre de la boutique), en petite taille.
+// Vignette de chaque catégorie dans le menu : public/images/menu-cats/<slug>.webp
+// (gros plan carré d'un motif, choisi à la main), à défaut la 1re coque.
 const menuProducts = (await getCollection('products'))
   .filter((p) => !p.slug.includes('/'))
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const catThumb = (slug: string) => {
+  // Vignette carrée dédiée (le motif en gros plan), sinon la 1re coque.
+  if (existsSync(`public/images/menu-cats/${slug}.webp`)) return `/images/menu-cats/${slug}.webp`;
   const p = menuProducts.find((x) => (x.data.categories ?? []).includes(slug));
   return p ? p.data.image.replace(/\.webp$/, '-400w.webp') : null;
 };
@@ -150,23 +153,13 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
             </div>
           )}
 
-          {/* Colonne 1 : navigation */}
-          <div class="hdr-col">
-            <span class="hdr-section-label">Navigation</span>
-            {/* Sur une ligne en mobile, en colonne sur grand écran. */}
-            <div class="hdr-links">
-              <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
-              <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
-              <a href={url('/compte')} class={`hdr-link ${isAccount ? 'is-active' : ''}`} aria-current={isAccount ? 'page' : undefined}>{accountLabel}</a>
-            </div>
-          </div>
-
-          {/* Colonne 2 : catégories (listées directement, pas d'accordéon) */}
+          {/* Catégories, juste sous les deux grandes tuiles : une rangée de
+              vignettes (défilement horizontal en mobile, les 8 d'un coup sur
+              grand écran). */}
           {siteConfig.shop?.enabled && cats.length > 0 && (
             <div class="hdr-col hdr-col-cats">
               <span class="hdr-section-label">{t('nav.categories', lang)}</span>
-              {/* Vignettes carrées, 4 par ligne : 2 rangées au lieu de 8 lignes. */}
-              <div class="hdr-cats">
+                            <div class="hdr-cats">
                 {cats.map(c => {
                   const active = stripped === `/product-category/${c.slug}`;
                   const thumb = catThumb(c.slug);
@@ -180,6 +173,18 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
               </div>
             </div>
           )}
+
+          {/* Colonne 1 : navigation */}
+          <div class="hdr-col">
+            <span class="hdr-section-label">Navigation</span>
+            {/* Sur une ligne en mobile, en colonne sur grand écran. */}
+            <div class="hdr-links">
+              <a href={url('/')} class={`hdr-link ${isHome ? 'is-active' : ''}`} aria-current={isHome ? 'page' : undefined}>{t('nav.home', lang)}</a>
+              <a href={url('/contact')} class={`hdr-link ${isContact ? 'is-active' : ''}`} aria-current={isContact ? 'page' : undefined}>{t('nav.contact', lang)}</a>
+              <a href={url('/compte')} class={`hdr-link ${isAccount ? 'is-active' : ''}`} aria-current={isAccount ? 'page' : undefined}>{accountLabel}</a>
+            </div>
+          </div>
+
 
           {/* Colonne 3 : langue */}
           {showLangSwitcher && (
@@ -274,12 +279,22 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
   .hdr-links { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
   @media (min-width: 1024px) { .hdr-links { flex-direction: column; gap: .1rem; } }
 
-  /* Catégories : vignettes carrées, 4 par ligne. */
-  .hdr-cats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem .55rem; }
-  .hdr-cat { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 0; color: rgb(var(--c-n400)); }
+  /* Catégories : une rangée de vignettes carrées pleine largeur. En mobile
+     elle défile au doigt (aimantée), le bord droit s'estompe pour montrer
+     qu'il y en a d'autres ; sur grand écran les 8 tiennent sur la ligne. */
+  .hdr-col-cats { grid-column: 1 / -1; }
+  .hdr-cats {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 84px; gap: .7rem;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-right: -1.5rem; padding-right: 1.5rem;
+    -webkit-mask: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
+            mask: linear-gradient(90deg, #000 calc(100% - 3rem), transparent);
+  }
+  .hdr-cats::-webkit-scrollbar { display: none; }
+  .hdr-cat { display: flex; flex-direction: column; align-items: center; gap: .4rem; min-width: 0; scroll-snap-align: start; color: rgb(var(--c-n400)); }
   .hdr-cat-img {
-    display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 14px;
-    background: rgb(var(--c-cream) / .06); box-shadow: inset 0 0 0 1px rgb(var(--c-cream) / .06);
+    display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 18px;
+    background: rgb(var(--c-cream) / .06); box-shadow: inset 0 0 0 1px rgb(var(--c-cream) / .08);
   }
   .hdr-cat-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
   .hdr-cat:hover .hdr-cat-img img { transform: scale(1.07); }
@@ -287,8 +302,10 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
   .hdr-cat:hover .hdr-cat-name, .hdr-cat.is-active .hdr-cat-name { color: rgb(var(--c-cream)); }
   .hdr-cat.is-active .hdr-cat-name { font-weight: 600; }
   .hdr-cat.is-active .hdr-cat-img { box-shadow: 0 0 0 2px rgb(var(--accent-rgb)); }
-  /* Grand écran : les vignettes occupent deux colonnes du méga-menu. */
-  @media (min-width: 640px) { .hdr-col-cats { grid-column: span 2; } .hdr-cat-name { font-size: .78rem; } }
+  @media (min-width: 1024px) {
+    .hdr-cats { grid-auto-flow: row; grid-template-columns: repeat(8, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; margin-right: 0; padding-right: 0; -webkit-mask: none; mask: none; }
+    .hdr-cat-name { font-size: .8rem; }
+  }
   .hdr-link.is-active { color: rgb(var(--c-cream)); font-weight: 600; }
 
   /* Tuiles photo Boutique / Créer ma coque : pleine largeur, côte à côte,
