@@ -2288,10 +2288,21 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
    « Motifs en relief » pointe un poisson (coordonnées en % de l'image).
    Mobile : l'image recadrée (coque debout + lune) passe SOUS le texte, posé
    sur le même noir : aucun voile, aucune lettre sur la photo. */
-html[data-theme='sunfreaks'] main > section.hero-section--relief { background: #000; }
+/* Fond clair (ciel brumeux) : la bande du header, au-dessus de l'image,
+   reprend le dégradé de son bord haut pour que la jonction ne se voie pas. */
+html[data-theme='sunfreaks'] main > section.hero-section--relief {
+  background: linear-gradient(90deg, #fcfcfd 0%, #dfedfb 50%, #d0e4fc 100%);
+  --relief-ink: 47 26 22;
+}
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] main > section.hero-section--relief {
+    background: linear-gradient(90deg, #fdfefe 0%, #e5effb 50%, #bdd0e8 100%);
+  }
+}
+html[data-theme='sunfreaks'] .hero-section--relief .hero-title { color: rgb(var(--relief-ink)); }
 .hero-section--relief .hero-copy { text-align: left; margin: 0; }
 html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow {
-  color: rgb(255 255 255 / .72);
+  color: rgb(var(--relief-ink) / .62);
   letter-spacing: .32em;
   text-indent: 0;
   margin-bottom: .9rem;
@@ -2337,7 +2348,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
     z-index: 2;
     width: 0;
     height: 0;
-    color: #fff;
+    color: rgb(var(--relief-ink));
     font-size: max(.72rem, 1.05vw);
     white-space: nowrap;
     pointer-events: none;
@@ -2355,7 +2366,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
     top: 0;
     width: 4.9vw;
     height: 1px;
-    background: rgb(255 255 255 / .85);
+    background: rgb(var(--relief-ink) / .8);
     transform-origin: 0 0;
     transform: rotate(54.5deg);
   }
@@ -2457,6 +2468,20 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-model 
 }
 html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-account { color: #fff; }
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-account { color: rgb(var(--c-cream)); }
+/* Bannière CLAIRE (relief) : le header posé dessus garde l'encre sombre,
+   le blanc y serait illisible. Mêmes cibles que la règle blanche ci-dessus. */
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero .header-bar,
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero [data-logo],
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero #menu-btn,
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero .hdr-account {
+  color: rgb(47 26 22);
+}
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero [data-atelier-header-icon] {
+  color: rgb(47 26 22) !important;
+}
+html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero .hdr-model {
+  color: rgb(47 26 22); border-color: rgb(47 26 22 / .4); background: rgb(255 255 255 / .45);
+}
 /* Survol de l'en-tête posé sur la bannière : même rendu que le menu ouvert
    (surface blanche, encre sombre). Souris seulement : sur un écran tactile,
    un « survol » resterait collé après le toucher. */

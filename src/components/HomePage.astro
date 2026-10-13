@@ -203,11 +203,11 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/images/hero-relief-v2-mobile-750w.webp', media: '(max-width: 767px)',
-      imagesrcset: '/images/hero-relief-v2-mobile-750w.webp 750w, /images/hero-relief-v2-mobile.webp 1122w',
+    { href: '/images/hero-relief-v3-mobile-750w.webp', media: '(max-width: 767px)',
+      imagesrcset: '/images/hero-relief-v3-mobile-750w.webp 750w, /images/hero-relief-v3-mobile.webp 1122w',
       imagesizes: '100vw' },
-    { media: '(min-width: 768px)', href: '/images/hero-relief-v2.webp',
-      imagesrcset: '/images/hero-relief-v2-800w.webp 800w, /images/hero-relief-v2-1280w.webp 1280w, /images/hero-relief-v2.webp 1942w',
+    { media: '(min-width: 768px)', href: '/images/hero-relief-v3.webp',
+      imagesrcset: '/images/hero-relief-v3-800w.webp 800w, /images/hero-relief-v3-1280w.webp 1280w, /images/hero-relief-v3.webp 1944w',
       imagesizes: '100vw' },
   ]}
 >
@@ -220,17 +220,17 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
         sur mobile ; dans les deux cas le texte se pose sur le noir en haut
         à gauche du cliché. */}
     <picture>
-      <source media="(max-width: 767px)" srcset="/images/hero-relief-v2-mobile-750w.webp 750w, /images/hero-relief-v2-mobile.webp 1122w" sizes="100vw" width="1122" height="1402" />
+      <source media="(max-width: 767px)" srcset="/images/hero-relief-v3-mobile-750w.webp 750w, /images/hero-relief-v3-mobile.webp 1122w" sizes="100vw" width="1122" height="1402" />
       <img
-        src="/images/hero-relief-v2.webp"
-        srcset="/images/hero-relief-v2-800w.webp 800w, /images/hero-relief-v2-1280w.webp 1280w, /images/hero-relief-v2.webp 1942w"
+        src="/images/hero-relief-v3.webp"
+        srcset="/images/hero-relief-v3-800w.webp 800w, /images/hero-relief-v3-1280w.webp 1280w, /images/hero-relief-v3.webp 1944w"
         sizes="100vw"
         alt={T.heroAlt}
         class="hero-img hero-bg"
         fetchpriority="high"
         loading="eager"
         decoding="async"
-        width="1942"
+        width="1944"
         height="809"
       />
     </picture>
