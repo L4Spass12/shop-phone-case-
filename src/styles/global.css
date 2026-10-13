@@ -2353,3 +2353,29 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-model 
 }
 html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-account { color: #fff; }
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-account { color: rgb(var(--c-cream)); }
+/* Survol de l'en-tête posé sur la bannière : même rendu que le menu ouvert
+   (surface blanche, encre sombre). Souris seulement : sur un écran tactile,
+   un « survol » resterait collé après le toucher. */
+@media (hover: hover) {
+  html[data-theme='sunfreaks'] #site-header.header-over-hero > div {
+    transition: background-color .25s ease, box-shadow .25s ease;
+  }
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover > div {
+    background: rgb(255 255 255 / .97);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 6px 18px -14px rgb(var(--c-cream) / .5);
+  }
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover .header-bar,
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover [data-logo],
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover #menu-btn,
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover .hdr-account {
+    color: rgb(47 26 22);
+  }
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover [data-atelier-header-icon] {
+    color: rgb(47 26 22) !important;
+  }
+  html[data-theme='sunfreaks'] #site-header.header-over-hero:hover .hdr-model {
+    color: rgb(var(--c-cream)); border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .04);
+  }
+}
