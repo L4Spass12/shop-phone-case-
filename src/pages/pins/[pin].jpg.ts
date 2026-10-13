@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import { CSV_DAYS, duePins } from '../../lib/pinterest';
 
 export async function getStaticPaths() {
-  return (await duePins(new Date(), CSV_DAYS + 1)).map((p) => ({ params: { pin: p.id }, props: { source: p.source } }));
+  return (await duePins(new Date(), 2 * CSV_DAYS + 1)).map((p) => ({ params: { pin: p.id }, props: { source: p.source } }));
 }
 
 export const GET: APIRoute = async ({ props }) => {
