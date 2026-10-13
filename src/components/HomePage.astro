@@ -206,8 +206,8 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
     { href: '/images/hero-relief-v3-mobile-750w.webp', media: '(max-width: 767px)',
       imagesrcset: '/images/hero-relief-v3-mobile-750w.webp 750w, /images/hero-relief-v3-mobile.webp 1122w',
       imagesizes: '100vw' },
-    { media: '(min-width: 768px)', href: '/images/hero-relief-v3.webp',
-      imagesrcset: '/images/hero-relief-v3-800w.webp 800w, /images/hero-relief-v3-1280w.webp 1280w, /images/hero-relief-v3.webp 1944w',
+    { media: '(min-width: 768px)', href: '/videos/hero-relief-poster.webp',
+      imagesrcset: '/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w',
       imagesizes: '100vw' },
   ]}
 >
@@ -222,18 +222,57 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
     <picture>
       <source media="(max-width: 767px)" srcset="/images/hero-relief-v3-mobile-750w.webp 750w, /images/hero-relief-v3-mobile.webp 1122w" sizes="100vw" width="1122" height="1402" />
       <img
-        src="/images/hero-relief-v3.webp"
-        srcset="/images/hero-relief-v3-800w.webp 800w, /images/hero-relief-v3-1280w.webp 1280w, /images/hero-relief-v3.webp 1944w"
+        src="/videos/hero-relief-poster.webp"
+        srcset="/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w"
         sizes="100vw"
         alt={T.heroAlt}
         class="hero-img hero-bg"
         fetchpriority="high"
         loading="eager"
         decoding="async"
-        width="1944"
-        height="809"
+        width="1920"
+        height="1080"
       />
     </picture>
+
+    {/* Vidéo d'ambiance (ordinateur seulement). La photo ci-dessus reste
+        l'image de chargement : la vidéo n'est demandée qu'après coup par le
+        script plus bas, puis apparaît en fondu dès qu'elle joue. Rien sur
+        mobile, ni pour qui demande moins d'animations ou économise ses
+        données. Pour revenir à la photo seule : tag git
+        `banniere-image-avant-video`. */}
+    <video
+      class="hero-video"
+      muted
+      loop
+      playsinline
+      preload="none"
+      poster="/videos/hero-relief-poster.webp"
+      aria-hidden="true"
+      tabindex="-1"
+      data-src-webm="/videos/hero-relief.webm"
+      data-src-mp4="/videos/hero-relief.mp4"
+    ></video>
+    <script is:inline>
+      (function () {
+        var v = document.querySelector('.hero-video');
+        if (!v) return;
+        var mq = window.matchMedia;
+        if (!mq('(min-width: 768px)').matches) return;
+        if (mq('(prefers-reduced-motion: reduce)').matches) return;
+        if (navigator.connection && navigator.connection.saveData) return;
+        var lancer = function () {
+          var w = document.createElement('source'); w.src = v.dataset.srcWebm; w.type = 'video/webm';
+          var m = document.createElement('source'); m.src = v.dataset.srcMp4; m.type = 'video/mp4';
+          v.append(w, m);
+          v.addEventListener('playing', function () { v.classList.add('is-playing'); }, { once: true });
+          v.load();
+          var p = v.play(); if (p && p.catch) p.catch(function () {});
+        };
+        if (document.readyState === 'complete') setTimeout(lancer, 200);
+        else window.addEventListener('load', function () { setTimeout(lancer, 200); }, { once: true });
+      })();
+    </script>
 
     {/* Légende pointée sur un poisson en relief, placée en % de l'image
         (la section a ses proportions sur ordinateur). */}
