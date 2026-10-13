@@ -4,10 +4,10 @@
 // les épingles déjà dues.
 import type { APIRoute } from 'astro';
 import sharp from 'sharp';
-import { duePins } from '../../lib/pinterest';
+import { CSV_DAYS, duePins } from '../../lib/pinterest';
 
 export async function getStaticPaths() {
-  return (await duePins()).map((p) => ({ params: { pin: p.id }, props: { source: p.source } }));
+  return (await duePins(new Date(), CSV_DAYS + 1)).map((p) => ({ params: { pin: p.id }, props: { source: p.source } }));
 }
 
 export const GET: APIRoute = async ({ props }) => {

@@ -51,15 +51,17 @@ function rng(seed: number) {
 }
 
 const DAY = 86_400_000;
+/** Jours couverts par /pinterest/planning.csv (import groupé programmé). */
+export const CSV_DAYS = 14;
 
 /** Épingles dues aujourd'hui ou avant (toutes catégories), de la plus ancienne à la plus récente. */
-export async function duePins(now = new Date()): Promise<Pin[]> {
+export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
   const cfg = (siteConfig as any).pinterest ?? {};
   if (!cfg.startDate) return [];
   const start = new Date(`${cfg.startDate}T06:00:00Z`).getTime();
   if (!Number.isFinite(start) || now.getTime() < start) return [];
   const perDay = Math.max(1, Math.min(20, Number(cfg.perDay) || 4));
-  const due = (Math.floor((now.getTime() - start) / DAY) + 1) * perDay;
+  const due = (Math.floor((now.getTime() - start) / DAY) + aheadDays) * perDay;
 
   const themes = new Set(BOARDS.map((b) => b.slug));
   const products = (await getCollection('products'))
@@ -111,6 +113,6 @@ export async function duePins(now = new Date()): Promise<Pin[]> {
     out.push({ ...p, date: new Date(start) });
   }
   return out
-    .filter((p) => p.date.getTime() <= now.getTime() + DAY)
+    .filter((p) => p.date.getTime() <= now.getTime() + aheadDays * DAY)
     .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
