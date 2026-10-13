@@ -51,8 +51,8 @@ function rng(seed: number) {
 }
 
 const DAY = 86_400_000;
-/** Jours couverts par /pinterest/planning.csv (import groupé programmé). */
-export const CSV_DAYS = 25;
+/** Jours couverts par /pinterest/planning.csv : 50 x 4 = 200 épingles, le maximum d'un import groupé Pinterest. */
+export const CSV_DAYS = 50;
 
 /** Épingles dues aujourd'hui ou avant (toutes catégories), de la plus ancienne à la plus récente. */
 export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
