@@ -58,7 +58,8 @@ const h1Title: string = (categoryLabels as any)[category.slug] ?? category.label
 const url = (path: string) => `${lp}${path}`;
 const productHref = (slug: string) => url('/product/' + parseEntrySlug(slug).slug);
 
-const Content = content ? (await content.render()).Content : null;
+// Guide d'achat seulement si le fichier a un corps : un toggle vide ferait tache.
+const Content = content && content.body?.trim() ? (await content.render()).Content : null;
 
 const intlLocale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR';
 const formatPrice = (n: number) => new Intl.NumberFormat(intlLocale, {
@@ -145,7 +146,7 @@ if (faqSchema) jsonLd.push(faqSchema);
         {products.length}
       </span>
       <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-6">
-        {h1Title}
+        {content?.data.h1 ?? h1Title}
       </h1>
       {intro && (
         <details class="intro-details">
@@ -173,7 +174,7 @@ if (faqSchema) jsonLd.push(faqSchema);
                   <img
                     src={product.data.image}
                     srcset={unsplashSrcset(product.data.image)}
-                    sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1024px) calc(50vw - 48px), 380px"
+                    sizes="(max-width: 767px) calc(50vw - 24px), (max-width: 1023px) calc(33vw - 24px), 300px"
                     alt={product.data.imageAlt ?? product.data.name}
                     class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
                     width="800" height="1000"

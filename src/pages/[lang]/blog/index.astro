@@ -64,6 +64,7 @@ const breadcrumbSchema = {
 ---
 
 <BaseLayout
+  noindex={posts.length === 0}
   title={t('blog.title', lang, { site: siteConfig.name })}
   description={t('blog.intro', lang)}
   jsonLd={[collectionSchema, breadcrumbSchema]}

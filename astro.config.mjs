@@ -4,6 +4,12 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import siteConfig from './site.config.mjs';
 import rehypeImageOptim from './src/lib/rehype-image-optim.mjs';
+import { existsSync, readdirSync } from 'node:fs';
+
+// Blog sans article : ses pages (index + catégories) sont en noindex et
+// sortent du sitemap. Elles reviennent d'elles-mêmes au premier article.
+const BLOG_VIDE = !existsSync('src/content/blog') ||
+  !readdirSync('src/content/blog', { recursive: true }).some((f) => /\.mdx?$/.test(String(f)));
 
 export default defineConfig({
   site: siteConfig.url,
@@ -45,11 +51,12 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date(),
+      // Pas de lastmod : la date du build changeait pour TOUTES les pages à
+      // chaque mise en ligne, et Google finit par ignorer un lastmod qui ment.
       // Exclut les produits internes/test qui ne doivent pas être indexés
       // (slug commençant par `produit-test-` ou `test-`).
       // Exclut aussi /typo, l'atelier d'essai des polices : page de travail.
-      filter: (page) => !/\/product\/(produit-)?test[-/]/.test(page) && !/\/typo\/?$/.test(page) && !/\/checkout\/?$/.test(page),
+      filter: (page) => !/\/product\/(produit-)?test[-/]/.test(page) && !/\/typo\/?$/.test(page) && !/\/checkout\/?$/.test(page) && !(BLOG_VIDE && /\/(blog|category)\//.test(page)),
       // Priorité différenciée par type de page (signal de hiérarchie pour les
       // crawlers). On retire d'abord le préfixe de locale (/en, /de) pour que
       // les versions traduites héritent de la même priorité que la FR.

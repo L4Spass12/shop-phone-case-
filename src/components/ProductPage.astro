@@ -202,12 +202,13 @@ const atcInk = (INK_VARIANTS as readonly string[]).includes(product.data.atcVari
 const atcGlow = product.data.atcVariant === 'ink-glow';
 
 // ─── SEO : titre court + meta description unique par produit ──────────
-// Titre : max ~60 chars. "Nom du produit | Nom du site" si ça rentre,
-// sinon juste "Nom du produit" (sans le nom du site).
+// Titre : max ~60 chars. On y met les appareils compatibles, ce que les gens
+// tapent (« coque vache iphone ») : « Coque Vache pour iPhone & Samsung |
+// Moroji ». Si ça déborde, on retire d'abord la marque, puis les appareils.
 const brandSuffix = ` | ${siteConfig.name}`;
-const seoTitle = (name.length + brandSuffix.length) <= 60
-  ? `${name}${brandSuffix}`
-  : name;
+const devices = { fr: ' pour iPhone & Samsung', en: ' for iPhone & Samsung', de: ' für iPhone & Samsung' }[lang] ?? '';
+const seoTitle = [`${name}${devices}${brandSuffix}`, `${name}${devices}`, `${name}${brandSuffix}`, name]
+  .find((t) => t.length <= 60) ?? name;
 
 // Meta description : combine shortDesc tronquée + catégorie + prix pour garantir
 // l'unicité même si shortDescription est dupliquée entre produits.
@@ -268,6 +269,28 @@ const productSchema = {
     availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
     itemCondition: 'https://schema.org/NewCondition',
     seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
+    // Livraison et retours : Google les affiche dans les résultats produit.
+    // Tarif d'entrée = point relais France (zone « France - Point relais »,
+    // 3,90 €, 4 à 7 jours préparation comprise). Retour 14 jours aux frais du
+    // client (CGV ; les créations personnalisées n'ont pas de fiche produit).
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: '3.90', currency: 'EUR' },
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'FR' },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: 3, maxValue: 5, unitCode: 'DAY' },
+      },
+    },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: 'FR',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: 14,
+      returnMethod: 'https://schema.org/ReturnByMail',
+      returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
+    },
   },
 };
 
@@ -292,6 +315,7 @@ const pickModelLabel = t('model.placeholder', lang);
   imageWidth={1200}
   imageHeight={1500}
   jsonLd={[productSchema, breadcrumbSchema]}
+  type="product"
   noindex={(categories ?? []).length === 0}
   {/* Le visuel du produit est l'élément le plus grand de l'écran : c'est lui
       que Google chronomètre. Annoncé ici, son téléchargement démarre pendant

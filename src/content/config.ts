@@ -190,7 +190,8 @@ const productCategories = defineCollection({
   // NB: le slug est dérivé automatiquement du nom de fichier par Astro.
   // Le fichier `boutique-kawaii.md` → entry.slug === 'boutique-kawaii'.
   schema: z.object({
-    title: z.string(),                // H1 + <title>
+    title: z.string(),                // <title>
+    h1: z.string().optional(),        // titre affiché (H1) ; à défaut, le libellé de la catégorie
     metaDescription: z.string(),      // <meta name="description">
     intro: z.string(),                // paragraphe sous le H1, au-dessus de la grille (plaintext)
     // Titre du toggle "guide d'achat" — doit contenir le mot-clé cible

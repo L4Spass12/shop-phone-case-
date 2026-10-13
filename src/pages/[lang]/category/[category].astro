@@ -79,6 +79,7 @@ const blogCategories = siteConfig.categories as string[];
 ---
 
 <BaseLayout
+  noindex={posts.length === 0}
   title={`${cat} - ${siteConfig.name}`}
   description={`${cat}`}
   jsonLd={[collectionSchema, breadcrumbSchema]}

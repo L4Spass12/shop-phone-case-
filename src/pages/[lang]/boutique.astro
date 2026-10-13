@@ -61,8 +61,11 @@ const isNew = (d: any) => d.pubDate && Date.now() - new Date(d.pubDate).getTime(
 ---
 
 <BaseLayout
-  title={`${t('shop.breadcrumbShop', lang)} - ${siteConfig.name}`}
-  description={t('shop.collectionTitle', lang)}
+  title={`${({ en: 'All our iPhone & Samsung cases', de: 'Alle Hüllen für iPhone & Samsung' } as Record<string, string>)[lang] ?? t('shop.breadcrumbShop', lang)} | ${siteConfig.name}`}
+  description={({
+    en: 'Phone cases for iPhone and Samsung Galaxy, printed one at a time in our workshop in France. Flat or raised printing, tracked shipping.',
+    de: 'Handyhüllen für iPhone und Samsung Galaxy, einzeln in unserem Atelier in Frankreich bedruckt. Flach oder mit Relief, Versand mit Sendungsverfolgung.',
+  } as Record<string, string>)[lang] ?? t('shop.collectionTitle', lang)}
   jsonLd={[collectionSchema, breadcrumbSchema]}
 >
   <section class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">

@@ -53,6 +53,7 @@ const breadcrumbSchema = {
 ---
 
 <BaseLayout
+  noindex={posts.length === 0}
   title={`Blog ${siteConfig.name} - Guides & conseils`}
   description="Articles, guides d'achat et conseils pratiques pour bien choisir vos produits et suivre les nouveautés de la boutique."
   jsonLd={[collectionSchema, breadcrumbSchema]}
