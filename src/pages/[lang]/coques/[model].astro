@@ -1,0 +1,15 @@
+---
+import ModelPage from '../../../components/ModelPage.astro';
+import siteConfig from '../../../../site.config.mjs';
+import { ACTIVE_LOCALES, type Locale } from '../../../lib/i18n';
+import { PHONE_MODELS } from '../../../lib/models';
+
+export function getStaticPaths() {
+  return ACTIVE_LOCALES.filter((l) => l !== siteConfig.i18n.defaultLocale).flatMap((lang) =>
+    PHONE_MODELS.map((model) => ({ params: { lang, model: model.id }, props: { model } })),
+  );
+}
+const { lang } = Astro.params as { lang: Locale };
+const { model } = Astro.props;
+---
+<ModelPage lang={lang} model={model} />

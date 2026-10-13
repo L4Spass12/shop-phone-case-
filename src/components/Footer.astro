@@ -3,11 +3,17 @@ import siteConfig from '../../site.config.mjs';
 // Envoi des formulaires : serveur de la boutique (e-mail à l'adresse d'alerte).
 const FORM_API = (() => { try { return new URL(siteConfig.shop?.atelier?.widgetUrl ?? '').origin + '/api/public/contact'; } catch { return ''; } })();
 import { t, localeFromPath, localePrefix } from '../lib/i18n';
+import { getCollection } from 'astro:content';
 
 const lang = localeFromPath(Astro.url.pathname);
 const lp = localePrefix(lang);
 const url = (path: string) => `${lp}${path}`;
 const currentYear = new Date().getFullYear();
+// Lien Blog seulement s'il y a des articles (sinon page vide, hors index).
+const hasPosts = (await getCollection('blog')).length > 0;
+const byModelLabel = ({ fr: 'Coques par modèle', en: 'Cases by model', de: 'Hüllen nach Modell' } as Record<string, string>)[lang] ?? 'Coques par modèle';
+type ShopCat = { slug: string; label: string; labels?: Record<string, string>; theme?: boolean };
+const shopCats = ((siteConfig.productCategories ?? []) as ShopCat[]).filter((c) => c.theme);
 ---
 
 <footer class="border-t border-white/[0.04] bg-dark pt-16 pb-8 px-6 mt-auto">
@@ -44,19 +50,19 @@ const currentYear = new Date().getFullYear();
       <h2 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.explore', lang)}</h2>
       <ul class="space-y-3 text-xs text-n-500 font-light">
         <li><a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a></li>
-        <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>
         {siteConfig.shop?.enabled && <li><a href={url('/boutique')} class="hover:text-cream transition-colors">{t('nav.shop', lang)}</a></li>}
+        <li><a href={url('/coques/')} class="hover:text-cream transition-colors">{byModelLabel}</a></li>
+        {hasPosts && <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>}
       </ul>
     </div>
 
     <div>
       <h2 class="text-sm font-medium text-cream mb-4 tracking-tight">{t('footer.categories', lang)}</h2>
       <ul class="space-y-3 text-xs text-n-500 font-light">
-        {siteConfig.categories.map(cat => {
-          const slug = siteConfig.categorySlugs?.[cat]
-            ?? cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-          return <li><a href={url(`/category/${slug}`)} class="hover:text-cream transition-colors">{cat}</a></li>;
-        })}
+        {/* Catégories de la boutique (les catégories du blog sont vides). */}
+        {shopCats.map((c) => (
+          <li><a href={url(`/product-category/${c.slug}`)} class="hover:text-cream transition-colors">{(lang !== 'fr' && c.labels?.[lang]) || c.label}</a></li>
+        ))}
       </ul>
     </div>
 

@@ -1,0 +1,10 @@
+---
+import ModelPage from '../../components/ModelPage.astro';
+import { PHONE_MODELS } from '../../lib/models';
+
+export function getStaticPaths() {
+  return PHONE_MODELS.map((model) => ({ params: { model: model.id }, props: { model } }));
+}
+const { model } = Astro.props;
+---
+<ModelPage lang="fr" model={model} />
