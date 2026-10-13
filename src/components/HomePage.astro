@@ -27,7 +27,7 @@ const TEXTS = {
     description: "Choisissez un motif ou créez le vôtre. Coques pour iPhone et Samsung Galaxy imprimées à l'unité en France.",
     heroAlt: 'Coque transparente imprimée en relief : poissons, étoiles et lune sur un ciel bleu tourbillonnant',
     eyebrow: 'Coques en relief', heroLines: ['Le design', 'prend du', 'relief.'], heroSub: 'Des détails à voir. Une texture à sentir.',
-    heroCta: 'Découvrir la collection', heroAnnot: 'Motifs en relief', seoH1: 'Coques de téléphone personnalisées pour iPhone et Samsung : ',
+    heroAnnot: 'Motifs en relief', seoH1: 'Coques de téléphone personnalisées pour iPhone et Samsung : ',
     seeCollection: 'Voir la collection', createCase: 'Créer ma coque',
     selection: 'Sélection', featured: 'Produits en vedette', viewAll: 'Voir tout', from: 'À partir de',
     studioAlt: "Une table de travail où l'on choisit ses visuels : la coque vierge d'un côté, les coques imprimées alignées de l'autre",
@@ -54,7 +54,7 @@ const TEXTS = {
     description: 'Pick a design or create your own. iPhone and Samsung Galaxy cases printed one by one in France.',
     heroAlt: 'Clear case printed in relief: fish, stars and a moon on a swirling blue sky',
     eyebrow: 'Raised-print cases', heroLines: ['Design', 'you can', 'feel.'], heroSub: 'Details to see. A texture to touch.',
-    heroCta: 'Discover the collection', heroAnnot: 'Raised patterns', seoH1: 'Custom phone cases for iPhone and Samsung: ',
+    heroAnnot: 'Raised patterns', seoH1: 'Custom phone cases for iPhone and Samsung: ',
     seeCollection: 'View the collection', createCase: 'Create my case',
     selection: 'Selection', featured: 'Featured products', viewAll: 'View all', from: 'From',
     studioAlt: 'A work table where designs are chosen: the blank case on one side, printed cases lined up on the other',
@@ -81,7 +81,7 @@ const TEXTS = {
     description: 'Wähle ein Motiv oder gestalte dein eigenes. Hüllen für iPhone und Samsung Galaxy, einzeln in Frankreich gedruckt.',
     heroAlt: 'Transparente Hülle mit Reliefdruck: Fische, Sterne und ein Mond auf wirbelndem blauem Himmel',
     eyebrow: 'Hüllen mit Relief', heroLines: ['Design', 'zum', 'Anfassen.'], heroSub: 'Details zum Sehen. Eine Textur zum Fühlen.',
-    heroCta: 'Kollektion entdecken', heroAnnot: 'Motive im Relief', seoH1: 'Personalisierte Handyhüllen für iPhone und Samsung: ',
+    heroAnnot: 'Motive im Relief', seoH1: 'Personalisierte Handyhüllen für iPhone und Samsung: ',
     seeCollection: 'Zur Kollektion', createCase: 'Hülle gestalten',
     selection: 'Auswahl', featured: 'Ausgewählte Produkte', viewAll: 'Alle ansehen', from: 'Ab',
     studioAlt: 'Ein Arbeitstisch, an dem Motive ausgewählt werden: die leere Hülle auf der einen Seite, die bedruckten Hüllen auf der anderen',
@@ -204,7 +204,7 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
     { href: '/images/hero-relief-mobile-750w.webp', media: '(max-width: 767px)',
-      imagesrcset: '/images/hero-relief-mobile-750w.webp 750w, /images/hero-relief-mobile.webp 1052w',
+      imagesrcset: '/images/hero-relief-mobile-750w.webp 750w, /images/hero-relief-mobile.webp 1122w',
       imagesizes: '100vw' },
     { media: '(min-width: 768px)', href: '/images/hero-relief.webp',
       imagesrcset: '/images/hero-relief-800w.webp 800w, /images/hero-relief-1280w.webp 1280w, /images/hero-relief.webp 1942w',
@@ -216,11 +216,11 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
        - L'image hero est un <img> direct de la section (pas de wrapper z-indexé)
        - Le voile sombre est appliqué via `::after` en CSS pur (pas de div overlay) -->
   <section class="hero-section hero-section--relief relative overflow-hidden flex">
-    {/* Bannière « relief » : photo plein cadre sur ordinateur (le noir de
-        gauche accueille le texte), recadrée sur la coque debout et la lune
-        en mobile, où le texte passe AU-DESSUS de l'image, sur fond noir. */}
+    {/* Bannière « relief » : photo paysage sur ordinateur, portrait dédiée
+        sur mobile ; dans les deux cas le texte se pose sur le noir en haut
+        à gauche du cliché. */}
     <picture>
-      <source media="(max-width: 767px)" srcset="/images/hero-relief-mobile-750w.webp 750w, /images/hero-relief-mobile.webp 1052w" sizes="100vw" width="1052" height="809" />
+      <source media="(max-width: 767px)" srcset="/images/hero-relief-mobile-750w.webp 750w, /images/hero-relief-mobile.webp 1122w" sizes="100vw" width="1122" height="1402" />
       <img
         src="/images/hero-relief.webp"
         srcset="/images/hero-relief-800w.webp 800w, /images/hero-relief-1280w.webp 1280w, /images/hero-relief.webp 1942w"
@@ -247,7 +247,13 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
           {T.heroLines.map((l) => <span class="block">{l}</span>)}
         </h1>
         <p class="hero-sub">{T.heroSub}</p>
-        <a href={url('/boutique')} class="hero-btn">{T.heroCta}</a>
+        <div class="hero-cta flex items-center gap-3 sm:gap-4">
+          <a href={url('/boutique')} class="btn-primary inline-flex items-center gap-2">
+            {T.seeCollection}
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+          <a href={url('/personnaliser')} class="btn-outline">{T.createCase}</a>
+        </div>
       </div>
     </div>
   </section>

@@ -2309,18 +2309,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   font-size: clamp(1rem, 1.3vw, 1.4rem);
   margin: .9rem 0 1.4rem;
 }
-.hero-section--relief .hero-btn {
-  display: inline-flex;
-  align-items: center;
-  background: #fff;
-  color: #111;
-  font-weight: 600;
-  font-size: clamp(.9rem, .95vw, 1.05rem);
-  padding: .75rem 1.7rem;
-  border-radius: 999px;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.hero-section--relief .hero-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgb(255 255 255 / .45); }
+.hero-section--relief .hero-cta { justify-content: flex-start; }
 .hero-section--relief .hero-annot { display: none; }
 
 @media (min-width: 768px) {
@@ -2343,7 +2332,6 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: max(.68rem, .85vw); margin-bottom: 1.2vw; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 4.2vw; }
   .hero-section--relief .hero-sub { font-size: max(.9rem, 1.25vw); margin: .7vw 0 1.2vw; }
-  .hero-section--relief .hero-btn { font-size: max(.8rem, .9vw); padding: .55vw 1.6vw; min-height: 2.6rem; }
   /* Point d'ancrage = bout du trait, sur le dos du poisson rose
      (x 40.2 %, y 38.1 % de l'image). */
   .hero-section--relief .hero-annot {
@@ -2378,22 +2366,30 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   }
 }
 @media (max-width: 767px) {
+  /* Image portrait (1122 × 1402) en fond : le titre sur le noir en haut à
+     gauche, à côté de la coque debout ; les deux boutons en bas, posés sur
+     la coque à plat. */
   html[data-theme='sunfreaks'] main > section.hero-section--relief {
-    flex-direction: column;
-    align-items: stretch;
     min-height: 0;
+    height: calc(var(--header-total) + 124.96vw);
+    align-items: stretch;
   }
   html[data-theme='sunfreaks'] .hero-section--relief::after { content: none; }
-  .hero-section--relief picture { order: 2; display: block; }
-  .hero-section--relief img.hero-bg {
-    position: relative;
-    height: auto;
-    aspect-ratio: 1052 / 809;
+  /* Comme sur ordinateur, l'image démarre SOUS le header (haut noir pur). */
+  html[data-theme='sunfreaks'] .hero-section--relief img.hero-bg {
+    top: var(--header-total);
+    height: 124.96vw;
   }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-shell {
-    order: 1;
-    padding: 1.6rem 1.25rem 1.4rem;
+    display: flex;
+    padding: .9rem 1.25rem 1.4rem;
   }
+  .hero-section--relief .hero-copy { display: flex; flex-direction: column; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: .62rem; letter-spacing: .28em; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 8.8vw; }
+  .hero-section--relief .hero-sub { font-size: .84rem; max-width: 55%; margin: .5rem 0 0; }
+  .hero-section--relief .hero-cta { margin-top: auto; }
+  .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .55); }
 }
 
 /* ─── Section studio, visuel « ciel » (celui de la tuile du menu) ───────
