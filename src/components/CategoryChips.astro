@@ -12,7 +12,6 @@ type Cat = { slug: string; label: string; labels?: Record<string, string>; theme
 const cats = ((siteConfig.productCategories ?? []) as Cat[]).filter((c) => c.theme);
 const name = (c: Cat) => (lang !== 'fr' && c.labels?.[lang]) || c.label;
 const all = { fr: 'Toutes', en: 'All', de: 'Alle' }[lang] ?? 'Toutes';
-const byModel = { fr: 'Par modèle', en: 'By model', de: 'Nach Modell' }[lang] ?? 'Par modèle';
 ---
 {cats.length > 0 && (
   <nav class="cat-chips" aria-label={t('shop.chooseCategory', lang)}>
@@ -20,8 +19,6 @@ const byModel = { fr: 'Par modèle', en: 'By model', de: 'Nach Modell' }[lang] ?
     {cats.map((c) => (
       <a href={`${lp}/product-category/${c.slug}`} class:list={['cat-chip', active === c.slug && 'is-active']} aria-current={active === c.slug ? 'page' : undefined}>{name(c)}</a>
     ))}
-    {/* Vers les pages « coques <modèle> » (lien utile aussi au référencement). */}
-    <a href={`${lp}/coques/`} class="cat-chip cat-chip-model">{byModel} →</a>
   </nav>
 )}
 
@@ -40,6 +37,5 @@ const byModel = { fr: 'Par modèle', en: 'By model', de: 'Nach Modell' }[lang] ?
     transition: border-color .2s, background .2s, color .2s;
   }
   .cat-chip:hover { border-color: rgb(var(--c-cream) / .35); color: rgb(var(--c-cream)); }
-  .cat-chip-model { border-style: dashed; }
   .cat-chip.is-active { background: rgb(var(--c-cream)); color: rgb(var(--c-dark)); border-color: rgb(var(--c-cream)); }
 </style>

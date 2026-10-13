@@ -38,14 +38,11 @@ export const MODEL_TEXT: Record<Locale, {
   from: (price: string) => string;
   faqTitle: string;
   faq: (m: PhoneModel) => { q: string; a: string }[];
-  hubTitle: string;
-  hubH1: string;
-  hubDescription: string;
-  hubIntro: string;
-  hubLink: string;
   otherModels: string;
   home: string;
-  hub: string;
+  shop: string;
+  /** Titre de la liste des modèles dans le pied de page. */
+  footer: string;
 }> = {
   fr: {
     title: (m) => `Coques ${m.fullName} imprimées en France`,
@@ -60,14 +57,10 @@ export const MODEL_TEXT: Record<Locale, {
       { q: 'Quelle différence entre l’impression à plat et en relief ?', a: 'À plat, l’encre affleure la coque : surface lisse et couleurs franches. En relief, l’encre est déposée en plusieurs couches : le motif se sent sous le doigt.' },
       { q: 'Quel est le délai de livraison ?', a: 'Chaque coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés. Comptez 4 à 7 jours en point relais en France.' },
     ],
-    hubTitle: 'Coques par modèle : iPhone et Samsung Galaxy',
-    hubH1: 'Coques par modèle',
-    hubDescription: 'Choisissez votre téléphone et découvrez toutes nos coques pour iPhone 13 à 17 Pro Max et Samsung Galaxy S24, S25, S26, A36 et A56, imprimées en France.',
-    hubIntro: 'Choisissez votre téléphone : vous verrez chaque coque photographiée sur votre modèle.',
-    hubLink: 'Voir les coques par modèle',
     otherModels: 'Autres modèles',
     home: 'Accueil',
-    hub: 'Coques par modèle',
+    shop: 'Boutique',
+    footer: 'Coques par modèle',
   },
   en: {
     title: (m) => `${m.fullName} cases printed in France`,
@@ -82,14 +75,10 @@ export const MODEL_TEXT: Record<Locale, {
       { q: 'What is the difference between flat and raised printing?', a: 'Flat printing sits flush with the case: smooth surface, bold colours. Raised printing builds the ink up in several layers, so you can feel the design under your finger.' },
       { q: 'How long is delivery?', a: 'Each case is printed to order and shipped within 1 to 2 working days. Delivery times depend on your country.' },
     ],
-    hubTitle: 'Cases by model: iPhone and Samsung Galaxy',
-    hubH1: 'Cases by model',
-    hubDescription: 'Pick your phone and browse all our cases for iPhone 13 to 17 Pro Max and Samsung Galaxy S24, S25, S26, A36 and A56, printed in France.',
-    hubIntro: 'Pick your phone: every case is shown on your exact model.',
-    hubLink: 'Browse cases by model',
     otherModels: 'Other models',
     home: 'Home',
-    hub: 'Cases by model',
+    shop: 'Shop',
+    footer: 'Cases by model',
   },
   de: {
     title: (m) => `${m.fullName} Hüllen, in Frankreich bedruckt`,
@@ -104,13 +93,9 @@ export const MODEL_TEXT: Record<Locale, {
       { q: 'Was ist der Unterschied zwischen flachem Druck und Relief?', a: 'Beim flachen Druck liegt die Farbe bündig auf der Hülle: glatte Oberfläche, kräftige Farben. Beim Relief wird die Farbe in mehreren Schichten aufgetragen, das Motiv ist fühlbar.' },
       { q: 'Wie lange dauert die Lieferung?', a: 'Jede Hülle wird auf Bestellung bedruckt und innerhalb von 1 bis 2 Werktagen verschickt. Die Lieferzeit hängt von deinem Land ab.' },
     ],
-    hubTitle: 'Hüllen nach Modell: iPhone und Samsung Galaxy',
-    hubH1: 'Hüllen nach Modell',
-    hubDescription: 'Wähle dein Handy und entdecke alle unsere Hüllen für iPhone 13 bis 17 Pro Max und Samsung Galaxy S24, S25, S26, A36 und A56, in Frankreich bedruckt.',
-    hubIntro: 'Wähle dein Handy: Jede Hülle wird an deinem Modell gezeigt.',
-    hubLink: 'Hüllen nach Modell ansehen',
     otherModels: 'Weitere Modelle',
     home: 'Startseite',
-    hub: 'Hüllen nach Modell',
+    shop: 'Shop',
+    footer: 'Hüllen nach Modell',
   },
 };
