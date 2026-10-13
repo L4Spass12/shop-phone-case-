@@ -12,6 +12,7 @@ const url = (path: string) => `${lp}${path}`;
 const currentYear = new Date().getFullYear();
 // Lien Blog seulement s'il y a des articles (sinon page vide, hors index).
 const hasPosts = (await getCollection('blog')).length > 0;
+const reviewsLabel = ({ fr: 'Avis clients', en: 'Customer reviews', de: 'Kundenbewertungen' } as Record<string, string>)[lang] ?? 'Avis clients';
 const customLabel = ({ fr: 'Coque personnalisée', en: 'Custom phone case', de: 'Handyhülle mit Foto' } as Record<string, string>)[lang] ?? 'Coque personnalisée';
 type ShopCat = { slug: string; label: string; labels?: Record<string, string>; theme?: boolean };
 const shopCats = ((siteConfig.productCategories ?? []) as ShopCat[]).filter((c) => c.theme);
@@ -53,6 +54,7 @@ const shopCats = ((siteConfig.productCategories ?? []) as ShopCat[]).filter((c) 
         <li><a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a></li>
         {siteConfig.shop?.enabled && <li><a href={url('/boutique')} class="hover:text-cream transition-colors">{t('nav.shop', lang)}</a></li>}
         <li><a href={url('/coque-personnalisee/')} class="hover:text-cream transition-colors">{customLabel}</a></li>
+        <li><a href={url('/avis/')} class="hover:text-cream transition-colors">{reviewsLabel}</a></li>
         {hasPosts && <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>}
       </ul>
     </div>

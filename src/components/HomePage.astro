@@ -189,6 +189,10 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') },
   })),
 };
+import ReviewCards from './ReviewCards.astro';
+import { getReviews } from '../lib/reviews';
+const homeReviews = await getReviews();
+const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their case', de: 'Sie lieben ihre Hülle' } as Record<string, string>)[lang];
 ---
 
 <BaseLayout
@@ -672,6 +676,13 @@ const faqSchema = {
       dernières objections. */}
   {/* Section Instagram masquée le temps que le compte @bymoroji se
       remplisse : remettre <InstaGrid /> ici (et son import). */}
+
+  {/* Avis clients (masqué tant qu'il n'y en a aucun de publié). */}
+  {homeReviews.length > 0 && (
+    <section class="py-16 md:py-20 px-6 border-t border-white/[0.04] below-fold-defer">
+      <div class="max-w-7xl mx-auto"><ReviewCards reviews={homeReviews} lang={lang} title={reviewsTitle} limit={6} /></div>
+    </section>
+  )}
 
   <!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
   <section class="py-20 md:py-24 px-6 border-t border-white/[0.04] bg-panel below-fold-defer">

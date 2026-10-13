@@ -1,0 +1,210 @@
+---
+// Formulaire d'avis (/avis/donner/#o=<commande>&t=<jeton>) : lien reçu par
+// e-mail après la livraison, ou depuis Mon compte. La page lit le lien,
+// l'efface de la barre d'adresse, puis envoie l'avis au worker.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+import { localePrefix, type Locale } from '../lib/i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const lp = localePrefix(lang);
+const atelier = siteConfig.shop?.atelier ?? {};
+const workerUrl = (() => { try { return new URL(atelier.widgetUrl ?? '').origin; } catch { return ''; } })();
+const T = {
+  fr: {
+    title: 'Donner mon avis', h1: 'Votre avis', loading: 'Chargement…',
+    hello: (n: string) => n ? `Merci ${n} !` : 'Merci !', intro: 'Comment trouvez-vous votre commande ? Votre avis aide les prochains clients et notre petit atelier.',
+    rating: 'Votre note', body: 'Votre avis (facultatif)', bodyPh: 'La qualité d’impression, les couleurs, la livraison…',
+    name: 'Nom affiché', namePh: 'Prénom et initiale, ex. Marie D.', photo: 'Ajouter une photo de votre coque (facultatif)',
+    consent: 'En publiant, vous acceptez que votre avis (nom affiché, note, texte et photo) apparaisse sur notre site. Il est relu avant publication.',
+    send: 'Envoyer mon avis', sending: 'Envoi…', pickRating: 'Choisissez une note de 1 à 5 étoiles.',
+    done: 'Merci pour votre avis !', doneText: 'Il sera publié après relecture, en général sous quelques jours.',
+    invalid: 'Ce lien n’est pas valide. Utilisez le lien reçu par e-mail ou passez par votre espace Mon compte.',
+    already: 'Vous avez déjà donné votre avis sur cette commande. Merci !', error: 'L’envoi n’a pas abouti. Réessayez dans un instant.',
+    back: 'Retour à la boutique', account: 'Mon compte',
+  },
+  en: {
+    title: 'Leave a review', h1: 'Your review', loading: 'Loading…',
+    hello: (n: string) => n ? `Thank you ${n}!` : 'Thank you!', intro: 'How do you like your order? Your review helps future customers and our small workshop.',
+    rating: 'Your rating', body: 'Your review (optional)', bodyPh: 'Print quality, colours, delivery…',
+    name: 'Display name', namePh: 'First name and initial, e.g. Mary D.', photo: 'Add a photo of your case (optional)',
+    consent: 'By publishing, you agree that your review (display name, rating, text and photo) appears on our website. It is checked before publication.',
+    send: 'Send my review', sending: 'Sending…', pickRating: 'Pick a rating from 1 to 5 stars.',
+    done: 'Thank you for your review!', doneText: 'It will be published after a check, usually within a few days.',
+    invalid: 'This link is not valid. Use the link from your email or go through your My account area.',
+    already: 'You have already reviewed this order. Thank you!', error: 'Sending failed. Please try again in a moment.',
+    back: 'Back to the shop', account: 'My account',
+  },
+  de: {
+    title: 'Bewertung abgeben', h1: 'Deine Bewertung', loading: 'Wird geladen…',
+    hello: (n: string) => n ? `Danke ${n}!` : 'Danke!', intro: 'Wie gefällt dir deine Bestellung? Deine Bewertung hilft künftigen Kunden und unserem kleinen Atelier.',
+    rating: 'Deine Note', body: 'Deine Bewertung (optional)', bodyPh: 'Druckqualität, Farben, Lieferung…',
+    name: 'Angezeigter Name', namePh: 'Vorname und Initiale, z. B. Anna M.', photo: 'Foto deiner Hülle hinzufügen (optional)',
+    consent: 'Mit dem Veröffentlichen stimmst du zu, dass deine Bewertung (Name, Note, Text und Foto) auf unserer Website erscheint. Sie wird vor der Veröffentlichung geprüft.',
+    send: 'Bewertung senden', sending: 'Wird gesendet…', pickRating: 'Wähle eine Note von 1 bis 5 Sternen.',
+    done: 'Danke für deine Bewertung!', doneText: 'Sie wird nach einer Prüfung veröffentlicht, meist innerhalb weniger Tage.',
+    invalid: 'Dieser Link ist ungültig. Nutze den Link aus der E-Mail oder deinen Bereich Mein Konto.',
+    already: 'Du hast diese Bestellung bereits bewertet. Danke!', error: 'Das Senden hat nicht geklappt. Versuche es gleich noch einmal.',
+    back: 'Zurück zum Shop', account: 'Mein Konto',
+  },
+}[lang]!;
+const js = { ...T, hello: undefined, helloTpl: T.hello('§') };
+---
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.title} noindex={true}>
+  <div class="crumbs-shell max-w-2xl mx-auto px-6 pt-6 md:pt-10 pb-24">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-6">{T.h1}</h1>
+    <div id="review-root" data-worker={workerUrl} data-shop={atelier.shopId} data-lang={lang} data-text={JSON.stringify(js)}>
+      <p data-v="loading" class="text-n-400">{T.loading}</p>
+      <div data-v="invalid" hidden>
+        <p class="rf-alert">{T.invalid}</p>
+        <a href={`${lp}/compte`} class="btn-primary mt-6 inline-flex">{T.account}</a>
+      </div>
+      <div data-v="already" hidden>
+        <p class="text-n-400 font-light">{T.already}</p>
+        <a href={`${lp}/boutique`} class="btn-primary mt-6 inline-flex">{T.back}</a>
+      </div>
+      <div data-v="done" hidden>
+        <p class="text-2xl font-medium text-cream mb-2">{T.done}</p>
+        <p class="text-n-400 font-light">{T.doneText}</p>
+        <a href={`${lp}/boutique`} class="btn-primary mt-6 inline-flex">{T.back}</a>
+      </div>
+      <form data-v="form" hidden class="space-y-6" novalidate>
+        <div>
+          <p class="text-xl font-medium text-cream" data-hello></p>
+          <p class="text-n-400 font-light mt-1">{T.intro}</p>
+          <ul class="rf-items" data-items></ul>
+        </div>
+        <fieldset>
+          <legend class="rf-label">{T.rating}</legend>
+          <div class="rf-stars" role="radiogroup">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <label><input type="radio" name="rating" value={n} class="sr-only" /><span aria-hidden="true">★</span><span class="sr-only">{n}/5</span></label>
+            ))}
+          </div>
+          <p data-err-rating hidden class="rf-alert mt-2">{T.pickRating}</p>
+        </fieldset>
+        <label class="block">
+          <span class="rf-label">{T.body}</span>
+          <textarea name="body" rows="5" maxlength="2000" placeholder={T.bodyPh} class="rf-input"></textarea>
+        </label>
+        <label class="block">
+          <span class="rf-label">{T.name}</span>
+          <input name="author" maxlength="60" required placeholder={T.namePh} class="rf-input" />
+        </label>
+        <label class="block">
+          <span class="rf-label">{T.photo}</span>
+          <input name="photo" type="file" accept="image/*" class="rf-file" />
+          <img data-preview hidden alt="" class="mt-3 h-32 w-32 rounded-xl object-cover" />
+        </label>
+        <p class="text-xs text-n-500 font-light leading-relaxed">{T.consent}</p>
+        <p data-err hidden class="rf-alert">{T.error}</p>
+        <button type="submit" class="btn-primary" data-send>{T.send}</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .rf-label { display: block; font-size: .85rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: .45rem; }
+  .rf-input { width: 100%; background: rgb(var(--c-cream) / .03); border: 1px solid rgb(var(--c-cream) / .18); border-radius: 1rem; padding: .8rem 1rem; font-size: .95rem; color: rgb(var(--c-cream)); outline: none; }
+  .rf-input:focus { border-color: rgb(var(--c-cream) / .55); }
+  .rf-file { font-size: .85rem; color: rgb(var(--c-n400)); }
+  .rf-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
+  .rf-stars { display: flex; gap: .25rem; }
+  .rf-stars label { cursor: pointer; font-size: 2.4rem; line-height: 1; color: rgb(var(--c-cream) / .2); transition: color .15s, transform .15s; }
+  .rf-stars label.on { color: #f5b301; }
+  .rf-stars label:hover { transform: scale(1.08); }
+  .rf-items { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+  .rf-items li { display: flex; align-items: center; gap: .55rem; font-size: .85rem; color: rgb(var(--c-cream) / .85); }
+  .rf-items img { width: 40px; height: 50px; object-fit: cover; border-radius: .5rem; }
+</style>
+
+<script>
+  const root = document.getElementById('review-root');
+  if (root) {
+    const T = JSON.parse(root.dataset.text || '{}');
+    const api = `${root.dataset.worker}/api/public/review`;
+    const show = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
+    // Lien : #o=…&t=… (gardé le temps de la session, retiré de l'URL).
+    const KEY = 'moroji-review-link';
+    let link: { o: string; t: string } | null = null;
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get('o') && h.get('t')) {
+      link = { o: h.get('o')!, t: h.get('t')! };
+      try { sessionStorage.setItem(KEY, JSON.stringify(link)); } catch {}
+      history.replaceState(null, '', location.pathname);
+    } else {
+      try { link = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch {}
+    }
+    const base = () => ({ shop_id: root.dataset.shop, order: link!.o, token: link!.t });
+
+    async function start() {
+      if (!link) return show('invalid');
+      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(base()) });
+      const d = await res.json().catch(() => null);
+      if (!res.ok || !d?.ok) return show('invalid');
+      if (d.already) return show('already');
+      root!.querySelector('[data-hello]')!.textContent = (T.helloTpl || '').replace(' §', d.first_name ? ` ${d.first_name}` : '').replace('§', '');
+      const ul = root!.querySelector('[data-items]')!;
+      for (const it of d.items || []) {
+        const li = document.createElement('li');
+        if (it.image) { const img = document.createElement('img'); img.src = it.image; img.alt = ''; li.append(img); }
+        li.append(document.createTextNode(it.name)); ul.append(li);
+      }
+      const author = root!.querySelector<HTMLInputElement>('input[name="author"]')!;
+      if (d.first_name) author.value = d.first_name;
+      show('form');
+    }
+
+    // Étoiles : surlignage jusqu'à la note choisie.
+    const labels = [...root.querySelectorAll<HTMLLabelElement>('.rf-stars label')];
+    const paint = (n: number) => labels.forEach((l, i) => l.classList.toggle('on', i < n));
+    labels.forEach((l, i) => {
+      l.addEventListener('mouseenter', () => paint(i + 1));
+      l.addEventListener('mouseleave', () => paint(Number((root.querySelector<HTMLInputElement>('input[name="rating"]:checked'))?.value || 0)));
+      l.querySelector('input')!.addEventListener('change', () => { paint(i + 1); root.querySelector<HTMLElement>('[data-err-rating]')!.hidden = true; });
+    });
+
+    // Photo : réduite dans le navigateur (1600 px max, JPEG) avant l'envoi.
+    let photo: string | undefined;
+    root.querySelector<HTMLInputElement>('input[name="photo"]')!.addEventListener('change', async (e) => {
+      const f = (e.target as HTMLInputElement).files?.[0];
+      photo = undefined;
+      const prev = root.querySelector<HTMLImageElement>('[data-preview]')!;
+      if (!f) { prev.hidden = true; return; }
+      const bmp = await createImageBitmap(f).catch(() => null);
+      if (!bmp) return;
+      const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+      photo = c.toDataURL('image/jpeg', 0.85);
+      prev.src = photo; prev.hidden = false;
+    });
+
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rating = Number(form.querySelector<HTMLInputElement>('input[name="rating"]:checked')?.value || 0);
+      if (!rating) { root.querySelector<HTMLElement>('[data-err-rating]')!.hidden = false; return; }
+      const author = (form.querySelector<HTMLInputElement>('input[name="author"]')!.value || '').trim();
+      if (!author) { form.querySelector<HTMLInputElement>('input[name="author"]')!.focus(); return; }
+      const btn = form.querySelector<HTMLButtonElement>('[data-send]')!;
+      const err = root.querySelector<HTMLElement>('[data-err]')!;
+      err.hidden = true; btn.disabled = true; btn.textContent = T.sending;
+      try {
+        const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+          ...base(), action: 'submit', rating, author_name: author, lang: root.dataset.lang,
+          body: (form.querySelector<HTMLTextAreaElement>('textarea[name="body"]')!.value || '').trim(), photo,
+        }) });
+        const d = await res.json().catch(() => null);
+        if (d?.ok) { try { sessionStorage.removeItem(KEY); } catch {} show('done'); }
+        else if (d?.reason === 'already') show('already');
+        else err.hidden = false;
+      } catch { err.hidden = false; }
+      finally { btn.disabled = false; btn.textContent = T.send; }
+    });
+
+    start().catch(() => show('invalid'));
+  }
+</script>

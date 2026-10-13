@@ -25,6 +25,10 @@ on:
       - '.github/**'
       - 'README.md'
   workflow_dispatch:
+  # Reconstruction quotidienne : les avis clients publiés dans l'admin sont
+  # lus au moment du build (pages statiques + étoiles Google).
+  schedule:
+    - cron: '30 4 * * *'
 
 # Deux builds concurrents pousseraient en force sur la même branche : on
 # sérialise, et on annule le build devenu obsolète.

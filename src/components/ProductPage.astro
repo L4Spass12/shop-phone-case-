@@ -23,6 +23,8 @@ import { unsplashSrcset } from '../lib/image';
 import { smallerVariant } from '../lib/image-variants';
 import { parseEntrySlug, t, localePrefix, type Locale } from '../lib/i18n';
 import variantsData from '../data/variants.json';
+import ReviewCards from './ReviewCards.astro';
+import { getReviews, summary } from '../lib/reviews';
 
 interface Props {
   /** Fiche FRANÇAISE : source de toutes les données du produit. */
@@ -245,6 +247,14 @@ const seoDescription = rawDesc.length > 160
 // Serialize variations + attributes pour le JS client (sélecteur de variantes)
 const variantsJson = JSON.stringify(variations || []);
 
+// Avis : ceux de ce produit d'abord, puis les autres avis de la boutique.
+// La note Google (aggregateRating) ne compte QUE les avis de ce produit.
+const allReviews = await getReviews();
+const productReviews = allReviews.filter((r) => r.products.includes(slug));
+const shownReviews = [...productReviews, ...allReviews.filter((r) => !r.products.includes(slug))];
+const productRating = summary(productReviews);
+const reviewsTitle = ({ fr: 'Avis de nos clients', en: 'What our customers say', de: 'Was unsere Kunden sagen' } as Record<string, string>)[lang];
+
 const productSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -253,6 +263,16 @@ const productSchema = {
   image: [imageUrl, ...(gallery || []).slice(1).map(g => new URL(g, SITE_URL).toString())],
   sku: sku ?? slug,
   brand: { '@type': 'Brand', name: siteConfig.name },
+  ...(productRating.count > 0 ? {
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: productRating.avg, reviewCount: productRating.count, bestRating: 5, worstRating: 1 },
+    review: productReviews.slice(0, 5).map((r) => ({
+      '@type': 'Review',
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+      author: { '@type': 'Person', name: r.author },
+      datePublished: r.date.slice(0, 10),
+      ...(r.body ? { reviewBody: r.body } : {}),
+    })),
+  } : {}),
   offers: hasVariations ? {
     '@type': 'AggregateOffer',
     priceCurrency: siteConfig.shop.currency,
@@ -1108,6 +1128,13 @@ const pickModelLabel = t('model.placeholder', lang);
 
   <!-- ═══════════════════════════ FABRICATION HAUTE PRÉCISION ═══════════════════════════ -->
   <div class="below-fold-defer"><FabricationSection /></div>
+
+  <!-- ═══════════════════════════ AVIS CLIENTS ═══════════════════════════ -->
+  {shownReviews.length > 0 && (
+    <section class="py-16 md:py-20 border-t border-white/[0.04] below-fold-defer">
+      <div class="max-w-7xl mx-auto px-6"><ReviewCards reviews={shownReviews} lang={lang} title={reviewsTitle} limit={4} compact /></div>
+    </section>
+  )}
 
   <!-- ═══════════════════════════ VOUS AIMEREZ AUSSI (slider full-width) ═══════════════════════════ -->
   {related.length > 0 && (

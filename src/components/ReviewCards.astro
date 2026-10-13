@@ -1,0 +1,63 @@
+---
+// Avis clients : note moyenne + cartes (photo, étoiles, texte, prénom, date).
+// Réutilisé sur l'accueil, les fiches produit et la page /avis.
+import type { Review } from '../lib/reviews';
+import { summary } from '../lib/reviews';
+import { localePrefix, type Locale } from '../lib/i18n';
+
+interface Props { reviews: Review[]; lang: Locale; title?: string; limit?: number; showAllLink?: boolean; compact?: boolean }
+const { reviews, lang, title, limit = 6, showAllLink = true, compact = false } = Astro.props;
+const lp = localePrefix(lang);
+const s = summary(reviews);
+const shown = reviews.slice(0, limit);
+const T = {
+  fr: { count: (n: number) => `${n} avis vérifié${n > 1 ? 's' : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié' },
+  en: { count: (n: number) => `${n} verified review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase' },
+  de: { count: (n: number) => `${n} verifizierte Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen ansehen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf' },
+}[lang] ?? null;
+const day = (iso: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+const stars = (n: number) => '★★★★★'.slice(0, Math.round(n)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(n));
+---
+{T && reviews.length > 0 && (
+  <div class="rv">
+    <div class="rv-head">
+      {title && <h2 class="rv-title">{title}</h2>}
+      <p class="rv-sum"><span class="rv-stars" aria-hidden="true">{stars(s.avg)}</span> <strong>{s.avg.toFixed(1).replace('.', lang === 'en' ? '.' : ',')}/5</strong> · {T.count(s.count)}</p>
+    </div>
+    <ul class:list={['rv-list', compact && 'is-compact']}>
+      {shown.map((r) => (
+        <li class="rv-card">
+          {r.photo && <img class="rv-photo" src={r.photo} alt="" loading="lazy" decoding="async" width="600" height="600" />}
+          <div class="rv-body">
+            <p class="rv-stars" aria-label={`${r.rating}/5`}>{stars(r.rating)}</p>
+            {r.body && <p class="rv-text">{r.body}</p>}
+            <p class="rv-meta"><strong>{r.author}</strong> · {day(r.date)} · <span class="rv-ok">✓ {T.verified}</span></p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="rv-links">
+      {showAllLink && reviews.length > shown.length && <a href={`${lp}/avis/`}>{T.all} ({s.count}) →</a>}
+      <a href={`${lp}/avis/#verification`}>{T.how}</a>
+    </p>
+  </div>
+)}
+
+<style>
+  .rv-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }
+  .rv-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; letter-spacing: -.01em; color: rgb(var(--c-cream)); }
+  .rv-sum { font-size: .95rem; color: rgb(var(--c-n400)); }
+  .rv-sum strong { color: rgb(var(--c-cream)); font-weight: 600; }
+  .rv-stars { color: #f5b301; letter-spacing: .08em; }
+  .rv-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; align-items: start; }
+  .rv-list.is-compact { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .rv-card { border: 1px solid rgb(var(--c-cream) / .1); border-radius: 1.25rem; overflow: hidden; background: rgb(var(--c-cream) / .02); display: flex; flex-direction: column; }
+  .rv-photo { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .rv-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .5rem; }
+  .rv-text { font-size: .92rem; line-height: 1.55; color: rgb(var(--c-cream) / .88); white-space: pre-line; }
+  .rv-meta { font-size: .78rem; color: rgb(var(--c-n500)); }
+  .rv-meta strong { color: rgb(var(--c-cream)); font-weight: 600; }
+  .rv-ok { color: #14704a; }
+  .rv-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.2rem; font-size: .85rem; }
+  .rv-links a { color: rgb(var(--c-cream)); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgb(var(--c-cream) / .3); }
+</style>

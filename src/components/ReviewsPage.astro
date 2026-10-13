@@ -1,0 +1,69 @@
+---
+// Page /avis : tous les avis publiés + « Comment nous vérifions les avis »
+// (informations exigées par l'art. L111-7-2 et D111-17 du Code de la conso).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReviewCards from './ReviewCards.astro';
+import siteConfig from '../../site.config.mjs';
+import { getReviews, summary } from '../lib/reviews';
+import type { Locale } from '../lib/i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const reviews = await getReviews();
+const s = summary(reviews);
+const T = {
+  fr: {
+    title: 'Avis clients', h1: 'Avis clients', meta: `Les avis de nos clients sur leurs coques Moroji, laissés après leur achat et vérifiés.`,
+    empty: 'Les premiers avis arrivent bientôt : ils sont laissés par nos clients après la livraison de leur commande.',
+    howTitle: 'Comment nous vérifions les avis',
+    how: [
+      ['Uniquement des acheteurs', 'Seuls les clients ayant passé et reçu une commande peuvent laisser un avis : ils reçoivent un lien personnel par e-mail après la livraison, ou le trouvent dans leur espace Mon compte. Chaque avis est rattaché à une commande réelle.'],
+      ['Une relecture avant publication', 'Chaque avis est relu par notre équipe avant d’être publié, en général sous quelques jours. Il est publié tel quel : nous ne le modifions pas.'],
+      ['Les avis négatifs sont publiés', 'Un avis n’est jamais refusé parce qu’il est négatif. Il peut l’être s’il ne concerne pas la commande, contient des propos injurieux ou discriminatoires, des données personnelles, ou un contenu illicite. Son auteur est alors informé du motif par e-mail.'],
+      ['Aucune contrepartie', 'Nous n’offrons aucune réduction ni avantage en échange d’un avis.'],
+      ['Ordre et date', 'Les avis sont affichés du plus récent au plus ancien, avec leur date de dépôt.'],
+      ['Signaler un avis', 'Un doute sur un avis ? Écrivez-nous via la page Contact en indiquant l’avis concerné et la raison.'],
+    ],
+  },
+  en: {
+    title: 'Customer reviews', h1: 'Customer reviews', meta: 'Reviews from our customers on their Moroji cases, left after purchase and verified.',
+    empty: 'The first reviews are coming soon: they are left by our customers after their order is delivered.',
+    howTitle: 'How we verify reviews',
+    how: [
+      ['Buyers only', 'Only customers who placed and received an order can leave a review: they get a personal link by email after delivery, or find it in their My account area. Every review is tied to a real order.'],
+      ['Checked before publication', 'Every review is read by our team before it is published, usually within a few days. It is published as is: we never edit it.'],
+      ['Negative reviews are published', 'A review is never rejected for being negative. It may be rejected if it is unrelated to the order, contains insulting or discriminatory language, personal data or unlawful content. Its author is then told why by email.'],
+      ['No incentive', 'We offer no discount or benefit in exchange for a review.'],
+      ['Order and date', 'Reviews are shown from newest to oldest, with the date they were left.'],
+      ['Report a review', 'Doubts about a review? Write to us through the Contact page, naming the review and the reason.'],
+    ],
+  },
+  de: {
+    title: 'Kundenbewertungen', h1: 'Kundenbewertungen', meta: 'Bewertungen unserer Kundinnen und Kunden zu ihren Moroji-Hüllen, nach dem Kauf abgegeben und geprüft.',
+    empty: 'Die ersten Bewertungen kommen bald: Sie werden von unseren Kunden nach der Lieferung ihrer Bestellung abgegeben.',
+    howTitle: 'Wie wir Bewertungen prüfen',
+    how: [
+      ['Nur Käufer', 'Nur wer eine Bestellung aufgegeben und erhalten hat, kann eine Bewertung abgeben: Nach der Lieferung kommt ein persönlicher Link per E-Mail, oder er steht im Bereich Mein Konto. Jede Bewertung gehört zu einer echten Bestellung.'],
+      ['Geprüft vor der Veröffentlichung', 'Jede Bewertung wird vor der Veröffentlichung von unserem Team gelesen, meist innerhalb weniger Tage. Sie wird unverändert veröffentlicht.'],
+      ['Negative Bewertungen werden veröffentlicht', 'Eine Bewertung wird nie abgelehnt, weil sie negativ ist. Sie kann abgelehnt werden, wenn sie nichts mit der Bestellung zu tun hat, beleidigende oder diskriminierende Aussagen, personenbezogene Daten oder rechtswidrige Inhalte enthält. Der Verfasser erfährt den Grund per E-Mail.'],
+      ['Keine Gegenleistung', 'Für eine Bewertung bieten wir keinen Rabatt und keinen Vorteil.'],
+      ['Reihenfolge und Datum', 'Bewertungen werden von der neuesten zur ältesten angezeigt, mit ihrem Datum.'],
+      ['Bewertung melden', 'Zweifel an einer Bewertung? Schreib uns über die Kontaktseite, mit der betreffenden Bewertung und dem Grund.'],
+    ],
+  },
+}[lang]!;
+---
+<BaseLayout title={`${T.title}${s.count ? ` (${s.avg.toFixed(1)}/5)` : ''} | ${siteConfig.name}`} description={T.meta}>
+  <div class="crumbs-shell max-w-6xl mx-auto px-6 pt-6 md:pt-10 pb-20">
+    <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-8">{T.h1}</h1>
+    {reviews.length > 0 ? <ReviewCards reviews={reviews} lang={lang} limit={500} showAllLink={false} /> : <p class="text-n-400 font-light max-w-xl">{T.empty}</p>}
+    <section id="verification" class="mt-20 pt-12 border-t border-white/[0.08] max-w-3xl scroll-mt-28">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-6">{T.howTitle}</h2>
+      <dl class="space-y-5">
+        {T.how.map(([h, p]) => (
+          <div><dt class="font-medium text-cream mb-1">{h}</dt><dd class="text-sm text-n-400 font-light leading-relaxed">{p}</dd></div>
+        ))}
+      </dl>
+    </section>
+  </div>
+</BaseLayout>

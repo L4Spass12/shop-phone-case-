@@ -29,7 +29,7 @@ const T = {
     order: 'Commande', total: 'Total', placed: 'Passée le',
     eta: (a: string, b: string) => a === b ? `Livraison estimée le ${a}` : `Livraison estimée entre le ${a} et le ${b}`,
     deliveredOn: (d: string) => `Livrée le ${d}`,
-    relay: 'Point relais', home: 'Livraison à', track: 'Suivre mon colis', trackNo: 'N° de suivi',
+    relay: 'Point relais', home: 'Livraison à', track: 'Suivre mon colis', trackNo: 'N° de suivi', review: 'Donner mon avis',
     steps: ['Confirmée', 'En préparation', 'Expédiée', 'En route', 'Livrée'], stepsRelay: ['Confirmée', 'En préparation', 'Expédiée', 'Au point relais', 'Retirée'],
     state: { pending_payment: 'Paiement en attente', confirmed: 'Confirmée', preparing: 'En préparation', shipped: 'Expédiée', in_transit: 'En route', out_for_delivery: 'En cours de livraison', delivered: 'Livrée', cancelled: 'Annulée' },
     stateRelay: { out_for_delivery: 'Disponible au point relais', delivered: 'Retirée' },
@@ -48,7 +48,7 @@ const T = {
     order: 'Order', total: 'Total', placed: 'Placed on',
     eta: (a: string, b: string) => a === b ? `Estimated delivery on ${a}` : `Estimated delivery between ${a} and ${b}`,
     deliveredOn: (d: string) => `Delivered on ${d}`,
-    relay: 'Pickup point', home: 'Delivery to', track: 'Track my parcel', trackNo: 'Tracking number',
+    relay: 'Pickup point', home: 'Delivery to', track: 'Track my parcel', trackNo: 'Tracking number', review: 'Leave a review',
     steps: ['Confirmed', 'Preparing', 'Shipped', 'On its way', 'Delivered'], stepsRelay: ['Confirmed', 'Preparing', 'Shipped', 'At pickup point', 'Collected'],
     state: { pending_payment: 'Payment pending', confirmed: 'Confirmed', preparing: 'Preparing', shipped: 'Shipped', in_transit: 'On its way', out_for_delivery: 'Out for delivery', delivered: 'Delivered', cancelled: 'Cancelled' },
     stateRelay: { out_for_delivery: 'Ready at pickup point', delivered: 'Collected' },
@@ -67,7 +67,7 @@ const T = {
     order: 'Bestellung', total: 'Summe', placed: 'Bestellt am',
     eta: (a: string, b: string) => a === b ? `Voraussichtliche Lieferung am ${a}` : `Voraussichtliche Lieferung zwischen ${a} und ${b}`,
     deliveredOn: (d: string) => `Geliefert am ${d}`,
-    relay: 'Abholstelle', home: 'Lieferung an', track: 'Paket verfolgen', trackNo: 'Sendungsnummer',
+    relay: 'Abholstelle', home: 'Lieferung an', track: 'Paket verfolgen', trackNo: 'Sendungsnummer', review: 'Bewertung abgeben',
     steps: ['Bestätigt', 'In Vorbereitung', 'Versandt', 'Unterwegs', 'Geliefert'], stepsRelay: ['Bestätigt', 'In Vorbereitung', 'Versandt', 'An der Abholstelle', 'Abgeholt'],
     state: { pending_payment: 'Zahlung ausstehend', confirmed: 'Bestätigt', preparing: 'In Vorbereitung', shipped: 'Versandt', in_transit: 'Unterwegs', out_for_delivery: 'In Zustellung', delivered: 'Geliefert', cancelled: 'Storniert' },
     stateRelay: { out_for_delivery: 'Abholbereit', delivered: 'Abgeholt' },
@@ -237,6 +237,12 @@ const jsText = { ...T, eta: undefined, deliveredOn: undefined };
         a.href = o.tracking.url; a.target = '_blank'; a.rel = 'noopener'; box.append(a);
       }
       if (box.childNodes.length) li.append(box);
+      if (o.review) {
+        const lp = cfg.lang === 'fr' ? '' : `/${cfg.lang}`;
+        const a = el('a', 'btn-primary mt-4 inline-flex', `★ ${T.review}`) as HTMLAnchorElement;
+        a.href = `${lp}/avis/donner/#o=${o.review.order}&t=${o.review.token}`;
+        li.append(a);
+      }
       return li;
     }
 

@@ -29,6 +29,8 @@ export type Order = {
   shipping: { name: string; address: string; city: string; zip: string; country: string };
   relay: { name: string; address: string; zip: string; city: string } | null;
   tracking: { number: string; url: string } | null;
+  /** Lien d'avis (commande expédiée) : identifiant + jeton du worker. */
+  review?: { order: string; token: string } | null;
 };
 
 export type Config = { supabaseUrl: string; supabaseKey: string; workerUrl: string; shopId: string; lang: string };
