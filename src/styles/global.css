@@ -272,27 +272,25 @@ html[data-studio-app].header-hidden .marquee {
    années 70. Activé par <html data-theme="sunfreaks">.
    ═══════════════════════════════════════════════════════════════════════ */
 html[data-theme='sunfreaks'] {
-  /* Palette « ciel » (octobre 2026) : encre bleu nuit, accent du bleu de la
-     coque de la bannière, jaune de la lune pour les boutons. Le brun et le
-     violet d'avant ont disparu. */
-  --c-white:      22 35 63;      /* voile = encre bleu nuit translucide */
-  /* Blanc pur : c'est ce qui détache le mieux les photos produit. Les
-     surfaces secondaires prennent un bleu glacier très léger. */
+  --c-white:      47 26 22;      /* voile = encre brune translucide */
+  /* Blanc pur : c'est ce qui détache le mieux les photos produit et les
+     aplats rose/jaune. Les surfaces secondaires prennent un gris très léger
+     pour rester lisibles sur ce fond. */
   --c-dark:       255 255 255;   /* fond de page */
-  --c-panel:      246 248 252;   /* cards */
-  --c-teal:       242 245 251;   /* variante */
-  --c-beige:      221 228 240;   /* bordures / tags */
-  --c-cream:      22 35 63;      /* texte = bleu nuit #16233f */
-  --c-terracotta: 22 35 63;
+  --c-panel:      250 247 245;   /* cards */
+  --c-teal:       247 243 241;   /* variante */
+  --c-beige:      230 222 218;   /* bordures / tags */
+  --c-cream:      47 26 22;      /* texte = brun profond */
+  --c-terracotta: 47 26 22;
   --c-sage:       22 130 74;
-  --c-n500:       98 112 140;    /* texte secondaire */
-  --c-n400:       58 72 102;     /* texte courant */
+  --c-n500:       150 116 106;   /* texte secondaire */
+  --c-n400:       112 80 70;     /* texte courant */
 
-  /* Accent = bleu de la coque (#2563c4). Avec le jaune (la lune), c'est le
-     duo nuit / lune de la bannière. */
-  --accent-rgb:        37 99 196;
-  --accent-light-rgb:  96 150 230;
-  --accent-dark-rgb:   23 66 140;
+  /* Accent = violet électrique. Avec le jaune conservé (complémentaire),
+     ça donne un duo vif et graphique. */
+  --accent-rgb:        124 58 237;
+  --accent-light-rgb:  155 107 242;
+  --accent-dark-rgb:   91 33 182;
   --sun-yellow:        #ffe14d;
 
   /* Logotype : le script calligraphique (Pinyon Script),
@@ -477,18 +475,18 @@ html[data-theme='sunfreaks'] .hero-cta .btn-outline {
    est repris : en contour translucide sur une photo, il disparaissait. */
 html[data-theme='sunfreaks'] .hero-section .btn-outline {
   background: rgb(255 255 255 / .92);
-  border-color: rgb(22 35 63 / .18);
-  color: rgb(22 35 63);
-  box-shadow: 0 2px 0 rgb(22 35 63 / .10), 0 6px 14px -8px rgb(22 35 63 / .35);
+  border-color: rgb(47 26 22 / .18);
+  color: rgb(47 26 22);
+  box-shadow: 0 2px 0 rgb(47 26 22 / .10), 0 6px 14px -8px rgb(47 26 22 / .35);
 }
 html[data-theme='sunfreaks'] .hero-section .btn-outline:hover {
   background: #fff;
-  border-color: rgb(22 35 63 / .3);
+  border-color: rgb(47 26 22 / .3);
   /* La règle générique du survol passe le texte en --c-dark (clair dans ce
      thème) : sur ce fond blanc, le libellé disparaissait. */
-  color: rgb(22 35 63);
+  color: rgb(47 26 22);
   transform: translateY(-1px);
-  box-shadow: 0 2px 0 rgb(22 35 63 / .12), 0 10px 18px -10px rgb(22 35 63 / .45);
+  box-shadow: 0 2px 0 rgb(47 26 22 / .12), 0 10px 18px -10px rgb(47 26 22 / .45);
 }
 
 /* Les deux boutons restent CÔTE À CÔTE aussi longtemps que possible : en
@@ -603,7 +601,7 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
   z-index: 2;
   pointer-events: none;
   /* Encre sombre : le plan de travail est blanc. */
-  color: rgb(22 35 63);
+  color: rgb(47 26 22);
 }
 
 /* ─── Section entièrement cliquable ────────────────────────────────────
@@ -687,7 +685,7 @@ html[data-theme='sunfreaks'] footer [data-footer-brand] span { display: none; }
   .studio-scene,
   .studio-b-bg { transition: none; transform: none !important; }
 }
-.studio-b-copy h2 { color: rgb(22 35 63); }
+.studio-b-copy h2 { color: rgb(47 26 22); }
 .studio-b-copy p { color: rgb(61 42 36); }
 @media (min-width: 768px) {
   /* Aucun rognage sur desktop : la section adopte les proportions de l'image.
@@ -785,7 +783,7 @@ html[data-theme='sunfreaks'] footer button[type='submit'] {
   /* Encre FIXE et sombre : le bouton est toujours jaune, donc son libellé doit
      rester sombre. Utiliser --c-cream le faisait virer au blanc sur les blocs
      violets (footer, CTA), d'où un jaune illisible. */
-  color: #16233f;
+  color: #2a1147;
   border-radius: 14px;
   /* Un liseré fin et une ombre basse : sur le fond clair, l'aplat jaune seul
      se fondait un peu. C'est le détachement sans revenir au « sticker ». */
@@ -810,10 +808,10 @@ html[data-theme='sunfreaks'] .btn-atc:hover,
 html[data-theme='sunfreaks'] footer button[type='submit']:hover {
   /* Fond FIXE sombre au survol (même raison : --c-cream vire au blanc sur les
      blocs violets, ce qui donnait jaune sur blanc). */
-  background: #16233f;
+  background: #2a1147;
   color: var(--sun-yellow);
   transform: translateY(-1px);
-  box-shadow: 0 2px 0 rgb(22 35 63 / .25), 0 10px 18px -10px rgb(22 35 63 / .6);
+  box-shadow: 0 2px 0 rgb(42 17 71 / .25), 0 10px 18px -10px rgb(42 17 71 / .6);
 }
 html[data-theme='sunfreaks'] .btn-outline {
   border: 1px solid rgb(var(--c-cream) / .45);
@@ -1020,10 +1018,10 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-ateli
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .header-bar,
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-logo],
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open #menu-btn {
-  color: rgb(22 35 63);
+  color: rgb(47 26 22);
 }
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open [data-atelier-header-icon] {
-  color: rgb(22 35 63) !important;
+  color: rgb(47 26 22) !important;
 }
 
 /* Logo et icônes sont posés à nu sur la photo : ni halo derrière le logo, ni
@@ -1150,15 +1148,42 @@ html[data-theme='sunfreaks'] .tag {
   letter-spacing: 0.02em;
 }
 
-/* ─── Footer : bleu nuit uni, coins hauts arrondis ─────────────────── */
+/* ─── Footer : ciel de nuit, en écho à la bannière « relief » ──────────
+   Le bleu du tourbillon de la coque, qui fonce vers le bas comme une nuit,
+   un halo doré en haut à droite pour la lune, et quelques étoiles fines.
+   Coins hauts arrondis conservés. */
 html[data-theme='sunfreaks'] footer {
-  background: #16233f;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(520px 260px at 88% 0%, rgb(255 222 120 / .26), transparent 70%),
+    radial-gradient(760px 380px at 0% 100%, rgb(110 175 255 / .22), transparent 70%),
+    linear-gradient(165deg, #2259b8 0%, #183f8c 48%, #0f2657 100%);
   border-top: 0;
   border-radius: 34px 34px 0 0;
   /* Texte clair sur le bleu nuit. */
   --c-cream: 255 255 255;
-  --c-n400: 222 230 244;
-  --c-n500: 176 190 216;
+  --c-n400: 226 236 252;
+  --c-n500: 200 216 244;
+}
+/* Étoiles : de simples points, dessinés en CSS, sans image à charger. */
+html[data-theme='sunfreaks'] footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1.6px 1.6px at 12% 18%, rgb(255 236 170 / .9), transparent 60%),
+    radial-gradient(1.2px 1.2px at 27% 64%, rgb(255 255 255 / .7), transparent 60%),
+    radial-gradient(2px 2px at 44% 12%, rgb(255 236 170 / .85), transparent 60%),
+    radial-gradient(1.2px 1.2px at 58% 42%, rgb(255 255 255 / .6), transparent 60%),
+    radial-gradient(1.6px 1.6px at 71% 78%, rgb(255 236 170 / .8), transparent 60%),
+    radial-gradient(1.2px 1.2px at 83% 30%, rgb(255 255 255 / .7), transparent 60%),
+    radial-gradient(2px 2px at 93% 58%, rgb(255 236 170 / .8), transparent 60%),
+    radial-gradient(1.2px 1.2px at 6% 82%, rgb(255 255 255 / .6), transparent 60%),
+    radial-gradient(1.4px 1.4px at 36% 90%, rgb(255 255 255 / .55), transparent 60%);
 }
 html[data-theme='sunfreaks'] footer h2 {
   font-family: var(--font-display);
@@ -1173,7 +1198,7 @@ html[data-theme='sunfreaks'] footer h2 {
 html[data-theme='sunfreaks'] footer input {
   border-radius: 14px;
   background: #ffffff;
-  color: #16233f;
+  color: #0f2657;
   border: 1px solid rgb(255 255 255 / .35);
 }
 
@@ -2294,7 +2319,7 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
    reprend le dégradé de son bord haut pour que la jonction ne se voie pas. */
 html[data-theme='sunfreaks'] main > section.hero-section--relief {
   background: linear-gradient(90deg, #fcfcfd 0%, #dfedfb 50%, #d0e4fc 100%);
-  --relief-ink: 22 35 63;
+  --relief-ink: 47 26 22;
 }
 @media (max-width: 767px) {
   html[data-theme='sunfreaks'] main > section.hero-section--relief {
@@ -2476,13 +2501,13 @@ html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over
 html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero [data-logo],
 html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero #menu-btn,
 html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero .hdr-account {
-  color: rgb(22 35 63);
+  color: rgb(47 26 22);
 }
 html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero [data-atelier-header-icon] {
-  color: rgb(22 35 63) !important;
+  color: rgb(47 26 22) !important;
 }
 html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over-hero .hdr-model {
-  color: rgb(22 35 63); border-color: rgb(22 35 63 / .4); background: rgb(255 255 255 / .45);
+  color: rgb(47 26 22); border-color: rgb(47 26 22 / .4); background: rgb(255 255 255 / .45);
 }
 /* Survol de l'en-tête posé sur la bannière : même rendu que le menu ouvert
    (surface blanche, encre sombre). Souris seulement : sur un écran tactile,
@@ -2501,10 +2526,10 @@ html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over
   html[data-theme='sunfreaks'] #site-header.header-over-hero:hover [data-logo],
   html[data-theme='sunfreaks'] #site-header.header-over-hero:hover #menu-btn,
   html[data-theme='sunfreaks'] #site-header.header-over-hero:hover .hdr-account {
-    color: rgb(22 35 63);
+    color: rgb(47 26 22);
   }
   html[data-theme='sunfreaks'] #site-header.header-over-hero:hover [data-atelier-header-icon] {
-    color: rgb(22 35 63) !important;
+    color: rgb(47 26 22) !important;
   }
   html[data-theme='sunfreaks'] #site-header.header-over-hero:hover .hdr-model {
     color: rgb(var(--c-cream)); border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .04);
