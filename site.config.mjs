@@ -90,6 +90,16 @@ const config = {
   // Un fichier src/content/productCategories/<slug>.md (optionnel) y ajoute
   // le contenu SEO (intro, guide d'achat, FAQ).
   // `theme: true` : catégorie de style, proposée en filtre dans la boutique.
+  // ─── Pinterest : épingles automatiques (flux RSS par catégorie) ─────
+  // /pinterest/<catégorie>.xml, à relier chacun à un tableau Pinterest
+  // (Paramètres > Publication automatique > flux RSS). Une épingle = un design
+  // sur un modèle précis. `startDate` vide = flux vides (rien ne part) : la
+  // poser le jour du branchement, sinon Pinterest publierait tout l'arriéré.
+  pinterest: {
+    startDate: null, // ex. '2026-10-20'
+    perDay: 4,
+  },
+
   productCategories: [
     { slug: 'coques-iphone', label: 'Coques iPhone' },
     { slug: 'coques-animaux', label: 'Animaux', labels: { en: 'Animals', de: 'Tiere' }, theme: true },

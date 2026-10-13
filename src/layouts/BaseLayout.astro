@@ -145,6 +145,15 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       // Ancien sélecteur de thème (retiré) : on efface le choix mémorisé.
       try { localStorage.removeItem('site-theme'); } catch (e) {}
     </script>
+    {/* Lien avec ?modele=<id> (épingles Pinterest, campagnes) : le modèle de
+        téléphone est retenu avant le démarrage du sélecteur, la page s'ouvre
+        donc directement sur les photos de CE téléphone. */}
+    <script is:inline define:vars={{ modelIds: (variantsData as any)._models ?? {} }}>
+      try {
+        var id = new URLSearchParams(location.search).get('modele');
+        if (id && modelIds[id]) localStorage.setItem('vareska:phone-model', modelIds[id]);
+      } catch (e) {}
+    </script>
 
     {/* Polices du premier écran. Sans ces deux lignes, le navigateur ne les
         découvre qu'après avoir reçu ET analysé la feuille de style : un
