@@ -12,13 +12,13 @@ const lp = localePrefix(lang);
 
 const T = {
   fr: { home: 'Accueil', crumb: 'Personnaliser', title: 'Personnaliser ma coque',
-        seoTitle: 'Coque personnalisée avec vos photos et textes', h1: 'Créer ma coque de téléphone personnalisée',
+        seoTitle: 'Studio de création de coque', h1: 'Studio de création de coque de téléphone',
         description: 'Créez votre coque de téléphone unique : partez d’un de nos designs, ajoutez vos photos et vos textes, arrangez-les à votre goût. Studio de personnalisation en ligne.' },
   en: { home: 'Home', crumb: 'Customise', title: 'Customise my case',
-        seoTitle: 'Custom phone case with your photos and text', h1: 'Create my custom phone case',
+        seoTitle: 'Phone case design studio', h1: 'Phone case design studio',
         description: 'Create your own unique phone case: start from one of our designs, add your photos and text, and arrange them as you like. Online customisation studio.' },
   de: { home: 'Startseite', crumb: 'Gestalten', title: 'Meine Hülle gestalten',
-        seoTitle: 'Handyhülle mit eigenem Foto und Text gestalten', h1: 'Meine eigene Handyhülle gestalten',
+        seoTitle: 'Studio zum Gestalten deiner Handyhülle', h1: 'Studio zum Gestalten deiner Handyhülle',
         description: 'Gestalte deine eigene Handyhülle: Starte mit einem unserer Designs, füge deine Fotos und Texte hinzu und ordne sie nach deinem Geschmack an. Online-Gestaltungsstudio.' },
 }[lang] ?? null;
 if (!T) throw new Error(`StudioPage : langue non prise en charge (${lang})`);

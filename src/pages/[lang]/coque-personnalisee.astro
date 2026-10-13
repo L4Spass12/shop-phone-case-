@@ -1,0 +1,11 @@
+---
+import CustomLanding from '../../components/CustomLanding.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return ACTIVE_LOCALES.filter((l) => l !== siteConfig.i18n.defaultLocale).map((lang) => ({ params: { lang } }));
+}
+const { lang } = Astro.params as { lang: Locale };
+---
+<CustomLanding lang={lang} />
