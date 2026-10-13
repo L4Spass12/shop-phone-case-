@@ -2282,6 +2282,120 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   html[data-theme='sunfreaks'] .hero-section--printemps img.hero-bg { object-position: center 20%; }
 }
 
+/* ─── Bannière « relief » (octobre 2026) ────────────────────────────────
+   Photo studio sur fond noir, 1942 × 809. Ordinateur : la section prend les
+   proportions de l'image, le texte occupe le noir à gauche, la légende
+   « Motifs en relief » pointe un poisson (coordonnées en % de l'image).
+   Mobile : l'image recadrée (coque debout + lune) passe SOUS le texte, posé
+   sur le même noir : aucun voile, aucune lettre sur la photo. */
+html[data-theme='sunfreaks'] main > section.hero-section--relief { background: #000; }
+.hero-section--relief .hero-copy { text-align: left; margin: 0; }
+html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow {
+  color: rgb(255 255 255 / .72);
+  letter-spacing: .32em;
+  text-indent: 0;
+  margin-bottom: .9rem;
+}
+html[data-theme='sunfreaks'] .hero-section--relief .hero-title {
+  text-transform: none;
+  font-size: clamp(2.6rem, 4.7vw, 6.2rem);
+  line-height: .9;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-child { font-size: 1.32em; line-height: .86; }
+.hero-section--relief .hero-sub {
+  color: rgb(255 255 255 / .9);
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
+  margin: .9rem 0 1.4rem;
+}
+.hero-section--relief .hero-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  font-size: clamp(.9rem, .95vw, 1.05rem);
+  padding: .75rem 1.7rem;
+  border-radius: 999px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.hero-section--relief .hero-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgb(255 255 255 / .45); }
+.hero-section--relief .hero-annot { display: none; }
+
+@media (min-width: 768px) {
+  /* La bannière passe sous le header : on ajoute sa hauteur AU-DESSUS de
+     l'image plutôt que de la laisser manger le haut du cliché. Le haut de la
+     photo est d'un noir pur, la jonction ne se voit pas. Toutes les cotes
+     sont en vw de l'image (largeur 100vw, hauteur 41.66vw). */
+  html[data-theme='sunfreaks'] main > section.hero-section--relief {
+    min-height: 0;
+    height: calc(var(--header-total) + 41.66vw);
+    align-items: flex-start;
+  }
+  html[data-theme='sunfreaks'] .hero-section--relief img.hero-bg {
+    top: var(--header-total);
+    height: 41.66vw;
+    object-position: center;
+  }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-shell { padding: 2.4vw 0 0 4.5vw; }
+  .hero-section--relief .hero-copy { width: auto; min-width: 0; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: max(.68rem, .85vw); margin-bottom: 1.2vw; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 4.2vw; }
+  .hero-section--relief .hero-sub { font-size: max(.9rem, 1.25vw); margin: .7vw 0 1.2vw; }
+  .hero-section--relief .hero-btn { font-size: max(.8rem, .9vw); padding: .55vw 1.6vw; min-height: 2.6rem; }
+  /* Point d'ancrage = bout du trait, sur le dos du poisson rose
+     (x 40.2 %, y 38.1 % de l'image). */
+  .hero-section--relief .hero-annot {
+    display: block;
+    position: absolute;
+    left: 40.2%;
+    top: calc(var(--header-total) + 15.87vw);
+    z-index: 2;
+    width: 0;
+    height: 0;
+    color: #fff;
+    font-size: max(.72rem, 1.05vw);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .hero-section--relief .hero-annot > span {
+    position: absolute;
+    left: 0;
+    bottom: .45em;
+    transform: translateX(-62%);
+  }
+  .hero-section--relief .hero-annot::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4.9vw;
+    height: 1px;
+    background: rgb(255 255 255 / .85);
+    transform-origin: 0 0;
+    transform: rotate(54.5deg);
+  }
+}
+@media (max-width: 767px) {
+  html[data-theme='sunfreaks'] main > section.hero-section--relief {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+  }
+  html[data-theme='sunfreaks'] .hero-section--relief::after { content: none; }
+  .hero-section--relief picture { order: 2; display: block; }
+  .hero-section--relief img.hero-bg {
+    position: relative;
+    height: auto;
+    aspect-ratio: 1052 / 809;
+  }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-shell {
+    order: 1;
+    padding: 1.6rem 1.25rem 1.4rem;
+  }
+}
+
 /* ─── Section studio, visuel « ciel » (celui de la tuile du menu) ───────
    Texte blanc posé sur l'image, avec un fondu sombre en bas pour le lire.
    Ordinateur : la section prend les proportions de l'image (1400 × 560).
