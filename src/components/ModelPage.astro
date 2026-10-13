@@ -29,6 +29,14 @@ const pageUrl = `${SITE}${url(`/coques/${model.id}/`)}`;
 const faq = T.faq(model);
 const others = PHONE_MODELS.filter((m) => m.id !== model.id);
 
+// Filtres par catégorie (dans la page, sans rechargement) : seulement les
+// catégories de style qui ont au moins une coque.
+type Cat = { slug: string; label: string; labels?: Record<string, string>; theme?: boolean };
+const cats = ((siteConfig.productCategories ?? []) as Cat[])
+  .filter((c) => c.theme && products.some((p) => (p.data.categories ?? []).includes(c.slug)))
+  .map((c) => ({ slug: c.slug, name: (lang !== 'fr' && c.labels?.[lang]) || c.label }));
+const allLabel = { fr: 'Toutes', en: 'All', de: 'Alle' }[lang] ?? 'Toutes';
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -80,10 +88,19 @@ const jsonLd = [
       <p class="text-base md:text-lg text-n-400 font-light leading-relaxed">{T.intro(model, n)}</p>
     </header>
 
+    {cats.length > 0 && (
+      <div class="cat-chips" role="group" aria-label={T.h1(model)}>
+        <button type="button" class="cat-chip filter-btn is-active" data-filter="all" aria-pressed="true">{allLabel}</button>
+        {cats.map((c) => (
+          <button type="button" class="cat-chip filter-btn" data-filter={c.slug} aria-pressed="false">{c.name}</button>
+        ))}
+      </div>
+    )}
+
     <section aria-label={T.h1(model)}>
       <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-12">
         {products.map((p, i) => (
-          <article class="product-card">
+          <article class="product-card" data-cats={(p.data.categories ?? []).join(' ')}>
             <a href={url(`/product/${p.slug}/`)} class="group block" data-model-link={model.label}>
               <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-5">
                 <img
@@ -130,7 +147,38 @@ const jsonLd = [
   </div>
 </BaseLayout>
 
+<style>
+  /* Mêmes pastilles que la boutique (CategoryChips). */
+  .cat-chips {
+    display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -1.5rem 2.25rem; padding: .25rem 1.5rem;
+    -webkit-mask: linear-gradient(90deg, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
+            mask: linear-gradient(90deg, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
+  }
+  .cat-chips::-webkit-scrollbar { display: none; }
+  @media (min-width: 1024px) { .cat-chips { flex-wrap: wrap; overflow: visible; margin: 0 0 2.5rem; padding: 0; -webkit-mask: none; mask: none; } }
+  .cat-chip {
+    flex: none; padding: .55rem 1rem; border-radius: 999px; font-size: .85rem; font-weight: 500; white-space: nowrap; cursor: pointer;
+    border: 1px solid rgb(var(--c-cream) / .14); color: rgb(var(--c-cream) / .8); background: rgb(var(--c-cream) / .03);
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .cat-chip:hover { border-color: rgb(var(--c-cream) / .35); color: rgb(var(--c-cream)); }
+  .cat-chip.is-active { background: rgb(var(--c-cream)); color: rgb(var(--c-dark)); border-color: rgb(var(--c-cream)); }
+</style>
+
 <script>
+  // Filtre par catégorie. InfiniteReveal écoute aussi les .filter-btn : au
+  // premier filtre il affiche toutes les cartes, ici on masque les autres.
+  const chips = document.querySelectorAll<HTMLButtonElement>('.cat-chips .filter-btn');
+  chips.forEach((btn) => btn.addEventListener('click', () => {
+    const f = btn.dataset.filter || 'all';
+    chips.forEach((b) => { const on = b === btn; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+    document.querySelectorAll<HTMLElement>('#products-grid .product-card').forEach((card) => {
+      const ok = f === 'all' || (card.dataset.cats || '').split(' ').includes(f);
+      card.style.display = ok ? '' : 'none';
+    });
+  }));
+
   // Le modèle de la page devient celui du visiteur au clic : la fiche s'ouvre
   // avec lui déjà sélectionné (même clé que le sélecteur de l'en-tête).
   document.addEventListener('click', (e) => {
