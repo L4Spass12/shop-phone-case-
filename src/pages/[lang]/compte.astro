@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AccountPanel from '../../components/AccountPanel.astro';
+import siteConfig from '../../../site.config.mjs';
+import { ACTIVE_LOCALES, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return ACTIVE_LOCALES.filter((l) => l !== siteConfig.i18n.defaultLocale).map((lang) => ({ params: { lang } }));
+}
+const { lang } = Astro.params as { lang: Locale };
+const title = ({ en: 'My account', de: 'Mein Konto' } as Record<string, string>)[lang] ?? 'Mon compte';
+---
+<BaseLayout title={`${title} | ${siteConfig.name}`} description={title} noindex={true}>
+  <AccountPanel lang={lang} />
+</BaseLayout>

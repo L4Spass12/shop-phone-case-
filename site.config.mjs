@@ -175,6 +175,15 @@ const config = {
       widgetUrl: 'https://tanstack-start-app.seamless-cart.workers.dev/api/public/widget.js',
       shopId: '7fa02d12-6ebc-47ae-85ad-7767ebba8cf7',
     },
+    // Compte client (/compte) : connexion par code reçu par e-mail, sans mot
+    // de passe. Projet Supabase du worker (le même pour toutes les boutiques,
+    // commandes cloisonnées par shop_id). Clé « publishable » : publique par
+    // conception, elle ne sert qu'à vérifier le code ; les commandes passent
+    // par le worker, qui contrôle le jeton.
+    account: {
+      supabaseUrl: 'https://hkrgukmzrgqnjwhsypft.supabase.co',
+      supabaseAnonKey: 'sb_publishable_f8ZX9qmxxE3eZF3uLqRNlQ_qntlTe4s',
+    },
     currency: 'EUR',
     // Exemples du rendu en relief, montrés sur les fiches qui n'ont pas
     // encore leur propre photo relief (vignette « Exemple » et lien).

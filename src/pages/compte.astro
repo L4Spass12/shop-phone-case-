@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AccountPanel from '../components/AccountPanel.astro';
+import siteConfig from '../../site.config.mjs';
+---
+<BaseLayout title={`Mon compte | ${siteConfig.name}`} description="Retrouvez vos commandes Moroji et suivez vos colis." noindex={true}>
+  <AccountPanel lang="fr" />
+</BaseLayout>

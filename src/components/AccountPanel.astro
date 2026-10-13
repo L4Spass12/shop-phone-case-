@@ -1,0 +1,318 @@
+---
+/**
+ * Compte client (/compte, /en/compte, /de/compte). Tout se joue dans le
+ * navigateur (site statique) : écran de connexion, saisie du code, puis la
+ * liste des commandes avec leur suivi. Voir src/lib/account.ts.
+ */
+import siteConfig from '../../site.config.mjs';
+import type { Locale } from '../lib/i18n';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const acc = (siteConfig.shop as any)?.account ?? {};
+const atelier = siteConfig.shop?.atelier ?? {};
+const workerUrl = (() => { try { return new URL(atelier.widgetUrl ?? '').origin; } catch { return ''; } })();
+const enabled = Boolean(acc.supabaseUrl && acc.supabaseAnonKey && workerUrl && atelier.shopId);
+
+const T = {
+  fr: {
+    eyebrow: 'Espace client', title: 'Mon compte',
+    intro: 'Retrouvez vos commandes et suivez vos colis. Pas de mot de passe : saisissez votre e-mail, nous vous envoyons un code de connexion.',
+    email: 'Votre adresse e-mail', send: 'Recevoir mon code', sending: 'Envoi…',
+    sendError: 'L’envoi n’a pas abouti. Vérifiez l’adresse et réessayez dans un instant.',
+    sentTitle: 'Code envoyé à', sentText: 'Saisissez le code à 6 chiffres reçu par e-mail, ou cliquez sur le bouton de l’e-mail. Pensez à regarder dans les spams.',
+    code: 'Code à 6 chiffres', verify: 'Me connecter', codeError: 'Code incorrect ou expiré. Vérifiez-le ou demandez-en un nouveau.',
+    otherEmail: 'Utiliser une autre adresse', loading: 'Chargement…',
+    connectedAs: 'Connecté en tant que', signout: 'Se déconnecter',
+    ordersTitle: 'Mes commandes', empty: 'Aucune commande pour cette adresse pour le moment.',
+    error: 'Impossible de charger vos commandes. Réessayez dans un instant.', retry: 'Réessayer',
+    order: 'Commande', total: 'Total', placed: 'Passée le',
+    eta: (a: string, b: string) => a === b ? `Livraison estimée le ${a}` : `Livraison estimée entre le ${a} et le ${b}`,
+    deliveredOn: (d: string) => `Livrée le ${d}`,
+    relay: 'Point relais', home: 'Livraison à', track: 'Suivre mon colis', trackNo: 'N° de suivi',
+    steps: ['Confirmée', 'En préparation', 'Expédiée', 'En route', 'Livrée'], stepsRelay: ['Confirmée', 'En préparation', 'Expédiée', 'Au point relais', 'Retirée'],
+    state: { pending_payment: 'Paiement en attente', confirmed: 'Confirmée', preparing: 'En préparation', shipped: 'Expédiée', in_transit: 'En route', out_for_delivery: 'En cours de livraison', delivered: 'Livrée', cancelled: 'Annulée' },
+    stateRelay: { out_for_delivery: 'Disponible au point relais', delivered: 'Retirée' },
+  },
+  en: {
+    eyebrow: 'Customer area', title: 'My account',
+    intro: 'Find your orders and track your parcels. No password: enter your email and we will send you a sign-in code.',
+    email: 'Your email address', send: 'Get my code', sending: 'Sending…',
+    sendError: 'Sending failed. Check the address and try again in a moment.',
+    sentTitle: 'Code sent to', sentText: 'Enter the 6-digit code from the email, or click the button in the email. Check your spam folder too.',
+    code: '6-digit code', verify: 'Sign in', codeError: 'Wrong or expired code. Check it or ask for a new one.',
+    otherEmail: 'Use another address', loading: 'Loading…',
+    connectedAs: 'Signed in as', signout: 'Sign out',
+    ordersTitle: 'My orders', empty: 'No orders for this address yet.',
+    error: 'Could not load your orders. Please try again in a moment.', retry: 'Try again',
+    order: 'Order', total: 'Total', placed: 'Placed on',
+    eta: (a: string, b: string) => a === b ? `Estimated delivery on ${a}` : `Estimated delivery between ${a} and ${b}`,
+    deliveredOn: (d: string) => `Delivered on ${d}`,
+    relay: 'Pickup point', home: 'Delivery to', track: 'Track my parcel', trackNo: 'Tracking number',
+    steps: ['Confirmed', 'Preparing', 'Shipped', 'On its way', 'Delivered'], stepsRelay: ['Confirmed', 'Preparing', 'Shipped', 'At pickup point', 'Collected'],
+    state: { pending_payment: 'Payment pending', confirmed: 'Confirmed', preparing: 'Preparing', shipped: 'Shipped', in_transit: 'On its way', out_for_delivery: 'Out for delivery', delivered: 'Delivered', cancelled: 'Cancelled' },
+    stateRelay: { out_for_delivery: 'Ready at pickup point', delivered: 'Collected' },
+  },
+  de: {
+    eyebrow: 'Kundenbereich', title: 'Mein Konto',
+    intro: 'Finde deine Bestellungen und verfolge deine Pakete. Kein Passwort: Gib deine E-Mail ein, wir schicken dir einen Anmeldecode.',
+    email: 'Deine E-Mail-Adresse', send: 'Code erhalten', sending: 'Wird gesendet…',
+    sendError: 'Das Senden hat nicht geklappt. Prüfe die Adresse und versuche es gleich noch einmal.',
+    sentTitle: 'Code gesendet an', sentText: 'Gib den 6-stelligen Code aus der E-Mail ein oder klicke auf den Button in der E-Mail. Schau auch im Spam-Ordner nach.',
+    code: '6-stelliger Code', verify: 'Anmelden', codeError: 'Falscher oder abgelaufener Code. Prüfe ihn oder fordere einen neuen an.',
+    otherEmail: 'Andere Adresse verwenden', loading: 'Wird geladen…',
+    connectedAs: 'Angemeldet als', signout: 'Abmelden',
+    ordersTitle: 'Meine Bestellungen', empty: 'Noch keine Bestellungen für diese Adresse.',
+    error: 'Deine Bestellungen konnten nicht geladen werden. Versuche es gleich noch einmal.', retry: 'Erneut versuchen',
+    order: 'Bestellung', total: 'Summe', placed: 'Bestellt am',
+    eta: (a: string, b: string) => a === b ? `Voraussichtliche Lieferung am ${a}` : `Voraussichtliche Lieferung zwischen ${a} und ${b}`,
+    deliveredOn: (d: string) => `Geliefert am ${d}`,
+    relay: 'Abholstelle', home: 'Lieferung an', track: 'Paket verfolgen', trackNo: 'Sendungsnummer',
+    steps: ['Bestätigt', 'In Vorbereitung', 'Versandt', 'Unterwegs', 'Geliefert'], stepsRelay: ['Bestätigt', 'In Vorbereitung', 'Versandt', 'An der Abholstelle', 'Abgeholt'],
+    state: { pending_payment: 'Zahlung ausstehend', confirmed: 'Bestätigt', preparing: 'In Vorbereitung', shipped: 'Versandt', in_transit: 'Unterwegs', out_for_delivery: 'In Zustellung', delivered: 'Geliefert', cancelled: 'Storniert' },
+    stateRelay: { out_for_delivery: 'Abholbereit', delivered: 'Abgeholt' },
+  },
+}[lang] ?? null;
+if (!T) throw new Error(`AccountPanel : langue non prise en charge (${lang})`);
+// Textes passés au script (sans les fonctions).
+const jsText = { ...T, eta: undefined, deliveredOn: undefined };
+---
+
+<section class="crumbs-shell max-w-3xl mx-auto px-6 pt-6 md:pt-10 pb-24 md:pb-32">
+  <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-3 block">{T.eyebrow}</span>
+  <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-8">{T.title}</h1>
+
+  {!enabled && <p class="text-n-400">Espace client indisponible pour le moment.</p>}
+
+  {enabled && (
+    <div id="account-root"
+      data-supabase-url={acc.supabaseUrl} data-supabase-key={acc.supabaseAnonKey}
+      data-worker-url={workerUrl} data-shop-id={atelier.shopId} data-lang={lang}
+      data-text={JSON.stringify(jsText)}
+      data-eta-same={T.eta('§A', '§A')} data-eta-range={T.eta('§A', '§B')} data-delivered-on={T.deliveredOn('§A')}>
+
+      <p data-view="loading" class="text-n-400">{T.loading}</p>
+
+      <div data-view="signin" hidden>
+        <p class="text-n-400 font-light leading-relaxed mb-7 max-w-lg">{T.intro}</p>
+        <form data-signin-form class="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 max-w-lg">
+          <label class="sr-only" for="account-email">{T.email}</label>
+          <input id="account-email" type="email" name="email" required autocomplete="email" placeholder={T.email}
+            class="acc-input w-full" />
+          <button type="submit" class="btn-primary shrink-0" data-label={T.send} data-busy={T.sending}>{T.send}</button>
+        </form>
+        <p data-signin-error hidden class="acc-alert mt-4 max-w-lg">{T.sendError}</p>
+      </div>
+
+      <div data-view="sent" hidden>
+        <p class="text-n-400 font-light mb-1">{T.sentTitle}</p>
+        <p class="text-cream font-medium mb-4" data-sent-email></p>
+        <p class="text-n-400 font-light leading-relaxed mb-6 max-w-lg">{T.sentText}</p>
+        <form data-code-form class="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 max-w-md">
+          <label class="sr-only" for="account-code">{T.code}</label>
+          <input id="account-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required placeholder={T.code}
+            class="acc-input w-full tracking-[.3em] text-center sm:text-left" />
+          <button type="submit" class="btn-primary shrink-0">{T.verify}</button>
+        </form>
+        <p data-code-error hidden class="acc-alert mt-4 max-w-md">{T.codeError}</p>
+        <button type="button" data-other-email class="mt-6 text-sm text-n-500 underline underline-offset-4 hover:text-cream">{T.otherEmail}</button>
+      </div>
+
+      <div data-view="orders" hidden>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-10 rounded-2xl border border-white/[0.08] bg-panel px-5 py-4">
+          <p class="text-sm text-n-400 font-light">{T.connectedAs} <span class="text-cream font-medium" data-account-email></span></p>
+          <button type="button" data-signout class="text-sm text-n-500 underline underline-offset-4 hover:text-cream">{T.signout}</button>
+        </div>
+        <h2 class="text-2xl font-medium tracking-tight text-cream mb-6">{T.ordersTitle}</h2>
+        <p data-orders-empty hidden class="text-n-400 font-light">{T.empty}</p>
+        <ol data-orders-list class="space-y-5"></ol>
+      </div>
+
+      <div data-view="error" hidden>
+        <p class="acc-alert mb-5 max-w-lg">{T.error}</p>
+        <button type="button" data-retry class="btn-primary">{T.retry}</button>
+      </div>
+    </div>
+  )}
+</section>
+
+<style is:global>
+  .acc-input {
+    background: rgb(var(--c-cream) / .03); border: 1px solid rgb(var(--c-cream) / .18); border-radius: 999px;
+    padding: .8rem 1.2rem; font-size: .95rem; color: rgb(var(--c-cream)); outline: none;
+  }
+  .acc-input:focus { border-color: rgb(var(--c-cream) / .55); }
+  .acc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
+  .acc-order { border: 1px solid rgb(var(--c-cream) / .1); border-radius: 1.25rem; padding: 1.25rem 1.25rem 1.1rem; background: rgb(var(--c-cream) / .02); }
+  .acc-pill { display: inline-block; border-radius: 999px; padding: .25rem .7rem; font-size: .75rem; font-weight: 600; background: rgb(var(--c-cream) / .08); color: rgb(var(--c-cream)); }
+  .acc-pill[data-tone="good"] { background: #dcf6e7; color: #14704a; }
+  .acc-pill[data-tone="move"] { background: #e0ecff; color: #1e3a8a; }
+  .acc-pill[data-tone="wait"] { background: #fdf2f6; color: #96154a; }
+  .acc-pill[data-tone="bad"] { background: #fde2e2; color: #9b1c1c; }
+  .acc-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: .35rem; margin: 1.1rem 0 .4rem; }
+  .acc-steps span { height: 5px; border-radius: 999px; background: rgb(var(--c-cream) / .1); }
+  .acc-steps span.on { background: rgb(var(--c-cream)); }
+  .acc-steps-labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: .35rem; font-size: .66rem; color: rgb(var(--c-cream) / .55); }
+  .acc-steps-labels b { font-weight: 600; color: rgb(var(--c-cream)); }
+  .acc-items { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+  .acc-item { display: flex; align-items: center; gap: .6rem; font-size: .85rem; color: rgb(var(--c-cream) / .85); }
+  .acc-item img { width: 44px; height: 55px; object-fit: cover; border-radius: .6rem; background: rgb(var(--c-cream) / .05); }
+  .acc-box { margin-top: 1rem; border-radius: .9rem; padding: .8rem 1rem; font-size: .85rem; line-height: 1.55; background: rgb(var(--c-cream) / .04); color: rgb(var(--c-cream) / .8); }
+  .acc-box strong { color: rgb(var(--c-cream)); font-weight: 600; }
+  @media (max-width: 520px) { .acc-steps-labels { font-size: .58rem; } }
+</style>
+
+<script>
+  import { consumeUrlCode, ensureFresh, fetchOrders, readSession, sendCode, signOut, verifyCode, writeSession, type Config, type Order, type Session } from '../lib/account';
+
+  const root = document.getElementById('account-root');
+  if (root) init(root);
+
+  function init(root: HTMLElement) {
+    const cfg: Config = {
+      supabaseUrl: root.dataset.supabaseUrl!, supabaseKey: root.dataset.supabaseKey!,
+      workerUrl: root.dataset.workerUrl!, shopId: root.dataset.shopId!, lang: root.dataset.lang || 'fr',
+    };
+    const T = JSON.parse(root.dataset.text || '{}');
+    const locale = cfg.lang === 'en' ? 'en-GB' : cfg.lang === 'de' ? 'de-DE' : 'fr-FR';
+    const $ = <E extends Element = HTMLElement>(sel: string) => root.querySelector<E>(sel) as E | null;
+    const views = [...root.querySelectorAll<HTMLElement>('[data-view]')];
+    const show = (name: string) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
+    let pendingEmail = '';
+
+    const money = (c: number, cur: string) => new Intl.NumberFormat(locale, { style: 'currency', currency: cur || 'EUR' }).format(c / 100);
+    const day = (iso: string) => new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+    const shortDay = (iso: string) => new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long' }).format(new Date(iso));
+    const el = (tag: string, cls?: string, text?: string) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+    const RANK: Record<string, number> = { confirmed: 0, preparing: 1, shipped: 2, in_transit: 3, out_for_delivery: 3, delivered: 4 };
+    const tone = (s: string) => s === 'delivered' ? 'good' : s === 'cancelled' ? 'bad' : s === 'out_for_delivery' ? 'wait' : RANK[s] >= 2 ? 'move' : '';
+
+    function card(o: Order) {
+      const relay = !!o.relay;
+      const li = el('li', 'acc-order');
+      const head = el('div', 'flex flex-wrap items-start justify-between gap-2');
+      const left = el('div');
+      left.append(el('p', 'text-cream font-medium', `${T.order} #${o.reference}`), el('p', 'text-xs text-n-500 font-light mt-0.5', `${T.placed} ${day(o.placed_at)} · ${money(o.total.amount_cents, o.total.currency)}`));
+      const label = (relay && T.stateRelay[o.state]) || T.state[o.state] || o.state;
+      const pill = el('span', 'acc-pill', label); const t = tone(o.state); if (t) pill.dataset.tone = t;
+      head.append(left, pill); li.append(head);
+
+      if (o.state in RANK) {
+        const r = RANK[o.state];
+        const bar = el('div', 'acc-steps'); const labels = el('div', 'acc-steps-labels');
+        (relay ? T.stepsRelay : T.steps).forEach((s: string, i: number) => {
+          const seg = el('span'); if (i <= r) seg.classList.add('on'); bar.append(seg);
+          const l = el(i === r ? 'b' : 'span', '', s); labels.append(l);
+        });
+        li.append(bar, labels);
+      }
+
+      const info = el('p', 'text-sm text-n-400 font-light mt-3');
+      if (o.state === 'delivered' && o.delivered_at) info.textContent = (root.dataset.deliveredOn || '').replace('§A', day(o.delivered_at));
+      else if (o.eta && o.state !== 'cancelled') {
+        const a = shortDay(o.eta.from), b = shortDay(o.eta.to);
+        info.textContent = (a === b ? root.dataset.etaSame! : root.dataset.etaRange!).replace(/§A/g, a).replace('§B', b);
+      }
+      if (info.textContent) li.append(info);
+
+      const items = el('div', 'acc-items');
+      o.items.forEach((it) => {
+        const row = el('div', 'acc-item');
+        if (it.image) { const img = document.createElement('img'); img.src = it.image; img.alt = ''; img.loading = 'lazy'; row.append(img); }
+        row.append(el('span', '', it.quantity > 1 ? `${it.quantity} × ${it.name}` : it.name));
+        items.append(row);
+      });
+      li.append(items);
+
+      const box = el('div', 'acc-box');
+      if (o.relay) {
+        box.append(el('strong', '', `${T.relay} : ${o.relay.name}`), el('br'), document.createTextNode(`${o.relay.address}, ${o.relay.zip} ${o.relay.city}`));
+      } else if (o.shipping?.address) {
+        box.append(el('strong', '', `${T.home} : `), document.createTextNode(`${o.shipping.address}, ${o.shipping.zip} ${o.shipping.city}`));
+      }
+      if (o.tracking) {
+        box.append(el('br'), document.createTextNode(`${T.trackNo} : ${o.tracking.number} · `));
+        const a = el('a', 'underline underline-offset-4 text-cream', T.track) as HTMLAnchorElement;
+        a.href = o.tracking.url; a.target = '_blank'; a.rel = 'noopener'; box.append(a);
+      }
+      if (box.childNodes.length) li.append(box);
+      return li;
+    }
+
+    async function load(session: Session) {
+      const fresh = await ensureFresh(cfg, session);
+      if (!fresh) { writeSession(null); show('signin'); return; }
+      const r = await fetchOrders(cfg, fresh);
+      if (!r.ok) {
+        if (r.reason === 'unauthorized') { writeSession(null); show('signin'); } else show('error');
+        return;
+      }
+      if (r.email) writeSession({ ...fresh, email: r.email });
+      $('[data-account-email]')!.textContent = r.email;
+      const list = $('[data-orders-list]')!; list.replaceChildren(...r.orders.map(card));
+      $('[data-orders-empty]')!.hidden = r.orders.length > 0;
+      show('orders');
+    }
+
+    async function login(email: string, code: string) {
+      const s = await verifyCode(cfg, email, code);
+      if (!s) return false;
+      writeSession({ ...s, email: s.email || email });
+      await load(s);
+      return true;
+    }
+
+    // Démarrage : lien « un clic » de l'e-mail, session existante, ou connexion.
+    const fromLink = consumeUrlCode();
+    if (fromLink) {
+      login(fromLink.email, fromLink.code).then((ok) => {
+        if (!ok) { pendingEmail = fromLink.email; $('[data-sent-email]')!.textContent = fromLink.email; $('[data-code-error]')!.hidden = false; show('sent'); }
+      }).catch(() => show('error'));
+    } else {
+      const s = readSession();
+      if (s) load(s).catch(() => show('error')); else show('signin');
+    }
+
+    const form = $<HTMLFormElement>('[data-signin-form]');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = (form.querySelector<HTMLInputElement>('input[name="email"]')?.value || '').trim();
+      const btn = form.querySelector<HTMLButtonElement>('button')!;
+      if (!email) return;
+      $('[data-signin-error]')!.hidden = true;
+      btn.disabled = true; btn.textContent = btn.dataset.busy || '';
+      try {
+        await sendCode(cfg, email);
+        pendingEmail = email;
+        $('[data-sent-email]')!.textContent = email;
+        $('[data-code-error]')!.hidden = true;
+        $<HTMLFormElement>('[data-code-form]')?.reset();
+        show('sent');
+        $<HTMLInputElement>('#account-code')?.focus();
+      } catch {
+        $('[data-signin-error]')!.hidden = false;
+      } finally {
+        btn.disabled = false; btn.textContent = btn.dataset.label || '';
+      }
+    });
+
+    const codeForm = $<HTMLFormElement>('[data-code-form]');
+    codeForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = (codeForm.querySelector<HTMLInputElement>('input[name="code"]')?.value || '').trim();
+      const btn = codeForm.querySelector<HTMLButtonElement>('button')!;
+      if (!code || !pendingEmail) return;
+      $('[data-code-error]')!.hidden = true; btn.disabled = true;
+      try {
+        if (!(await login(pendingEmail, code))) $('[data-code-error]')!.hidden = false;
+      } catch {
+        $('[data-code-error]')!.hidden = false;
+      } finally { btn.disabled = false; }
+    });
+
+    $('[data-other-email]')?.addEventListener('click', () => show('signin'));
+    $('[data-retry]')?.addEventListener('click', () => { const s = readSession(); if (s) load(s).catch(() => show('error')); else show('signin'); });
+    $('[data-signout]')?.addEventListener('click', async () => { await signOut(cfg, readSession()); show('signin'); });
+  }
+</script>

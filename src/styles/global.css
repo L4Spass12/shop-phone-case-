@@ -2321,6 +2321,10 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
   background: rgb(var(--c-cream) / .04); transition: border-color .2s, background .2s;
 }
 .hdr-model:hover { border-color: rgb(var(--c-cream) / .4); }
+/* Compte client : icône seule, à côté du panier, sur ordinateur. */
+.hdr-account { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; color: rgb(var(--c-cream)); transition: background .2s; }
+.hdr-account:hover { background: rgb(var(--c-cream) / .08); }
+@media (max-width: 640px) { .hdr-account { display: none; } }
 .hdr-model[data-chosen] { border-color: rgb(var(--c-cream) / .45); }
 .hdr-model-label { max-width: 9.5rem; overflow: hidden; text-overflow: ellipsis; }
 /* Téléphone : le logo est centré, il ne reste que la place d'une icône. Un
@@ -2347,3 +2351,5 @@ html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-model:hover { bo
 html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-model {
   color: rgb(var(--c-cream)); border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .04);
 }
+html[data-theme='sunfreaks'] #site-header.header-over-hero .hdr-account { color: #fff; }
+html[data-theme='sunfreaks'] #site-header.header-over-hero.menu-open .hdr-account { color: rgb(var(--c-cream)); }
