@@ -1,0 +1,236 @@
+---
+// Page SEO « coque foot personnalisée » (/coque-foot-personnalisee/) : cible
+// coque personnalisée foot, coque foot personnalisable, coque de téléphone
+// personnalisée foot, coque maillot… et renvoie vers les modèles Maillot du
+// studio (/personnaliser/?tpl=maillot-<id>).
+//
+// Les maillots sont dessinés ici en vrai texte (fond du studio + nom et
+// numéro en Anton) : lisible par Google, et identique au studio.
+// Aucun logo, écusson ni nom de club : uniquement des couleurs.
+import '@fontsource/anton/400.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+import { JERSEYS } from '../data/jerseys.mjs';
+import { PHONE_MODELS } from '../lib/models';
+
+const money = (c: number) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: siteConfig.shop.currency }).format(c / 100);
+const flat = money(siteConfig.shop?.customCasePriceCents ?? 1990);
+const relief = money(siteConfig.shop?.customCaseReliefPriceCents ?? 2490);
+const iphones = PHONE_MODELS.filter((m) => m.brand === 'apple').map((m) => m.label);
+const galaxies = PHONE_MODELS.filter((m) => m.brand === 'samsung').map((m) => m.label);
+const studio = (id: string) => `/personnaliser/?tpl=maillot-${id}`;
+
+const NATIONS = ['france', 'espagne', 'portugal', 'italie', 'bresil', 'argentine', 'allemagne', 'angleterre', 'pays-bas', 'belgique', 'maroc', 'algerie'];
+const nations = JERSEYS.filter((j) => NATIONS.includes(j.id));
+const clubs = JERSEYS.filter((j) => !NATIONS.includes(j.id));
+// Exemples de personnalisation (prénoms neutres, aucun joueur réel).
+const SAMPLES: Record<string, [string, string]> = {
+  france: ['LUCAS', '10'], espagne: ['INÈS', '7'], bresil: ['NATHAN', '9'], argentine: ['LÉA', '11'],
+  'raye-rouge-noir': ['HUGO', '8'], 'bleu-nuit-bande-rouge': ['SARAH', '23'], 'raye-bleu-grenat': ['ADAM', '4'], 'jaune-noir': ['MAÉ', '17'],
+};
+const sample = (id: string): [string, string] => SAMPLES[id] ?? ['TON NOM', '10'];
+const hero = ['argentine', 'france', 'bresil'].map((id) => JERSEYS.find((j) => j.id === id)!);
+
+const T = {
+  title: 'Coque foot personnalisée avec ton nom et ton numéro',
+  description: `Coque de téléphone foot personnalisée façon maillot : choisis les couleurs de ton pays ou de ton équipe, ajoute ton nom et ton numéro. iPhone et Samsung, imprimée en France dès ${flat}.`,
+  h1: 'Coque foot personnalisée avec ton nom et ton numéro',
+  intro: 'Le dos de ton maillot, sur ta coque de téléphone : choisis les couleurs de ton pays ou de ton équipe préférée, écris ton nom et ton numéro, et c’est prêt. Une coque foot personnalisable en quelques secondes, imprimée à l’unité dans notre atelier en France.',
+  cta: 'Créer ma coque foot',
+  price: `À partir de ${flat}, ${relief} en relief · iPhone et Samsung`,
+};
+
+const STEPS: [string, string][] = [
+  ['Choisis ton maillot', 'France, Espagne, Brésil, Argentine… ou les couleurs de ton club : 23 maillots prêts à personnaliser.'],
+  ['Ajoute ton nom et ton numéro', 'Touche le texte pour le remplacer. Change la couleur, la taille ou la police si tu veux, ou ajoute une photo.'],
+  ['Reçois ta coque', 'Elle est imprimée à l’unité dans notre atelier en France, pour ton modèle exact de téléphone, puis expédiée sous 1 à 2 jours ouvrés.'],
+];
+
+const FAQ: [string, string][] = [
+  ['Puis-je mettre le logo ou l’écusson de mon club ?', 'Non : les logos, écussons et noms des clubs et des fédérations sont des marques déposées, nous ne pouvons pas les imprimer. Nos maillots reprennent uniquement les couleurs, et c’est ton nom et ton numéro qui les rendent uniques.'],
+  ['Quels noms et numéros puis-je mettre ?', 'Ce que tu veux : ton prénom, ton surnom, le nom d’un proche, ton numéro de joueur ou une date. Le texte reste modifiable jusqu’à la commande.'],
+  ['C’est une bonne idée de cadeau ?', 'Oui : pour un joueur de club, un fan de l’équipe de France, un enfant qui fait du foot ou pour la fête des pères. Une coque foot personnalisée avec son nom fait un cadeau qu’il utilisera tous les jours.'],
+  ['Quels téléphones sont compatibles ?', 'iPhone 13 à 17 Pro Max et Samsung Galaxy S24, S25, S26 (Ultra compris), A36 et A56 : la coque est fabriquée pour ton modèle exact.'],
+  ['Combien de temps pour la recevoir ?', 'La coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés. Compte 4 à 7 jours ouvrés en point relais en France.'],
+  ['Puis-je la retourner ?', 'Une coque personnalisée est fabriquée pour toi seul : comme le prévoit la loi, elle ne bénéficie pas du droit de rétractation. En cas de défaut d’impression, nous la refaisons.'],
+];
+
+const pageUrl = `${siteConfig.url}/coque-foot-personnalisee/`;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${siteConfig.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Coque personnalisée', item: `${siteConfig.url}/coque-personnalisee/` },
+    { '@type': 'ListItem', position: 3, name: T.h1, item: pageUrl },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'HowTo', name: 'Créer sa coque foot personnalisée',
+    step: STEPS.map(([name, text], i) => ({ '@type': 'HowToStep', position: i + 1, name, text })) },
+  { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+];
+const jStyle = (j: (typeof JERSEYS)[number]) =>
+  `background-image:url('/images/studio-bg/maillot-${j.id}.webp');--ink:${j.ink};--line:${j.outline || 'transparent'}`;
+---
+
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/studio-bg/maillot-france.webp">
+  <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
+      <a href="/" class="hover:text-cream transition-colors">Accueil</a>
+      <span>/</span>
+      <a href="/coque-personnalisee/" class="hover:text-cream transition-colors">Coque personnalisée</a>
+      <span>/</span>
+      <span class="text-n-400">Coque foot</span>
+    </nav>
+
+    <section class="grid md:grid-cols-2 gap-10 md:gap-12 items-center mb-20">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-5">{T.h1}</h1>
+        <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-7">{T.intro}</p>
+        <a href={studio('france')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+        <p class="text-sm text-n-500 font-light mt-4">{T.price}</p>
+      </div>
+      <div class="hero-cases" aria-hidden="true">
+        {hero.map((j, i) => (
+          <span class="jcase" style={jStyle(j)} data-i={i}>
+            <span class="jname">{sample(j.id)[0]}</span>
+            <span class="jnum">{sample(j.id)[1]}</span>
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-8">Comment ça marche ?</h2>
+      <ol class="grid md:grid-cols-3 gap-6">
+        {STEPS.map(([name, text], i) => (
+          <li class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+            <span class="text-xs font-medium text-n-500 tracking-widest">0{i + 1}</span>
+            <h3 class="text-lg font-medium text-cream mt-2 mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-3">Coques aux couleurs des pays</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">Supporte ta sélection : touche un maillot pour l’ouvrir dans le studio et y mettre ton nom et ton numéro.</p>
+      <ul class="jgrid">
+        {nations.map((j) => (
+          <li>
+            <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
+              <span class="jcase" style={jStyle(j)}>
+                <span class="jname">{sample(j.id)[0]}</span>
+                <span class="jnum">{sample(j.id)[1]}</span>
+              </span>
+              <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mb-20">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-3">Coques aux couleurs de ton équipe</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">Rayé, uni, à bande : retrouve les couleurs des grands clubs, sans logo, pour une coque maillot qui te ressemble.</p>
+      <ul class="jgrid">
+        {clubs.map((j) => (
+          <li>
+            <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
+              <span class="jcase" style={jStyle(j)}>
+                <span class="jname">{sample(j.id)[0]}</span>
+                <span class="jnum">{sample(j.id)[1]}</span>
+              </span>
+              <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="grid md:grid-cols-3 gap-6 mb-20">
+      <div class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+        <h2 class="text-lg font-medium text-cream mb-2">À plat ou en relief</h2>
+        <p class="text-sm text-n-400 font-light leading-relaxed">À plat ({flat}), surface lisse et couleurs franches. En relief ({relief}), l’encre est déposée en plusieurs couches : ton nom et ton numéro se sentent sous le doigt, comme un flocage.</p>
+      </div>
+      <div class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+        <h2 class="text-lg font-medium text-cream mb-2">Le cadeau des fans de foot</h2>
+        <p class="text-sm text-n-400 font-light leading-relaxed">Anniversaire, Noël, fête des pères, fin de saison du club : une coque de téléphone personnalisée foot, avec son nom et son numéro, il ne la quittera plus.</p>
+      </div>
+      <div class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+        <h2 class="text-lg font-medium text-cream mb-2">Imprimée en France</h2>
+        <p class="text-sm text-n-400 font-light leading-relaxed">Chaque coque est imprimée à l’unité dans notre atelier, directement sur une coque transparente : pas d’autocollant qui se décolle.</p>
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-5">Modèles compatibles</h2>
+      <p class="text-sm text-n-400 font-light leading-relaxed"><strong class="text-cream font-medium">iPhone :</strong> {iphones.join(', ')}</p>
+      <p class="text-sm text-n-400 font-light leading-relaxed mt-2"><strong class="text-cream font-medium">Samsung :</strong> {galaxies.join(', ')}</p>
+    </section>
+
+    <section class="max-w-3xl mb-16">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-6">Questions fréquentes</h2>
+      <div class="space-y-3">
+        {FAQ.map(([q, a]) => (
+          <details class="rounded-2xl border border-white/[0.08] bg-panel px-6 py-4">
+            <summary class="cursor-pointer font-medium text-cream">{q}</summary>
+            <p class="mt-3 text-sm text-n-400 font-light leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <div class="text-center">
+      <a href={studio('france')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+      <p class="text-sm text-n-500 font-light mt-4">Envie d’une photo plutôt ? <a href="/coque-personnalisee/" class="underline underline-offset-4">Coque personnalisée avec photo</a></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Une « coque » : le fond maillot du studio, le nom et le numéro en Anton,
+     aux mêmes positions relatives que dans le studio (46 % et 68 %). */
+  .jcase {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 2.08;
+    border-radius: 13% / 6.3%;
+    background-size: cover;
+    background-position: center;
+    container-type: inline-size;
+    box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 14px 30px -18px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(255 255 255 / .25);
+    overflow: hidden;
+    transition: transform .3s ease;
+  }
+  .jcase::before { /* module photo */
+    content: '';
+    position: absolute;
+    left: 6%; top: 3%;
+    width: 38%; aspect-ratio: 1;
+    border-radius: 22%;
+    background: rgb(255 255 255 / .18);
+    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .45);
+  }
+  .group:hover .jcase { transform: translateY(-3px); }
+  .jname, .jnum {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Anton', Impact, sans-serif;
+    color: var(--ink);
+    white-space: nowrap;
+    line-height: 1;
+    -webkit-text-stroke: .045em var(--line);
+    paint-order: stroke fill;
+  }
+  .jname { top: 46%; font-size: 10.5cqw; letter-spacing: .02em; }
+  .jnum { top: 68%; font-size: 58cqw; }
+  .jgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  @media (min-width: 640px) { .jgrid { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 1024px) { .jgrid { grid-template-columns: repeat(6, 1fr); } }
+  .hero-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: end; width: 100%; max-width: 520px; margin-inline: auto; padding: 1.5rem 0; }
+  .hero-cases .jcase[data-i='0'] { transform: rotate(-6deg) translateY(10px); }
+  .hero-cases .jcase[data-i='1'] { transform: translateY(-14px); z-index: 1; }
+  .hero-cases .jcase[data-i='2'] { transform: rotate(6deg) translateY(10px); }
+</style>

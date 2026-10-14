@@ -54,6 +54,7 @@ const shopCats = ((siteConfig.productCategories ?? []) as ShopCat[]).filter((c) 
         <li><a href={url('/')} class="hover:text-cream transition-colors">{t('nav.home', lang)}</a></li>
         {siteConfig.shop?.enabled && <li><a href={url('/boutique')} class="hover:text-cream transition-colors">{t('nav.shop', lang)}</a></li>}
         <li><a href={url('/coque-personnalisee/')} class="hover:text-cream transition-colors">{customLabel}</a></li>
+        {lang === 'fr' && <li><a href="/coque-foot-personnalisee/" class="hover:text-cream transition-colors">Coque foot personnalisée</a></li>}
         <li><a href={url('/avis/')} class="hover:text-cream transition-colors">{reviewsLabel}</a></li>
         {hasPosts && <li><a href={url('/blog')} class="hover:text-cream transition-colors">{t('nav.blog', lang)}</a></li>}
       </ul>
