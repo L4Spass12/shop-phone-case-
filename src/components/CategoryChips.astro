@@ -2,18 +2,19 @@
 // Filtres de la boutique : une rangée de vignettes (une par catégorie de
 // style), sur le modèle des catégories du menu : petite image carrée + nom.
 // Défilable au doigt sur mobile, sur une ligne à partir de la tablette.
-// Ce sont de vrais liens vers les pages de catégorie : utiles au
-// référencement et sans JavaScript.
+// Par défaut, de vrais liens vers les pages de catégorie (référencement,
+// sans JavaScript). Avec `filter`, des boutons qui filtrent la grille de la
+// page sur place (pages modèle), en n'affichant que les catégories `only`.
 import { existsSync } from 'node:fs';
 import { getCollection } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
 import { t, localePrefix, type Locale } from '../lib/i18n';
 
-interface Props { lang?: Locale; active?: string }
-const { lang = 'fr', active = '' } = Astro.props;
+interface Props { lang?: Locale; active?: string; filter?: boolean; only?: string[]; label?: string }
+const { lang = 'fr', active = '', filter = false, only, label } = Astro.props;
 const lp = localePrefix(lang);
 type Cat = { slug: string; label: string; labels?: Record<string, string>; theme?: boolean };
-const cats = ((siteConfig.productCategories ?? []) as Cat[]).filter((c) => c.theme);
+const cats = ((siteConfig.productCategories ?? []) as Cat[]).filter((c) => c.theme && (!only || only.includes(c.slug)));
 const name = (c: Cat) => (lang !== 'fr' && c.labels?.[lang]) || c.label;
 const all = { fr: 'Toutes', en: 'All', de: 'Alle' }[lang] ?? 'Toutes';
 
@@ -29,7 +30,7 @@ const thumb = (slug: string) => {
 // « Toutes » : mosaïque des quatre premières vignettes.
 const mosaic = cats.map((c) => thumb(c.slug)).filter(Boolean).slice(0, 4) as string[];
 ---
-{cats.length > 0 && (
+{cats.length > 0 && !filter && (
   <nav class="cat-tiles" aria-label={t('shop.chooseCategory', lang)}>
     <a href={`${lp}/boutique`} class:list={['cat-tile', !active && 'is-active']} aria-current={!active ? 'page' : undefined}>
       <span class="cat-img is-mosaic">
@@ -47,6 +48,25 @@ const mosaic = cats.map((c) => thumb(c.slug)).filter(Boolean).slice(0, 4) as str
       );
     })}
   </nav>
+)}
+{cats.length > 0 && filter && (
+  <div class="cat-tiles" role="group" aria-label={label ?? t('shop.chooseCategory', lang)}>
+    <button type="button" class="cat-tile filter-btn is-active" data-filter="all" aria-pressed="true">
+      <span class="cat-img is-mosaic">
+        {mosaic.map((src) => <img src={src} alt="" width="200" height="200" loading="lazy" decoding="async" />)}
+      </span>
+      <span class="cat-name">{all}</span>
+    </button>
+    {cats.map((c) => {
+      const src = thumb(c.slug);
+      return (
+        <button type="button" class="cat-tile filter-btn" data-filter={c.slug} aria-pressed="false">
+          <span class="cat-img">{src && <img src={src} alt="" width="200" height="200" loading="lazy" decoding="async" />}</span>
+          <span class="cat-name">{name(c)}</span>
+        </button>
+      );
+    })}
+  </div>
 )}
 
 <style>
@@ -75,6 +95,12 @@ const mosaic = cats.map((c) => thumb(c.slug)).filter(Boolean).slice(0, 4) as str
     }
   }
   .cat-tile {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;

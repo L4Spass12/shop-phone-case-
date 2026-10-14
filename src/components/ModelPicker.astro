@@ -125,7 +125,10 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         {/* Poignée décorative : signale « ça se tire vers le bas » sur mobile. */}
         <span class="mp-grip" aria-hidden="true"></span>
         <div class="mp-panel-titlebar">
-          <h2 class="mp-panel-title" id={`${id}-title`}>{t('model.dialogTitle', lang)}</h2>
+          {/* Pas un <h2> : ce panneau est présent sur toutes les pages, avant
+              le <h1>. Un titre ici parasitait la structure SEO de chaque page.
+              Le nom accessible du dialogue passe par aria-labelledby. */}
+          <p class="mp-panel-title" id={`${id}-title`}>{t('model.dialogTitle', lang)}</p>
           <button type="button" class="mp-close" data-mp-close aria-label={t('model.close', lang)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
               <path d="M18 6 6 18M6 6l12 12" />
