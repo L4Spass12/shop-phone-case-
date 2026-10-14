@@ -95,6 +95,10 @@ jobs:
           git config http.lowSpeedTime 60
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
+          # Marqueur de déploiement : https://moroji.com/build-info.txt dit quel
+          # commit est en ligne (et garantit un commit par build).
+          printf 'commit=%s\nrun=%s\ndate=%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$(date -u +%FT%TZ)" > build-info.txt
+
           git add -A
           TREE=$(git write-tree)
           MSG="build: ${GITHUB_SHA::7}, $(find . -name '*.html' -not -path './.git/*' | wc -l | tr -d ' ') pages"

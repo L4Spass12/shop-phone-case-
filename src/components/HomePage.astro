@@ -206,8 +206,8 @@ import CardStars from './CardStars.astro';
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/videos/hero-relief-m916-poster-750w.webp', media: '(max-width: 767px)',
-      imagesrcset: '/videos/hero-relief-m916-poster-750w.webp 750w, /videos/hero-relief-m916-poster.webp 1080w',
+    { href: '/videos/hero-mobile-v3-poster-750w.webp', media: '(max-width: 767px)',
+      imagesrcset: '/videos/hero-mobile-v3-poster-750w.webp 750w, /videos/hero-mobile-v3-poster.webp 1080w',
       imagesizes: '100vw' },
     { media: '(min-width: 768px)', href: '/videos/hero-relief-poster.webp',
       imagesrcset: '/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w',
@@ -222,7 +222,7 @@ import CardStars from './CardStars.astro';
     {/* Bannière « relief » : photo (première image de la vidéo) en paysage
         sur ordinateur, en vertical sur mobile ; la vidéo se pose dessus. */}
     <picture>
-      <source media="(max-width: 767px)" srcset="/videos/hero-relief-m916-poster-750w.webp 750w, /videos/hero-relief-m916-poster.webp 1080w" sizes="100vw" width="1080" height="1920" />
+      <source media="(max-width: 767px)" srcset="/videos/hero-mobile-v3-poster-750w.webp 750w, /videos/hero-mobile-v3-poster.webp 1080w" sizes="100vw" width="1080" height="1512" />
       <img
         src="/videos/hero-relief-poster.webp"
         srcset="/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w"

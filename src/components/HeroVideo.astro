@@ -1,28 +1,21 @@
 ---
 /**
- * Vidéo d'ambiance de la bannière d'accueil (paysage sur ordinateur,
- * verticale sur mobile), posée par-dessus la photo de la bannière.
+ * Vidéo d'ambiance de la bannière d'accueil, posée sur la photo de la
+ * bannière (paysage sur ordinateur, verticale aux proportions exactes de la
+ * bannière sur mobile : 1080 × 1512, rien à recadrer pour le téléphone).
  *
- * Règles de lecture automatique respectées :
- * - `autoplay muted playsinline` dans le HTML : seule combinaison que tous
- *   les navigateurs, Safari iPhone compris, lancent sans geste du visiteur.
- * - La vidéo est VISIBLE dès le départ (pas d'opacité 0 en attendant qu'elle
- *   joue) : Safari iOS ne lance pas une vidéo qu'il juge invisible. Tant que
- *   la première image n'est pas décodée, la vidéo est transparente et on voit
- *   la photo dessous ; l'affiche (poster) prend ensuite le relais.
- * - Le navigateur choisit la source avec l'attribut `media` : verticale sur
- *   mobile (MP4 d'abord, le WebM est mal lu par Safari iPhone), paysage sur
- *   ordinateur (WebM, plus léger, puis MP4 en secours).
- * - Moins d'animations demandé ou économie de données : la vidéo est
- *   retirée, la photo reste.
- * - iPhone / iPad : iOS peut bloquer la lecture automatique d'une VIDÉO
- *   (mode économie d'énergie, etc.) et la faire attendre un geste. On y
- *   affiche donc le MÊME fichier MP4 dans une balise <img> : Safari l'anime
- *   tout de suite, comme un GIF, sans perte de qualité (même fichier) et
- *   sans règle de lecture automatique. Décidé avant que la vidéo ne charge,
- *   donc le fichier n'est téléchargé qu'une fois.
- * - Ailleurs, si le système bloque malgré tout la lecture, elle démarre au
- *   premier geste du visiteur.
+ * - Une vraie <video>, partout : décodée par la puce graphique, donc fluide
+ *   et nette, en boucle.
+ * - `autoplay muted playsinline` dans le HTML : seule combinaison lancée sans
+ *   geste par tous les navigateurs, Safari iPhone compris. La vidéo est
+ *   visible dès le départ (Safari ne lance pas une vidéo qu'il juge cachée) ;
+ *   tant que la première image n'est pas prête, on voit la photo dessous.
+ * - Sources choisies par le navigateur (attribut `media`) : MP4 H.264 en
+ *   premier sur mobile (Safari iPhone), WebM d'abord sur ordinateur.
+ * - Secours iPhone / iPad : si iOS refuse la lecture automatique (mode
+ *   économie d'énergie), le même MP4 est affiché dans une <img>, que Safari
+ *   anime sans condition. Moins fluide qu'une vidéo, donc réservé à ce cas.
+ * - Moins d'animations demandé ou économie de données : pas de vidéo.
  *
  * Retour à la photo seule : tag git `banniere-image-avant-video`.
  */
@@ -34,16 +27,17 @@
   loop
   playsinline
   disablepictureinpicture
+  disableremoteplayback
   preload="auto"
   aria-hidden="true"
   tabindex="-1"
-  data-poster-mobile="/videos/hero-relief-m916-poster-750w.webp"
+  data-poster-mobile="/videos/hero-mobile-v3-poster-750w.webp"
   data-poster-desktop="/videos/hero-relief-poster.webp"
-  data-mp4-mobile="/videos/hero-relief-m916.mp4"
+  data-mp4-mobile="/videos/hero-mobile-v3.mp4"
   data-mp4-desktop="/videos/hero-relief-v2.mp4"
 >
-  <source src="/videos/hero-relief-m916.mp4" type="video/mp4" media="(max-width: 767px)" />
-  <source src="/videos/hero-relief-m916.webm" type="video/webm" media="(max-width: 767px)" />
+  <source src="/videos/hero-mobile-v3.mp4" type="video/mp4" media="(max-width: 767px)" />
+  <source src="/videos/hero-mobile-v3.webm" type="video/webm" media="(max-width: 767px)" />
   <source src="/videos/hero-relief-v2.webm" type="video/webm" media="(min-width: 768px)" />
   <source src="/videos/hero-relief-v2.mp4" type="video/mp4" media="(min-width: 768px)" />
 </video>
@@ -62,36 +56,32 @@
 
     var mobile = mq('(max-width: 767px)').matches;
     var ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    if (ios) {
-      var src = mobile ? v.dataset.mp4Mobile : v.dataset.mp4Desktop;
+    v.poster = mobile ? v.dataset.posterMobile : v.dataset.posterDesktop;
+    v.muted = true;
+    v.defaultMuted = true;
+
+    var secours = function () {
+      if (!v.isConnected || !v.paused) return;
+      if (!ios) return; // ailleurs : la vidéo démarrera au premier geste
       var img = document.createElement('img');
       img.className = v.className;
       img.alt = '';
       img.setAttribute('aria-hidden', 'true');
-      img.decoding = 'async';
-      img.src = src;
-      // La vidéo est retirée avant d'avoir commencé à charger.
-      v.removeAttribute('autoplay');
-      v.preload = 'none';
-      while (v.firstChild) v.removeChild(v.firstChild);
+      img.src = mobile ? v.dataset.mp4Mobile : v.dataset.mp4Desktop;
       v.replaceWith(img);
-      return;
-    }
-
-    v.poster = mobile ? v.dataset.posterMobile : v.dataset.posterDesktop;
-    // Propriété ET attribut : certains Safari ne lisent que l'une des deux.
-    v.muted = true;
-    v.defaultMuted = true;
+    };
 
     var jouer = function () {
       if (!v.paused) return;
       var p = v.play();
-      if (p && p.catch) p.catch(function () {});
+      if (p && p.catch) p.catch(function (e) { if (e && e.name === 'NotAllowedError') secours(); });
     };
     jouer();
     v.addEventListener('canplay', jouer, { once: true });
+    // Filet : toujours à l'arrêt 2,5 s après le chargement de la page.
+    window.addEventListener('load', function () { setTimeout(secours, 2500); }, { once: true });
 
-    // Secours : lecture refusée par le système, on relance au premier geste.
+    // Navigateurs hors iOS qui exigent un geste : on relance au premier.
     var gestes = ['touchstart', 'pointerdown', 'scroll', 'keydown'];
     var relance = function () {
       jouer();
