@@ -1,0 +1,151 @@
+---
+// Accueil : vitrine des avis. À gauche la note globale et les liens, à
+// droite les cartes (photo, citation, étoiles, prénom, achat vérifié) qui
+// défilent horizontalement. Les avis longs sont coupés ici et lus en entier
+// sur /avis.
+import type { Review } from '../lib/reviews';
+import { summary } from '../lib/reviews';
+import { localePrefix, type Locale } from '../lib/i18n';
+
+interface Props { reviews: Review[]; lang: Locale; title: string; limit?: number }
+const { reviews, lang, title, limit = 10 } = Astro.props;
+const lp = localePrefix(lang);
+const s = summary(reviews);
+const shown = reviews.slice(0, limit);
+// Un seul avis : carte large (photo à gauche, texte entier), sinon la
+// colonne de cartes paraît vide.
+const feature = shown.length === 1;
+const T = {
+  fr: { eyebrow: 'Avis clients', count: (n: number) => `${n} avis vérifié${n > 1 ? 's' : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié', more: 'Lire la suite' },
+  en: { eyebrow: 'Customer reviews', count: (n: number) => `${n} verified review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase', more: 'Read more' },
+  de: { eyebrow: 'Kundenbewertungen', count: (n: number) => `${n} verifizierte Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf', more: 'Weiterlesen' },
+}[lang];
+const fmt = (n: number) => n.toFixed(1).replace('.', lang === 'en' ? '.' : ',');
+const day = (iso: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+const full = (n: number) => Math.round(n);
+---
+{T && reviews.length > 0 && (
+  <section class="rvs below-fold-defer">
+    <div class="rvs-in">
+      <div class="rvs-intro">
+        <span class="rvs-eyebrow">{T.eyebrow}</span>
+        <h2 class="rvs-title">{title}</h2>
+        <div class="rvs-score">
+          <span class="rvs-big">{fmt(s.avg)}</span>
+          <span class="rvs-score-r">
+            <span class="rvs-stars" aria-label={`${fmt(s.avg)}/5`}>{'★'.repeat(full(s.avg))}<span class="off">{'★'.repeat(5 - full(s.avg))}</span></span>
+            <span class="rvs-count">{T.count(s.count)}</span>
+          </span>
+        </div>
+        <a class="rvs-all" href={`${lp}/avis/`}>{T.all} →</a>
+        <a class="rvs-how" href={`${lp}/avis/#verification`}>{T.how}</a>
+      </div>
+
+      <ul class:list={['rvs-track', feature && 'is-feature']}>
+        {shown.map((r) => (
+          <li class="rvs-card">
+            {r.photo && <img class="rvs-photo" src={r.photo} alt="" loading="lazy" decoding="async" width="600" height="600" />}
+            <div class="rvs-body">
+              <span class="rvs-stars" aria-label={`${r.rating}/5`}>{'★'.repeat(r.rating)}<span class="off">{'★'.repeat(5 - r.rating)}</span></span>
+              {r.body && <p class="rvs-text">{r.body}</p>}
+              {!feature && r.body && r.body.length > 220 && <a class="rvs-more" href={`${lp}/avis/`}>{T.more}</a>}
+              <p class="rvs-meta">
+                <span class="rvs-author">{r.author}</span>
+                <span class="rvs-ok">✓ {T.verified}</span>
+              </p>
+              <p class="rvs-date">{day(r.date)}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .rvs {
+    padding: 4.5rem 0;
+    background: linear-gradient(180deg, #f7f3fe 0%, #efe8fc 100%);
+  }
+  .rvs-in {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .rvs-in { grid-template-columns: 300px minmax(0, 1fr); gap: 3rem; align-items: center; }
+  }
+  .rvs-eyebrow { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgb(var(--accent-rgb)); margin-bottom: .6rem; }
+  .rvs-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -.02em; color: rgb(var(--c-cream)); }
+  .rvs-score { display: flex; align-items: center; gap: .9rem; margin: 1.4rem 0 1.2rem; }
+  .rvs-big { font-family: var(--font-display); font-weight: 700; font-size: 3.4rem; line-height: 1; color: rgb(var(--c-cream)); letter-spacing: -.03em; }
+  .rvs-score-r { display: flex; flex-direction: column; gap: .25rem; }
+  .rvs-stars { color: #f5b301; letter-spacing: .08em; font-size: 1.05rem; line-height: 1; }
+  .rvs-stars .off { color: rgb(var(--c-cream) / .15); }
+  .rvs-count { font-size: .85rem; color: rgb(var(--c-n400)); }
+  .rvs-all { display: inline-flex; align-items: center; font-weight: 600; font-size: .9rem; color: rgb(var(--c-cream)); background: #fff; border: 1px solid rgb(var(--c-cream) / .12); border-radius: 999px; padding: .6rem 1.1rem; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+  .rvs-all:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -12px rgb(var(--accent-rgb) / .6); }
+  .rvs-how { display: block; margin-top: .9rem; font-size: .78rem; color: rgb(var(--c-n500)); text-decoration: underline; text-underline-offset: 3px; }
+
+  .rvs-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: .25rem .25rem 1rem;
+    margin: 0 -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    scrollbar-width: none;
+  }
+  .rvs-track::-webkit-scrollbar { display: none; }
+  @media (min-width: 1024px) { .rvs-track { margin: 0; padding-left: .25rem; padding-right: .25rem; } }
+  .rvs-card {
+    flex: 0 0 min(82vw, 340px);
+    scroll-snap-align: start;
+    background: #fff;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgb(42 17 71 / .06), 0 14px 32px -18px rgb(42 17 71 / .35);
+    display: flex;
+    flex-direction: column;
+  }
+  .rvs-photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .rvs-body { position: relative; padding: 1.2rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+  .rvs-body::before {
+    content: "\201C";
+    position: absolute;
+    top: .2rem;
+    right: 1rem;
+    font-family: Georgia, serif;
+    font-size: 4.2rem;
+    line-height: 1;
+    color: rgb(var(--accent-rgb) / .16);
+  }
+  .rvs-text {
+    font-size: .95rem;
+    line-height: 1.55;
+    color: rgb(var(--c-cream) / .9);
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .rvs-more { font-size: .8rem; font-weight: 600; color: rgb(var(--accent-rgb)); text-decoration: none; }
+  .rvs-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: auto; padding-top: .4rem; }
+  .rvs-author { font-weight: 700; font-size: .9rem; color: rgb(var(--c-cream)); }
+  .rvs-ok { font-size: .7rem; font-weight: 600; color: #14704a; background: #e7f6ee; border-radius: 999px; padding: .2rem .55rem; }
+  .rvs-date { font-size: .75rem; color: rgb(var(--c-n500)); }
+
+  .is-feature .rvs-card { flex: 1 1 auto; max-width: 760px; }
+  .is-feature .rvs-text { -webkit-line-clamp: unset; display: block; font-size: 1.02rem; }
+  @media (min-width: 640px) {
+    .is-feature .rvs-card { flex-direction: row; }
+    .is-feature .rvs-photo { width: 42%; flex: 0 0 42%; aspect-ratio: auto; height: auto; min-height: 320px; align-self: stretch; }
+    .is-feature .rvs-body { padding: 1.8rem 1.9rem; justify-content: center; }
+    .is-feature .rvs-meta { margin-top: .4rem; }
+  }
+</style>

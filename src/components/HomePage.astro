@@ -120,6 +120,7 @@ const sortedProducts = allProducts
   .map(p => {
     const tr = lang === 'fr' ? undefined : translationOf(p.slug);
     return {
+      slug: parseEntrySlug(p.slug).slug,
       href: url(`/product/${parseEntrySlug(p.slug).slug}`),
       data: { ...p.data, name: tr?.data.name ?? p.data.name, imageAlt: tr?.data.imageAlt ?? p.data.imageAlt },
     };
@@ -192,10 +193,11 @@ const faqSchema = {
     acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') },
   })),
 };
-import ReviewCards from './ReviewCards.astro';
+import ReviewShowcase from './ReviewShowcase.astro';
 import { getReviews } from '../lib/reviews';
 const homeReviews = await getReviews();
 const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their case', de: 'Sie lieben ihre Hülle' } as Record<string, string>)[lang];
+import CardStars from './CardStars.astro';
 ---
 
 <BaseLayout
@@ -337,6 +339,7 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
               <h3 class="text-sm font-medium text-cream tracking-tight leading-snug line-clamp-2 mb-1 group-hover:underline underline-offset-4">
                 {product.data.name}
               </h3>
+<CardStars slug={product.slug} />
               <div class="flex items-baseline gap-2 text-xs">
                 <span class="price-amount text-cream font-medium">{displayPrice(product.data)}</span>
                 {product.data.compareAtPrice && (
@@ -349,6 +352,11 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
       </div>
     </section>
   )}
+
+  <!-- ═══════════════════════════ AVIS CLIENTS ═══════════════════════════ -->
+  {/* Juste après les produits : la preuve sociale au moment où l'on hésite.
+      Masquée tant qu'aucun avis n'est publié. */}
+  <ReviewShowcase reviews={homeReviews} lang={lang} title={reviewsTitle} />
 
   <!-- ═══════════════════════════ PERSONNALISATION ═══════════════════════════ -->
   {/* Le texte est posé SUR l'image : celle-ci offre un grand plan de travail
@@ -464,6 +472,7 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
               <h3 class="text-sm font-medium text-cream tracking-tight leading-snug line-clamp-2 mb-1 group-hover:underline underline-offset-4">
                 {p.data.name}
               </h3>
+<CardStars slug={p.slug} />
               <div class="flex items-baseline gap-2 text-xs">
                 <span class="price-amount text-cream font-medium">{displayPrice(p.data)}</span>
                 {p.data.compareAtPrice && (
@@ -694,12 +703,6 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
   {/* Section Instagram masquée le temps que le compte @bymoroji se
       remplisse : remettre <InstaGrid /> ici (et son import). */}
 
-  {/* Avis clients (masqué tant qu'il n'y en a aucun de publié). */}
-  {homeReviews.length > 0 && (
-    <section class="py-16 md:py-20 px-6 border-t border-white/[0.04] below-fold-defer">
-      <div class="max-w-7xl mx-auto"><ReviewCards reviews={homeReviews} lang={lang} title={reviewsTitle} limit={6} /></div>
-    </section>
-  )}
 
   <!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
   <section class="py-20 md:py-24 px-6 border-t border-white/[0.04] bg-panel below-fold-defer">

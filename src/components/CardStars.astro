@@ -1,0 +1,23 @@
+---
+// Étoiles + nombre d'avis sous le nom d'un produit, dans les grilles.
+// N'apparaît que si CE produit a des avis publiés (jamais la note de la
+// boutique sur une carte : ce serait faire passer des avis pour d'autres).
+import { getReviews, summary } from '../lib/reviews';
+
+interface Props { slug: string }
+const base = (Astro.props.slug ?? '').replace(/^[a-z]{2}\//, '');
+const list = (await getReviews()).filter((r) => r.products.includes(base));
+const s = summary(list);
+const full = Math.round(s.avg);
+---
+{s.count > 0 && (
+  <p class="card-stars" aria-label={`${s.avg}/5, ${s.count}`}>
+    <span aria-hidden="true">{'★'.repeat(full)}<span class="off">{'★'.repeat(5 - full)}</span></span>
+    <span class="n">({s.count})</span>
+  </p>
+)}
+<style>
+  .card-stars { display: flex; align-items: center; gap: .3rem; margin-top: .2rem; font-size: .8rem; line-height: 1; color: #f5b301; letter-spacing: .04em; }
+  .card-stars .off { color: rgb(var(--c-cream) / .18); }
+  .card-stars .n { color: rgb(var(--c-n500)); font-size: .72rem; letter-spacing: 0; }
+</style>

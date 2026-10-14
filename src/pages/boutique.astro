@@ -58,6 +58,7 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Boutique', item: `${SITE_URL}/boutique` },
   ],
 };
+import CardStars from '../components/CardStars.astro';
 ---
 
 <BaseLayout
@@ -117,6 +118,7 @@ const breadcrumbSchema = {
               <h2 class="text-sm md:text-base font-medium text-cream tracking-tight leading-snug line-clamp-1 group-hover:underline underline-offset-4">
                 {product.data.name}
               </h2>
+<CardStars slug={product.slug} />
               <div class="mt-1 flex items-baseline gap-2">
                 <span class="price-amount text-sm md:text-base text-cream font-medium">{displayPrice(product.data)}</span>
                 {product.data.compareAtPrice && (

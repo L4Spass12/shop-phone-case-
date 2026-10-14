@@ -129,6 +129,7 @@ const faqSchema = faq.length > 0 ? {
 const jsonLd: any[] = [breadcrumbSchema, collectionSchema];
 if (itemListSchema) jsonLd.push(itemListSchema);
 if (faqSchema) jsonLd.push(faqSchema);
+import CardStars from '../../components/CardStars.astro';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} jsonLd={jsonLd}>
@@ -193,6 +194,7 @@ if (faqSchema) jsonLd.push(faqSchema);
                     <h2 class="text-sm md:text-base font-medium text-cream mb-1 tracking-tight group-hover:underline underline-offset-4 line-clamp-1">
                       {product.data.name}
                     </h2>
+<CardStars slug={product.slug} />
                     <p class="hidden md:block text-xs text-n-500 font-light truncate">{product.data.shortDescription}</p>
                   </div>
                   <div class="flex items-baseline gap-2 xl:shrink-0">

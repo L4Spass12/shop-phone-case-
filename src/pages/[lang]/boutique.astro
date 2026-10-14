@@ -58,6 +58,7 @@ const breadcrumbSchema = {
 // Badge « Nouveau » : produit publié il y a moins de 60 jours. Remplace
 // l'ancien « Bestseller », qui s'affichait sur des nouveautés sans ventes.
 const isNew = (d: any) => d.pubDate && Date.now() - new Date(d.pubDate).getTime() < 60 * 864e5;
+import CardStars from '../../components/CardStars.astro';
 ---
 
 <BaseLayout
@@ -119,6 +120,7 @@ const isNew = (d: any) => d.pubDate && Date.now() - new Date(d.pubDate).getTime(
               <h2 class="text-sm md:text-base font-medium text-cream tracking-tight leading-snug line-clamp-1 group-hover:underline underline-offset-4">
                 {product.data.name}
               </h2>
+<CardStars slug={product.slug} />
               <div class="mt-1 flex items-baseline gap-2">
                 <span class="price-amount text-sm md:text-base text-cream font-medium">{displayPrice(product.data)}</span>
                 {product.data.compareAtPrice && (

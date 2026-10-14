@@ -2369,24 +2369,24 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   }
 }
 @media (max-width: 767px) {
-  /* Mobile : vidéo verticale 9:16 entière (ou sa première image), qui
-     démarre sous le header. Le titre se pose en haut, sur le mur clair
-     au-dessus du téléphone ; les deux boutons en bas de la vidéo. */
+  /* Mobile : vidéo verticale 9:16 entière (ou sa première image) qui passe
+     DERRIÈRE le header transparent, comme sur ordinateur. Titre et boutons
+     regroupés en bas, sur un léger dégradé clair qui les garde lisibles
+     quand les gros plans du relief passent derrière. */
   html[data-theme='sunfreaks'] main > section.hero-section--relief {
     min-height: 0;
-    height: calc(var(--header-total) + 177.78vw);
-    align-items: stretch;
+    height: min(177.78vw, 100svh);
+    align-items: flex-end;
     background: #eef3f9;
   }
-  html[data-theme='sunfreaks'] .hero-section--relief::after { content: none; }
   html[data-theme='sunfreaks'] .hero-section--relief img.hero-bg,
   .hero-section--relief .hero-video {
     position: absolute;
-    top: var(--header-total);
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: 177.78vw;
+    height: 100%;
     object-fit: cover;
+    object-position: center top;
   }
   .hero-section--relief .hero-video {
     display: block;
@@ -2396,20 +2396,23 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
     pointer-events: none;
   }
   .hero-section--relief .hero-video.is-playing { opacity: 1; }
+  html[data-theme='sunfreaks'] .hero-section--relief::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 48%;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(0deg, rgb(244 247 252 / .92) 0%, rgb(244 247 252 / .6) 45%, transparent 100%);
+  }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-shell {
-    display: flex;
-    padding: .6rem 1.25rem 1.4rem;
+    position: relative;
+    z-index: 2;
+    padding: 0 1.25rem 1.4rem;
   }
-  .hero-section--relief .hero-copy { display: flex; flex-direction: column; }
-  html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: .62rem; letter-spacing: .28em; }
-  /* Halo clair autour des lettres : lisibles même quand les gros plans du
-     relief passent derrière. */
-  html[data-theme='sunfreaks'] .hero-section--relief .hero-title {
-    font-size: 7.6vw;
-    text-shadow: 0 0 14px rgb(255 255 255 / .85), 0 0 3px rgb(255 255 255 / .7);
-  }
-  .hero-section--relief .hero-cta { margin-top: auto; }
-  .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .45); }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: .62rem; letter-spacing: .28em; margin-bottom: .6rem; }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 10vw; margin-bottom: 1.1rem; }
+  .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .35); }
 }
 
 /* Vidéo de la bannière relief (ordinateur) : posée sur la photo, invisible

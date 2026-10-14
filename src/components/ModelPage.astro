@@ -70,6 +70,7 @@ const jsonLd = [
     mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   },
 ];
+import CardStars from './CardStars.astro';
 ---
 
 <BaseLayout title={`${T.title(model)} | ${siteConfig.name}`} description={T.description(model, n)} jsonLd={jsonLd} image={products[0]?.photo ?? undefined}>
@@ -116,6 +117,7 @@ const jsonLd = [
                 />
               </div>
               <h2 class="text-sm md:text-base font-medium text-cream mb-1 tracking-tight group-hover:underline underline-offset-4 line-clamp-1">{p.data.name}</h2>
+<CardStars slug={p.slug} />
               <span class="text-sm text-cream font-medium whitespace-nowrap">{T.from(money(listPrice(p.data)))}</span>
             </a>
           </article>

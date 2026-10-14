@@ -253,6 +253,13 @@ const allReviews = await getReviews();
 const productReviews = allReviews.filter((r) => r.products.includes(slug));
 const shownReviews = [...productReviews, ...allReviews.filter((r) => !r.products.includes(slug))];
 const productRating = summary(productReviews);
+// Ligne d'étoiles sous le titre : la note de CE produit s'il en a ; sinon la
+// note de la boutique, dite comme telle (« avis sur Moroji »).
+const shopRating = summary(allReviews);
+const headRating = productRating.count > 0 ? productRating : shopRating;
+const headLabel = productRating.count > 0
+  ? ({ fr: (n: number) => `${n} avis`, en: (n: number) => `${n} review${n > 1 ? 's' : ''}`, de: (n: number) => `${n} Bewertung${n > 1 ? 'en' : ''}` } as Record<string, (n: number) => string>)[lang]
+  : ({ fr: (n: number) => `${n} avis sur ${siteConfig.name}`, en: (n: number) => `${n} review${n > 1 ? 's' : ''} of ${siteConfig.name}`, de: (n: number) => `${n} Bewertung${n > 1 ? 'en' : ''} für ${siteConfig.name}` } as Record<string, (n: number) => string>)[lang];
 const reviewsTitle = ({ fr: 'Avis de nos clients', en: 'What our customers say', de: 'Was unsere Kunden sagen' } as Record<string, string>)[lang];
 
 const productSchema = {
@@ -611,6 +618,13 @@ const pickModelLabel = t('model.placeholder', lang);
         <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
           {name}
         </h1>
+        {headRating.count > 0 && (
+          <a href="#avis" class="pp-rating">
+            <span class="pp-stars" aria-hidden="true">{'★'.repeat(Math.round(headRating.avg))}<span class="off">{'★'.repeat(5 - Math.round(headRating.avg))}</span></span>
+            <strong>{headRating.avg.toFixed(1).replace('.', lang === 'en' ? '.' : ',')}</strong>
+            <span>· {headLabel(headRating.count)}</span>
+          </a>
+        )}
         <p class="text-sm md:text-base text-n-400 leading-relaxed mb-4 font-light">
           {shortDescription}
         </p>
@@ -1131,7 +1145,7 @@ const pickModelLabel = t('model.placeholder', lang);
 
   <!-- ═══════════════════════════ AVIS CLIENTS ═══════════════════════════ -->
   {shownReviews.length > 0 && (
-    <section class="py-16 md:py-20 border-t border-white/[0.04] below-fold-defer">
+    <section id="avis" class="py-16 md:py-20 border-t border-white/[0.04] below-fold-defer scroll-mt-24">
       <div class="max-w-7xl mx-auto px-6"><ReviewCards reviews={shownReviews} lang={lang} title={reviewsTitle} limit={4} compact /></div>
     </section>
   )}
@@ -2182,6 +2196,11 @@ const pickModelLabel = t('model.placeholder', lang);
   .relief-ex-photos img { flex: none; width: 72%; height: auto; border-radius: 14px; background: #f4f2ee; scroll-snap-align: start; }
   .relief-ex-note { margin: 0; padding: 10px 18px 20px; font-size: .85rem; line-height: 1.5; color: #6b6158; }
   .pm-quick-video-label.is-2l { font-size: 9.5px; line-height: 1.15; padding: 14px 3px 5px; }
+  .pp-rating { display: inline-flex; align-items: center; gap: .35rem; margin: -.25rem 0 .8rem; font-size: .85rem; color: rgb(var(--c-n400)); text-decoration: none; }
+  .pp-rating:hover span:last-child { text-decoration: underline; text-underline-offset: 3px; }
+  .pp-rating strong { color: rgb(var(--c-cream)); font-weight: 600; }
+  .pp-stars { color: #f5b301; letter-spacing: .05em; font-size: .95rem; }
+  .pp-stars .off { color: rgb(var(--c-cream) / .18); }
 </style>
 
 <script>
