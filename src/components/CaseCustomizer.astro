@@ -24,6 +24,7 @@ import { t, parseEntrySlug, type Locale } from '../lib/i18n';
 import { getCollection } from 'astro:content';
 import { existsSync } from 'node:fs';
 import studioReal from '../data/studio-real.json';
+import { JERSEYS } from '../data/jerseys.mjs';
 
 interface Props { lang?: Locale; realistic?: boolean }
 const { lang = 'fr', realistic = false } = Astro.props;
@@ -228,6 +229,14 @@ const TEXTS = {
 if (!TEXTS) throw new Error(`CaseCustomizer : langue non prise en charge (${lang})`);
 const U = TEXTS.ui;
 
+// Modèles « Maillot de foot » (fonds générés par scripts/studio-jerseys.mjs).
+const JERSEY_TPL = JERSEYS.map((j) => ({ id: j.id, name: j.name[lang] ?? j.name.fr, ink: j.ink, outline: j.outline }));
+const JERSEY_U = ({
+  fr: { title: 'Maillots de foot', hint: 'Choisissez un maillot, puis touchez le nom et le numéro pour les modifier.', name: 'TON NOM' },
+  en: { title: 'Football shirts', hint: 'Pick a shirt, then tap the name and number to edit them.', name: 'YOUR NAME' },
+  de: { title: 'Fußballtrikots', hint: 'Wähle ein Trikot und tippe dann auf Name und Nummer, um sie zu ändern.', name: 'DEIN NAME' },
+} as Record<string, { title: string; hint: string; name: string }>)[lang] ?? { title: 'Maillots de foot', hint: '', name: 'TON NOM' };
+
 const atelier = siteConfig.shop?.atelier ?? {};
 const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 ---
@@ -237,6 +246,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   data-studio
   aria-label={U.studio}
   data-i18n={JSON.stringify(TEXTS.js)}
+  data-jerseys={JSON.stringify({ list: JERSEY_TPL, name: JERSEY_U.name })}
   data-shop-id={atelier.shopId ?? ''}
   data-api={apiOrigin}
   data-sku={SKU}
@@ -341,6 +351,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           ))}
         </div>
         <div class="tpl-grid" data-templates></div>
+        <p class="pane-label tpl-section" id="studio-jerseys">{JERSEY_U.title}</p>
+        <p class="pane-hint">{JERSEY_U.hint}</p>
+        <div class="tpl-grid" data-templates-jersey aria-labelledby="studio-jerseys"></div>
       </div>
 
       <!-- Texte -->
@@ -1127,6 +1140,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .font-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 
   .tpl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  .tpl-section { margin-top: 1.4rem; }
   .tpl-grid[hidden] { display: none; }
   .from-shop {
     display: flex; align-items: center; gap: .7rem; width: 100%; margin-bottom: .7rem;
@@ -1875,6 +1889,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       emeraude: { src: '/images/studio-bg/emeraude.webp', ink: '' },
       creme:    { src: '/images/studio-bg/creme.webp',    ink: '' },
     };
+    // Maillots de foot : un fond par maillot, le nom et le numéro du client
+    // dans la police Anton (contour à la couleur du maillot).
+    var JERSEY = JSON.parse(root.getAttribute('data-jerseys') || '{"list":[]}');
+    JERSEY.list.forEach(function (j) { BG['maillot-' + j.id] = { src: '/images/studio-bg/maillot-' + j.id + '.webp', ink: j.outline }; });
     function T(text, font, size, x, y, bg, extra) {
       return Object.assign({ type: 'text', text: text, font: F(font), color: '#ffffff', outline: BG[bg].ink, size: size, x: x, y: y, rot: 0 }, extra || {});
     }
@@ -1966,6 +1984,13 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         X('C.', 'playfair', 34, 50, 52, '#e9d9b0', '', 0),
       ]},
     ];
+
+    var JERSEY_TEMPLATES = JERSEY.list.map(function (j) {
+      return { id: 'maillot-' + j.id, name: j.name, bg: 'maillot-' + j.id, els: [
+        X(JERSEY.name, 'anton', 10.5, 50, 31, j.ink, j.outline, 0),
+        X('10', 'anton', 62, 50, 58, j.ink, j.outline, 0),
+      ]};
+    });
 
     /* ── État ────────────────────────────────────────────────────── */
     // fx : effet appliqué à TOUTE la coque ('bricks' = mosaïque de briques).
@@ -2637,7 +2662,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     // cqw (unité du conteneur), le même jeu de valeurs sert à l'aperçu et à
     // la coque réelle, sans facteur d'échelle à maintenir.
     var tplGrid = root.querySelector('[data-templates]');
-    TEMPLATES.forEach(function (t) {
+    var jerseyGrid = root.querySelector('[data-templates-jersey]');
+    TEMPLATES.concat(JERSEY_TEMPLATES).forEach(function (t) {
+      var grid = t.id.indexOf('maillot-') === 0 && jerseyGrid ? jerseyGrid : tplGrid;
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'tpl'; b.setAttribute('aria-label', I.design + ' ' + t.name);
       var thumb = document.createElement('span');
@@ -2670,7 +2697,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       nm.className = 'tpl-name'; nm.textContent = t.name;
       b.append(thumb, nm);
       b.addEventListener('click', function () { applyTemplate(t); });
-      tplGrid.appendChild(b);
+      grid.appendChild(b);
     });
 
     /* ── Partir d'une coque de la boutique ─────────────────────────── */
@@ -2697,8 +2724,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       toast(fill(I.tplApplied, name));
     }
 
-    function applyTemplate(t) {
-      if ((state.elements.length || state.bg) &&
+    function applyTemplate(t, quiet) {
+      if (!quiet && (state.elements.length || state.bg) &&
           !window.confirm(fill(I.confirmTpl, t.name))) return;
       state.bg = t.bg || null;
       state.fx = t.fx || null;
@@ -3899,6 +3926,11 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       var baseM = /[?&]base=([a-z0-9-]+)/.exec(location.search);
       var baseBtn = baseM && shopGrid ? shopGrid.querySelector('[data-base="' + baseM[1] + '"]') : null;
       if (baseBtn) applyBase(baseBtn.dataset.src, baseBtn.getAttribute('aria-label'), true);
+      // Lien direct vers un modèle (/personnaliser/?tpl=maillot-france) :
+      // posé d'emblée, panneau des designs ouvert sur sa section.
+      var tplM = /[?&]tpl=([a-z0-9-]+)/.exec(location.search);
+      var tplHit = tplM && TEMPLATES.concat(JERSEY_TEMPLATES).filter(function (t) { return t.id === tplM[1]; })[0];
+      if (tplHit) applyTemplate(tplHit, true);
       if (/[?&]aide\b/.test(location.search)) openPane('help');
       else if (window.matchMedia('(min-width: 1024px)').matches) openPane('design');
     })();
