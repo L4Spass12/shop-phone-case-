@@ -5,7 +5,7 @@
 // tourner en local (npm run dev).
 //
 //   node scripts/foot-mockups.mjs [--base http://localhost:4324] [--model "iPhone 17 Pro Max"]
-// Sortie : public/images/foot-studio/<maillot>.webp (+ -400w), fond blanc.
+// Sortie : public/images/foot-studio-v2/<maillot>.webp (+ -400w), fond blanc.
 import { chromium } from 'playwright-core';
 import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
@@ -17,7 +17,7 @@ const opt = (k, d) => { const i = args.indexOf(k); return i > -1 ? args[i + 1] :
 const BASE = opt('--base', 'http://localhost:4324');
 const MODEL = opt('--model', 'iPhone 17 Pro Max');
 const CHROME = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const OUT = 'public/images/foot-studio';
+const OUT = 'public/images/foot-studio-v2';
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
@@ -41,7 +41,7 @@ for (const j of JERSEYS) {
   }, [name, num]);
   // Plan de travail blanc, interface masquée : seule la coque reste.
   await page.addStyleTag({ content: `
-    body, .studio, .canvas, [data-canvas] { background: #fff !important; background-image: none !important; }
+    body, .studio, .canvas, [data-canvas], .canvas::before { background: #fff !important; background-image: none !important; }
     .gizmo, .toast, [data-toast] { display: none !important; }
     .case { box-shadow: none !important; filter: none !important; }
   ` });
