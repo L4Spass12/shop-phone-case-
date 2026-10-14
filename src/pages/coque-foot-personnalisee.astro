@@ -4,13 +4,13 @@
 // personnalisée foot, coque maillot… et renvoie vers les modèles Maillot du
 // studio (/personnaliser/?tpl=maillot-<id>).
 //
-// Les maillots sont dessinés ici en vrai texte (fond du studio + nom et
-// numéro en Anton) : lisible par Google, et identique au studio.
+// Les visuels sont les rendus réalistes du studio (scripts/foot-mockups.mjs :
+// fond maillot + nom et numéro, sur une vraie coque iPhone 17 Pro Max).
 // Aucun logo, écusson ni nom de club : uniquement des couleurs.
-import '@fontsource/anton/400.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import siteConfig from '../../site.config.mjs';
 import { JERSEYS } from '../data/jerseys.mjs';
+import { SAMPLES } from '../data/foot-samples.mjs';
 import { PHONE_MODELS } from '../lib/models';
 
 const money = (c: number) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: siteConfig.shop.currency }).format(c / 100);
@@ -23,12 +23,7 @@ const studio = (id: string) => `/personnaliser/?tpl=maillot-${id}`;
 const NATIONS = ['france', 'espagne', 'portugal', 'italie', 'bresil', 'argentine', 'allemagne', 'angleterre', 'pays-bas', 'belgique', 'maroc', 'algerie'];
 const nations = JERSEYS.filter((j) => NATIONS.includes(j.id));
 const clubs = JERSEYS.filter((j) => !NATIONS.includes(j.id));
-// Exemples de personnalisation (prénoms neutres, aucun joueur réel).
-const SAMPLES: Record<string, [string, string]> = {
-  france: ['LUCAS', '10'], espagne: ['INÈS', '7'], bresil: ['NATHAN', '9'], argentine: ['LÉA', '11'],
-  'raye-rouge-noir': ['HUGO', '8'], 'bleu-nuit-bande-rouge': ['SARAH', '23'], 'raye-bleu-grenat': ['ADAM', '4'], 'jaune-noir': ['MAÉ', '17'],
-};
-const sample = (id: string): [string, string] => SAMPLES[id] ?? ['TON NOM', '10'];
+const sample = (id: string): [string, string] => (SAMPLES as Record<string, [string, string]>)[id] ?? ['TON NOM', '10'];
 const hero = ['argentine', 'france', 'bresil'].map((id) => JERSEYS.find((j) => j.id === id)!);
 
 const T = {
@@ -67,11 +62,10 @@ const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
 ];
-const jStyle = (j: (typeof JERSEYS)[number]) =>
-  `background-image:url('/images/studio-bg/maillot-${j.id}.webp');--ink:${j.ink};--line:${j.outline || 'transparent'}`;
+const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name.fr} avec le nom ${sample(j.id)[0]} et le numéro ${sample(j.id)[1]}`;
 ---
 
-<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/studio-bg/maillot-france.webp">
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/foot/france.webp">
   <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
     <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
       <a href="/" class="hover:text-cream transition-colors">Accueil</a>
@@ -88,12 +82,10 @@ const jStyle = (j: (typeof JERSEYS)[number]) =>
         <a href={studio('france')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
         <p class="text-sm text-n-500 font-light mt-4">{T.price}</p>
       </div>
-      <div class="hero-cases" aria-hidden="true">
+      <div class="hero-cases">
         {hero.map((j, i) => (
-          <span class="jcase" style={jStyle(j)} data-i={i}>
-            <span class="jname">{sample(j.id)[0]}</span>
-            <span class="jnum">{sample(j.id)[1]}</span>
-          </span>
+          <img class="jimg" data-i={i} src={`/images/foot/${j.id}-400w.webp`} srcset={`/images/foot/${j.id}-400w.webp 400w, /images/foot/${j.id}.webp 737w`}
+            sizes="(min-width: 768px) 180px, 30vw" alt={alt(j)} width="737" height="1439" fetchpriority={i === 1 ? 'high' : undefined} decoding="async" />
         ))}
       </div>
     </section>
@@ -118,10 +110,7 @@ const jStyle = (j: (typeof JERSEYS)[number]) =>
         {nations.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <span class="jcase" style={jStyle(j)}>
-                <span class="jname">{sample(j.id)[0]}</span>
-                <span class="jnum">{sample(j.id)[1]}</span>
-              </span>
+              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="781" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
@@ -136,10 +125,7 @@ const jStyle = (j: (typeof JERSEYS)[number]) =>
         {clubs.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <span class="jcase" style={jStyle(j)}>
-                <span class="jname">{sample(j.id)[0]}</span>
-                <span class="jnum">{sample(j.id)[1]}</span>
-              </span>
+              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="781" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
@@ -188,49 +174,13 @@ const jStyle = (j: (typeof JERSEYS)[number]) =>
 </BaseLayout>
 
 <style>
-  /* Une « coque » : le fond maillot du studio, le nom et le numéro en Anton,
-     aux mêmes positions relatives que dans le studio (46 % et 68 %). */
-  .jcase {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 1 / 2.08;
-    border-radius: 13% / 6.3%;
-    background-size: cover;
-    background-position: center;
-    container-type: inline-size;
-    box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 14px 30px -18px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(255 255 255 / .25);
-    overflow: hidden;
-    transition: transform .3s ease;
-  }
-  .jcase::before { /* module photo */
-    content: '';
-    position: absolute;
-    left: 6%; top: 3%;
-    width: 38%; aspect-ratio: 1;
-    border-radius: 22%;
-    background: rgb(255 255 255 / .18);
-    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .45);
-  }
-  .group:hover .jcase { transform: translateY(-3px); }
-  .jname, .jnum {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Anton', Impact, sans-serif;
-    color: var(--ink);
-    white-space: nowrap;
-    line-height: 1;
-    -webkit-text-stroke: .045em var(--line);
-    paint-order: stroke fill;
-  }
-  .jname { top: 46%; font-size: 10.5cqw; letter-spacing: .02em; }
-  .jnum { top: 68%; font-size: 58cqw; }
+  .jimg { display: block; width: 100%; height: auto; transition: transform .3s ease; }
+  .group:hover .jimg { transform: translateY(-4px); }
   .jgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
   @media (min-width: 640px) { .jgrid { grid-template-columns: repeat(4, 1fr); } }
   @media (min-width: 1024px) { .jgrid { grid-template-columns: repeat(6, 1fr); } }
-  .hero-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: end; width: 100%; max-width: 520px; margin-inline: auto; padding: 1.5rem 0; }
-  .hero-cases .jcase[data-i='0'] { transform: rotate(-6deg) translateY(10px); }
-  .hero-cases .jcase[data-i='1'] { transform: translateY(-14px); z-index: 1; }
-  .hero-cases .jcase[data-i='2'] { transform: rotate(6deg) translateY(10px); }
+  .hero-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; align-items: end; width: 100%; max-width: 560px; margin-inline: auto; padding: 1.5rem 0; }
+  .hero-cases .jimg[data-i='0'] { transform: rotate(-6deg) translateY(12px); }
+  .hero-cases .jimg[data-i='1'] { transform: translateY(-14px) scale(1.06); position: relative; z-index: 1; }
+  .hero-cases .jimg[data-i='2'] { transform: rotate(6deg) translateY(12px); }
 </style>
