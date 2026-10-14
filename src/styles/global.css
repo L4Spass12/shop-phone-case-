@@ -2375,7 +2375,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
      quand les gros plans du relief passent derrière. */
   html[data-theme='sunfreaks'] main > section.hero-section--relief {
     min-height: 0;
-    height: 125vw; /* 4:5 */
+    height: 140vw; /* un peu plus haut que 4:5 */
     align-items: flex-end;
     background: #eef3f9;
   }
