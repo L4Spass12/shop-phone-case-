@@ -129,7 +129,7 @@ const faqSchema = faq.length > 0 ? {
 const jsonLd: any[] = [breadcrumbSchema, collectionSchema];
 if (itemListSchema) jsonLd.push(itemListSchema);
 if (faqSchema) jsonLd.push(faqSchema);
-import CardStars from '../../components/CardStars.astro';
+import CardStars from '../../../components/CardStars.astro';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} jsonLd={jsonLd}>
