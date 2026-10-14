@@ -2369,36 +2369,63 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   }
 }
 @media (max-width: 767px) {
-  /* Image portrait (1122 × 1402) en fond : le titre sur le noir en haut à
-     gauche, à côté de la coque debout ; les deux boutons en bas, posés sur
-     la coque à plat. */
+  /* Mobile : titre en haut sur le ciel clair, puis la vidéo 4:5 (ou sa
+     première image) pleine largeur, les deux boutons posés en bas de la
+     vidéo, détachés par leur ombre. Le titre ne passe jamais sur la coque. */
   html[data-theme='sunfreaks'] main > section.hero-section--relief {
     min-height: 0;
-    height: calc(var(--header-total) + 124.96vw);
+    height: auto;
+    flex-direction: column;
     align-items: stretch;
+    background: linear-gradient(180deg, #f6f9fd 0%, #e9f0f9 100%);
   }
   html[data-theme='sunfreaks'] .hero-section--relief::after { content: none; }
-  /* Comme sur ordinateur, l'image démarre SOUS le header (haut noir pur). */
+  .hero-section--relief picture { order: 2; display: block; position: relative; }
   html[data-theme='sunfreaks'] .hero-section--relief img.hero-bg {
-    top: var(--header-total);
-    height: 124.96vw;
+    position: relative;
+    height: auto;
+    aspect-ratio: 4 / 5;
   }
+  /* `static` : les boutons, en position absolue, s'ancrent sur la section
+     (bas de la vidéo) et non sur le bloc de texte. */
   html[data-theme='sunfreaks'] .hero-section--relief .hero-shell {
-    display: flex;
-    padding: .9rem 1.25rem 1.4rem;
+    order: 1;
+    position: static;
+    padding: 1rem 1.25rem 1.1rem;
   }
-  .hero-section--relief .hero-copy { display: flex; flex-direction: column; }
+  .hero-section--relief .hero-copy { position: static; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: .62rem; letter-spacing: .28em; }
-  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 8.8vw; }
-  .hero-section--relief .hero-cta { margin-top: auto; }
-  .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .55); }
+  html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 10.4vw; }
+  .hero-section--relief .hero-cta {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 3;
+  }
+  .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .35); }
+  /* Vidéo : même cadre que l'image (bas de la section, 4:5). */
+  .hero-section--relief .hero-video {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .8s ease;
+    pointer-events: none;
+  }
+  .hero-section--relief .hero-video.is-playing { opacity: 1; }
 }
 
 /* Vidéo de la bannière relief (ordinateur) : posée sur la photo, invisible
    tant qu'elle ne joue pas, puis fondu. Elle couvre toute la section, bande
    du header comprise. Un voile clair à gauche garde le titre lisible pendant
    les gros plans. La légende pointée ne correspond plus à l'image : masquée. */
-.hero-section--relief .hero-video { display: none; }
 @media (min-width: 768px) {
   .hero-section--relief .hero-video {
     display: block;
