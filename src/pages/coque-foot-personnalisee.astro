@@ -85,7 +85,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
       <div class="hero-cases">
         {hero.map((j, i) => (
           <img class="jimg" data-i={i} src={`/images/foot/${j.id}-400w.webp`} srcset={`/images/foot/${j.id}-400w.webp 400w, /images/foot/${j.id}.webp 737w`}
-            sizes="(min-width: 768px) 180px, 30vw" alt={alt(j)} width="737" height="1439" fetchpriority={i === 1 ? 'high' : undefined} decoding="async" />
+            sizes="(min-width: 768px) 180px, 30vw" alt={alt(j)} width="737" height="1421" fetchpriority={i === 1 ? 'high' : undefined} decoding="async" />
         ))}
       </div>
     </section>
@@ -110,7 +110,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
         {nations.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="781" loading="lazy" decoding="async" />
+              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
@@ -125,7 +125,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
         {clubs.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="781" loading="lazy" decoding="async" />
+              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
