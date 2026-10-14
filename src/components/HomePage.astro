@@ -203,8 +203,8 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
   description={T.description}
   jsonLd={[websiteSchema, faqSchema]}
   preloadImages={[
-    { href: '/videos/hero-relief-mobile-poster-750w.webp', media: '(max-width: 767px)',
-      imagesrcset: '/videos/hero-relief-mobile-poster-750w.webp 750w, /videos/hero-relief-mobile-poster.webp 1080w',
+    { href: '/videos/hero-relief-m916-poster-750w.webp', media: '(max-width: 767px)',
+      imagesrcset: '/videos/hero-relief-m916-poster-750w.webp 750w, /videos/hero-relief-m916-poster.webp 1080w',
       imagesizes: '100vw' },
     { media: '(min-width: 768px)', href: '/videos/hero-relief-poster.webp',
       imagesrcset: '/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w',
@@ -220,7 +220,7 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
         sur mobile ; dans les deux cas le texte se pose sur le noir en haut
         à gauche du cliché. */}
     <picture>
-      <source media="(max-width: 767px)" srcset="/videos/hero-relief-mobile-poster-750w.webp 750w, /videos/hero-relief-mobile-poster.webp 1080w" sizes="100vw" width="1080" height="1350" />
+      <source media="(max-width: 767px)" srcset="/videos/hero-relief-m916-poster-750w.webp 750w, /videos/hero-relief-m916-poster.webp 1080w" sizes="100vw" width="1080" height="1920" />
       <img
         src="/videos/hero-relief-poster.webp"
         srcset="/videos/hero-relief-poster-1280w.webp 1280w, /videos/hero-relief-poster.webp 1920w"
@@ -251,8 +251,8 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
       tabindex="-1"
       data-src-webm="/videos/hero-relief-v2.webm"
       data-src-mp4="/videos/hero-relief-v2.mp4"
-      data-src-webm-mobile="/videos/hero-relief-mobile.webm"
-      data-src-mp4-mobile="/videos/hero-relief-mobile.mp4"
+      data-src-webm-mobile="/videos/hero-relief-m916.webm"
+      data-src-mp4-mobile="/videos/hero-relief-m916.mp4"
     ></video>
     <script is:inline>
       (function () {
@@ -264,7 +264,7 @@ const reviewsTitle = ({ fr: 'Ils ont adopté leur coque', en: 'They love their c
         if (navigator.connection && navigator.connection.saveData) return;
         var lancer = function () {
           var d = v.dataset;
-          if (mobile) v.poster = '/videos/hero-relief-mobile-poster-750w.webp';
+          if (mobile) v.poster = '/videos/hero-relief-m916-poster-750w.webp';
           var w = document.createElement('source'); w.src = mobile ? d.srcWebmMobile : d.srcWebm; w.type = 'video/webm';
           var m = document.createElement('source'); m.src = mobile ? d.srcMp4Mobile : d.srcMp4; m.type = 'video/mp4';
           v.append(w, m);
