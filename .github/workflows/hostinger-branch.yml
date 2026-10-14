@@ -13,8 +13,10 @@ name: Build → branche hostinger-deploy
 # site COMPILÉ à sa racine. C'est cette branche qu'il faut sélectionner dans
 # hPanel → Websites → Dashboard → Advanced → Git.
 #
-# La branche est un ARTEFACT de build : elle est réécrite en force à chaque
-# fois (son historique n'a aucune valeur). Ne jamais y committer à la main.
+# La branche est un ARTEFACT de build : chaque build y ajoute un commit qui
+# remplace tout son contenu par le nouveau dist/ (son historique n'a aucune
+# valeur, il sert seulement à n'envoyer que les fichiers modifiés). Ne jamais
+# y committer à la main.
 # ═══════════════════════════════════════════════════════════════════════════
 
 on:
@@ -39,6 +41,8 @@ concurrency:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    # Filet de sécurité : un build normal dure ~4 min.
+    timeout-minutes: 25
     permissions:
       contents: write
     steps:
@@ -65,18 +69,59 @@ jobs:
           test -f dist/sitemap-index.xml || echo "::warning::sitemap-index.xml absent"
           echo "Pages générées : $(find dist -name '*.html' | wc -l)"
 
+      # Push INCRÉMENTAL : dist/ pèse ~1,1 Go (images surtout). L'ancienne
+      # méthode (git init + commit orphelin + push --force) renvoyait TOUT le
+      # gigaoctet à chaque build, d'où des push de 1 à 2 min qui, une fois sur
+      # deux, se figeaient sans fin (silencieux à cause de --quiet).
+      # Désormais on récupère seulement les arbres du dernier commit de la
+      # branche (--filter=blob:none : aucun fichier téléchargé) et on crée le
+      # nouveau commit par-dessus : git n'envoie que les fichiers modifiés.
       - name: Pousser dist/ sur la branche hostinger-deploy
+        timeout-minutes: 15
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Jamais d'attente d'identifiants : échouer plutôt que bloquer.
+          GIT_TERMINAL_PROMPT: '0'
+          GCM_INTERACTIVE: never
         run: |
+          set -euo pipefail
           cd dist
           git init -q
           git checkout -q -b hostinger-deploy
           git config user.name  "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          # Transfert bloqué (< 1 Ko/s pendant 60 s) : on coupe et on réessaie.
+          git config http.lowSpeedLimit 1000
+          git config http.lowSpeedTime 60
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
           git add -A
-          git commit -q -m "build: ${GITHUB_SHA::7} — $(find . -name '*.html' | wc -l | tr -d ' ') pages"
-          git push --force --quiet \
-            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
-            hostinger-deploy
-          echo "✅ branche hostinger-deploy mise à jour depuis ${GITHUB_SHA::7}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TREE=$(git write-tree)
+          MSG="build: ${GITHUB_SHA::7}, $(find . -name '*.html' -not -path './.git/*' | wc -l | tr -d ' ') pages"
+
+          if timeout 120 git fetch -q --depth=1 --filter=blob:none --no-tags origin hostinger-deploy; then
+            PARENT=$(git rev-parse FETCH_HEAD)
+            if [ "$(git rev-parse "${PARENT}^{tree}")" = "$TREE" ]; then
+              echo "✅ build identique à la branche hostinger-deploy, rien à pousser"
+              exit 0
+            fi
+            COMMIT=$(git commit-tree "$TREE" -p "$PARENT" -m "$MSG")
+          else
+            echo "::warning::branche hostinger-deploy introuvable, création d'un commit orphelin"
+            COMMIT=$(git commit-tree "$TREE" -m "$MSG")
+          fi
+
+          # --no-thin : pas de delta contre les fichiers absents localement
+          # (sinon git les téléchargerait un par un). --force-with-lease : on
+          # écrase seulement si la branche n'a pas bougé depuis le fetch.
+          LEASE="--force-with-lease=refs/heads/hostinger-deploy:${PARENT:-}"
+          for attempt in 1 2 3; do
+            if timeout 300 git push --no-thin "$LEASE" origin "${COMMIT}:refs/heads/hostinger-deploy"; then
+              echo "✅ branche hostinger-deploy mise à jour depuis ${GITHUB_SHA::7} ($(git rev-parse --short "$COMMIT"))"
+              exit 0
+            fi
+            echo "::warning::push échoué ou bloqué (tentative ${attempt}/3), nouvel essai dans 15 s"
+            sleep 15
+          done
+          echo "::error::impossible de pousser sur hostinger-deploy après 3 tentatives"
+          exit 1
