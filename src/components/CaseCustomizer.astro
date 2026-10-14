@@ -1987,8 +1987,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     var JERSEY_TEMPLATES = JERSEY.list.map(function (j) {
       return { id: 'maillot-' + j.id, name: j.name, bg: 'maillot-' + j.id, els: [
-        X(JERSEY.name, 'anton', 10.5, 50, 31, j.ink, j.outline, 0),
-        X('10', 'anton', 62, 50, 58, j.ink, j.outline, 0),
+        // Sous le module photo le plus haut du catalogue (Galaxy Ultra, ~40 %
+        // de la hauteur) : la même position vaut pour tous les modèles.
+        X(JERSEY.name, 'anton', 10.5, 50, 46, j.ink, j.outline, 0),
+        X('10', 'anton', 58, 50, 68, j.ink, j.outline, 0),
       ]};
     });
 
