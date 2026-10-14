@@ -75,12 +75,6 @@ import CardStars from '../../components/CardStars.astro';
         <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-cream mb-2 leading-[1.15]">{t('shop.collectionTitle', lang)}</h1>
         <p class="text-sm text-n-500 font-light">{t('shop.collectionCount', lang, { n: products.length })}</p>
       </div>
-      <div class="flex items-center gap-2 text-xs text-n-500 font-light">
-        <Icon name="shield-check" size={14} strokeWidth={1.5} />
-        <span>{t('shop.secureDelivery', lang)}</span>
-        <span class="mx-2">·</span>
-        <span>{t('shop.return30Days', lang)}</span>
-      </div>
     </div>
 
     {products.length === 0 ? (
