@@ -5,7 +5,7 @@
 // tourner en local (npm run dev).
 //
 //   node scripts/foot-mockups.mjs [--base http://localhost:4324] [--model "iPhone 17 Pro Max"]
-// Sortie : public/images/foot/<maillot>.webp (+ -400w), fond blanc.
+// Sortie : public/images/foot-studio/<maillot>.webp (+ -400w), fond blanc.
 import { chromium } from 'playwright-core';
 import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
@@ -17,7 +17,7 @@ const opt = (k, d) => { const i = args.indexOf(k); return i > -1 ? args[i + 1] :
 const BASE = opt('--base', 'http://localhost:4324');
 const MODEL = opt('--model', 'iPhone 17 Pro Max');
 const CHROME = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const OUT = 'public/images/foot';
+const OUT = 'public/images/foot-studio';
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });

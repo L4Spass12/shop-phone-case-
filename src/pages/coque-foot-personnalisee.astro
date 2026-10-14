@@ -65,7 +65,7 @@ const jsonLd = [
 const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name.fr} avec le nom ${sample(j.id)[0]} et le numéro ${sample(j.id)[1]}`;
 ---
 
-<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/foot/france.webp">
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/foot-studio/france.webp">
   <div class="max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
     <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
       <a href="/" class="hover:text-cream transition-colors">Accueil</a>
@@ -84,7 +84,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
       </div>
       <div class="hero-cases">
         {hero.map((j, i) => (
-          <img class="jimg" data-i={i} src={`/images/foot/${j.id}-400w.webp`} srcset={`/images/foot/${j.id}-400w.webp 400w, /images/foot/${j.id}.webp 737w`}
+          <img class="jimg" data-i={i} src={`/images/foot-studio/${j.id}-400w.webp`} srcset={`/images/foot-studio/${j.id}-400w.webp 400w, /images/foot-studio/${j.id}.webp 737w`}
             sizes="(min-width: 768px) 180px, 30vw" alt={alt(j)} width="737" height="1421" fetchpriority={i === 1 ? 'high' : undefined} decoding="async" />
         ))}
       </div>
@@ -110,7 +110,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
         {nations.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
+              <img class="jimg" src={`/images/foot-studio/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
@@ -125,7 +125,7 @@ const alt = (j: (typeof JERSEYS)[number]) => `Coque foot personnalisée ${j.name
         {clubs.map((j) => (
           <li>
             <a href={studio(j.id)} class="group block" aria-label={`Coque foot personnalisée ${j.name.fr}`}>
-              <img class="jimg" src={`/images/foot/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
+              <img class="jimg" src={`/images/foot-studio/${j.id}-400w.webp`} alt={alt(j)} width="400" height="771" loading="lazy" decoding="async" />
               <span class="block mt-3 text-sm font-medium text-cream text-center">{j.name.fr}</span>
             </a>
           </li>
