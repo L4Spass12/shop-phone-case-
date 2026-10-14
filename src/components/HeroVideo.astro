@@ -1,0 +1,81 @@
+---
+/**
+ * Vidéo d'ambiance de la bannière d'accueil (paysage sur ordinateur,
+ * verticale sur mobile), posée par-dessus la photo de la bannière.
+ *
+ * Règles de lecture automatique respectées :
+ * - `autoplay muted playsinline` dans le HTML : seule combinaison que tous
+ *   les navigateurs, Safari iPhone compris, lancent sans geste du visiteur.
+ * - La vidéo est VISIBLE dès le départ (pas d'opacité 0 en attendant qu'elle
+ *   joue) : Safari iOS ne lance pas une vidéo qu'il juge invisible. Tant que
+ *   la première image n'est pas décodée, la vidéo est transparente et on voit
+ *   la photo dessous ; l'affiche (poster) prend ensuite le relais.
+ * - Le navigateur choisit la source avec l'attribut `media` : verticale sur
+ *   mobile (MP4 d'abord, le WebM est mal lu par Safari iPhone), paysage sur
+ *   ordinateur (WebM, plus léger, puis MP4 en secours).
+ * - Moins d'animations demandé ou économie de données : la vidéo est
+ *   retirée, la photo reste.
+ * - Si le téléphone bloque malgré tout la lecture (mode économie d'énergie
+ *   sur iPhone), elle démarre au premier geste du visiteur.
+ *
+ * Retour à la photo seule : tag git `banniere-image-avant-video`.
+ */
+---
+<video
+  class="hero-video"
+  autoplay
+  muted
+  loop
+  playsinline
+  disablepictureinpicture
+  preload="auto"
+  aria-hidden="true"
+  tabindex="-1"
+  data-poster-mobile="/videos/hero-relief-m916-poster-750w.webp"
+  data-poster-desktop="/videos/hero-relief-poster.webp"
+>
+  <source src="/videos/hero-relief-m916.mp4" type="video/mp4" media="(max-width: 767px)" />
+  <source src="/videos/hero-relief-m916.webm" type="video/webm" media="(max-width: 767px)" />
+  <source src="/videos/hero-relief-v2.webm" type="video/webm" media="(min-width: 768px)" />
+  <source src="/videos/hero-relief-v2.mp4" type="video/mp4" media="(min-width: 768px)" />
+</video>
+<script is:inline>
+  (function () {
+    var v = document.currentScript && document.currentScript.previousElementSibling;
+    if (!v || v.tagName !== 'VIDEO') return;
+    var mq = window.matchMedia;
+
+    if (mq('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData)) {
+      v.removeAttribute('autoplay');
+      v.pause();
+      v.remove();
+      return;
+    }
+
+    v.poster = mq('(max-width: 767px)').matches ? v.dataset.posterMobile : v.dataset.posterDesktop;
+    // Propriété ET attribut : certains Safari ne lisent que l'une des deux.
+    v.muted = true;
+    v.defaultMuted = true;
+
+    var jouer = function () {
+      if (!v.paused) return;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    jouer();
+    v.addEventListener('canplay', jouer, { once: true });
+
+    // Secours : lecture refusée par le système, on relance au premier geste.
+    var gestes = ['touchstart', 'pointerdown', 'scroll', 'keydown'];
+    var relance = function () {
+      jouer();
+      gestes.forEach(function (e) { window.removeEventListener(e, relance); });
+    };
+    gestes.forEach(function (e) { window.addEventListener(e, relance, { passive: true }); });
+
+    // Retour sur l'onglet : Safari met en pause les vidéos en arrière-plan.
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') jouer();
+    });
+  })();
+</script>

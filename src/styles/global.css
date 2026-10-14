@@ -2286,8 +2286,7 @@ img[src*="/images/products/"] { mix-blend-mode: multiply; }
 
 /* ─── Bannière « relief » (octobre 2026) ────────────────────────────────
    Photo studio sur fond noir, 1942 × 809. Ordinateur : la section prend les
-   proportions de l'image, le texte occupe le noir à gauche, la légende
-   « Motifs en relief » pointe un poisson (coordonnées en % de l'image).
+   proportions de l'image, le texte occupe la gauche.
    Mobile : l'image recadrée (coque debout + lune) passe SOUS le texte, posé
    sur le même noir : aucun voile, aucune lettre sur la photo. */
 /* Fond clair (ciel brumeux) : la bande du header, au-dessus de l'image,
@@ -2318,7 +2317,6 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title {
 }
 html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-child { font-size: 1.32em; line-height: .86; }
 .hero-section--relief .hero-cta { justify-content: flex-start; }
-.hero-section--relief .hero-annot { display: none; }
 
 @media (min-width: 768px) {
   /* Ordinateur : vidéo 16:9 (et sa première image en attendant). La section
@@ -2335,38 +2333,6 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   html[data-theme='sunfreaks'] .hero-section--relief .hero-eyebrow { font-size: max(.68rem, .85vw); margin-bottom: 1.2vw; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-title { font-size: 4.2vw; }
   html[data-theme='sunfreaks'] .hero-section--relief .hero-title { margin-bottom: 1.6vw; }
-  /* Point d'ancrage = bout du trait, sur le dos du poisson rose
-     (x 40.2 %, y 38.1 % de l'image). */
-  .hero-section--relief .hero-annot {
-    display: none;
-    position: absolute;
-    left: 40.2%;
-    top: calc(var(--header-total) + 15.87vw);
-    z-index: 2;
-    width: 0;
-    height: 0;
-    color: rgb(var(--relief-ink));
-    font-size: max(.72rem, 1.05vw);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .hero-section--relief .hero-annot > span {
-    position: absolute;
-    left: 0;
-    bottom: .45em;
-    transform: translateX(-62%);
-  }
-  .hero-section--relief .hero-annot::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4.9vw;
-    height: 1px;
-    background: rgb(var(--relief-ink) / .8);
-    transform-origin: 0 0;
-    transform: rotate(54.5deg);
-  }
 }
 @media (max-width: 767px) {
   /* Mobile : bannière 4:5, la vidéo verticale (ou sa première image)
@@ -2388,14 +2354,7 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
     object-fit: cover;
     object-position: center 35%;
   }
-  .hero-section--relief .hero-video {
-    display: block;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity .8s ease;
-    pointer-events: none;
-  }
-  .hero-section--relief .hero-video.is-playing { opacity: 1; }
+  .hero-section--relief .hero-video { z-index: 1; pointer-events: none; }
   html[data-theme='sunfreaks'] .hero-section--relief::after {
     content: "";
     position: absolute;
@@ -2415,13 +2374,12 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
   .hero-section--relief .hero-cta > a { box-shadow: 0 8px 22px -8px rgb(0 0 0 / .35); }
 }
 
-/* Vidéo de la bannière relief (ordinateur) : posée sur la photo, invisible
-   tant qu'elle ne joue pas, puis fondu. Elle couvre toute la section, bande
-   du header comprise. Un voile clair à gauche garde le titre lisible pendant
-   les gros plans. La légende pointée ne correspond plus à l'image : masquée. */
+/* Vidéo de la bannière relief, ordinateur (mobile : bloc précédent).
+   Toujours visible : Safari ne lance pas une vidéo qu'il juge cachée (voir
+   HeroVideo.astro). Un voile clair à gauche garde le titre lisible pendant
+   les gros plans. */
 @media (min-width: 768px) {
   .hero-section--relief .hero-video {
-    display: block;
     position: absolute;
     inset: 0;
     width: 100%;
@@ -2429,13 +2387,9 @@ html[data-theme='sunfreaks'] .hero-section--relief .hero-title > .block:last-chi
     object-fit: cover;
     object-position: center 60%;
     z-index: 0;
-    opacity: 0;
-    transition: opacity .8s ease;
     pointer-events: none;
   }
-  .hero-section--relief .hero-video.is-playing { opacity: 1; }
-  .hero-section--relief:has(.hero-video.is-playing) .hero-annot { display: none; }
-  .hero-section--relief:has(.hero-video.is-playing)::before {
+  .hero-section--relief::before {
     content: "";
     position: absolute;
     inset: 0;
