@@ -237,61 +237,52 @@ import CardStars from './CardStars.astro';
       />
     </picture>
 
-    {/* Vidéo d'ambiance : paysage sur ordinateur, 4:5 sur mobile. La photo ci-dessus reste
-        l'image de chargement : la vidéo n'est demandée qu'après coup par le
-        script plus bas, puis apparaît en fondu dès qu'elle joue. Rien pour
+    {/* Vidéo d'ambiance : paysage sur ordinateur, verticale sur mobile. La
+        photo ci-dessus reste affichée jusqu'à ce que la vidéo joue, qui
+        apparaît alors en fondu. Rien pour
         qui demande moins d'animations ou économise ses données. Pour revenir à la photo seule : tag git
         `banniere-image-avant-video`. */}
     <video
       class="hero-video"
+      autoplay
       muted
       loop
       playsinline
-      preload="none"
-      poster="/videos/hero-relief-poster.webp"
+      preload="auto"
       aria-hidden="true"
       tabindex="-1"
-      data-src-webm="/videos/hero-relief-v2.webm"
-      data-src-mp4="/videos/hero-relief-v2.mp4"
-      data-src-webm-mobile="/videos/hero-relief-m916.webm"
-      data-src-mp4-mobile="/videos/hero-relief-m916.mp4"
-    ></video>
+    >
+      {/* Le navigateur choisit la source selon la largeur d'écran (attribut
+          media). Mobile : MP4 d'abord, car Safari iPhone lit mal le WebM. */}
+      <source src="/videos/hero-relief-m916.mp4" type="video/mp4" media="(max-width: 767px)" />
+      <source src="/videos/hero-relief-m916.webm" type="video/webm" media="(max-width: 767px)" />
+      <source src="/videos/hero-relief-v2.webm" type="video/webm" media="(min-width: 768px)" />
+      <source src="/videos/hero-relief-v2.mp4" type="video/mp4" media="(min-width: 768px)" />
+    </video>
     <script is:inline>
       (function () {
         var v = document.querySelector('.hero-video');
         if (!v) return;
         var mq = window.matchMedia;
-        var mobile = !mq('(min-width: 768px)').matches;
-        if (mq('(prefers-reduced-motion: reduce)').matches) return;
-        if (navigator.connection && navigator.connection.saveData) return;
-        var lancer = function () {
-          var d = v.dataset;
-          if (mobile) v.poster = '/videos/hero-relief-m916-poster-750w.webp';
-          // Muet posé en propriété ET en attribut : sans ça, Safari iOS
-          // refuse la lecture automatique.
-          v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
-          v.setAttribute('playsinline', ''); v.setAttribute('autoplay', '');
-          // WebM d'abord seulement si le navigateur le lit vraiment (iPhone :
-          // souvent non), sinon le MP4 (H.264) passe en premier.
-          var webm = document.createElement('source'); webm.src = mobile ? d.srcWebmMobile : d.srcWebm; webm.type = 'video/webm';
-          var mp4 = document.createElement('source'); mp4.src = mobile ? d.srcMp4Mobile : d.srcMp4; mp4.type = 'video/mp4';
-          if (v.canPlayType('video/webm; codecs="vp9"') === 'probably') v.append(webm, mp4); else v.append(mp4, webm);
-          v.addEventListener('playing', function () { v.classList.add('is-playing'); }, { once: true });
-          var jouer = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
-          v.addEventListener('canplay', jouer, { once: true });
-          v.load();
-          jouer();
-          // Lecture automatique refusée (mode économie d'énergie sur iPhone…) :
-          // on relance au premier geste du visiteur. La photo reste en place
-          // en attendant, rien ne casse.
-          var relance = function () {
-            if (v.paused) jouer();
-            ['touchstart', 'scroll', 'click'].forEach(function (e) { window.removeEventListener(e, relance); });
-          };
-          ['touchstart', 'scroll', 'click'].forEach(function (e) { window.addEventListener(e, relance, { passive: true }); });
+        // Moins d'animations demandé, ou économie de données : pas de vidéo,
+        // la photo reste.
+        if (mq('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData)) {
+          v.removeAttribute('autoplay'); v.preload = 'none'; v.pause(); v.remove();
+          return;
+        }
+        var montrer = function () { v.classList.add('is-playing'); };
+        if (!v.paused && v.readyState > 2) montrer();
+        v.addEventListener('playing', montrer, { once: true });
+        v.muted = true;
+        var jouer = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+        jouer();
+        // Lecture automatique refusée par le téléphone (mode économie
+        // d'énergie sur iPhone) : relance au premier geste du visiteur.
+        var relance = function () {
+          if (v.paused) jouer();
+          ['touchstart', 'scroll', 'click'].forEach(function (e) { window.removeEventListener(e, relance); });
         };
-        if (document.readyState === 'complete') setTimeout(lancer, 200);
-        else window.addEventListener('load', function () { setTimeout(lancer, 200); }, { once: true });
+        ['touchstart', 'scroll', 'click'].forEach(function (e) { window.addEventListener(e, relance, { passive: true }); });
       })();
     </script>
 
