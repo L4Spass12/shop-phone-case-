@@ -15,8 +15,14 @@
  *   ordinateur (WebM, plus léger, puis MP4 en secours).
  * - Moins d'animations demandé ou économie de données : la vidéo est
  *   retirée, la photo reste.
- * - Si le téléphone bloque malgré tout la lecture (mode économie d'énergie
- *   sur iPhone), elle démarre au premier geste du visiteur.
+ * - iPhone / iPad : iOS peut bloquer la lecture automatique d'une VIDÉO
+ *   (mode économie d'énergie, etc.) et la faire attendre un geste. On y
+ *   affiche donc le MÊME fichier MP4 dans une balise <img> : Safari l'anime
+ *   tout de suite, comme un GIF, sans perte de qualité (même fichier) et
+ *   sans règle de lecture automatique. Décidé avant que la vidéo ne charge,
+ *   donc le fichier n'est téléchargé qu'une fois.
+ * - Ailleurs, si le système bloque malgré tout la lecture, elle démarre au
+ *   premier geste du visiteur.
  *
  * Retour à la photo seule : tag git `banniere-image-avant-video`.
  */
@@ -33,6 +39,8 @@
   tabindex="-1"
   data-poster-mobile="/videos/hero-relief-m916-poster-750w.webp"
   data-poster-desktop="/videos/hero-relief-poster.webp"
+  data-mp4-mobile="/videos/hero-relief-m916.mp4"
+  data-mp4-desktop="/videos/hero-relief-v2.mp4"
 >
   <source src="/videos/hero-relief-m916.mp4" type="video/mp4" media="(max-width: 767px)" />
   <source src="/videos/hero-relief-m916.webm" type="video/webm" media="(max-width: 767px)" />
@@ -52,7 +60,25 @@
       return;
     }
 
-    v.poster = mq('(max-width: 767px)').matches ? v.dataset.posterMobile : v.dataset.posterDesktop;
+    var mobile = mq('(max-width: 767px)').matches;
+    var ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ios) {
+      var src = mobile ? v.dataset.mp4Mobile : v.dataset.mp4Desktop;
+      var img = document.createElement('img');
+      img.className = v.className;
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.decoding = 'async';
+      img.src = src;
+      // La vidéo est retirée avant d'avoir commencé à charger.
+      v.removeAttribute('autoplay');
+      v.preload = 'none';
+      while (v.firstChild) v.removeChild(v.firstChild);
+      v.replaceWith(img);
+      return;
+    }
+
+    v.poster = mobile ? v.dataset.posterMobile : v.dataset.posterDesktop;
     // Propriété ET attribut : certains Safari ne lisent que l'une des deux.
     v.muted = true;
     v.defaultMuted = true;
