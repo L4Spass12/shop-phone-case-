@@ -1,0 +1,154 @@
+---
+// Page « À propos » (/a-propos/) : l'histoire de la marque, racontée à la
+// première personne. Reprend la vidéo de l'atelier des fiches produit
+// (chargée à l'approche, comme FabricationSection) et la vidéo du relief.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+
+const T = {
+  title: 'À propos : l’histoire de Moroji',
+  description: 'Moroji, ce sont des coques de téléphone imaginées comme des œuvres et imprimées une par une, à la main, dans mon atelier du Nord de la France.',
+  h1: 'L’histoire de Moroji',
+};
+
+const VALUES: [string, string][] = [
+  ['Unique', 'Des motifs dessinés pour Moroji, et un studio pour créer la tienne : ta coque ne ressemble pas à celle du voisin.'],
+  ['Fait main, dans le Nord', 'Chaque coque est imprimée à l’unité, à la commande, puis vérifiée et emballée par moi. Pas d’usine, pas de stock qui dort.'],
+  ['Fait pour durer', 'L’encre est imprimée directement sur la coque, pas collée : elle ne se décolle pas et ne s’efface pas au fil des jours.'],
+];
+
+const pageUrl = `${siteConfig.url}/a-propos/`;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'AboutPage', name: T.h1, url: pageUrl, description: T.description,
+    about: { '@type': 'Organization', name: siteConfig.name, url: `${siteConfig.url}/`,
+      address: { '@type': 'PostalAddress', addressRegion: 'Nord', addressCountry: 'FR' } } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${siteConfig.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'À propos', item: pageUrl },
+  ] },
+];
+---
+
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/atelier-impression-poster.webp">
+  <div class="max-w-6xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
+      <a href="/" class="hover:text-cream transition-colors">Accueil</a>
+      <span>/</span>
+      <span class="text-n-400">À propos</span>
+    </nav>
+
+    <section class="max-w-3xl mb-16 md:mb-24">
+      <span class="text-[10px] text-n-500 font-medium uppercase tracking-widest mb-3 block">Fabriqué en France, dans le Nord</span>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight text-cream leading-[1.05] mb-6">{T.h1}</h1>
+      <p class="text-lg md:text-xl text-n-300 font-light leading-relaxed">
+        Moroji est né d’un constat tout simple : les coques de téléphone se ressemblent toutes. Transparentes, unies, ou avec le même motif vu cent fois. J’avais envie d’autre chose : d’un objet qu’on a en main toute la journée qui soit enfin beau, et qui dise quelque chose de nous.
+      </p>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-10 md:gap-14 items-center mb-20 md:mb-28">
+      <div class="about-cases" aria-hidden="true">
+        <img src="/images/products/coque-baleines-celestes-plat-400w.webp" alt="" width="400" height="400" loading="lazy" decoding="async" />
+        <img src="/images/products/coque-tourbillon-lune-plat-400w.webp" alt="" width="400" height="400" loading="lazy" decoding="async" />
+        <img src="/images/products/coque-azulejos-plat-400w.webp" alt="" width="400" height="400" loading="lazy" decoding="async" />
+      </div>
+      <div>
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-5 leading-[1.15]">Faire de chaque coque une petite œuvre</h2>
+        <div class="space-y-4 text-base text-n-400 font-light leading-relaxed">
+          <p>J’ai toujours été passionné par le design et par l’impression : voir une image passer de l’écran à un objet réel, qu’on peut toucher, ça me fascine encore.</p>
+          <p>Avec Moroji, je voulais apporter quelque chose de nouveau à un accessoire qu’on a souvent laissé de côté. Créer de l’art, des motifs qui ont une âme, des paysages, des animaux, des couleurs qui font du bien, et les rendre accessibles à tous.</p>
+          <p>Et parce que la plus belle coque, c’est souvent celle qu’on imagine soi-même, j’ai aussi créé un studio en ligne pour que chacun puisse composer la sienne, avec ses photos, son prénom ou ses couleurs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-10 md:gap-14 items-center mb-20 md:mb-28">
+      <div class="md:order-2 relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-video">
+        <video class="about-video w-full h-full object-cover" poster="/images/atelier-impression-poster.webp" muted autoplay loop playsinline preload="none"
+          width="1280" height="720" aria-label="L’imprimante de l’atelier Moroji en train d’imprimer une coque">
+          <source data-src="/videos/atelier-impression.mp4?v=2" type="video/mp4" />
+        </video>
+      </div>
+      <div class="md:order-1">
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-5 leading-[1.15]">Fait en France, dans le Nord, par moi-même</h2>
+        <div class="space-y-4 text-base text-n-400 font-light leading-relaxed">
+          <p>Il n’y a pas d’usine derrière Moroji. Il y a un atelier dans le Nord, une imprimante, et moi.</p>
+          <p>Quand tu passes commande, ta coque n’existe pas encore. Je l’imprime à l’unité, pour ton modèle exact de téléphone, je la contrôle, je l’emballe et je l’expédie sous 1 à 2 jours ouvrés.</p>
+          <p>Fabriquer à la demande, c’est aussi ne rien produire pour rien : pas de stock invendu, pas de coques qui finissent à la poubelle.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-10 md:gap-14 items-center mb-20 md:mb-28">
+      <div class="relative rounded-2xl overflow-hidden border border-white/[0.06] bg-dark aspect-[9/16] max-w-[300px] w-full mx-auto">
+        <video class="about-video w-full h-full object-cover" poster="/images/exemple-relief-poster.webp" muted autoplay loop playsinline preload="none"
+          aria-label="Gros plan sur le relief d’une coque Moroji">
+          <source data-src="/videos/exemple-relief.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div>
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-5 leading-[1.15]">Le design qui prend du relief</h2>
+        <div class="space-y-4 text-base text-n-400 font-light leading-relaxed">
+          <p>Ce qui rend Moroji différent, c’est le relief. L’encre est déposée couche après couche, jusqu’à ce que le motif sorte de la coque : les détails se voient, mais surtout ils se sentent sous les doigts.</p>
+          <p>Tu peux aussi choisir l’impression à plat, plus lisse, aux couleurs franches. Dans les deux cas, l’encre fait corps avec la coque.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-8">Ce qui compte pour moi</h2>
+      <ul class="grid md:grid-cols-3 gap-6">
+        {VALUES.map(([name, text]) => (
+          <li class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="text-center max-w-2xl mx-auto">
+      <p class="text-lg text-n-300 font-light leading-relaxed mb-7">Merci d’être passé par ici. Chaque commande, c’est une coque de plus qui sort de l’atelier, et un vrai coup de pouce pour une petite marque indépendante.</p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="/boutique" class="btn-primary inline-flex items-center gap-2">Voir la collection →</a>
+        <a href="/personnaliser/" class="btn-outline inline-flex items-center gap-2">Créer ma coque</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; align-items: end; max-width: 480px; margin-inline: auto; width: 100%; }
+  .about-cases img { display: block; width: 100%; height: auto; border-radius: 1rem; }
+  .about-cases img:nth-child(1) { transform: rotate(-6deg) translateY(10px); }
+  .about-cases img:nth-child(2) { transform: translateY(-12px) scale(1.08); position: relative; z-index: 1; }
+  .about-cases img:nth-child(3) { transform: rotate(6deg) translateY(10px); }
+</style>
+
+<script>
+  // Même logique que FabricationSection : sources posées seulement quand la
+  // vidéo approche de l'écran, lecture muette en boucle, pause hors écran.
+  const videos = document.querySelectorAll<HTMLVideoElement>('.about-video');
+  if (videos.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) {
+          if (!v.dataset.loaded) {
+            v.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((s) => { s.src = s.dataset.src!; });
+            v.load();
+            v.dataset.loaded = '1';
+            v.addEventListener('canplay', () => { v.muted = true; v.play().catch(() => {}); }, { once: true });
+          }
+          v.muted = true;
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      }
+    }, { rootMargin: '200px 0px' });
+    videos.forEach((v) => io.observe(v));
+    const kick = () => videos.forEach((v) => { if (v.dataset.loaded && v.paused) { v.muted = true; v.play().catch(() => {}); } });
+    window.addEventListener('touchstart', kick, { passive: true });
+    window.addEventListener('scroll', kick, { passive: true });
+  }
+</script>
