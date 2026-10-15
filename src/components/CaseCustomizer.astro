@@ -104,6 +104,7 @@ const TEXTS = {
       textEmpty: 'Sélectionnez un texte sur la coque pour le modifier.',
       importPhoto: 'Importer une photo', importHint: 'ou glissez-la sur la coque · JPG, PNG, WebP',
       pasteHint: 'Astuce : vous pouvez aussi coller une image (Ctrl+V).',
+      qualityTitle: 'Pour une impression nette', qualityText: 'Idéal : 2000 × 4000 px, minimum 1000 × 2000 px. Une photo prise avec votre téléphone est parfaite ; évitez les images reçues par WhatsApp, Instagram ou les captures d’écran, trop compressées.',
       emptyTitle: 'Votre coque est vierge', emptySub: 'Choisissez un outil pour commencer',
       edit: 'Éditer', crop: 'Recadrer la photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', dup: 'Dupliquer', back: 'Mettre en arrière-plan', front: 'Mettre au premier plan', del: 'Supprimer',
       printChoice: 'Choix du mode d’impression', goBack: 'Retour', howPrint: 'Comment imprimer votre coque ?',
@@ -124,7 +125,7 @@ const TEXTS = {
       confirmReset: 'Effacer tous les éléments de la coque ?', resetDone: 'Coque réinitialisée',
       titles: { design: 'Designs', text: 'Texte', photo: 'Photos', help: 'On crée votre design' }, helpSending: 'Envoi…', helpErr: "Envoi impossible pour l'instant. Réessayez dans un instant.", helpMissing: 'Décrivez votre idée (10 caractères au moins) et indiquez un e-mail valide.', helpTooMany: '5 images au maximum.', yourText: 'Votre texte', textColor: 'Texte',
       design: 'Design', confirmTpl: 'Remplacer votre composition actuelle par le design « {n} » ?', tplApplied: 'Design « {n} » appliqué',
-      slotAdd: 'Ajouter une photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.',
+      slotAdd: 'Ajouter une photo', cropOn: 'Glissez la photo pour la recadrer dans le cadre', slotsLeft: 'Il reste {n} case(s) photo vide(s). Elles ne seront pas imprimées. Continuer quand même ?', notImage: 'Choisissez un fichier image.', photoAdded: 'Photo ajoutée', unreadable: 'Image illisible.', lowRes: 'Photo petite ({n} px) : elle risque d’être floue en grand. Idéal : 2000 × 4000 px.',
       cartNotSet: 'Panier non configuré.', rendering: 'Rendu de votre visuel…', printFile: 'Préparation du fichier d’impression…',
       sending: 'Envoi à l’atelier…', wait: 'Quelques secondes, ne fermez pas la page.', added: 'Ajouté au panier !',
       addOne: 'Ajoutez au moins un élément à votre coque.', preparingCase: 'Préparation de votre coque…',
@@ -148,6 +149,7 @@ const TEXTS = {
       textEmpty: 'Select a text on the case to edit it.',
       importPhoto: 'Upload a photo', importHint: 'or drag it onto the case · JPG, PNG, WebP',
       pasteHint: 'Tip: you can also paste an image (Ctrl+V).',
+      qualityTitle: 'For a sharp print', qualityText: 'Ideal: 2000 × 4000 px, minimum 1000 × 2000 px. A photo taken with your phone is perfect; avoid images received via WhatsApp, Instagram or screenshots, which are too compressed.',
       emptyTitle: 'Your case is blank', emptySub: 'Choose a tool to get started',
       edit: 'Edit', crop: 'Reframe photo', cropOn: 'Drag the photo to reframe it in the frame', dup: 'Duplicate', back: 'Send backward', front: 'Bring forward', del: 'Delete',
       printChoice: 'Choice of print finish', goBack: 'Back', howPrint: 'How should we print your case?',
@@ -168,7 +170,7 @@ const TEXTS = {
       confirmReset: 'Remove all elements from the case?', resetDone: 'Case cleared',
       titles: { design: 'Designs', text: 'Text', photo: 'Photos', help: 'We design it for you' }, helpSending: 'Sending…', helpErr: 'Could not send right now. Please try again shortly.', helpMissing: 'Describe your idea (at least 10 characters) and enter a valid email.', helpTooMany: '5 images maximum.', yourText: 'Your text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Replace your current design with the “{n}” design?', tplApplied: '“{n}” design applied',
-      slotAdd: 'Add a photo', cropOn: 'Drag the photo to reframe it in the frame', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.',
+      slotAdd: 'Add a photo', cropOn: 'Drag the photo to reframe it in the frame', slotsLeft: '{n} photo slot(s) still empty. They will not be printed. Continue anyway?', notImage: 'Please choose an image file.', photoAdded: 'Photo added', unreadable: 'Unreadable image.', lowRes: 'Small photo ({n} px): it may look blurry when enlarged. Ideal: 2000 × 4000 px.',
       cartNotSet: 'Cart not configured.', rendering: 'Rendering your design…', printFile: 'Preparing the print file…',
       sending: 'Sending to the workshop…', wait: 'Just a few seconds, please don’t close the page.', added: 'Added to cart!',
       addOne: 'Add at least one element to your case.', preparingCase: 'Preparing your case…',
@@ -192,6 +194,7 @@ const TEXTS = {
       textEmpty: 'Wähle einen Text auf der Hülle aus, um ihn zu bearbeiten.',
       importPhoto: 'Foto hochladen', importHint: 'oder zieh es auf die Hülle · JPG, PNG, WebP',
       pasteHint: 'Tipp: Du kannst auch ein Bild einfügen (Strg+V).',
+      qualityTitle: 'Für einen scharfen Druck', qualityText: 'Ideal: 2000 × 4000 px, mindestens 1000 × 2000 px. Ein mit dem Handy aufgenommenes Foto ist perfekt; vermeide Bilder aus WhatsApp, Instagram oder Screenshots, sie sind zu stark komprimiert.',
       emptyTitle: 'Deine Hülle ist leer', emptySub: 'Wähle ein Werkzeug, um loszulegen',
       edit: 'Bearbeiten', crop: 'Foto zuschneiden', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', dup: 'Duplizieren', back: 'In den Hintergrund', front: 'In den Vordergrund', del: 'Löschen',
       printChoice: 'Wahl der Druckart', goBack: 'Zurück', howPrint: 'Wie sollen wir deine Hülle drucken?',
@@ -212,7 +215,7 @@ const TEXTS = {
       confirmReset: 'Alle Elemente von der Hülle entfernen?', resetDone: 'Hülle zurückgesetzt',
       titles: { design: 'Designs', text: 'Text', photo: 'Fotos', help: 'Wir gestalten für dich' }, helpSending: 'Wird gesendet…', helpErr: 'Senden gerade nicht möglich. Bitte versuche es gleich noch einmal.', helpMissing: 'Beschreibe deine Idee (mindestens 10 Zeichen) und gib eine gültige E-Mail an.', helpTooMany: 'Maximal 5 Bilder.', yourText: 'Dein Text', textColor: 'Text',
       design: 'Design', confirmTpl: 'Deine aktuelle Gestaltung durch das Design „{n}“ ersetzen?', tplApplied: 'Design „{n}“ übernommen',
-      slotAdd: 'Foto hinzufügen', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.',
+      slotAdd: 'Foto hinzufügen', cropOn: 'Ziehe das Foto, um es im Rahmen auszurichten', slotsLeft: 'Noch {n} leere(s) Fotofeld(er). Sie werden nicht gedruckt. Trotzdem fortfahren?', notImage: 'Bitte wähle eine Bilddatei.', photoAdded: 'Foto hinzugefügt', unreadable: 'Bild nicht lesbar.', lowRes: 'Kleines Foto ({n} px): Es kann vergrößert unscharf wirken. Ideal: 2000 × 4000 px.',
       cartNotSet: 'Warenkorb nicht eingerichtet.', rendering: 'Dein Motiv wird gerendert…', printFile: 'Druckdatei wird vorbereitet…',
       sending: 'Wird an die Werkstatt gesendet…', wait: 'Nur ein paar Sekunden, bitte schließe die Seite nicht.', added: 'Zum Warenkorb hinzugefügt!',
       addOne: 'Füge deiner Hülle mindestens ein Element hinzu.', preparingCase: 'Deine Hülle wird vorbereitet…',
@@ -377,6 +380,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           <strong>{U.importPhoto}</strong>
           <span>{U.importHint}</span>
         </button>
+        <div class="quality-tip">
+          <strong>{U.qualityTitle}</strong>
+          <p>{U.qualityText}</p>
+        </div>
         <p class="pane-hint">{U.pasteHint}</p>
       </div>
 
@@ -1123,6 +1130,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   .pane[hidden] { display: none; }
   .pane-label { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .11em; opacity: .6; margin: .9rem 0 .5rem; }
   .pane-hint { font-size: .72rem; opacity: .6; margin-top: .7rem; line-height: 1.45; }
+  /* Conseil de résolution (onglet Photos, ordinateur et mobile). */
+  .quality-tip { margin-top: .8rem; padding: .65rem .75rem; border-radius: 10px; background: rgb(var(--c-n500) / .08); font-size: .72rem; line-height: 1.45; }
+  .quality-tip strong { display: block; font-size: .75rem; margin-bottom: .2rem; }
+  .quality-tip p { margin: 0; opacity: .75; }
   .pane-empty { font-size: .75rem; opacity: .6; margin-top: .8rem; }
   .pane-cta {
     width: 100%; padding: .7rem; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .82rem;
@@ -3042,7 +3053,10 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
           state.elements.forEach(function (x) { var r = nodes.get(x.id); if (r) design.appendChild(r.node); });
           select(slot.id); pushHistory();
         } else addElement(data);
-        toast(I.photoAdded);
+        // Photo trop petite pour un tirage net en grand (moins de ~300 dpi
+        // sur le dos d'une coque) : on prévient sans bloquer.
+        if (Math.max(W0, H0) < 1200) toast(fill(I.lowRes, W0 + ' × ' + H0), 'warn');
+        else toast(I.photoAdded);
       };
       img.onerror = function () { URL.revokeObjectURL(srcUrl); toast(I.unreadable, 'warn'); };
       img.src = srcUrl;
