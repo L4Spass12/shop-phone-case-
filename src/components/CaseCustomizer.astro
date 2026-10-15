@@ -1711,11 +1711,20 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     background: rgba(0,0,0,.6); color: #fff; font-size: 13px; line-height: 20px; text-align: center; cursor: pointer;
   }
   /* ── Mode atelier (création pour une demande client) ─────────── */
+  /* Fiche de la demande, rangée sur le côté droit pour laisser la coque
+     entièrement visible ; repliable (fermée d'office sur mobile). */
   .atelier-bar {
-    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 60;
-    width: min(680px, calc(100% - 24px)); max-height: 46vh; overflow: auto;
-    padding: .8rem .95rem; border-radius: 14px; color: #fff;
+    position: fixed; right: 14px; top: 50%; transform: translateY(-50%); z-index: 60;
+    width: min(290px, calc(100% - 28px)); max-height: 72vh; overflow: auto;
+    padding: .7rem .85rem; border-radius: 14px; color: #fff;
     background: #2b2350; box-shadow: 0 12px 34px rgba(0,0,0,.28); font-size: .8rem;
+  }
+  .atelier-bar summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .atelier-bar summary::-webkit-details-marker { display: none; }
+  .atelier-bar summary::after { content: '\25BE'; opacity: .8; transition: transform .2s; }
+  .atelier-bar[open] summary::after { transform: rotate(180deg); }
+  @media (max-width: 767px) {
+    .atelier-bar { top: auto; bottom: 84px; transform: none; max-height: 50vh; }
   }
   .atelier-bar strong { font-size: .85rem; }
   .atelier-bar p { margin: .35rem 0 .55rem; white-space: pre-wrap; line-height: 1.45; opacity: .9; }
@@ -3645,6 +3654,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
       e.preventDefault();
       save();
       deselect();
+      if (atelier && atelier.info) { saveForRequest(); return; }
       openStep();
     });
 
@@ -3883,10 +3893,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         if (!d) { toast('Demande introuvable ou lien expiré.', 'warn'); atelier = null; return; }
         atelier.info = d;
         if (d.model) setModel(d.model);
-        var lbl = root.querySelector('.step-add-l');
-        if (lbl) lbl.textContent = 'Enregistrer pour ' + d.name;
-        var bar = document.createElement('div');
+        // Pas d'étape « mode d'impression » : c'est le client qui choisira
+        // à plat ou en relief. Le bouton du haut enregistre directement.
+        root.querySelectorAll('[data-next] .add-full, [data-next] .add-mini, .step-add-l').forEach(function (el) {
+          el.textContent = 'Enregistrer pour ' + d.name;
+        });
+        var bar = document.createElement('details');
         bar.className = 'atelier-bar';
+        bar.open = window.matchMedia('(min-width: 1200px)').matches;
+        var sum = document.createElement('summary');
         var title = document.createElement('strong');
         title.textContent = 'Mode atelier · demande de ' + d.name
           + (d.model ? ' · ' + d.model : '')
@@ -3908,7 +3923,8 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
             imgs.appendChild(b);
           })(n);
         }
-        bar.appendChild(title); bar.appendChild(desc); bar.appendChild(imgs);
+        sum.appendChild(title);
+        bar.appendChild(sum); bar.appendChild(desc); bar.appendChild(imgs);
         document.body.appendChild(bar);
       }).catch(function () { atelier = null; });
     })();
