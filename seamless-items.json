@@ -1756,13 +1756,13 @@
       "key": "coque-vitrail-phenix",
       "label": "Coque Vitrail Phénix",
       "price": 1990,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "coque-vitrail-phenix-relief",
       "label": "Coque Vitrail Phénix · en relief",
       "price": 2490,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "coque-vitrail-soleil",
@@ -3580,13 +3580,13 @@
       "key": "de/coque-vitrail-phenix",
       "label": "Hülle Phönixfenster",
       "price": 1990,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "de/coque-vitrail-phenix-relief",
       "label": "Hülle Phönixfenster · en relief",
       "price": 2490,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "de/coque-vitrail-soleil",
@@ -5404,13 +5404,13 @@
       "key": "en/coque-vitrail-phenix",
       "label": "Phoenix Stained Glass Case",
       "price": 1990,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "en/coque-vitrail-phenix-relief",
       "label": "Phoenix Stained Glass Case · en relief",
       "price": 2490,
-      "image": "/images/products/coque-vitrail-phenix-plat.webp"
+      "image": "/images/products/coque-vitrail-phenix-v2-plat.webp"
     },
     {
       "key": "en/coque-vitrail-soleil",
