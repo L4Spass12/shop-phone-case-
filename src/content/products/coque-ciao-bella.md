@@ -3,7 +3,7 @@ name: "Coque Ciao Bella"
 price: 19.90
 image: "/images/products/coque-ciao-bella-plat.webp"
 imageAlt: "Coque Ciao Bella : un dalmatien en foulard et lunettes de soleil, entre spaghetti, vin rouge et rouge à lèvres"
-categories: ["coques-iphone", "coques-animaux", "coques-citations", "coques-riviera"]
+categories: ["coques-iphone", "coques-riviera"]
 shortDescription: "Un dalmatien en foulard et lunettes de soleil, entre spaghetti, vin rouge et rouge à lèvres."
 order: 158
 pubDate: 2026-10-16

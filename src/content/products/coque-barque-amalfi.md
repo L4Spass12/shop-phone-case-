@@ -3,7 +3,7 @@ name: "Coque Barque d'Amalfi"
 price: 19.90
 image: "/images/products/coque-barque-amalfi-plat.webp"
 imageAlt: "Coque Barque d'Amalfi : une barque bleue et blanche sous les citronniers, au coucher du soleil sur la mer"
-categories: ["coques-iphone", "coques-paysages", "coques-riviera"]
+categories: ["coques-iphone", "coques-riviera"]
 shortDescription: "Une barque bleue et blanche sous les citronniers, au coucher du soleil sur la mer."
 order: 163
 pubDate: 2026-10-16

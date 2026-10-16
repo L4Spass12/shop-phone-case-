@@ -3,7 +3,7 @@ name: "Coque Boule Disco"
 price: 19.90
 image: "/images/products/coque-boule-disco-plat.webp"
 imageAlt: "Coque Boule Disco : une boule disco rose sur des rayures fuchsia"
-categories: ["coques-iphone", "coques-motifs", "coques-riviera"]
+categories: ["coques-iphone", "coques-riviera"]
 shortDescription: "Une boule disco rose sur des rayures fuchsia."
 order: 67
 pubDate: 2026-10-10

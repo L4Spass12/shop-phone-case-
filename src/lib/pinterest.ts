@@ -22,6 +22,29 @@ import { PHONE_MODELS, modelPhoto } from './models';
  */
 const PINTEREST_PRODUCTS_UNTIL = new Date('2026-10-15T23:59:59Z');
 
+/**
+ * Tableau FIGÉ des produits du planning passés depuis dans la seule catégorie
+ * Riviera (16/10/2026) : leurs épingles restent sur le tableau d'origine, sinon
+ * le CSV et les flux déjà importés changeraient.
+ */
+const PINTEREST_BOARD_FROZEN: Record<string, string> = {
+  'coque-bisou': 'coques-romantique',
+  'coque-boule-disco': 'coques-motifs',
+  'coque-canard-roi': 'coques-animaux',
+  'coque-cerises-vin': 'coques-motifs',
+  'coque-citron-riviera': 'coques-motifs',
+  'coque-cocktail': 'coques-motifs',
+  'coque-coquillage': 'coques-motifs',
+  'coque-croissant-paris': 'coques-motifs',
+  'coque-happiness-chien': 'coques-animaux',
+  'coque-homard-bleu': 'coques-animaux',
+  'coque-homard-violet': 'coques-animaux',
+  'coque-riviera-cabriolet': 'coques-auto',
+  'coque-roadtrip-rouge': 'coques-auto',
+  'coque-terrasse-riviera': 'coques-paysages',
+  'coque-voyageur-cote': 'coques-paysages',
+};
+
 const PINTEREST_MODELS = ["iphone-17-pro-max", "iphone-17-pro", "iphone-17", "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14", "iphone-13", "galaxy-s26-ultra", "galaxy-s26", "galaxy-s25-ultra", "galaxy-s25", "galaxy-s24-ultra", "galaxy-s24", "galaxy-a56-5g", "galaxy-a36-5g"];
 
 export type Pin = {
@@ -77,7 +100,10 @@ export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
   const themes = new Set(BOARDS.map((b) => b.slug));
   const products = (await getCollection('products'))
     .filter((p) => parseEntrySlug(p.slug).lang === 'fr' && p.data.pubDate <= PINTEREST_PRODUCTS_UNTIL)
-    .map((p) => ({ p, board: (p.data.categories ?? []).find((c) => themes.has(c)) }))
+    .map((p) => ({
+      p,
+      board: PINTEREST_BOARD_FROZEN[parseEntrySlug(p.slug).slug] ?? (p.data.categories ?? []).find((c) => themes.has(c)),
+    }))
     .filter((x): x is { p: (typeof x)['p']; board: string } => !!x.board)
     .sort((a, b) => a.p.slug.localeCompare(b.p.slug));
   const r = rng(20261020);
