@@ -98,6 +98,9 @@ const config = {
   pinterest: {
     startDate: '2026-10-13',
     perDay: 4,
+    // Balise Pinterest (conversions des campagnes), chargée après accord
+    // cookies seulement : src/components/PinterestTag.astro.
+    tagId: '2613207327157',
   },
 
   productCategories: [

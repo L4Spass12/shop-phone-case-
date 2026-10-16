@@ -13,6 +13,7 @@
  * script du widget (BaseLayout) pour y revenir.
  */
 import siteConfig from '../../site.config.mjs';
+import PinterestTag from './PinterestTag.astro';
 import { currencyForLocale, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -55,5 +56,6 @@ const titre = { fr: 'Paiement', en: 'Checkout', de: 'Bezahlung' }[lang] ?? 'Paie
   </head>
   <body>
     <div data-atelier-checkout-page></div>
+    <PinterestTag />
   </body>
 </html>

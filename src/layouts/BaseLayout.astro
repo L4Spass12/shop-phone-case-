@@ -6,6 +6,7 @@ import ModelPicker from '../components/ModelPicker.astro';
 import variantsData from '../data/variants.json';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import PinterestTag from '../components/PinterestTag.astro';
 import { localeFromPath, localeMeta, localizeUrl, currencyForLocale, ACTIVE_LOCALES, type Locale } from '../lib/i18n';
 import logoFont from '../lib/logo-font.json';
 
@@ -305,5 +306,6 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     </main>
     <Footer />
     <CookieBanner />
+    <PinterestTag />
   </body>
 </html>

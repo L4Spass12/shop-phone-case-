@@ -1,0 +1,60 @@
+---
+/**
+ * Balise Pinterest (mesure des conversions des campagnes Pinterest Ads).
+ *
+ * Chargée UNIQUEMENT après consentement : localStorage bp_cookie_consent
+ * === "accepted", ou l'événement bp:consent-change de CookieBanner. Sans
+ * accord, aucun script Pinterest n'est demandé.
+ *
+ * Événements, relayés depuis le widget seamless-cart :
+ *  - pagevisit   : chaque page (avec l'id produit sur une fiche produit) ;
+ *  - addtocart   : atelier:add-to-cart ;
+ *  - checkout    : atelier:purchase (= achat payé, nom imposé par Pinterest),
+ *                  order_id en event_id pour dédoublonner avec une future
+ *                  API de conversions.
+ * Incluse dans BaseLayout et dans CheckoutShell (la page de paiement n'a pas
+ * de bandeau cookies mais lit le même choix).
+ */
+import siteConfig from '../../site.config.mjs';
+
+const tagId = (siteConfig as any).pinterest?.tagId as string | undefined;
+---
+
+{tagId && (
+  <script is:inline define:vars={{ tagId }}>
+    (function () {
+      var loaded = false;
+      function consent() {
+        try { return localStorage.getItem('bp_cookie_consent') === 'accepted'; } catch (_) { return false; }
+      }
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        !function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+        window.pintrk('load', tagId);
+        var buy = document.getElementById('buy-button');
+        var pid = buy && buy.getAttribute('data-base-item-id');
+        window.pintrk('page');
+        window.pintrk('track', 'pagevisit', pid ? { line_items: [{ product_id: pid }] } : {});
+      }
+      function track(name, data) {
+        if (loaded && window.pintrk) window.pintrk('track', name, data);
+      }
+      function items(d) {
+        return (d.content_ids || []).map(function (id) { return { product_id: id }; });
+      }
+      window.addEventListener('atelier:add-to-cart', function (e) {
+        var d = e.detail || {};
+        track('addtocart', { value: d.value, currency: d.currency, order_quantity: d.quantity || 1, line_items: items(d) });
+      });
+      window.addEventListener('atelier:purchase', function (e) {
+        var d = e.detail || {};
+        track('checkout', { value: d.value, currency: d.currency, order_quantity: (d.content_ids || []).length, order_id: d.order_id, event_id: d.order_id, line_items: items(d) });
+      });
+      window.addEventListener('bp:consent-change', function (e) {
+        if (e.detail === 'accepted') load();
+      });
+      if (consent()) load();
+    })();
+  </script>
+)}
