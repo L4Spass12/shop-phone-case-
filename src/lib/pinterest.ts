@@ -76,7 +76,10 @@ export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
   }
 
   const SITE = siteConfig.url;
-  const M = PHONE_MODELS;
+  // Sans les modèles alias (iPhone 18 Pro…, mêmes photos que le 17 Pro) :
+  // le planning dépend de cette liste, l'allonger décalerait toutes les
+  // épingles des fichiers CSV déjà importés dans Pinterest.
+  const M = PHONE_MODELS.filter((m) => !m.sameAs);
   const pins: Pin[] = [];
   for (let k = 0; k < products.length * M.length; k++) {
     const pi = k % products.length;

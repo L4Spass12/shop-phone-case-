@@ -24,6 +24,7 @@ import { t, parseEntrySlug, type Locale } from '../lib/i18n';
 import { getCollection } from 'astro:content';
 import { existsSync } from 'node:fs';
 import studioReal from '../data/studio-real.json';
+import aliases from '../data/model-aliases.json';
 import { JERSEYS } from '../data/jerseys.mjs';
 
 interface Props { lang?: Locale; realistic?: boolean }
@@ -35,6 +36,11 @@ const REAL: Record<string, { k: string; m: string; panel: number[]; box: number[
 if (realistic) {
   for (const [id, v] of Object.entries(studioReal as Record<string, { label: string; panel: number[]; box: number[] }>)) {
     REAL[v.label] = { k: `/images/studio/real/${id}-k.webp`, m: `/images/studio/real/${id}-m.webp`, panel: v.panel, box: v.box };
+  }
+  // Modèles alias (iPhone 18 Pro = 17 Pro) : mêmes calques et même cadre.
+  for (const al of aliases as { id: string; label: string; from: string }[]) {
+    const src = (studioReal as Record<string, { label: string }>)[al.from];
+    if (src && REAL[src.label]) REAL[al.label] = REAL[src.label];
   }
 }
 
@@ -1783,6 +1789,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
        recoupées avec la fiche technique du fournisseur de coques. */
     var MM = {
       // Apple
+      'iPhone 18 Pro Max': [78.0, 163.4], 'iPhone 18 Pro': [71.9, 150.0],
       'iPhone 17 Pro Max': [78.0, 163.4], 'iPhone 17 Pro': [71.9, 150.0], 'iPhone 17': [71.5, 147.6],
       'iPhone 16 Pro Max': [77.6, 163.0], 'iPhone 16 Pro': [71.5, 149.6], 'iPhone 16 Plus': [77.8, 160.9], 'iPhone 16': [71.6, 147.6],
       'iPhone 15 Pro Max': [76.7, 159.9], 'iPhone 15 Pro': [70.6, 146.6], 'iPhone 15 Plus': [77.8, 160.9], 'iPhone 15': [71.6, 147.6],

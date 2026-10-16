@@ -136,6 +136,9 @@ const config = {
         // Du plus récent au plus ancien : un visiteur a plus de chances
         // d'avoir un téléphone récent, autant lui éviter de faire défiler.
         models: [
+          // Même gabarit que les 17 Pro / Pro Max (src/data/model-aliases.json).
+          { label: 'iPhone 18 Pro Max', popular: true },
+          { label: 'iPhone 18 Pro', popular: true },
           { label: 'iPhone 17 Pro Max', popular: true },
           { label: 'iPhone 17 Pro', popular: true },
           { label: 'iPhone 17', popular: true },

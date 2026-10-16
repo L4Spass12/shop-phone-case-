@@ -24,6 +24,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import sharp from 'sharp';
 import siteConfig from '../../site.config.mjs';
+import { applyAliases } from './model-aliases.mjs';
 
 const ATELIER = process.env.ATELIER_HTML ||
   '/Users/amatquentin/Documents/Codex/2026-10-06/genere-moi-image-produit-de-cette/outputs/atelier-coques/index.html';
@@ -99,5 +100,8 @@ for (let i = 0; i < ids.length; i++) {
 
 await browser.close();
 mkdirSync('src/data', { recursive: true });
+// Les modèles alias (iPhone 18 Pro…) reprennent les photos de leur modèle
+// d'origine : réinscrits à chaque génération.
+applyAliases(manifest);
 writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
 console.log(`${slug} : ${Object.keys(manifest[slug]).length} modèles dans ${manifestPath}`);

@@ -2,6 +2,7 @@
 // photos générées par l'atelier (src/data/variants.json → _models), donc une
 // page n'existe que pour un modèle dont on a les photos de toutes les coques.
 import variants from '../data/variants.json';
+import aliases from '../data/model-aliases.json';
 import type { Locale } from './i18n';
 
 type Variants = Record<string, Record<string, { plat?: string; relief?: string }>> & { _models: Record<string, string> };
@@ -15,12 +16,22 @@ export type PhoneModel = {
   /** Nom complet pour les textes : « Samsung Galaxy S25 Ultra ». */
   fullName: string;
   brand: 'apple' | 'samsung';
+  /** Modèle au même gabarit dont il reprend photos et calques (iPhone 18 Pro
+   *  → 17 Pro, voir src/data/model-aliases.json). Libellé du modèle d'origine. */
+  sameAs?: string;
 };
 
 export const PHONE_MODELS: PhoneModel[] = Object.entries(V._models).map(([id, label]) => {
   const samsung = id.startsWith('galaxy');
-  return { id, label, fullName: samsung ? `Samsung ${label}` : label, brand: samsung ? 'samsung' : 'apple' };
+  const alias = (aliases as { id: string; from: string }[]).find((a) => a.id === id);
+  return {
+    id, label, fullName: samsung ? `Samsung ${label}` : label, brand: samsung ? 'samsung' : 'apple',
+    ...(alias ? { sameAs: V._models[alias.from] } : {}),
+  };
 });
+
+/** « l'iPhone 17 », « le Galaxy S25 ». */
+const leFr = (label: string) => (/^[aeiouyh]/i.test(label) ? `l'${label}` : `le ${label}`);
 
 /** Photo d'une coque sur ce modèle (rendu à plat), ou null. */
 export function modelPhoto(productSlug: string, modelId: string): string | null {
@@ -48,7 +59,7 @@ export const MODEL_TEXT: Record<Locale, {
     title: (m) => `Coques ${m.fullName} imprimées en France`,
     h1: (m) => `Coques ${m.fullName}`,
     description: (m, n) => `${n} coques pour ${m.fullName} : animaux, fleurs, citations, motifs… Imprimées à l'unité en France, à plat ou en relief. Livraison suivie.`,
-    intro: (m, n) => `Toutes nos coques pour ${m.fullName}, soit ${n} designs, photographiées sur le ${m.label} lui-même. Chaque coque transparente est moulée pour ce modèle et imprimée à l'unité dans notre atelier en France, à plat ou en relief.`,
+    intro: (m, n) => `Toutes nos coques pour ${m.fullName}, soit ${n} designs, ${m.sameAs ? `présentées sur ${leFr(m.sameAs)}, au gabarit identique` : `photographiées sur ${leFr(m.label)} lui-même`}. Chaque coque transparente est moulée pour ce modèle et imprimée à l'unité dans notre atelier en France, à plat ou en relief.`,
     count: (n) => `${n} coque${n > 1 ? 's' : ''}`,
     from: (p) => `À partir de ${p}`,
     faqTitle: 'Questions fréquentes',
@@ -66,7 +77,7 @@ export const MODEL_TEXT: Record<Locale, {
     title: (m) => `${m.fullName} cases printed in France`,
     h1: (m) => `${m.fullName} cases`,
     description: (m, n) => `${n} cases for the ${m.fullName}: animals, flowers, quotes, patterns… Printed one at a time in France, flat or raised. Tracked shipping.`,
-    intro: (m, n) => `All our cases for the ${m.fullName}, ${n} designs in all, photographed on the ${m.label} itself. Each clear case is moulded for this model and printed one at a time in our workshop in France, flat or raised.`,
+    intro: (m, n) => `All our cases for the ${m.fullName}, ${n} designs in all, ${m.sameAs ? `shown on the ${m.sameAs}, which has the same dimensions` : `photographed on the ${m.label} itself`}. Each clear case is moulded for this model and printed one at a time in our workshop in France, flat or raised.`,
     count: (n) => `${n} case${n > 1 ? 's' : ''}`,
     from: (p) => `From ${p}`,
     faqTitle: 'Frequently asked questions',
@@ -84,7 +95,7 @@ export const MODEL_TEXT: Record<Locale, {
     title: (m) => `${m.fullName} Hüllen, in Frankreich bedruckt`,
     h1: (m) => `${m.fullName} Hüllen`,
     description: (m, n) => `${n} Hüllen für das ${m.fullName}: Tiere, Blumen, Sprüche, Muster… Einzeln in Frankreich bedruckt, flach oder mit Relief.`,
-    intro: (m, n) => `Alle unsere Hüllen für das ${m.fullName}, insgesamt ${n} Designs, fotografiert am ${m.label} selbst. Jede transparente Hülle ist für dieses Modell geformt und wird einzeln in unserem Atelier in Frankreich bedruckt, flach oder mit Relief.`,
+    intro: (m, n) => `Alle unsere Hüllen für das ${m.fullName}, insgesamt ${n} Designs, ${m.sameAs ? `gezeigt am ${m.sameAs} mit identischen Maßen` : `fotografiert am ${m.label} selbst`}. Jede transparente Hülle ist für dieses Modell geformt und wird einzeln in unserem Atelier in Frankreich bedruckt, flach oder mit Relief.`,
     count: (n) => `${n} ${n > 1 ? 'Hüllen' : 'Hülle'}`,
     from: (p) => `Ab ${p}`,
     faqTitle: 'Häufige Fragen',
