@@ -16,4 +16,4 @@ Dans une nuit bleu profond, un petit lapin blanc lève la tête vers une fleur d
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 11 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

@@ -15,4 +15,4 @@ Pastel lilies and flowers, light and airy: the Pastel Lilies Case is printed one
 
 - Printed one by one in our workshop in France
 - Flat finish (smooth surface)
-- Available for iPhone 13 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
+- Available for iPhone 11 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)

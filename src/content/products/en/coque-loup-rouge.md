@@ -15,4 +15,4 @@ A glowing red wolf on a rock at night: the Red Wolf Case is printed one by one i
 
 - Printed one by one in our workshop in France
 - Flat finish (smooth surface)
-- Available for iPhone 13 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
+- Available for iPhone 11 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)

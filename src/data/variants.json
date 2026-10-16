@@ -62,6 +62,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-archipel-couchant/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-archipel-couchant/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-archipel-couchant/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-archipel-couchant/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-archipel-couchant/iphone-11-plat.webp"
     }
   },
   "_models": {
@@ -72,12 +84,16 @@
     "iphone-17": "iPhone 17",
     "iphone-16-pro-max": "iPhone 16 Pro Max",
     "iphone-16-pro": "iPhone 16 Pro",
+    "iphone-16-plus": "iPhone 16 Plus",
     "iphone-16": "iPhone 16",
     "iphone-15-pro-max": "iPhone 15 Pro Max",
     "iphone-15-pro": "iPhone 15 Pro",
+    "iphone-15-plus": "iPhone 15 Plus",
     "iphone-15": "iPhone 15",
     "iphone-14": "iPhone 14",
     "iphone-13": "iPhone 13",
+    "iphone-12": "iPhone 12",
+    "iphone-11": "iPhone 11",
     "galaxy-s26-ultra": "Galaxy S26 Ultra",
     "galaxy-s26": "Galaxy S26",
     "galaxy-s25-ultra": "Galaxy S25 Ultra",
@@ -150,6 +166,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-baleines-celestes/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-baleines-celestes/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-baleines-celestes/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-baleines-celestes/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-baleines-celestes/iphone-11-plat.webp"
     }
   },
   "coque-cerises-vin": {
@@ -215,6 +243,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cerises-vin/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cerises-vin/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cerises-vin/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cerises-vin/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cerises-vin/iphone-11-plat.webp"
     }
   },
   "coque-chat-lune": {
@@ -280,6 +320,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chat-lune/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chat-lune/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chat-lune/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chat-lune/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chat-lune/iphone-11-plat.webp"
     }
   },
   "coque-chaton-etoile": {
@@ -345,6 +397,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chaton-etoile/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chaton-etoile/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chaton-etoile/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chaton-etoile/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chaton-etoile/iphone-11-plat.webp"
     }
   },
   "coque-chaton-fleuri": {
@@ -410,6 +474,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chaton-fleuri/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chaton-fleuri/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chaton-fleuri/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chaton-fleuri/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chaton-fleuri/iphone-11-plat.webp"
     }
   },
   "coque-chats-amoureux": {
@@ -475,6 +551,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chats-amoureux/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chats-amoureux/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chats-amoureux/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chats-amoureux/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chats-amoureux/iphone-11-plat.webp"
     }
   },
   "coque-citron-riviera": {
@@ -540,6 +628,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-citron-riviera/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-citron-riviera/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-citron-riviera/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-citron-riviera/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-citron-riviera/iphone-11-plat.webp"
     }
   },
   "coque-coeurs-pastel": {
@@ -605,6 +705,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coeurs-pastel/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coeurs-pastel/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coeurs-pastel/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coeurs-pastel/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coeurs-pastel/iphone-11-plat.webp"
     }
   },
   "coque-fleur-etoile": {
@@ -1710,6 +1822,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-tourbillon-lune/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-tourbillon-lune/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-tourbillon-lune/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-tourbillon-lune/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-tourbillon-lune/iphone-11-plat.webp"
     }
   },
   "coque-trois-ciels": {
@@ -2295,6 +2419,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coeur-noeud/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coeur-noeud/iphone-11-plat.webp"
     }
   },
   "coque-reve-rose": {
@@ -2620,6 +2756,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cerises-rubans/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cerises-rubans/iphone-11-plat.webp"
     }
   },
   "coque-emotional-spiral": {
@@ -2750,6 +2898,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chaton-paillettes/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chaton-paillettes/iphone-11-plat.webp"
     }
   },
   "coque-fraises-rubans": {
@@ -2880,6 +3040,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-ciel-chat/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-ciel-chat/iphone-11-plat.webp"
     }
   },
   "coque-keep-sweetness": {
@@ -3010,6 +3182,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cerises-pastel/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cerises-pastel/iphone-11-plat.webp"
     }
   },
   "coque-trust-timing": {
@@ -3335,6 +3519,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coeurs-ruban/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coeurs-ruban/iphone-11-plat.webp"
     }
   },
   "coque-nature-chat": {
@@ -3595,6 +3791,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coeurs-papillons/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coeurs-papillons/iphone-11-plat.webp"
     }
   },
   "coque-toile-rose": {
@@ -3855,6 +4063,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chatons-pastel/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chatons-pastel/iphone-11-plat.webp"
     }
   },
   "coque-lapin-rose": {
@@ -4245,6 +4465,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chiens-amoureux/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chiens-amoureux/iphone-11-plat.webp"
     }
   },
   "coque-matcha": {
@@ -4440,6 +4672,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-capybaras/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-capybaras/iphone-11-plat.webp"
     }
   },
   "coque-cactus": {
@@ -4505,6 +4749,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cactus/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cactus/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cactus/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cactus/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cactus/iphone-11-plat.webp"
     }
   },
   "coque-planete-groovy": {
@@ -4700,6 +4956,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coquillage/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coquillage/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coquillage/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coquillage/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coquillage/iphone-11-plat.webp"
     }
   },
   "coque-boule-disco": {
@@ -4765,6 +5033,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-boule-disco/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-boule-disco/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-boule-disco/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-boule-disco/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-boule-disco/iphone-11-plat.webp"
     }
   },
   "coque-bisou": {
@@ -4830,6 +5110,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-bisou/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-bisou/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-bisou/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-bisou/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-bisou/iphone-11-plat.webp"
     }
   },
   "coque-cocktail": {
@@ -4895,6 +5187,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cocktail/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cocktail/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cocktail/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cocktail/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cocktail/iphone-11-plat.webp"
     }
   },
   "coque-canard-roi": {
@@ -4960,6 +5264,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-canard-roi/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-canard-roi/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-canard-roi/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-canard-roi/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-canard-roi/iphone-11-plat.webp"
     }
   },
   "coque-homard-bleu": {
@@ -5155,6 +5471,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-croissant-paris/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-croissant-paris/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-croissant-paris/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-croissant-paris/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-croissant-paris/iphone-11-plat.webp"
     }
   },
   "coque-happiness-chien": {
@@ -5740,6 +6068,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-damas-vert/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-damas-vert/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-damas-vert/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-damas-vert/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-damas-vert/iphone-11-plat.webp"
     }
   },
   "coque-leopard-rose": {
@@ -5870,6 +6210,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-carreaux-anciens/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-carreaux-anciens/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-carreaux-anciens/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-carreaux-anciens/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-carreaux-anciens/iphone-11-plat.webp"
     }
   },
   "coque-carreaux-ambre": {
@@ -5935,6 +6287,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-carreaux-ambre/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-carreaux-ambre/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-carreaux-ambre/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-carreaux-ambre/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-carreaux-ambre/iphone-11-plat.webp"
     }
   },
   "coque-carreaux-menthe": {
@@ -6000,6 +6364,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-carreaux-menthe/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-carreaux-menthe/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-carreaux-menthe/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-carreaux-menthe/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-carreaux-menthe/iphone-11-plat.webp"
     }
   },
   "coque-tigre-sable": {
@@ -6520,6 +6896,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-crocodile/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-crocodile/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-crocodile/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-crocodile/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-crocodile/iphone-11-plat.webp"
     }
   },
   "coque-ocelot": {
@@ -6845,6 +7233,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-azulejos/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-azulejos/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-azulejos/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-azulejos/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-azulejos/iphone-11-plat.webp"
     }
   },
   "coque-faience-bleue": {
@@ -7430,6 +7830,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chevalier/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chevalier/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chevalier/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chevalier/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chevalier/iphone-11-plat.webp"
     }
   },
   "coque-lac-gravure": {
@@ -7755,6 +8167,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cote-fleurie/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cote-fleurie/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cote-fleurie/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cote-fleurie/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cote-fleurie/iphone-11-plat.webp"
     }
   },
   "coque-nympheas": {
@@ -8080,6 +8504,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-clair-lune/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-clair-lune/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-clair-lune/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-clair-lune/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-clair-lune/iphone-11-plat.webp"
     }
   },
   "coque-arbre-miroir": {
@@ -8145,6 +8581,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-arbre-miroir/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-arbre-miroir/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-arbre-miroir/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-arbre-miroir/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-arbre-miroir/iphone-11-plat.webp"
     }
   },
   "coque-cascade-nuit": {
@@ -8210,6 +8658,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cascade-nuit/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cascade-nuit/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cascade-nuit/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cascade-nuit/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cascade-nuit/iphone-11-plat.webp"
     }
   },
   "coque-coucher-or": {
@@ -8275,6 +8735,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-coucher-or/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-coucher-or/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-coucher-or/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-coucher-or/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-coucher-or/iphone-11-plat.webp"
     }
   },
   "coque-lys-pastel": {
@@ -8535,6 +9007,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-cabane-lac/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-cabane-lac/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-cabane-lac/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-cabane-lac/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-cabane-lac/iphone-11-plat.webp"
     }
   },
   "coque-chalet-neige": {
@@ -8600,6 +9084,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-chalet-neige/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-chalet-neige/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-chalet-neige/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-chalet-neige/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-chalet-neige/iphone-11-plat.webp"
     }
   },
   "coque-sakura-vert": {
@@ -9120,6 +9616,18 @@
     },
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-citrons-fleurs/iphone-17-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-citrons-fleurs/iphone-16-plus-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-citrons-fleurs/iphone-15-plus-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-citrons-fleurs/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-citrons-fleurs/iphone-11-plat.webp"
     }
   },
   "coque-fraises-fleurettes": {

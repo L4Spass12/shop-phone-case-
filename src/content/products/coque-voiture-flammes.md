@@ -15,4 +15,4 @@ Une voiture de course chromée au milieu de flammes rétro : la Coque Voiture Fl
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 11 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

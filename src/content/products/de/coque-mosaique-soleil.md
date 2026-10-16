@@ -17,4 +17,4 @@ Mit **Relief** spürst du jedes Steinchen unter den Fingern, wie bei einem echte
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
 - Flaches Finish (glatte Oberfläche) oder Relief (Struktur)
-- Erhältlich für iPhone 13 bis 18 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)
+- Erhältlich für iPhone 11 bis 18 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)

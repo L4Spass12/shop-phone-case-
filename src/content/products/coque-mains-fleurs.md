@@ -15,4 +15,4 @@ Des mains de toutes les couleurs qui se rejoignent au milieu des fleurs : la Coq
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 11 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

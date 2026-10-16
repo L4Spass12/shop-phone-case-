@@ -14,6 +14,9 @@ import siteConfig from '../../site.config.mjs';
 import { parseEntrySlug } from './i18n';
 import { PHONE_MODELS, modelPhoto } from './models';
 
+/** Modèles du planning Pinterest, dans l'ordre du premier import (oct. 2026). */
+const PINTEREST_MODELS = ["iphone-17-pro-max", "iphone-17-pro", "iphone-17", "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14", "iphone-13", "galaxy-s26-ultra", "galaxy-s26", "galaxy-s25-ultra", "galaxy-s25", "galaxy-s24-ultra", "galaxy-s24", "galaxy-a56-5g", "galaxy-a36-5g"];
+
 export type Pin = {
   id: string;
   board: string;
@@ -76,10 +79,10 @@ export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
   }
 
   const SITE = siteConfig.url;
-  // Sans les modèles alias (iPhone 18 Pro…, mêmes photos que le 17 Pro) :
-  // le planning dépend de cette liste, l'allonger décalerait toutes les
-  // épingles des fichiers CSV déjà importés dans Pinterest.
-  const M = PHONE_MODELS.filter((m) => !m.sameAs);
+  // Liste FIGÉE : le planning dépend des modèles et de leur ordre. Ajouter un
+  // modèle au site (iPhone 18 Pro, 16 Plus…) décalerait toutes les épingles
+  // des fichiers CSV déjà importés dans Pinterest.
+  const M = PINTEREST_MODELS.map((id) => PHONE_MODELS.find((m) => m.id === id)).filter((m): m is (typeof PHONE_MODELS)[number] => !!m);
   const pins: Pin[] = [];
   for (let k = 0; k < products.length * M.length; k++) {
     const pi = k % products.length;

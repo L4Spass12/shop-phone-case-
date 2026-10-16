@@ -15,4 +15,4 @@ Auf einem Marmorbalkon blickt eine Katze zur Mondsichel hinauf, umgeben von wei�
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
 - Flaches Finish (glatte Oberfl채che)
-- Erh채ltlich f체r iPhone 13 bis 18 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)
+- Erh채ltlich f체r iPhone 11 bis 18 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)

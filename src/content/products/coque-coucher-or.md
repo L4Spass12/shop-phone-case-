@@ -15,4 +15,4 @@ Un coucher de soleil doré vu depuis une forêt fleurie : la Coque Coucher Doré
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 11 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

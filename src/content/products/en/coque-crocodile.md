@@ -15,4 +15,4 @@ A dark green crocodile skin: the Crocodile Case is printed one by one in our wor
 
 - Printed one by one in our workshop in France
 - Flat finish (smooth surface)
-- Available for iPhone 13 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
+- Available for iPhone 11 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
