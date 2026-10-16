@@ -349,6 +349,18 @@
       "image": "/images/products/coque-citrons-fleurs-plat.webp"
     },
     {
+      "key": "coque-citrons-soleil",
+      "label": "Coque Citrons Soleil",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
+      "key": "coque-citrons-soleil-relief",
+      "label": "Coque Citrons Soleil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
       "key": "coque-clair-lune",
       "label": "Coque Clair de Lune",
       "price": 1990,
@@ -479,6 +491,42 @@
       "label": "Coque Croissant Paris · en relief",
       "price": 2490,
       "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "coque-cygnes-baroques",
+      "label": "Coque Cygnes Baroques",
+      "price": 1990,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "coque-cygnes-baroques-relief",
+      "label": "Coque Cygnes Baroques · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "coque-damas-bleu-nuit",
+      "label": "Coque Damas Bleu Nuit",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "coque-damas-bleu-nuit-relief",
+      "label": "Coque Damas Bleu Nuit · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "coque-damas-bordeaux",
+      "label": "Coque Damas Bordeaux",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
+    },
+    {
+      "key": "coque-damas-bordeaux-relief",
+      "label": "Coque Damas Bordeaux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
     },
     {
       "key": "coque-damas-vert",
@@ -671,6 +719,18 @@
       "label": "Coque Fraises Fleuries · en relief",
       "price": 2490,
       "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "coque-fraises-noeuds",
+      "label": "Coque Fraises et Nœuds",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
+    },
+    {
+      "key": "coque-fraises-noeuds-relief",
+      "label": "Coque Fraises et Nœuds · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
     },
     {
       "key": "coque-fraises-rubans",
@@ -959,6 +1019,18 @@
       "label": "Coque Losanges Cerises · en relief",
       "price": 2490,
       "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "coque-lotus-koi-lilas",
+      "label": "Coque Lotus et Koï Lilas",
+      "price": 1990,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
+    },
+    {
+      "key": "coque-lotus-koi-lilas-relief",
+      "label": "Coque Lotus et Koï Lilas · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
     },
     {
       "key": "coque-loup-lune",
@@ -1285,6 +1357,18 @@
       "image": "/images/products/coque-petites-roses-plat.webp"
     },
     {
+      "key": "coque-pivoines-ardoise",
+      "label": "Coque Pivoines Ardoise",
+      "price": 1990,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
+      "key": "coque-pivoines-ardoise-relief",
+      "label": "Coque Pivoines Ardoise · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
       "key": "coque-planete-groovy",
       "label": "Coque Planète Groovy",
       "price": 1990,
@@ -1427,6 +1511,18 @@
       "label": "Coque Route des Palmiers · en relief",
       "price": 2490,
       "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "coque-sakura-poudre",
+      "label": "Coque Sakura Poudré",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
+    },
+    {
+      "key": "coque-sakura-poudre-relief",
+      "label": "Coque Sakura Poudré · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
     },
     {
       "key": "coque-sakura-vert",
@@ -2173,6 +2269,18 @@
       "image": "/images/products/coque-citrons-fleurs-plat.webp"
     },
     {
+      "key": "de/coque-citrons-soleil",
+      "label": "Hülle Sonnenzitronen",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-citrons-soleil-relief",
+      "label": "Hülle Sonnenzitronen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
       "key": "de/coque-clair-lune",
       "label": "Hülle Mondlicht",
       "price": 1990,
@@ -2303,6 +2411,42 @@
       "label": "Hülle Paris-Croissant · en relief",
       "price": 2490,
       "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "de/coque-cygnes-baroques",
+      "label": "Hülle Barocke Schwäne",
+      "price": 1990,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "de/coque-cygnes-baroques-relief",
+      "label": "Hülle Barocke Schwäne · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-bleu-nuit",
+      "label": "Hülle Damast Nachtblau",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-bleu-nuit-relief",
+      "label": "Hülle Damast Nachtblau · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-bordeaux",
+      "label": "Hülle Damast Bordeaux",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
+    },
+    {
+      "key": "de/coque-damas-bordeaux-relief",
+      "label": "Hülle Damast Bordeaux · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
     },
     {
       "key": "de/coque-damas-vert",
@@ -2495,6 +2639,18 @@
       "label": "Hülle Erdbeerblüten · en relief",
       "price": 2490,
       "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-noeuds",
+      "label": "Hülle Erdbeeren und Schleifen",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
+    },
+    {
+      "key": "de/coque-fraises-noeuds-relief",
+      "label": "Hülle Erdbeeren und Schleifen · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
     },
     {
       "key": "de/coque-fraises-rubans",
@@ -2783,6 +2939,18 @@
       "label": "Hülle Kirschrauten · en relief",
       "price": 2490,
       "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "de/coque-lotus-koi-lilas",
+      "label": "Hülle Lotus und Koi Flieder",
+      "price": 1990,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
+    },
+    {
+      "key": "de/coque-lotus-koi-lilas-relief",
+      "label": "Hülle Lotus und Koi Flieder · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
     },
     {
       "key": "de/coque-loup-lune",
@@ -3109,6 +3277,18 @@
       "image": "/images/products/coque-petites-roses-plat.webp"
     },
     {
+      "key": "de/coque-pivoines-ardoise",
+      "label": "Hülle Pfingstrosen Schieferblau",
+      "price": 1990,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
+      "key": "de/coque-pivoines-ardoise-relief",
+      "label": "Hülle Pfingstrosen Schieferblau · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
       "key": "de/coque-planete-groovy",
       "label": "Hülle Groovy Planet",
       "price": 1990,
@@ -3251,6 +3431,18 @@
       "label": "Hülle Palmenstraße · en relief",
       "price": 2490,
       "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "de/coque-sakura-poudre",
+      "label": "Hülle Sakura Puderrosa",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
+    },
+    {
+      "key": "de/coque-sakura-poudre-relief",
+      "label": "Hülle Sakura Puderrosa · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
     },
     {
       "key": "de/coque-sakura-vert",
@@ -3997,6 +4189,18 @@
       "image": "/images/products/coque-citrons-fleurs-plat.webp"
     },
     {
+      "key": "en/coque-citrons-soleil",
+      "label": "Sunny Lemons Case",
+      "price": 1990,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-citrons-soleil-relief",
+      "label": "Sunny Lemons Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-citrons-soleil-plat.webp"
+    },
+    {
       "key": "en/coque-clair-lune",
       "label": "Moonlight Case",
       "price": 1990,
@@ -4127,6 +4331,42 @@
       "label": "Paris Croissant Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-croissant-paris-plat.webp"
+    },
+    {
+      "key": "en/coque-cygnes-baroques",
+      "label": "Baroque Swans Case",
+      "price": 1990,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "en/coque-cygnes-baroques-relief",
+      "label": "Baroque Swans Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cygnes-baroques-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-bleu-nuit",
+      "label": "Midnight Blue Damask Case",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-bleu-nuit-relief",
+      "label": "Midnight Blue Damask Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bleu-nuit-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-bordeaux",
+      "label": "Burgundy Damask Case",
+      "price": 1990,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
+    },
+    {
+      "key": "en/coque-damas-bordeaux-relief",
+      "label": "Burgundy Damask Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-damas-bordeaux-plat.webp"
     },
     {
       "key": "en/coque-damas-vert",
@@ -4319,6 +4559,18 @@
       "label": "Strawberry Blossom Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-fraises-fleurettes-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-noeuds",
+      "label": "Strawberries and Bows Case",
+      "price": 1990,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
+    },
+    {
+      "key": "en/coque-fraises-noeuds-relief",
+      "label": "Strawberries and Bows Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fraises-noeuds-plat.webp"
     },
     {
       "key": "en/coque-fraises-rubans",
@@ -4607,6 +4859,18 @@
       "label": "Cherry Diamonds Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-losanges-cerises-plat.webp"
+    },
+    {
+      "key": "en/coque-lotus-koi-lilas",
+      "label": "Lilac Lotus and Koi Case",
+      "price": 1990,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
+    },
+    {
+      "key": "en/coque-lotus-koi-lilas-relief",
+      "label": "Lilac Lotus and Koi Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lotus-koi-lilas-plat.webp"
     },
     {
       "key": "en/coque-loup-lune",
@@ -4933,6 +5197,18 @@
       "image": "/images/products/coque-petites-roses-plat.webp"
     },
     {
+      "key": "en/coque-pivoines-ardoise",
+      "label": "Slate Peonies Case",
+      "price": 1990,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
+      "key": "en/coque-pivoines-ardoise-relief",
+      "label": "Slate Peonies Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pivoines-ardoise-plat.webp"
+    },
+    {
       "key": "en/coque-planete-groovy",
       "label": "Groovy Planet Case",
       "price": 1990,
@@ -5075,6 +5351,18 @@
       "label": "Palm Road Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-route-palmiers-plat.webp"
+    },
+    {
+      "key": "en/coque-sakura-poudre",
+      "label": "Powder Pink Sakura Case",
+      "price": 1990,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
+    },
+    {
+      "key": "en/coque-sakura-poudre-relief",
+      "label": "Powder Pink Sakura Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sakura-poudre-plat.webp"
     },
     {
       "key": "en/coque-sakura-vert",
