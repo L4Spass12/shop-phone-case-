@@ -1,6 +1,18 @@
 {
   "items": [
     {
+      "key": "coque-aperitif-dore",
+      "label": "Coque Apéritif Doré",
+      "price": 1990,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
+      "key": "coque-aperitif-dore-relief",
+      "label": "Coque Apéritif Doré · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
       "key": "coque-arbre-miroir",
       "label": "Coque Arbre Miroir",
       "price": 1990,
@@ -49,6 +61,18 @@
       "image": "/images/products/coque-baleines-celestes-plat.webp"
     },
     {
+      "key": "coque-barque-amalfi",
+      "label": "Coque Barque d'Amalfi",
+      "price": 1990,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
+      "key": "coque-barque-amalfi-relief",
+      "label": "Coque Barque d'Amalfi · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
       "key": "coque-bisou",
       "label": "Coque Bisou",
       "price": 1990,
@@ -83,6 +107,18 @@
       "label": "Coque Cabane au Lac · en relief",
       "price": 2490,
       "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "coque-cabriolet-rose",
+      "label": "Coque Cabriolet Rose",
+      "price": 1990,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
+    },
+    {
+      "key": "coque-cabriolet-rose-relief",
+      "label": "Coque Cabriolet Rose · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
     },
     {
       "key": "coque-cactus",
@@ -217,6 +253,18 @@
       "image": "/images/products/coque-chalet-neige-plat.webp"
     },
     {
+      "key": "coque-chat-jadore",
+      "label": "Coque Chat J'adore",
+      "price": 1990,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
+      "key": "coque-chat-jadore-relief",
+      "label": "Coque Chat J'adore · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
       "key": "coque-chat-lune",
       "label": "Coque Chat au Clair de Lune",
       "price": 1990,
@@ -311,6 +359,18 @@
       "label": "Coque Chiens Amoureux · en relief",
       "price": 2490,
       "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "coque-ciao-bella",
+      "label": "Coque Ciao Bella",
+      "price": 1990,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
+    },
+    {
+      "key": "coque-ciao-bella-relief",
+      "label": "Coque Ciao Bella · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
     },
     {
       "key": "coque-ciel-chat",
@@ -443,6 +503,18 @@
       "label": "Coque Coquillage · en relief",
       "price": 2490,
       "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "coque-corniche-fleurie",
+      "label": "Coque Corniche Fleurie",
+      "price": 1990,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
+    },
+    {
+      "key": "coque-corniche-fleurie-relief",
+      "label": "Coque Corniche Fleurie · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
     },
     {
       "key": "coque-cote-fleurie",
@@ -767,6 +839,42 @@
       "label": "Coque Girafe · en relief",
       "price": 2490,
       "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "coque-girls-night",
+      "label": "Coque Girls Night",
+      "price": 1990,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "coque-girls-night-relief",
+      "label": "Coque Girls Night · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "coque-good-drinks",
+      "label": "Coque Good Drinks",
+      "price": 1990,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "coque-good-drinks-relief",
+      "label": "Coque Good Drinks · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "coque-grand-prix-riviera",
+      "label": "Coque Grand Prix Riviera",
+      "price": 1990,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
+    },
+    {
+      "key": "coque-grand-prix-riviera-relief",
+      "label": "Coque Grand Prix Riviera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
     },
     {
       "key": "coque-grenouilles-fraises",
@@ -1285,6 +1393,18 @@
       "image": "/images/products/coque-oursons-plat.webp"
     },
     {
+      "key": "coque-palmiers-soleil",
+      "label": "Coque Palmiers Soleil",
+      "price": 1990,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
+      "key": "coque-palmiers-soleil-relief",
+      "label": "Coque Palmiers Soleil · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
       "key": "coque-papillon-lumiere",
       "label": "Coque Papillon de Lumière",
       "price": 1990,
@@ -1561,6 +1681,18 @@
       "image": "/images/products/coque-serpent-paon-plat.webp"
     },
     {
+      "key": "coque-sieste-citronnier",
+      "label": "Coque Sieste au Citronnier",
+      "price": 1990,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
+      "key": "coque-sieste-citronnier-relief",
+      "label": "Coque Sieste au Citronnier · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
       "key": "coque-soie-rose",
       "label": "Coque Soie Rose",
       "price": 1990,
@@ -1655,6 +1787,30 @@
       "label": "Coque Tartan Beige · en relief",
       "price": 2490,
       "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-citrons",
+      "label": "Coque Terrasse aux Citrons",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-citrons-relief",
+      "label": "Coque Terrasse aux Citrons · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-ete",
+      "label": "Coque Terrasse d'Été",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
+    },
+    {
+      "key": "coque-terrasse-ete-relief",
+      "label": "Coque Terrasse d'Été · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
     },
     {
       "key": "coque-terrasse-riviera",
@@ -1813,6 +1969,18 @@
       "image": "/images/products/coque-vague-doree-plat.webp"
     },
     {
+      "key": "coque-velo-marguerites",
+      "label": "Coque Vélo aux Marguerites",
+      "price": 1990,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
+    },
+    {
+      "key": "coque-velo-marguerites-relief",
+      "label": "Coque Vélo aux Marguerites · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
+    },
+    {
       "key": "coque-vichy-bordeaux",
       "label": "Coque Vichy Bordeaux",
       "price": 1990,
@@ -1921,6 +2089,18 @@
       "image": "/images/products/coque-zebre-plat.webp"
     },
     {
+      "key": "de/coque-aperitif-dore",
+      "label": "Hülle Goldener Aperitif",
+      "price": 1990,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
+      "key": "de/coque-aperitif-dore-relief",
+      "label": "Hülle Goldener Aperitif · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
       "key": "de/coque-arbre-miroir",
       "label": "Hülle Spiegelbaum",
       "price": 1990,
@@ -1969,6 +2149,18 @@
       "image": "/images/products/coque-baleines-celestes-plat.webp"
     },
     {
+      "key": "de/coque-barque-amalfi",
+      "label": "Hülle Boot von Amalfi",
+      "price": 1990,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
+      "key": "de/coque-barque-amalfi-relief",
+      "label": "Hülle Boot von Amalfi · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
       "key": "de/coque-bisou",
       "label": "Hülle Kussmund",
       "price": 1990,
@@ -2003,6 +2195,18 @@
       "label": "Hülle Seehütte · en relief",
       "price": 2490,
       "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "de/coque-cabriolet-rose",
+      "label": "Hülle Rosa Cabrio",
+      "price": 1990,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
+    },
+    {
+      "key": "de/coque-cabriolet-rose-relief",
+      "label": "Hülle Rosa Cabrio · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
     },
     {
       "key": "de/coque-cactus",
@@ -2137,6 +2341,18 @@
       "image": "/images/products/coque-chalet-neige-plat.webp"
     },
     {
+      "key": "de/coque-chat-jadore",
+      "label": "Hülle Katze J'adore",
+      "price": 1990,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
+      "key": "de/coque-chat-jadore-relief",
+      "label": "Hülle Katze J'adore · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
       "key": "de/coque-chat-lune",
       "label": "Hülle Mondscheinkatze",
       "price": 1990,
@@ -2231,6 +2447,18 @@
       "label": "Hülle Verliebte Hunde · en relief",
       "price": 2490,
       "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "de/coque-ciao-bella",
+      "label": "Hülle Ciao Bella",
+      "price": 1990,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
+    },
+    {
+      "key": "de/coque-ciao-bella-relief",
+      "label": "Hülle Ciao Bella · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
     },
     {
       "key": "de/coque-ciel-chat",
@@ -2363,6 +2591,18 @@
       "label": "Hülle Muschel · en relief",
       "price": 2490,
       "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "de/coque-corniche-fleurie",
+      "label": "Hülle Blühende Küstenstraße",
+      "price": 1990,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
+    },
+    {
+      "key": "de/coque-corniche-fleurie-relief",
+      "label": "Hülle Blühende Küstenstraße · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
     },
     {
       "key": "de/coque-cote-fleurie",
@@ -2687,6 +2927,42 @@
       "label": "Hülle Giraffe · en relief",
       "price": 2490,
       "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "de/coque-girls-night",
+      "label": "Hülle Girls Night",
+      "price": 1990,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "de/coque-girls-night-relief",
+      "label": "Hülle Girls Night · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "de/coque-good-drinks",
+      "label": "Hülle Good Drinks",
+      "price": 1990,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "de/coque-good-drinks-relief",
+      "label": "Hülle Good Drinks · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "de/coque-grand-prix-riviera",
+      "label": "Hülle Grand Prix Riviera",
+      "price": 1990,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
+    },
+    {
+      "key": "de/coque-grand-prix-riviera-relief",
+      "label": "Hülle Grand Prix Riviera · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
     },
     {
       "key": "de/coque-grenouilles-fraises",
@@ -3205,6 +3481,18 @@
       "image": "/images/products/coque-oursons-plat.webp"
     },
     {
+      "key": "de/coque-palmiers-soleil",
+      "label": "Hülle Palmen und Sonne",
+      "price": 1990,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
+      "key": "de/coque-palmiers-soleil-relief",
+      "label": "Hülle Palmen und Sonne · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
       "key": "de/coque-papillon-lumiere",
       "label": "Hülle Lichtfalter",
       "price": 1990,
@@ -3481,6 +3769,18 @@
       "image": "/images/products/coque-serpent-paon-plat.webp"
     },
     {
+      "key": "de/coque-sieste-citronnier",
+      "label": "Hülle Mittagsschlaf am Zitronenbaum",
+      "price": 1990,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
+      "key": "de/coque-sieste-citronnier-relief",
+      "label": "Hülle Mittagsschlaf am Zitronenbaum · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
       "key": "de/coque-soie-rose",
       "label": "Hülle Rosa Seide",
       "price": 1990,
@@ -3575,6 +3875,30 @@
       "label": "Hülle Beiges Karo · en relief",
       "price": 2490,
       "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-citrons",
+      "label": "Hülle Zitronenterrasse",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-citrons-relief",
+      "label": "Hülle Zitronenterrasse · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-ete",
+      "label": "Hülle Sommerterrasse",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
+    },
+    {
+      "key": "de/coque-terrasse-ete-relief",
+      "label": "Hülle Sommerterrasse · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
     },
     {
       "key": "de/coque-terrasse-riviera",
@@ -3733,6 +4057,18 @@
       "image": "/images/products/coque-vague-doree-plat.webp"
     },
     {
+      "key": "de/coque-velo-marguerites",
+      "label": "Hülle Fahrrad mit Margeriten",
+      "price": 1990,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
+    },
+    {
+      "key": "de/coque-velo-marguerites-relief",
+      "label": "Hülle Fahrrad mit Margeriten · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
+    },
+    {
       "key": "de/coque-vichy-bordeaux",
       "label": "Hülle Bordeaux-Vichy",
       "price": 1990,
@@ -3841,6 +4177,18 @@
       "image": "/images/products/coque-zebre-plat.webp"
     },
     {
+      "key": "en/coque-aperitif-dore",
+      "label": "Golden Aperitivo Case",
+      "price": 1990,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
+      "key": "en/coque-aperitif-dore-relief",
+      "label": "Golden Aperitivo Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-aperitif-dore-plat.webp"
+    },
+    {
       "key": "en/coque-arbre-miroir",
       "label": "Mirror Tree Case",
       "price": 1990,
@@ -3889,6 +4237,18 @@
       "image": "/images/products/coque-baleines-celestes-plat.webp"
     },
     {
+      "key": "en/coque-barque-amalfi",
+      "label": "Amalfi Boat Case",
+      "price": 1990,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
+      "key": "en/coque-barque-amalfi-relief",
+      "label": "Amalfi Boat Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-barque-amalfi-plat.webp"
+    },
+    {
       "key": "en/coque-bisou",
       "label": "Kiss Case",
       "price": 1990,
@@ -3923,6 +4283,18 @@
       "label": "Lake Cabin Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-cabane-lac-plat.webp"
+    },
+    {
+      "key": "en/coque-cabriolet-rose",
+      "label": "Pink Convertible Case",
+      "price": 1990,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
+    },
+    {
+      "key": "en/coque-cabriolet-rose-relief",
+      "label": "Pink Convertible Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-cabriolet-rose-plat.webp"
     },
     {
       "key": "en/coque-cactus",
@@ -4057,6 +4429,18 @@
       "image": "/images/products/coque-chalet-neige-plat.webp"
     },
     {
+      "key": "en/coque-chat-jadore",
+      "label": "J'adore Cat Case",
+      "price": 1990,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
+      "key": "en/coque-chat-jadore-relief",
+      "label": "J'adore Cat Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-chat-jadore-plat.webp"
+    },
+    {
       "key": "en/coque-chat-lune",
       "label": "Moonlit Cat Case",
       "price": 1990,
@@ -4151,6 +4535,18 @@
       "label": "Dogs in Love Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-chiens-amoureux-plat.webp"
+    },
+    {
+      "key": "en/coque-ciao-bella",
+      "label": "Ciao Bella Case",
+      "price": 1990,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
+    },
+    {
+      "key": "en/coque-ciao-bella-relief",
+      "label": "Ciao Bella Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-ciao-bella-plat.webp"
     },
     {
       "key": "en/coque-ciel-chat",
@@ -4283,6 +4679,18 @@
       "label": "Seashell Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-coquillage-plat.webp"
+    },
+    {
+      "key": "en/coque-corniche-fleurie",
+      "label": "Flowery Coast Road Case",
+      "price": 1990,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
+    },
+    {
+      "key": "en/coque-corniche-fleurie-relief",
+      "label": "Flowery Coast Road Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-corniche-fleurie-plat.webp"
     },
     {
       "key": "en/coque-cote-fleurie",
@@ -4607,6 +5015,42 @@
       "label": "Giraffe Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-girafe-plat.webp"
+    },
+    {
+      "key": "en/coque-girls-night",
+      "label": "Girls Night Case",
+      "price": 1990,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "en/coque-girls-night-relief",
+      "label": "Girls Night Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-girls-night-plat.webp"
+    },
+    {
+      "key": "en/coque-good-drinks",
+      "label": "Good Drinks Case",
+      "price": 1990,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "en/coque-good-drinks-relief",
+      "label": "Good Drinks Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-good-drinks-plat.webp"
+    },
+    {
+      "key": "en/coque-grand-prix-riviera",
+      "label": "Riviera Grand Prix Case",
+      "price": 1990,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
+    },
+    {
+      "key": "en/coque-grand-prix-riviera-relief",
+      "label": "Riviera Grand Prix Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-grand-prix-riviera-plat.webp"
     },
     {
       "key": "en/coque-grenouilles-fraises",
@@ -5125,6 +5569,18 @@
       "image": "/images/products/coque-oursons-plat.webp"
     },
     {
+      "key": "en/coque-palmiers-soleil",
+      "label": "Palm Sun Case",
+      "price": 1990,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
+      "key": "en/coque-palmiers-soleil-relief",
+      "label": "Palm Sun Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-palmiers-soleil-plat.webp"
+    },
+    {
       "key": "en/coque-papillon-lumiere",
       "label": "Light Butterfly Case",
       "price": 1990,
@@ -5401,6 +5857,18 @@
       "image": "/images/products/coque-serpent-paon-plat.webp"
     },
     {
+      "key": "en/coque-sieste-citronnier",
+      "label": "Lemon Tree Nap Case",
+      "price": 1990,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
+      "key": "en/coque-sieste-citronnier-relief",
+      "label": "Lemon Tree Nap Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-sieste-citronnier-plat.webp"
+    },
+    {
       "key": "en/coque-soie-rose",
       "label": "Pink Silk Case",
       "price": 1990,
@@ -5495,6 +5963,30 @@
       "label": "Beige Tartan Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-tartan-beige-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-citrons",
+      "label": "Lemon Terrace Case",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-citrons-relief",
+      "label": "Lemon Terrace Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-citrons-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-ete",
+      "label": "Summer Terrace Case",
+      "price": 1990,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
+    },
+    {
+      "key": "en/coque-terrasse-ete-relief",
+      "label": "Summer Terrace Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-terrasse-ete-plat.webp"
     },
     {
       "key": "en/coque-terrasse-riviera",
@@ -5651,6 +6143,18 @@
       "label": "Golden Wave Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "en/coque-velo-marguerites",
+      "label": "Daisy Bike Case",
+      "price": 1990,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
+    },
+    {
+      "key": "en/coque-velo-marguerites-relief",
+      "label": "Daisy Bike Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-velo-marguerites-plat.webp"
     },
     {
       "key": "en/coque-vichy-bordeaux",
