@@ -15,4 +15,4 @@ White fireworks bursting on a pastel sky blue: the Fireworks Case is printed one
 
 - Printed one by one in our workshop in France
 - Flat finish (smooth surface)
-- Available for iPhone 13 to 17 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
+- Available for iPhone 13 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)

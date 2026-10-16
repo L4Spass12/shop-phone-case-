@@ -15,4 +15,4 @@ Une cabane colorée au bord d'un lac de montagne au crépuscule : la Coque Caban
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 17 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

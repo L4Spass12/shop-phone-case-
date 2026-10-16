@@ -15,4 +15,4 @@ Un arbre majestueux qui se reflète dans un lac étoilé : la Coque Arbre Miroir
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 17 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

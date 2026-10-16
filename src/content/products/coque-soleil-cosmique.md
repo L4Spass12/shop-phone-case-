@@ -15,4 +15,4 @@ Un soleil, une lune et des planètes dans des vagues arc-en-ciel : la Coque Sole
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 17 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)

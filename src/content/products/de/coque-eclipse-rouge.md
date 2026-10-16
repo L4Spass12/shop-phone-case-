@@ -15,4 +15,4 @@ Eine sitzende Gestalt vor einem roten Planeten zwischen Wolken: Die Hülle Rote 
 
 - Einzeln gedruckt in unserer Werkstatt in Frankreich
 - Flaches Finish (glatte Oberfläche)
-- Erhältlich für iPhone 13 bis 17 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)
+- Erhältlich für iPhone 13 bis 18 Pro Max und Samsung Galaxy (S24 bis S26, A36, A56)

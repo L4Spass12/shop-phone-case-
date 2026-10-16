@@ -16,4 +16,4 @@ De grandes taches marron sur un pelage blanc, avec un effet poil très réaliste
 
 - Impression à l'unité dans notre atelier en France
 - Rendu à plat (surface lisse)
-- Disponible pour iPhone 13 à 17 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
+- Disponible pour iPhone 13 à 18 Pro Max et Samsung Galaxy (S24 à S26, A36, A56)
