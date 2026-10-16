@@ -15,6 +15,13 @@ import { parseEntrySlug } from './i18n';
 import { PHONE_MODELS, modelPhoto } from './models';
 
 /** Modèles du planning Pinterest, dans l'ordre du premier import (oct. 2026). */
+/**
+ * Produits du planning : ceux publiés jusqu'à cette date (152 designs). Comme
+ * pour les modèles, un nouveau produit changerait le mélange et décalerait
+ * toutes les épingles des CSV déjà importés : les suivants n'y entrent pas.
+ */
+const PINTEREST_PRODUCTS_UNTIL = new Date('2026-10-15T23:59:59Z');
+
 const PINTEREST_MODELS = ["iphone-17-pro-max", "iphone-17-pro", "iphone-17", "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14", "iphone-13", "galaxy-s26-ultra", "galaxy-s26", "galaxy-s25-ultra", "galaxy-s25", "galaxy-s24-ultra", "galaxy-s24", "galaxy-a56-5g", "galaxy-a36-5g"];
 
 export type Pin = {
@@ -68,7 +75,7 @@ export async function duePins(now = new Date(), aheadDays = 1): Promise<Pin[]> {
 
   const themes = new Set(BOARDS.map((b) => b.slug));
   const products = (await getCollection('products'))
-    .filter((p) => parseEntrySlug(p.slug).lang === 'fr')
+    .filter((p) => parseEntrySlug(p.slug).lang === 'fr' && p.data.pubDate <= PINTEREST_PRODUCTS_UNTIL)
     .map((p) => ({ p, board: (p.data.categories ?? []).find((c) => themes.has(c)) }))
     .filter((x): x is { p: (typeof x)['p']; board: string } => !!x.board)
     .sort((a, b) => a.p.slug.localeCompare(b.p.slug));
