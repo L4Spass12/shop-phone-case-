@@ -1,0 +1,18 @@
+---
+# Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
+# used. Price, images and options come from the FR entry.
+name: "Daisy Bike Case"
+price: 19.90
+image: "/images/products/coque-velo-marguerites-plat.webp"
+imageAlt: "Daisy Bike Case: a green bicycle with a basket of daisies, against a sunny white and blue wall"
+shortDescription: "A green bicycle with a basket of daisies, against a sunny white and blue wall."
+pubDate: 2026-10-16
+---
+
+A green bicycle with a basket of daisies, against a sunny white and blue wall: the Daisy Bike Case is printed one by one in our workshop, for a style that is all yours.
+
+## Specifications
+
+- Printed one by one in our workshop in France
+- Flat finish (smooth surface)
+- Available for iPhone 11 to 18 Pro Max and Samsung Galaxy (S24 to S26, A36, A56)
