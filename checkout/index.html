@@ -1,2 +1,38 @@
 <!DOCTYPE html><html lang="fr" data-astro-cid-jdlhwrvt> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>Paiement | Moroji</title><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4"><link rel="preconnect" href="https://tanstack-start-app.seamless-cart.workers.dev"><link rel="preconnect" href="https://js.stripe.com"><script src="https://tanstack-start-app.seamless-cart.workers.dev/api/public/widget.js" data-shop-id="7fa02d12-6ebc-47ae-85ad-7767ebba8cf7" data-locale="fr" data-language="fr" data-currency="EUR" data-logo="https://moroji.com/logo-checkout.png?v=2" data-design-edit-path="/personnaliser/" defer></script><style>html,body{margin:0;background:#fff}[data-astro-cid-jdlhwrvt][data-atelier-checkout-page]{min-height:100vh}
-</style><script type="module" src="/_astro/page.DCTgdEH6.js"></script></head> <body data-astro-cid-jdlhwrvt> <div data-atelier-checkout-page data-astro-cid-jdlhwrvt></div> </body></html>
+</style><script type="module" src="/_astro/page.DCTgdEH6.js"></script></head> <body data-astro-cid-jdlhwrvt> <div data-atelier-checkout-page data-astro-cid-jdlhwrvt></div> <script>(function(){const tagId = "2613207327157";
+
+    (function () {
+      var loaded = false;
+      function consent() {
+        try { return localStorage.getItem('bp_cookie_consent') === 'accepted'; } catch (_) { return false; }
+      }
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        !function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+        window.pintrk('load', tagId);
+        var buy = document.getElementById('buy-button');
+        var pid = buy && buy.getAttribute('data-base-item-id');
+        window.pintrk('page');
+        window.pintrk('track', 'pagevisit', pid ? { line_items: [{ product_id: pid }] } : {});
+      }
+      function track(name, data) {
+        if (loaded && window.pintrk) window.pintrk('track', name, data);
+      }
+      function items(d) {
+        return (d.content_ids || []).map(function (id) { return { product_id: id }; });
+      }
+      window.addEventListener('atelier:add-to-cart', function (e) {
+        var d = e.detail || {};
+        track('addtocart', { value: d.value, currency: d.currency, order_quantity: d.quantity || 1, line_items: items(d) });
+      });
+      window.addEventListener('atelier:purchase', function (e) {
+        var d = e.detail || {};
+        track('checkout', { value: d.value, currency: d.currency, order_quantity: (d.content_ids || []).length, order_id: d.order_id, event_id: d.order_id, line_items: items(d) });
+      });
+      window.addEventListener('bp:consent-change', function (e) {
+        if (e.detail === 'accepted') load();
+      });
+      if (consent()) load();
+    })();
+  })();</script> </body></html>
