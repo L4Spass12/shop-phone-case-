@@ -660,15 +660,18 @@
         !function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
         window.pintrk('load', tagId);
         var buy = document.getElementById('buy-button');
-        var pid = buy && buy.getAttribute('data-base-item-id');
+        var baseId = buy && buy.getAttribute('data-base-item-id');
         window.pintrk('page');
-        window.pintrk('track', 'pagevisit', pid ? { line_items: [{ product_id: pid }] } : {});
+        window.pintrk('track', 'pagevisit', baseId ? { line_items: [{ product_id: baseId }] } : {});
       }
       function track(name, data) {
         if (loaded && window.pintrk) window.pintrk('track', name, data);
       }
+      // Clé d'article du panier : « <produit>[-relief]::<modèle> ». Pinterest
+      // reçoit le produit seul, comme sur pagevisit (et dans un futur catalogue).
+      function pid(id) { return String(id).split('::')[0].replace(/-relief$/, ''); }
       function items(d) {
-        return (d.content_ids || []).map(function (id) { return { product_id: id }; });
+        return (d.content_ids || []).map(function (id) { return { product_id: pid(id) }; });
       }
       window.addEventListener('atelier:add-to-cart', function (e) {
         var d = e.detail || {};
