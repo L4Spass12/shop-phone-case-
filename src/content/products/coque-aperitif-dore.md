@@ -3,7 +3,7 @@ name: "Coque Apéritif Doré"
 price: 19.90
 image: "/images/products/coque-aperitif-dore-plat.webp"
 imageAlt: "Coque Apéritif Doré : une coupe, des citrons, des olives et des perles sur un fond vert olive"
-categories: ["coques-iphone", "coques-motifs"]
+categories: ["coques-iphone", "coques-motifs", "coques-riviera"]
 shortDescription: "Une coupe, des citrons, des olives et des perles sur un fond vert olive."
 order: 162
 pubDate: 2026-10-16

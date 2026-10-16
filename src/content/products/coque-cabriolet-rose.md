@@ -3,7 +3,7 @@ name: "Coque Cabriolet Rose"
 price: 19.90
 image: "/images/products/coque-cabriolet-rose-plat.webp"
 imageAlt: "Coque Cabriolet Rose : un cabriolet rose sur une route bordée de palmiers, au-dessus de la mer"
-categories: ["coques-iphone", "coques-auto", "coques-paysages"]
+categories: ["coques-iphone", "coques-auto", "coques-paysages", "coques-riviera"]
 shortDescription: "Un cabriolet rose sur une route bordée de palmiers, au-dessus de la mer."
 order: 157
 pubDate: 2026-10-16

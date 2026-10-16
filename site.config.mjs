@@ -107,6 +107,7 @@ const config = {
     { slug: 'coques-kawaii', label: 'Mignon & kawaii', labels: { en: 'Cute & kawaii', de: 'Süß & Kawaii' }, theme: true },
     { slug: 'coques-fleurs', label: 'Fleurs & nature', labels: { en: 'Flowers & nature', de: 'Blumen & Natur' }, theme: true },
     { slug: 'coques-paysages', label: 'Paysages & art', labels: { en: 'Landscapes & art', de: 'Landschaften & Kunst' }, theme: true },
+    { slug: 'coques-riviera', label: 'Riviera & dolce vita', labels: { en: 'Riviera & dolce vita', de: 'Riviera & Dolce Vita' }, theme: true },
     { slug: 'coques-motifs', label: 'Motifs & imprimés', labels: { en: 'Patterns & prints', de: 'Muster & Prints' }, theme: true },
     { slug: 'coques-auto', label: 'Auto & moto', labels: { en: 'Cars & bikes', de: 'Autos & Motorräder' }, theme: true },
     { slug: 'coques-citations', label: 'Citations', labels: { en: 'Quotes', de: 'Sprüche' }, theme: true },

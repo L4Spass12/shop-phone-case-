@@ -3,7 +3,7 @@ name: "Coque Chat J'adore"
 price: 19.90
 image: "/images/products/coque-chat-jadore-plat.webp"
 imageAlt: "Coque Chat J'adore : un chat noir en foulard et lunettes de soleil, entre martini et cerises, avec le mot « J'adore »"
-categories: ["coques-iphone", "coques-animaux", "coques-citations"]
+categories: ["coques-iphone", "coques-animaux", "coques-citations", "coques-riviera"]
 shortDescription: "Un chat noir en foulard et lunettes de soleil, entre martini et cerises, avec le mot « J'adore »."
 order: 164
 pubDate: 2026-10-16

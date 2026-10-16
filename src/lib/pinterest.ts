@@ -46,6 +46,7 @@ const TAGS: Record<string, string> = {
   'coques-kawaii': '#coquekawaii #kawaii',
   'coques-fleurs': '#coquefleurie #fleurs',
   'coques-paysages': '#coqueart #paysage',
+  'coques-riviera': '#coqueriviera #dolcevita',
   'coques-motifs': '#coquemotif #pattern',
   'coques-auto': '#coquevoiture #voiture',
   'coques-citations': '#coquecitation #citation',

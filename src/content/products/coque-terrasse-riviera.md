@@ -3,7 +3,7 @@ name: "Coque Terrasse Riviera"
 price: 19.90
 image: "/images/products/coque-terrasse-riviera-plat.webp"
 imageAlt: "Coque iPhone illustrée d'une terrasse fleurie avec table, chaise et lanterne, face à la mer au coucher du soleil sous un ciel étoilé"
-categories: ["coques-iphone", "coques-paysages"]
+categories: ["coques-iphone", "coques-paysages", "coques-riviera"]
 shortDescription: "Une terrasse fleurie face à la mer, au coucher du soleil sous les premières étoiles."
 # Ajoutée avec la série du 7 octobre : affichée après les autres produits.
 order: 20

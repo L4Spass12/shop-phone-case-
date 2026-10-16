@@ -3,7 +3,7 @@ name: "Coque Corniche Fleurie"
 price: 19.90
 image: "/images/products/coque-corniche-fleurie-plat.webp"
 imageAlt: "Coque Corniche Fleurie : une route en lacet sous les bougainvilliers, avec un voilier sur la mer"
-categories: ["coques-iphone", "coques-paysages", "coques-fleurs"]
+categories: ["coques-iphone", "coques-paysages", "coques-fleurs", "coques-riviera"]
 shortDescription: "Une route en lacet sous les bougainvilliers, avec un voilier sur la mer."
 order: 160
 pubDate: 2026-10-16

@@ -3,7 +3,7 @@ name: "Coque Terrasse d'Été"
 price: 19.90
 image: "/images/products/coque-terrasse-ete-plat.webp"
 imageAlt: "Coque Terrasse d'Été : des amis sur une terrasse blanche au bord de la mer, un verre à la main"
-categories: ["coques-iphone", "coques-paysages"]
+categories: ["coques-iphone", "coques-paysages", "coques-riviera"]
 shortDescription: "Des amis sur une terrasse blanche au bord de la mer, un verre à la main."
 order: 168
 pubDate: 2026-10-16

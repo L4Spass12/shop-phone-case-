@@ -3,7 +3,7 @@ name: "Coque Sieste au Citronnier"
 price: 19.90
 image: "/images/products/coque-sieste-citronnier-plat.webp"
 imageAlt: "Coque Sieste au Citronnier : un chat roux endormi à la fenêtre, sous les branches d'un citronnier"
-categories: ["coques-iphone", "coques-animaux", "coques-fleurs"]
+categories: ["coques-iphone", "coques-animaux", "coques-fleurs", "coques-riviera"]
 shortDescription: "Un chat roux endormi à la fenêtre, sous les branches d'un citronnier."
 order: 165
 pubDate: 2026-10-16
