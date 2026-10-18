@@ -109,7 +109,8 @@
     "sending": "Sending…",
     "responseDelay": "Reply within 24 to 48 hours · Your data stays confidential.",
     "success": "✓ Message sent! Our team replies within 24 to 48 hours.",
-    "error": "Something went wrong. Please retry or email us at"
+    "error": "Something went wrong. Please retry or email us at",
+    "modelRequest": "Hello, I’m looking for a case for my {model}. Can you make it?"
   },
   "home": {
     "heroTitle": "Your case",
@@ -205,7 +206,19 @@
     "change": "Change",
     "required": "Please choose your phone model first.",
     "saved": "Model saved for your next visits.",
-    "resultsCount": "{n} models"
+    "resultsCount": "{n} models",
+    "onDemand": "Made to order",
+    "onDemandBadge": "Made to order · +{n} days",
+    "inStock": "In stock",
+    "notListed": "Your phone isn’t listed? Type its name: we can often order it in.",
+    "requestTitle": "Can’t find your model?",
+    "requestHelp": "Tell us which one and we’ll check whether we can make it.",
+    "requestCta": "Request this model",
+    "onDemandNoteTitle": "Made-to-order model",
+    "onDemandNote": "We receive your case within 24 to 48 hours, then print it: allow about {n} extra days. If we can’t make it, you get a full refund.",
+    "onDemandSuffix": "Made to order (+{n} days)",
+    "onDemandStudio": "Plain rectangle preview. Keep the camera area (top left) clear: our workshop fits your design to the exact shape of the case.",
+    "cameraZone": "Camera area"
   },
   "print": {
     "label": "Print finish",

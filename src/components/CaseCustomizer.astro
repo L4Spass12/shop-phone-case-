@@ -19,6 +19,7 @@
  * ═══════════════════════════════════════════════════════════════════════
  */
 import ModelPicker from './ModelPicker.astro';
+import OnDemandNote from './OnDemandNote.astro';
 import siteConfig from '../../site.config.mjs';
 import { t, parseEntrySlug, type Locale } from '../lib/i18n';
 import { getCollection } from 'astro:content';
@@ -29,6 +30,12 @@ import { JERSEYS } from '../data/jerseys.mjs';
 
 interface Props { lang?: Locale; realistic?: boolean }
 const { lang = 'fr', realistic = false } = Astro.props;
+// Modèles sur commande : pas de gabarit connu, l'aperçu est un rectangle
+// simple avec la zone caméra signalée (cf. specOf / renderCase).
+const ON_DEMAND = {
+  models: (siteConfig.phoneModels?.onDemand?.brands ?? []).flatMap((b) => b.models),
+  camLabel: t('model.cameraZone', lang),
+};
 
 // Aperçu réaliste (page test) : calques extraits de l'atelier coques par
 // scripts/mockups/studio-bases.mjs, indexés par libellé de modèle du site.
@@ -264,6 +271,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   data-inset-mm={String(siteConfig.shop?.printInsetMm ?? 0)}
   data-lang={lang}
   data-real={realistic ? JSON.stringify(REAL) : undefined}
+  data-ondemand={JSON.stringify(ON_DEMAND)}
 >
   <div class="builder">
 
@@ -437,6 +445,7 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
 
     <!-- ─── Plan de travail ──────────────────────────────────────── -->
     <main class="canvas" data-canvas>
+      <div class="canvas-od"><OnDemandNote lang={lang} studio /></div>
       <div class="case" data-case data-finish="clear" data-mount="alone">
         <!-- Verre dépoli : floute et voile légèrement le décor DERRIÈRE la
              coque (finition transparente). Placé avant le design pour que les
@@ -1229,6 +1238,9 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* Fond « craft » : une grille type papier millimétré / tapis de découpe.
      Deux échelles (fine + large) posées sur le panneau clair. La coque étant
      transparente, on voit la grille au travers, ce qui souligne la matière. */
+  /* Encadré « modèle sur commande », posé en bas du plan de travail. */
+  .canvas-od { position: absolute; left: .75rem; right: .75rem; bottom: .75rem; z-index: 30; max-width: 26rem; margin: 0 auto; pointer-events: none; }
+  .canvas-od :global(.od-note) { margin: 0; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .canvas::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background-color: rgb(var(--c-panel));
@@ -1581,6 +1593,15 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
   /* Découpe caméra sur une coque seule : pas de fond, uniquement l'arête de
      plastique qui borde le trou, on doit voir le décor au travers. */
   /* Même creux ombré que les trous ronds des Galaxy (cf. .cam-hole). */
+  /* Zone caméra d'un modèle sur commande : hachures + libellé. */
+  .studio .cam-zone {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    border: 1.5px dashed rgba(17,17,19,.45); border-radius: 18% / 14%;
+    background: repeating-linear-gradient(135deg, rgba(17,17,19,.10) 0 6px, rgba(17,17,19,.03) 6px 12px);
+    color: rgba(17,17,19,.7); font: 600 clamp(9px, 3.2cqw, 13px)/1.2 system-ui, sans-serif;
+    padding: 4px;
+  }
   .studio .cam-cut {
     position: absolute; inset: 0; border-radius: 26%;
     background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.04), rgba(0,0,0,.13));
@@ -1856,7 +1877,18 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
     }
     // Proportions issues des cotes réelles quand on les connaît, repli sur la
     // famille sinon (un modèle ajouté au catalogue reste ainsi affichable).
+    // Modèles sur commande : rectangle 1:2 (même format que les designs
+    // 2000 x 4000), zone caméra signalée mais pas évidée du fichier :
+    // l'atelier ajuste à la forme exacte une fois la coque reçue.
+    var OD = {};
+    var OD_CAM = '';
+    try {
+      var odData = JSON.parse(root.dataset.ondemand || '{}');
+      (odData.models || []).forEach(function (m) { OD[m] = 1; });
+      OD_CAM = odData.camLabel || '';
+    } catch (e) {}
     function specOf(label) {
+      if (OD[label]) return { ratio: .5, radius: 6, cam: 'zone', mm: [75, 150] };
       var fam = FAMILIES[familyOf(label)] || FAMILIES['iphone-pro'];
       var mm = MM[label];
       return {
@@ -2114,6 +2146,14 @@ const apiOrigin = atelier.widgetUrl ? new URL(atelier.widgetUrl).origin : '';
         html = onPhone
           ? '<span class="cam-island"></span>' + lens(11, 4, 78) + lens(11, 52, 78)
           : '<span class="cam-cut"></span>';
+      } else if (fam.cam === 'zone') {
+        // Modèle sur commande : on ne connaît pas le module photo, on signale
+        // seulement la zone à laisser libre.
+        s.left = '4%'; s.top = '2.5%'; s.width = '46%'; s.height = '22%';
+        var z = document.createElement('span');
+        z.className = 'cam-zone';
+        z.textContent = OD_CAM;
+        html = z.outerHTML;
       }
       camEl.innerHTML = html;
       fitCase();

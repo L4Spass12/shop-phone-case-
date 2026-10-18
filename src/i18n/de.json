@@ -109,7 +109,8 @@
     "sending": "Wird gesendet…",
     "responseDelay": "Antwort innerhalb von 24 bis 48 Stunden · Deine Daten bleiben vertraulich.",
     "success": "✓ Nachricht gesendet! Unser Team antwortet innerhalb von 24 bis 48 Stunden.",
-    "error": "Ein Fehler ist aufgetreten. Bitte erneut versuchen oder schreib uns direkt an"
+    "error": "Ein Fehler ist aufgetreten. Bitte erneut versuchen oder schreib uns direkt an",
+    "modelRequest": "Hallo, ich suche eine Hülle für mein {model}. Können Sie sie herstellen?"
   },
   "home": {
     "heroTitle": "Deine Hülle",
@@ -205,7 +206,19 @@
     "change": "Ändern",
     "required": "Bitte wählen Sie zuerst Ihr Handymodell.",
     "saved": "Modell für Ihre nächsten Besuche gespeichert.",
-    "resultsCount": "{n} Modelle"
+    "resultsCount": "{n} Modelle",
+    "onDemand": "Auf Bestellung",
+    "onDemandBadge": "Auf Bestellung · +{n} Tage",
+    "inStock": "Auf Lager",
+    "notListed": "Ihr Handy ist nicht dabei? Geben Sie den Namen ein: Oft können wir es bestellen.",
+    "requestTitle": "Ihr Modell nicht gefunden?",
+    "requestHelp": "Sagen Sie uns welches, wir prüfen, ob wir es herstellen können.",
+    "requestCta": "Dieses Modell anfragen",
+    "onDemandNoteTitle": "Modell auf Bestellung",
+    "onDemandNote": "Wir erhalten Ihre Hülle innerhalb von 24 bis 48 Stunden und bedrucken sie dann: Rechnen Sie mit etwa {n} Tagen mehr als üblich. Können wir sie nicht herstellen, erhalten Sie den vollen Betrag zurück.",
+    "onDemandSuffix": "Auf Bestellung (+{n} Tage)",
+    "onDemandStudio": "Vorschau als einfaches Rechteck. Lassen Sie den Kamerabereich (oben links) frei: Unsere Werkstatt passt Ihr Design an die genaue Form der Hülle an.",
+    "cameraZone": "Kamerabereich"
   },
   "print": {
     "label": "Druckbild",

@@ -2153,6 +2153,43 @@ html[data-theme='sunfreaks'] footer input {
 }
 .mp-empty { padding: 20px 12px; font-size: .875rem; color: #52525B; }
 .mp-empty span { display: block; margin-top: .25rem; color: #8A8A93; font-size: .8125rem; }
+/* Modèles sur commande (catalogue fournisseur) : badge à droite du nom. */
+.mp-od-badge {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #FFF4E0;
+  color: #8A4B00;
+  font-size: .6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.mp-more { padding: 14px 12px 6px; font-size: .8125rem; color: #8A8A93; line-height: 1.45; }
+.mp-empty strong { display: block; color: #111113; font-weight: 600; }
+.mp-request {
+  display: inline-flex; align-items: center; margin-top: .75rem;
+  min-height: 40px; padding: 0 16px; border-radius: 999px;
+  border: 1px solid #111113; color: #111113; font-size: .8125rem; font-weight: 500;
+}
+.mp-request:hover { background: #111113; color: #fff; }
+/* Encadré « modèle sur commande » (fiche produit, studio). */
+.od-note {
+  display: flex; gap: .625rem; align-items: flex-start;
+  margin-top: .75rem; padding: .75rem .875rem; border-radius: 12px;
+  background: #FFF4E0; color: #8A4B00; font-size: .8125rem; line-height: 1.45;
+}
+.od-note[hidden] { display: none; }
+.od-note strong { display: block; font-weight: 600; }
+.od-note svg { flex-shrink: 0; margin-top: 2px; }
+.od-note--studio { font-size: .75rem; padding: .625rem .75rem; pointer-events: auto; }
+.od-note-close {
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; margin: -4px -4px 0 auto; border: 0; border-radius: 999px;
+  background: transparent; color: inherit; cursor: pointer;
+}
+.od-note-close:hover { background: rgba(138,75,0,.1); }
+.od-note-close svg { margin-top: 0; }
 
 /* Repli sans JavaScript. */
 .mp-native {

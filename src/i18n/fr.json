@@ -109,7 +109,8 @@
     "sending": "Envoi en cours…",
     "responseDelay": "Réponse sous 24 à 48 h · Vos données sont confidentielles.",
     "success": "✓ Message envoyé ! Notre équipe vous répond sous 24 à 48 h.",
-    "error": "Une erreur est survenue. Merci de réessayer ou de nous écrire directement à"
+    "error": "Une erreur est survenue. Merci de réessayer ou de nous écrire directement à",
+    "modelRequest": "Bonjour, je cherche une coque pour mon {model}. Pouvez-vous la fabriquer ?"
   },
   "home": {
     "heroTitle": "Votre coque",
@@ -205,7 +206,19 @@
     "change": "Changer",
     "required": "Choisissez d’abord votre modèle de téléphone.",
     "saved": "Modèle mémorisé pour vos prochaines visites.",
-    "resultsCount": "{n} modèles"
+    "resultsCount": "{n} modèles",
+    "onDemand": "Sur commande",
+    "onDemandBadge": "Sur commande · +{n} jours",
+    "inStock": "En stock",
+    "notListed": "Votre téléphone n’est pas dans la liste ? Tapez son nom : nous pouvons souvent le commander.",
+    "requestTitle": "Vous ne trouvez pas votre modèle ?",
+    "requestHelp": "Dites-nous lequel, nous regardons si nous pouvons le fabriquer.",
+    "requestCta": "Demander ce modèle",
+    "onDemandNoteTitle": "Modèle sur commande",
+    "onDemandNote": "Nous recevons votre coque sous 24 à 48 h, puis nous l’imprimons : comptez environ {n} jours de plus que d’habitude. Si nous ne pouvons pas la fabriquer, vous êtes remboursé intégralement.",
+    "onDemandSuffix": "Sur commande (+{n} jours)",
+    "onDemandStudio": "Aperçu en rectangle simple. Laissez la zone caméra (en haut à gauche) libre : l’atelier ajuste votre création à la forme exacte de la coque.",
+    "cameraZone": "Zone caméra"
   },
   "print": {
     "label": "Rendu d'impression",

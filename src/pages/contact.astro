@@ -92,6 +92,7 @@ const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
         <label for="contact-message" class="block text-xs text-n-400 font-medium mb-2">{t('contact.message', lang)} <span class="text-cream">*</span></label>
         <textarea
           id="contact-message"
+          data-model-request={t('contact.modelRequest', lang)}
           name="message"
           rows="6"
           required
@@ -147,6 +148,18 @@ const contactEmail = siteConfig.forms?.contactEmail ?? 'contact@example.com';
 
   <!-- Soumission via Web3Forms (POST fetch, pas de page reload) -->
   <script is:inline>
+    // « Demander ce modèle » (sélecteur de modèle) : ?modele=… pré-remplit le
+    // sujet et le message, le client n'a plus qu'à envoyer.
+    (function () {
+      var m = new URLSearchParams(location.search).get('modele');
+      if (!m) return;
+      m = m.trim().slice(0, 80);
+      var msg = document.getElementById('contact-message');
+      var topic = document.getElementById('contact-topic');
+      if (msg && !msg.value) msg.value = (msg.dataset.modelRequest || '{model}').replace('{model}', m);
+      if (topic) topic.value = 'Demande personnalisée';
+    })();
+
     (function() {
       const form = document.getElementById('contact-form');
       if (!form) return;

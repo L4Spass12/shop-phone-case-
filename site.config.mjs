@@ -176,6 +176,61 @@ const config = {
         ],
       },
     ],
+    // Modèles SUR COMMANDE (18/10/2026) : catalogue du fournisseur de coques
+    // vierges pas encore en stock. Le fournisseur livre en ~1 jour, on les
+    // propose donc au même prix avec un délai allongé de `delayDays`.
+    // Lus UNIQUEMENT par le sélecteur (badge « Sur commande »), la fiche
+    // produit (encadré délai) et le studio (rectangle + zone caméra) : ils
+    // n'ont ni photos, ni pages modèle, ni épingles Pinterest. Un modèle qui
+    // entre en stock passe dans `brands` ci-dessus et sort de cette liste.
+    onDemand: {
+      delayDays: 2,
+      brands: [
+        {
+          id: 'apple',
+          label: 'iPhone',
+          models: [
+            'iPhone 17 Air', 'iPhone 17e', 'iPhone 16e',
+            'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus',
+            'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13 mini',
+            'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12 mini',
+          ],
+        },
+        {
+          id: 'samsung',
+          label: 'Samsung Galaxy',
+          models: [
+            'Galaxy S26+', 'Galaxy S26 Edge',
+            'Galaxy S25+', 'Galaxy S25 Edge', 'Galaxy S25 FE',
+            'Galaxy S24+', 'Galaxy S24 FE',
+            'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
+            'Galaxy S22',
+            'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G',
+            'Galaxy A26 5G', 'Galaxy A25 5G', 'Galaxy A18', 'Galaxy A17',
+            'Galaxy A16 5G', 'Galaxy A15', 'Galaxy A07', 'Galaxy A06 5G', 'Galaxy A05s',
+          ],
+        },
+        {
+          id: 'xiaomi',
+          label: 'Xiaomi',
+          models: [
+            'Xiaomi 17 Pro', 'Xiaomi 17', 'Xiaomi 17T Pro', 'Xiaomi 17T',
+            'Redmi Note 15 Pro 5G', 'Redmi Note 15 Pro 4G', 'Redmi Note 15 5G', 'Redmi Note 15 4G',
+            'Redmi Note 14 Pro 5G', 'Redmi Note 14 Pro 4G', 'Redmi Note 14 5G', 'Redmi Note 14 4G',
+            'Redmi Note 13 Pro 5G', 'Redmi Note 13 4G',
+            'Redmi 15C', 'Redmi 14C', 'Redmi 13C 4G', 'Redmi A7 Pro', 'Redmi A5',
+          ],
+        },
+        {
+          id: 'honor',
+          label: 'Honor',
+          models: [
+            'Honor 600 Pro', 'Honor 600', 'Honor 400', 'Honor 400 Lite',
+            'Honor Magic 8 Lite', 'Honor Magic 7 Lite', 'Honor X5C Plus', 'Honor X5C',
+          ],
+        },
+      ],
+    },
   },
 
   // ─── Formulaires (Web3Forms) ─────────────────────────────────────

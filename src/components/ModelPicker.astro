@@ -47,6 +47,17 @@ interface Props {
 const { lang = 'fr', id = 'model-picker', global = false } = Astro.props;
 
 const brands = siteConfig.phoneModels?.brands ?? [];
+// Modèles « sur commande » (catalogue fournisseur, cf. site.config.mjs) :
+// proposés avec un badge et un délai, jamais dans la liste courte.
+const onDemand = siteConfig.phoneModels?.onDemand ?? { delayDays: 0, brands: [] };
+const delayDays = onDemand.delayDays ?? 2;
+// Onglets : marques en stock d'abord, puis celles qu'on ne fait que sur
+// commande (Xiaomi, Honor) : sinon un visiteur qui parcourt sans chercher
+// croirait qu'on ne fait pas sa marque.
+const tabBrands = [
+  ...brands.map((b) => ({ id: b.id, label: b.label })),
+  ...onDemand.brands.filter((o) => !brands.some((b) => b.id === o.id)).map((o) => ({ id: o.id, label: o.label })),
+];
 
 // Aplatit le catalogue pour le JS : une entrée par modèle, avec sa marque et
 // une forme normalisée pré-calculée côté serveur (rien à recalculer à chaque
@@ -68,12 +79,33 @@ const catalogue = brands.flatMap((b) =>
     // « apple » n'apparaît nulle part ailleurs.
     q: normalize(m.label + ' ' + b.label + ' ' + b.id),
   }))
-);
+).concat(onDemand.brands.flatMap((b) =>
+  b.models
+    .filter((label) => !brands.some((sb) => sb.models.some((m) => m.label === label)))
+    .map((label) => ({
+      label,
+      brand: b.id,
+      brandLabel: b.label,
+      popular: false,
+      od: true,
+      q: normalize(label + ' ' + b.label + ' ' + b.id),
+    }))
+));
 
 const payload = {
   models: catalogue,
-  brands: brands.map((b) => ({ id: b.id, label: b.label })),
+  brands: tabBrands,
+  delayDays,
+  contactUrl: (lang === 'fr' ? '' : `/${lang}`) + '/contact/',
   i18n: {
+    onDemand: t('model.onDemand', lang),
+    onDemandBadge: t('model.onDemandBadge', lang).replace('{n}', String(delayDays)),
+    inStock: t('model.inStock', lang),
+    notListed: t('model.notListed', lang),
+    requestTitle: t('model.requestTitle', lang),
+    requestHelp: t('model.requestHelp', lang),
+    requestCta: t('model.requestCta', lang),
+    onDemandSuffix: t('model.onDemandSuffix', lang).replace('{n}', String(delayDays)),
     popular: t('model.popular', lang),
     empty: t('model.empty', lang),
     emptyHelp: t('model.emptyHelp', lang),
@@ -156,7 +188,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         {/* Filtres par marque. « Toutes » est actif par défaut : c'est la
             recherche, pas la marque, qui est le chemin principal. */}
         {/* Une seule marque : pas de filtres, ils ne filtreraient rien. */}
-        {brands.length > 1 && (
+        {tabBrands.length > 1 && (
         <div class="mp-brands" data-mp-brands role="tablist" aria-label={t('model.allBrands', lang)}>
           {/* Libellé court : « Tous » suffit dans une rangée de marques et tient
               beaucoup moins de place. L'aria-label du groupe ci-dessus porte le
@@ -164,7 +196,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           <button type="button" class="mp-brand is-active" data-mp-brand="" role="tab" aria-selected="true">
             {t('model.allShort', lang)}
           </button>
-          {brands.map((b) => (
+          {tabBrands.map((b) => (
             <button type="button" class="mp-brand" data-mp-brand={b.id} role="tab" aria-selected="false">
               {b.label}
             </button>
@@ -264,16 +296,25 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             list = MODELS.filter(function (m) { return m.popular; });
           }
 
+          // Modèles sur commande après ceux en stock (tri stable).
+          list = list.filter(function (m) { return !m.od; }).concat(list.filter(function (m) { return m.od; }));
           shown = list;
           results.innerHTML = '';
 
           if (!list.length) {
-            var p = document.createElement('p');
+            // Introuvable, même sur commande : on propose de le demander, avec
+            // le modèle tapé déjà rempli dans le formulaire de contact.
+            var p = document.createElement('div');
             p.className = 'mp-empty';
-            p.textContent = T.empty.replace('{q}', raw);
+            var h = document.createElement('strong');
+            h.textContent = T.requestTitle;
             var s = document.createElement('span');
-            s.textContent = T.emptyHelp;
-            p.appendChild(s);
+            s.textContent = T.requestHelp;
+            var a = document.createElement('a');
+            a.className = 'mp-request';
+            a.href = data.contactUrl + '?modele=' + encodeURIComponent(raw);
+            a.textContent = T.requestCta;
+            p.appendChild(h); p.appendChild(s); p.appendChild(a);
             results.appendChild(p);
             cursor = -1;
             return;
@@ -288,7 +329,8 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           list.forEach(function (m, i) {
             // Catalogue entier déjà affiché (liste courte) : « Les plus
             // demandés » ne voudrait rien dire, on titre par marque.
-            var group = defaultView && list.length < MODELS.length ? T.popular : m.brandLabel;
+            var group = m.od ? T.onDemand + ' · ' + m.brandLabel
+              : defaultView && list.length < MODELS.length ? T.popular : m.brandLabel;
             if (group !== lastGroup) {
               var h = document.createElement('div');
               h.className = 'mp-group';
@@ -304,8 +346,23 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             b.id = results.id + '-opt-' + i;
             b.dataset.index = String(i);
             b.appendChild(document.createTextNode(m.label));
+            if (m.od) {
+              var badge = document.createElement('span');
+              badge.className = 'mp-od-badge';
+              badge.textContent = T.onDemandBadge;
+              b.appendChild(badge);
+            }
             results.appendChild(b);
           });
+
+          // Liste courte ou filtre de marque : rappeler qu'on peut chercher
+          // un modèle absent (beaucoup sont disponibles sur commande).
+          if (!tokens.length) {
+            var more = document.createElement('p');
+            more.className = 'mp-more';
+            more.textContent = T.notListed;
+            results.appendChild(more);
+          }
 
           // Le curseur clavier se pose sur le modèle déjà retenu s'il est
           // visible, sinon sur la première option : Entrée fait alors le
@@ -403,6 +460,16 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         }
 
         // ─── Sélection ────────────────────────────────────────────────────
+        function isOd(label) {
+          return MODELS.some(function (m) { return m.od && m.label === label; });
+        }
+        // Encadrés « modèle sur commande » de la page (fiche produit, studio).
+        function paintOdNotes() {
+          var od = !!chosen && isOd(chosen);
+          document.querySelectorAll('[data-ondemand-note]').forEach(function (el) { el.hidden = !od; });
+          root.toggleAttribute('data-mp-od', od);
+        }
+
         function select(label, persist) {
           chosen = label;
           current.textContent = label;
@@ -415,7 +482,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           }
           syncButtons();
           // Permet à d'autres composants de réagir sans les coupler à celui-ci.
-          root.dispatchEvent(new CustomEvent('model:change', { bubbles: true, detail: { model: label } }));
+          root.dispatchEvent(new CustomEvent('model:change', { bubbles: true, detail: { model: label, onDemand: isOd(label) } }));
         }
 
         // Écrit le modèle sur tous les boutons d'achat de la page. On ne touche
@@ -429,6 +496,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
             else delete b.dataset.itemModel;
           });
           paintLabels();
+          paintOdNotes();
         }
 
         // Tant qu'aucun modèle n'est choisi, les boutons d'achat disent
@@ -469,8 +537,9 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         })();
         // Ce script s'exécute avant que les boutons plus bas dans la page
         // n'existent : libellés posés une fois le document lu.
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paintLabels);
-        else paintLabels();
+        function paintAll() { paintLabels(); paintOdNotes(); }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paintAll);
+        else paintAll();
 
         // ─── Événements ───────────────────────────────────────────────────
         trigger.addEventListener('click', function () { isOpen() ? close(true) : open(); });
@@ -567,7 +636,7 @@ const popularCount = catalogue.filter((m) => m.popular).length;
           if (prevSuffix && base.slice(-prevSuffix.length) === prevSuffix) {
             base = base.slice(0, -prevSuffix.length);
           }
-          var suffix = ' · ' + chosen;
+          var suffix = ' · ' + chosen + (isOd(chosen) ? ' · ' + T.onDemandSuffix : '');
           btn.dataset.itemName = base + suffix;
           btn.dataset.itemModelSuffix = suffix;
 

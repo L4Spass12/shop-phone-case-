@@ -9,6 +9,7 @@
  * peuvent donc plus diverger (avant, EN/DE avaient leur propre gabarit,
  * resté des semaines en retard, et des coloris hérités du modèle de départ).
  */
+import OnDemandNote from './OnDemandNote.astro';
 import { existsSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
@@ -919,6 +920,8 @@ const pickModelLabel = t('model.placeholder', lang);
             ) : L.unavailable}
           </button>
         )}
+
+        <OnDemandNote lang={lang} />
 
         {canCustomize && (
           <a href={url(`/personnaliser/?base=${slug}`)} class="customize-link">
