@@ -14,6 +14,7 @@
  */
 import siteConfig from '../../site.config.mjs';
 import PinterestTag from './PinterestTag.astro';
+import MetaPixel from './MetaPixel.astro';
 import { currencyForLocale, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -57,5 +58,6 @@ const titre = { fr: 'Paiement', en: 'Checkout', de: 'Bezahlung' }[lang] ?? 'Paie
   <body>
     <div data-atelier-checkout-page></div>
     <PinterestTag />
+    <MetaPixel />
   </body>
 </html>

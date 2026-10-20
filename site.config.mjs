@@ -103,6 +103,12 @@ const config = {
     tagId: '2613207327157',
   },
 
+  // Pixel Meta (ensemble de données « Moroji », portefeuille AMAT), chargé
+  // après accord cookies seulement : src/components/MetaPixel.astro.
+  meta: {
+    pixelId: '1495819775709520',
+  },
+
   productCategories: [
     { slug: 'coques-iphone', label: 'Coques iPhone' },
     { slug: 'coques-animaux', label: 'Animaux', labels: { en: 'Animals', de: 'Tiere' }, theme: true },

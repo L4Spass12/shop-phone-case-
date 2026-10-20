@@ -165,7 +165,7 @@
   },
   "cookies": {
     "title": "Cookies",
-    "message": "We use essential cookies for the site to work (cart, payment, language preference) and, with your consent, audience-measurement cookies and the Pinterest tag, which measures how well our ads perform.",
+    "message": "We use essential cookies for the site to work (cart, payment, language preference) and, with your consent, audience-measurement cookies and the Pinterest and Meta tags, which measure how well our ads perform.",
     "accept": "Accept",
     "refuse": "Decline",
     "learnMore": "Learn more",
