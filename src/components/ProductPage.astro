@@ -76,7 +76,7 @@ const L = {
     shippingTitle: 'Expédition', shippingText: "Préparée sous 24 à 48 h ouvrées dans notre atelier en France, puis expédiée avec un numéro de suivi.",
     delaysTitle: "Modes de livraison",
     relayStrong: "Point relais Mondial Relay", relayText: " : 3,90 € en France, livré en 4 à 7 jours ouvrés. Vous choisissez votre point relais (commerce ou consigne) au paiement et vous êtes prévenu dès l'arrivée du colis.",
-    homeStrong: "À domicile avec La Poste", homeText: " : bientôt disponible.",
+    homeStrong: "À domicile avec La Poste", homeText: " : 3,90 € en France métropolitaine, directement dans votre boîte aux lettres en 3 à 5 jours ouvrés, avec suivi.",
     delaysOther: "Autres pays : délais et tarifs sur notre page", delaysLink: "Livraisons et retours",
     returnsTitle: 'Retours & remboursement',
     returnsText1: 'Vous disposez de ', returnsStrong: '14 jours après réception', returnsText2: " pour changer d'avis. Le produit doit être renvoyé dans son état d'origine, non utilisé et dans son emballage ; les frais de retour sont à votre charge, sauf produit défectueux ou erreur de notre part. Remboursement intégral, frais de livraison initiaux compris, dès réception du colis.",
@@ -98,7 +98,7 @@ const L = {
     shippingTitle: 'Shipping', shippingText: "Prepared within 24 to 48 business hours in our workshop in France, then shipped with a tracking number.",
     delaysTitle: "Delivery options",
     relayStrong: "Mondial Relay pickup point", relayText: ": €3.90 in France, delivered in 4 to 7 business days. You choose your pickup point (shop or locker) at checkout and get notified as soon as your parcel arrives.",
-    homeStrong: "Home delivery with La Poste", homeText: ": coming soon.",
+    homeStrong: "Home delivery with La Poste", homeText: ": €3.90 in mainland France, straight to your letterbox in 3 to 5 business days, with tracking.",
     delaysOther: "Other countries: times and rates on our", delaysLink: "Shipping and returns page",
     returnsTitle: 'Returns & refunds',
     returnsText1: 'You have ', returnsStrong: '14 days from receipt', returnsText2: ' to change your mind. The item must be returned in its original condition, unused and in its packaging; return shipping is at your expense, unless the item is faulty or we made a mistake. Full refund, original shipping included, once we receive the parcel.',
@@ -120,7 +120,7 @@ const L = {
     shippingTitle: 'Versand', shippingText: "Innerhalb von 24 bis 48 Werkstunden in unserem Atelier in Frankreich vorbereitet, dann mit Sendungsnummer verschickt.",
     delaysTitle: "Versandarten",
     relayStrong: "Mondial-Relay-Abholstelle", relayText: ": 3,90 € in Frankreich, Lieferung in 4 bis 7 Werktagen. Du wählst deine Abholstelle (Geschäft oder Packstation) an der Kasse und wirst benachrichtigt, sobald dein Paket da ist.",
-    homeStrong: "Lieferung nach Hause mit La Poste", homeText: ": bald verfügbar.",
+    homeStrong: "Lieferung nach Hause mit La Poste", homeText: ": 3,90 € in Frankreich (Festland), direkt in deinen Briefkasten in 3 bis 5 Werktagen, mit Sendungsverfolgung.",
     delaysOther: "Andere Länder: Lieferzeiten und Preise auf unserer Seite", delaysLink: "Versand und Rückgabe",
     returnsTitle: 'Rückgabe & Erstattung',
     returnsText1: 'Du hast ', returnsStrong: '14 Tage ab Erhalt', returnsText2: ', um deine Meinung zu ändern. Der Artikel muss im Originalzustand, unbenutzt und in der Verpackung zurückgeschickt werden; die Rücksendekosten trägst du, außer bei einem defekten Artikel oder einem Fehler unsererseits. Vollständige Erstattung inklusive ursprünglicher Versandkosten nach Eingang des Pakets.',
@@ -298,8 +298,8 @@ const productSchema = {
     itemCondition: 'https://schema.org/NewCondition',
     seller: { '@type': 'Organization', name: siteConfig.name, url: SITE_URL },
     // Livraison et retours : Google les affiche dans les résultats produit.
-    // Tarif d'entrée = point relais France (zone « France - Point relais »,
-    // 3,90 €, 4 à 7 jours préparation comprise). Retour 14 jours aux frais du
+    // Tarif d'entrée France : 3,90 € à domicile (Lettre suivie La Poste,
+    // 3 à 5 jours ouvrés préparation comprise) comme en point relais. Retour 14 jours aux frais du
     // client (CGV ; les créations personnalisées n'ont pas de fiche produit).
     shippingDetails: {
       '@type': 'OfferShippingDetails',
@@ -308,7 +308,7 @@ const productSchema = {
       deliveryTime: {
         '@type': 'ShippingDeliveryTime',
         handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
-        transitTime: { '@type': 'QuantitativeValue', minValue: 3, maxValue: 5, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 3, unitCode: 'DAY' },
       },
     },
     hasMerchantReturnPolicy: {
