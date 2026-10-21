@@ -21,6 +21,7 @@ const THEMES = {
   'coques-kawaii': { name: 'Kawaii', hook: 'Team kawaii, laquelle ? 🎀', tags: '#coquekawaii #kawaii #cute' },
   'coques-fleurs': { name: 'Fleurs', hook: 'Laquelle va avec ton style ? 🌸', tags: '#coquefleurs #floral #aesthetic' },
   'coques-paysages': { name: 'Paysages', hook: 'Choisis ton paysage 🌅', tags: '#coquepaysage #art #aesthetic' },
+  'coques-riviera': { name: 'Riviera', hook: 'La Riviera dans ta poche ☀️ Laquelle tu prends ?', tags: '#dolcevita #riviera #summervibes #coqueaesthetic' },
   'coques-motifs': { name: 'Motifs', hook: 'Laquelle tu prends ? ✨', tags: '#coquemotif #pattern #aesthetic' },
   'coques-auto': { name: 'Auto', hook: 'Pour les fans de voitures 🏎️', tags: '#coquevoiture #carlovers #jdm' },
   'coques-citations': { name: 'Citations', hook: 'Ta phrase préférée ? ✍️', tags: '#coquecitation #quotes #motivation' },
