@@ -2,6 +2,10 @@
 // Page « coque personnalisée » (/coque-personnalisee/) : la page qui répond à
 // la recherche « coque personnalisée » et envoie vers le studio. Le studio
 // lui-même (/personnaliser) est une application, peu lisible pour Google.
+//
+// Textes : **mot** = mis en gras (<strong>), pour les mots-clés visés
+// (« coque personnalisée », « coque personnalisée photo », « coque iPhone
+// personnalisée »…). Les gras sont retirés des données structurées.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import siteConfig from '../../site.config.mjs';
 import { localePrefix, type Locale } from '../lib/i18n';
@@ -16,6 +20,16 @@ const flat = money(siteConfig.shop?.customCasePriceCents ?? 1990);
 const relief = money(siteConfig.shop?.customCaseReliefPriceCents ?? 2490);
 const iphones = PHONE_MODELS.filter((m) => m.brand === 'apple').map((m) => m.label);
 const galaxies = PHONE_MODELS.filter((m) => m.brand === 'samsung').map((m) => m.label);
+// Marques proposées uniquement sur commande (Xiaomi, Google Pixel, Honor).
+const stockBrands = (siteConfig.phoneModels?.brands ?? []).map((b: { id: string }) => b.id);
+const odBrands = ((siteConfig.phoneModels as any)?.onDemand?.brands ?? [])
+  .filter((b: { id: string }) => !stockBrands.includes(b.id))
+  .map((b: { label: string }) => b.label)
+  .join(', ');
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const md = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong class="text-cream font-medium">$1</strong>');
+const plain = (s: string) => s.replace(/\*\*/g, '');
 
 const TPL = [
   { src: '/images/studio-bg/tpl-toi-moi.webp', name: { fr: 'Toi & Moi', en: 'You & Me', de: 'Du & Ich' } },
@@ -27,94 +41,166 @@ const TPL = [
 const T = {
   fr: {
     title: 'Coque personnalisée avec photo pour iPhone et Samsung',
-    description: `Créez votre coque de téléphone personnalisée avec vos photos et vos textes, pour iPhone et Samsung Galaxy. Imprimée à l'unité en France, dès ${flat}.`,
+    description: `Créez votre coque personnalisée avec vos photos et vos textes, pour iPhone, Samsung Galaxy, Xiaomi et Pixel. À plat ou en relief, imprimée à l'unité en France, dès ${flat}.`,
     h1: 'Coque personnalisée avec vos photos',
-    intro: `Une photo de couple, votre animal, un souvenir de vacances ou votre prénom : créez une coque de téléphone qui n'existe qu'en un exemplaire. Vous la composez en ligne, nous l'imprimons à l'unité dans notre atelier en France.`,
+    intro: `Une photo de couple, votre animal, un souvenir de vacances ou votre prénom : créez une **coque personnalisée** qui n'existe qu'en un seul exemplaire. Vous composez votre **coque de téléphone personnalisée** en ligne, en quelques minutes, et nous l'imprimons à l'unité dans notre atelier en France.`,
     cta: 'Créer ma coque',
     price: `À partir de ${flat}, ${relief} en relief`,
-    stepsTitle: 'Comment ça marche ?',
+    stepsTitle: 'Comment créer votre coque personnalisée ?',
     steps: [
-      ['Choisissez votre téléphone', `iPhone 11 à 18 Pro Max ou Samsung Galaxy : la coque est moulée pour votre modèle exact.`],
-      ['Composez votre design', 'Ajoutez vos photos et vos textes, ou partez d’un modèle prêt à remplir : cadres Polaroid, planche manga, collage souvenirs…'],
-      ['Recevez votre coque', 'Elle est imprimée à l’unité dans notre atelier en France, puis expédiée sous 1 à 2 jours ouvrés.'],
+      ['Choisissez votre téléphone', `iPhone 11 à 18 Pro Max ou Samsung Galaxy : votre **coque personnalisée** est faite pour votre modèle exact. Xiaomi, Pixel et Honor sont disponibles sur commande.`],
+      ['Ajoutez vos photos', 'Importez vos photos, ajoutez vos textes, ou partez d’un modèle prêt à remplir : cadres Polaroid, planche manga, collage souvenirs…'],
+      ['Recevez votre coque', 'Votre **coque personnalisée photo** est imprimée à l’unité dans notre atelier en France, puis expédiée sous 1 à 2 jours ouvrés.'],
     ],
-    tplTitle: 'Des modèles prêts à remplir',
-    tplText: 'Pas d’idée de mise en page ? Choisissez un modèle dans le studio, glissez-y vos photos, c’est prêt.',
-    finishTitle: 'À plat ou en relief',
-    finishText: `À plat (${flat}), l’encre affleure la coque : surface lisse et couleurs franches, idéal pour les photos. En relief (${relief}), l’encre est déposée en plusieurs couches : votre design se sent sous le doigt.`,
-    helpTitle: 'Pas inspiré ? On le crée pour vous',
-    helpText: 'Dans le studio, l’onglet Aide vous permet de décrire votre idée et d’envoyer vos photos : notre atelier prépare votre design et vous l’envoie par e-mail sous 48 à 72 h, avec 2 propositions incluses. La création coûte 6,90 €, ajoutés au prix de la coque seulement si vous la commandez.',
-    giftTitle: 'Une idée cadeau unique',
-    giftText: 'Saint-Valentin, anniversaire, fête des mères ou des pères, Noël : une coque avec une photo qui compte fait un cadeau personnel, utilisé tous les jours.',
-    modelsTitle: 'Modèles disponibles',
-    faqTitle: 'Questions fréquentes',
+    whyTitle: 'Pourquoi choisir une coque personnalisée Moroji ?',
+    why: [
+      ['Imprimée à l’unité en France', 'Chaque **coque personnalisée** est imprimée à la commande dans notre atelier, pas dans une usine à l’autre bout du monde.'],
+      ['Une impression en relief', 'Notre encre peut être déposée en plusieurs couches : votre **coque personnalisée en relief** se sent sous le doigt.'],
+      ['Des couleurs fidèles', 'Une impression haute définition qui respecte les couleurs de vos photos, même les plus détaillées.'],
+      ['Un studio simple', 'Pas besoin de logiciel : vous créez votre **coque photo personnalisée** depuis votre téléphone ou votre ordinateur.'],
+    ],
+    tplTitle: 'Des modèles de coque personnalisée prêts à remplir',
+    tplText: 'Pas d’idée de mise en page ? Choisissez un modèle dans le studio, glissez-y vos photos : votre coque est prête.',
+    finishTitle: 'Coque personnalisée à plat ou en relief',
+    finishText: `**À plat (${flat})** : l’encre affleure la coque, surface lisse et couleurs franches, idéal pour une **coque personnalisée photo**. **En relief (${relief})** : l’encre est déposée en plusieurs couches, votre design se sent sous le doigt.`,
+    helpTitle: 'Pas inspiré ? On crée votre coque pour vous',
+    helpText: 'Dans le studio, l’onglet Aide vous permet de décrire votre idée et d’envoyer vos photos : notre atelier prépare le design de votre **coque personnalisée** et vous l’envoie par e-mail sous 48 à 72 h, avec 2 propositions incluses. La création coûte 6,90 €, ajoutés au prix de la coque seulement si vous la commandez.',
+    ideasTitle: 'Idées de coque personnalisée',
+    ideasIntro: 'Besoin d’inspiration ? Voici les créations que nos clients préfèrent.',
+    ideas: [
+      ['Coque personnalisée couple', 'Votre plus belle photo à deux, une date qui compte ou vos deux prénoms : le modèle « Toi & Moi » est fait pour ça.'],
+      ['Coque avec votre animal', 'Votre chien ou votre chat sur votre **coque personnalisée**, en photo ou en relief pour un effet encore plus vivant.'],
+      ['Coque photo de famille', 'Les enfants, un mariage, une naissance : un collage de souvenirs que vous gardez toujours sur vous.'],
+      ['Coque avec prénom ou texte', 'Un prénom, une citation, des initiales : ajoutez votre texte avec la police et la couleur de votre choix.'],
+    ],
+    footLink: 'Fan de foot ? Créez votre **coque de foot personnalisée** avec votre nom et votre numéro.',
+    giftTitle: 'Une coque personnalisée à offrir',
+    giftText: 'Saint-Valentin, anniversaire, fête des mères ou des pères, Noël : une **coque personnalisée** avec une photo qui compte fait un **cadeau personnalisé** unique, que l’on utilise tous les jours.',
+    modelsTitle: 'Coque personnalisée pour iPhone et Samsung',
+    iphoneTitle: 'Coque iPhone personnalisée',
+    iphoneText: 'Votre **coque iPhone personnalisée** est disponible pour :',
+    samsungTitle: 'Coque Samsung personnalisée',
+    samsungText: 'Votre **coque Samsung personnalisée** est disponible pour :',
+    odTitle: 'Autres téléphones',
+    odText: `Votre modèle n’est pas dans la liste ? Nous fabriquons aussi votre **coque personnalisée** sur commande pour ${odBrands || 'd’autres marques'} : choisissez votre modèle dans le studio, comptez simplement 2 jours de plus.`,
+    faqTitle: 'Questions fréquentes sur la coque personnalisée',
     faq: [
+      ['Combien coûte une coque personnalisée ?', `Elle coûte ${flat} à plat et ${relief} en relief, quel que soit le nombre de photos et de textes.`],
       ['Quelle qualité de photo faut-il ?', 'Une photo prise avec un smartphone récent suffit largement. Évitez simplement les captures d’écran très compressées ou les petites images trouvées sur internet : elles seraient floues une fois imprimées.'],
-      ['Combien de temps pour la recevoir ?', 'La coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés. Comptez 3 à 5 jours ouvrés à domicile en France, 4 à 7 en point relais.'],
+      ['Puis-je mettre plusieurs photos sur ma coque ?', 'Oui : ajoutez autant de photos et de textes que vous voulez, déplacez-les, redimensionnez-les, ou utilisez un modèle avec plusieurs cadres.'],
+      ['Combien de temps pour recevoir ma coque personnalisée ?', 'La coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés. Comptez 3 à 5 jours ouvrés à domicile en France, 4 à 7 en point relais.'],
+      ['Pour quels téléphones ?', `iPhone 11 à 18 Pro Max et Samsung Galaxy, ainsi que ${odBrands || 'd’autres marques'} sur commande.`],
       ['Puis-je retourner une coque personnalisée ?', 'Une création personnalisée est fabriquée pour vous seul : comme le prévoit la loi, elle ne bénéficie pas du droit de rétractation. En cas de défaut d’impression, nous la refaisons.'],
-      ['Puis-je utiliser plusieurs photos ?', 'Oui : ajoutez autant de photos et de textes que vous voulez, déplacez-les, redimensionnez-les, ou utilisez un modèle avec plusieurs cadres.'],
     ],
     home: 'Accueil',
   },
   en: {
     title: 'Custom photo phone case for iPhone and Samsung',
-    description: `Create your custom phone case with your own photos and text, for iPhone and Samsung Galaxy. Printed one at a time in France, from ${flat}.`,
+    description: `Create your custom phone case with your own photos and text, for iPhone, Samsung Galaxy, Xiaomi and Pixel. Flat or raised, printed one at a time in France, from ${flat}.`,
     h1: 'Custom phone case with your photos',
-    intro: 'A couple photo, your pet, a holiday memory or your name: create a phone case that exists only once. You design it online, we print it one at a time in our workshop in France.',
+    intro: 'A couple photo, your pet, a holiday memory or your name: create a **custom phone case** that exists only once. You design your **personalised phone case** online in a few minutes, and we print it one at a time in our workshop in France.',
     cta: 'Create my case',
     price: `From ${flat}, ${relief} with raised printing`,
-    stepsTitle: 'How does it work?',
+    stepsTitle: 'How to create your custom phone case',
     steps: [
-      ['Pick your phone', 'iPhone 11 to 18 Pro Max or Samsung Galaxy: the case is moulded for your exact model.'],
-      ['Design it', 'Add your photos and text, or start from a ready-made template: Polaroid frames, manga page, memories collage…'],
-      ['Get your case', 'It is printed one at a time in our workshop in France, then shipped within 1 to 2 working days.'],
+      ['Pick your phone', 'iPhone 11 to 18 Pro Max or Samsung Galaxy: your **custom case** is made for your exact model. Xiaomi, Pixel and Honor are available to order.'],
+      ['Add your photos', 'Upload your photos, add text, or start from a ready-made template: Polaroid frames, manga page, memories collage…'],
+      ['Get your case', 'Your **custom photo case** is printed one at a time in our workshop in France, then shipped within 1 to 2 working days.'],
     ],
-    tplTitle: 'Ready-to-fill templates',
-    tplText: 'No layout idea? Pick a template in the studio, drop your photos in, done.',
-    finishTitle: 'Flat or raised',
-    finishText: `Flat (${flat}): the ink sits flush with the case, smooth surface and bold colours, ideal for photos. Raised (${relief}): the ink is built up in several layers, so you can feel your design.`,
+    whyTitle: 'Why choose a Moroji custom phone case?',
+    why: [
+      ['Printed one at a time in France', 'Every **custom phone case** is printed to order in our workshop, not in a factory on the other side of the world.'],
+      ['Raised printing', 'Our ink can be built up in several layers: your **raised custom case** can be felt under your fingers.'],
+      ['True-to-life colours', 'High-definition printing that respects the colours of your photos, even the most detailed ones.'],
+      ['An easy studio', 'No software needed: design your **custom photo case** from your phone or computer.'],
+    ],
+    tplTitle: 'Ready-to-fill custom case templates',
+    tplText: 'No layout idea? Pick a template in the studio, drop your photos in: your **custom case** is ready.',
+    finishTitle: 'Flat or raised custom case',
+    finishText: `**Flat (${flat})**: the ink sits flush with the case, smooth surface and bold colours, ideal for a **custom photo case**. **Raised (${relief})**: the ink is built up in several layers, so you can feel your design.`,
     helpTitle: 'No inspiration? We design it for you',
-    helpText: 'In the studio, the Help tab lets you describe your idea and send your photos: our workshop prepares your design and emails it to you within 48 to 72 hours, with 2 proposals included. The design service costs €6.90, added to the price of the case only if you order it.',
-    giftTitle: 'A one-of-a-kind gift',
-    giftText: 'Valentine’s Day, birthdays, Mother’s or Father’s Day, Christmas: a case with a photo that matters is a personal gift used every day.',
-    modelsTitle: 'Available models',
-    faqTitle: 'Frequently asked questions',
+    helpText: 'In the studio, the Help tab lets you describe your idea and send your photos: our workshop prepares your **custom case** design and emails it to you within 48 to 72 hours, with 2 proposals included. The design service costs €6.90, added to the price of the case only if you order it.',
+    ideasTitle: 'Custom phone case ideas',
+    ideasIntro: 'Looking for inspiration? Here are our customers’ favourite designs.',
+    ideas: [
+      ['Couple phone case', 'Your best photo together, a special date or both your names: the “You & Me” template is made for it.'],
+      ['Pet phone case', 'Your dog or cat on your **custom case**, as a photo or raised for an even more lifelike effect.'],
+      ['Family photo case', 'Kids, a wedding, a birth: a collage of memories you always carry with you.'],
+      ['Name or text case', 'A name, a quote, initials: add your text in the font and colour you like.'],
+    ],
+    footLink: 'Football fan? Create your **custom football case** with your name and number.',
+    giftTitle: 'A custom phone case to give',
+    giftText: 'Valentine’s Day, birthdays, Mother’s or Father’s Day, Christmas: a **custom phone case** with a photo that matters is a **personalised gift** used every day.',
+    modelsTitle: 'Custom case for iPhone and Samsung',
+    iphoneTitle: 'Custom iPhone case',
+    iphoneText: 'Your **custom iPhone case** is available for:',
+    samsungTitle: 'Custom Samsung case',
+    samsungText: 'Your **custom Samsung case** is available for:',
+    odTitle: 'Other phones',
+    odText: `Your model is not listed? We also make your **custom case** to order for ${odBrands || 'other brands'}: pick your model in the studio, just allow 2 extra days.`,
+    faqTitle: 'Custom phone case FAQ',
     faq: [
+      ['How much does a custom phone case cost?', `Your **custom case** costs ${flat} flat and ${relief} raised, whatever the number of photos and texts.`],
       ['What photo quality do I need?', 'A photo taken with a recent smartphone is more than enough. Just avoid heavily compressed screenshots or small images found online: they would look blurry once printed.'],
+      ['Can I put several photos on my case?', 'Yes: add as many photos and text as you like, move and resize them, or use a template with several frames.'],
       ['How long does delivery take?', 'The case is printed to order and shipped within 1 to 2 working days. Delivery time depends on your country.'],
+      ['Which phones?', `iPhone 11 to 18 Pro Max and Samsung Galaxy, plus ${odBrands || 'other brands'} to order.`],
       ['Can I return a custom case?', 'A custom design is made just for you, so by law it is not covered by the right of withdrawal. If there is a printing defect, we reprint it.'],
-      ['Can I use several photos?', 'Yes: add as many photos and text as you like, move and resize them, or use a template with several frames.'],
     ],
     home: 'Home',
   },
   de: {
     title: 'Handyhülle mit eigenem Foto für iPhone und Samsung',
-    description: `Gestalte deine eigene Handyhülle mit deinen Fotos und Texten, für iPhone und Samsung Galaxy. Einzeln in Frankreich bedruckt, ab ${flat}.`,
+    description: `Gestalte deine Handyhülle mit Foto und Text, für iPhone, Samsung Galaxy, Xiaomi und Pixel. Flach oder mit Relief, einzeln in Frankreich bedruckt, ab ${flat}.`,
     h1: 'Handyhülle mit deinen Fotos',
-    intro: 'Ein Pärchenfoto, dein Haustier, eine Urlaubserinnerung oder dein Name: Gestalte eine Handyhülle, die es nur einmal gibt. Du gestaltest sie online, wir bedrucken sie einzeln in unserem Atelier in Frankreich.',
+    intro: 'Ein Pärchenfoto, dein Haustier, eine Urlaubserinnerung oder dein Name: Gestalte eine **Handyhülle mit Foto**, die es nur einmal gibt. Du gestaltest deine **personalisierte Handyhülle** in wenigen Minuten online, wir bedrucken sie einzeln in unserem Atelier in Frankreich.',
     cta: 'Meine Hülle gestalten',
     price: `Ab ${flat}, ${relief} mit Relief`,
-    stepsTitle: 'Wie funktioniert es?',
+    stepsTitle: 'So gestaltest du deine Handyhülle',
     steps: [
-      ['Wähle dein Handy', 'iPhone 11 bis 18 Pro Max oder Samsung Galaxy: Die Hülle ist für dein genaues Modell geformt.'],
-      ['Gestalte dein Design', 'Füge deine Fotos und Texte hinzu oder starte mit einer fertigen Vorlage: Polaroid-Rahmen, Manga-Seite, Erinnerungs-Collage…'],
-      ['Erhalte deine Hülle', 'Sie wird einzeln in unserem Atelier in Frankreich bedruckt und innerhalb von 1 bis 2 Werktagen verschickt.'],
+      ['Wähle dein Handy', 'iPhone 11 bis 18 Pro Max oder Samsung Galaxy: deine **personalisierte Hülle** passt genau zu deinem Modell. Xiaomi, Pixel und Honor gibt es auf Bestellung.'],
+      ['Füge deine Fotos hinzu', 'Lade deine Fotos hoch, füge Texte hinzu oder starte mit einer fertigen Vorlage: Polaroid-Rahmen, Manga-Seite, Erinnerungs-Collage…'],
+      ['Erhalte deine Hülle', 'Deine **Handyhülle mit Foto** wird einzeln in unserem Atelier in Frankreich bedruckt und innerhalb von 1 bis 2 Werktagen verschickt.'],
     ],
-    tplTitle: 'Fertige Vorlagen zum Ausfüllen',
-    tplText: 'Keine Idee für das Layout? Wähle im Studio eine Vorlage, zieh deine Fotos hinein, fertig.',
-    finishTitle: 'Flach oder mit Relief',
-    finishText: `Flach (${flat}): Die Farbe liegt bündig auf der Hülle, glatte Oberfläche und kräftige Farben, ideal für Fotos. Relief (${relief}): Die Farbe wird in mehreren Schichten aufgetragen, dein Design ist fühlbar.`,
+    whyTitle: 'Warum eine personalisierte Handyhülle von Moroji?',
+    why: [
+      ['Einzeln in Frankreich bedruckt', 'Jede **personalisierte Handyhülle** wird auf Bestellung in unserem Atelier bedruckt, nicht in einer Fabrik am anderen Ende der Welt.'],
+      ['Druck mit Relief', 'Unsere Farbe kann in mehreren Schichten aufgetragen werden: deine **Handyhülle mit Relief** ist fühlbar.'],
+      ['Originalgetreue Farben', 'Ein hochauflösender Druck, der die Farben deiner Fotos respektiert, auch bei vielen Details.'],
+      ['Ein einfaches Studio', 'Keine Software nötig: Du gestaltest deine **Handyhülle mit Foto** am Handy oder am Computer.'],
+    ],
+    tplTitle: 'Fertige Vorlagen für deine Handyhülle',
+    tplText: 'Keine Idee für das Layout? Wähle im Studio eine Vorlage, zieh deine Fotos hinein: deine **personalisierte Hülle** ist fertig.',
+    finishTitle: 'Personalisierte Hülle flach oder mit Relief',
+    finishText: `**Flach (${flat})**: Die Farbe liegt bündig auf der Hülle, glatte Oberfläche und kräftige Farben, ideal für eine **Handyhülle mit Foto**. **Relief (${relief})**: Die Farbe wird in mehreren Schichten aufgetragen, dein Design ist fühlbar.`,
     helpTitle: 'Keine Idee? Wir gestalten es für dich',
-    helpText: 'Im Studio kannst du im Hilfe-Tab deine Idee beschreiben und deine Fotos schicken: Unser Atelier bereitet dein Design vor und schickt es dir innerhalb von 48 bis 72 Stunden per E-Mail, mit 2 inklusiven Vorschlägen. Die Gestaltung kostet 6,90 €, die nur bei einer Bestellung zum Preis der Hülle hinzukommen.',
-    giftTitle: 'Ein einzigartiges Geschenk',
-    giftText: 'Valentinstag, Geburtstag, Mutter- oder Vatertag, Weihnachten: Eine Hülle mit einem Foto, das zählt, ist ein persönliches Geschenk für jeden Tag.',
-    modelsTitle: 'Verfügbare Modelle',
-    faqTitle: 'Häufige Fragen',
+    helpText: 'Im Studio kannst du im Hilfe-Tab deine Idee beschreiben und deine Fotos schicken: Unser Atelier bereitet das Design deiner **personalisierten Hülle** vor und schickt es dir innerhalb von 48 bis 72 Stunden per E-Mail, mit 2 inklusiven Vorschlägen. Die Gestaltung kostet 6,90 €, die nur bei einer Bestellung zum Preis der Hülle hinzukommen.',
+    ideasTitle: 'Ideen für deine Handyhülle mit Foto',
+    ideasIntro: 'Auf der Suche nach Inspiration? Das sind die Lieblingsdesigns unserer Kunden.',
+    ideas: [
+      ['Pärchen-Handyhülle', 'Euer schönstes gemeinsames Foto, ein wichtiges Datum oder eure Namen: Die Vorlage „Du & Ich“ ist dafür gemacht.'],
+      ['Hülle mit deinem Haustier', 'Dein Hund oder deine Katze auf deiner **personalisierten Hülle**, als Foto oder mit Relief für einen noch lebendigeren Effekt.'],
+      ['Familienfoto-Hülle', 'Kinder, eine Hochzeit, eine Geburt: eine Collage voller Erinnerungen, die du immer dabeihast.'],
+      ['Hülle mit Name oder Text', 'Ein Name, ein Spruch, Initialen: Füge deinen Text in der Schrift und Farbe deiner Wahl hinzu.'],
+    ],
+    footLink: 'Fußballfan? Gestalte deine **Fußball-Handyhülle** mit Name und Nummer.',
+    giftTitle: 'Eine personalisierte Handyhülle zum Verschenken',
+    giftText: 'Valentinstag, Geburtstag, Mutter- oder Vatertag, Weihnachten: Eine **Handyhülle mit Foto**, das zählt, ist ein **personalisiertes Geschenk** für jeden Tag.',
+    modelsTitle: 'Personalisierte Hülle für iPhone und Samsung',
+    iphoneTitle: 'iPhone Hülle mit Foto',
+    iphoneText: 'Deine **iPhone Hülle mit Foto** gibt es für:',
+    samsungTitle: 'Samsung Hülle mit Foto',
+    samsungText: 'Deine **Samsung Hülle mit Foto** gibt es für:',
+    odTitle: 'Andere Handys',
+    odText: `Dein Modell ist nicht dabei? Wir fertigen deine **personalisierte Hülle** auch auf Bestellung für ${odBrands || 'andere Marken'}: Wähle dein Modell im Studio, rechne einfach mit 2 Tagen mehr.`,
+    faqTitle: 'Häufige Fragen zur Handyhülle mit Foto',
     faq: [
+      ['Was kostet eine Handyhülle mit Foto?', `Deine **Handyhülle mit Foto** kostet ${flat} flach und ${relief} mit Relief, egal wie viele Fotos und Texte.`],
       ['Welche Fotoqualität brauche ich?', 'Ein Foto von einem aktuellen Smartphone reicht völlig aus. Vermeide nur stark komprimierte Screenshots oder kleine Bilder aus dem Internet: Sie wären gedruckt unscharf.'],
-      ['Wie lange dauert die Lieferung?', 'Die Hülle wird auf Bestellung bedruckt und innerhalb von 1 bis 2 Werktagen verschickt. Die Lieferzeit hängt von deinem Land ab.'],
-      ['Kann ich eine personalisierte Hülle zurückgeben?', 'Ein personalisiertes Design wird nur für dich hergestellt und ist daher gesetzlich vom Widerrufsrecht ausgenommen. Bei einem Druckfehler drucken wir sie neu.'],
       ['Kann ich mehrere Fotos verwenden?', 'Ja: Füge so viele Fotos und Texte hinzu, wie du willst, verschiebe und skaliere sie oder nutze eine Vorlage mit mehreren Rahmen.'],
+      ['Wie lange dauert die Lieferung?', 'Die Hülle wird auf Bestellung bedruckt und innerhalb von 1 bis 2 Werktagen verschickt. Die Lieferzeit hängt von deinem Land ab.'],
+      ['Für welche Handys?', `iPhone 11 bis 18 Pro Max und Samsung Galaxy, dazu ${odBrands || 'andere Marken'} auf Bestellung.`],
+      ['Kann ich eine personalisierte Hülle zurückgeben?', 'Ein personalisiertes Design wird nur für dich hergestellt und ist daher gesetzlich vom Widerrufsrecht ausgenommen. Bei einem Druckfehler drucken wir sie neu.'],
     ],
     home: 'Startseite',
   },
@@ -135,14 +221,17 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'HowTo',
     name: T.stepsTitle,
-    step: T.steps.map(([name, text], i) => ({ '@type': 'HowToStep', position: i + 1, name, text })),
+    step: T.steps.map(([name, text], i) => ({ '@type': 'HowToStep', position: i + 1, name, text: plain(text) })),
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+    mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: plain(a) } })),
   },
 ];
+// La page coque de foot n'existe qu'en français : lien direct, sans préfixe de langue.
+const h2 = 'text-2xl md:text-3xl font-medium tracking-tight text-cream';
+const card = 'rounded-2xl border border-white/[0.08] bg-panel p-6';
 ---
 
 <BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/menu-studio-wide.webp">
@@ -156,7 +245,7 @@ const jsonLd = [
     <section class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-20">
       <div class="order-2 md:order-1">
         <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-5">{T.h1}</h1>
-        <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-7">{T.intro}</p>
+        <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-7" set:html={md(T.intro)} />
         <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
         <p class="text-sm text-n-500 font-light mt-4">{T.price}</p>
       </div>
@@ -165,21 +254,33 @@ const jsonLd = [
     </section>
 
     <section class="mb-20">
-      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-8">{T.stepsTitle}</h2>
+      <h2 class={`${h2} mb-8`}>{T.stepsTitle}</h2>
       <ol class="grid md:grid-cols-3 gap-6">
         {T.steps.map(([name, text], i) => (
-          <li class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+          <li class={card}>
             <span class="text-xs font-medium text-n-500 tracking-widest">0{i + 1}</span>
             <h3 class="text-lg font-medium text-cream mt-2 mb-2">{name}</h3>
-            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(text)} />
           </li>
         ))}
       </ol>
     </section>
 
     <section class="mb-20">
-      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-3">{T.tplTitle}</h2>
-      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">{T.tplText}</p>
+      <h2 class={`${h2} mb-8`}>{T.whyTitle}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {T.why.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(text)} />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-3`}>{T.tplTitle}</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl" set:html={md(T.tplText)} />
       <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
         {TPL.map((t) => (
           <li>
@@ -193,28 +294,61 @@ const jsonLd = [
       </ul>
     </section>
 
-    <section class="grid md:grid-cols-3 gap-6 mb-20">
-      {[[T.finishTitle, T.finishText], [T.helpTitle, T.helpText], [T.giftTitle, T.giftText]].map(([h, p]) => (
-        <div class="rounded-2xl border border-white/[0.08] bg-panel p-6">
+    <section class="grid md:grid-cols-2 gap-6 mb-20">
+      {[[T.finishTitle, T.finishText], [T.helpTitle, T.helpText]].map(([h, p]) => (
+        <div class={card}>
           <h2 class="text-lg font-medium text-cream mb-2">{h}</h2>
-          <p class="text-sm text-n-400 font-light leading-relaxed">{p}</p>
+          <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(p)} />
         </div>
       ))}
     </section>
 
     <section class="mb-20">
-      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-5">{T.modelsTitle}</h2>
-      <p class="text-sm text-n-400 font-light leading-relaxed"><strong class="text-cream font-medium">iPhone :</strong> {iphones.join(', ')}</p>
-      <p class="text-sm text-n-400 font-light leading-relaxed mt-2"><strong class="text-cream font-medium">Samsung :</strong> {galaxies.join(', ')}</p>
+      <h2 class={`${h2} mb-3`}>{T.ideasTitle}</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">{T.ideasIntro}</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {T.ideas.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(text)} />
+          </div>
+        ))}
+      </div>
+      <p class="text-sm text-n-400 font-light mt-6">
+        <a href="/coque-foot-personnalisee/" class="underline underline-offset-4 hover:text-cream transition-colors" set:html={md(T.footLink)} />
+      </p>
+    </section>
+
+    <section class="mb-20 max-w-3xl">
+      <h2 class={`${h2} mb-4`}>{T.giftTitle}</h2>
+      <p class="text-base text-n-400 font-light leading-relaxed" set:html={md(T.giftText)} />
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-6`}>{T.modelsTitle}</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <h3 class="text-lg font-medium text-cream mb-2">{T.iphoneTitle}</h3>
+          <p class="text-sm text-n-400 font-light leading-relaxed"><span set:html={md(T.iphoneText)} /> {iphones.join(', ')}.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-cream mb-2">{T.samsungTitle}</h3>
+          <p class="text-sm text-n-400 font-light leading-relaxed"><span set:html={md(T.samsungText)} /> {galaxies.join(', ')}.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-cream mb-2">{T.odTitle}</h3>
+          <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(T.odText)} />
+        </div>
+      </div>
     </section>
 
     <section class="max-w-3xl mb-16">
-      <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-6">{T.faqTitle}</h2>
+      <h2 class={`${h2} mb-6`}>{T.faqTitle}</h2>
       <div class="space-y-3">
         {T.faq.map(([q, a]) => (
           <details class="rounded-2xl border border-white/[0.08] bg-panel px-6 py-4">
-            <summary class="cursor-pointer font-medium text-cream">{q}</summary>
-            <p class="mt-3 text-sm text-n-400 font-light leading-relaxed">{a}</p>
+            <summary class="cursor-pointer font-medium text-cream"><h3 class="inline text-base font-medium">{q}</h3></summary>
+            <p class="mt-3 text-sm text-n-400 font-light leading-relaxed" set:html={md(a)} />
           </details>
         ))}
       </div>
