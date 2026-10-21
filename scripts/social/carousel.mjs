@@ -28,20 +28,22 @@ const THEMES = {
 };
 const COMMON = '#coquetelephone #iphonecase #coqueiphone #moroji #madeinfrance';
 
-function themeOf(slug) {
+// Toutes les catégories de style d'une coque : elle figure dans chaque
+// carrousel de thème auquel elle appartient (Kawaii, Romantique… seraient
+// sinon presque vides, leurs coques étant d'abord rangées ailleurs).
+function themesOf(slug) {
   const f = `src/content/products/${slug}.md`;
-  if (!existsSync(f)) return null;
+  if (!existsSync(f)) return [];
   const m = /categories:\s*\[([^\]]*)\]/.exec(readFileSync(f, 'utf8'));
   const cats = m ? m[1].split(',').map((s) => s.trim().replace(/["']/g, '')) : [];
-  return cats.find((c) => THEMES[c]) ?? null;
+  return cats.filter((c) => THEMES[c]);
 }
 
 const renders = readdirSync(IN).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''));
 const groups = {};
 for (const id of renders) {
   if (id.startsWith('maillot-')) continue;
-  const t = themeOf(id);
-  if (t) (groups[t] ||= []).push(id);
+  for (const t of themesOf(id)) (groups[t] ||= []).push(id);
 }
 const NATIONS = ['france', 'espagne', 'portugal', 'italie', 'bresil', 'argentine', 'allemagne', 'angleterre', 'pays-bas', 'belgique', 'maroc', 'algerie'];
 const carousels = [
@@ -51,6 +53,10 @@ const carousels = [
     hook: 'Les couleurs de ton club, ton nom, ton numéro ⚽ Laquelle tu choisis ?', tags: '#coquefoot #coquepersonnalisee #maillot #football #foot' },
   ...Object.entries(groups).map(([k, items]) => ({ id: k.replace('coques-', ''), items, hook: THEMES[k].hook, tags: THEMES[k].tags })),
 ];
+
+// Carrousels sur mesure (--extra fichier.json) : [{ id, items: [slug…], hook, tags }].
+const EXTRA = opt('--extra', '');
+if (EXTRA) carousels.push(...JSON.parse(readFileSync(EXTRA, 'utf8')));
 
 // Placement 2 / 3 / 2 (comme les carrousels « wishlist »), rangées décalées.
 const LAYOUT = [[0, 1], [0, 1, 2], [0, 1]];
