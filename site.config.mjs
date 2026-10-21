@@ -211,7 +211,7 @@ const config = {
             'Galaxy S24+', 'Galaxy S24 FE',
             'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
             'Galaxy S22',
-            'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G',
+            'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G', 'Galaxy A34 5G',
             'Galaxy A26 5G', 'Galaxy A25 5G', 'Galaxy A18', 'Galaxy A17',
             'Galaxy A16 5G', 'Galaxy A15', 'Galaxy A07', 'Galaxy A06 5G', 'Galaxy A05s',
           ],
@@ -226,6 +226,11 @@ const config = {
             'Redmi Note 13 Pro 5G', 'Redmi Note 13 4G',
             'Redmi 15C', 'Redmi 14C', 'Redmi 13C 4G', 'Redmi A7 Pro', 'Redmi A5',
           ],
+        },
+        {
+          id: 'google',
+          label: 'Google Pixel',
+          models: ['Pixel 9', 'Pixel 9a', 'Pixel 8', 'Pixel 8a'],
         },
         {
           id: 'honor',
