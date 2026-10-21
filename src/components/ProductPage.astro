@@ -602,20 +602,6 @@ const pickModelLabel = t('model.placeholder', lang);
             decoding="async"
           />
         )}
-        <!-- Categories -->
-        {categories && categories.length > 0 && (
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            {categories.map(c => (
-              <a
-                href={url(`/product-category/${c}`)}
-                class="text-[10px] text-n-500 font-medium uppercase tracking-widest hover:text-cream transition-colors"
-              >
-                {c.replace(/-/g, ' ')}
-              </a>
-            ))}
-          </div>
-        )}
-
         <h1 class="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-cream leading-[1.2] mb-3">
           {name}
         </h1>
