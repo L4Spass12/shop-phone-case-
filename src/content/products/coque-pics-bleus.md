@@ -5,7 +5,7 @@ image: "/images/products/coque-pics-bleus-plat.webp"
 imageAlt: "Coque Pics Bleus : des pics de montagne bleu nuit sous la pleine lune, au-dessus d'un lac"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des pics de montagne bleu nuit sous la pleine lune, au-dessus d'un lac."
-order: 180
+order: -15
 pubDate: 2026-10-23
 ---
 

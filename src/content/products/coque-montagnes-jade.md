@@ -5,7 +5,7 @@ image: "/images/products/coque-montagnes-jade-plat.webp"
 imageAlt: "Coque Montagnes de Jade : des montagnes vert jade, une cascade et des cerisiers en fleurs, dans la brume"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des montagnes vert jade, une cascade et des cerisiers en fleurs, dans la brume."
-order: 177
+order: -18
 pubDate: 2026-10-23
 ---
 

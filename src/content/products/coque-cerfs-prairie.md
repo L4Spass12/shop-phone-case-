@@ -5,7 +5,7 @@ image: "/images/products/coque-cerfs-prairie-plat.webp"
 imageAlt: "Coque Cerfs dans la Prairie : un cerf et une biche au repos dans une prairie verte, parmi les érables rouges"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un cerf et une biche au repos dans une prairie verte, parmi les érables rouges."
-order: 188
+order: -2
 pubDate: 2026-10-23
 ---
 

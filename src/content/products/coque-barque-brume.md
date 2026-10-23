@@ -5,7 +5,7 @@ image: "/images/products/coque-barque-brume-plat.webp"
 imageAlt: "Coque Barque dans la Brume : une barque sur le lac, au pied d'une cascade et d'un pavillon perché dans la brume colorée"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Une barque sur le lac, au pied d'une cascade et d'un pavillon perché dans la brume colorée."
-order: 179
+order: -16
 pubDate: 2026-10-23
 ---
 

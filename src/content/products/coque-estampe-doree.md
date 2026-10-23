@@ -5,7 +5,7 @@ image: "/images/products/coque-estampe-doree-plat.webp"
 imageAlt: "Coque Estampe Dorée : un paysage d'estampe bleu et or : cascade, pavillon, pins et petit pont"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un paysage d'estampe bleu et or : cascade, pavillon, pins et petit pont."
-order: 183
+order: -8
 pubDate: 2026-10-23
 ---
 

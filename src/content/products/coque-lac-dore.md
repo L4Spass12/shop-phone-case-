@@ -5,7 +5,7 @@ image: "/images/products/coque-lac-dore-plat.webp"
 imageAlt: "Coque Lac Doré : une barque sur un lac doré, entre les montagnes et la pleine lune"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Une barque sur un lac doré, entre les montagnes et la pleine lune."
-order: 194
+order: -11
 pubDate: 2026-10-23
 ---
 

@@ -5,7 +5,7 @@ image: "/images/products/coque-pin-soleil-rose-plat.webp"
 imageAlt: "Coque Pin et Soleil Rose : un pin doré, des grues et un soleil rose, dans un cadre de motifs dorés"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un pin doré, des grues et un soleil rose, dans un cadre de motifs dorés."
-order: 187
+order: -3
 pubDate: 2026-10-23
 ---
 

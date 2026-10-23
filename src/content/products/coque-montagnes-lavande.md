@@ -5,7 +5,7 @@ image: "/images/products/coque-montagnes-lavande-plat.webp"
 imageAlt: "Coque Montagnes Lavande : des montagnes et des pins lavande, une cascade et un pavillon dans les nuages"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des montagnes et des pins lavande, une cascade et un pavillon dans les nuages."
-order: 181
+order: -14
 pubDate: 2026-10-23
 ---
 

@@ -5,7 +5,7 @@ image: "/images/products/coque-palais-pourpre-plat.webp"
 imageAlt: "Coque Palais Pourpre : des palais et des pins dorés sur les montagnes, sur un fond rouge pourpre"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des palais et des pins dorés sur les montagnes, sur un fond rouge pourpre."
-order: 184
+order: -7
 pubDate: 2026-10-23
 ---
 

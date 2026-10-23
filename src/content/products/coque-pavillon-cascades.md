@@ -5,7 +5,7 @@ image: "/images/products/coque-pavillon-cascades-plat.webp"
 imageAlt: "Coque Pavillon des Cascades : un pavillon parmi les cerisiers en fleurs, des cascades et un petit pont dans la brume verte"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un pavillon parmi les cerisiers en fleurs, des cascades et un petit pont dans la brume verte."
-order: 191
+order: -12
 pubDate: 2026-10-23
 ---
 

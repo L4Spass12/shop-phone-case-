@@ -5,7 +5,7 @@ image: "/images/products/coque-vagues-nuages-plat.webp"
 imageAlt: "Coque Vagues et Nuages : des vagues turquoise, des montagnes et des nuages roses sous un soleil rouge, avec un vol de grues"
 categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des vagues turquoise, des montagnes et des nuages roses sous un soleil rouge, avec un vol de grues."
-order: 190
+order: -9
 pubDate: 2026-10-23
 ---
 
