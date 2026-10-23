@@ -1153,6 +1153,18 @@
       "image": "/images/products/coque-koi-plat.webp"
     },
     {
+      "key": "coque-lac-dore",
+      "label": "Coque Lac Doré",
+      "price": 1990,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
+      "key": "coque-lac-dore-relief",
+      "label": "Coque Lac Doré · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
       "key": "coque-lac-gravure",
       "label": "Coque Lac Gravure",
       "price": 1990,
@@ -1573,6 +1585,18 @@
       "image": "/images/products/coque-palmiers-soleil-plat.webp"
     },
     {
+      "key": "coque-paon-emeraude",
+      "label": "Coque Paon Émeraude",
+      "price": 1990,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
+      "key": "coque-paon-emeraude-relief",
+      "label": "Coque Paon Émeraude · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
       "key": "coque-papillon-lumiere",
       "label": "Coque Papillon de Lumière",
       "price": 1990,
@@ -1619,6 +1643,30 @@
       "label": "Coque Pastèques Chats · en relief",
       "price": 2490,
       "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "coque-pavillon-bronze",
+      "label": "Coque Pavillon Bronze",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "coque-pavillon-bronze-relief",
+      "label": "Coque Pavillon Bronze · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "coque-pavillon-cascades",
+      "label": "Coque Pavillon des Cascades",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
+    },
+    {
+      "key": "coque-pavillon-cascades-relief",
+      "label": "Coque Pavillon des Cascades · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
     },
     {
       "key": "coque-paysage-sakura",
@@ -1847,6 +1895,18 @@
       "label": "Coque Riviera Cabriolet · en relief",
       "price": 2490,
       "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "coque-riviere-sakura",
+      "label": "Coque Rivière de Sakura",
+      "price": 1990,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
+    },
+    {
+      "key": "coque-riviere-sakura-relief",
+      "label": "Coque Rivière de Sakura · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
     },
     {
       "key": "coque-roadtrip-rouge",
@@ -2219,6 +2279,18 @@
       "label": "Coque Vague Dorée · en relief",
       "price": 2490,
       "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "coque-vagues-nuages",
+      "label": "Coque Vagues et Nuages",
+      "price": 1990,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
+    },
+    {
+      "key": "coque-vagues-nuages-relief",
+      "label": "Coque Vagues et Nuages · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
     },
     {
       "key": "coque-velo-marguerites",
@@ -3493,6 +3565,18 @@
       "image": "/images/products/coque-koi-plat.webp"
     },
     {
+      "key": "de/coque-lac-dore",
+      "label": "Hülle Goldener See",
+      "price": 1990,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
+      "key": "de/coque-lac-dore-relief",
+      "label": "Hülle Goldener See · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
       "key": "de/coque-lac-gravure",
       "label": "Hülle Seegravur",
       "price": 1990,
@@ -3913,6 +3997,18 @@
       "image": "/images/products/coque-palmiers-soleil-plat.webp"
     },
     {
+      "key": "de/coque-paon-emeraude",
+      "label": "Hülle Smaragdpfau",
+      "price": 1990,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
+      "key": "de/coque-paon-emeraude-relief",
+      "label": "Hülle Smaragdpfau · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
       "key": "de/coque-papillon-lumiere",
       "label": "Hülle Lichtfalter",
       "price": 1990,
@@ -3959,6 +4055,30 @@
       "label": "Hülle Melonenkatzen · en relief",
       "price": 2490,
       "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "de/coque-pavillon-bronze",
+      "label": "Hülle Bronzepavillon",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "de/coque-pavillon-bronze-relief",
+      "label": "Hülle Bronzepavillon · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "de/coque-pavillon-cascades",
+      "label": "Hülle Pavillon der Wasserfälle",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
+    },
+    {
+      "key": "de/coque-pavillon-cascades-relief",
+      "label": "Hülle Pavillon der Wasserfälle · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
     },
     {
       "key": "de/coque-paysage-sakura",
@@ -4187,6 +4307,18 @@
       "label": "Hülle Riviera-Cabrio · en relief",
       "price": 2490,
       "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "de/coque-riviere-sakura",
+      "label": "Hülle Sakura-Fluss",
+      "price": 1990,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-riviere-sakura-relief",
+      "label": "Hülle Sakura-Fluss · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
     },
     {
       "key": "de/coque-roadtrip-rouge",
@@ -4559,6 +4691,18 @@
       "label": "Hülle Goldene Welle · en relief",
       "price": 2490,
       "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "de/coque-vagues-nuages",
+      "label": "Hülle Wellen und Wolken",
+      "price": 1990,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
+    },
+    {
+      "key": "de/coque-vagues-nuages-relief",
+      "label": "Hülle Wellen und Wolken · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
     },
     {
       "key": "de/coque-velo-marguerites",
@@ -5833,6 +5977,18 @@
       "image": "/images/products/coque-koi-plat.webp"
     },
     {
+      "key": "en/coque-lac-dore",
+      "label": "Golden Lake Case",
+      "price": 1990,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
+      "key": "en/coque-lac-dore-relief",
+      "label": "Golden Lake Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-lac-dore-plat.webp"
+    },
+    {
       "key": "en/coque-lac-gravure",
       "label": "Lake Etching Case",
       "price": 1990,
@@ -6253,6 +6409,18 @@
       "image": "/images/products/coque-palmiers-soleil-plat.webp"
     },
     {
+      "key": "en/coque-paon-emeraude",
+      "label": "Emerald Peacock Case",
+      "price": 1990,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
+      "key": "en/coque-paon-emeraude-relief",
+      "label": "Emerald Peacock Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-paon-emeraude-plat.webp"
+    },
+    {
       "key": "en/coque-papillon-lumiere",
       "label": "Light Butterfly Case",
       "price": 1990,
@@ -6299,6 +6467,30 @@
       "label": "Watermelon Cats Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-pasteques-chats-plat.webp"
+    },
+    {
+      "key": "en/coque-pavillon-bronze",
+      "label": "Bronze Pavilion Case",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "en/coque-pavillon-bronze-relief",
+      "label": "Bronze Pavilion Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-bronze-plat.webp"
+    },
+    {
+      "key": "en/coque-pavillon-cascades",
+      "label": "Waterfall Pavilion Case",
+      "price": 1990,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
+    },
+    {
+      "key": "en/coque-pavillon-cascades-relief",
+      "label": "Waterfall Pavilion Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-pavillon-cascades-plat.webp"
     },
     {
       "key": "en/coque-paysage-sakura",
@@ -6527,6 +6719,18 @@
       "label": "Riviera Convertible Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-riviera-cabriolet-plat.webp"
+    },
+    {
+      "key": "en/coque-riviere-sakura",
+      "label": "Sakura River Case",
+      "price": 1990,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-riviere-sakura-relief",
+      "label": "Sakura River Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-riviere-sakura-plat.webp"
     },
     {
       "key": "en/coque-roadtrip-rouge",
@@ -6899,6 +7103,18 @@
       "label": "Golden Wave Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-vague-doree-plat.webp"
+    },
+    {
+      "key": "en/coque-vagues-nuages",
+      "label": "Waves and Clouds Case",
+      "price": 1990,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
+    },
+    {
+      "key": "en/coque-vagues-nuages-relief",
+      "label": "Waves and Clouds Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-vagues-nuages-plat.webp"
     },
     {
       "key": "en/coque-velo-marguerites",
