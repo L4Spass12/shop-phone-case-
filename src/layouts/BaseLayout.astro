@@ -295,11 +295,21 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     <Header langSwitcherFallbackHome={noindex} />
     {/* Sélecteur de modèle global, ouvert par le bouton du header. */}
     {siteConfig.shop?.enabled && <ModelPicker id="global-model" global lang={currentLocale} />}
-    {/* Photos par modèle : slugs qui en ont, et identifiant de chaque modèle. */}
+    {/* Photos par modèle : slugs qui en ont, et identifiant de chaque modèle.
+        `dirs` : dossier de photos quand il diffère du slug (fichiers renommés
+        pour contourner le cache, ex. coque-vitrail-phenix → …-v2). */}
     {siteConfig.shop?.enabled && (
       <script type="application/json" id="model-variants" set:html={JSON.stringify({
         models: (variantsData as any)._models ?? {},
         slugs: Object.keys(variantsData).filter((k) => k !== '_models'),
+        dirs: Object.fromEntries(Object.entries(variantsData as Record<string, any>)
+          .filter(([k]) => k !== '_models')
+          .map(([k, v]) => {
+            const first = Object.values(v ?? {}).find((x: any) => x?.plat) as { plat: string } | undefined;
+            const dir = first ? /\/variants\/([^/]+)\//.exec(first.plat)?.[1] : undefined;
+            return [k, dir];
+          })
+          .filter(([k, dir]) => dir && dir !== k)),
       })} />
     )}
     {/* Le décalage tient compte du bandeau, qui n'existe qu'en thème

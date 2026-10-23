@@ -523,7 +523,7 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
       if (!m) return;
       if (!im.dataset.origSrc) { im.dataset.origSrc = im.getAttribute('src') || ''; im.dataset.origSrcset = im.getAttribute('srcset') || ''; }
       if (currentId && d.set[m[1]]) {
-        var want = '/images/products/variants/' + m[1] + '/' + currentId + '-plat-500w.webp';
+        var want = '/images/products/variants/' + ((d.dirs && d.dirs[m[1]]) || m[1]) + '/' + currentId + '-plat-500w.webp';
         if (im.getAttribute('src') !== want) { im.removeAttribute('srcset'); im.src = want; }
         im.classList.add('is-model-photo');
       } else if (im.classList.contains('is-model-photo')) {
