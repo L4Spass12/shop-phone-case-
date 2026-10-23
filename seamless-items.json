@@ -925,6 +925,18 @@
       "image": "/images/products/coque-fraises-rubans-plat.webp"
     },
     {
+      "key": "coque-fuji-sakura",
+      "label": "Coque Fuji et Cerisiers",
+      "price": 1990,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
+    },
+    {
+      "key": "coque-fuji-sakura-relief",
+      "label": "Coque Fuji et Cerisiers · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
+    },
+    {
       "key": "coque-girafe-rose",
       "label": "Coque Girafe Rose",
       "price": 1990,
@@ -3337,6 +3349,18 @@
       "image": "/images/products/coque-fraises-rubans-plat.webp"
     },
     {
+      "key": "de/coque-fuji-sakura",
+      "label": "Hülle Fuji und Kirschblüten",
+      "price": 1990,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
+    },
+    {
+      "key": "de/coque-fuji-sakura-relief",
+      "label": "Hülle Fuji und Kirschblüten · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
+    },
+    {
       "key": "de/coque-girafe-rose",
       "label": "Hülle Rosa Giraffe",
       "price": 1990,
@@ -5747,6 +5771,18 @@
       "label": "Strawberries & Bows Case · en relief",
       "price": 2490,
       "image": "/images/products/coque-fraises-rubans-plat.webp"
+    },
+    {
+      "key": "en/coque-fuji-sakura",
+      "label": "Fuji and Cherry Blossoms Case",
+      "price": 1990,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
+    },
+    {
+      "key": "en/coque-fuji-sakura-relief",
+      "label": "Fuji and Cherry Blossoms Case · en relief",
+      "price": 2490,
+      "image": "/images/products/coque-fuji-sakura-plat.webp"
     },
     {
       "key": "en/coque-girafe-rose",
