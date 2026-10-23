@@ -3,7 +3,7 @@ name: "Coque Pavillon Bronze"
 price: 19.90
 image: "/images/products/coque-pavillon-bronze-plat.webp"
 imageAlt: "Coque Pavillon Bronze : un pavillon, un pin, des lotus et une grue dorés sur un fond brun chocolat"
-categories: ["coques-iphone", "coques-paysages", "coques-motifs"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un pavillon, un pin, des lotus et une grue dorés sur un fond brun chocolat."
 order: 195
 pubDate: 2026-10-23

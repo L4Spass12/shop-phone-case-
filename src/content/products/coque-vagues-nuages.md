@@ -3,7 +3,7 @@ name: "Coque Vagues et Nuages"
 price: 19.90
 image: "/images/products/coque-vagues-nuages-plat.webp"
 imageAlt: "Coque Vagues et Nuages : des vagues turquoise, des montagnes et des nuages roses sous un soleil rouge, avec un vol de grues"
-categories: ["coques-iphone", "coques-paysages"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des vagues turquoise, des montagnes et des nuages roses sous un soleil rouge, avec un vol de grues."
 order: 190
 pubDate: 2026-10-23

@@ -3,7 +3,7 @@ name: "Coque Grues Porcelaine"
 price: 19.90
 image: "/images/products/coque-grues-porcelaine-plat.webp"
 imageAlt: "Coque Grues Porcelaine : des grues blanches parmi des pivoines bleues, sur un fond bleu porcelaine"
-categories: ["coques-iphone", "coques-animaux", "coques-fleurs", "coques-motifs"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des grues blanches parmi des pivoines bleues, sur un fond bleu porcelaine."
 order: 189
 pubDate: 2026-10-23

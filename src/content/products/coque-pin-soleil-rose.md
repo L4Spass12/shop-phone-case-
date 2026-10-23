@@ -3,7 +3,7 @@ name: "Coque Pin et Soleil Rose"
 price: 19.90
 image: "/images/products/coque-pin-soleil-rose-plat.webp"
 imageAlt: "Coque Pin et Soleil Rose : un pin doré, des grues et un soleil rose, dans un cadre de motifs dorés"
-categories: ["coques-iphone", "coques-motifs", "coques-romantique"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Un pin doré, des grues et un soleil rose, dans un cadre de motifs dorés."
 order: 187
 pubDate: 2026-10-23

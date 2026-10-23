@@ -3,7 +3,7 @@ name: "Coque Grues et Sakura"
 price: 19.90
 image: "/images/products/coque-grues-sakura-plat.webp"
 imageAlt: "Coque Grues et Sakura : des grues blanches entre les cerisiers en fleurs"
-categories: ["coques-iphone", "coques-animaux", "coques-paysages"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des grues blanches entre les cerisiers en fleurs."
 order: 128
 pubDate: 2026-10-10

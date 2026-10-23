@@ -3,7 +3,7 @@ name: "Coque Montagnes Lavande"
 price: 19.90
 image: "/images/products/coque-montagnes-lavande-plat.webp"
 imageAlt: "Coque Montagnes Lavande : des montagnes et des pins lavande, une cascade et un pavillon dans les nuages"
-categories: ["coques-iphone", "coques-paysages", "coques-romantique"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des montagnes et des pins lavande, une cascade et un pavillon dans les nuages."
 order: 181
 pubDate: 2026-10-23

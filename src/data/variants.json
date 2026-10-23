@@ -15502,5 +15502,82 @@
     "iphone-18-pro": {
       "plat": "/images/products/variants/coque-pavillon-bronze/iphone-17-pro-plat.webp"
     }
+  },
+  "coque-fuji-sakura": {
+    "iphone-17-pro-max": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-17-pro": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-17-pro-plat.webp"
+    },
+    "iphone-17": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-17-plat.webp"
+    },
+    "iphone-16-pro-max": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-16-pro-max-plat.webp"
+    },
+    "iphone-16-pro": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-16-pro-plat.webp"
+    },
+    "iphone-16-plus": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-16-plus-plat.webp"
+    },
+    "iphone-16": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-16-plat.webp"
+    },
+    "iphone-15-pro-max": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-15-pro-max-plat.webp"
+    },
+    "iphone-15-pro": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-15-pro-plat.webp"
+    },
+    "iphone-15-plus": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-15-plus-plat.webp"
+    },
+    "iphone-15": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-15-plat.webp"
+    },
+    "iphone-14": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-14-plat.webp"
+    },
+    "iphone-13": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-13-plat.webp"
+    },
+    "iphone-12": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-12-plat.webp"
+    },
+    "iphone-11": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-11-plat.webp"
+    },
+    "galaxy-s26-ultra": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s26-ultra-plat.webp"
+    },
+    "galaxy-s26": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s26-plat.webp"
+    },
+    "galaxy-s25-ultra": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s25-ultra-plat.webp"
+    },
+    "galaxy-s25": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s25-plat.webp"
+    },
+    "galaxy-s24-ultra": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s24-ultra-plat.webp"
+    },
+    "galaxy-s24": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-s24-plat.webp"
+    },
+    "galaxy-a56-5g": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-a56-5g-plat.webp"
+    },
+    "galaxy-a36-5g": {
+      "plat": "/images/products/variants/coque-fuji-sakura/galaxy-a36-5g-plat.webp"
+    },
+    "iphone-18-pro-max": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-17-pro-max-plat.webp"
+    },
+    "iphone-18-pro": {
+      "plat": "/images/products/variants/coque-fuji-sakura/iphone-17-pro-plat.webp"
+    }
   }
 }

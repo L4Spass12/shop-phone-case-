@@ -3,7 +3,7 @@ name: "Coque Lotus et Koï Lilas"
 price: 19.90
 image: "/images/products/coque-lotus-koi-lilas-plat.webp"
 imageAlt: "Coque Lotus et Koï Lilas : des carpes koï entre les fleurs de lotus, ton sur ton lilas"
-categories: ["coques-iphone", "coques-animaux", "coques-fleurs"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des carpes koï entre les fleurs de lotus, ton sur ton lilas."
 order: 152
 pubDate: 2026-10-16

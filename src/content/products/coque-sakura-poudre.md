@@ -3,7 +3,7 @@ name: "Coque Sakura Poudré"
 price: 19.90
 image: "/images/products/coque-sakura-poudre-plat.webp"
 imageAlt: "Coque Sakura Poudré : des fleurs de cerisier, des oiseaux et des papillons ton sur ton, sur un fond rose poudré"
-categories: ["coques-iphone", "coques-fleurs", "coques-romantique", "coques-motifs"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Des fleurs de cerisier, des oiseaux et des papillons ton sur ton, sur un fond rose poudré."
 order: 151
 pubDate: 2026-10-16

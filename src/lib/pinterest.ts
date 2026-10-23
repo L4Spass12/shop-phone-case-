@@ -43,6 +43,16 @@ const PINTEREST_BOARD_FROZEN: Record<string, string> = {
   'coque-roadtrip-rouge': 'coques-auto',
   'coque-terrasse-riviera': 'coques-paysages',
   'coque-voyageur-cote': 'coques-paysages',
+  // Passées dans la seule catégorie Zen & estampes (23/10/2026).
+  'coque-paysage-sakura': 'coques-fleurs',
+  'coque-grues-sakura': 'coques-animaux',
+  'coque-sakura-vert': 'coques-fleurs',
+  'coque-grues-dorees': 'coques-animaux',
+  'coque-grue-vague': 'coques-animaux',
+  'coque-vague-doree': 'coques-paysages',
+  'coque-dragon-nuages': 'coques-paysages',
+  'coque-koi': 'coques-animaux',
+  'coque-japon-bleu': 'coques-paysages',
 };
 
 const PINTEREST_MODELS = ["iphone-17-pro-max", "iphone-17-pro", "iphone-17", "iphone-16-pro-max", "iphone-16-pro", "iphone-16", "iphone-15-pro-max", "iphone-15-pro", "iphone-15", "iphone-14", "iphone-13", "galaxy-s26-ultra", "galaxy-s26", "galaxy-s25-ultra", "galaxy-s25", "galaxy-s24-ultra", "galaxy-s24", "galaxy-a56-5g", "galaxy-a36-5g"];
@@ -70,6 +80,7 @@ const TAGS: Record<string, string> = {
   'coques-fleurs': '#coquefleurie #fleurs',
   'coques-paysages': '#coqueart #paysage',
   'coques-riviera': '#coqueriviera #dolcevita',
+  'coques-zen': '#coquezen #estampejaponaise',
   'coques-motifs': '#coquemotif #pattern',
   'coques-auto': '#coquevoiture #voiture',
   'coques-citations': '#coquecitation #citation',

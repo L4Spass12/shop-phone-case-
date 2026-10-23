@@ -3,7 +3,7 @@ name: "Coque Rivière de Sakura"
 price: 19.90
 image: "/images/products/coque-riviere-sakura-plat.webp"
 imageAlt: "Coque Rivière de Sakura : deux grues qui s'envolent au-dessus d'une rivière nacrée, sous les fleurs de cerisier"
-categories: ["coques-iphone", "coques-animaux", "coques-fleurs", "coques-romantique"]
+categories: ["coques-iphone", "coques-zen"]
 shortDescription: "Deux grues qui s'envolent au-dessus d'une rivière nacrée, sous les fleurs de cerisier."
 order: 193
 pubDate: 2026-10-23
