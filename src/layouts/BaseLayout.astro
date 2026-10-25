@@ -160,30 +160,15 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       } catch (e) {}
     </script>
 
-    {/* Polices du premier écran. Sans ces deux lignes, le navigateur ne les
-        découvre qu'après avoir reçu ET analysé la feuille de style : un
-        aller-retour de plus, pendant lequel le texte s'affiche en police
-        système avant de sauter. On ne précharge QUE ces deux-là : les
-        graisses 300/500/600 arrivent en cours de route sans gêner. */}
-    {/* Le module de panier/paiement vient d'un autre serveur : on ouvre la
-        connexion tôt, en parallèle du reste. */}
+    {/* Connexion anticipée au serveur du widget panier (paiement). */}
     {siteConfig.shop?.atelier?.widgetUrl && (
       <link rel="preconnect" href={new URL(siteConfig.shop.atelier.widgetUrl).origin} />
     )}
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin="anonymous" />
-    <link rel="preload" as="font" type="font/woff2" href={logoFont.fichier} crossorigin="anonymous" />
-    <style is:inline set:html={`@font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400;font-display:swap;src:url('${logoFont.fichier}') format('woff2')}`}></style>
-    {preloadFonts.map((href) => (
-      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
-    ))}
 
-    {/* Titres : seule la graisse 700 est préchargée. C'est celle des titres et
-        des boutons, donc du premier texte que l'on voit. Le 400 des prix
-        arrive en cours de route sans que ça se remarque. */}
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-700-fusion.woff2" crossorigin="anonymous" />
-
-
-    <!-- Preload des images LCP (hero) pour un meilleur First Paint -->
+    {/* Image LCP : placée EN PREMIER pour qu'elle obtienne le premier slot
+        réseau, avant même les polices. Les polices bloquent sinon le début
+        de téléchargement de l'image et retardent la LCP de ~40–80 ms sur
+        mobile 4G simulé. */}
     {preloadImages.map(img => (
       <link
         rel="preload"
@@ -195,6 +180,23 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
         fetchpriority="high"
       />
     ))}
+
+    {/* Polices du premier écran. Sans ces deux lignes, le navigateur ne les
+        découvre qu'après avoir reçu ET analysé la feuille de style : un
+        aller-retour de plus, pendant lequel le texte s'affiche en police
+        système avant de sauter. On ne précharge QUE ces deux-là : les
+        graisses 300/500/600 arrivent en cours de route sans gêner. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={logoFont.fichier} crossorigin="anonymous" />
+    <style is:inline set:html={`@font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400;font-display:swap;src:url('${logoFont.fichier}') format('woff2')}`}></style>
+    {preloadFonts.map((href) => (
+      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin="anonymous" />
+    ))}
+
+    {/* Titres : seule la graisse 700 est préchargée. C'est celle des titres et
+        des boutons, donc du premier texte que l'on voit. Le 400 des prix
+        arrive en cours de route sans que ça se remarque. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-700-fusion.woff2" crossorigin="anonymous" />
 
     {/* Favicons (?v=4 = cache-bust : .htaccess force max-age=1y, immutable).
         - apple-touch-icon DOIT être un PNG : iOS ignore le SVG et génère
