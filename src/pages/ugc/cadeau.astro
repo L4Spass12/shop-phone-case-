@@ -1,0 +1,264 @@
+---
+// Coque offerte (UGC) : /ugc/cadeau/#r=<jeton>, lien reçu quand une vidéo
+// client est acceptée. Le client choisit un design (à plat ou en relief), son
+// modèle de téléphone et son adresse ; le worker crée une commande à 0 €,
+// sans paiement. Lien à usage unique.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import siteConfig from '../../../site.config.mjs';
+import { parseEntrySlug } from '../../lib/i18n';
+
+const atelier = siteConfig.shop?.atelier ?? {};
+const workerUrl = (() => { try { return new URL(atelier.widgetUrl ?? '').origin; } catch { return ''; } })();
+
+const products = (await getCollection('products'))
+  .filter((p) => parseEntrySlug(p.slug).lang === 'fr')
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map((p) => ({
+    slug: p.slug,
+    name: p.data.name,
+    img: p.data.image.replace(/\.webp$/, '-400w.webp'),
+    image: p.data.image,
+    modes: p.data.printModes,
+    cats: p.data.categories,
+  }));
+const themes = ((siteConfig as any).productCategories as { slug: string; label: string; theme?: boolean }[]).filter((c) => c.theme);
+const pm = (siteConfig as any).phoneModels ?? { brands: [], onDemand: { brands: [] } };
+const stock = new Set<string>(pm.brands.flatMap((b: any) => b.models.map((m: any) => m.label)));
+const brands = [
+  ...pm.brands.map((b: any) => ({ label: b.label, models: b.models.map((m: any) => ({ label: m.label, od: false })) })),
+  ...(pm.onDemand?.brands ?? []).map((b: any) => ({ label: `${b.label} (sur commande, +2 jours)`, models: b.models.filter((m: string) => !stock.has(m)).map((m: string) => ({ label: m, od: true })) })),
+].filter((b) => b.models.length);
+---
+<BaseLayout title={`Ma coque offerte | ${siteConfig.name}`} description="Choisissez votre coque offerte." noindex={true}>
+  <div class="crumbs-shell max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-24">
+    <div id="gift-root" data-worker={workerUrl} data-shop={atelier.shopId}>
+      <p data-v="loading" class="text-n-400">Chargement…</p>
+
+      <div data-v="invalid" hidden class="max-w-xl">
+        <h1 class="ugc-h1">Lien non valide</h1>
+        <p class="ugc-alert">Ce lien n’est pas valide. Utilisez le bouton « Choisir ma coque offerte » de l’e-mail que vous avez reçu.</p>
+        <a href="/boutique/" class="btn-primary mt-6 inline-flex">Retour à la boutique</a>
+      </div>
+      <div data-v="used" hidden class="max-w-xl">
+        <h1 class="ugc-h1">Votre coque offerte est déjà commandée</h1>
+        <p class="text-n-400 font-light">Ce lien a déjà servi : votre coque est en préparation. Vous recevrez un e-mail à son expédition.</p>
+        <a href="/boutique/" class="btn-primary mt-6 inline-flex">Retour à la boutique</a>
+      </div>
+      <div data-v="done" hidden class="max-w-xl mx-auto text-center">
+        <img src="/images/ugc/coque-offerte.webp" alt="" width="240" height="240" class="mx-auto rounded-3xl" />
+        <h1 class="ugc-h1 mt-6">C’est commandé, merci encore !</h1>
+        <p class="text-n-400 font-light">Votre coque offerte (commande <strong data-ref></strong>) part à l’impression dans notre atelier. Vous recevrez un e-mail de confirmation, puis un autre à son expédition.</p>
+        <a href="/boutique/" class="btn-primary mt-8 inline-flex">Retour à la boutique</a>
+      </div>
+
+      <form data-v="form" hidden novalidate>
+        <h1 class="ugc-h1" data-hello>Votre coque offerte 🎁</h1>
+        <p class="text-n-400 font-light mb-10">Merci pour votre vidéo ! Choisissez la coque que vous voulez, à plat ou en relief : on vous l’imprime et on vous l’envoie gratuitement. Sans carte bancaire.</p>
+
+        <section class="mb-12">
+          <h2 class="gift-h2"><span>1</span> Choisissez votre design</h2>
+          <div class="gift-tools">
+            <input type="search" placeholder="Rechercher un design…" class="ugc-input" data-search />
+            <div class="gift-chips" data-chips>
+              <button type="button" class="is-on" data-cat="">Tous</button>
+              {themes.map((t) => <button type="button" data-cat={t.slug}>{t.label}</button>)}
+            </div>
+          </div>
+          <ul class="gift-grid" data-grid>
+            {products.map((p) => (
+              <li data-slug={p.slug} data-name={p.name.toLowerCase()} data-cats={p.cats.join(',')}>
+                <button type="button" data-pick={p.slug} data-label={p.name} data-image={p.image} data-modes={p.modes.join(',')}>
+                  <img src={p.img} alt="" width="400" height="500" loading="lazy" decoding="async" />
+                  <span>{p.name.replace(/^Coque /, '')}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+          <p data-err-pick hidden class="ugc-alert mt-4">Choisissez un design.</p>
+        </section>
+
+        <section class="mb-12 max-w-xl">
+          <h2 class="gift-h2"><span>2</span> Le rendu</h2>
+          <div class="gift-modes">
+            <label><input type="radio" name="mode" value="relief" checked /><strong>En relief</strong><small>L’encre en plusieurs couches : le design se sent sous le doigt.</small></label>
+            <label data-flat><input type="radio" name="mode" value="flat" /><strong>À plat</strong><small>Surface lisse, couleurs franches.</small></label>
+          </div>
+        </section>
+
+        <section class="mb-12 max-w-xl">
+          <h2 class="gift-h2"><span>3</span> Votre téléphone</h2>
+          <select name="model" class="ugc-input" required>
+            <option value="">Choisissez votre modèle…</option>
+            {brands.map((b) => (
+              <optgroup label={b.label}>
+                {b.models.map((m: any) => <option value={m.label} data-od={m.od ? '1' : ''}>{m.label}</option>)}
+              </optgroup>
+            ))}
+          </select>
+          <p data-err-model hidden class="ugc-alert mt-3">Choisissez votre modèle de téléphone.</p>
+        </section>
+
+        <section class="mb-10 max-w-xl">
+          <h2 class="gift-h2"><span>4</span> Votre adresse</h2>
+          <p class="text-xs text-n-500 mb-4">Livraison à domicile en France, offerte.</p>
+          <div class="grid gap-3">
+            <input name="name" placeholder="Prénom et nom" autocomplete="name" class="ugc-input" required />
+            <input name="address" placeholder="Adresse" autocomplete="street-address" class="ugc-input" required />
+            <div class="grid grid-cols-[8rem_1fr] gap-3">
+              <input name="zip" placeholder="Code postal" inputmode="numeric" autocomplete="postal-code" maxlength="5" class="ugc-input" required />
+              <input name="city" placeholder="Ville" autocomplete="address-level2" class="ugc-input" required />
+            </div>
+            <input name="phone" placeholder="Téléphone (facultatif)" autocomplete="tel" class="ugc-input" />
+          </div>
+          <p data-err-address hidden class="ugc-alert mt-3">Complétez votre adresse (code postal à 5 chiffres, France).</p>
+        </section>
+
+        <div class="max-w-xl">
+          <div class="gift-summary" data-summary hidden></div>
+          <p data-err hidden class="ugc-alert mb-4">La commande n’a pas abouti. Réessayez dans un instant.</p>
+          <button type="submit" class="btn-primary w-full justify-center" data-send>Recevoir ma coque offerte</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .ugc-h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.15; color: rgb(var(--c-cream)); margin-bottom: .75rem; }
+  .ugc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
+  .ugc-input { width: 100%; background: rgb(var(--c-cream) / .03); border: 1px solid rgb(var(--c-cream) / .18); border-radius: 1rem; padding: .8rem 1rem; font-size: .95rem; color: rgb(var(--c-cream)); outline: none; }
+  .ugc-input:focus { border-color: rgb(var(--c-cream) / .55); }
+  .gift-h2 { display: flex; align-items: center; gap: .6rem; font-size: 1.25rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: 1rem; }
+  .gift-h2 span { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 999px; background: #b4876a; color: #fff; font-size: .9rem; }
+  .gift-tools { display: grid; gap: .75rem; margin-bottom: 1rem; }
+  .gift-chips { display: flex; gap: .4rem; overflow-x: auto; padding-bottom: .25rem; }
+  .gift-chips button { flex: none; padding: .4rem .85rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .2); font-size: .8rem; color: rgb(var(--c-cream)); white-space: nowrap; }
+  .gift-chips button.is-on { background: rgb(var(--c-cream)); color: rgb(var(--c-dark, 255 255 255)); border-color: rgb(var(--c-cream)); }
+  .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; max-height: 70vh; overflow-y: auto; padding: .25rem; }
+  @media (min-width: 640px) { .gift-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 1024px) { .gift-grid { grid-template-columns: repeat(5, 1fr); } }
+  .gift-grid button { display: block; width: 100%; text-align: left; border-radius: 1rem; padding: .35rem; border: 2px solid transparent; transition: border-color .15s; }
+  .gift-grid button.is-on { border-color: #b4876a; background: rgb(var(--c-cream) / .04); }
+  .gift-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .75rem; background: #fff; }
+  .gift-grid span { display: block; margin-top: .35rem; font-size: .78rem; color: rgb(var(--c-cream)); line-height: 1.3; }
+  .gift-modes { display: grid; gap: .6rem; }
+  .gift-modes label { display: grid; grid-template-columns: auto 1fr; column-gap: .7rem; padding: .9rem 1rem; border: 1px solid rgb(var(--c-cream) / .18); border-radius: 1rem; cursor: pointer; }
+  .gift-modes input { grid-row: span 2; margin-top: .2rem; accent-color: #b4876a; }
+  .gift-modes strong { color: rgb(var(--c-cream)); font-weight: 600; }
+  .gift-modes small { color: rgb(var(--c-n500)); font-size: .8rem; }
+  .gift-summary { display: flex; gap: .9rem; align-items: center; padding: .9rem; border-radius: 1rem; background: rgb(var(--c-cream) / .04); margin-bottom: 1rem; font-size: .9rem; color: rgb(var(--c-cream)); }
+  .gift-summary img { width: 56px; height: 70px; object-fit: cover; border-radius: .5rem; background: #fff; }
+</style>
+
+<script>
+  const root = document.getElementById('gift-root');
+  if (root) {
+    const api = `${root.dataset.worker}/api/public/ugc-reward`;
+    const q = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const show = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
+    const KEY = 'moroji-ugc-gift';
+    let token: string | null = new URLSearchParams(location.hash.slice(1)).get('r');
+    if (token) {
+      try { sessionStorage.setItem(KEY, token); } catch {}
+      history.replaceState(null, '', location.pathname);
+    } else {
+      try { token = sessionStorage.getItem(KEY); } catch {}
+    }
+    const call = async (body: Record<string, unknown>) => {
+      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shop_id: root.dataset.shop, token, ...body }) });
+      return { status: res.status, data: await res.json().catch(() => ({})) };
+    };
+    const form = q<HTMLFormElement>('[data-v="form"]');
+    const field = (n: string) => form.querySelector<HTMLInputElement & HTMLSelectElement>(`[name="${n}"]`)!;
+
+    (async () => {
+      if (!token) return show('invalid');
+      const { status, data } = await call({ action: 'info' }).catch(() => ({ status: 0, data: {} as any }));
+      if (status === 409) return show('used');
+      if (!data.ok) return show('invalid');
+      if (data.first_name) q('[data-hello]').textContent = `${data.first_name}, votre coque offerte 🎁`;
+      for (const k of ['name', 'address', 'zip', 'city', 'phone']) if (data.shipping?.[k]) field(k).value = data.shipping[k];
+      show('form');
+    })();
+
+    // Choix du design, recherche et filtres.
+    let pick: { slug: string; label: string; image: string; modes: string[] } | null = null;
+    let cat = '';
+    const filter = () => {
+      const s = q<HTMLInputElement>('[data-search]').value.trim().toLowerCase();
+      root.querySelectorAll<HTMLElement>('[data-grid] li').forEach((li) => {
+        li.hidden = (!!s && !li.dataset.name!.includes(s)) || (!!cat && !li.dataset.cats!.split(',').includes(cat));
+      });
+    };
+    q('[data-search]').addEventListener('input', filter);
+    root.querySelectorAll<HTMLButtonElement>('[data-chips] button').forEach((b) => b.addEventListener('click', () => {
+      root.querySelectorAll('[data-chips] button').forEach((x) => x.classList.toggle('is-on', x === b));
+      cat = b.dataset.cat || '';
+      filter();
+    }));
+    const summary = () => {
+      const box = q('[data-summary]');
+      const model = field('model').value;
+      const relief = (form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? 'relief') === 'relief';
+      if (!pick) { box.hidden = true; return; }
+      box.hidden = false;
+      box.innerHTML = '';
+      const img = document.createElement('img'); img.src = pick.image; img.alt = '';
+      const txt = document.createElement('div');
+      txt.textContent = `${pick.label} · ${relief ? 'en relief' : 'à plat'}${model ? ` · ${model}` : ''} · offerte`;
+      box.append(img, txt);
+    };
+    root.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => {
+      root.querySelectorAll('[data-pick]').forEach((x) => x.classList.toggle('is-on', x === b));
+      pick = { slug: b.dataset.pick!, label: b.dataset.label!, image: b.dataset.image!, modes: (b.dataset.modes || 'flat,relief').split(',') };
+      // Un design sans rendu à plat ne peut être commandé qu'en relief.
+      const flat = q('[data-flat]');
+      flat.hidden = !pick.modes.includes('flat');
+      if (flat.hidden) form.querySelector<HTMLInputElement>('input[value="relief"]')!.checked = true;
+      q('[data-err-pick]').hidden = true;
+      summary();
+    }));
+    form.addEventListener('change', summary);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const model = field('model');
+      const ship = { name: field('name').value.trim(), address: field('address').value.trim(), zip: field('zip').value.trim(), city: field('city').value.trim(), phone: field('phone').value.trim() };
+      const okAddr = !!(ship.name && ship.address && ship.city && /^\d{5}$/.test(ship.zip));
+      q('[data-err-pick]').hidden = !!pick;
+      q('[data-err-model]').hidden = !!model.value;
+      q('[data-err-address]').hidden = okAddr;
+      if (!pick) { q('[data-grid]').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      if (!model.value || !okAddr) return;
+      const relief = (form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? 'relief') === 'relief';
+      const btn = q<HTMLButtonElement>('[data-send]');
+      const err = q('[data-err]');
+      err.hidden = true;
+      btn.disabled = true;
+      try {
+        const { status, data } = await call({
+          action: 'claim',
+          item: {
+            key: relief ? `${pick.slug}-relief` : pick.slug,
+            label: pick.label,
+            image: pick.image,
+            model: model.value,
+            on_demand: model.selectedOptions[0]?.dataset.od === '1',
+          },
+          shipping: { ...ship, phone: ship.phone || undefined },
+        });
+        if (status === 409 && data.reason === 'used') return show('used');
+        if (!data.ok) { err.hidden = false; return; }
+        q('[data-ref]').textContent = data.order_ref || '';
+        try { sessionStorage.removeItem(KEY); } catch {}
+        show('done');
+        window.scrollTo({ top: 0 });
+      } catch {
+        err.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,194 @@
+---
+// Envoi d'une vidéo client (UGC) : /ugc/#o=<commande>&t=<jeton>, lien reçu
+// dans l'e-mail « une coque offerte contre 30 secondes de vidéo ». La vidéo
+// part directement du téléphone vers le stockage (URL d'envoi signée par le
+// worker), puis le worker enregistre la vidéo avec l'autorisation donnée.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import siteConfig from '../../../site.config.mjs';
+
+const atelier = siteConfig.shop?.atelier ?? {};
+const workerUrl = (() => { try { return new URL(atelier.widgetUrl ?? '').origin; } catch { return ''; } })();
+const STEPS = [
+  ['visage-coque', 'Votre visage', 'avec votre coque en main'],
+  ['doigt-relief', 'Le doigt sur le relief', 'en gros plan'],
+  ['ton-avis', 'Votre avis', 'avec vos mots, 15 à 30 s'],
+];
+---
+<BaseLayout title={`Envoyer ma vidéo | ${siteConfig.name}`} description="Envoyez votre vidéo et recevez une coque offerte." noindex={true}>
+  <div class="crumbs-shell max-w-2xl mx-auto px-6 pt-6 md:pt-10 pb-24">
+    <div id="ugc-root" data-worker={workerUrl} data-shop={atelier.shopId}>
+      <p data-v="loading" class="text-n-400">Chargement…</p>
+
+      <div data-v="invalid" hidden>
+        <h1 class="ugc-h1">Lien non valide</h1>
+        <p class="ugc-alert">Ce lien n’est pas valide. Utilisez le bouton « Envoyer ma vidéo » de l’e-mail que vous avez reçu.</p>
+        <a href="/boutique/" class="btn-primary mt-6 inline-flex">Retour à la boutique</a>
+      </div>
+
+      <div data-v="done" hidden class="text-center">
+        <img src="/images/ugc/coque-offerte.webp" alt="" width="260" height="260" class="mx-auto rounded-3xl" />
+        <h1 class="ugc-h1 mt-6">Merci, votre vidéo est bien arrivée !</h1>
+        <p class="text-n-400 font-light">On la regarde très vite. Si elle est retenue, vous recevrez un e-mail pour choisir votre coque offerte, livraison comprise.</p>
+        <a href="/boutique/" class="btn-primary mt-8 inline-flex">Retour à la boutique</a>
+      </div>
+
+      <form data-v="form" hidden novalidate class="space-y-8">
+        <div>
+          <h1 class="ugc-h1" data-hello>Votre coque offerte contre 30 secondes de vidéo 🎁</h1>
+          <p class="text-n-400 font-light">Filmez-vous avec votre coque et dites ce que vous en pensez. Si votre vidéo est retenue, on vous offre la coque de votre choix, livraison comprise.</p>
+        </div>
+
+        <div>
+          <p class="ugc-label">Votre vidéo doit montrer :</p>
+          <ul class="ugc-steps">
+            {STEPS.map(([img, t, s]) => (
+              <li><img src={`/images/ugc/${img}.webp`} alt="" width="160" height="160" loading="lazy" /><strong>{t}</strong><span>{s}</span></li>
+            ))}
+          </ul>
+          <p class="text-xs text-n-500 font-light mt-3">À la lumière du jour, téléphone à la verticale. Évitez les vidéos sombres, floues, ou la coque seule sans vous.</p>
+        </div>
+
+        <label class="ugc-drop" data-drop>
+          <input type="file" name="video" accept="video/*" class="sr-only" />
+          <span class="ugc-drop-icon" aria-hidden="true">🎥</span>
+          <span class="ugc-drop-title" data-file-title>Choisir ma vidéo</span>
+          <span class="ugc-drop-sub" data-file-sub>Depuis votre galerie ou en la filmant maintenant (200 Mo maximum)</span>
+        </label>
+        <p data-err-file hidden class="ugc-alert"></p>
+
+        <label class="ugc-consent">
+          <input type="checkbox" name="consent" />
+          <span data-consent></span>
+        </label>
+        <p data-err-consent hidden class="ugc-alert">Cochez l’autorisation pour envoyer votre vidéo.</p>
+
+        <div data-progress hidden>
+          <div class="ugc-bar"><span data-bar></span></div>
+          <p class="text-xs text-n-500 mt-2" data-progress-text>Envoi…</p>
+        </div>
+        <p data-err hidden class="ugc-alert">L’envoi n’a pas abouti. Vérifiez votre connexion et réessayez.</p>
+        <button type="submit" class="btn-primary w-full justify-center" data-send>Envoyer ma vidéo</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .ugc-h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.15; color: rgb(var(--c-cream)); margin-bottom: .75rem; }
+  .ugc-label { font-size: .9rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: .75rem; }
+  .ugc-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .ugc-steps li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .15rem; font-size: .8rem; color: rgb(var(--c-n400)); }
+  .ugc-steps img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: .4rem; }
+  .ugc-steps strong { color: rgb(var(--c-cream)); font-weight: 600; font-size: .85rem; }
+  .ugc-drop { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: 2rem 1rem; border: 2px dashed rgb(var(--c-cream) / .25); border-radius: 1.25rem; cursor: pointer; text-align: center; transition: border-color .15s, background .15s; }
+  .ugc-drop:hover, .ugc-drop.is-set { border-color: rgb(var(--c-cream) / .6); background: rgb(var(--c-cream) / .03); }
+  .ugc-drop-icon { font-size: 2rem; }
+  .ugc-drop-title { font-weight: 600; color: rgb(var(--c-cream)); }
+  .ugc-drop-sub { font-size: .8rem; color: rgb(var(--c-n500)); }
+  .ugc-consent { display: flex; gap: .75rem; align-items: flex-start; font-size: .8rem; line-height: 1.55; color: rgb(var(--c-n400)); cursor: pointer; }
+  .ugc-consent input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; flex: none; accent-color: #b4876a; }
+  .ugc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
+  .ugc-bar { height: .5rem; border-radius: 999px; background: rgb(var(--c-cream) / .1); overflow: hidden; }
+  .ugc-bar span { display: block; height: 100%; width: 0; background: #b4876a; transition: width .2s; }
+</style>
+
+<script>
+  const root = document.getElementById('ugc-root');
+  if (root) {
+    const api = `${root.dataset.worker}/api/public/ugc`;
+    const MAX = 200 * 1024 * 1024;
+    const q = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const show = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
+    // Lien : #o=…&t=… (gardé le temps de la session, retiré de l'URL).
+    const KEY = 'moroji-ugc-link';
+    let link: { o: string; t: string } | null = null;
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get('o') && h.get('t')) {
+      link = { o: h.get('o')!, t: h.get('t')! };
+      try { sessionStorage.setItem(KEY, JSON.stringify(link)); } catch {}
+      history.replaceState(null, '', location.pathname);
+    } else {
+      try { link = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch {}
+    }
+    const call = async (body: Record<string, unknown>) => {
+      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shop_id: root.dataset.shop, order: link!.o, token: link!.t, ...body }) });
+      return { status: res.status, data: await res.json().catch(() => ({})) };
+    };
+
+    (async () => {
+      if (!link) return show('invalid');
+      const { data } = await call({ action: 'info' }).catch(() => ({ data: {} as any }));
+      if (!data.ok) return show('invalid');
+      if (data.first_name) q('[data-hello]').textContent = `${data.first_name}, votre coque offerte contre 30 secondes de vidéo 🎁`;
+      q('[data-consent]').textContent = data.consent || '';
+      show('form');
+    })();
+
+    const form = q<HTMLFormElement>('[data-v="form"]');
+    const input = form.querySelector<HTMLInputElement>('input[name="video"]')!;
+    const errFile = q('[data-err-file]');
+    let file: File | null = null;
+    const fileError = (msg: string) => { errFile.textContent = msg; errFile.hidden = !msg; };
+    input.addEventListener('change', () => {
+      file = input.files?.[0] ?? null;
+      fileError('');
+      q('[data-drop]').classList.toggle('is-set', !!file);
+      if (!file) return;
+      if (!file.type.startsWith('video/')) { file = null; return fileError('Ce fichier n’est pas une vidéo.'); }
+      if (file.size > MAX) { file = null; return fileError('Votre vidéo dépasse 200 Mo. Raccourcissez-la (15 à 30 secondes suffisent) ou filmez en 1080p.'); }
+      q('[data-file-title]').textContent = '✓ Vidéo prête';
+      q('[data-file-sub]').textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1).replace('.', ',')} Mo · toucher pour changer`;
+    });
+
+    // Envoi direct vers le stockage, avec la progression.
+    const upload = (url: string, f: File, onProgress: (p: number) => void) => new Promise<boolean>((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', url);
+      xhr.setRequestHeader('x-upsert', 'false');
+      xhr.upload.onprogress = (e) => { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+      xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
+      xhr.onerror = () => resolve(false);
+      const body = new FormData();
+      body.append('cacheControl', '3600');
+      body.append('', f);
+      xhr.send(body);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const consent = form.querySelector<HTMLInputElement>('input[name="consent"]')!.checked;
+      q('[data-err-consent]').hidden = consent;
+      if (!file) return fileError('Choisissez d’abord votre vidéo.');
+      if (!consent) return;
+      const btn = q<HTMLButtonElement>('[data-send]');
+      const err = q('[data-err]');
+      err.hidden = true;
+      btn.disabled = true;
+      q('[data-progress]').hidden = false;
+      const type = file.type || 'video/mp4';
+      try {
+        const sign = await call({ action: 'sign', type, size: file.size });
+        if (!sign.data.ok) {
+          if (sign.data.reason === 'bad_type') fileError('Ce format de vidéo n’est pas accepté. Utilisez une vidéo MP4 ou MOV.');
+          else if (sign.data.reason === 'too_big') fileError('Votre vidéo est trop lourde (200 Mo maximum).');
+          else err.hidden = false;
+          return;
+        }
+        const ok = await upload(sign.data.url, file, (p) => {
+          q('[data-bar]').style.width = `${Math.round(p * 100)}%`;
+          q('[data-progress-text]').textContent = p < 1 ? `Envoi… ${Math.round(p * 100)} %` : 'Finalisation…';
+        });
+        if (!ok) { err.hidden = false; return; }
+        const done = await call({ action: 'submit', path: sign.data.path, type, size: file.size, consent: true });
+        if (!done.data.ok) { err.hidden = false; return; }
+        try { sessionStorage.removeItem(KEY); } catch {}
+        show('done');
+        window.scrollTo({ top: 0 });
+      } catch {
+        err.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
