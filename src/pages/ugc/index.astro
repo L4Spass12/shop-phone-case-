@@ -33,6 +33,7 @@ const STEPS = [
       </div>
 
       <form data-v="form" hidden novalidate class="space-y-8">
+        <p data-test hidden class="ugc-test">Mode test : cette vidéo sera marquée [TEST] et tous les e-mails arriveront chez le commerçant, pas chez le client.</p>
         <div>
           <h1 class="ugc-h1" data-hello>Votre coque offerte contre 30 secondes de vidéo 🎁</h1>
           <p class="text-n-400 font-light">Filmez-vous avec votre coque et dites ce que vous en pensez. Si votre vidéo est retenue, on vous offre la coque de votre choix, livraison comprise.</p>
@@ -87,6 +88,7 @@ const STEPS = [
   .ugc-drop-sub { font-size: .8rem; color: rgb(var(--c-n500)); }
   .ugc-consent { display: flex; gap: .75rem; align-items: flex-start; font-size: .8rem; line-height: 1.55; color: rgb(var(--c-n400)); cursor: pointer; }
   .ugc-consent input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; flex: none; accent-color: #b4876a; }
+  .ugc-test { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .85rem; background: #fff7e6; color: #92400e; border: 1px dashed #f59e0b; }
   .ugc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
   .ugc-bar { height: .5rem; border-radius: 999px; background: rgb(var(--c-cream) / .1); overflow: hidden; }
   .ugc-bar span { display: block; height: 100%; width: 0; background: #b4876a; transition: width .2s; }
@@ -101,17 +103,17 @@ const STEPS = [
     const show = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
     // Lien : #o=…&t=… (gardé le temps de la session, retiré de l'URL).
     const KEY = 'moroji-ugc-link';
-    let link: { o: string; t: string } | null = null;
+    let link: { o: string; t: string; x?: boolean } | null = null;
     const h = new URLSearchParams(location.hash.slice(1));
     if (h.get('o') && h.get('t')) {
-      link = { o: h.get('o')!, t: h.get('t')! };
+      link = { o: h.get('o')!, t: h.get('t')!, x: h.get('x') === '1' };
       try { sessionStorage.setItem(KEY, JSON.stringify(link)); } catch {}
       history.replaceState(null, '', location.pathname);
     } else {
       try { link = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch {}
     }
     const call = async (body: Record<string, unknown>) => {
-      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shop_id: root.dataset.shop, order: link!.o, token: link!.t, ...body }) });
+      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shop_id: root.dataset.shop, order: link!.o, token: link!.t, test: !!link!.x, ...body }) });
       return { status: res.status, data: await res.json().catch(() => ({})) };
     };
 
@@ -121,6 +123,7 @@ const STEPS = [
       if (!data.ok) return show('invalid');
       if (data.first_name) q('[data-hello]').textContent = `${data.first_name}, votre coque offerte contre 30 secondes de vidéo 🎁`;
       q('[data-consent]').textContent = data.consent || '';
+      q('[data-test]').hidden = !data.test;
       show('form');
     })();
 
