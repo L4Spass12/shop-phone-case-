@@ -10,114 +10,182 @@ import { parseEntrySlug } from '../../lib/i18n';
 
 const atelier = siteConfig.shop?.atelier ?? {};
 const workerUrl = (() => { try { return new URL(atelier.widgetUrl ?? '').origin; } catch { return ''; } })();
+const PAGE = 12;
 
 const products = (await getCollection('products'))
   .filter((p) => parseEntrySlug(p.slug).lang === 'fr')
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map((p) => ({
     slug: p.slug,
-    name: p.data.name,
+    name: p.data.name.replace(/^Coque /, ''),
+    full: p.data.name,
     img: p.data.image.replace(/\.webp$/, '-400w.webp'),
     image: p.data.image,
     modes: p.data.printModes,
     cats: p.data.categories,
   }));
 const themes = ((siteConfig as any).productCategories as { slug: string; label: string; theme?: boolean }[]).filter((c) => c.theme);
+
+// Marques : modèles en stock d'abord, puis ceux sur commande (+2 jours).
 const pm = (siteConfig as any).phoneModels ?? { brands: [], onDemand: { brands: [] } };
-const stock = new Set<string>(pm.brands.flatMap((b: any) => b.models.map((m: any) => m.label)));
-const brands = [
-  ...pm.brands.map((b: any) => ({ label: b.label, models: b.models.map((m: any) => ({ label: m.label, od: false })) })),
-  ...(pm.onDemand?.brands ?? []).map((b: any) => ({ label: `${b.label} (sur commande, +2 jours)`, models: b.models.filter((m: string) => !stock.has(m)).map((m: string) => ({ label: m, od: true })) })),
-].filter((b) => b.models.length);
+const brandMap = new Map<string, { id: string; label: string; models: { label: string; od: boolean }[] }>();
+for (const b of pm.brands) brandMap.set(b.id, { id: b.id, label: b.label, models: b.models.map((m: any) => ({ label: m.label, od: false })) });
+for (const b of pm.onDemand?.brands ?? []) {
+  const entry = brandMap.get(b.id) ?? { id: b.id, label: b.label, models: [] };
+  const known = new Set(entry.models.map((m) => m.label));
+  for (const m of b.models as string[]) if (!known.has(m)) entry.models.push({ label: m, od: true });
+  brandMap.set(b.id, entry);
+}
+const brands = [...brandMap.values()].filter((b) => b.models.length);
+const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
 ---
 <BaseLayout title={`Ma coque offerte | ${siteConfig.name}`} description="Choisissez votre coque offerte." noindex={true}>
-  <div class="crumbs-shell max-w-5xl mx-auto px-6 pt-6 md:pt-10 pb-24">
-    <div id="gift-root" data-worker={workerUrl} data-shop={atelier.shopId}>
+  <div class="crumbs-shell max-w-6xl mx-auto px-5 md:px-6 pt-6 md:pt-10 pb-32 lg:pb-24">
+    <div id="gift-root" data-worker={workerUrl} data-shop={atelier.shopId} data-page={PAGE}>
       <p data-v="loading" class="text-n-400">Chargement…</p>
 
-      <div data-v="invalid" hidden class="max-w-xl">
-        <h1 class="ugc-h1">Lien non valide</h1>
-        <p class="ugc-alert">Ce lien n’est pas valide. Utilisez le bouton « Choisir ma coque offerte » de l’e-mail que vous avez reçu.</p>
+      <div data-v="invalid" hidden class="gift-state">
+        <h1 class="gift-h1">Lien non valide</h1>
+        <p class="gift-alert">Ce lien n’est pas valide. Utilisez le bouton « Choisir ma coque offerte » de l’e-mail que vous avez reçu.</p>
         <a href="/boutique/" class="btn-primary mt-6 inline-flex">Retour à la boutique</a>
       </div>
-      <div data-v="used" hidden class="max-w-xl">
-        <h1 class="ugc-h1">Votre coque offerte est déjà commandée</h1>
+      <div data-v="used" hidden class="gift-state">
+        <h1 class="gift-h1">Votre coque offerte est déjà commandée</h1>
         <p class="text-n-400 font-light">Ce lien a déjà servi : votre coque est en préparation. Vous recevrez un e-mail à son expédition.</p>
         <a href="/boutique/" class="btn-primary mt-6 inline-flex">Retour à la boutique</a>
       </div>
-      <div data-v="done" hidden class="max-w-xl mx-auto text-center">
-        <img src="/images/ugc/coque-offerte.webp" alt="" width="240" height="240" class="mx-auto rounded-3xl" />
-        <h1 class="ugc-h1 mt-6">C’est commandé, merci encore !</h1>
+      <div data-v="done" hidden class="gift-state text-center mx-auto">
+        <img src="/images/ugc/coque-offerte.webp" alt="" width="220" height="220" class="mx-auto rounded-3xl" />
+        <h1 class="gift-h1 mt-6">C’est commandé, merci encore&nbsp;!</h1>
         <p class="text-n-400 font-light">Votre coque offerte (commande <strong data-ref></strong>) part à l’impression dans notre atelier. Vous recevrez un e-mail de confirmation, puis un autre à son expédition.</p>
         <a href="/boutique/" class="btn-primary mt-8 inline-flex">Retour à la boutique</a>
       </div>
 
       <form data-v="form" hidden novalidate>
-        <h1 class="ugc-h1" data-hello>Votre coque offerte 🎁</h1>
-        <p class="text-n-400 font-light mb-10">Merci pour votre vidéo ! Choisissez la coque que vous voulez, à plat ou en relief : on vous l’imprime et on vous l’envoie gratuitement. Sans carte bancaire.</p>
+        <header class="gift-hero">
+          <img src="/images/ugc/coque-offerte.webp" alt="" width="120" height="120" />
+          <div>
+            <h1 class="gift-h1" data-hello>Votre coque offerte 🎁</h1>
+            <p class="text-n-400 font-light">Merci pour votre vidéo&nbsp;! Choisissez la coque que vous voulez : on l’imprime dans notre atelier et on vous l’envoie.</p>
+            <ul class="gift-pills"><li>0,00 €</li><li>Livraison offerte</li><li>Sans carte bancaire</li></ul>
+          </div>
+        </header>
 
-        <section class="mb-12">
-          <h2 class="gift-h2"><span>1</span> Choisissez votre design</h2>
-          <div class="gift-tools">
-            <input type="search" placeholder="Rechercher un design…" class="ugc-input" data-search />
-            <div class="gift-chips" data-chips>
-              <button type="button" class="is-on" data-cat="">Tous</button>
-              {themes.map((t) => <button type="button" data-cat={t.slug}>{t.label}</button>)}
+        <div class="gift-layout">
+          <div class="gift-steps">
+            <!-- 1. Design -->
+            <section class="gift-card" data-step="1">
+              <h2 class="gift-h2"><span class="gift-n" data-n="1">1</span> Votre design</h2>
+              <input type="search" placeholder="Rechercher : sakura, chat, Riviera…" class="gift-input" data-search />
+              <div class="gift-chips" data-chips>
+                <button type="button" class="is-on" data-cat="">Tous</button>
+                {themes.map((t) => <button type="button" data-cat={t.slug}>{t.label}</button>)}
+              </div>
+              <ul class="gift-grid" data-grid>
+                {products.map((p, i) => (
+                  <li data-name={p.full.toLowerCase()} data-cats={p.cats.join(',')} hidden={i >= PAGE}>
+                    <button type="button" data-pick={p.slug} data-label={p.full} data-image={p.image} data-modes={p.modes.join(',')}>
+                      <span class="gift-thumb"><img src={p.img} alt="" width="400" height="500" loading="lazy" decoding="async" /><i aria-hidden="true">✓</i></span>
+                      <span class="gift-name">{p.name}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p class="gift-empty" data-empty hidden>Aucun design ne correspond à votre recherche.</p>
+              <button type="button" class="gift-more" data-more>Voir plus de designs</button>
+              <p data-err-pick hidden class="gift-alert mt-4">Choisissez un design.</p>
+            </section>
+
+            <!-- 2. Rendu -->
+            <section class="gift-card" data-step="2">
+              <h2 class="gift-h2"><span class="gift-n" data-n="2">2</span> Le rendu</h2>
+              <div class="gift-modes">
+                <label class="is-on">
+                  <input type="radio" name="mode" value="relief" checked class="sr-only" />
+                  <span class="gift-badge">Le plus choisi</span>
+                  <strong>En relief</strong>
+                  <small>L’encre en plusieurs couches : le design se sent sous le doigt.</small>
+                </label>
+                <label data-flat>
+                  <input type="radio" name="mode" value="flat" class="sr-only" />
+                  <strong>À plat</strong>
+                  <small>Surface lisse et couleurs franches.</small>
+                </label>
+              </div>
+            </section>
+
+            <!-- 3. Téléphone -->
+            <section class="gift-card" data-step="3">
+              <h2 class="gift-h2"><span class="gift-n" data-n="3">3</span> Votre téléphone</h2>
+              <div class="gift-brands" role="tablist">
+                {brands.map((b, i) => <button type="button" role="tab" class={i === 0 ? 'is-on' : ''} data-brand={b.id}>{short(b.label)}</button>)}
+              </div>
+              {brands.map((b, i) => {
+                const stockModels = b.models.filter((m) => !m.od);
+                const odModels = b.models.filter((m) => m.od);
+                return (
+                  <div data-models={b.id} hidden={i !== 0}>
+                    {stockModels.length > 0 && (
+                      <div class="gift-models">
+                        {stockModels.map((m) => <button type="button" data-model={m.label} data-od="">{m.label}</button>)}
+                      </div>
+                    )}
+                    {odModels.length > 0 && (
+                      <>
+                        <p class="gift-od">Sur commande · comptez 2 jours de plus</p>
+                        <div class="gift-models">
+                          {odModels.map((m) => <button type="button" data-model={m.label} data-od="1">{m.label}</button>)}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+              <p data-err-model hidden class="gift-alert mt-3">Choisissez votre modèle de téléphone.</p>
+            </section>
+
+            <!-- 4. Adresse -->
+            <section class="gift-card" data-step="4">
+              <h2 class="gift-h2"><span class="gift-n" data-n="4">4</span> Votre adresse</h2>
+              <p class="gift-hint mb-4">Livraison à domicile en France, en Lettre suivie, offerte.</p>
+              <div class="grid gap-3">
+                <input name="name" placeholder="Prénom et nom" autocomplete="name" class="gift-input" />
+                <div class="gift-addr">
+                  <input name="address" placeholder="Commencez à taper votre adresse…" autocomplete="off" class="gift-input" role="combobox" aria-expanded="false" aria-autocomplete="list" />
+                  <ul class="gift-sug" data-sug role="listbox" hidden></ul>
+                </div>
+                <div class="grid grid-cols-[7.5rem_1fr] gap-3">
+                  <input name="zip" placeholder="Code postal" inputmode="numeric" autocomplete="postal-code" maxlength="5" class="gift-input" />
+                  <input name="city" placeholder="Ville" autocomplete="address-level2" class="gift-input" />
+                </div>
+                <input name="phone" type="tel" placeholder="Téléphone (facultatif, pour le facteur)" autocomplete="tel" class="gift-input" />
+              </div>
+              <p data-err-address hidden class="gift-alert mt-3">Complétez votre adresse (code postal à 5 chiffres, en France).</p>
+            </section>
+          </div>
+
+          <!-- Récapitulatif : colonne fixe sur ordinateur, barre en bas sur mobile -->
+          <aside class="gift-sum">
+            <div class="gift-sum-card">
+              <p class="gift-sum-title">Votre coque offerte</p>
+              <div class="gift-sum-img" data-sum-img><span>Choisissez un design</span></div>
+              <dl class="gift-sum-list">
+                <div><dt>Design</dt><dd data-sum="design">—</dd></div>
+                <div><dt>Rendu</dt><dd data-sum="mode">En relief</dd></div>
+                <div><dt>Téléphone</dt><dd data-sum="model">—</dd></div>
+                <div><dt>Livraison</dt><dd>Offerte</dd></div>
+              </dl>
+              <div class="gift-total"><span>Total</span><span><s data-was>24,90 €</s> 0,00 €</span></div>
+              <p data-err hidden class="gift-alert mb-3">La commande n’a pas abouti. Réessayez dans un instant.</p>
+              <button type="submit" class="btn-primary w-full justify-center" data-send>Recevoir ma coque offerte</button>
             </div>
-          </div>
-          <ul class="gift-grid" data-grid>
-            {products.map((p) => (
-              <li data-slug={p.slug} data-name={p.name.toLowerCase()} data-cats={p.cats.join(',')}>
-                <button type="button" data-pick={p.slug} data-label={p.name} data-image={p.image} data-modes={p.modes.join(',')}>
-                  <img src={p.img} alt="" width="400" height="500" loading="lazy" decoding="async" />
-                  <span>{p.name.replace(/^Coque /, '')}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <p data-err-pick hidden class="ugc-alert mt-4">Choisissez un design.</p>
-        </section>
+          </aside>
+        </div>
 
-        <section class="mb-12 max-w-xl">
-          <h2 class="gift-h2"><span>2</span> Le rendu</h2>
-          <div class="gift-modes">
-            <label><input type="radio" name="mode" value="relief" checked /><strong>En relief</strong><small>L’encre en plusieurs couches : le design se sent sous le doigt.</small></label>
-            <label data-flat><input type="radio" name="mode" value="flat" /><strong>À plat</strong><small>Surface lisse, couleurs franches.</small></label>
-          </div>
-        </section>
-
-        <section class="mb-12 max-w-xl">
-          <h2 class="gift-h2"><span>3</span> Votre téléphone</h2>
-          <select name="model" class="ugc-input" required>
-            <option value="">Choisissez votre modèle…</option>
-            {brands.map((b) => (
-              <optgroup label={b.label}>
-                {b.models.map((m: any) => <option value={m.label} data-od={m.od ? '1' : ''}>{m.label}</option>)}
-              </optgroup>
-            ))}
-          </select>
-          <p data-err-model hidden class="ugc-alert mt-3">Choisissez votre modèle de téléphone.</p>
-        </section>
-
-        <section class="mb-10 max-w-xl">
-          <h2 class="gift-h2"><span>4</span> Votre adresse</h2>
-          <p class="text-xs text-n-500 mb-4">Livraison à domicile en France, offerte.</p>
-          <div class="grid gap-3">
-            <input name="name" placeholder="Prénom et nom" autocomplete="name" class="ugc-input" required />
-            <input name="address" placeholder="Adresse" autocomplete="street-address" class="ugc-input" required />
-            <div class="grid grid-cols-[8rem_1fr] gap-3">
-              <input name="zip" placeholder="Code postal" inputmode="numeric" autocomplete="postal-code" maxlength="5" class="ugc-input" required />
-              <input name="city" placeholder="Ville" autocomplete="address-level2" class="ugc-input" required />
-            </div>
-            <input name="phone" placeholder="Téléphone (facultatif)" autocomplete="tel" class="ugc-input" />
-          </div>
-          <p data-err-address hidden class="ugc-alert mt-3">Complétez votre adresse (code postal à 5 chiffres, France).</p>
-        </section>
-
-        <div class="max-w-xl">
-          <div class="gift-summary" data-summary hidden></div>
-          <p data-err hidden class="ugc-alert mb-4">La commande n’a pas abouti. Réessayez dans un instant.</p>
-          <button type="submit" class="btn-primary w-full justify-center" data-send>Recevoir ma coque offerte</button>
+        <div class="gift-bar" data-bar>
+          <span class="gift-bar-img" data-bar-img></span>
+          <span class="gift-bar-txt" data-bar-txt>Choisissez votre design</span>
+          <button type="submit" class="btn-primary" data-send-bar>Recevoir</button>
         </div>
       </form>
     </div>
@@ -125,38 +193,94 @@ const brands = [
 </BaseLayout>
 
 <style is:global>
-  .ugc-h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.15; color: rgb(var(--c-cream)); margin-bottom: .75rem; }
-  .ugc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
-  .ugc-input { width: 100%; background: rgb(var(--c-cream) / .03); border: 1px solid rgb(var(--c-cream) / .18); border-radius: 1rem; padding: .8rem 1rem; font-size: .95rem; color: rgb(var(--c-cream)); outline: none; }
-  .ugc-input:focus { border-color: rgb(var(--c-cream) / .55); }
-  .gift-h2 { display: flex; align-items: center; gap: .6rem; font-size: 1.25rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: 1rem; }
-  .gift-h2 span { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 999px; background: #b4876a; color: #fff; font-size: .9rem; }
-  .gift-tools { display: grid; gap: .75rem; margin-bottom: 1rem; }
-  .gift-chips { display: flex; gap: .4rem; overflow-x: auto; padding-bottom: .25rem; }
-  .gift-chips button { flex: none; padding: .4rem .85rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .2); font-size: .8rem; color: rgb(var(--c-cream)); white-space: nowrap; }
-  .gift-chips button.is-on { background: rgb(var(--c-cream)); color: rgb(var(--c-dark, 255 255 255)); border-color: rgb(var(--c-cream)); }
-  .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; max-height: 70vh; overflow-y: auto; padding: .25rem; }
-  @media (min-width: 640px) { .gift-grid { grid-template-columns: repeat(4, 1fr); } }
-  @media (min-width: 1024px) { .gift-grid { grid-template-columns: repeat(5, 1fr); } }
-  .gift-grid button { display: block; width: 100%; text-align: left; border-radius: 1rem; padding: .35rem; border: 2px solid transparent; transition: border-color .15s; }
-  .gift-grid button.is-on { border-color: #b4876a; background: rgb(var(--c-cream) / .04); }
-  .gift-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .75rem; background: #fff; }
-  .gift-grid span { display: block; margin-top: .35rem; font-size: .78rem; color: rgb(var(--c-cream)); line-height: 1.3; }
-  .gift-modes { display: grid; gap: .6rem; }
-  .gift-modes label { display: grid; grid-template-columns: auto 1fr; column-gap: .7rem; padding: .9rem 1rem; border: 1px solid rgb(var(--c-cream) / .18); border-radius: 1rem; cursor: pointer; }
-  .gift-modes input { grid-row: span 2; margin-top: .2rem; accent-color: #b4876a; }
-  .gift-modes strong { color: rgb(var(--c-cream)); font-weight: 600; }
-  .gift-modes small { color: rgb(var(--c-n500)); font-size: .8rem; }
-  .gift-summary { display: flex; gap: .9rem; align-items: center; padding: .9rem; border-radius: 1rem; background: rgb(var(--c-cream) / .04); margin-bottom: 1rem; font-size: .9rem; color: rgb(var(--c-cream)); }
-  .gift-summary img { width: 56px; height: 70px; object-fit: cover; border-radius: .5rem; background: #fff; }
+  .gift-state { max-width: 36rem; }
+  .gift-h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.15; color: rgb(var(--c-cream)); margin-bottom: .6rem; }
+  .gift-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
+  .gift-hero { display: flex; gap: 1.25rem; align-items: center; margin-bottom: 2rem; }
+  .gift-hero img { width: 104px; height: 104px; border-radius: 1.5rem; flex: none; }
+  @media (max-width: 640px) { .gift-hero { flex-direction: column; align-items: flex-start; } .gift-hero img { width: 84px; height: 84px; } }
+  .gift-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+  .gift-pills li { font-size: .75rem; font-weight: 600; padding: .3rem .7rem; border-radius: 999px; background: #f4ece4; color: #8a5a3c; }
+  .gift-layout { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .gift-layout { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } }
+  .gift-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; min-width: 0; }
+  .gift-card { min-width: 0; border: 1px solid rgb(var(--c-cream) / .1); border-radius: 1.5rem; padding: 1.25rem; background: rgb(var(--c-cream) / .015); }
+  @media (min-width: 640px) { .gift-card { padding: 1.6rem; } }
+  .gift-h2 { display: flex; align-items: center; gap: .65rem; font-size: 1.15rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: 1rem; }
+  .gift-n { display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 999px; background: rgb(var(--c-cream) / .08); color: rgb(var(--c-cream)); font-size: .85rem; transition: background .2s, color .2s; }
+  .gift-n.is-done { background: #b4876a; color: #fff; }
+  .gift-input { width: 100%; background: #fff; border: 1px solid rgb(var(--c-cream) / .18); border-radius: .9rem; padding: .8rem 1rem; font-size: 16px; color: rgb(var(--c-cream)); outline: none; transition: border-color .15s, box-shadow .15s; }
+  .gift-input:focus { border-color: #b4876a; box-shadow: 0 0 0 3px rgb(180 135 106 / .15); }
+  .gift-chips { display: flex; gap: .4rem; overflow-x: auto; margin: .75rem -1.25rem 1rem; padding: 0 1.25rem .2rem; scrollbar-width: none; }
+  .gift-chips::-webkit-scrollbar { display: none; }
+  .gift-chips button { flex: none; padding: .45rem .9rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .15); font-size: .8rem; color: rgb(var(--c-cream)); white-space: nowrap; background: #fff; }
+  .gift-chips button.is-on { background: rgb(var(--c-cream)); color: #fff; border-color: rgb(var(--c-cream)); }
+  .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+  @media (min-width: 640px) { .gift-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1280px) { .gift-grid { grid-template-columns: repeat(4, 1fr); } }
+  .gift-grid button { display: block; width: 100%; text-align: left; }
+  .gift-thumb { position: relative; display: block; border-radius: 1rem; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08); transition: box-shadow .15s, transform .15s; }
+  .gift-grid button:hover .gift-thumb { transform: translateY(-2px); }
+  .gift-thumb img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+  .gift-thumb i { position: absolute; top: .5rem; right: .5rem; width: 1.6rem; height: 1.6rem; border-radius: 999px; background: #b4876a; color: #fff; font-style: normal; font-size: .85rem; display: grid; place-items: center; opacity: 0; transform: scale(.6); transition: opacity .15s, transform .15s; }
+  .gift-grid button.is-on .gift-thumb { box-shadow: 0 0 0 3px #b4876a; }
+  .gift-grid button.is-on .gift-thumb i { opacity: 1; transform: none; }
+  .gift-name { display: block; margin-top: .45rem; font-size: .8rem; line-height: 1.3; color: rgb(var(--c-cream)); }
+  .gift-more { display: block; margin: 1.1rem auto 0; padding: .65rem 1.3rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .2); font-size: .85rem; font-weight: 600; color: rgb(var(--c-cream)); background: #fff; }
+  .gift-empty { text-align: center; font-size: .85rem; color: rgb(var(--c-n500)); padding: 1.5rem 0; }
+  .gift-modes { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .gift-modes label { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: 1rem; border-radius: 1rem; border: 1px solid rgb(var(--c-cream) / .15); background: #fff; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
+  .gift-modes label.is-on { border-color: #b4876a; box-shadow: 0 0 0 2px #b4876a; }
+  .gift-modes strong { font-weight: 600; color: rgb(var(--c-cream)); }
+  .gift-modes small { font-size: .78rem; line-height: 1.45; color: rgb(var(--c-n500)); }
+  .gift-badge { align-self: flex-start; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .5rem; border-radius: 999px; background: #f4ece4; color: #8a5a3c; }
+  .gift-brands { display: flex; gap: .35rem; padding: .25rem; border-radius: 999px; background: rgb(var(--c-cream) / .05); overflow-x: auto; scrollbar-width: none; margin-bottom: 1rem; }
+  .gift-brands::-webkit-scrollbar { display: none; }
+  .gift-brands button { flex: 1 0 auto; padding: .5rem .9rem; border-radius: 999px; font-size: .82rem; font-weight: 600; color: rgb(var(--c-n400)); white-space: nowrap; }
+  .gift-brands button.is-on { background: #fff; color: rgb(var(--c-cream)); box-shadow: 0 1px 3px rgb(0 0 0 / .08); }
+  .gift-models { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+  @media (min-width: 640px) { .gift-models { grid-template-columns: repeat(3, 1fr); } }
+  .gift-models button { display: flex; align-items: center; justify-content: space-between; gap: .4rem; padding: .7rem .85rem; border-radius: .8rem; border: 1px solid rgb(var(--c-cream) / .15); background: #fff; font-size: .82rem; color: rgb(var(--c-cream)); text-align: left; transition: border-color .15s, box-shadow .15s; }
+  .gift-od { margin: 1.1rem 0 .55rem; font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: #92400e; }
+  .gift-models button.is-on { border-color: #b4876a; box-shadow: 0 0 0 2px #b4876a; font-weight: 600; }
+  .gift-hint { font-size: .78rem; color: rgb(var(--c-n500)); margin-top: .75rem; }
+  .gift-addr { position: relative; }
+  .gift-sug { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; background: #fff; border: 1px solid rgb(var(--c-cream) / .12); border-radius: .9rem; box-shadow: 0 14px 36px rgb(0 0 0 / .1); overflow: hidden; }
+  .gift-sug li { padding: .7rem 1rem; cursor: pointer; border-bottom: 1px solid rgb(var(--c-cream) / .06); }
+  .gift-sug li:last-child { border-bottom: 0; }
+  .gift-sug li:hover, .gift-sug li.is-on { background: #faf6f2; }
+  .gift-sug b { display: block; font-size: .9rem; font-weight: 600; color: rgb(var(--c-cream)); }
+  .gift-sug span { font-size: .75rem; color: rgb(var(--c-n500)); }
+  .gift-sum { display: none; }
+  @media (min-width: 1024px) { .gift-sum { display: block; position: sticky; top: 6.5rem; } }
+  .gift-sum-card { border-radius: 1.5rem; padding: 1.25rem; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08), 0 18px 40px rgb(0 0 0 / .06); }
+  .gift-sum-title { font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: .9rem; }
+  .gift-sum-img { aspect-ratio: 4 / 5; border-radius: 1rem; background: #faf6f2; display: grid; place-items: center; overflow: hidden; margin-bottom: 1rem; }
+  .gift-sum-img span { font-size: .8rem; color: rgb(var(--c-n500)); }
+  .gift-sum-img img { width: 100%; height: 100%; object-fit: cover; }
+  .gift-sum-list { display: grid; gap: .45rem; font-size: .85rem; }
+  .gift-sum-list div { display: flex; justify-content: space-between; gap: 1rem; }
+  .gift-sum-list dt { color: rgb(var(--c-n500)); }
+  .gift-sum-list dd { color: rgb(var(--c-cream)); text-align: right; font-weight: 500; }
+  .gift-total { display: flex; justify-content: space-between; margin: 1rem 0; padding-top: 1rem; border-top: 1px solid rgb(var(--c-cream) / .08); font-weight: 600; color: rgb(var(--c-cream)); }
+  .gift-total s { font-weight: 400; color: rgb(var(--c-n500)); margin-right: .35rem; }
+  .gift-bar { position: fixed; left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: .7rem; padding: .55rem .55rem .55rem .7rem; border-radius: 1.25rem; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08), 0 14px 36px rgb(0 0 0 / .14); }
+  @media (min-width: 1024px) { .gift-bar { display: none; } }
+  .gift-bar-img { width: 40px; height: 50px; border-radius: .5rem; background: #faf6f2; flex: none; overflow: hidden; }
+  .gift-bar-img img { width: 100%; height: 100%; object-fit: cover; }
+  .gift-bar-txt { flex: 1; min-width: 0; font-size: .8rem; line-height: 1.3; color: rgb(var(--c-cream)); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .gift-bar .btn-primary { flex: none; padding-left: 1rem; padding-right: 1rem; }
 </style>
 
 <script>
   const root = document.getElementById('gift-root');
   if (root) {
     const api = `${root.dataset.worker}/api/public/ugc-reward`;
+    const addrApi = `${root.dataset.worker}/api/public/address-search`;
+    const PAGE = Number(root.dataset.page) || 12;
     const q = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
-    const show = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
+    const qa = <T extends HTMLElement>(s: string) => Array.from(root.querySelectorAll<T>(s));
+    const show = (v: string) => qa('[data-v]').forEach((el) => (el.hidden = el.dataset.v !== v));
     const KEY = 'moroji-ugc-gift';
     let token: string | null = new URLSearchParams(location.hash.slice(1)).get('r');
     if (token) {
@@ -170,7 +294,7 @@ const brands = [
       return { status: res.status, data: await res.json().catch(() => ({})) };
     };
     const form = q<HTMLFormElement>('[data-v="form"]');
-    const field = (n: string) => form.querySelector<HTMLInputElement & HTMLSelectElement>(`[name="${n}"]`)!;
+    const field = (n: string) => form.querySelector<HTMLInputElement>(`[name="${n}"]`)!;
 
     (async () => {
       if (!token) return show('invalid');
@@ -180,85 +304,178 @@ const brands = [
       if (data.first_name) q('[data-hello]').textContent = `${data.first_name}, votre coque offerte 🎁`;
       for (const k of ['name', 'address', 'zip', 'city', 'phone']) if (data.shipping?.[k]) field(k).value = data.shipping[k];
       show('form');
+      sync();
     })();
 
-    // Choix du design, recherche et filtres.
+    // ── État du choix ──────────────────────────────────────────
     let pick: { slug: string; label: string; image: string; modes: string[] } | null = null;
+    let model: { label: string; od: boolean } | null = null;
+    const relief = () => (form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? 'relief') === 'relief';
+    const addrOk = () => !!(field('name').value.trim() && field('address').value.trim() && field('city').value.trim() && /^\d{5}$/.test(field('zip').value.trim()));
+
+    function sync() {
+      q('[data-n="1"]').classList.toggle('is-done', !!pick);
+      q('[data-n="2"]').classList.toggle('is-done', !!pick);
+      q('[data-n="3"]').classList.toggle('is-done', !!model);
+      q('[data-n="4"]').classList.toggle('is-done', addrOk());
+      qa('.gift-modes label').forEach((l) => l.classList.toggle('is-on', !!l.querySelector<HTMLInputElement>('input')?.checked));
+      q('[data-sum="design"]').textContent = pick ? pick.label.replace(/^Coque /, '') : '—';
+      q('[data-sum="mode"]').textContent = relief() ? 'En relief' : 'À plat';
+      q('[data-sum="model"]').textContent = model ? model.label + (model.od ? ' (sur commande)' : '') : '—';
+      q('[data-was]').textContent = relief() ? '24,90 €' : '19,90 €';
+      const img = (box: HTMLElement) => {
+        if (!pick) return;
+        let el = box.querySelector('img');
+        if (!el) { box.innerHTML = ''; el = document.createElement('img'); el.alt = ''; box.append(el); }
+        if (el.getAttribute('src') !== pick.image) el.src = pick.image;
+      };
+      img(q('[data-sum-img]'));
+      img(q('[data-bar-img]'));
+      q('[data-bar-txt]').textContent = !pick ? 'Choisissez votre design'
+        : !model ? `${pick.label.replace(/^Coque /, '')} · choisissez votre téléphone`
+        : `${pick.label.replace(/^Coque /, '')} · ${relief() ? 'relief' : 'à plat'} · ${model.label}`;
+    }
+
+    // ── 1. Design : recherche, filtres, « voir plus » ──────────
     let cat = '';
-    const filter = () => {
+    let limit = PAGE;
+    function filter() {
       const s = q<HTMLInputElement>('[data-search]').value.trim().toLowerCase();
-      root.querySelectorAll<HTMLElement>('[data-grid] li').forEach((li) => {
-        li.hidden = (!!s && !li.dataset.name!.includes(s)) || (!!cat && !li.dataset.cats!.split(',').includes(cat));
+      let shown = 0, matching = 0;
+      qa('[data-grid] li').forEach((li) => {
+        const match = (!s || li.dataset.name!.includes(s)) && (!cat || li.dataset.cats!.split(',').includes(cat));
+        if (match) matching++;
+        const visible = match && (shown < limit || li.querySelector('.is-on') !== null);
+        if (visible) shown++;
+        li.hidden = !visible;
       });
-    };
-    q('[data-search]').addEventListener('input', filter);
-    root.querySelectorAll<HTMLButtonElement>('[data-chips] button').forEach((b) => b.addEventListener('click', () => {
-      root.querySelectorAll('[data-chips] button').forEach((x) => x.classList.toggle('is-on', x === b));
+      q('[data-more]').hidden = matching <= shown;
+      q('[data-empty]').hidden = matching > 0;
+    }
+    q('[data-search]').addEventListener('input', () => { limit = PAGE; filter(); });
+    qa<HTMLButtonElement>('[data-chips] button').forEach((b) => b.addEventListener('click', () => {
+      qa('[data-chips] button').forEach((x) => x.classList.toggle('is-on', x === b));
       cat = b.dataset.cat || '';
+      limit = PAGE;
       filter();
     }));
-    const summary = () => {
-      const box = q('[data-summary]');
-      const model = field('model').value;
-      const relief = (form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? 'relief') === 'relief';
-      if (!pick) { box.hidden = true; return; }
-      box.hidden = false;
-      box.innerHTML = '';
-      const img = document.createElement('img'); img.src = pick.image; img.alt = '';
-      const txt = document.createElement('div');
-      txt.textContent = `${pick.label} · ${relief ? 'en relief' : 'à plat'}${model ? ` · ${model}` : ''} · offerte`;
-      box.append(img, txt);
-    };
-    root.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => {
-      root.querySelectorAll('[data-pick]').forEach((x) => x.classList.toggle('is-on', x === b));
+    q('[data-more]').addEventListener('click', () => { limit += PAGE * 2; filter(); });
+    qa<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => {
+      qa('[data-pick]').forEach((x) => x.classList.toggle('is-on', x === b));
       pick = { slug: b.dataset.pick!, label: b.dataset.label!, image: b.dataset.image!, modes: (b.dataset.modes || 'flat,relief').split(',') };
-      // Un design sans rendu à plat ne peut être commandé qu'en relief.
+      // Un design sans rendu à plat ne se commande qu'en relief.
       const flat = q('[data-flat]');
       flat.hidden = !pick.modes.includes('flat');
       if (flat.hidden) form.querySelector<HTMLInputElement>('input[value="relief"]')!.checked = true;
       q('[data-err-pick]').hidden = true;
-      summary();
+      sync();
+      // Premier choix : on emmène vers l'étape suivante.
+      if (!model) setTimeout(() => q('[data-step="2"]').scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
     }));
-    form.addEventListener('change', summary);
+    filter();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const model = field('model');
+    // ── 2. Rendu ───────────────────────────────────────────────
+    qa<HTMLInputElement>('input[name="mode"]').forEach((r) => r.addEventListener('change', sync));
+
+    // ── 3. Téléphone : onglets par marque, puis modèles ───────
+    qa<HTMLButtonElement>('[data-brand]').forEach((b) => b.addEventListener('click', () => {
+      qa('[data-brand]').forEach((x) => x.classList.toggle('is-on', x === b));
+      qa('[data-models]').forEach((m) => (m.hidden = m.dataset.models !== b.dataset.brand));
+    }));
+    qa<HTMLButtonElement>('[data-model]').forEach((b) => b.addEventListener('click', () => {
+      qa('[data-model]').forEach((x) => x.classList.toggle('is-on', x === b));
+      const first = !model;
+      model = { label: b.dataset.model!, od: b.dataset.od === '1' };
+      q('[data-err-model]').hidden = true;
+      sync();
+      if (first) setTimeout(() => q('[data-step="4"]').scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+    }));
+
+    // ── 4. Adresse : suggestions de la Base Adresse Nationale ──
+    const addr = field('address');
+    const sug = q<HTMLUListElement>('[data-sug]');
+    let results: { address: string; zip: string; city: string; context: string }[] = [];
+    let active = -1;
+    let timer = 0;
+    const close = () => { sug.hidden = true; addr.setAttribute('aria-expanded', 'false'); active = -1; };
+    const choose = (i: number) => {
+      const r = results[i];
+      if (!r) return;
+      addr.value = r.address; field('zip').value = r.zip; field('city').value = r.city;
+      close();
+      q('[data-err-address]').hidden = true;
+      sync();
+      field('phone').focus();
+    };
+    addr.addEventListener('input', () => {
+      clearTimeout(timer);
+      const v = addr.value.trim();
+      if (v.length < 4) return close();
+      timer = window.setTimeout(async () => {
+        try {
+          const res = await fetch(`${addrApi}?q=${encodeURIComponent(v)}`);
+          results = ((await res.json()).results || []).slice(0, 5);
+        } catch { results = []; }
+        if (!results.length) return close();
+        sug.innerHTML = '';
+        results.forEach((r, i) => {
+          const li = document.createElement('li');
+          li.setAttribute('role', 'option');
+          const b = document.createElement('b'); b.textContent = r.address;
+          const s = document.createElement('span'); s.textContent = `${r.zip} ${r.city}`;
+          li.append(b, s);
+          li.addEventListener('mousedown', (e) => { e.preventDefault(); choose(i); });
+          sug.append(li);
+        });
+        active = -1;
+        sug.hidden = false;
+        addr.setAttribute('aria-expanded', 'true');
+      }, 220);
+    });
+    addr.addEventListener('keydown', (e) => {
+      if (sug.hidden) return;
+      const items = Array.from(sug.children);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        active = (active + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+        items.forEach((li, i) => li.classList.toggle('is-on', i === active));
+      } else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); choose(active); }
+      else if (e.key === 'Escape') close();
+    });
+    addr.addEventListener('blur', () => setTimeout(close, 150));
+    ['name', 'zip', 'city', 'address'].forEach((n) => field(n).addEventListener('input', sync));
+
+    // ── Validation et envoi ────────────────────────────────────
+    async function submit() {
       const ship = { name: field('name').value.trim(), address: field('address').value.trim(), zip: field('zip').value.trim(), city: field('city').value.trim(), phone: field('phone').value.trim() };
-      const okAddr = !!(ship.name && ship.address && ship.city && /^\d{5}$/.test(ship.zip));
       q('[data-err-pick]').hidden = !!pick;
-      q('[data-err-model]').hidden = !!model.value;
-      q('[data-err-address]').hidden = okAddr;
-      if (!pick) { q('[data-grid]').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-      if (!model.value || !okAddr) return;
-      const relief = (form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? 'relief') === 'relief';
-      const btn = q<HTMLButtonElement>('[data-send]');
+      q('[data-err-model]').hidden = !!model;
+      q('[data-err-address]').hidden = addrOk();
+      const missing = !pick ? '1' : !model ? '3' : !addrOk() ? '4' : '';
+      if (missing) { q(`[data-step="${missing}"]`).scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      const buttons = qa<HTMLButtonElement>('[data-send], [data-send-bar]');
       const err = q('[data-err]');
       err.hidden = true;
-      btn.disabled = true;
+      buttons.forEach((b) => (b.disabled = true));
       try {
         const { status, data } = await call({
           action: 'claim',
-          item: {
-            key: relief ? `${pick.slug}-relief` : pick.slug,
-            label: pick.label,
-            image: pick.image,
-            model: model.value,
-            on_demand: model.selectedOptions[0]?.dataset.od === '1',
-          },
+          item: { key: relief() ? `${pick!.slug}-relief` : pick!.slug, label: pick!.label, image: pick!.image, model: model!.label, on_demand: model!.od },
           shipping: { ...ship, phone: ship.phone || undefined },
         });
         if (status === 409 && data.reason === 'used') return show('used');
-        if (!data.ok) { err.hidden = false; return; }
+        if (!data.ok) { err.hidden = false; alert('La commande n’a pas abouti. Réessayez dans un instant.'); return; }
         q('[data-ref]').textContent = data.order_ref || '';
         try { sessionStorage.removeItem(KEY); } catch {}
+        q('[data-bar]').hidden = true;
         show('done');
         window.scrollTo({ top: 0 });
       } catch {
         err.hidden = false;
       } finally {
-        btn.disabled = false;
+        buttons.forEach((b) => (b.disabled = false));
       }
-    });
+    }
+    form.addEventListener('submit', (e) => { e.preventDefault(); void submit(); });
   }
 </script>
