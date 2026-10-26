@@ -40,7 +40,7 @@ const brands = [...brandMap.values()].filter((b) => b.models.length);
 const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
 ---
 <BaseLayout title={`Ma coque offerte | ${siteConfig.name}`} description="Choisissez votre coque offerte." noindex={true}>
-  <div class="crumbs-shell max-w-6xl mx-auto px-5 md:px-6 pt-6 md:pt-10 pb-32 lg:pb-24">
+  <div class="max-w-6xl mx-auto px-5 md:px-6 pt-8 md:pt-12 pb-32 lg:pb-24">
     <div id="gift-root" data-worker={workerUrl} data-shop={atelier.shopId} data-page={PAGE}>
       <p data-v="loading" class="text-n-400">Chargement…</p>
 
@@ -77,9 +77,13 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
             <section class="gift-card" data-step="1">
               <h2 class="gift-h2"><span class="gift-n" data-n="1">1</span> Votre design</h2>
               <input type="search" placeholder="Rechercher : sakura, chat, Riviera…" class="gift-input" data-search />
-              <div class="gift-chips" data-chips>
-                <button type="button" class="is-on" data-cat="">Tous</button>
-                {themes.map((t) => <button type="button" data-cat={t.slug}>{t.label}</button>)}
+              <div class="gift-chips-wrap">
+                <button type="button" class="gift-arrow is-left" data-chip-scroll="-1" aria-label="Catégories précédentes" hidden>‹</button>
+                <div class="gift-chips" data-chips>
+                  <button type="button" class="is-on" data-cat="">Tous</button>
+                  {themes.map((t) => <button type="button" data-cat={t.slug}>{t.label}</button>)}
+                </div>
+                <button type="button" class="gift-arrow is-right" data-chip-scroll="1" aria-label="Catégories suivantes" hidden>›</button>
               </div>
               <ul class="gift-grid" data-grid>
                 {products.map((p, i) => (
@@ -200,19 +204,24 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
   .gift-hero img { width: 104px; height: 104px; border-radius: 1.5rem; flex: none; }
   @media (max-width: 640px) { .gift-hero { flex-direction: column; align-items: flex-start; } .gift-hero img { width: 84px; height: 84px; } }
   .gift-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
-  .gift-pills li { font-size: .75rem; font-weight: 600; padding: .3rem .7rem; border-radius: 999px; background: #f4ece4; color: #8a5a3c; }
+  .gift-pills li { font-size: .75rem; font-weight: 600; padding: .3rem .7rem; border-radius: 999px; background: rgb(var(--accent-rgb) / .1); color: rgb(var(--accent-dark-rgb)); }
   .gift-layout { display: grid; gap: 1.5rem; }
   @media (min-width: 1024px) { .gift-layout { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } }
   .gift-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; min-width: 0; }
-  .gift-card { min-width: 0; border: 1px solid rgb(var(--c-cream) / .1); border-radius: 1.5rem; padding: 1.25rem; background: rgb(var(--c-cream) / .015); }
+  .gift-card { scroll-margin-top: 7.5rem; min-width: 0; border: 1px solid rgb(var(--c-cream) / .1); border-radius: 1.5rem; padding: 1.25rem; background: rgb(var(--c-cream) / .015); }
   @media (min-width: 640px) { .gift-card { padding: 1.6rem; } }
   .gift-h2 { display: flex; align-items: center; gap: .65rem; font-size: 1.15rem; font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: 1rem; }
   .gift-n { display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 999px; background: rgb(var(--c-cream) / .08); color: rgb(var(--c-cream)); font-size: .85rem; transition: background .2s, color .2s; }
-  .gift-n.is-done { background: #b4876a; color: #fff; }
+  .gift-n.is-done { background: rgb(var(--accent-rgb)); color: #fff; }
   .gift-input { width: 100%; background: #fff; border: 1px solid rgb(var(--c-cream) / .18); border-radius: .9rem; padding: .8rem 1rem; font-size: 16px; color: rgb(var(--c-cream)); outline: none; transition: border-color .15s, box-shadow .15s; }
-  .gift-input:focus { border-color: #b4876a; box-shadow: 0 0 0 3px rgb(180 135 106 / .15); }
+  .gift-input:focus { border-color: rgb(var(--accent-rgb)); box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / .15); }
   .gift-chips { display: flex; gap: .4rem; overflow-x: auto; margin: .75rem -1.25rem 1rem; padding: 0 1.25rem .2rem; scrollbar-width: none; }
   .gift-chips::-webkit-scrollbar { display: none; }
+  .gift-chips-wrap { position: relative; }
+  .gift-arrow { display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 2.2rem; height: 2.2rem; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .12), 0 4px 12px rgb(0 0 0 / .1); font-size: 1.3rem; line-height: 1; color: rgb(var(--c-cream)); }
+  .gift-arrow.is-left { left: -.4rem; }
+  .gift-arrow.is-right { right: -.4rem; }
+  @media (hover: hover) and (min-width: 768px) { .gift-arrow:not([hidden]) { display: grid; place-items: center; } }
   .gift-chips button { flex: none; padding: .45rem .9rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .15); font-size: .8rem; color: rgb(var(--c-cream)); white-space: nowrap; background: #fff; }
   .gift-chips button.is-on { background: rgb(var(--c-cream)); color: #fff; border-color: rgb(var(--c-cream)); }
   .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
@@ -222,18 +231,18 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
   .gift-thumb { position: relative; display: block; border-radius: 1rem; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08); transition: box-shadow .15s, transform .15s; }
   .gift-grid button:hover .gift-thumb { transform: translateY(-2px); }
   .gift-thumb img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
-  .gift-thumb i { position: absolute; top: .5rem; right: .5rem; width: 1.6rem; height: 1.6rem; border-radius: 999px; background: #b4876a; color: #fff; font-style: normal; font-size: .85rem; display: grid; place-items: center; opacity: 0; transform: scale(.6); transition: opacity .15s, transform .15s; }
-  .gift-grid button.is-on .gift-thumb { box-shadow: 0 0 0 3px #b4876a; }
+  .gift-thumb i { position: absolute; top: .5rem; right: .5rem; width: 1.6rem; height: 1.6rem; border-radius: 999px; background: rgb(var(--accent-rgb)); color: #fff; font-style: normal; font-size: .85rem; display: grid; place-items: center; opacity: 0; transform: scale(.6); transition: opacity .15s, transform .15s; }
+  .gift-grid button.is-on .gift-thumb { box-shadow: 0 0 0 3px rgb(var(--accent-rgb)); }
   .gift-grid button.is-on .gift-thumb i { opacity: 1; transform: none; }
   .gift-name { display: block; margin-top: .45rem; font-size: .8rem; line-height: 1.3; color: rgb(var(--c-cream)); }
   .gift-more { display: block; margin: 1.1rem auto 0; padding: .65rem 1.3rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .2); font-size: .85rem; font-weight: 600; color: rgb(var(--c-cream)); background: #fff; }
   .gift-empty { text-align: center; font-size: .85rem; color: rgb(var(--c-n500)); padding: 1.5rem 0; }
   .gift-modes { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
   .gift-modes label { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: 1rem; border-radius: 1rem; border: 1px solid rgb(var(--c-cream) / .15); background: #fff; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
-  .gift-modes label.is-on { border-color: #b4876a; box-shadow: 0 0 0 2px #b4876a; }
+  .gift-modes label.is-on { border-color: rgb(var(--accent-rgb)); box-shadow: 0 0 0 2px rgb(var(--accent-rgb)); }
   .gift-modes strong { font-weight: 600; color: rgb(var(--c-cream)); }
   .gift-modes small { font-size: .78rem; line-height: 1.45; color: rgb(var(--c-n500)); }
-  .gift-badge { align-self: flex-start; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .5rem; border-radius: 999px; background: #f4ece4; color: #8a5a3c; }
+  .gift-badge { align-self: flex-start; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .5rem; border-radius: 999px; background: rgb(var(--accent-rgb) / .1); color: rgb(var(--accent-dark-rgb)); }
   .gift-brands { display: flex; gap: .35rem; padding: .25rem; border-radius: 999px; background: rgb(var(--c-cream) / .05); overflow-x: auto; scrollbar-width: none; margin-bottom: 1rem; }
   .gift-brands::-webkit-scrollbar { display: none; }
   .gift-brands button { flex: 1 0 auto; padding: .5rem .9rem; border-radius: 999px; font-size: .82rem; font-weight: 600; color: rgb(var(--c-n400)); white-space: nowrap; }
@@ -241,21 +250,21 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
   .gift-models { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
   @media (min-width: 640px) { .gift-models { grid-template-columns: repeat(3, 1fr); } }
   .gift-models button { display: flex; align-items: center; justify-content: space-between; gap: .4rem; padding: .7rem .85rem; border-radius: .8rem; border: 1px solid rgb(var(--c-cream) / .15); background: #fff; font-size: .82rem; color: rgb(var(--c-cream)); text-align: left; transition: border-color .15s, box-shadow .15s; }
-  .gift-od { margin: 1.1rem 0 .55rem; font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: #92400e; }
-  .gift-models button.is-on { border-color: #b4876a; box-shadow: 0 0 0 2px #b4876a; font-weight: 600; }
+  .gift-od { margin: 1.1rem 0 .55rem; font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: rgb(var(--accent-dark-rgb)); }
+  .gift-models button.is-on { border-color: rgb(var(--accent-rgb)); box-shadow: 0 0 0 2px rgb(var(--accent-rgb)); font-weight: 600; }
   .gift-hint { font-size: .78rem; color: rgb(var(--c-n500)); margin-top: .75rem; }
   .gift-addr { position: relative; }
   .gift-sug { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; background: #fff; border: 1px solid rgb(var(--c-cream) / .12); border-radius: .9rem; box-shadow: 0 14px 36px rgb(0 0 0 / .1); overflow: hidden; }
   .gift-sug li { padding: .7rem 1rem; cursor: pointer; border-bottom: 1px solid rgb(var(--c-cream) / .06); }
   .gift-sug li:last-child { border-bottom: 0; }
-  .gift-sug li:hover, .gift-sug li.is-on { background: #faf6f2; }
+  .gift-sug li:hover, .gift-sug li.is-on { background: rgb(var(--accent-rgb) / .06); }
   .gift-sug b { display: block; font-size: .9rem; font-weight: 600; color: rgb(var(--c-cream)); }
   .gift-sug span { font-size: .75rem; color: rgb(var(--c-n500)); }
   .gift-sum { display: none; }
   @media (min-width: 1024px) { .gift-sum { display: block; position: sticky; top: 6.5rem; } }
   .gift-sum-card { border-radius: 1.5rem; padding: 1.25rem; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08), 0 18px 40px rgb(0 0 0 / .06); }
   .gift-sum-title { font-weight: 600; color: rgb(var(--c-cream)); margin-bottom: .9rem; }
-  .gift-sum-img { aspect-ratio: 4 / 5; border-radius: 1rem; background: #faf6f2; display: grid; place-items: center; overflow: hidden; margin-bottom: 1rem; }
+  .gift-sum-img { aspect-ratio: 4 / 5; border-radius: 1rem; background: rgb(var(--accent-rgb) / .06); display: grid; place-items: center; overflow: hidden; margin-bottom: 1rem; }
   .gift-sum-img span { font-size: .8rem; color: rgb(var(--c-n500)); }
   .gift-sum-img img { width: 100%; height: 100%; object-fit: cover; }
   .gift-sum-list { display: grid; gap: .45rem; font-size: .85rem; }
@@ -266,7 +275,7 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
   .gift-total s { font-weight: 400; color: rgb(var(--c-n500)); margin-right: .35rem; }
   .gift-bar { position: fixed; left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: .7rem; padding: .55rem .55rem .55rem .7rem; border-radius: 1.25rem; background: #fff; box-shadow: 0 0 0 1px rgb(var(--c-cream) / .08), 0 14px 36px rgb(0 0 0 / .14); }
   @media (min-width: 1024px) { .gift-bar { display: none; } }
-  .gift-bar-img { width: 40px; height: 50px; border-radius: .5rem; background: #faf6f2; flex: none; overflow: hidden; }
+  .gift-bar-img { width: 40px; height: 50px; border-radius: .5rem; background: rgb(var(--accent-rgb) / .06); flex: none; overflow: hidden; }
   .gift-bar-img img { width: 100%; height: 100%; object-fit: cover; }
   .gift-bar-txt { flex: 1; min-width: 0; font-size: .8rem; line-height: 1.3; color: rgb(var(--c-cream)); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .gift-bar .btn-primary { flex: none; padding-left: 1rem; padding-right: 1rem; }
@@ -305,6 +314,7 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
       for (const k of ['name', 'address', 'zip', 'city', 'phone']) if (data.shipping?.[k]) field(k).value = data.shipping[k];
       show('form');
       sync();
+      arrows();
     })();
 
     // ── État du choix ──────────────────────────────────────────
@@ -360,6 +370,19 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
       filter();
     }));
     q('[data-more]').addEventListener('click', () => { limit += PAGE * 2; filter(); });
+    // Flèches des catégories (ordinateur) : visibles seulement s'il reste à défiler.
+    const chips = q('[data-chips]');
+    const arrows = () => {
+      const max = chips.scrollWidth - chips.clientWidth - 2;
+      q('[data-chip-scroll="-1"]').hidden = chips.scrollLeft <= 2;
+      q('[data-chip-scroll="1"]').hidden = chips.scrollLeft >= max;
+    };
+    qa<HTMLButtonElement>('[data-chip-scroll]').forEach((b) => b.addEventListener('click', () => {
+      chips.scrollBy({ left: Number(b.dataset.chipScroll) * chips.clientWidth * 0.7, behavior: 'smooth' });
+    }));
+    chips.addEventListener('scroll', arrows, { passive: true });
+    window.addEventListener('resize', arrows);
+    setTimeout(arrows, 50);
     qa<HTMLButtonElement>('[data-pick]').forEach((b) => b.addEventListener('click', () => {
       qa('[data-pick]').forEach((x) => x.classList.toggle('is-on', x === b));
       pick = { slug: b.dataset.pick!, label: b.dataset.label!, image: b.dataset.image!, modes: (b.dataset.modes || 'flat,relief').split(',') };

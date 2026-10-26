@@ -15,7 +15,7 @@ const STEPS = [
 ];
 ---
 <BaseLayout title={`Envoyer ma vidéo | ${siteConfig.name}`} description="Envoyez votre vidéo et recevez une coque offerte." noindex={true}>
-  <div class="crumbs-shell max-w-2xl mx-auto px-6 pt-6 md:pt-10 pb-24">
+  <div class="max-w-2xl mx-auto px-6 pt-8 md:pt-12 pb-24">
     <div id="ugc-root" data-worker={workerUrl} data-shop={atelier.shopId}>
       <p data-v="loading" class="text-n-400">Chargement…</p>
 
@@ -87,11 +87,11 @@ const STEPS = [
   .ugc-drop-title { font-weight: 600; color: rgb(var(--c-cream)); }
   .ugc-drop-sub { font-size: .8rem; color: rgb(var(--c-n500)); }
   .ugc-consent { display: flex; gap: .75rem; align-items: flex-start; font-size: .8rem; line-height: 1.55; color: rgb(var(--c-n400)); cursor: pointer; }
-  .ugc-consent input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; flex: none; accent-color: #b4876a; }
+  .ugc-consent input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; flex: none; accent-color: rgb(var(--accent-rgb)); }
   .ugc-test { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .85rem; background: #fff7e6; color: #92400e; border: 1px dashed #f59e0b; }
   .ugc-alert { border-radius: 1rem; padding: .8rem 1.1rem; font-size: .88rem; background: #fef2f2; color: #b91c1c; }
   .ugc-bar { height: .5rem; border-radius: 999px; background: rgb(var(--c-cream) / .1); overflow: hidden; }
-  .ugc-bar span { display: block; height: 100%; width: 0; background: #b4876a; transition: width .2s; }
+  .ugc-bar span { display: block; height: 100%; width: 0; background: rgb(var(--accent-rgb)); transition: width .2s; }
 </style>
 
 <script>
