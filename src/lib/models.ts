@@ -103,7 +103,7 @@ export const MODEL_TEXT: Record<Locale, {
     faq: (m) => [
       { q: `Ces coques sont-elles bien compatibles avec mon ${m.label} ?`, a: `Oui : toutes les coques de cette page sont moulées pour le ${m.fullName}, et uniquement lui. Vérifiez le nom exact de votre téléphone dans ${m.brand === 'apple' ? 'Réglages, Général, Informations' : 'Paramètres, À propos du téléphone'} avant de commander.` },
       { q: 'Quelle différence entre l’impression à plat et en relief ?', a: 'À plat, l’encre affleure la coque : surface lisse et couleurs franches. En relief, l’encre est déposée en plusieurs couches : le motif se sent sous le doigt.' },
-      { q: 'Quel est le délai de livraison ?', a: 'Chaque coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés. Comptez 3 à 5 jours ouvrés à domicile en France, 4 à 7 en point relais.' },
+      { q: 'Quel est le délai de livraison ?', a: 'Chaque coque est imprimée à la commande puis expédiée sous 1 à 2 jours ouvrés, puis livrée par La Poste en 3 jours ouvrés à domicile en France. En point relais, comptez 4 à 7 jours ouvrés au total.' },
     ],
     otherModels: 'Autres modèles',
     home: 'Accueil',

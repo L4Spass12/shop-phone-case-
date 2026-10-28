@@ -7,8 +7,8 @@
  * et devenait fausse. Sans JavaScript, la phrase générique reste affichée.
  *
  * Délai en jours OUVRÉS (week-ends sautés) : commande préparée sous 24 à
- * 48 h puis Lettre suivie La Poste à domicile, soit 3 à 5 jours ouvrés au
- * total (domicile ouvert le 20/10/2026 ; le point relais compte 4 à 7 jours).
+ * 48 h puis Lettre suivie La Poste à domicile en 3 jours ouvrés, soit 4 à 5
+ * jours ouvrés au total (le point relais compte 4 à 7 jours).
  */
 import { t, type Locale } from '../lib/i18n';
 
@@ -17,7 +17,7 @@ interface Props {
   min?: number;
   max?: number;
 }
-const { lang = 'fr', min = 3, max = 5 } = Astro.props;
+const { lang = 'fr', min = 4, max = 5 } = Astro.props;
 
 const generique = {
   fr: `en ${min} à ${max} jours ouvrés`,
@@ -51,7 +51,7 @@ const generique = {
 
   document.querySelectorAll<HTMLElement>('[data-delivery-window]').forEach((el) => {
     const lang = el.dataset.lang || 'fr';
-    const min = Number(el.dataset.min) || 3;
+    const min = Number(el.dataset.min) || 4;
     const max = Number(el.dataset.max) || 5;
     const auj = new Date();
     const fmt = new Intl.DateTimeFormat(LOCALES[lang] || 'fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
