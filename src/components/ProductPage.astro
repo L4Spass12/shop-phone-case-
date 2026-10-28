@@ -18,6 +18,7 @@ import ModelPicker from './ModelPicker.astro';
 import PrintModeSelector from './PrintModeSelector.astro';
 import { defaultPrintMode, listPrice } from '../lib/printModes';
 import DeliveryWindow from './DeliveryWindow.astro';
+import { PHOTO_ID_BY_LABEL } from '../lib/models';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import siteConfig from '../../site.config.mjs';
 import { unsplashSrcset } from '../lib/image';
@@ -44,7 +45,9 @@ const slug = parseEntrySlug(product.slug).slug;
 // fait apparaître à la place de la photo à plat générique.
 const VD = variantsData as Record<string, Record<string, { plat?: string }>>;
 const modelVariants: Record<string, string> = {};
-for (const [id, label] of Object.entries((VD._models ?? {}) as unknown as Record<string, string>)) {
+// Tous les libellés du sélecteur : un modèle sans photos à lui montre celles
+// du modèle le plus proche (src/lib/models.ts).
+for (const [label, id] of Object.entries(PHOTO_ID_BY_LABEL)) {
   const src = VD[slug]?.[id]?.plat;
   if (src) modelVariants[label] = src;
 }

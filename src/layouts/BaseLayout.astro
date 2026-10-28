@@ -4,6 +4,7 @@ import siteConfig from '../../site.config.mjs';
 import Header from '../components/Header.astro';
 import ModelPicker from '../components/ModelPicker.astro';
 import variantsData from '../data/variants.json';
+import { PHOTO_ID_BY_LABEL } from '../lib/models';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import PinterestTag from '../components/PinterestTag.astro';
@@ -303,6 +304,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
     {siteConfig.shop?.enabled && (
       <script type="application/json" id="model-variants" set:html={JSON.stringify({
         models: (variantsData as any)._models ?? {},
+        photoIds: PHOTO_ID_BY_LABEL,
         slugs: Object.keys(variantsData).filter((k) => k !== '_models'),
         dirs: Object.fromEntries(Object.entries(variantsData as Record<string, any>)
           .filter(([k]) => k !== '_models')

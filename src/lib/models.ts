@@ -3,6 +3,7 @@
 // page n'existe que pour un modèle dont on a les photos de toutes les coques.
 import variants from '../data/variants.json';
 import aliases from '../data/model-aliases.json';
+import siteConfig from '../../site.config.mjs';
 import type { Locale } from './i18n';
 
 type Variants = Record<string, Record<string, { plat?: string; relief?: string }>> & { _models: Record<string, string> };
@@ -29,6 +30,42 @@ export const PHONE_MODELS: PhoneModel[] = Object.entries(V._models).map(([id, la
     ...(alias ? { sameAs: V._models[alias.from] } : {}),
   };
 });
+
+/** Modèles qui ont vraiment leurs photos (les alias reprennent celles d'un
+ *  autre modèle et n'ont pas de fichiers à eux). */
+const ALIAS_FROM = new Map((aliases as { id: string; from: string }[]).map((a) => [a.id, a.from]));
+const PHOTO_IDS = new Set(Object.keys(V._models).filter((id) => !ALIAS_FROM.has(id)));
+const premier = (ids: string[]) => ids.find((id) => PHOTO_IDS.has(id)) ?? null;
+
+/** Modèle dont on montre les photos pour un libellé du sélecteur : le modèle
+ *  lui-même, sinon le plus proche (iPhone 12 Pro → iPhone 12, Galaxy S25+ →
+ *  Galaxy S25), pour que TOUTES les cartes montrent le même téléphone.
+ *  Autres marques (Xiaomi, Pixel, Honor…) : un Galaxy, au module photo proche. */
+export function photoModelId(label: string): string {
+  const id = Object.entries(V._models).find(([, l]) => l === label)?.[0];
+  if (id) return ALIAS_FROM.get(id) ?? id;
+  const ip = /^iPhone (\d+)/i.exec(label);
+  if (ip) {
+    const n = ip[1];
+    const suite = /pro max/i.test(label) ? ['-pro-max', '-pro', '-plus', '']
+      : /pro/i.test(label) ? ['-pro', ''] : /plus/i.test(label) ? ['-plus', ''] : [''];
+    return premier(suite.map((s) => `iphone-${n}${s}`)) ?? 'iphone-17-pro';
+  }
+  const s = /^Galaxy S(\d+)/i.exec(label);
+  if (s) return premier([...(/ultra/i.test(label) ? [`galaxy-s${s[1]}-ultra`] : []), `galaxy-s${s[1]}`]) ?? (/ultra/i.test(label) ? 'galaxy-s24-ultra' : 'galaxy-s24');
+  const a = /^Galaxy A(\d+)/i.exec(label);
+  if (a) return Number(a[1]) >= 50 ? 'galaxy-a56-5g' : 'galaxy-a36-5g';
+  return 'galaxy-s25';
+}
+
+/** Tous les libellés du sélecteur (catalogue et modèles sur commande), avec
+ *  le modèle dont on montre les photos. */
+export const PHOTO_ID_BY_LABEL: Record<string, string> = Object.fromEntries(
+  [
+    ...(siteConfig.phoneModels?.brands ?? []).flatMap((b: { models: { label: string }[] }) => b.models.map((m) => m.label)),
+    ...(siteConfig.phoneModels?.onDemand?.brands ?? []).flatMap((b: { models: string[] }) => b.models),
+  ].map((label: string) => [label, photoModelId(label)]),
+);
 
 /** « l'iPhone 17 », « le Galaxy S25 ». */
 const leFr = (label: string) => (/^[aeiouyh]/i.test(label) ? `l'${label}` : `le ${label}`);

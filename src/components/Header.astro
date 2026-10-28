@@ -536,7 +536,10 @@ const isAccount = /\/compte\/?$/.test(Astro.url.pathname);
       return Array.prototype.filter.call(document.querySelectorAll('a[href*="/product/"] img'), function (im) { return !im.closest('[data-gallery]'); });
     }
     function swapCards(label) {
-      currentId = manifest().byLabel[label] || null;
+      // Modèle sans photos à lui (iPhone 18, modèles sur commande) : le plus
+      // proche, le même pour toutes les cartes.
+      var d = manifest();
+      currentId = (d.photoIds && d.photoIds[label]) || d.byLabel[label] || null;
       if (!('IntersectionObserver' in window)) { cards().forEach(swapOne); return; }
       if (!io) io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) { swapOne(e.target); io.unobserve(e.target); } });
