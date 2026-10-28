@@ -7,8 +7,9 @@
  * et devenait fausse. Sans JavaScript, la phrase générique reste affichée.
  *
  * Délai en jours OUVRÉS (week-ends sautés) : commande préparée sous 24 à
- * 48 h puis Lettre suivie La Poste à domicile en 3 jours ouvrés, soit 4 à 5
- * jours ouvrés au total (le point relais compte 4 à 7 jours).
+ * 48 h (souvent le jour même) puis Lettre suivie La Poste à domicile en 3
+ * jours ouvrés, soit 3 à 5 jours ouvrés au total (le point relais compte 4 à
+ * 7 jours). Week-ends et jours fériés fixes sautés.
  */
 import { t, type Locale } from '../lib/i18n';
 
@@ -17,7 +18,7 @@ interface Props {
   min?: number;
   max?: number;
 }
-const { lang = 'fr', min = 4, max = 5 } = Astro.props;
+const { lang = 'fr', min = 3, max = 5 } = Astro.props;
 
 const generique = {
   fr: `en ${min} à ${max} jours ouvrés`,
@@ -31,13 +32,15 @@ const generique = {
 }</span>
 
 <script>
+  // Jours fériés fixes (mois-jour) : La Poste ne distribue pas.
+  const FERIES = new Set(['1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25']);
   function ajouterJoursOuvres(depart: Date, n: number) {
     const d = new Date(depart);
     let restants = n;
     while (restants > 0) {
       d.setDate(d.getDate() + 1);
       const jour = d.getDay();
-      if (jour !== 0 && jour !== 6) restants--;
+      if (jour !== 0 && jour !== 6 && !FERIES.has(`${d.getMonth() + 1}-${d.getDate()}`)) restants--;
     }
     return d;
   }
@@ -51,7 +54,7 @@ const generique = {
 
   document.querySelectorAll<HTMLElement>('[data-delivery-window]').forEach((el) => {
     const lang = el.dataset.lang || 'fr';
-    const min = Number(el.dataset.min) || 4;
+    const min = Number(el.dataset.min) || 3;
     const max = Number(el.dataset.max) || 5;
     const auj = new Date();
     const fmt = new Intl.DateTimeFormat(LOCALES[lang] || 'fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
