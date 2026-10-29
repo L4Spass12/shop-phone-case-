@@ -117,6 +117,13 @@ const payload = {
 };
 
 const popularCount = catalogue.filter((m) => m.popular).length;
+
+// Données et script complets dans UNE seule instance par page : l'instance
+// globale du header, posée avant le contenu, quand la boutique est ouverte.
+// Les autres instances réutilisent ses données et son code (window.__mpInit)
+// au lieu de les recopier : environ 32 Ko de HTML en moins par instance.
+// Sans instance globale (boutique fermée), chaque instance reste autonome.
+const standalone = global || !siteConfig.shop?.enabled;
 ---
 
 {catalogue.length > 0 && (
@@ -224,20 +231,22 @@ const popularCount = catalogue.filter((m) => m.popular).length;
       </select>
     </noscript>
 
-    <script type="application/json" data-mp-data set:html={JSON.stringify(payload)} />
-    <script type="application/json" data-mp-meta set:html={JSON.stringify({ popularCount })} />
+    {standalone && <script type="application/json" data-mp-data set:html={JSON.stringify(payload)} />}
+    {standalone && <script type="application/json" data-mp-meta set:html={JSON.stringify({ popularCount })} />}
 
     {/* Le JS est écrit directement, sans accolades d'expression : dans une
         balise <script>, Astro n'évalue pas les expressions et les émettrait
         comme du texte — le code ne s'exécuterait jamais, silencieusement.
         Toutes les données viennent donc des deux <script type="application/json">
         ci-dessus, lus depuis le DOM. */}
+    {standalone ? (
     <script is:inline>
       (function () {
-        var root = document.currentScript.closest('[data-model-picker]');
+        function mpInit(root) {
         if (!root) return;
 
-        var data = JSON.parse(root.querySelector('[data-mp-data]').textContent);
+        var dataEl = root.querySelector('[data-mp-data]') || document.querySelector('[data-mp-global] [data-mp-data]');
+        var data = JSON.parse(dataEl.textContent);
         var MODELS = data.models;
         var BRANDS = data.brands;
         var T = data.i18n;
@@ -651,7 +660,13 @@ const popularCount = catalogue.filter((m) => m.popular).length;
         }, true);
 
         syncButtons();
+        }
+        window.__mpInit = mpInit;
+        mpInit(document.currentScript.closest('[data-model-picker]'));
       })();
     </script>
+    ) : (
+    <script is:inline>window.__mpInit && window.__mpInit(document.currentScript.closest('[data-model-picker]'));</script>
+    )}
   </div>
 )}

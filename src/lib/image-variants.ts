@@ -41,7 +41,7 @@ function existsInPublic(urlPath: string): boolean {
  * Le suffixe de cache (`?v=3`) est préservé : les images du feed Instagram
  * en portent un, et le perdre servirait une version périmée.
  */
-export function smallerVariant(src: string | undefined, width: 400 | 800): string {
+export function smallerVariant(src: string | undefined, width: number): string {
   if (!src || src.startsWith('http')) return src ?? '';
   const [file, query] = src.split('?');
   if (!/\.webp$/i.test(file)) return src;

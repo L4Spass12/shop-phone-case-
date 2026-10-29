@@ -599,6 +599,8 @@ const pickModelLabel = t('model.placeholder', lang);
           <img
             class="pdp-sticker"
             src={siteConfig.shop.stickerCoin}
+            srcset={`${smallerVariant(siteConfig.shop.stickerCoin, 170)} 170w, ${siteConfig.shop.stickerCoin} 260w`}
+            sizes="(max-width: 767px) 85px, 120px"
             alt=""
             aria-hidden="true"
             loading="lazy"
@@ -965,6 +967,8 @@ const pickModelLabel = t('model.placeholder', lang);
         <img
           class="pdp-ange"
           src={siteConfig.shop.angePanneau}
+          srcset={`${smallerVariant(siteConfig.shop.angePanneau, 190)} 190w, ${siteConfig.shop.angePanneau} 280w`}
+          sizes="(max-width: 767px) 92px, 122px"
           alt=""
           aria-hidden="true"
           loading="lazy"
