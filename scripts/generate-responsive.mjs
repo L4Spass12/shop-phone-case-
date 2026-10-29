@@ -1,5 +1,6 @@
 /**
- * Génère des variantes responsive -400w.webp et -800w.webp pour chaque
+ * Génère des variantes responsive -400w.webp et -800w.webp (plus -600w.webp
+ * à côté d'une -800w) pour chaque
  * image de public/images/ plus large que 500px.
  *
  * Les fichiers existants sont préservés (version originale = la plus grande).
@@ -42,6 +43,18 @@ for (const file of files) {
       .webp({ quality: 80, effort: 5 })
       .toBuffer();
     fs.writeFileSync(out, resized);
+    generated++;
+  }
+
+  // 600 : une vignette en 72vw sur un Android courant (~520 px réels) prenait
+  // la 800 faute d'intermédiaire. Seulement à côté d'une 800 existante.
+  const out600 = file.replace(/\.webp$/, '-600w.webp');
+  if (meta.width > 600 && fs.existsSync(file.replace(/\.webp$/, '-800w.webp')) && !fs.existsSync(out600)) {
+    const resized = await sharp(buf)
+      .resize({ width: 600, withoutEnlargement: true })
+      .webp({ quality: 80, effort: 5 })
+      .toBuffer();
+    fs.writeFileSync(out600, resized);
     generated++;
   }
 }

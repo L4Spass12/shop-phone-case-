@@ -41,6 +41,7 @@ export function unsplashSrcset(src: string, widths: number[] = UNSPLASH_WIDTHS):
     const base = src.replace(/\.webp$/i, '');
     const sources = [
       variantExists(`${base}-400w.webp`) ? `${base}-400w.webp 400w` : null,
+      variantExists(`${base}-600w.webp`) ? `${base}-600w.webp 600w` : null,
       variantExists(`${base}-800w.webp`) ? `${base}-800w.webp 800w` : null,
       `${src} 1200w`,
     ].filter(Boolean);
