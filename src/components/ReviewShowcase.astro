@@ -1,6 +1,8 @@
 ---
-// Accueil : vitrine des avis. À gauche la note globale et les liens, à
-// droite les cartes (ReviewTrack) qui défilent horizontalement.
+// Accueil : vitrine des avis.
+// Mobile : en-tête compact (titre, note sur une ligne), cartes en slider,
+// liens dessous, comme sur les fiches produit.
+// Ordinateur : note et liens dans une colonne à gauche, slider à droite.
 import type { Review } from '../lib/reviews';
 import { summary } from '../lib/reviews';
 import { localePrefix, type Locale } from '../lib/i18n';
@@ -32,40 +34,64 @@ const full = (n: number) => Math.round(n);
             <span class="rvs-count">{T.count(s.count)}</span>
           </span>
         </div>
+      </div>
+      <div class="rvs-cards"><ReviewTrack reviews={shown} lang={lang} /></div>
+      <div class="rvs-links">
         <a class="rvs-all" href={`${lp}/avis/`}>{T.all} →</a>
         <a class="rvs-how" href={`${lp}/avis/#verification`}>{T.how}</a>
       </div>
-
-      <ReviewTrack reviews={shown} lang={lang} />
     </div>
   </section>
 )}
 
 <style>
   .rvs {
-    padding: 4.5rem 0;
+    padding: 3rem 0 2.5rem;
     background: linear-gradient(180deg, #f7f3fe 0%, #efe8fc 100%);
   }
+  /* minmax(0, 1fr) : sans lui, la piste du slider (une seule ligne de cartes)
+     impose sa largeur à la colonne et la page déborde sur le côté. */
   .rvs-in {
     max-width: 80rem;
     margin: 0 auto;
     padding: 0 1.5rem;
     display: grid;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "intro" "cards" "links";
+    row-gap: 1.25rem;
   }
+  .rvs-intro { grid-area: intro; }
+  .rvs-cards { grid-area: cards; min-width: 0; }
+  .rvs-links { grid-area: links; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
   @media (min-width: 1024px) {
-    .rvs-in { grid-template-columns: 300px minmax(0, 1fr); gap: 3rem; align-items: center; }
+    .rvs { padding: 4.5rem 0; }
+    .rvs-in {
+      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-areas: "intro cards" "links cards";
+      grid-template-rows: auto 1fr;
+      column-gap: 3rem;
+      row-gap: 0;
+      align-items: start;
+    }
+    .rvs-intro { align-self: end; }
+    .rvs-links { flex-direction: column; align-items: flex-start; gap: .9rem; }
   }
-  .rvs-eyebrow { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgb(var(--accent-rgb)); margin-bottom: .6rem; }
-  .rvs-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -.02em; color: rgb(var(--c-cream)); }
-  .rvs-score { display: flex; align-items: center; gap: .9rem; margin: 1.4rem 0 1.2rem; }
-  .rvs-big { font-family: var(--font-display); font-weight: 700; font-size: 3.4rem; line-height: 1; color: rgb(var(--c-cream)); letter-spacing: -.03em; }
-  .rvs-score-r { display: flex; flex-direction: column; gap: .25rem; }
-  .rvs-stars { color: #f5b301; letter-spacing: .08em; font-size: 1.05rem; line-height: 1; }
+
+  .rvs-eyebrow { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgb(var(--accent-rgb)); margin-bottom: .5rem; }
+  .rvs-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -.02em; color: rgb(var(--c-cream)); }
+  /* Note : une ligne compacte sur mobile, grand chiffre sur ordinateur. */
+  .rvs-score { display: flex; align-items: center; gap: .6rem; margin-top: .75rem; }
+  .rvs-big { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1; color: rgb(var(--c-cream)); letter-spacing: -.02em; }
+  .rvs-score-r { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  @media (min-width: 1024px) {
+    .rvs-score { gap: .9rem; margin: 1.4rem 0 1.4rem; }
+    .rvs-big { font-size: 3.4rem; letter-spacing: -.03em; }
+    .rvs-score-r { flex-direction: column; align-items: flex-start; gap: .25rem; }
+  }
+  .rvs-stars { color: #f5b301; letter-spacing: .08em; font-size: 1rem; line-height: 1; }
   .rvs-stars .off { color: rgb(var(--c-cream) / .15); }
   .rvs-count { font-size: .85rem; color: rgb(var(--c-n400)); }
-  .rvs-all { display: inline-flex; align-items: center; font-weight: 600; font-size: .9rem; color: rgb(var(--c-cream)); background: #fff; border: 1px solid rgb(var(--c-cream) / .12); border-radius: 999px; padding: .6rem 1.1rem; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+  .rvs-all { display: inline-flex; align-items: center; font-weight: 600; font-size: .88rem; color: rgb(var(--c-cream)); background: #fff; border: 1px solid rgb(var(--c-cream) / .12); border-radius: 999px; padding: .55rem 1.05rem; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
   .rvs-all:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -12px rgb(var(--accent-rgb) / .6); }
-  .rvs-how { display: block; margin-top: .9rem; font-size: .78rem; color: rgb(var(--c-n500)); text-decoration: underline; text-underline-offset: 3px; }
-
+  .rvs-how { font-size: .78rem; color: rgb(var(--c-n500)); text-decoration: underline; text-underline-offset: 3px; }
 </style>
