@@ -25,7 +25,7 @@ import { unsplashSrcset } from '../lib/image';
 import { smallerVariant } from '../lib/image-variants';
 import { parseEntrySlug, t, localePrefix, type Locale } from '../lib/i18n';
 import variantsData from '../data/variants.json';
-import ReviewCards from './ReviewCards.astro';
+import ReviewShowcase from './ReviewShowcase.astro';
 import { getReviews, summary } from '../lib/reviews';
 
 interface Props {
@@ -1140,11 +1140,7 @@ const pickModelLabel = t('model.placeholder', lang);
   <div class="below-fold-defer"><FabricationSection /></div>
 
   <!-- ═══════════════════════════ AVIS CLIENTS ═══════════════════════════ -->
-  {shownReviews.length > 0 && (
-    <section id="avis" class="py-16 md:py-20 border-t border-white/[0.04] below-fold-defer scroll-mt-24">
-      <div class="max-w-7xl mx-auto px-6"><ReviewCards reviews={shownReviews} lang={lang} title={reviewsTitle} limit={8} /></div>
-    </section>
-  )}
+  <ReviewShowcase reviews={shownReviews} lang={lang} title={reviewsTitle} limit={8} id="avis" showAll={false} />
 
   <!-- ═══════════════════════════ VOUS AIMEREZ AUSSI (slider full-width) ═══════════════════════════ -->
   {related.length > 0 && (

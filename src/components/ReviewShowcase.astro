@@ -1,5 +1,5 @@
 ---
-// Accueil : vitrine des avis.
+// Accueil et fiches produit : vitrine des avis.
 // Mobile : en-tête compact (titre, note sur une ligne), cartes en slider,
 // liens dessous, comme sur les fiches produit.
 // Ordinateur : note et liens dans une colonne à gauche, slider à droite.
@@ -8,8 +8,10 @@ import { summary } from '../lib/reviews';
 import { localePrefix, type Locale } from '../lib/i18n';
 import ReviewTrack from './ReviewTrack.astro';
 
-interface Props { reviews: Review[]; lang: Locale; title: string; limit?: number }
-const { reviews, lang, title, limit = 10 } = Astro.props;
+// id : ancre de la section (fiche produit : #avis). showAll : bouton « Voir tous
+// les avis » (masqué sur les fiches produit).
+interface Props { reviews: Review[]; lang: Locale; title: string; limit?: number; id?: string; showAll?: boolean }
+const { reviews, lang, title, limit = 10, id, showAll = true } = Astro.props;
 const lp = localePrefix(lang);
 const s = summary(reviews);
 const shown = reviews.slice(0, limit);
@@ -22,7 +24,7 @@ const fmt = (n: number) => n.toFixed(1).replace('.', lang === 'en' ? '.' : ',');
 const full = (n: number) => Math.round(n);
 ---
 {T && reviews.length > 0 && (
-  <section class="rvs below-fold-defer">
+  <section class="rvs below-fold-defer" id={id}>
     <div class="rvs-in">
       <div class="rvs-intro">
         <span class="rvs-eyebrow">{T.eyebrow}</span>
@@ -37,7 +39,7 @@ const full = (n: number) => Math.round(n);
       </div>
       <div class="rvs-cards"><ReviewTrack reviews={shown} lang={lang} /></div>
       <div class="rvs-links">
-        <a class="rvs-all" href={`${lp}/avis/`}>{T.all} →</a>
+        {showAll && <a class="rvs-all" href={`${lp}/avis/`}>{T.all} →</a>}
         <a class="rvs-how" href={`${lp}/avis/#verification`}>{T.how}</a>
       </div>
     </div>
@@ -46,6 +48,7 @@ const full = (n: number) => Math.round(n);
 
 <style>
   .rvs {
+    scroll-margin-top: 6rem;
     padding: 3rem 0 2.5rem;
     background: linear-gradient(180deg, #f7f3fe 0%, #efe8fc 100%);
   }
