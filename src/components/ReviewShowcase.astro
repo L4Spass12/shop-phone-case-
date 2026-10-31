@@ -16,9 +16,9 @@ const shown = reviews.slice(0, limit);
 // colonne de cartes paraît vide.
 const feature = shown.length === 1;
 const T = {
-  fr: { eyebrow: 'Avis clients', count: (n: number) => `${n} avis vérifié${n > 1 ? 's' : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié', more: 'Lire la suite' },
-  en: { eyebrow: 'Customer reviews', count: (n: number) => `${n} verified review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase', more: 'Read more' },
-  de: { eyebrow: 'Kundenbewertungen', count: (n: number) => `${n} verifizierte Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf', more: 'Weiterlesen' },
+  fr: { eyebrow: 'Avis clients', count: (n: number, v = true) => `${n} avis${v ? ` vérifié${n > 1 ? 's' : ''}` : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié', more: 'Lire la suite' },
+  en: { eyebrow: 'Customer reviews', count: (n: number, v = true) => `${n}${v ? ' verified' : ''} review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase', more: 'Read more' },
+  de: { eyebrow: 'Kundenbewertungen', count: (n: number, v = true) => `${n} ${v ? 'verifizierte ' : ''}Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf', more: 'Weiterlesen' },
 }[lang];
 const fmt = (n: number) => n.toFixed(1).replace('.', lang === 'en' ? '.' : ',');
 const day = (iso: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
@@ -34,7 +34,7 @@ const full = (n: number) => Math.round(n);
           <span class="rvs-big">{fmt(s.avg)}</span>
           <span class="rvs-score-r">
             <span class="rvs-stars" aria-label={`${fmt(s.avg)}/5`}>{'★'.repeat(full(s.avg))}<span class="off">{'★'.repeat(5 - full(s.avg))}</span></span>
-            <span class="rvs-count">{T.count(s.count)}</span>
+            <span class="rvs-count">{T.count(s.count, s.allVerified)}</span>
           </span>
         </div>
         <a class="rvs-all" href={`${lp}/avis/`}>{T.all} →</a>
@@ -51,7 +51,7 @@ const full = (n: number) => Math.round(n);
               {!feature && r.body && r.body.length > 220 && <a class="rvs-more" href={`${lp}/avis/`}>{T.more}</a>}
               <p class="rvs-meta">
                 <span class="rvs-author">{r.author}</span>
-                <span class="rvs-ok">✓ {T.verified}</span>
+                {r.verified !== false && <span class="rvs-ok">✓ {T.verified}</span>}
               </p>
               <p class="rvs-date">{day(r.date)}</p>
             </div>

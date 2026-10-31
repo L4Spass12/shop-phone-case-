@@ -13,6 +13,8 @@ export type Review = {
   lang: string;
   products: string[];
   date: string;
+  /** false : avis saisi par l'atelier (vente hors site), sans badge « Achat vérifié ». */
+  verified?: boolean;
 };
 
 let cache: Promise<Review[]> | null = null;
@@ -42,5 +44,7 @@ export function getReviews(): Promise<Review[]> {
 export function summary(list: Review[]) {
   const count = list.length;
   const avg = count ? list.reduce((s, r) => s + r.rating, 0) / count : 0;
-  return { count, avg: Math.round(avg * 10) / 10 };
+  // Tous vérifiés : le compteur peut dire « X avis vérifiés ».
+  const allVerified = list.every((r) => r.verified !== false);
+  return { count, avg: Math.round(avg * 10) / 10, allVerified };
 }

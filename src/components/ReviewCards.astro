@@ -11,9 +11,9 @@ const lp = localePrefix(lang);
 const s = summary(reviews);
 const shown = reviews.slice(0, limit);
 const T = {
-  fr: { count: (n: number) => `${n} avis vérifié${n > 1 ? 's' : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié' },
-  en: { count: (n: number) => `${n} verified review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase' },
-  de: { count: (n: number) => `${n} verifizierte Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen ansehen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf' },
+  fr: { count: (n: number, v = true) => `${n} avis${v ? ` vérifié${n > 1 ? 's' : ''}` : ''}`, all: 'Voir tous les avis', how: 'Comment nous vérifions les avis', verified: 'Achat vérifié' },
+  en: { count: (n: number, v = true) => `${n}${v ? ' verified' : ''} review${n > 1 ? 's' : ''}`, all: 'See all reviews', how: 'How we verify reviews', verified: 'Verified purchase' },
+  de: { count: (n: number, v = true) => `${n} ${v ? 'verifizierte ' : ''}Bewertung${n > 1 ? 'en' : ''}`, all: 'Alle Bewertungen ansehen', how: 'Wie wir Bewertungen prüfen', verified: 'Verifizierter Kauf' },
 }[lang] ?? null;
 const day = (iso: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
 const stars = (n: number) => '★★★★★'.slice(0, Math.round(n)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(n));
@@ -22,7 +22,7 @@ const stars = (n: number) => '★★★★★'.slice(0, Math.round(n)) + '☆☆
   <div class="rv">
     <div class="rv-head">
       {title && <h2 class="rv-title">{title}</h2>}
-      <p class="rv-sum"><span class="rv-stars" aria-hidden="true">{stars(s.avg)}</span> <strong>{s.avg.toFixed(1).replace('.', lang === 'en' ? '.' : ',')}/5</strong> · {T.count(s.count)}</p>
+      <p class="rv-sum"><span class="rv-stars" aria-hidden="true">{stars(s.avg)}</span> <strong>{s.avg.toFixed(1).replace('.', lang === 'en' ? '.' : ',')}/5</strong> · {T.count(s.count, s.allVerified)}</p>
     </div>
     <ul class:list={['rv-list', compact && 'is-compact']}>
       {shown.map((r) => (
@@ -31,7 +31,7 @@ const stars = (n: number) => '★★★★★'.slice(0, Math.round(n)) + '☆☆
           <div class="rv-body">
             <p class="rv-stars" aria-label={`${r.rating}/5`}>{stars(r.rating)}</p>
             {r.body && <p class="rv-text">{r.body}</p>}
-            <p class="rv-meta"><strong>{r.author}</strong> · {day(r.date)} · <span class="rv-ok">✓ {T.verified}</span></p>
+            <p class="rv-meta"><strong>{r.author}</strong> · {day(r.date)} {r.verified !== false && <> · <span class="rv-ok">✓ {T.verified}</span></>}</p>
           </div>
         </li>
       ))}
