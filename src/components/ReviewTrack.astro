@@ -1,0 +1,209 @@
+---
+// Cartes d'avis clients, partagées par l'accueil (ReviewShowcase), les fiches
+// produit et la page /avis (ReviewCards).
+//
+// layout « slider » : défilement horizontal (glisser au doigt, flèches sur
+//   ordinateur), cartes de même hauteur.
+// layout « wall » : slider sur mobile, mur de photos sur ordinateur (colonnes,
+//   chaque photo à son format d'origine).
+//
+// Photo au format 4:5 (celui d'une photo de téléphone, presque rien n'est
+// coupé) ; un toucher l'ouvre en grand, entière. Texte long replié, « Lire la
+// suite » le déplie sur place.
+import type { Review } from '../lib/reviews';
+import type { Locale } from '../lib/i18n';
+
+interface Props { reviews: Review[]; lang: Locale; layout?: 'slider' | 'wall' }
+const { reviews, lang, layout = 'slider' } = Astro.props;
+const T = {
+  fr: { verified: 'Achat vérifié', more: 'Lire la suite', less: 'Réduire', prev: 'Avis précédents', next: 'Avis suivants', zoom: 'Agrandir la photo', close: 'Fermer', photo: (a: string) => `Photo de la coque de ${a}` },
+  en: { verified: 'Verified purchase', more: 'Read more', less: 'Show less', prev: 'Previous reviews', next: 'Next reviews', zoom: 'Enlarge photo', close: 'Close', photo: (a: string) => `Photo of ${a}’s case` },
+  de: { verified: 'Verifizierter Kauf', more: 'Weiterlesen', less: 'Weniger', prev: 'Vorherige Bewertungen', next: 'Nächste Bewertungen', zoom: 'Foto vergrößern', close: 'Schließen', photo: (a: string) => `Foto der Hülle von ${a}` },
+}[lang] ?? null;
+const day = (iso: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : 'fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+const initial = (name: string) => (name.trim()[0] ?? '?').toUpperCase();
+const LONG = 180;
+---
+{T && reviews.length > 0 && (
+  <div class:list={['rt', `rt--${layout}`]} data-rt>
+    <ul class="rt-track" data-rt-track>
+      {reviews.map((r) => (
+        <li class="rt-card">
+          {r.photo && (
+            <button type="button" class="rt-photo" data-rt-zoom={r.photo} aria-label={T.zoom}>
+              <img src={r.photo} alt={T.photo(r.author)} loading="lazy" decoding="async" width="600" height="750" />
+            </button>
+          )}
+          <div class="rt-body">
+            <div class="rt-top">
+              <span class="rt-stars" aria-label={`${r.rating}/5`}>{'★'.repeat(r.rating)}<span class="off">{'★'.repeat(5 - r.rating)}</span></span>
+              <span class="rt-ok">
+                <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                {T.verified}
+              </span>
+            </div>
+            {r.body && (
+              <div class="rt-quote">
+                <p class:list={['rt-text', r.body.length > LONG && 'is-clamped']}>{r.body}</p>
+                {r.body.length > LONG && <button type="button" class="rt-more" data-rt-more data-more={T.more} data-less={T.less}>{T.more}</button>}
+              </div>
+            )}
+            <div class="rt-who">
+              <span class="rt-avatar" aria-hidden="true">{initial(r.author)}</span>
+              <span class="rt-name">{r.author}</span>
+              <span class="rt-date">{day(r.date)}</span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="rt-nav" data-rt-nav hidden>
+      <button type="button" class="rt-arrow" data-rt-prev aria-label={T.prev}>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <div class="rt-dots" data-rt-dots aria-hidden="true"></div>
+      <button type="button" class="rt-arrow" data-rt-next aria-label={T.next}>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    </div>
+    <dialog class="rt-lightbox" data-rt-lightbox>
+      <img alt="" data-rt-lightbox-img />
+      <button type="button" class="rt-close" data-rt-close aria-label={T.close}>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
+    </dialog>
+  </div>
+)}
+
+<script>
+  function setup(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>('[data-rt-track]')!;
+    const nav = root.querySelector<HTMLElement>('[data-rt-nav]')!;
+    const dots = root.querySelector<HTMLElement>('[data-rt-dots]')!;
+    const cards = [...track.children] as HTMLElement[];
+    const isSlider = () => getComputedStyle(track).overflowX === 'auto';
+
+    // Points : un par carte, l'actif suit le défilement.
+    dots.innerHTML = cards.map(() => '<span></span>').join('');
+    const dotEls = [...dots.children] as HTMLElement[];
+    const update = () => {
+      const slider = isSlider() && track.scrollWidth > track.clientWidth + 4;
+      nav.hidden = !slider;
+      if (!slider) return;
+      const left = track.scrollLeft;
+      let active = 0;
+      cards.forEach((c, i) => { if (c.offsetLeft - track.offsetLeft <= left + 8) active = i; });
+      if (left + track.clientWidth >= track.scrollWidth - 4) active = cards.length - 1;
+      dotEls.forEach((d, i) => d.classList.toggle('is-on', i === active));
+      root.querySelector<HTMLButtonElement>('[data-rt-prev]')!.disabled = left <= 4;
+      root.querySelector<HTMLButtonElement>('[data-rt-next]')!.disabled = left + track.clientWidth >= track.scrollWidth - 4;
+    };
+    const step = () => (cards[0]?.getBoundingClientRect().width ?? 300) + parseFloat(getComputedStyle(track).columnGap || '16');
+    root.querySelector('[data-rt-prev]')!.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    root.querySelector('[data-rt-next]')!.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    // « Lire la suite » : déplie le texte sur place.
+    root.querySelectorAll<HTMLButtonElement>('[data-rt-more]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const text = b.previousElementSibling as HTMLElement;
+        const open = text.classList.toggle('is-clamped') === false;
+        b.textContent = open ? b.dataset.less! : b.dataset.more!;
+      });
+    });
+
+    // Photo en grand, entière.
+    const box = root.querySelector<HTMLDialogElement>('[data-rt-lightbox]')!;
+    const img = root.querySelector<HTMLImageElement>('[data-rt-lightbox-img]')!;
+    root.querySelectorAll<HTMLButtonElement>('[data-rt-zoom]').forEach((b) => {
+      b.addEventListener('click', () => {
+        img.src = b.dataset.rtZoom!;
+        img.alt = b.querySelector('img')?.alt ?? '';
+        box.showModal();
+      });
+    });
+    root.querySelector('[data-rt-close]')!.addEventListener('click', () => box.close());
+    box.addEventListener('click', (e) => { if (e.target === box) box.close(); });
+  }
+  document.querySelectorAll<HTMLElement>('[data-rt]').forEach(setup);
+</script>
+
+<style>
+  .rt { position: relative; }
+
+  /* ── Piste : slider partout pour « slider », sur mobile pour « wall » ── */
+  .rt-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.5rem;
+    margin: 0 -1.5rem;
+    padding: .25rem 1.5rem 1.25rem;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .rt-track::-webkit-scrollbar { display: none; }
+  .rt-card {
+    flex: 0 0 min(80vw, 320px);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgb(var(--c-cream) / .07);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgb(17 17 19 / .04), 0 12px 28px -18px rgb(17 17 19 / .28);
+  }
+  @media (min-width: 768px) {
+    .rt--slider .rt-track { margin: 0; padding-inline: .25rem; scroll-padding-inline: .25rem; }
+    .rt--slider .rt-card { flex-basis: 300px; }
+  }
+
+  /* Mur de photos (page /avis, ordinateur) : colonnes, photo entière. */
+  @media (min-width: 768px) {
+    .rt--wall .rt-track { display: block; columns: 2; column-gap: 1.25rem; overflow: visible; margin: 0; padding: 0; }
+    .rt--wall .rt-card { break-inside: avoid; margin-bottom: 1.25rem; }
+    .rt--wall .rt-photo img { aspect-ratio: auto; height: auto; }
+  }
+  @media (min-width: 1100px) { .rt--wall .rt-track { columns: 3; } }
+
+  /* ── Photo ── */
+  .rt-photo { display: block; width: 100%; padding: 0; border: 0; background: rgb(var(--c-cream) / .04); cursor: zoom-in; }
+  .rt-photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .5s ease; }
+  .rt-card:hover .rt-photo img { transform: scale(1.02); }
+
+  /* ── Texte ── */
+  .rt-body { flex: 1; display: flex; flex-direction: column; gap: .8rem; padding: 1.1rem 1.2rem 1.2rem; }
+  .rt-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .rt-stars { color: #f5b301; font-size: 1rem; letter-spacing: .1em; line-height: 1; }
+  .rt-stars .off { color: rgb(var(--c-cream) / .13); }
+  .rt-ok { display: inline-flex; align-items: center; gap: .3rem; font-size: .7rem; font-weight: 600; color: #14704a; background: #e9f7ef; border-radius: 999px; padding: .25rem .55rem .25rem .45rem; white-space: nowrap; }
+  .rt-quote { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; }
+  .rt-text { font-size: .94rem; line-height: 1.6; color: rgb(var(--c-cream) / .88); white-space: pre-line; }
+  .rt-text.is-clamped { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+  .rt-more { padding: 0; border: 0; background: none; font-size: .82rem; font-weight: 600; color: rgb(var(--accent-rgb)); cursor: pointer; }
+  .rt-who { display: flex; align-items: center; gap: .6rem; margin-top: auto; padding-top: .85rem; border-top: 1px solid rgb(var(--c-cream) / .07); }
+  .rt-avatar { flex: none; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; font-size: .8rem; font-weight: 700; color: rgb(var(--accent-rgb)); background: rgb(var(--accent-rgb) / .1); }
+  .rt-name { font-size: .88rem; font-weight: 600; color: rgb(var(--c-cream)); }
+  .rt-date { margin-left: auto; font-size: .75rem; color: rgb(var(--c-n500)); white-space: nowrap; }
+
+  /* ── Navigation : points + flèches (flèches cachées au doigt) ── */
+  .rt-nav { display: flex; align-items: center; justify-content: center; gap: .75rem; margin-top: .25rem; }
+  .rt-nav[hidden] { display: none; }
+  .rt-arrow { display: none; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 999px; border: 1px solid rgb(var(--c-cream) / .12); background: #fff; color: rgb(var(--c-cream)); cursor: pointer; transition: background .2s ease, opacity .2s ease, box-shadow .2s ease; }
+  .rt-arrow:hover:not(:disabled) { box-shadow: 0 6px 16px -10px rgb(17 17 19 / .4); }
+  .rt-arrow:disabled { opacity: .35; cursor: default; }
+  @media (hover: hover) and (min-width: 768px) { .rt-arrow { display: grid; } }
+  .rt-dots { display: flex; gap: .4rem; }
+  .rt-dots :global(span) { width: .45rem; height: .45rem; border-radius: 999px; background: rgb(var(--c-cream) / .15); transition: width .25s ease, background .25s ease; }
+  .rt-dots :global(span.is-on) { width: 1.3rem; background: rgb(var(--c-cream) / .75); }
+
+  /* ── Photo en grand ── */
+  .rt-lightbox { padding: 0; border: 0; background: transparent; max-width: 100vw; max-height: 100dvh; }
+  .rt-lightbox::backdrop { background: rgb(10 10 12 / .86); backdrop-filter: blur(4px); }
+  .rt-lightbox img { display: block; max-width: min(92vw, 900px); max-height: 86dvh; width: auto; height: auto; border-radius: 1rem; }
+  .rt-close { position: fixed; top: max(1rem, env(safe-area-inset-top)); right: 1rem; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 999px; background: rgb(255 255 255 / .14); color: #fff; cursor: pointer; }
+</style>
