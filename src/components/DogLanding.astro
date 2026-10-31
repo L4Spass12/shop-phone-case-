@@ -1,0 +1,317 @@
+---
+// Page « coque photo de son chien » (/coque-photo-chien/, /en/…, /de/…) :
+// répond aux recherches « coque photo chien », « coque personnalisée chien »,
+// « custom dog phone case », « Handyhülle mit Hundefoto »… et envoie vers le
+// studio, où le client importe la photo de son chien.
+//
+// Textes : **mot** = mis en gras (<strong>), comme dans CustomLanding.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+import { localePrefix, type Locale } from '../lib/i18n';
+import { PHONE_MODELS } from '../lib/models';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const lp = localePrefix(lang);
+const url = (p: string) => `${lp}${p}`;
+const money = (c: number) => new Intl.NumberFormat(lang === 'en' ? 'en-IE' : lang === 'de' ? 'de-DE' : 'fr-FR', { style: 'currency', currency: siteConfig.shop.currency }).format(c / 100);
+const flat = money(siteConfig.shop?.customCasePriceCents ?? 1990);
+const relief = money(siteConfig.shop?.customCaseReliefPriceCents ?? 2490);
+const iphones = PHONE_MODELS.filter((m) => m.brand === 'apple').map((m) => m.label);
+const galaxies = PHONE_MODELS.filter((m) => m.brand === 'samsung').map((m) => m.label);
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const md = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong class="text-cream font-medium">$1</strong>');
+const plain = (s: string) => s.replace(/\*\*/g, '');
+
+// Coques chien illustrées de la boutique, pour qui préfère un dessin.
+const DESIGNS = [
+  { slug: 'coque-chiens-amoureux', img: '/images/products/coque-chiens-amoureux-plat-400w.webp', name: { fr: 'Chiens Amoureux', en: 'Dogs in Love', de: 'Verliebte Hunde' } },
+  { slug: 'coque-happiness-chien', img: '/images/products/coque-happiness-chien-plat-400w.webp', name: { fr: 'Happiness Chien', en: 'Happy Dog', de: 'Glücklicher Hund' } },
+];
+
+const T = {
+  fr: {
+    title: 'Coque photo chien : votre chien sur votre coque de téléphone',
+    description: `Coque personnalisée avec la photo de votre chien, son nom ou sa date d'adoption. iPhone et Samsung, à plat ou en relief, imprimée à l'unité en France, dès ${flat}.`,
+    h1: 'Coque photo de votre chien',
+    intro: `Votre chien vous suit partout : maintenant, il vous suit aussi sur votre téléphone. Importez sa plus belle photo, ajoutez son nom, et créez une **coque photo chien** unique. Votre **coque personnalisée chien** est imprimée à l'unité dans notre atelier en France.`,
+    cta: 'Créer la coque de mon chien',
+    price: `À partir de ${flat}, ${relief} en relief · iPhone et Samsung`,
+    stepsTitle: 'Comment créer la coque de votre chien ?',
+    steps: [
+      ['Choisissez votre téléphone', 'iPhone 11 à 18 Pro Max ou Samsung Galaxy : la coque est fabriquée pour votre modèle exact.'],
+      ['Ajoutez la photo de votre chien', 'Importez une ou plusieurs photos, ajoutez son nom, un cœur ou sa date d’adoption. Vous voyez le rendu en direct.'],
+      ['Recevez votre coque', 'Votre **coque photo chien** est imprimée à la commande, puis expédiée sous 1 à 2 jours ouvrés.'],
+    ],
+    photoTitle: 'Quelle photo de votre chien choisir ?',
+    photoTips: [
+      ['Une photo nette et lumineuse', 'Prenez-la de jour, près d’une fenêtre ou dehors : le pelage ressort bien mieux qu’avec le flash.'],
+      ['À hauteur de truffe', 'Mettez-vous au niveau de votre chien, le regard vers l’objectif : c’est la photo qui fait fondre tout le monde.'],
+      ['Un fond simple', 'Un mur, l’herbe, un canapé uni : votre chien reste la star de la coque.'],
+      ['La photo originale', 'Évitez les captures d’écran ou les photos reçues par messagerie, souvent compressées : elles seraient floues une fois imprimées.'],
+    ],
+    ideasTitle: 'Idées de coque chien personnalisée',
+    ideas: [
+      ['Son portrait et son nom', 'Une grande photo de votre chien, son nom en dessous : simple et efficace.'],
+      ['Un collage de souvenirs', 'Chiot, première balade, vacances à la mer : plusieurs photos dans des cadres Polaroid.'],
+      ['En hommage', 'Pour garder près de vous un compagnon parti, avec sa photo et ses dates.'],
+      ['Vous et votre chien', 'Une photo de vous deux, pour ne jamais oublier qui est le meilleur ami de qui.'],
+    ],
+    reliefTitle: 'À plat ou en relief',
+    reliefText: `**À plat (${flat})** : surface lisse, couleurs fidèles à votre photo. **En relief (${relief})** : l’encre est déposée en plusieurs couches, on sent le contour de votre chien sous le doigt.`,
+    giftTitle: 'Un cadeau pour les amoureux des chiens',
+    giftText: 'Anniversaire, Noël, fête des mères ou des pères : une **coque avec la photo de son chien** est un cadeau personnalisé que l’on garde sur soi tous les jours. Il vous suffit d’une photo du chien, que vous pouvez demander discrètement.',
+    designsTitle: 'Plutôt un dessin ?',
+    designsText: 'Découvrez aussi nos coques chien illustrées, prêtes à commander.',
+    designsAll: 'Voir toutes les coques animaux',
+    modelsTitle: 'Modèles compatibles',
+    faqTitle: 'Questions fréquentes sur la coque photo chien',
+    faq: [
+      ['Combien coûte une coque avec la photo de mon chien ?', `${flat} à plat et ${relief} en relief, quel que soit le nombre de photos et de textes.`],
+      ['Puis-je mettre plusieurs photos de mon chien ?', 'Oui : ajoutez autant de photos que vous voulez, ou choisissez un modèle avec plusieurs cadres. Vous pouvez aussi réunir plusieurs chiens, ou votre chien et votre chat.'],
+      ['Ma photo n’est pas parfaite, est-ce grave ?', 'Une photo prise avec un smartphone récent suffit. En cas de doute, l’onglet Aide du studio vous permet d’envoyer vos photos : notre atelier prépare le design pour vous (6,90 €, ajoutés seulement si vous commandez).'],
+      ['Pour quels téléphones ?', 'iPhone 11 à 18 Pro Max et Samsung Galaxy S24, S25, S26 (Ultra compris), A36 et A56. Xiaomi, Pixel et Honor sont disponibles sur commande.'],
+      ['Combien de temps pour la recevoir ?', 'La coque est imprimée à la commande, expédiée sous 1 à 2 jours ouvrés, puis livrée par La Poste en 3 jours ouvrés à domicile en France. En point relais, comptez 4 à 7 jours ouvrés au total.'],
+      ['Puis-je la retourner ?', 'Une coque personnalisée est fabriquée pour vous seul : comme le prévoit la loi, elle ne bénéficie pas du droit de rétractation. En cas de défaut d’impression, nous la refaisons.'],
+    ],
+    more: 'Envie d’une autre photo ? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Coque personnalisée avec vos photos</a>',
+    home: 'Accueil',
+    parent: 'Coque personnalisée',
+  },
+  en: {
+    title: 'Custom dog phone case with your dog’s photo',
+    description: `Custom phone case with your dog’s photo, name or adoption date. iPhone and Samsung, flat or raised, printed one at a time in France, from ${flat}.`,
+    h1: 'Custom phone case with your dog’s photo',
+    intro: 'Your dog follows you everywhere: now it follows you on your phone too. Upload its best photo, add its name, and create a one-of-a-kind **custom dog phone case**. Your **dog photo phone case** is printed one at a time in our workshop in France.',
+    cta: 'Create my dog’s case',
+    price: `From ${flat}, ${relief} raised · iPhone and Samsung`,
+    stepsTitle: 'How to create your dog phone case',
+    steps: [
+      ['Pick your phone', 'iPhone 11 to 18 Pro Max or Samsung Galaxy: the case is made for your exact model.'],
+      ['Add your dog’s photo', 'Upload one or several photos, add its name, a heart or its adoption date. You see the result live.'],
+      ['Get your case', 'Your **dog photo phone case** is printed to order, then shipped within 1 to 2 working days.'],
+    ],
+    photoTitle: 'Which photo of your dog should you choose?',
+    photoTips: [
+      ['Sharp and bright', 'Take it in daylight, near a window or outdoors: the fur looks much better than with flash.'],
+      ['At nose level', 'Get down to your dog’s height, eyes towards the lens: the photo that melts every heart.'],
+      ['A simple background', 'A wall, grass, a plain sofa: your dog stays the star of the case.'],
+      ['The original file', 'Avoid screenshots or photos received through messaging apps, which are often compressed: they would look blurry once printed.'],
+    ],
+    ideasTitle: 'Custom dog phone case ideas',
+    ideas: [
+      ['Portrait and name', 'One big photo of your dog with its name underneath: simple and striking.'],
+      ['A memories collage', 'Puppy days, first walk, beach holidays: several photos in Polaroid frames.'],
+      ['In loving memory', 'Keep a departed companion close to you, with its photo and dates.'],
+      ['You and your dog', 'A photo of you both, so no one forgets who is whose best friend.'],
+    ],
+    reliefTitle: 'Flat or raised',
+    reliefText: `**Flat (${flat})**: smooth surface, colours true to your photo. **Raised (${relief})**: the ink is built up in several layers, so you can feel your dog’s outline.`,
+    giftTitle: 'A gift for dog lovers',
+    giftText: 'Birthdays, Christmas, Mother’s or Father’s Day: a **phone case with their dog’s photo** is a personalised gift they carry every day. All you need is a photo of the dog, which you can ask for discreetly.',
+    designsTitle: 'Prefer an illustration?',
+    designsText: 'Discover our illustrated dog cases, ready to order.',
+    designsAll: 'See all animal cases',
+    modelsTitle: 'Compatible models',
+    faqTitle: 'Dog photo phone case FAQ',
+    faq: [
+      ['How much does a case with my dog’s photo cost?', `${flat} flat and ${relief} raised, whatever the number of photos and texts.`],
+      ['Can I put several photos of my dog?', 'Yes: add as many photos as you like, or pick a template with several frames. You can also bring several dogs together, or your dog and your cat.'],
+      ['My photo isn’t perfect, is that a problem?', 'A photo taken with a recent smartphone is enough. If in doubt, the Help tab in the studio lets you send your photos: our workshop prepares the design for you (€6.90, added only if you order).'],
+      ['Which phones?', 'iPhone 11 to 18 Pro Max and Samsung Galaxy S24, S25, S26 (Ultra included), A36 and A56. Xiaomi, Pixel and Honor are available to order.'],
+      ['How long does delivery take?', 'The case is printed to order and shipped within 1 to 2 working days. Delivery time depends on your country.'],
+      ['Can I return it?', 'A custom case is made just for you, so by law it is not covered by the right of withdrawal. If there is a printing defect, we reprint it.'],
+    ],
+    more: 'Another photo in mind? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Custom phone case with your photos</a>',
+    home: 'Home',
+    parent: 'Custom phone case',
+  },
+  de: {
+    title: 'Handyhülle mit Hundefoto: dein Hund auf deiner Hülle',
+    description: `Personalisierte Handyhülle mit dem Foto deines Hundes, seinem Namen oder dem Tag der Adoption. iPhone und Samsung, flach oder mit Relief, einzeln in Frankreich bedruckt, ab ${flat}.`,
+    h1: 'Handyhülle mit dem Foto deines Hundes',
+    intro: 'Dein Hund folgt dir überallhin: jetzt auch auf deinem Handy. Lade sein schönstes Foto hoch, füge seinen Namen hinzu und gestalte eine einzigartige **Handyhülle mit Hundefoto**. Deine **personalisierte Hundehülle** wird einzeln in unserem Atelier in Frankreich bedruckt.',
+    cta: 'Hülle für meinen Hund gestalten',
+    price: `Ab ${flat}, ${relief} mit Relief · iPhone und Samsung`,
+    stepsTitle: 'So gestaltest du die Hülle mit deinem Hund',
+    steps: [
+      ['Wähle dein Handy', 'iPhone 11 bis 18 Pro Max oder Samsung Galaxy: Die Hülle passt genau zu deinem Modell.'],
+      ['Füge das Foto deines Hundes hinzu', 'Lade ein oder mehrere Fotos hoch, ergänze seinen Namen, ein Herz oder den Tag der Adoption. Du siehst das Ergebnis sofort.'],
+      ['Erhalte deine Hülle', 'Deine **Handyhülle mit Hundefoto** wird auf Bestellung bedruckt und innerhalb von 1 bis 2 Werktagen verschickt.'],
+    ],
+    photoTitle: 'Welches Foto deines Hundes eignet sich?',
+    photoTips: [
+      ['Scharf und hell', 'Fotografiere bei Tageslicht, am Fenster oder draußen: Das Fell wirkt viel schöner als mit Blitz.'],
+      ['Auf Augenhöhe', 'Geh auf die Höhe deines Hundes, Blick in die Kamera: Das Foto, bei dem alle dahinschmelzen.'],
+      ['Ein ruhiger Hintergrund', 'Eine Wand, Gras, ein einfarbiges Sofa: Dein Hund bleibt der Star der Hülle.'],
+      ['Das Originalfoto', 'Vermeide Screenshots oder per Messenger erhaltene Fotos, die oft komprimiert sind: Gedruckt wären sie unscharf.'],
+    ],
+    ideasTitle: 'Ideen für deine Hundehülle',
+    ideas: [
+      ['Porträt und Name', 'Ein großes Foto deines Hundes mit seinem Namen darunter: schlicht und wirkungsvoll.'],
+      ['Eine Erinnerungs-Collage', 'Welpenzeit, erster Spaziergang, Urlaub am Meer: mehrere Fotos in Polaroid-Rahmen.'],
+      ['In Erinnerung', 'Behalte einen verstorbenen Begleiter bei dir, mit seinem Foto und seinen Daten.'],
+      ['Du und dein Hund', 'Ein Foto von euch beiden, damit niemand vergisst, wer wessen bester Freund ist.'],
+    ],
+    reliefTitle: 'Flach oder mit Relief',
+    reliefText: `**Flach (${flat})**: glatte Oberfläche, Farben originalgetreu. **Relief (${relief})**: Die Farbe wird in mehreren Schichten aufgetragen, die Umrisse deines Hundes sind fühlbar.`,
+    giftTitle: 'Ein Geschenk für Hundefreunde',
+    giftText: 'Geburtstag, Weihnachten, Mutter- oder Vatertag: Eine **Handyhülle mit dem Foto ihres Hundes** ist ein personalisiertes Geschenk für jeden Tag. Du brauchst nur ein Foto des Hundes, das du unauffällig besorgen kannst.',
+    designsTitle: 'Lieber eine Illustration?',
+    designsText: 'Entdecke auch unsere illustrierten Hundehüllen, sofort bestellbar.',
+    designsAll: 'Alle Tierhüllen ansehen',
+    modelsTitle: 'Kompatible Modelle',
+    faqTitle: 'Häufige Fragen zur Handyhülle mit Hundefoto',
+    faq: [
+      ['Was kostet eine Hülle mit dem Foto meines Hundes?', `${flat} flach und ${relief} mit Relief, egal wie viele Fotos und Texte.`],
+      ['Kann ich mehrere Fotos meines Hundes verwenden?', 'Ja: Füge so viele Fotos hinzu, wie du willst, oder wähle eine Vorlage mit mehreren Rahmen. Du kannst auch mehrere Hunde vereinen, oder deinen Hund und deine Katze.'],
+      ['Mein Foto ist nicht perfekt, ist das schlimm?', 'Ein Foto von einem aktuellen Smartphone reicht. Im Zweifel kannst du im Hilfe-Tab des Studios deine Fotos schicken: Unser Atelier bereitet das Design für dich vor (6,90 €, nur bei einer Bestellung berechnet).'],
+      ['Für welche Handys?', 'iPhone 11 bis 18 Pro Max und Samsung Galaxy S24, S25, S26 (inkl. Ultra), A36 und A56. Xiaomi, Pixel und Honor gibt es auf Bestellung.'],
+      ['Wie lange dauert die Lieferung?', 'Die Hülle wird auf Bestellung bedruckt und innerhalb von 1 bis 2 Werktagen verschickt. Die Lieferzeit hängt von deinem Land ab.'],
+      ['Kann ich sie zurückgeben?', 'Eine personalisierte Hülle wird nur für dich hergestellt und ist daher gesetzlich vom Widerrufsrecht ausgenommen. Bei einem Druckfehler drucken wir sie neu.'],
+    ],
+    more: 'Lieber ein anderes Foto? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Handyhülle mit deinen Fotos</a>',
+    home: 'Startseite',
+    parent: 'Handyhülle mit Foto',
+  },
+}[lang] ?? null;
+if (!T) throw new Error(`DogLanding : langue non prise en charge (${lang})`);
+
+const pageUrl = `${siteConfig.url}${url('/coque-photo-chien/')}`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: T.home, item: `${siteConfig.url}${url('/')}` },
+      { '@type': 'ListItem', position: 2, name: T.parent, item: `${siteConfig.url}${url('/coque-personnalisee/')}` },
+      { '@type': 'ListItem', position: 3, name: T.h1, item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: T.stepsTitle,
+    step: T.steps.map(([name, text], i) => ({ '@type': 'HowToStep', position: i + 1, name, text: plain(text) })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: plain(a) } })),
+  },
+];
+const h2 = 'text-2xl md:text-3xl font-medium tracking-tight text-cream';
+const card = 'rounded-2xl border border-white/[0.08] bg-panel p-6';
+---
+
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/menu-studio-wide.webp">
+  <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
+      <a href={url('/')} class="hover:text-cream transition-colors">{T.home}</a>
+      <span>/</span>
+      <a href={url('/coque-personnalisee/')} class="hover:text-cream transition-colors">{T.parent}</a>
+      <span>/</span>
+      <span class="text-n-400">{T.h1}</span>
+    </nav>
+
+    <section class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-20">
+      <div class="order-2 md:order-1">
+        <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-5">{T.h1}</h1>
+        <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-7" set:html={md(T.intro)} />
+        <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+        <p class="text-sm text-n-500 font-light mt-4">{T.price}</p>
+      </div>
+      <img class="order-1 md:order-2 w-full rounded-3xl object-cover aspect-[5/2] md:aspect-[4/3]" src="/images/menu-studio-wide.webp"
+        alt={T.h1} width="1400" height="560" fetchpriority="high" decoding="async" />
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.stepsTitle}</h2>
+      <ol class="grid md:grid-cols-3 gap-6">
+        {T.steps.map(([name, text], i) => (
+          <li class={card}>
+            <span class="text-xs font-medium text-n-500 tracking-widest">0{i + 1}</span>
+            <h3 class="text-lg font-medium text-cream mt-2 mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(text)} />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.photoTitle}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {T.photoTips.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.ideasTitle}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {T.ideas.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-6 mb-20">
+      {[[T.reliefTitle, T.reliefText], [T.giftTitle, T.giftText]].map(([h, p]) => (
+        <div class={card}>
+          <h2 class="text-lg font-medium text-cream mb-2">{h}</h2>
+          <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(p)} />
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-3`}>{T.designsTitle}</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">{T.designsText}</p>
+      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {DESIGNS.map((d) => (
+          <li>
+            <a href={url(`/product/${d.slug}/`)} class="group block">
+              <img src={d.img} alt={d.name[lang]} width="400" height="500" loading="lazy" decoding="async"
+                class="w-full aspect-[4/5] object-cover rounded-[1.4rem] border border-white/[0.08] group-hover:scale-[1.02] transition-transform duration-300" />
+              <span class="block mt-3 text-sm font-medium text-cream">{d.name[lang]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="text-sm text-n-400 font-light mt-6">
+        <a href={url('/product-category/coques-animaux/')} class="underline underline-offset-4 hover:text-cream transition-colors">{T.designsAll} →</a>
+      </p>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-5`}>{T.modelsTitle}</h2>
+      <p class="text-sm text-n-400 font-light leading-relaxed"><strong class="text-cream font-medium">iPhone :</strong> {iphones.join(', ')}</p>
+      <p class="text-sm text-n-400 font-light leading-relaxed mt-2"><strong class="text-cream font-medium">Samsung :</strong> {galaxies.join(', ')}</p>
+    </section>
+
+    <section class="max-w-3xl mb-16">
+      <h2 class={`${h2} mb-6`}>{T.faqTitle}</h2>
+      <div class="space-y-3">
+        {T.faq.map(([q, a]) => (
+          <details class="rounded-2xl border border-white/[0.08] bg-panel px-6 py-4">
+            <summary class="cursor-pointer font-medium text-cream"><h3 class="inline text-base font-medium">{q}</h3></summary>
+            <p class="mt-3 text-sm text-n-400 font-light leading-relaxed" set:html={md(a)} />
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <div class="text-center">
+      <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+      <p class="text-sm text-n-500 font-light mt-4" set:html={T.more.replace('URL', url('/coque-personnalisee/'))} />
+    </div>
+  </div>
+</BaseLayout>

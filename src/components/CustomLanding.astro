@@ -73,6 +73,7 @@ const T = {
       ['Coque photo de famille', 'Les enfants, un mariage, une naissance : un collage de souvenirs que vous gardez toujours sur vous.'],
       ['Coque avec prénom ou texte', 'Un prénom, une citation, des initiales : ajoutez votre texte avec la police et la couleur de votre choix.'],
     ],
+    dogLink: 'Votre chien sur votre coque ? Créez votre **coque photo chien** avec son nom.',
     footLink: 'Fan de foot ? Créez votre **coque de foot personnalisée** avec votre nom et votre numéro.',
     giftTitle: 'Une coque personnalisée à offrir',
     giftText: 'Saint-Valentin, anniversaire, fête des mères ou des pères, Noël : une **coque personnalisée** avec une photo qui compte fait un **cadeau personnalisé** unique, que l’on utilise tous les jours.',
@@ -128,6 +129,7 @@ const T = {
       ['Family photo case', 'Kids, a wedding, a birth: a collage of memories you always carry with you.'],
       ['Name or text case', 'A name, a quote, initials: add your text in the font and colour you like.'],
     ],
+    dogLink: 'Your dog on your case? Create your **custom dog phone case** with its name.',
     footLink: 'Football fan? Create your **custom football case** with your name and number.',
     giftTitle: 'A custom phone case to give',
     giftText: 'Valentine’s Day, birthdays, Mother’s or Father’s Day, Christmas: a **custom phone case** with a photo that matters is a **personalised gift** used every day.',
@@ -183,6 +185,7 @@ const T = {
       ['Familienfoto-Hülle', 'Kinder, eine Hochzeit, eine Geburt: eine Collage voller Erinnerungen, die du immer dabeihast.'],
       ['Hülle mit Name oder Text', 'Ein Name, ein Spruch, Initialen: Füge deinen Text in der Schrift und Farbe deiner Wahl hinzu.'],
     ],
+    dogLink: 'Dein Hund auf deiner Hülle? Gestalte deine **Handyhülle mit Hundefoto** und seinem Namen.',
     footLink: 'Fußballfan? Gestalte deine **Fußball-Handyhülle** mit Name und Nummer.',
     giftTitle: 'Eine personalisierte Handyhülle zum Verschenken',
     giftText: 'Valentinstag, Geburtstag, Mutter- oder Vatertag, Weihnachten: Eine **Handyhülle mit Foto**, das zählt, ist ein **personalisiertes Geschenk** für jeden Tag.',
@@ -315,6 +318,9 @@ const card = 'rounded-2xl border border-white/[0.08] bg-panel p-6';
         ))}
       </div>
       <p class="text-sm text-n-400 font-light mt-6">
+        <a href={url('/coque-photo-chien/')} class="underline underline-offset-4 hover:text-cream transition-colors" set:html={md(T.dogLink)} />
+      </p>
+      <p class="text-sm text-n-400 font-light mt-2">
         <a href="/coque-foot-personnalisee/" class="underline underline-offset-4 hover:text-cream transition-colors" set:html={md(T.footLink)} />
       </p>
     </section>
