@@ -6,7 +6,7 @@ image: "/images/products/coque-tourbillon-lune-relief.webp"
 flatImage: "/images/products/coque-tourbillon-lune-plat.webp"
 videos:
   # Exemple du rendu en relief (vidéo TikTok @bymoroji, sans son).
-  - src: "/videos/exemple-relief.mp4"
+  - src: "/videos/exemple-relief-v2.mp4"
     poster: "/images/exemple-relief-poster.webp"
     thumb: "/images/exemple-relief-thumb.webp"
     mode: "relief"
