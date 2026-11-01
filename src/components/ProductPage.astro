@@ -27,6 +27,7 @@ import { parseEntrySlug, t, localePrefix, type Locale } from '../lib/i18n';
 import variantsData from '../data/variants.json';
 import ReviewShowcase from './ReviewShowcase.astro';
 import { getReviews, summary } from '../lib/reviews';
+import { getPopularity, recommend } from '../lib/recommend';
 
 interface Props {
   /** Fiche FRANÇAISE : source de toutes les données du produit. */
@@ -160,23 +161,35 @@ const GENERIC_CATEGORIES = new Set([
 const preferredCategory = (categories || []).find(c => !GENERIC_CATEGORIES.has(c))
   ?? categories?.[0];
 
-// Produits de la même catégorie (hors produit courant). Pages FR : les
-// fiches FR. Autres langues : les fiches qui ont une traduction dans cette
-// langue (ce sont les seules à avoir une page), avec leurs textes traduits.
+// « Vous aimerez aussi » : réserve classée de 20 produits (src/lib/recommend :
+// ressemblance + popularité), dont un script montre 12 en faisant tourner les
+// dernières places. Pages FR : les fiches FR. Autres langues : les fiches qui
+// ont une traduction dans cette langue (seules à avoir une page), avec leurs
+// textes traduits.
 const frProducts = allProducts.filter(p => parseEntrySlug(p.slug).lang === 'fr');
 const translationOf = (s: string) =>
   allProducts.find(p => p.slug === `${lang}/${parseEntrySlug(s).slug}`);
-const related = frProducts
-  .filter(p => p.slug !== product.slug
-    && (p.data.categories || []).includes(preferredCategory)
-    && (lang === 'fr' || translationOf(p.slug)))
-  .map(p => {
+const asCandidate = (p: (typeof frProducts)[number]) => ({
+  entry: p, slug: parseEntrySlug(p.slug).slug, name: p.data.name, categories: p.data.categories || [],
+});
+const currentFr = frProducts.find(p => parseEntrySlug(p.slug).slug === slug) ?? product;
+const related = recommend(
+  asCandidate(currentFr as (typeof frProducts)[number]),
+  frProducts.filter(p => lang === 'fr' || translationOf(p.slug)).map(asCandidate),
+  await getPopularity(),
+)
+  .map(({ entry: p }) => {
     const tr = lang === 'fr' ? undefined : translationOf(p.slug);
     return {
       href: url(`/product/${parseEntrySlug(p.slug).slug}`),
       data: { ...p.data, name: tr?.data.name ?? p.data.name, imageAlt: tr?.data.imageAlt ?? p.data.imageAlt },
     };
   });
+
+// 12 produits visibles : les 4 premiers fixes (les meilleurs), les 8 autres
+// tirés au hasard à chaque visite parmi le reste de la réserve.
+const REC_FIXED = 4;
+const REC_SHOWN = 12;
 
 const formatPrice = (n: number) => new Intl.NumberFormat('fr-FR', {
   style: 'currency', currency: siteConfig.shop.currency,
@@ -1152,7 +1165,7 @@ const pickModelLabel = t('model.placeholder', lang);
             <h2 class="text-xl md:text-2xl font-medium tracking-tight text-cream">{L.related}</h2>
           </div>
           <a href={url(`/product-category/${preferredCategory}`)} class="inline-flex items-center gap-1.5 text-xs md:text-sm text-n-400 hover:text-cream transition-colors whitespace-nowrap">
-            {L.viewAll} ({related.length})
+            {L.viewAll}
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
           </a>
         </div>
@@ -1165,10 +1178,11 @@ const pickModelLabel = t('model.placeholder', lang);
           commence à faire défiler, et Chrome cessait de mesurer le LCP). */}
       <div class="product-slider relative" data-slider>
         <div class="slider-track flex gap-3 md:gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-6 scroll-pl-6 md:scroll-pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-          {related.map(p => (
+          {related.map((p, i) => (
             <a
               href={p.href}
-              class="slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block"
+              data-rec={i < REC_FIXED ? 'fixed' : 'pool'}
+              class:list={['slider-card group flex-none w-[72vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] xl:w-[310px] snap-start block', i >= REC_SHOWN && 'hidden']}
             >
               <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-3">
                 <img
@@ -1607,6 +1621,18 @@ const pickModelLabel = t('model.placeholder', lang);
         const prev  = slider.querySelector('[data-scroll="prev"]');
         const next  = slider.querySelector('[data-scroll="next"]');
         if (!track) return;
+
+        // Rotation : les cartes « fixed » gardent leur place, les autres sont
+        // tirées au hasard ; on en montre autant qu'au chargement (12 au total).
+        const pool = [...track.querySelectorAll('[data-rec="pool"]')];
+        if (pool.length) {
+          const visible = pool.filter(c => !c.classList.contains('hidden')).length;
+          for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+          }
+          pool.forEach((c, i) => { c.classList.toggle('hidden', i >= visible); track.appendChild(c); });
+        }
 
         const scrollByCards = (dir) => {
           const card = track.querySelector('.slider-card');
