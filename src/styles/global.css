@@ -2551,7 +2551,7 @@ html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over
    Fixe tout en haut, AU-DESSUS du header. Elle reprend le mécanisme de
    l'ancien bandeau défilant : --marquee-h décale le header, le padding de
    `main` et la remontée du header masqué au défilement. */
-:root { --promo-h: 34px; }
+:root { --promo-h: 42px; }
 html.has-promo { --marquee-h: var(--promo-h); }
 html.has-promo #site-header { top: var(--promo-h); }
 .promo-bar {
@@ -2563,7 +2563,7 @@ html.has-promo #site-header { top: var(--promo-h); }
   border: 0;
   background: #111113;
   color: #fff;
-  font: 500 13px/1 var(--font-body);
+  font: 500 14px/1 var(--font-body);
   cursor: pointer;
 }
 .promo-inner {
@@ -2573,7 +2573,7 @@ html.has-promo #site-header { top: var(--promo-h); }
 }
 .promo-lead { text-transform: uppercase; letter-spacing: 0.06em; color: var(--sun-yellow, #ffd23f); }
 .promo-code {
-  padding: 3px 7px;
+  padding: 4px 8px;
   border: 1px dashed rgba(255, 255, 255, 0.6);
   border-radius: 6px;
   font-weight: 700; letter-spacing: 0.04em;
@@ -2583,7 +2583,9 @@ html.has-promo #site-header { top: var(--promo-h); }
 .promo-bar:hover .promo-copy { opacity: 1; }
 .promo-ship { opacity: 0.85; }
 @media (max-width: 640px) {
-  .promo-bar { font-size: 12px; }
+  .promo-bar { font-size: 13px; padding-left: 8px; padding-right: 8px; }
+  .promo-inner { gap: 5px; }
+  .promo-lead { letter-spacing: 0.02em; }
   .promo-ship { display: none; }
 }
 @media (max-width: 360px) {
