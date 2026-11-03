@@ -2565,7 +2565,6 @@ html.has-promo #site-header { top: var(--promo-h); }
   color: #fff;
   font: 500 13px/1 var(--font-body);
   cursor: pointer;
-  transition: transform 0.35s ease;
 }
 .promo-inner {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -2590,5 +2589,5 @@ html.has-promo #site-header { top: var(--promo-h); }
 @media (max-width: 360px) {
   .promo-copy { display: none; }
 }
-html.header-hidden .promo-bar { transform: translateY(-100%); }
-html[data-studio-app].header-hidden .promo-bar { transform: none; }
+/* La barre reste visible au défilement, même quand le header s'efface :
+   le code doit pouvoir être copié à tout moment. */
