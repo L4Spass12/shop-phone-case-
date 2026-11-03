@@ -237,7 +237,7 @@ const config = {
           id: 'honor',
           label: 'Honor',
           models: [
-            'Honor 600 Pro', 'Honor 600', 'Honor 400', 'Honor 400 Lite',
+            'Honor 600 Pro', 'Honor 600', 'Honor 400', 'Honor 400 Lite', 'Honor 200 Lite',
             'Honor Magic 8 Lite', 'Honor Magic 7 Lite', 'Honor X5C Plus', 'Honor X5C',
           ],
         },
