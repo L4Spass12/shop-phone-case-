@@ -1,6 +1,6 @@
 ---
 name: "Coque Pics Bleus"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pics-bleus-plat.webp"
 imageAlt: "Coque Pics Bleus : des pics de montagne bleu nuit sous la pleine lune, au-dessus d'un lac"
 categories: ["coques-iphone", "coques-zen"]

@@ -1,6 +1,6 @@
 ---
 name: "Coque Trust Your Timing"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trust-timing-plat.webp"
 imageAlt: "Coque Trust Your Timing : une femme, des fleurs et des papillons, avec « trust your own timing »"
 categories: ["coques-iphone", "coques-paysages", "coques-citations"]

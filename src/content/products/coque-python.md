@@ -1,6 +1,6 @@
 ---
 name: "Coque Python"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-python-plat.webp"
 imageAlt: "Coque Python : des écailles de python naturelles, beige et brun"
 categories: ["coques-iphone", "coques-motifs"]

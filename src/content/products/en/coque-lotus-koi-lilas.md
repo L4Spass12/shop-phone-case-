@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Lilac Lotus and Koi Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lotus-koi-lilas-plat.webp"
 imageAlt: "Lilac Lotus and Koi Case: koi carp among lotus flowers, lilac tone on tone"
 shortDescription: "Koi carp among lotus flowers, lilac tone on tone."

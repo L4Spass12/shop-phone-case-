@@ -1,6 +1,6 @@
 ---
 name: "Coque Chaton Fleuri"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-fleuri-plat.webp"
 imageAlt: "Coque iPhone couverte de fleurs multicolores, avec un petit chaton qui sort la tête au milieu"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-fleurs"]

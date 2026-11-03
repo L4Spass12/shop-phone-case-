@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sunset Bridge Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pont-couchant-plat.webp"
 imageAlt: "iPhone case painted with a blazing sunset over mountains, a stone bridge, a hilltop village and a rushing river"
 shortDescription: "A blazing sunset over an old stone bridge, a hilltop village and a river in a thousand colours."

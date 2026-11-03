@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Gingham Bows Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-noeuds-plat.webp"
 imageAlt: "Sage green gingham iPhone case with little green bows and yellow flowers in the white squares"
 shortDescription: "A soft sage green gingham scattered with little bows and yellow flowers, for a fresh, countryside look."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Mosaïque Verte"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-mosaique-verte-plat.webp"
 imageAlt: "Coque Mosaïque Verte : de petits carreaux de céramique vert d'eau brillants"
 categories: ["coques-iphone", "coques-motifs"]

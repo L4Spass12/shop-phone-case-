@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Nebelwal"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-baleine-nebuleuse-plat.webp"
 imageAlt: "Hülle Nebelwal: Ein Wal aus Licht schwimmt durch einen rosa-blauen Nebel, unter dem Mond"
 shortDescription: "Ein Wal aus Licht schwimmt durch einen rosa-blauen Nebel, unter dem Mond."

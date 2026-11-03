@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Teddy Bears Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-plat.webp"
 imageAlt: "iPhone case with wide beige and cream stripes and little brown teddy bear faces"
 shortDescription: "Round little teddy bear faces on wide beige and cream stripes, soft and cosy."

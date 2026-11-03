@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Dawn Butterflies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillons-aurore-plat.webp"
 imageAlt: "Dawn Butterflies Case: butterflies of light rising through an orange glow"
 shortDescription: "Butterflies of light rising through an orange glow."

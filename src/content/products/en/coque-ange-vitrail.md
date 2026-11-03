@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Stained Glass Angel Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ange-vitrail-plat.webp"
 imageAlt: "Stained Glass Angel Case: a praying angel before a Gothic stained glass window, in a beam of light"
 shortDescription: "A praying angel before a Gothic stained glass window, in a beam of light."

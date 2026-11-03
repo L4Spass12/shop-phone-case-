@@ -1,6 +1,6 @@
 ---
 name: "Coque Trois Ciels"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trois-ciels-plat.webp"
 imageAlt: "Coque iPhone découpée en trois bandes lumineuses montrant le même paysage de ruines et de vallée au lever du soleil, en plein jour et sous un ciel étoilé"
 categories: ["coques-iphone", "coques-paysages"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Cats in Love Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chats-amoureux-plat.webp"
 imageAlt: "Taupe iPhone case with a black cat and a white cat with heart eyes looking at each other around a big pink heart"
 shortDescription: "A black cat and a white cat with heart eyes look for each other around a big pink heart."

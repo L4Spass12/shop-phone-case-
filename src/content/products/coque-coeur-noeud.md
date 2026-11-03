@@ -1,6 +1,6 @@
 ---
 name: "Coque Cœur et Nœud"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeur-noeud-plat.webp"
 imageAlt: "Coque Cœur et Nœud : un cœur bordeaux noué d'un ruban, sur un beige tout doux"
 categories: ["coques-iphone", "coques-romantique"]

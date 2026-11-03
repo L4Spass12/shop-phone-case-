@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pothos Plant Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pothos-plat.webp"
 imageAlt: "Pothos Plant Case: a Japanese-style botanical poster with a pothos hanging by the window"
 shortDescription: "A Japanese-style botanical poster with a pothos hanging by the window."

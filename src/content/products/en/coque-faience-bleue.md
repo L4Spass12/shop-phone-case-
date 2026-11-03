@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Blue Faience Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-faience-bleue-plat.webp"
 imageAlt: "Blue Faience Case: a blue faience pattern on white"
 shortDescription: "A blue faience pattern on white."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Paon Émeraude"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-paon-emeraude-plat.webp"
 imageAlt: "Coque Paon Émeraude : un paon qui déploie ses plumes bleues et vertes en éventail"
 categories: ["coques-iphone", "coques-animaux", "coques-motifs"]

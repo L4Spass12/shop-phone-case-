@@ -1,6 +1,6 @@
 ---
 name: "Coque Estampe Dorée"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-estampe-doree-plat.webp"
 imageAlt: "Coque Estampe Dorée : un paysage d'estampe bleu et or : cascade, pavillon, pins et petit pont"
 categories: ["coques-iphone", "coques-zen"]

@@ -1,6 +1,6 @@
 ---
 name: "Coque Plage vue du Ciel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-plage-vue-ciel-plat.webp"
 imageAlt: "Coque Plage vue du Ciel : une plage vue d'en haut : eau turquoise, sable blanc, baigneurs et un voilier"
 categories: ["coques-iphone", "coques-paysages"]

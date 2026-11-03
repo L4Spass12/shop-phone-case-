@@ -1,6 +1,6 @@
 ---
 name: "Coque Fraises et Nœuds"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-noeuds-plat.webp"
 imageAlt: "Coque Fraises et Nœuds : des brins de fraises et des petits nœuds roses sur un fond crème"
 categories: ["coques-iphone", "coques-fleurs", "coques-kawaii", "coques-motifs"]

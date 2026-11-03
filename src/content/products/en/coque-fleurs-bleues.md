@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Blue Daisies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurs-bleues-plat.webp"
 imageAlt: "iPhone case with thin sky blue stripes, covered with big blue flowers with yellow centres and little yellow stars"
 shortDescription: "Big blue flowers and yellow stars on thin sky blue stripes, cheerful and retro."

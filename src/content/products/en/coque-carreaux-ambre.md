@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Amber Tiles Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-carreaux-ambre-plat.webp"
 imageAlt: "Amber Tiles Case: amber and golden tiles laid in diamonds"
 shortDescription: "Amber and golden tiles laid in diamonds."

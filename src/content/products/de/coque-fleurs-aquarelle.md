@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Aquarellblumen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurs-aquarelle-plat.webp"
 imageAlt: "Hülle Aquarellblumen: Aquarellblumen zwischen feinen grünen Streifen"
 shortDescription: "Aquarellblumen zwischen feinen grünen Streifen."

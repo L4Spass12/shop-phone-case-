@@ -1,6 +1,6 @@
 ---
 name: "Coque Sunset Drive"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sunset-drive-plat.webp"
 imageAlt: "Coque Sunset Drive : une voiture rétro au bord de mer, sous un ciel rose et un regard dessiné"
 categories: ["coques-iphone", "coques-auto"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pastel Hearts Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-pastel-plat.webp"
 imageAlt: "Pink iPhone case with iridescent reflections, soft-focus hearts and sparkling stars"
 shortDescription: "Soft-focus hearts and sparkling stars on iridescent pink, like a gentle dream."

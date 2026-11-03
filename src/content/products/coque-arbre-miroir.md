@@ -1,6 +1,6 @@
 ---
 name: "Coque Arbre Miroir"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-arbre-miroir-plat.webp"
 imageAlt: "Coque Arbre Miroir : un arbre majestueux qui se reflète dans un lac étoilé"
 categories: ["coques-iphone", "coques-paysages"]

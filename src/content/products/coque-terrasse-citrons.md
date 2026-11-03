@@ -1,6 +1,6 @@
 ---
 name: "Coque Terrasse aux Citrons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-terrasse-citrons-plat.webp"
 imageAlt: "Coque Terrasse aux Citrons : une table bleue sous les citronniers, face à la mer et aux voiliers"
 categories: ["coques-iphone", "coques-riviera"]

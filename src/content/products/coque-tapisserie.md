@@ -1,6 +1,6 @@
 ---
 name: "Coque Tapisserie"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tapisserie-plat.webp"
 imageAlt: "Coque Tapisserie : une tapisserie médiévale avec chevaliers, lune et grimoires"
 categories: ["coques-iphone", "coques-paysages"]

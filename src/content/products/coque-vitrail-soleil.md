@@ -1,6 +1,6 @@
 ---
 name: "Coque Vitrail Soleil"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vitrail-soleil-plat.webp"
 imageAlt: "Coque Vitrail Soleil : un vitrail lumineux avec soleil levant, montagnes et lac"
 categories: ["coques-iphone", "coques-paysages"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Tapestry Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tapisserie-plat.webp"
 imageAlt: "Tapestry Case: a medieval tapestry with knights, a moon and old books"
 shortDescription: "A medieval tapestry with knights, a moon and old books."

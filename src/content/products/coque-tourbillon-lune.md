@@ -1,6 +1,6 @@
 ---
 name: "Coque Tourbillon de Lune"
-price: 19.90
+price: 22.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-tourbillon-lune-relief.webp"
 flatImage: "/images/products/coque-tourbillon-lune-plat.webp"

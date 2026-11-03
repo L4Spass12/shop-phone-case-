@@ -1,6 +1,6 @@
 ---
 name: "Coque Lave Liquide"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lave-liquide-plat.webp"
 imageAlt: "Coque Lave Liquide : des reflets liquides orange et rouge, intenses et brillants"
 categories: ["coques-iphone", "coques-motifs"]

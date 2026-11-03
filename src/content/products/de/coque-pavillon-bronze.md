@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Bronzepavillon"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pavillon-bronze-plat.webp"
 imageAlt: "Hülle Bronzepavillon: Ein goldener Pavillon, eine Kiefer, Lotusblüten und ein Kranich auf schokoladenbraunem Grund"
 shortDescription: "Ein goldener Pavillon, eine Kiefer, Lotusblüten und ein Kranich auf schokoladenbraunem Grund."

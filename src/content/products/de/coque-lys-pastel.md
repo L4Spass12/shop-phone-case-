@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pastelllilien"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lys-pastel-plat.webp"
 imageAlt: "Hülle Pastelllilien: zarte, luftige Lilien und Pastellblumen"
 shortDescription: "Zarte, luftige Lilien und Pastellblumen."

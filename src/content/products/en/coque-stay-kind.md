@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Stay Kind Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-stay-kind-plat.webp"
 imageAlt: "Stay Kind Case: \"stay kind, stand firm\" between an engraved sun, moon and flowers"
 shortDescription: "\"stay kind, stand firm\" between an engraved sun, moon and flowers."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blumenhase"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lapin-fleur-plat.webp"
 imageAlt: "Hülle Blumenhase: ein kleiner weißer Hase im Herzen einer Blume, umgeben von rosa Funken"
 shortDescription: "Ein kleiner weißer Hase im Herzen einer Blume, umgeben von rosa Funken."

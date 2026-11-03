@@ -1,6 +1,6 @@
 ---
 name: "Coque Python Violet"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-python-violet-plat.webp"
 imageAlt: "Coque Python Violet : des écailles de python violettes et blanches"
 categories: ["coques-iphone", "coques-motifs"]

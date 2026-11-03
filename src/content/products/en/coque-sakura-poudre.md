@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Powder Pink Sakura Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sakura-poudre-plat.webp"
 imageAlt: "Powder Pink Sakura Case: cherry blossoms, birds and butterflies tone on tone, on a powder pink background"
 shortDescription: "Cherry blossoms, birds and butterflies tone on tone, on a powder pink background."

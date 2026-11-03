@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Good Drinks Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-good-drinks-plat.webp"
 imageAlt: "Good Drinks Case: a lobster, a martini and pasta on a pink background, with the note “Good Drinks Bigger Plans”"
 shortDescription: "A lobster, a martini and pasta on a pink background, with the note “Good Drinks Bigger Plans”."

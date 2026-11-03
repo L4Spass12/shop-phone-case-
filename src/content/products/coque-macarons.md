@@ -1,6 +1,6 @@
 ---
 name: "Coque Macarons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-macarons-plat.webp"
 imageAlt: "Coque iPhone couverte de macarons colorés décorés d'ourson, de poussin, de lapin, de fraises et de fleurs"
 categories: ["coques-iphone", "coques-kawaii"]

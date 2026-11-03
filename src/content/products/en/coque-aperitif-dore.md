@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Golden Aperitivo Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-aperitif-dore-plat.webp"
 imageAlt: "Golden Aperitivo Case: a coupe glass, lemons, olives and pearls on an olive green background"
 shortDescription: "A coupe glass, lemons, olives and pearls on an olive green background."

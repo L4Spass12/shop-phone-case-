@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Karo-Erdbeeren"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-carreaux-plat.webp"
 imageAlt: "Hülle Karo-Erdbeeren: kleine Erdbeeren auf rosa-weißem Karo"
 shortDescription: "Kleine Erdbeeren auf rosa-weißem Karo."

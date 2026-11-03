@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Palmen und Sonne"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palmiers-soleil-plat.webp"
 imageAlt: "Hülle Palmen und Sonne: Zwei Palmen und eine große gelbe Sonne auf korallenrotem Grund"
 shortDescription: "Zwei Palmen und eine große gelbe Sonne auf korallenrotem Grund."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Goldener Holzschnitt"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-estampe-doree-plat.webp"
 imageAlt: "Hülle Goldener Holzschnitt: Eine Landschaft in Blau und Gold: Wasserfall, Pavillon, Kiefern und eine kleine Brücke"
 shortDescription: "Eine Landschaft in Blau und Gold: Wasserfall, Pavillon, Kiefern und eine kleine Brücke."

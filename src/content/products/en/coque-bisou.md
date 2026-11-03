@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Kiss Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-bisou-plat.webp"
 imageAlt: "Kiss Case: painted red lips on burgundy and pink stripes"
 shortDescription: "Painted red lips on burgundy and pink stripes."

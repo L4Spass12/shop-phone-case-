@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Magical Day Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-magical-day-plat.webp"
 imageAlt: "Magical Day Case: \"make this day a little magical\" in big olive green letters"
 shortDescription: "\"make this day a little magical\" in big olive green letters."

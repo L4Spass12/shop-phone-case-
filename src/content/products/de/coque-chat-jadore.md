@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Katze J'adore"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chat-jadore-plat.webp"
 imageAlt: "Hülle Katze J'adore: Eine schwarze Katze mit Kopftuch und Sonnenbrille, zwischen Martini und Kirschen, mit der Notiz „J'adore“"
 shortDescription: "Eine schwarze Katze mit Kopftuch und Sonnenbrille, zwischen Martini und Kirschen, mit der Notiz „J'adore“."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Trust Your Timing"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trust-timing-plat.webp"
 imageAlt: "Hülle Trust Your Timing: eine Frau, Blumen und Schmetterlinge mit „trust your own timing“"
 shortDescription: "Eine Frau, Blumen und Schmetterlinge mit „trust your own timing“."

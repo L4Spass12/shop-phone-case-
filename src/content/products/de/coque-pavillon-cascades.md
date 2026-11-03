@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pavillon der Wasserfälle"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pavillon-cascades-plat.webp"
 imageAlt: "Hülle Pavillon der Wasserfälle: Ein Pavillon zwischen blühenden Kirschbäumen, Wasserfälle und eine kleine Brücke im grünen Nebel"
 shortDescription: "Ein Pavillon zwischen blühenden Kirschbäumen, Wasserfälle und eine kleine Brücke im grünen Nebel."

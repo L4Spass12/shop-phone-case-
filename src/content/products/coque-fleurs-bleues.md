@@ -1,6 +1,6 @@
 ---
 name: "Coque Fleurs Bleues"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurs-bleues-plat.webp"
 imageAlt: "Coque iPhone à fines rayures bleu ciel, couverte de grosses fleurs bleues au cœur jaune et de petites étoiles jaunes"
 categories: ["coques-iphone", "coques-fleurs"]

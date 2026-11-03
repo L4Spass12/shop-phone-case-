@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Starry Cat Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ciel-chat-plat.webp"
 imageAlt: "Starry Cat Case: a little cat gazing at a dreamy starry sky"
 shortDescription: "A little cat gazing at a dreamy starry sky."

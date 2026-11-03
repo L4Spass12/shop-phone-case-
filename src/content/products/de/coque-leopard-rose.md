@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Rosa Leopard"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-leopard-rose-plat.webp"
 imageAlt: "Hülle Rosa Leopard: ein fuchsiaroter Leopard mit Fell-Effekt"
 shortDescription: "Ein fuchsiaroter Leopard mit Fell-Effekt."

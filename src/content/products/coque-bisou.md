@@ -1,6 +1,6 @@
 ---
 name: "Coque Bisou"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-bisou-plat.webp"
 imageAlt: "Coque Bisou : des lèvres rouges peintes sur des rayures bordeaux et rose"
 categories: ["coques-iphone", "coques-riviera"]

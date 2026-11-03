@@ -1,6 +1,6 @@
 ---
 name: "Coque Salon de Thé"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-salon-the-plat.webp"
 imageAlt: "Coque Salon de Thé : des losanges vert et rose avec théières, fleurs et petits nœuds"
 categories: ["coques-iphone", "coques-motifs"]

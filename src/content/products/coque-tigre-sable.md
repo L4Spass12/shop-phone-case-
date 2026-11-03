@@ -1,6 +1,6 @@
 ---
 name: "Coque Tigre Sable"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tigre-sable-plat.webp"
 imageAlt: "Coque Tigre Sable : des rayures de tigre sur un pelage sable"
 categories: ["coques-iphone", "coques-motifs"]

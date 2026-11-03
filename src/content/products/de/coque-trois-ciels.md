@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Drei Himmel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trois-ciels-plat.webp"
 imageAlt: "iPhone-Hülle, geteilt in drei leuchtende Streifen mit derselben Landschaft aus Ruinen und Tal bei Sonnenaufgang, am Tag und unter Sternenhimmel"
 shortDescription: "Dieselbe Landschaft zu drei Zeiten: Sonnenaufgang, Tag und Sternennacht."

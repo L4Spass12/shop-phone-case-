@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Flower Kitten Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-fleuri-plat.webp"
 imageAlt: "iPhone case covered with multicoloured flowers, with a little kitten peeking out in the middle"
 shortDescription: "A little kitten peeks out in the middle of a field of multicoloured flowers."

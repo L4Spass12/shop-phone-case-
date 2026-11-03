@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Midnight Blue Damask Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-bleu-nuit-plat.webp"
 imageAlt: "Midnight Blue Damask Case: peonies, scrolls and hummingbirds tone on tone, on a midnight blue background"
 shortDescription: "Peonies, scrolls and hummingbirds tone on tone, on a midnight blue background."

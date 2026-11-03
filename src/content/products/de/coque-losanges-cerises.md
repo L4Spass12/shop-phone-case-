@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kirschrauten"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-losanges-cerises-plat.webp"
 imageAlt: "Hülle Kirschrauten: grüne und rosa Rauten mit Kirschen, Herzen und Schleifen"
 shortDescription: "Grüne und rosa Rauten mit Kirschen, Herzen und Schleifen."

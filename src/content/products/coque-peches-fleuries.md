@@ -1,6 +1,6 @@
 ---
 name: "Coque Pêches Fleuries"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-peches-fleuries-plat.webp"
 imageAlt: "Coque Pêches Fleuries : des pêches et des fleurs de pêcher roses, rehaussées d'or"
 categories: ["coques-iphone", "coques-fleurs", "coques-romantique"]

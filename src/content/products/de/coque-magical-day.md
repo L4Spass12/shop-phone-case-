@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Magical Day"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-magical-day-plat.webp"
 imageAlt: "Hülle Magical Day: „make this day a little magical“ in großen olivgrünen Buchstaben"
 shortDescription: "„make this day a little magical“ in großen olivgrünen Buchstaben."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Feu Intérieur"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-feu-interieur-plat.webp"
 imageAlt: "Coque Feu Intérieur : une silhouette en flammes orangées sur un fond de feu"
 categories: ["coques-iphone", "coques-paysages"]

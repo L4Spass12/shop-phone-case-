@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Beige Tartan Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tartan-beige-plat.webp"
 imageAlt: "iPhone case with a beige, taupe and cream tartan check, fabric effect"
 shortDescription: "A beige and taupe tartan with a fabric effect, chic and timeless."

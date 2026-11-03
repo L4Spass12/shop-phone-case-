@@ -1,6 +1,6 @@
 ---
 name: "Coque Homard Chic"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-homard-bleu-plat.webp"
 imageAlt: "Coque Homard Chic : un homard qui trinque sur des rayures bleu marine"
 categories: ["coques-iphone", "coques-riviera"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Seegravur"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lac-gravure-plat.webp"
 imageAlt: "Hülle Seegravur: eine gravierte Seelandschaft unter waldgrünem Himmel"
 shortDescription: "Eine gravierte Seelandschaft unter waldgrünem Himmel."

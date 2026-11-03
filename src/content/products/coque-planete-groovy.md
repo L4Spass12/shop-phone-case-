@@ -1,6 +1,6 @@
 ---
 name: "Coque Planète Groovy"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-planete-groovy-plat.webp"
 imageAlt: "Coque Planète Groovy : une petite planète souriante, des arcs-en-ciel et des fleurs rétro"
 categories: ["coques-iphone", "coques-kawaii"]

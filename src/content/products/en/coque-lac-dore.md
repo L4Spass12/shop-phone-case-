@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Golden Lake Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lac-dore-plat.webp"
 imageAlt: "Golden Lake Case: a boat on a golden lake, between the mountains and the full moon"
 shortDescription: "A boat on a golden lake, between the mountains and the full moon."

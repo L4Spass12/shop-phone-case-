@@ -1,6 +1,6 @@
 ---
 name: "Coque Toile Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-toile-rose-plat.webp"
 imageAlt: "Coque Toile Rose : une toile d'araignée délicate sur un rose aquarelle"
 categories: ["coques-iphone", "coques-romantique"]

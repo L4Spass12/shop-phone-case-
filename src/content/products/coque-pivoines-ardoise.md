@@ -1,6 +1,6 @@
 ---
 name: "Coque Pivoines Ardoise"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pivoines-ardoise-plat.webp"
 imageAlt: "Coque Pivoines Ardoise : des pivoines, des arabesques et des papillons ton sur ton, sur un fond bleu ardoise"
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]

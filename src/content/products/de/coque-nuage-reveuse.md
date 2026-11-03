@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Träumerin"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nuage-reveuse-plat.webp"
 imageAlt: "Hülle Träumerin: eine junge Frau, die in einer Wattewolke schläft"
 shortDescription: "Eine junge Frau, die in einer Wattewolke schläft."

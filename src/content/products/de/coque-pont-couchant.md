@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Brücke im Abendrot"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pont-couchant-plat.webp"
 imageAlt: "iPhone-Hülle mit einem leuchtenden Sonnenuntergang über Bergen, einer Steinbrücke, einem Bergdorf und einem reißenden Fluss"
 shortDescription: "Ein leuchtender Sonnenuntergang über einer alten Steinbrücke, einem Bergdorf und einem Fluss in tausend Farben."

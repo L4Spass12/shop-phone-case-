@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Damast Bordeaux"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-bordeaux-plat.webp"
 imageAlt: "Hülle Damast Bordeaux: Schleifen, Blumen und Schmetterlinge Ton in Ton auf bordeauxrotem Grund"
 shortDescription: "Schleifen, Blumen und Schmetterlinge Ton in Ton auf bordeauxrotem Grund."

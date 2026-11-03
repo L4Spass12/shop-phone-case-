@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sternenkätzchen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-etoile-plat.webp"
 imageAlt: "Pastellfarbene iPhone-Hülle mit einem flauschigen weißen Kätzchen mit schillernden Augen in einem rosa-grünen Sternenhimmel"
 shortDescription: "Ein flauschiges weißes Kätzchen blickt mit schillernden Augen in einen rosa-grünen Sternenhimmel."

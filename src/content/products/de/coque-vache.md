@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kuhfell"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vache-plat.webp"
 imageAlt: "iPhone-Hülle im Look eines braun-weißen Kuhfells mit Haar-Effekt"
 shortDescription: "Ein braun-weißes Kuhfell mit Haar-Effekt, natürlich und im Trend."

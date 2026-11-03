@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pastellkirschen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-pastel-plat.webp"
 imageAlt: "Hülle Pastellkirschen: Kirschen und zarte rosa Schleifen auf pastelligem Grund"
 shortDescription: "Kirschen und zarte rosa Schleifen auf pastelligem Grund."

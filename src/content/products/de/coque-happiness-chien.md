@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Happiness is Free"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-happiness-chien-plat.webp"
 imageAlt: "Hülle Happiness is Free: ein Hund, der ein Herz formt, und „happiness is free“ auf violetten Streifen"
 shortDescription: "Ein Hund, der ein Herz formt, und „happiness is free“ auf violetten Streifen."

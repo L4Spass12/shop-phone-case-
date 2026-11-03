@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Rosa Seide"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soie-rose-plat.webp"
 imageAlt: "Hülle Rosa Seide: Wellen aus rosa und limettengrüner Seide"
 shortDescription: "Wellen aus rosa und limettengrüner Seide."

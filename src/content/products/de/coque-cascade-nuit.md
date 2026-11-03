@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Nachtwasserfall"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cascade-nuit-plat.webp"
 imageAlt: "Hülle Nachtwasserfall: ein Wasserfall und goldene Bäume auf schwarzem Grund"
 shortDescription: "Ein Wasserfall und goldene Bäume auf schwarzem Grund."

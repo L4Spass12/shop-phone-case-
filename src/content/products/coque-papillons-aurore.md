@@ -1,6 +1,6 @@
 ---
 name: "Coque Papillons d'Aurore"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillons-aurore-plat.webp"
 imageAlt: "Coque Papillons d'Aurore : des papillons de lumière qui s'envolent dans un halo orangé"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique"]

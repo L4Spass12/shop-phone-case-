@@ -1,6 +1,6 @@
 ---
 name: "Coque Ocelot"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ocelot-plat.webp"
 imageAlt: "Coque Ocelot : un pelage d'ocelot doré et brun"
 categories: ["coques-iphone", "coques-motifs"]

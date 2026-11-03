@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Matcha Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-matcha-plat.webp"
 imageAlt: "Matcha Case: matcha latte glasses and little bows on pink stripes"
 shortDescription: "Matcha latte glasses and little bows on pink stripes."

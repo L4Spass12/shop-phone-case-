@@ -1,6 +1,6 @@
 ---
 name: "Coque Tartan Beige"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tartan-beige-plat.webp"
 imageAlt: "Coque iPhone à carreaux tartan beige, taupe et crème, effet tissu"
 categories: ["coques-iphone", "coques-motifs"]

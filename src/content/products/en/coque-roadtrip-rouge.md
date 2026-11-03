@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Road Trip Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-roadtrip-rouge-plat.webp"
 imageAlt: "Road Trip Case: a red convertible racing along a flowery seaside road"
 shortDescription: "A red convertible racing along a flowery seaside road."

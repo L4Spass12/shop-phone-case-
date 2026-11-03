@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Wolkendrache"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-dragon-nuages-plat.webp"
 imageAlt: "Hülle Wolkendrache: ein japanischer Drache, der sich durch rote und blaue Wolken windet"
 shortDescription: "Ein japanischer Drache, der sich durch rote und blaue Wolken windet."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Watermelon Cats Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pasteques-chats-plat.webp"
 imageAlt: "Watermelon Cats Case: watermelons and guavas with cat faces, fresh and funny"
 shortDescription: "Watermelons and guavas with cat faces, fresh and funny."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Matcha"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-matcha-plat.webp"
 imageAlt: "Hülle Matcha: Matcha-Latte-Gläser und kleine Schleifen auf rosa Streifen"
 shortDescription: "Matcha-Latte-Gläser und kleine Schleifen auf rosa Streifen."

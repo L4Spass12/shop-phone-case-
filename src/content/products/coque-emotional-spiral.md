@@ -1,6 +1,6 @@
 ---
 name: "Coque Emotional Spiral"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-emotional-spiral-plat.webp"
 imageAlt: "Coque Emotional Spiral : une typo rétro bordeaux, « a little emotional spiral later… », pleine d'humour"
 categories: ["coques-iphone", "coques-citations"]

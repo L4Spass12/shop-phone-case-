@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Neonauto"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voiture-neon-plat.webp"
 imageAlt: "Hülle Neonauto: ein Rennwagen, der durch Neonlichter rast"
 shortDescription: "Ein Rennwagen, der durch Neonlichter rast."

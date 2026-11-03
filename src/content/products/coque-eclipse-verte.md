@@ -1,6 +1,6 @@
 ---
 name: "Coque Éclipse Jade"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-verte-plat.webp"
 imageAlt: "Coque Éclipse Jade : une silhouette face à une éclipse, dans des nuages roses sur un ciel vert"
 categories: ["coques-iphone", "coques-paysages"]

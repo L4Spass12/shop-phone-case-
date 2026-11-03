@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Emerald Peacock Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-paon-emeraude-plat.webp"
 imageAlt: "Emerald Peacock Case: a peacock spreading its blue and green feathers like a fan"
 shortDescription: "A peacock spreading its blue and green feathers like a fan."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Kitten Stardust Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-etoile-plat.webp"
 imageAlt: "Pastel iPhone case with a fluffy white kitten with iridescent eyes, in a pink and green sky sprinkled with stars"
 shortDescription: "A fluffy white kitten looks up with iridescent eyes at a pink and green sky sprinkled with stars."

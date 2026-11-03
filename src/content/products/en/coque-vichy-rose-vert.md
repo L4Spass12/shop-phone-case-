@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pink & Green Gingham Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-rose-vert-plat.webp"
 imageAlt: "Pink & Green Gingham Case: a pink and sage green gingham, fresh and springy"
 shortDescription: "A pink and sage green gingham, fresh and springy."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Engel am Kirchenfenster"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ange-vitrail-plat.webp"
 imageAlt: "Hülle Engel am Kirchenfenster: Ein betender Engel vor einem gotischen Kirchenfenster, in einem Lichtstrahl"
 shortDescription: "Ein betender Engel vor einem gotischen Kirchenfenster, in einem Lichtstrahl."

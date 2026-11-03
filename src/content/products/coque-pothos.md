@@ -1,6 +1,6 @@
 ---
 name: "Coque Pothos"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pothos-plat.webp"
 imageAlt: "Coque Pothos : une affiche botanique façon japonaise avec un pothos suspendu à la fenêtre"
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]

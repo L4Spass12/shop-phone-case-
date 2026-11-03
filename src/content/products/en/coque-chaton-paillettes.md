@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Glitter Kitten Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-paillettes-plat.webp"
 imageAlt: "Glitter Kitten Case: a winged kitten surrounded by ribbons, hearts and pink stars"
 shortDescription: "A winged kitten surrounded by ribbons, hearts and pink stars."

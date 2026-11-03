@@ -1,6 +1,6 @@
 ---
 name: "Coque Carreaux Ambre"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-carreaux-ambre-plat.webp"
 imageAlt: "Coque Carreaux Ambre : des carreaux ambrés et dorés posés en losange"
 categories: ["coques-iphone", "coques-motifs"]

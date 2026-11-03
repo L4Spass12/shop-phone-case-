@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Cocktail"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cocktail-plat.webp"
 imageAlt: "Hülle Cocktail: ein rosa Cocktail auf wassergrünen Streifen"
 shortDescription: "Ein rosa Cocktail auf wassergrünen Streifen."

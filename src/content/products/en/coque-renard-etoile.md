@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Starlit Fox Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-renard-etoile-plat.webp"
 imageAlt: "Starlit Fox Case: a fox of light running among shooting stars, under the crescent moon"
 shortDescription: "A fox of light running among shooting stars, under the crescent moon."

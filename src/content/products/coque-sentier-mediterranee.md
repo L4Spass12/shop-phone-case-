@@ -1,6 +1,6 @@
 ---
 name: "Coque Sentier de la Méditerranée"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sentier-mediterranee-plat.webp"
 imageAlt: "Coque Sentier de la Méditerranée : un sentier fleuri qui descend vers la mer turquoise, sous les fleurs blanches"
 categories: ["coques-iphone", "coques-riviera"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Riviera-Zitrone"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-citron-riviera-plat.webp"
 imageAlt: "iPhone-Hülle mit gemalten blau-weißen Streifen und einer gelben Zitrone mit Blättern in der Mitte"
 shortDescription: "Eine gelbe Zitrone auf blau-weißen Streifen, wie ein Sommer an der Riviera."

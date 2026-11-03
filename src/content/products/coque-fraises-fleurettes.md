@@ -1,6 +1,6 @@
 ---
 name: "Coque Fraises Fleuries"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-fleurettes-plat.webp"
 imageAlt: "Coque Fraises Fleuries : des fraises et des fleurettes sur un fond crème"
 categories: ["coques-iphone", "coques-fleurs"]

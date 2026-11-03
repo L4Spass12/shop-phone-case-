@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pothos"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pothos-plat.webp"
 imageAlt: "Hülle Pothos: ein botanisches Poster im japanischen Stil mit einer Efeutute am Fenster"
 shortDescription: "Ein botanisches Poster im japanischen Stil mit einer Efeutute am Fenster."

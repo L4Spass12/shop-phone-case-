@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Groovy Planet Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-planete-groovy-plat.webp"
 imageAlt: "Groovy Planet Case: a smiling little planet, rainbows and retro flowers"
 shortDescription: "A smiling little planet, rainbows and retro flowers."

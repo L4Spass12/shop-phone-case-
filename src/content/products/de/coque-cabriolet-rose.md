@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Rosa Cabrio"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cabriolet-rose-plat.webp"
 imageAlt: "Hülle Rosa Cabrio: Ein rosa Cabrio auf einer palmengesäumten Straße über dem Meer"
 shortDescription: "Ein rosa Cabrio auf einer palmengesäumten Straße über dem Meer."

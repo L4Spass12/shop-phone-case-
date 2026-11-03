@@ -1,6 +1,6 @@
 ---
 name: "Coque Sakura Jade"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sakura-vert-plat.webp"
 imageAlt: "Coque Sakura Jade : des fleurs de cerisier et des volutes sur un vert jade"
 categories: ["coques-iphone", "coques-zen"]

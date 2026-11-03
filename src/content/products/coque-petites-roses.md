@@ -1,6 +1,6 @@
 ---
 name: "Coque Petites Roses"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-petites-roses-plat.webp"
 imageAlt: "Coque Petites Roses : de petites roses rouges semées sur un rose pâle"
 categories: ["coques-iphone", "coques-fleurs"]

@@ -1,6 +1,6 @@
 ---
 name: "Coque Riviera Cabriolet"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-riviera-cabriolet-plat.webp"
 imageAlt: "Coque Riviera Cabriolet : une virée en voiture sur une route de bord de mer ensoleillée"
 categories: ["coques-iphone", "coques-riviera"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blaues Japan"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-japon-bleu-plat.webp"
 imageAlt: "Hülle Blaues Japan: eine Kiefer, ein Torii und Blumen unter dem Mond in Blautönen"
 shortDescription: "Eine Kiefer, ein Torii und Blumen unter dem Mond in Blautönen."

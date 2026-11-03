@@ -1,6 +1,6 @@
 ---
 name: "Coque Vache"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vache-plat.webp"
 imageAlt: "Coque iPhone imitant un pelage de vache marron et blanc à l'effet poil"
 categories: ["coques-iphone", "coques-motifs"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Punkte und Briefmarke"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pois-timbre-plat.webp"
 imageAlt: "Hülle Punkte und Briefmarke: cremefarbene Punkte auf Schokoladengrund und eine Blumenbriefmarke"
 shortDescription: "Cremefarbene Punkte auf Schokoladengrund und eine Blumenbriefmarke."

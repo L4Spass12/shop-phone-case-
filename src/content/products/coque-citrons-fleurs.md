@@ -1,6 +1,6 @@
 ---
 name: "Coque Citrons Fleuris"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-citrons-fleurs-plat.webp"
 imageAlt: "Coque Citrons Fleuris : des petits citrons et des fleurs sur un fond crème"
 categories: ["coques-iphone", "coques-fleurs"]

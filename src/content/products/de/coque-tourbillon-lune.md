@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Mondwirbel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tourbillon-lune-relief.webp"
 imageAlt: "Himmelblaue iPhone-Hülle mit einem Wirbel aus Pastellfischen, Sternschnuppen und kleinen Blumen rund um einen goldenen Mond"
 shortDescription: "Ein himmelblauer Wirbel, in dem Pastellfische zwischen Sternschnuppen und kleinen Blumen um einen goldenen Mond schwimmen."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Grüner Damast"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-vert-plat.webp"
 imageAlt: "Hülle Grüner Damast: ein Ton-in-Ton-Damastmuster in Limettengrün"
 shortDescription: "Ein Ton-in-Ton-Damastmuster in Limettengrün."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blaue Fayence"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-faience-bleue-plat.webp"
 imageAlt: "Hülle Blaue Fayence: ein blaues Fayencemuster auf Weiß"
 shortDescription: "Ein blaues Fayencemuster auf Weiß."

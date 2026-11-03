@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Frösche und Erdbeeren"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grenouilles-fraises-plat.webp"
 imageAlt: "Hülle Frösche und Erdbeeren: kleine Kawaii-Frösche und Erdbeeren auf zartem Grün"
 shortDescription: "Kleine Kawaii-Frösche und Erdbeeren auf zartem Grün."

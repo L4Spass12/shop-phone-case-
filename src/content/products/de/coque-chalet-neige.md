@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Schneechalet"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chalet-neige-plat.webp"
 imageAlt: "Hülle Schneechalet: ein verschneites Chalet mit einer Katze am Fluss"
 shortDescription: "Ein verschneites Chalet mit einer Katze am Fluss."

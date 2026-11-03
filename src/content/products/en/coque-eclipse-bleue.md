@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Blue Eclipse Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-bleue-plat.webp"
 imageAlt: "Blue Eclipse Case: a figure facing an eclipse among pink clouds on a blue sky"
 shortDescription: "A figure facing an eclipse among pink clouds on a blue sky."

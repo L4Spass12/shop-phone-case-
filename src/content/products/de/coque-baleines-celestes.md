@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Himmelswale"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-baleines-celestes-plat.webp"
 imageAlt: "iPhone-Hülle mit Walen, die in einem rosa Himmel voller Sterne und Planeten schwimmen, über einer Terrasse mit Blick auf einen See und ein Dorf"
 shortDescription: "Wale schwimmen in einem rosa Sternenhimmel über einer Terrasse mit Seeblick."

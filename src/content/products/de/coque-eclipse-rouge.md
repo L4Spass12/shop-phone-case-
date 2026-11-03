@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Rote Finsternis"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-rouge-plat.webp"
 imageAlt: "Hülle Rote Finsternis: eine sitzende Gestalt vor einem roten Planeten zwischen Wolken"
 shortDescription: "Eine sitzende Gestalt vor einem roten Planeten zwischen Wolken."

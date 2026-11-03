@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Unhinged Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-unhinged-plat.webp"
 imageAlt: "Unhinged Case: a little green creature and \"I will make it, because I am unhinged\""
 shortDescription: "A little green creature and \"I will make it, because I am unhinged\"."

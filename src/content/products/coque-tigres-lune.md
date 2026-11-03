@@ -1,6 +1,6 @@
 ---
 name: "Coque Tigres de Lune"
-price: 19.90
+price: 22.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-tigres-lune-relief.webp"
 flatImage: "/images/products/coque-tigres-lune-plat.webp"

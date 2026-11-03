@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Ocelot Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ocelot-plat.webp"
 imageAlt: "Ocelot Case: a golden and brown ocelot coat"
 shortDescription: "A golden and brown ocelot coat."

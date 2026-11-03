@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Schokobären"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-chocolat-plat.webp"
 imageAlt: "Hülle Schokobären: Teddyköpfe in Creme und Karamell auf Schokoladengrund"
 shortDescription: "Teddyköpfe in Creme und Karamell auf Schokoladengrund."

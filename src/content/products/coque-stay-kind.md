@@ -1,6 +1,6 @@
 ---
 name: "Coque Stay Kind"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-stay-kind-plat.webp"
 imageAlt: "Coque Stay Kind : « stay kind, stand firm » entre soleil, lune et fleurs gravées"
 categories: ["coques-iphone", "coques-citations"]

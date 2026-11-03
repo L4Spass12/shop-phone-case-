@@ -1,6 +1,6 @@
 ---
 name: "Coque Matcha"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-matcha-plat.webp"
 imageAlt: "Coque Matcha : des verres de matcha latte et des petits nœuds sur des rayures roses"
 categories: ["coques-iphone", "coques-kawaii"]

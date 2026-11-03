@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blaue Blümchen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurs-bleues-plat.webp"
 imageAlt: "iPhone-Hülle mit feinen himmelblauen Streifen, großen blauen Blumen mit gelber Mitte und kleinen gelben Sternen"
 shortDescription: "Große blaue Blumen und gelbe Sterne auf feinen himmelblauen Streifen, fröhlich und retro."

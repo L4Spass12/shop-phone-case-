@@ -1,6 +1,6 @@
 ---
 name: "Coque Icare"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-icare-plat.webp"
 imageAlt: "Coque Icare : une silhouette qui plonge dans un ciel de nuages dorés, traversé par la lumière"
 categories: ["coques-iphone", "coques-paysages"]

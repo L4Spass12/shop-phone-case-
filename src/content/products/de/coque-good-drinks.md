@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Good Drinks"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-good-drinks-plat.webp"
 imageAlt: "Hülle Good Drinks: Ein Hummer, ein Martini und Pasta auf rosa Grund, mit der Notiz „Good Drinks Bigger Plans“"
 shortDescription: "Ein Hummer, ein Martini und Pasta auf rosa Grund, mit der Notiz „Good Drinks Bigger Plans“."

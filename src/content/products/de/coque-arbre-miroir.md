@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Spiegelbaum"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-arbre-miroir-plat.webp"
 imageAlt: "Hülle Spiegelbaum: ein majestätischer Baum, der sich in einem Sternensee spiegelt"
 shortDescription: "Ein majestätischer Baum, der sich in einem Sternensee spiegelt."

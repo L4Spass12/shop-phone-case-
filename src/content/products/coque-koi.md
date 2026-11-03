@@ -1,6 +1,6 @@
 ---
 name: "Coque Carpes Koï"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-koi-plat.webp"
 imageAlt: "Coque Carpes Koï : des carpes koï et des pivoines sur un fond pourpre"
 categories: ["coques-iphone", "coques-zen"]

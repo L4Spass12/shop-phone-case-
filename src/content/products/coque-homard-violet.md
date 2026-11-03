@@ -1,6 +1,6 @@
 ---
 name: "Coque Homard Prune"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-homard-violet-plat.webp"
 imageAlt: "Coque Homard Prune : un homard qui trinque sur des rayures prune"
 categories: ["coques-iphone", "coques-riviera"]

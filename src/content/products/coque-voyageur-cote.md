@@ -1,6 +1,6 @@
 ---
 name: "Coque Voyageur de la Côte"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voyageur-cote-plat.webp"
 imageAlt: "Coque iPhone montrant un voyageur et son chien sur un sentier rocheux, contemplant un village côtier, des cyprès et une mer bleu profond sous la lune"
 categories: ["coques-iphone", "coques-riviera"]

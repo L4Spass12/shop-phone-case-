@@ -1,6 +1,6 @@
 ---
 name: "Coque Renard Étoilé"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-renard-etoile-plat.webp"
 imageAlt: "Coque Renard Étoilé : un renard de lumière qui court parmi les étoiles filantes, sous le croissant de lune"
 categories: ["coques-iphone", "coques-animaux"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sonnenmosaik"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-mosaique-soleil-relief.webp"
 imageAlt: "iPhone-Hülle mit Relief, die ein Mosaik aus kleinen roten, orangen, gelben und grünen Steinchen nachahmt, kreisförmig um einen blauen Cabochon angeordnet"
 shortDescription: "Ein sonniges Mosaik aus kleinen bunten Steinchen, kreisförmig um ein tiefblaues Herz angeordnet."

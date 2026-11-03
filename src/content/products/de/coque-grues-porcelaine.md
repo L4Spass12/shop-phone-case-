@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Porzellankraniche"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grues-porcelaine-plat.webp"
 imageAlt: "Hülle Porzellankraniche: Weiße Kraniche zwischen blauen Pfingstrosen, auf porzellanblauem Grund"
 shortDescription: "Weiße Kraniche zwischen blauen Pfingstrosen, auf porzellanblauem Grund."

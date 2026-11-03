@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Purpurpalast"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palais-pourpre-plat.webp"
 imageAlt: "Hülle Purpurpalast: Goldene Paläste und Kiefern auf den Bergen, auf purpurrotem Grund"
 shortDescription: "Goldene Paläste und Kiefern auf den Bergen, auf purpurrotem Grund."

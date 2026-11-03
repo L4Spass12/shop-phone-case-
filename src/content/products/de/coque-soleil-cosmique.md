@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kosmische Sonne"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soleil-cosmique-plat.webp"
 imageAlt: "Hülle Kosmische Sonne: Sonne, Mond und Planeten in Regenbogenwellen"
 shortDescription: "Sonne, Mond und Planeten in Regenbogenwellen."

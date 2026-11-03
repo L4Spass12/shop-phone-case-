@@ -1,6 +1,6 @@
 ---
 name: "Coque Mains et Fleurs"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-mains-fleurs-plat.webp"
 imageAlt: "Coque Mains et Fleurs : des mains de toutes les couleurs qui se rejoignent au milieu des fleurs"
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]

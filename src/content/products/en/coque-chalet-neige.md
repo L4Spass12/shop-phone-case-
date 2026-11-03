@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Snowy Chalet Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chalet-neige-plat.webp"
 imageAlt: "Snowy Chalet Case: a snowy chalet with a cat by a river"
 shortDescription: "A snowy chalet with a cat by a river."

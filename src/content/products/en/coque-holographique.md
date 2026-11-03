@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Holographic Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-holographique-plat.webp"
 imageAlt: "Holographic Case: a holographic blue, green and pink gradient with liquid reflections"
 shortDescription: "A holographic blue, green and pink gradient with liquid reflections."

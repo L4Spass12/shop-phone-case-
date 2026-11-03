@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Bienenstreifen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-rayures-abeilles-plat.webp"
 imageAlt: "Hülle Bienenstreifen: gelbe Streifen mit kleinen Bienen und Blumen"
 shortDescription: "Gelbe Streifen mit kleinen Bienen und Blumen."

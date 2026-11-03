@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Coastal Wanderer Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voyageur-cote-plat.webp"
 imageAlt: "iPhone case showing a traveller and his dog on a rocky path, gazing at a coastal village, cypress trees and a deep blue sea under the moon"
 shortDescription: "A traveller and his dog gaze at a coastal village and the deep blue sea under the moon."

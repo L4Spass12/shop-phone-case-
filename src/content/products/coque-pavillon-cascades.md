@@ -1,6 +1,6 @@
 ---
 name: "Coque Pavillon des Cascades"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pavillon-cascades-plat.webp"
 imageAlt: "Coque Pavillon des Cascades : un pavillon parmi les cerisiers en fleurs, des cascades et un petit pont dans la brume verte"
 categories: ["coques-iphone", "coques-zen"]

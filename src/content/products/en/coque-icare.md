@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Icarus Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-icare-plat.webp"
 imageAlt: "Icarus Case: a figure diving through a sky of golden clouds, pierced by light"
 shortDescription: "A figure diving through a sky of golden clouds, pierced by light."

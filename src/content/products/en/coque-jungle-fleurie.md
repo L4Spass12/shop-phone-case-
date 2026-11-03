@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Floral Jungle Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-jungle-fleurie-plat.webp"
 imageAlt: "iPhone case mixing leopard and zebra prints in tawny tones, with pink hibiscus and green leaves"
 shortDescription: "Leopard, zebra and pink hibiscus blend together in a tawny jungle."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Ribbon Hearts Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-ruban-plat.webp"
 imageAlt: "Ribbon Hearts Case: pink hearts hanging from a ribbon, fine and delicate"
 shortDescription: "Pink hearts hanging from a ribbon, fine and delicate."

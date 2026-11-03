@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Archipel im Abendrot"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-archipel-couchant-plat.webp"
 imageAlt: "Farbenfrohe iPhone-Hülle: Sonnenuntergang über einem Archipel, Regenbogenhimmel, grüne Hügel und eine Kiefer auf der Klippe"
 shortDescription: "Ein Sonnenuntergang über einem Archipel unter einem leuchtenden Regenbogenhimmel."

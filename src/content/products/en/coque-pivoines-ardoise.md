@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Slate Peonies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pivoines-ardoise-plat.webp"
 imageAlt: "Slate Peonies Case: peonies, scrolls and butterflies tone on tone, on a slate blue background"
 shortDescription: "Peonies, scrolls and butterflies tone on tone, on a slate blue background."

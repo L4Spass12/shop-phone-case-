@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Goldene Kraniche"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grues-dorees-plat.webp"
 imageAlt: "Tiefgrüne iPhone-Hülle im japanischen Stil mit drei fliegenden Kranichen, goldener Sonne, Kiefern, Blüten und einem Wasserfall"
 shortDescription: "Drei Kraniche fliegen zu einer goldenen Sonne, zwischen Kiefern, Blüten und Wasserfall, auf tiefem Grün."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Ikarus"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-icare-plat.webp"
 imageAlt: "Hülle Ikarus: Eine Gestalt taucht durch einen Himmel aus goldenen Wolken, von Licht durchbrochen"
 shortDescription: "Eine Gestalt taucht durch einen Himmel aus goldenen Wolken, von Licht durchbrochen."

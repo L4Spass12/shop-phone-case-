@@ -1,6 +1,6 @@
 ---
 name: "Coque Good Drinks"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-good-drinks-plat.webp"
 imageAlt: "Coque Good Drinks : un homard, un martini et des pâtes sur fond rose, avec le mot « Good Drinks Bigger Plans »"
 categories: ["coques-iphone", "coques-riviera"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Wandteppich"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tapisserie-plat.webp"
 imageAlt: "Hülle Wandteppich: ein mittelalterlicher Wandteppich mit Rittern, Mond und alten Büchern"
 shortDescription: "Ein mittelalterlicher Wandteppich mit Rittern, Mond und alten Büchern."

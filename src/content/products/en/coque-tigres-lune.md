@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Moon Tigers Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tigres-lune-relief.webp"
 imageAlt: "Midnight blue iPhone case with two tigers facing each other, surrounded by a sun, a crescent moon, stars and golden leaves"
 shortDescription: "Two tigers face to face under the sun and the moon, on a deep midnight blue scattered with stars and golden leaves."

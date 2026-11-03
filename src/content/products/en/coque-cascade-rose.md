@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pink Waterfall Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cascade-rose-plat.webp"
 imageAlt: "Pink Waterfall Case: a waterfall between pink clouds and pine trees, on a sea green background"
 shortDescription: "A waterfall between pink clouds and pine trees, on a sea green background."

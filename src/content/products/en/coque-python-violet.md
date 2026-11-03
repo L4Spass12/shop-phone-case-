@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Purple Python Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-python-violet-plat.webp"
 imageAlt: "Purple Python Case: purple and white python scales"
 shortDescription: "Purple and white python scales."

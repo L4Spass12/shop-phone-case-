@@ -1,6 +1,6 @@
 ---
 name: "Coque Lac Doré"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lac-dore-plat.webp"
 imageAlt: "Coque Lac Doré : une barque sur un lac doré, entre les montagnes et la pleine lune"
 categories: ["coques-iphone", "coques-zen"]

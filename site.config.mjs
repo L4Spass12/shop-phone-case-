@@ -290,25 +290,29 @@ const config = {
     // Source unique : le studio l'affiche, le manifeste /seamless-items.json le
     // déclare, et le serveur de paiement s'appuie sur ce manifeste pour refuser
     // un prix falsifié. Le changer ici suffit.
-    customCasePriceCents: 1990,
+    customCasePriceCents: 2290,
     // Impression EN RELIEF : l'encre est déposée en plusieurs passes, le motif
     // se sent sous le doigt. Plus long à imprimer, donc plus cher. Le studio
     // fait choisir entre les deux avant l'ajout au panier, et envoie la clé
     // « custom-relief » quand c'est ce mode qui est retenu.
-    customCaseReliefPriceCents: 2490,
+    customCaseReliefPriceCents: 2790,
     // Supplément RELIEF sur les coques du CATALOGUE (le studio, lui, a ses
     // deux prix complets ci-dessus). Ajouté au prix du produit quand l'acheteur
     // choisit le relief sur la fiche.
     // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
     // et le serveur de paiement refuse un relief payé au tarif du plat.
     catalogueReliefSurchargeCents: 500,
-    // Offre de lancement (studio et catalogue) : à plat 19,90 €, relief
-    // 24,90 €. Prix qui s'appliqueront ensuite, annoncés à côté (« puis
-    // 24,90 € », « puis 31,90 € »). Un prix barré exigerait d'avoir déjà vendu
+    // Offre de lancement terminée le 03/11/2026 (prix passés à 22,90 € et
+    // 27,90 €). Prix à venir, annoncés à côté du prix (« puis… »). Un prix barré exigerait d'avoir déjà vendu
     // à ce prix dans les 30 derniers jours (règle des annonces de réduction) :
     // on annonce donc le prix à venir. null pour retirer la mention à la fin
     // de l'offre.
-    launchNextCents: { flat: 2490, relief: 3190 },
+    launchNextCents: null,
+    // Barre promo tout en haut du site : un clic copie le code. Le code
+    // lui-même (remise, dates) se règle dans l'admin, rubrique Discounts.
+    // `until` : la barre disparaît d'elle-même à cette date. null pour la
+    // retirer.
+    promoBar: { code: 'BLACK20', until: '2026-11-30T23:59:59+01:00' },
     // Sticker décoratif posé sur la photo produit. Chemin d'image, ou null
     // pour ne rien afficher : la fiche ne doit pas dépendre d'un fichier qui
     // n'existerait pas encore.

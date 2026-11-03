@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Jade Sakura Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sakura-vert-plat.webp"
 imageAlt: "Jade Sakura Case: cherry blossoms and swirls on jade green"
 shortDescription: "Cherry blossoms and swirls on jade green."

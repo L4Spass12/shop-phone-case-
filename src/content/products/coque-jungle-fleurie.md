@@ -1,6 +1,6 @@
 ---
 name: "Coque Jungle Fleurie"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-jungle-fleurie-plat.webp"
 imageAlt: "Coque iPhone mêlant motifs léopard et zèbre dans des tons fauves, avec des hibiscus roses et des feuillages verts"
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]

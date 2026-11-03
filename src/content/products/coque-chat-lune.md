@@ -1,6 +1,6 @@
 ---
 name: "Coque Chat au Clair de Lune"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chat-lune-plat.webp"
 imageAlt: "Coque iPhone bleu nuit avec un chat assis sur un balcon de marbre qui contemple la lune, entre lys blancs, citrons et nuages dorés"
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]

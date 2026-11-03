@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Riviera Convertible Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-riviera-cabriolet-plat.webp"
 imageAlt: "Riviera Convertible Case: a drive along a sunny seaside road"
 shortDescription: "A drive along a sunny seaside road."

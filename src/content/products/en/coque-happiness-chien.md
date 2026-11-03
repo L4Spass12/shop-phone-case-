@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Happiness is Free Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-happiness-chien-plat.webp"
 imageAlt: "Happiness is Free Case: a dog making a heart and \"happiness is free\" on purple stripes"
 shortDescription: "A dog making a heart and \"happiness is free\" on purple stripes."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Nature Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nature-chat-plat.webp"
 imageAlt: "Nature Case: a \"nature\" poster with a ginger cat lounging in the grass"
 shortDescription: "A \"nature\" poster with a ginger cat lounging in the grass."

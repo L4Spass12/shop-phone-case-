@@ -1,6 +1,6 @@
 ---
 name: "Coque Unhinged"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-unhinged-plat.webp"
 imageAlt: "Coque Unhinged : une petite créature verte et « I will make it, because I am unhinged »"
 categories: ["coques-iphone", "coques-kawaii", "coques-citations"]

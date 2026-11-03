@@ -1,6 +1,6 @@
 ---
 name: "Coque Capybaras"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-capybaras-plat.webp"
 imageAlt: "Coque Capybaras : des capybaras amoureux qui s'échangent des lettres et des cœurs"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique", "coques-kawaii"]

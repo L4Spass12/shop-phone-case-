@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Heckenrose und Schmetterlinge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eglantier-papillons-plat.webp"
 imageAlt: "Hülle Heckenrose und Schmetterlinge: Heckenrosenblüten und zwei Schmetterlinge vor einem blauen Aquarellhimmel"
 shortDescription: "Heckenrosenblüten und zwei Schmetterlinge vor einem blauen Aquarellhimmel."

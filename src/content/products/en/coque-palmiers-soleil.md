@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Palm Sun Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palmiers-soleil-plat.webp"
 imageAlt: "Palm Sun Case: two palm trees and a big yellow sun on a coral background"
 shortDescription: "Two palm trees and a big yellow sun on a coral background."

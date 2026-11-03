@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Girls Night"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girls-night-plat.webp"
 imageAlt: "Hülle Girls Night: Ein Martini mit rosa Schleife, Kirschen und ein Lippenstift, mit der Notiz „Girls Night“"
 shortDescription: "Ein Martini mit rosa Schleife, Kirschen und ein Lippenstift, mit der Notiz „Girls Night“."

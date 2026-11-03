@@ -1,6 +1,6 @@
 ---
 name: "Coque Archipel au Couchant"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-archipel-couchant-plat.webp"
 imageAlt: "Coque iPhone aux couleurs vives : un soleil couchant sur un archipel, un ciel arc-en-ciel, des collines vertes et un pin sur la falaise"
 categories: ["coques-iphone", "coques-paysages"]

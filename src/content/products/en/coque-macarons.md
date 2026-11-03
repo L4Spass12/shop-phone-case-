@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Macarons Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-macarons-plat.webp"
 imageAlt: "iPhone case covered with colourful macarons decorated with a bear, a chick, a bunny, strawberries and flowers"
 shortDescription: "A treat of colourful macarons with cute kawaii faces, strawberries and flowers."

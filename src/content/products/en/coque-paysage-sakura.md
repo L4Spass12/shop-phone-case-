@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sakura Landscape Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-paysage-sakura-relief-v2.webp"
 imageAlt: "iPhone case illustrated with a raised print-style landscape: pink clouds, blue mountains, a waterfall, a pavilion and blossoming cherry trees touched with gold"
 shortDescription: "A print-style landscape of pink clouds, blue mountains and cherry blossoms, highlighted with touches of gold."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kirschen und Schleifen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-rubans-plat.webp"
 imageAlt: "Hülle Kirschen und Schleifen: rote Kirschen und kleine rosa Schleifen auf cremefarbenem Grund"
 shortDescription: "Rote Kirschen und kleine rosa Schleifen auf cremefarbenem Grund."

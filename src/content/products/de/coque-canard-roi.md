@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Königsente"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-canard-roi-plat.webp"
 imageAlt: "Hülle Königsente: eine kleine gekrönte Ente mit Sonnenbrille auf blauen Streifen"
 shortDescription: "Eine kleine gekrönte Ente mit Sonnenbrille auf blauen Streifen."

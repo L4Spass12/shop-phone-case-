@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sakura-Fluss"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-riviere-sakura-plat.webp"
 imageAlt: "Hülle Sakura-Fluss: Zwei Kraniche fliegen über einen perlmuttfarbenen Fluss, unter Kirschblüten"
 shortDescription: "Zwei Kraniche fliegen über einen perlmuttfarbenen Fluss, unter Kirschblüten."

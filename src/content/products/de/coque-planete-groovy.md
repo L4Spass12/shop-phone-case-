@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Groovy Planet"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-planete-groovy-plat.webp"
 imageAlt: "Hülle Groovy Planet: ein lächelnder kleiner Planet, Regenbögen und Retro-Blumen"
 shortDescription: "Ein lächelnder kleiner Planet, Regenbögen und Retro-Blumen."

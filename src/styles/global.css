@@ -2546,3 +2546,49 @@ html[data-theme='sunfreaks']:has(.hero-section--relief) #site-header.header-over
     color: rgb(var(--c-cream)); border-color: rgb(var(--c-cream) / .45); background: rgb(var(--c-cream) / .04);
   }
 }
+
+/* ─── Barre promo (PromoBar.astro) ─────────────────────────────────────
+   Fixe tout en haut, AU-DESSUS du header. Elle reprend le mécanisme de
+   l'ancien bandeau défilant : --marquee-h décale le header, le padding de
+   `main` et la remontée du header masqué au défilement. */
+:root { --promo-h: 34px; }
+html.has-promo { --marquee-h: var(--promo-h); }
+html.has-promo #site-header { top: var(--promo-h); }
+.promo-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10001;
+  height: calc(var(--promo-h) + var(--safe-top));
+  padding: var(--safe-top) 12px 0;
+  border: 0;
+  background: #111113;
+  color: #fff;
+  font: 500 13px/1 var(--font-body);
+  cursor: pointer;
+  transition: transform 0.35s ease;
+}
+.promo-inner {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  height: var(--promo-h);
+  white-space: nowrap;
+}
+.promo-lead { text-transform: uppercase; letter-spacing: 0.06em; color: var(--sun-yellow, #ffd23f); }
+.promo-code {
+  padding: 3px 7px;
+  border: 1px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  font-weight: 700; letter-spacing: 0.04em;
+  user-select: all;
+}
+.promo-copy { text-decoration: underline; text-underline-offset: 2px; opacity: 0.85; }
+.promo-bar:hover .promo-copy { opacity: 1; }
+.promo-ship { opacity: 0.85; }
+@media (max-width: 640px) {
+  .promo-bar { font-size: 12px; }
+  .promo-ship { display: none; }
+}
+@media (max-width: 360px) {
+  .promo-copy { display: none; }
+}
+html.header-hidden .promo-bar { transform: translateY(-100%); }
+html[data-studio-app].header-hidden .promo-bar { transform: none; }

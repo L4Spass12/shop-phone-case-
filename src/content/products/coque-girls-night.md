@@ -1,6 +1,6 @@
 ---
 name: "Coque Girls Night"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girls-night-plat.webp"
 imageAlt: "Coque Girls Night : un martini noué d'un ruban rose, des cerises et un rouge à lèvres, avec le mot « Girls Night »"
 categories: ["coques-iphone", "coques-riviera"]

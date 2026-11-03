@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Keep Your Sweetness"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-keep-sweetness-plat.webp"
 imageAlt: "Hülle Keep Your Sweetness: Erdbeeren und „keep your sweetness, stay wild“ auf kräftigem Rosa"
 shortDescription: "Erdbeeren und „keep your sweetness, stay wild“ auf kräftigem Rosa."

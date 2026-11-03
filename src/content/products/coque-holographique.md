@@ -1,6 +1,6 @@
 ---
 name: "Coque Holographique"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-holographique-plat.webp"
 imageAlt: "Coque Holographique : un dégradé holographique bleu, vert et rose aux reflets liquides"
 categories: ["coques-iphone", "coques-motifs"]

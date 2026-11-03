@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Küstenwanderer"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voyageur-cote-plat.webp"
 imageAlt: "iPhone-Hülle mit einem Wanderer und seinem Hund auf einem Felsweg, mit Blick auf ein Küstendorf, Zypressen und das tiefblaue Meer unter dem Mond"
 shortDescription: "Ein Wanderer und sein Hund blicken auf ein Küstendorf und das tiefblaue Meer unter dem Mond."

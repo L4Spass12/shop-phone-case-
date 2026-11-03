@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Glitzerkätzchen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-paillettes-plat.webp"
 imageAlt: "Hülle Glitzerkätzchen: ein geflügeltes Kätzchen mit Schleifen, Herzen und rosa Sternen"
 shortDescription: "Ein geflügeltes Kätzchen mit Schleifen, Herzen und rosa Sternen."

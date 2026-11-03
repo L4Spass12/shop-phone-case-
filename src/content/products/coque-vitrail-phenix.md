@@ -1,6 +1,6 @@
 ---
 name: "Coque Vitrail Phénix"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vitrail-phenix-v2-plat.webp"
 imageAlt: "Coque Vitrail Phénix : un phénix multicolore dans un vitrail, au clair de lune"
 categories: ["coques-iphone", "coques-paysages"]

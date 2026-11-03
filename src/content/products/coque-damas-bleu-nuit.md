@@ -1,6 +1,6 @@
 ---
 name: "Coque Damas Bleu Nuit"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-bleu-nuit-plat.webp"
 imageAlt: "Coque Damas Bleu Nuit : des pivoines, des arabesques et des colibris ton sur ton, sur un fond bleu nuit"
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]

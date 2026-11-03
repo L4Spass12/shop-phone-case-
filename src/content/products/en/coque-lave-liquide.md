@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Liquid Lava Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lave-liquide-plat.webp"
 imageAlt: "Liquid Lava Case: intense, glossy liquid reflections in orange and red"
 shortDescription: "Intense, glossy liquid reflections in orange and red."

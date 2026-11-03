@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Girls Night Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girls-night-plat.webp"
 imageAlt: "Girls Night Case: a martini tied with a pink ribbon, cherries and a lipstick, with the note “Girls Night”"
 shortDescription: "A martini tied with a pink ribbon, cherries and a lipstick, with the note “Girls Night”."

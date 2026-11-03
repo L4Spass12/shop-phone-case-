@@ -1,6 +1,6 @@
 ---
 name: "Coque Barque dans la Brume"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-barque-brume-plat.webp"
 imageAlt: "Coque Barque dans la Brume : une barque sur le lac, au pied d'une cascade et d'un pavillon perché dans la brume colorée"
 categories: ["coques-iphone", "coques-zen"]

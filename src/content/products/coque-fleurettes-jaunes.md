@@ -1,6 +1,6 @@
 ---
 name: "Coque Fleurettes Jaunes"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurettes-jaunes-plat.webp"
 imageAlt: "Coque Fleurettes Jaunes : de petites fleurs jaunes et des feuilles sur un fond crème"
 categories: ["coques-iphone", "coques-fleurs"]

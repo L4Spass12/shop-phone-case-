@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Flower Bunny Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lapin-fleur-plat.webp"
 imageAlt: "Flower Bunny Case: a little white bunny in the heart of a flower, surrounded by pink sparkles"
 shortDescription: "A little white bunny in the heart of a flower, surrounded by pink sparkles."

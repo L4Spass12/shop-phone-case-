@@ -1,6 +1,6 @@
 ---
 name: "Coque Papillon de Lumière"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillon-lumiere-plat.webp"
 imageAlt: "Coque iPhone vert lumineux avec un papillon jaune qui brille au milieu d'étincelles"
 categories: ["coques-iphone", "coques-animaux"]

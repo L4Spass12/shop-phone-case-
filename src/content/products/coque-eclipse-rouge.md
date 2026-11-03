@@ -1,6 +1,6 @@
 ---
 name: "Coque Éclipse Rouge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-rouge-plat.webp"
 imageAlt: "Coque Éclipse Rouge : une silhouette assise face à une planète rouge, dans des nuages"
 categories: ["coques-iphone", "coques-paysages"]

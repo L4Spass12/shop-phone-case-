@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Boot im Nebel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-barque-brume-plat.webp"
 imageAlt: "Hülle Boot im Nebel: Ein Boot auf dem See, unter einem Wasserfall und einem Pavillon im farbigen Nebel"
 shortDescription: "Ein Boot auf dem See, unter einem Wasserfall und einem Pavillon im farbigen Nebel."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Route des Palmiers"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-route-palmiers-plat.webp"
 imageAlt: "Coque Route des Palmiers : une voiture blanche sur la route côtière, entre palmiers et coucher de soleil"
 categories: ["coques-iphone", "coques-auto"]

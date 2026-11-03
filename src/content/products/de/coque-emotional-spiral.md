@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Emotional Spiral"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-emotional-spiral-plat.webp"
 imageAlt: "Hülle Emotional Spiral: eine bordeauxrote Retro-Schrift, „a little emotional spiral later…“, voller Humor"
 shortDescription: "Eine bordeauxrote Retro-Schrift, „a little emotional spiral later…“, voller Humor."

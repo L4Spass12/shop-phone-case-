@@ -1,6 +1,6 @@
 ---
 name: "Coque Oursons Chocolat"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-chocolat-plat.webp"
 imageAlt: "Coque Oursons Chocolat : des têtes d'oursons crème et caramel sur un fond chocolat"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

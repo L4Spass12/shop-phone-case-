@@ -1,6 +1,6 @@
 ---
 name: "Coque Feux d'Artifice"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-feux-artifice-plat.webp"
 imageAlt: "Coque Feux d'Artifice : des feux d'artifice blancs qui éclatent sur un bleu ciel pastel"
 categories: ["coques-iphone", "coques-motifs"]

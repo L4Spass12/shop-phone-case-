@@ -1,6 +1,6 @@
 ---
 name: "Coque Palmiers Soleil"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palmiers-soleil-plat.webp"
 imageAlt: "Coque Palmiers Soleil : deux palmiers et un grand soleil jaune sur un fond corail"
 categories: ["coques-iphone", "coques-riviera"]

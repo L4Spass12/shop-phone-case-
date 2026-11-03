@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Dogs in Love Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chiens-amoureux-plat.webp"
 imageAlt: "Dogs in Love Case: dogs in love in heart-shaped frames"
 shortDescription: "Dogs in love in heart-shaped frames."

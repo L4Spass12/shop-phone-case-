@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Golden Print Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-estampe-doree-plat.webp"
 imageAlt: "Golden Print Case: a blue and gold landscape print: waterfall, pavilion, pine trees and a little bridge"
 shortDescription: "A blue and gold landscape print: waterfall, pavilion, pine trees and a little bridge."

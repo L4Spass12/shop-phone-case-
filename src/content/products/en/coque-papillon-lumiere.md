@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Light Butterfly Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillon-lumiere-plat.webp"
 imageAlt: "Bright green iPhone case with a glowing yellow butterfly among sparkles"
 shortDescription: "A yellow butterfly of light flies through a green swirl full of sparkles."

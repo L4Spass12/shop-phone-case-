@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Paris-Croissant"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-croissant-paris-plat.webp"
 imageAlt: "Hülle Paris-Croissant: ein goldenes Croissant und „Paris“ auf blauen Streifen"
 shortDescription: "Ein goldenes Croissant und „Paris“ auf blauen Streifen."

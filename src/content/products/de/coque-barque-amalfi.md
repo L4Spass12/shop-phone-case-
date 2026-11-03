@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Boot von Amalfi"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-barque-amalfi-plat.webp"
 imageAlt: "Hülle Boot von Amalfi: Ein blau-weißes Boot unter Zitronenbäumen, bei Sonnenuntergang über dem Meer"
 shortDescription: "Ein blau-weißes Boot unter Zitronenbäumen, bei Sonnenuntergang über dem Meer."

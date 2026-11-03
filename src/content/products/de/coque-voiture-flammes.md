@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Flammenauto"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voiture-flammes-plat.webp"
 imageAlt: "Hülle Flammenauto: ein verchromter Rennwagen zwischen Retro-Flammen"
 shortDescription: "Ein verchromter Rennwagen zwischen Retro-Flammen."

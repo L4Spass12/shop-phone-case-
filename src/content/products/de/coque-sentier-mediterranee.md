@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Mittelmeerpfad"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sentier-mediterranee-plat.webp"
 imageAlt: "Hülle Mittelmeerpfad: Ein blühender Pfad führt hinab zum türkisblauen Meer, unter weißen Blüten"
 shortDescription: "Ein blühender Pfad führt hinab zum türkisblauen Meer, unter weißen Blüten."

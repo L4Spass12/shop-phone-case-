@@ -1,6 +1,6 @@
 ---
 name: "Coque Vague Dorée"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vague-doree-plat.webp"
 imageAlt: "Coque Vague Dorée : des vagues japonaises noires et or sous un soleil doré"
 categories: ["coques-iphone", "coques-zen"]

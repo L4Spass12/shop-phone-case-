@@ -1,6 +1,6 @@
 ---
 name: "Coque Lys Pastel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lys-pastel-plat.webp"
 imageAlt: "Coque Lys Pastel : des lys et des fleurs pastel tout en transparence"
 categories: ["coques-iphone", "coques-fleurs"]

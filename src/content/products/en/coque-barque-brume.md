@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Boat in the Mist Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-barque-brume-plat.webp"
 imageAlt: "Boat in the Mist Case: a boat on the lake, below a waterfall and a pavilion perched in the coloured mist"
 shortDescription: "A boat on the lake, below a waterfall and a pavilion perched in the coloured mist."

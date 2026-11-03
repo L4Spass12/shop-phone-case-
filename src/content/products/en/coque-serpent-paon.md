@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Peacock Snake Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-serpent-paon-plat.webp"
 imageAlt: "Peacock Snake Case: peacock-coloured snake scales in green and turquoise"
 shortDescription: "Peacock-coloured snake scales in green and turquoise."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Lavender Mountains Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-montagnes-lavande-plat.webp"
 imageAlt: "Lavender Mountains Case: lavender mountains and pine trees, a waterfall and a pavilion in the clouds"
 shortDescription: "Lavender mountains and pine trees, a waterfall and a pavilion in the clouds."

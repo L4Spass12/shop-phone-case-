@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sun Mosaic Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-mosaique-soleil-relief.webp"
 imageAlt: "Raised iPhone case imitating a mosaic of small red, orange, yellow and green tiles arranged in circles around a blue cabochon"
 shortDescription: "A sunny mosaic of small colourful tiles arranged in circles around a deep blue heart."

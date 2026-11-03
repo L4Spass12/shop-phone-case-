@@ -1,6 +1,6 @@
 ---
 name: "Coque Palais Pourpre"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palais-pourpre-plat.webp"
 imageAlt: "Coque Palais Pourpre : des palais et des pins dorés sur les montagnes, sur un fond rouge pourpre"
 categories: ["coques-iphone", "coques-zen"]

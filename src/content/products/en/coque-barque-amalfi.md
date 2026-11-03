@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Amalfi Boat Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-barque-amalfi-plat.webp"
 imageAlt: "Amalfi Boat Case: a blue and white boat under the lemon trees, at sunset over the sea"
 shortDescription: "A blue and white boat under the lemon trees, at sunset over the sea."

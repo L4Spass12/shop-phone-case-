@@ -1,6 +1,6 @@
 ---
 name: "Coque Lapin Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lapin-rose-plat.webp"
 imageAlt: "Coque Lapin Rose : un petit lapin blanc dans une lueur rose toute douce"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

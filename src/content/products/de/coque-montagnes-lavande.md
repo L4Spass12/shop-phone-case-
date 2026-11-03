@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Lavendelberge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-montagnes-lavande-plat.webp"
 imageAlt: "Hülle Lavendelberge: Lavendelfarbene Berge und Kiefern, ein Wasserfall und ein Pavillon in den Wolken"
 shortDescription: "Lavendelfarbene Berge und Kiefern, ein Wasserfall und ein Pavillon in den Wolken."

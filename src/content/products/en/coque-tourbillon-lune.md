@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Moon Swirl Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tourbillon-lune-relief.webp"
 imageAlt: "Sky blue iPhone case painted with a swirl of pastel fish, shooting stars and little flowers around a golden moon"
 shortDescription: "A sky blue swirl where pastel fish swim between shooting stars and little flowers, around a golden moon."

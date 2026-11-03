@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sunflower Bears Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-tournesols-plat.webp"
 imageAlt: "Sunflower Bears Case: teddy bears and sunflowers on a yellow check"
 shortDescription: "Teddy bears and sunflowers on a yellow check."

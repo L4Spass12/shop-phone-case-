@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Neon Car Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voiture-neon-plat.webp"
 imageAlt: "Neon Car Case: a race car speeding through neon lights"
 shortDescription: "A race car speeding through neon lights."

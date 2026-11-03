@@ -1,6 +1,6 @@
 ---
 name: "Coque Léopard"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-leopard-plat.webp"
 imageAlt: "Coque Léopard : un imprimé léopard classique, intemporel"
 categories: ["coques-iphone", "coques-motifs"]

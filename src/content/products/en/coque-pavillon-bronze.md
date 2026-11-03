@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Bronze Pavilion Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pavillon-bronze-plat.webp"
 imageAlt: "Bronze Pavilion Case: a golden pavilion, pine tree, lotus flowers and crane on a chocolate brown background"
 shortDescription: "A golden pavilion, pine tree, lotus flowers and crane on a chocolate brown background."

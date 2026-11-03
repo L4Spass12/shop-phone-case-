@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Barocke Schwäne"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cygnes-baroques-plat.webp"
 imageAlt: "Hülle Barocke Schwäne: Zwei Schwäne zwischen blumigen Ranken, Ton in Ton in Creme"
 shortDescription: "Zwei Schwäne zwischen blumigen Ranken, Ton in Ton in Creme."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Golden Sunset Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coucher-or-plat.webp"
 imageAlt: "Golden Sunset Case: a golden sunset seen from a flowering forest"
 shortDescription: "A golden sunset seen from a flowering forest."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Riviera-Cabrio"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-riviera-cabriolet-plat.webp"
 imageAlt: "Hülle Riviera-Cabrio: eine Fahrt auf einer sonnigen Küstenstraße"
 shortDescription: "Eine Fahrt auf einer sonnigen Küstenstraße."

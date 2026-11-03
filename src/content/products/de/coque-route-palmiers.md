@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Palmenstraße"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-route-palmiers-plat.webp"
 imageAlt: "Hülle Palmenstraße: ein weißes Auto auf der Küstenstraße zwischen Palmen und Sonnenuntergang"
 shortDescription: "Ein weißes Auto auf der Küstenstraße zwischen Palmen und Sonnenuntergang."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Beiges Karo"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tartan-beige-plat.webp"
 imageAlt: "iPhone-Hülle mit Tartan-Karo in Beige, Taupe und Creme, Stoffoptik"
 shortDescription: "Ein Tartan-Karo in Beige und Taupe mit Stoffoptik, schick und zeitlos."

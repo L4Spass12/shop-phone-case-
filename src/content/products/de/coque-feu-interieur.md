@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Inneres Feuer"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-feu-interieur-plat.webp"
 imageAlt: "Hülle Inneres Feuer: eine Gestalt in orangefarbenen Flammen auf feurigem Grund"
 shortDescription: "Eine Gestalt in orangefarbenen Flammen auf feurigem Grund."

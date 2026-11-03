@@ -1,0 +1,71 @@
+---
+/**
+ * Barre promo tout en haut du site (Black Friday) : un clic copie le code.
+ * Réglée par `shop.promoBar` dans site.config.mjs ; null pour la retirer.
+ * La date de fin est vérifiée au build ET dans le navigateur : le site n'est
+ * pas reconstruit à la minute près, la barre disparaît quand même à l'heure.
+ * Le décalage du header passe par --marquee-h (cf. global.css, « Barre promo »).
+ */
+import siteConfig from '../../site.config.mjs';
+import { localeFromPath } from '../lib/i18n';
+
+const promo = siteConfig.shop?.promoBar ?? null;
+const lang = localeFromPath(Astro.url.pathname);
+const txt = ({
+  fr: { lead: 'Black Friday', off: '-20 % avec le code', ship: 'Livraison offerte dès 2 coques', copy: 'Copier', copied: 'Code copié !' },
+  en: { lead: 'Black Friday', off: '20% off with code', ship: 'Free shipping from 2 cases', copy: 'Copy', copied: 'Code copied!' },
+  de: { lead: 'Black Friday', off: '-20 % mit dem Code', ship: 'Kostenloser Versand ab 2 Hüllen', copy: 'Kopieren', copied: 'Code kopiert!' },
+} as Record<string, Record<string, string>>)[lang] ?? null;
+---
+
+{promo && txt && (
+  <button
+    type="button"
+    id="promo-bar"
+    class="promo-bar"
+    data-code={promo.code}
+    data-until={promo.until}
+    data-copied={txt.copied}
+    aria-label={`${txt.lead} ${txt.off} ${promo.code}. ${txt.copy}`}
+  >
+    <span class="promo-inner">
+      <strong class="promo-lead">{txt.lead}</strong>
+      <span>{txt.off}</span>
+      <span class="promo-code">{promo.code}</span>
+      <span class="promo-copy" data-label>{txt.copy}</span>
+      <span class="promo-ship">· {txt.ship}</span>
+    </span>
+  </button>
+)}
+
+<script>
+  const bar = document.getElementById('promo-bar');
+  if (bar) {
+    const until = Date.parse(bar.dataset.until || '');
+    if (until && Date.now() > until) {
+      bar.remove();
+      document.documentElement.classList.remove('has-promo');
+    } else {
+      const label = bar.querySelector('[data-label]');
+      const initial = label?.textContent ?? '';
+      bar.addEventListener('click', async () => {
+        const code = bar.dataset.code || '';
+        // Retour visuel tout de suite : l'écriture dans le presse-papiers peut
+        // attendre une autorisation du navigateur.
+        if (label) {
+          label.textContent = bar.dataset.copied || '';
+          setTimeout(() => { label.textContent = initial; }, 2000);
+        }
+        try {
+          await navigator.clipboard.writeText(code);
+        } catch {
+          // Presse-papiers refusé (ancien navigateur, iframe) : on sélectionne
+          // le code pour qu'il reste copiable à la main.
+          const range = document.createRange();
+          const node = bar.querySelector('.promo-code');
+          if (node) { range.selectNodeContents(node); getSelection()?.removeAllRanges(); getSelection()?.addRange(range); }
+        }
+      });
+    }
+  }
+</script>

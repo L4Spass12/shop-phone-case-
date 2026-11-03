@@ -1,6 +1,6 @@
 ---
 name: "Coque Rêve Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-reve-rose-plat.webp"
 imageAlt: "Coque Rêve Rose : des cœurs et des fleurs flous dans un nuage rose lumineux"
 categories: ["coques-iphone", "coques-romantique", "coques-kawaii"]

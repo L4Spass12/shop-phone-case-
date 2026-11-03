@@ -1,6 +1,6 @@
 ---
 name: "Coque Loup Rouge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-loup-rouge-plat.webp"
 imageAlt: "Coque Loup Rouge : un loup rouge lumineux dans la nuit, sur un rocher"
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]

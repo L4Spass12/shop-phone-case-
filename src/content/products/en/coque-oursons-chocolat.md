@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Chocolate Bears Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-chocolat-plat.webp"
 imageAlt: "Chocolate Bears Case: cream and caramel teddy faces on a chocolate background"
 shortDescription: "Cream and caramel teddy faces on a chocolate background."

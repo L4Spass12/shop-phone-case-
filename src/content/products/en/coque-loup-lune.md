@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Wolf & Moon Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-loup-lune-plat.webp"
 imageAlt: "Wolf & Moon Case: a white wolf under the moon in a flowery pastel landscape"
 shortDescription: "A white wolf under the moon in a flowery pastel landscape."

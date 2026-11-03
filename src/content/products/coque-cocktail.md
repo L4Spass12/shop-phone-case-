@@ -1,6 +1,6 @@
 ---
 name: "Coque Cocktail"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cocktail-plat.webp"
 imageAlt: "Coque Cocktail : un cocktail rose sur des rayures vert d'eau"
 categories: ["coques-iphone", "coques-riviera"]

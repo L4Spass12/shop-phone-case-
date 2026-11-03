@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Krokodil"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-crocodile-plat.webp"
 imageAlt: "Hülle Krokodil: eine dunkelgrüne Krokodilhaut"
 shortDescription: "Eine dunkelgrüne Krokodilhaut."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Flight of Cranes Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-envol-grues-plat.webp"
 imageAlt: "Flight of Cranes Case: cranes taking flight above a pine tree and a pavilion roof, on a teal sky"
 shortDescription: "Cranes taking flight above a pine tree and a pavilion roof, on a teal sky."

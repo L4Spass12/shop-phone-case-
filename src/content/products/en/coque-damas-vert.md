@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Green Damask Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-vert-plat.webp"
 imageAlt: "Green Damask Case: a tone-on-tone lime green damask pattern"
 shortDescription: "A tone-on-tone lime green damask pattern."

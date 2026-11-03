@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Strawberry Blossom Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-fleurettes-plat.webp"
 imageAlt: "Strawberry Blossom Case: strawberries and florets on a cream background"
 shortDescription: "Strawberries and florets on a cream background."

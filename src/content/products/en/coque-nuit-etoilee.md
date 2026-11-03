@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Starry Night Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nuit-etoilee-plat.webp"
 imageAlt: "Deep blue iPhone case covered with sparkling stars and luminous reflections"
 shortDescription: "A deep blue sky twinkling with stars, intense and luminous."

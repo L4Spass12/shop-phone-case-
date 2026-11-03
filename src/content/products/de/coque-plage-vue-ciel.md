@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Strand von oben"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-plage-vue-ciel-plat.webp"
 imageAlt: "Hülle Strand von oben: Ein Strand von oben: türkisfarbenes Wasser, weißer Sand, Badende und ein Segelboot"
 shortDescription: "Ein Strand von oben: türkisfarbenes Wasser, weißer Sand, Badende und ein Segelboot."

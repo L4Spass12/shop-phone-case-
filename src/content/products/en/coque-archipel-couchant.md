@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sunset Archipelago Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-archipel-couchant-plat.webp"
 imageAlt: "Vividly coloured iPhone case: a sunset over an archipelago, a rainbow sky, green hills and a pine on the cliff"
 shortDescription: "A sunset over an archipelago, under a rainbow sky in bright colours."

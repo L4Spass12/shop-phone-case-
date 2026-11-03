@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Verliebte Katzen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chats-amoureux-plat.webp"
 imageAlt: "Taupefarbene iPhone-Hülle mit einer schwarzen und einer weißen Katze mit Herzaugen rund um ein großes rosa Herz"
 shortDescription: "Eine schwarze und eine weiße Katze mit Herzaugen suchen sich rund um ein großes rosa Herz."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Roadtrip"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-roadtrip-rouge-plat.webp"
 imageAlt: "Hülle Roadtrip: ein rotes Cabrio auf einer blühenden Küstenstraße am Meer"
 shortDescription: "Ein rotes Cabrio auf einer blühenden Küstenstraße am Meer."

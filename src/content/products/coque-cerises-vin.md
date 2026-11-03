@@ -1,6 +1,6 @@
 ---
 name: "Coque Cerises et Vin"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-vin-plat.webp"
 imageAlt: "Coque iPhone à rayures rouge brique et rose, avec un verre de vin rouge et deux cerises"
 categories: ["coques-iphone", "coques-riviera"]

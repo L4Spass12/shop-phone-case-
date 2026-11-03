@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sternennacht"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nuit-etoilee-plat.webp"
 imageAlt: "Tiefblaue iPhone-Hülle voller funkelnder Sterne und leuchtender Reflexe"
 shortDescription: "Ein tiefblauer Himmel voller funkelnder Sterne, intensiv und leuchtend."

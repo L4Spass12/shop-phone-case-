@@ -1,6 +1,6 @@
 ---
 name: "Coque Nuit Étoilée"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nuit-etoilee-plat.webp"
 imageAlt: "Coque iPhone bleu profond couverte d'étoiles scintillantes et de reflets lumineux"
 categories: ["coques-iphone", "coques-motifs"]

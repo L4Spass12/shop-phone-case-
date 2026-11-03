@@ -1,6 +1,6 @@
 ---
 name: "Coque Lézard"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lezard-plat.webp"
 imageAlt: "Coque Lézard : une peau de lézard vert olive aux mille écailles"
 categories: ["coques-iphone", "coques-motifs"]

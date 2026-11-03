@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Discokugel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-boule-disco-plat.webp"
 imageAlt: "Hülle Discokugel: eine rosa Discokugel auf Fuchsia-Streifen"
 shortDescription: "Eine rosa Discokugel auf Fuchsia-Streifen."

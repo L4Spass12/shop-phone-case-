@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Verliebte Hunde"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chiens-amoureux-plat.webp"
 imageAlt: "Hülle Verliebte Hunde: verliebte Hunde in herzförmigen Rahmen"
 shortDescription: "Verliebte Hunde in herzförmigen Rahmen."

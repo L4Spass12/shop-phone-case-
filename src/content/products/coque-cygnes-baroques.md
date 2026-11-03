@@ -1,6 +1,6 @@
 ---
 name: "Coque Cygnes Baroques"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cygnes-baroques-plat.webp"
 imageAlt: "Coque Cygnes Baroques : deux cygnes parmi des arabesques fleuries, ton sur ton crème"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique", "coques-motifs"]

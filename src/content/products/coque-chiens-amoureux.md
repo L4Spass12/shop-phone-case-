@@ -1,6 +1,6 @@
 ---
 name: "Coque Chiens Amoureux"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chiens-amoureux-plat.webp"
 imageAlt: "Coque Chiens Amoureux : des chiens amoureux dans des cadres en forme de cœur"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique"]

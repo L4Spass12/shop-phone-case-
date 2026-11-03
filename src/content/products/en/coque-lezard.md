@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Lizard Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lezard-plat.webp"
 imageAlt: "Lizard Case: an olive green lizard skin with a thousand scales"
 shortDescription: "An olive green lizard skin with a thousand scales."

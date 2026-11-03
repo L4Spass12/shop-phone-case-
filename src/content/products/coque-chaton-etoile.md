@@ -1,6 +1,6 @@
 ---
 name: "Coque Chaton des Étoiles"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-etoile-plat.webp"
 imageAlt: "Coque iPhone pastel avec un chaton blanc tout duveteux aux yeux irisés, dans un ciel rose et vert pailleté d'étoiles"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

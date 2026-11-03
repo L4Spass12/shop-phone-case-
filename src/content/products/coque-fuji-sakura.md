@@ -1,6 +1,6 @@
 ---
 name: "Coque Fuji et Cerisiers"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fuji-sakura-plat.webp"
 imageAlt: "Coque Fuji et Cerisiers : le mont Fuji enneigé au-dessus du lac, un voilier et des branches de cerisier en fleurs"
 categories: ["coques-iphone", "coques-zen"]

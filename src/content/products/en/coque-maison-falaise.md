@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Cliff House Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-maison-falaise-plat.webp"
 imageAlt: "Cliff House Case: a little house on a cliff in blue silhouettes"
 shortDescription: "A little house on a cliff in blue silhouettes."

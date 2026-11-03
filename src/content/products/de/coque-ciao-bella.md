@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Ciao Bella"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ciao-bella-plat.webp"
 imageAlt: "Hülle Ciao Bella: Ein Dalmatiner mit Kopftuch und Sonnenbrille, zwischen Spaghetti, Rotwein und Lippenstift"
 shortDescription: "Ein Dalmatiner mit Kopftuch und Sonnenbrille, zwischen Spaghetti, Rotwein und Lippenstift."

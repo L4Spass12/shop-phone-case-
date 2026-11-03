@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sommerterrasse"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-terrasse-ete-plat.webp"
 imageAlt: "Hülle Sommerterrasse: Freunde auf einer weißen Terrasse am Meer, ein Glas in der Hand"
 shortDescription: "Freunde auf einer weißen Terrasse am Meer, ein Glas in der Hand."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Girafe"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girafe-plat.webp"
 imageAlt: "Coque Girafe : le pelage d'une girafe, effet fourrure"
 categories: ["coques-iphone", "coques-motifs"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Tiger"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tigre-plat.webp"
 imageAlt: "Hülle Tiger: ein orange-schwarzes Tigerfell mit Fell-Effekt"
 shortDescription: "Ein orange-schwarzes Tigerfell mit Fell-Effekt."

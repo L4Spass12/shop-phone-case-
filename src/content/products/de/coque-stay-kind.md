@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Stay Kind"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-stay-kind-plat.webp"
 imageAlt: "Hülle Stay Kind: „stay kind, stand firm“ zwischen gravierter Sonne, Mond und Blumen"
 shortDescription: "„stay kind, stand firm“ zwischen gravierter Sonne, Mond und Blumen."

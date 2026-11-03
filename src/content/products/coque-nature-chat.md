@@ -1,6 +1,6 @@
 ---
 name: "Coque Nature"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nature-chat-plat.webp"
 imageAlt: "Coque Nature : une affiche « nature » avec un chat roux qui se prélasse dans l'herbe"
 categories: ["coques-iphone", "coques-animaux"]

@@ -1,6 +1,6 @@
 ---
 name: "Coque Synthwave"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-synthwave-plat.webp"
 imageAlt: "Coque Synthwave : une voiture et un couple face à un soleil couchant néon rose"
 categories: ["coques-iphone", "coques-auto"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pink Leopard Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-leopard-rose-plat.webp"
 imageAlt: "Pink Leopard Case: a fuchsia pink leopard with a fur effect"
 shortDescription: "A fuchsia pink leopard with a fur effect."

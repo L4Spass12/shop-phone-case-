@@ -1,6 +1,6 @@
 ---
 name: "Coque Fraises et Rubans"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-rubans-plat.webp"
 imageAlt: "Coque Fraises et Rubans : de grosses fraises nouées de rubans roses sur un rose poudré"
 categories: ["coques-iphone", "coques-motifs", "coques-kawaii"]

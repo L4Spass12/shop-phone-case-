@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kleeblätter"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trefles-plat.webp"
 imageAlt: "Hülle Kleeblätter: ein Regen aus grünen Kleeblättern, Symbole für Glück"
 shortDescription: "Ein Regen aus grünen Kleeblättern, Symbole für Glück."

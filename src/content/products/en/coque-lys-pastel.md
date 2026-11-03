@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pastel Lilies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lys-pastel-plat.webp"
 imageAlt: "Pastel Lilies Case: pastel lilies and flowers, light and airy"
 shortDescription: "Pastel lilies and flowers, light and airy."

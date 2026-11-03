@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Crimson Palace Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-palais-pourpre-plat.webp"
 imageAlt: "Crimson Palace Case: golden palaces and pine trees on the mountains, on a crimson background"
 shortDescription: "Golden palaces and pine trees on the mountains, on a crimson background."

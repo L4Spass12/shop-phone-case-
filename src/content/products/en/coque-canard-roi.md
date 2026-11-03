@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "King Duck Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-canard-roi-plat.webp"
 imageAlt: "King Duck Case: a little crowned duck in sunglasses on blue stripes"
 shortDescription: "A little crowned duck in sunglasses on blue stripes."

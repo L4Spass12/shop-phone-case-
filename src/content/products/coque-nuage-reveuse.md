@@ -1,6 +1,6 @@
 ---
 name: "Coque Rêveuse"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nuage-reveuse-plat.webp"
 imageAlt: "Coque Rêveuse : une jeune femme endormie dans un nuage de coton"
 categories: ["coques-iphone", "coques-paysages"]

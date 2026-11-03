@@ -1,6 +1,6 @@
 ---
 name: "Coque Cœurs Pastel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-pastel-plat.webp"
 imageAlt: "Coque iPhone rose aux reflets irisés, avec des cœurs flous et des étoiles scintillantes"
 categories: ["coques-iphone", "coques-romantique", "coques-kawaii"]

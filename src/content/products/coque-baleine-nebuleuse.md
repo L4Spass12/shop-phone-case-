@@ -1,6 +1,6 @@
 ---
 name: "Coque Baleine Nébuleuse"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-baleine-nebuleuse-plat.webp"
 imageAlt: "Coque Baleine Nébuleuse : une baleine de lumière qui nage dans une nébuleuse rose et bleue, sous la lune"
 categories: ["coques-iphone", "coques-animaux", "coques-paysages"]

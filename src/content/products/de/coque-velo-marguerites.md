@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Fahrrad mit Margeriten"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-velo-marguerites-plat.webp"
 imageAlt: "Hülle Fahrrad mit Margeriten: Ein grünes Fahrrad mit einem Korb Margeriten, an einer sonnigen weiß-blauen Wand"
 shortDescription: "Ein grünes Fahrrad mit einem Korb Margeriten, an einer sonnigen weiß-blauen Wand."

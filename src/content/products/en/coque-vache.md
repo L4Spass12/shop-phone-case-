@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Cowhide Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vache-plat.webp"
 imageAlt: "iPhone case imitating a brown and white cowhide with a fur effect"
 shortDescription: "A brown and white cowhide with a fur effect, natural and on trend."

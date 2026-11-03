@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pink Silk Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soie-rose-plat.webp"
 imageAlt: "Pink Silk Case: pink and lime silk ripples"
 shortDescription: "Pink and lime silk ripples."

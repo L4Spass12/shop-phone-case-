@@ -1,6 +1,6 @@
 ---
 name: "Coque Grand Prix Riviera"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grand-prix-riviera-plat.webp"
 imageAlt: "Coque Grand Prix Riviera : une formule 1 rouge dans le virage d'une corniche fleurie, au bord de la mer"
 categories: ["coques-iphone", "coques-riviera"]

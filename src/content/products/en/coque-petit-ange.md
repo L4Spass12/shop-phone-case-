@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Little Angel Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-petit-ange-plat.webp"
 imageAlt: "Sky blue iPhone case with a soft little bunny with angel wings, surrounded by stars and a pink heart"
 shortDescription: "A soft little bunny with angel wings floats on a soothing sky blue, between stars and a pink heart."

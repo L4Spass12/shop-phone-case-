@@ -1,6 +1,6 @@
 ---
 name: "Coque Rayures Abeilles"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-rayures-abeilles-plat.webp"
 imageAlt: "Coque Rayures Abeilles : des rayures jaunes avec des petites abeilles et des fleurs"
 categories: ["coques-iphone", "coques-animaux", "coques-motifs"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Three Skies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trois-ciels-plat.webp"
 imageAlt: "iPhone case split into three glowing bands showing the same landscape of ruins and valley at sunrise, in broad daylight and under a starry sky"
 shortDescription: "The same landscape at three moments: sunrise, daylight and a starry night."

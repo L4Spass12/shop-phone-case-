@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Keep Your Sweetness Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-keep-sweetness-plat.webp"
 imageAlt: "Keep Your Sweetness Case: strawberries and \"keep your sweetness, stay wild\" on a bright pink"
 shortDescription: "Strawberries and \"keep your sweetness, stay wild\" on a bright pink."

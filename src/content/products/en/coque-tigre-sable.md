@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sand Tiger Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-tigre-sable-plat.webp"
 imageAlt: "Sand Tiger Case: tiger stripes on sand-coloured fur"
 shortDescription: "Tiger stripes on sand-coloured fur."

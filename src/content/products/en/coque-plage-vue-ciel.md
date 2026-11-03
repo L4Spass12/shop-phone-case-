@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Beach from Above Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-plage-vue-ciel-plat.webp"
 imageAlt: "Beach from Above Case: a beach seen from above: turquoise water, white sand, swimmers and a sailboat"
 shortDescription: "A beach seen from above: turquoise water, white sand, swimmers and a sailboat."

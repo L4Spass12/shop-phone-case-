@@ -1,6 +1,6 @@
 ---
 name: "Coque Damas Vert"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-vert-plat.webp"
 imageAlt: "Coque Damas Vert : un motif damassé ton sur ton vert anis"
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]

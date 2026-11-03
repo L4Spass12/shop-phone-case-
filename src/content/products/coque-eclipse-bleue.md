@@ -1,6 +1,6 @@
 ---
 name: "Coque Éclipse Bleue"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-bleue-plat.webp"
 imageAlt: "Coque Éclipse Bleue : une silhouette face à une éclipse, dans des nuages roses sur un ciel bleu"
 categories: ["coques-iphone", "coques-paysages"]

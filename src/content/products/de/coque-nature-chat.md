@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Natur"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nature-chat-plat.webp"
 imageAlt: "Hülle Natur: ein „Nature“-Poster mit einer roten Katze, die im Gras döst"
 shortDescription: "Ein „Nature“-Poster mit einer roten Katze, die im Gras döst."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Chic Lobster Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-homard-bleu-plat.webp"
 imageAlt: "Chic Lobster Case: a lobster raising a glass on navy stripes"
 shortDescription: "A lobster raising a glass on navy stripes."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Teddybären"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-plat.webp"
 imageAlt: "iPhone-Hülle mit breiten beige-cremefarbenen Streifen und braunen Teddybärköpfen"
 shortDescription: "Runde Teddybärköpfe auf breiten Streifen in Beige und Creme, ganz sanft und gemütlich."

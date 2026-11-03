@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Synthwave"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-synthwave-plat.webp"
 imageAlt: "Hülle Synthwave: ein Auto und ein Paar vor einem rosa Neon-Sonnenuntergang"
 shortDescription: "Ein Auto und ein Paar vor einem rosa Neon-Sonnenuntergang."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Soleil Cosmique"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soleil-cosmique-plat.webp"
 imageAlt: "Coque Soleil Cosmique : un soleil, une lune et des planètes dans des vagues arc-en-ciel"
 categories: ["coques-iphone", "coques-paysages"]

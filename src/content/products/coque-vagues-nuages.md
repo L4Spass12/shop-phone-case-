@@ -1,6 +1,6 @@
 ---
 name: "Coque Vagues et Nuages"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vagues-nuages-plat.webp"
 imageAlt: "Coque Vagues et Nuages : des vagues turquoise, des montagnes et des nuages roses sous un soleil rouge, avec un vol de grues"
 categories: ["coques-iphone", "coques-zen"]

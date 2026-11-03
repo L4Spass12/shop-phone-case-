@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Seashell Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coquillage-plat.webp"
 imageAlt: "Seashell Case: a painted seashell on sky blue stripes"
 shortDescription: "A painted seashell on sky blue stripes."

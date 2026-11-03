@@ -1,6 +1,6 @@
 ---
 name: "Coque Girafe Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girafe-rose-plat.webp"
 imageAlt: "Coque iPhone imitant une fourrure de girafe rose et blanche à l'aspect tout doux"
 categories: ["coques-iphone", "coques-motifs"]

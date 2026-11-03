@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Water Lilies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nympheas-plat.webp"
 imageAlt: "Water Lilies Case: water lilies on a lake at sunset, impressionist style"
 shortDescription: "Water lilies on a lake at sunset, impressionist style."

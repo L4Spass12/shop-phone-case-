@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blumendschungel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-jungle-fleurie-plat.webp"
 imageAlt: "iPhone-Hülle mit Leoparden- und Zebramuster in warmen Brauntönen, rosa Hibiskus und grünen Blättern"
 shortDescription: "Leopard, Zebra und rosa Hibiskus verschmelzen in einem Dschungel in warmen Brauntönen."

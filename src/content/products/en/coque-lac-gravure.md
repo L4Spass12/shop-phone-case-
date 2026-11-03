@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Lake Etching Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lac-gravure-plat.webp"
 imageAlt: "Lake Etching Case: an etched lake landscape under a forest green sky"
 shortDescription: "An etched lake landscape under a forest green sky."

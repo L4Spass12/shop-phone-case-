@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Talavera"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-talavera-plat.webp"
 imageAlt: "Hülle Talavera: bunte Fliesen im mexikanischen Keramikstil mit Sonnen, Monden und Blumen"
 shortDescription: "Bunte Fliesen im mexikanischen Keramikstil mit Sonnen, Monden und Blumen."

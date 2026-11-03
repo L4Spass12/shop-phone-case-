@@ -1,6 +1,6 @@
 ---
 name: "Coque Lapin Fleur"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lapin-fleur-plat.webp"
 imageAlt: "Coque Lapin Fleur : un petit lapin blanc au cœur d'une fleur, entouré d'étincelles roses"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii", "coques-fleurs"]

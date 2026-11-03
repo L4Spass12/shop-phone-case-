@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Nebula Whale Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-baleine-nebuleuse-plat.webp"
 imageAlt: "Nebula Whale Case: a whale of light swimming through a pink and blue nebula, under the moon"
 shortDescription: "A whale of light swimming through a pink and blue nebula, under the moon."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Baroque Swans Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cygnes-baroques-plat.webp"
 imageAlt: "Baroque Swans Case: two swans among floral scrolls, cream tone on tone"
 shortDescription: "Two swans among floral scrolls, cream tone on tone."

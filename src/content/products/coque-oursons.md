@@ -1,6 +1,6 @@
 ---
 name: "Coque Oursons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-oursons-plat.webp"
 imageAlt: "Coque iPhone à larges rayures beige et crème, avec des têtes d'oursons marron"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

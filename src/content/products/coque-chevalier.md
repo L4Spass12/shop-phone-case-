@@ -1,6 +1,6 @@
 ---
 name: "Coque Chevalier"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chevalier-plat.webp"
 imageAlt: "Coque Chevalier : un chevalier en armure dorée dans des drapés bleus"
 categories: ["coques-iphone", "coques-paysages"]

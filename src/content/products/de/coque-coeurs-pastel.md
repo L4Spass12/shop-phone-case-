@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pastellherzen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-pastel-plat.webp"
 imageAlt: "Rosa iPhone-Hülle mit schillernden Reflexen, verschwommenen Herzen und funkelnden Sternen"
 shortDescription: "Verschwommene Herzen und funkelnde Sterne auf schillerndem Rosa, wie ein sanfter Traum."

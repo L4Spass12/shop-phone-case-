@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Vichy Rosa-Grün"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-rose-vert-plat.webp"
 imageAlt: "Hülle Vichy Rosa-Grün: ein Vichy-Karo in Rosa und Salbeigrün, frisch und frühlingshaft"
 shortDescription: "Ein Vichy-Karo in Rosa und Salbeigrün, frisch und frühlingshaft."

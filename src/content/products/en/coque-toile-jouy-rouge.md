@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Toile de Jouy Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-toile-jouy-rouge-plat.webp"
 imageAlt: "Toile de Jouy Case: a toile de Jouy snow scene under a red sky"
 shortDescription: "A toile de Jouy snow scene under a red sky."

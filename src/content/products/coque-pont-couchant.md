@@ -1,6 +1,6 @@
 ---
 name: "Coque Pont au Couchant"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pont-couchant-plat.webp"
 imageAlt: "Coque iPhone peinte d'un coucher de soleil flamboyant sur des montagnes, un pont de pierre, un village perché et une rivière tumultueuse"
 categories: ["coques-iphone", "coques-paysages"]

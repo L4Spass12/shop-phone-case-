@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Melonenkatzen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-pasteques-chats-plat.webp"
 imageAlt: "Hülle Melonenkatzen: Melonen und Guaven mit Katzengesichtern, frisch und witzig"
 shortDescription: "Melonen und Guaven mit Katzengesichtern, frisch und witzig."

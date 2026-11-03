@@ -1,6 +1,6 @@
 ---
 name: "Coque Cœurs et Papillons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-papillons-plat.webp"
 imageAlt: "Coque Cœurs et Papillons : des cœurs bordeaux flous et des papillons sur un beige rosé"
 categories: ["coques-iphone", "coques-romantique"]

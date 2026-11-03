@@ -1,6 +1,6 @@
 ---
 name: "Coque Lune Néon"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lune-neon-plat.webp"
 imageAlt: "Coque Lune Néon : une lune et des étoiles néon dans des nuages violets et un arc-en-ciel"
 categories: ["coques-iphone", "coques-kawaii"]

@@ -1,6 +1,6 @@
 ---
 name: "Coque Vichy Rose et Vert"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-rose-vert-plat.webp"
 imageAlt: "Coque Vichy Rose et Vert : un vichy rose et vert sauge, frais et printanier"
 categories: ["coques-iphone", "coques-motifs"]

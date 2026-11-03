@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Herzen und Schmetterlinge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-papillons-plat.webp"
 imageAlt: "Hülle Herzen und Schmetterlinge: verschwommene bordeauxrote Herzen und Schmetterlinge auf Rosébeige"
 shortDescription: "Verschwommene bordeauxrote Herzen und Schmetterlinge auf Rosébeige."

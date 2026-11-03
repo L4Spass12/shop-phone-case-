@@ -1,6 +1,6 @@
 ---
 name: "Coque Chats Amoureux"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chats-amoureux-plat.webp"
 imageAlt: "Coque iPhone taupe avec un chat noir et un chat blanc aux yeux en cœur qui se regardent autour d'un grand cœur rose"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Holografisch"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-holographique-plat.webp"
 imageAlt: "Hülle Holografisch: ein holografischer Verlauf in Blau, Grün und Rosa mit flüssigen Reflexen"
 shortDescription: "Ein holografischer Verlauf in Blau, Grün und Rosa mit flüssigen Reflexen."

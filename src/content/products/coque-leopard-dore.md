@@ -1,6 +1,6 @@
 ---
 name: "Coque Léopard Doré"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-leopard-dore-plat.webp"
 imageAlt: "Coque Léopard Doré : un imprimé léopard aux reflets dorés"
 categories: ["coques-iphone", "coques-motifs"]

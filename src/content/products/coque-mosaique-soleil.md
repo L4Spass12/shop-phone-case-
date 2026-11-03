@@ -1,6 +1,6 @@
 ---
 name: "Coque Mosaïque Soleil"
-price: 19.90
+price: 22.90
 # Visuel principal = rendu EN RELIEF, `flatImage` = rendu à plat.
 image: "/images/products/coque-mosaique-soleil-relief.webp"
 flatImage: "/images/products/coque-mosaique-soleil-plat.webp"

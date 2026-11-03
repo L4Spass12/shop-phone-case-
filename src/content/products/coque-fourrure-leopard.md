@@ -1,6 +1,6 @@
 ---
 name: "Coque Fourrure Léopard"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fourrure-leopard-plat.webp"
 imageAlt: "Coque Fourrure Léopard : une fourrure léopard toute douce, en gros plan"
 categories: ["coques-iphone", "coques-motifs"]

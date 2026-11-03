@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Fuji and Cherry Blossoms Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fuji-sakura-plat.webp"
 imageAlt: "Fuji and Cherry Blossoms Case: snow-capped Mount Fuji above the lake, a sailboat and branches of cherry blossoms"
 shortDescription: "Snow-capped Mount Fuji above the lake, a sailboat and branches of cherry blossoms."

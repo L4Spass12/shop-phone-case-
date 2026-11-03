@@ -1,6 +1,6 @@
 ---
 name: "Coque Léopard Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-leopard-rose-plat.webp"
 imageAlt: "Coque Léopard Rose : un léopard rose fuchsia, effet fourrure"
 categories: ["coques-iphone", "coques-motifs"]

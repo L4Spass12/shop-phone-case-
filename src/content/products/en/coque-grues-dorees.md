@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Golden Cranes Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grues-dorees-plat.webp"
 imageAlt: "Deep green Japanese-style iPhone case with three flying cranes, a golden sun, pines, blossoms and a waterfall"
 shortDescription: "Three cranes fly towards a golden sun, between pines, blossoms and a waterfall, on a deep green."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Capybaras Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-capybaras-plat.webp"
 imageAlt: "Capybaras Case: capybaras in love exchanging letters and hearts"
 shortDescription: "Capybaras in love exchanging letters and hearts."

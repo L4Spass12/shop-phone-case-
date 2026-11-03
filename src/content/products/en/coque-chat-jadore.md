@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "J'adore Cat Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chat-jadore-plat.webp"
 imageAlt: "J'adore Cat Case: a black cat in a headscarf and sunglasses, between a martini and cherries, with the note “J'adore”"
 shortDescription: "A black cat in a headscarf and sunglasses, between a martini and cherries, with the note “J'adore”."

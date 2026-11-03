@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Emotional Spiral Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-emotional-spiral-plat.webp"
 imageAlt: "Emotional Spiral Case: a burgundy retro type, \"a little emotional spiral later…\", full of humour"
 shortDescription: "A burgundy retro type, \"a little emotional spiral later…\", full of humour."

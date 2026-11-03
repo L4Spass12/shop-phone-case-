@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Leuchtende Schmetterlinge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillons-roses-plat.webp"
 imageAlt: "Hülle Leuchtende Schmetterlinge: leuchtende Schmetterlinge auf einem Rosa-Grün-Verlauf"
 shortDescription: "Leuchtende Schmetterlinge auf einem Rosa-Grün-Verlauf."

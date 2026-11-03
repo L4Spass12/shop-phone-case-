@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kussmund"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-bisou-plat.webp"
 imageAlt: "Hülle Kussmund: gemalte rote Lippen auf bordeauxrot-rosa Streifen"
 shortDescription: "Gemalte rote Lippen auf bordeauxrot-rosa Streifen."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Dragon d'Azur"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-dragon-azur-plat.webp"
 imageAlt: "Coque Dragon d'Azur : un dragon bleu dans les vagues, une grue et une pagode sous le soleil rouge"
 categories: ["coques-iphone", "coques-zen"]

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Bordeaux-Vichy"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-bordeaux-plat.webp"
 imageAlt: "Hülle Bordeaux-Vichy: ein bordeauxrot-cremefarbenes Vichy-Karo wie eine Bistrotischdecke"
 shortDescription: "Ein bordeauxrot-cremefarbenes Vichy-Karo wie eine Bistrotischdecke."

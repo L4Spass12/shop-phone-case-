@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Crane & Wave Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grue-vague-plat.webp"
 imageAlt: "Crane & Wave Case: a crane flying over black and gold waves"
 shortDescription: "A crane flying over black and gold waves."

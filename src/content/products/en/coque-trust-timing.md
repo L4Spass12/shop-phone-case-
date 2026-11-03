@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Trust Your Timing Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trust-timing-plat.webp"
 imageAlt: "Trust Your Timing Case: a woman, flowers and butterflies, with \"trust your own timing\""
 shortDescription: "A woman, flowers and butterflies, with \"trust your own timing\"."

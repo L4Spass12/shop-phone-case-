@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Mirror Tree Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-arbre-miroir-plat.webp"
 imageAlt: "Mirror Tree Case: a majestic tree reflected in a starry lake"
 shortDescription: "A majestic tree reflected in a starry lake."

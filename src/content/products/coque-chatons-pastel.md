@@ -1,6 +1,6 @@
 ---
 name: "Coque Chatons Pastel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chatons-pastel-plat.webp"
 imageAlt: "Coque Chatons Pastel : une ribambelle de chatons aux couleurs pastel"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

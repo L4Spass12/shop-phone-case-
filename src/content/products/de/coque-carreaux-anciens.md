@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Alte Fliesen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-carreaux-anciens-plat.webp"
 imageAlt: "Hülle Alte Fliesen: verwitterte graugrüne Fliesen"
 shortDescription: "Verwitterte graugrüne Fliesen."

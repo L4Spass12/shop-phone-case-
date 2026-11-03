@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Blühende Küste"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cote-fleurie-plat.webp"
 imageAlt: "Hülle Blühende Küste: eine blühende Küste bei Sonnenuntergang in kräftigen Pinselstrichen"
 shortDescription: "Eine blühende Küste bei Sonnenuntergang in kräftigen Pinselstrichen."

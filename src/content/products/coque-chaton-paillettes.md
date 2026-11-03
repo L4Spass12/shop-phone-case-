@@ -1,6 +1,6 @@
 ---
 name: "Coque Chaton Paillettes"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chaton-paillettes-plat.webp"
 imageAlt: "Coque Chaton Paillettes : un chaton ailé entouré de rubans, de cœurs et d'étoiles roses"
 categories: ["coques-iphone", "coques-animaux", "coques-kawaii"]

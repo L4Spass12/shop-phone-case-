@@ -1,6 +1,6 @@
 ---
 name: "Coque Envol de Grues"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-envol-grues-plat.webp"
 imageAlt: "Coque Envol de Grues : des grues qui s'envolent au-dessus d'un pin et d'un toit de pavillon, sur un ciel vert canard"
 categories: ["coques-iphone", "coques-zen"]

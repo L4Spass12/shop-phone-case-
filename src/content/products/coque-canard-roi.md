@@ -1,6 +1,6 @@
 ---
 name: "Coque Canard Roi"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-canard-roi-plat.webp"
 imageAlt: "Coque Canard Roi : un petit canard couronné à lunettes noires sur des rayures bleues"
 categories: ["coques-iphone", "coques-riviera"]

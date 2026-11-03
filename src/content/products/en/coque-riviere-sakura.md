@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Sakura River Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-riviere-sakura-plat.webp"
 imageAlt: "Sakura River Case: two cranes taking flight above a pearly river, under cherry blossoms"
 shortDescription: "Two cranes taking flight above a pearly river, under cherry blossoms."

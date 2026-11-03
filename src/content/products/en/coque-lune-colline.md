@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Moon Hill Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lune-colline-plat.webp"
 imageAlt: "Moon Hill Case: a golden moon above a hill and a village"
 shortDescription: "A golden moon above a hill and a village."

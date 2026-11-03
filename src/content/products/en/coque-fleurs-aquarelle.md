@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Watercolour Flowers Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleurs-aquarelle-plat.webp"
 imageAlt: "Watercolour Flowers Case: watercolour flowers lined up between thin green stripes"
 shortDescription: "Watercolour flowers lined up between thin green stripes."

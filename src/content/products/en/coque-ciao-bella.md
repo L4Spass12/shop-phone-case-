@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Ciao Bella Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ciao-bella-plat.webp"
 imageAlt: "Ciao Bella Case: a Dalmatian in a headscarf and sunglasses, among spaghetti, red wine and lipstick"
 shortDescription: "A Dalmatian in a headscarf and sunglasses, among spaghetti, red wine and lipstick."

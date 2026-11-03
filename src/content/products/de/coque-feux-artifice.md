@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Feuerwerk"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-feux-artifice-plat.webp"
 imageAlt: "Hülle Feuerwerk: weißes Feuerwerk, das auf pastelligem Himmelblau explodiert"
 shortDescription: "Weißes Feuerwerk, das auf pastelligem Himmelblau explodiert."

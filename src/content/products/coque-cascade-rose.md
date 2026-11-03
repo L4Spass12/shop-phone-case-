@@ -1,6 +1,6 @@
 ---
 name: "Coque Cascade Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cascade-rose-plat.webp"
 imageAlt: "Coque Cascade Rose : une cascade entre des nuages roses et des pins, sur un fond vert d'eau"
 categories: ["coques-iphone", "coques-zen"]

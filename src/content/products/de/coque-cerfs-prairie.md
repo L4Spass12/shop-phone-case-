@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Hirsche auf der Wiese"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerfs-prairie-plat.webp"
 imageAlt: "Hülle Hirsche auf der Wiese: Ein Hirsch und eine Hirschkuh ruhen auf einer grünen Wiese, zwischen roten Ahornbäumen"
 shortDescription: "Ein Hirsch und eine Hirschkuh ruhen auf einer grünen Wiese, zwischen roten Ahornbäumen."

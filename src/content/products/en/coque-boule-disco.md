@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Disco Ball Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-boule-disco-plat.webp"
 imageAlt: "Disco Ball Case: a pink disco ball on fuchsia stripes"
 shortDescription: "A pink disco ball on fuchsia stripes."

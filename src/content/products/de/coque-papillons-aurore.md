@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Morgenrot-Schmetterlinge"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillons-aurore-plat.webp"
 imageAlt: "Hülle Morgenrot-Schmetterlinge: Schmetterlinge aus Licht steigen in einem orangefarbenen Schein auf"
 shortDescription: "Schmetterlinge aus Licht steigen in einem orangefarbenen Schein auf."

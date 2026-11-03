@@ -1,6 +1,6 @@
 ---
 name: "Coque Zèbre"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-zebre-plat.webp"
 imageAlt: "Coque Zèbre : des rayures de zèbre noires et crème"
 categories: ["coques-iphone", "coques-motifs"]

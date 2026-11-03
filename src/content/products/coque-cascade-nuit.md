@@ -1,6 +1,6 @@
 ---
 name: "Coque Cascade de Nuit"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cascade-nuit-plat.webp"
 imageAlt: "Coque Cascade de Nuit : une cascade et des arbres dorés sur un fond noir"
 categories: ["coques-iphone", "coques-paysages"]

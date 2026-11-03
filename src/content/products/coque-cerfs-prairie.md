@@ -1,6 +1,6 @@
 ---
 name: "Coque Cerfs dans la Prairie"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerfs-prairie-plat.webp"
 imageAlt: "Coque Cerfs dans la Prairie : un cerf et une biche au repos dans une prairie verte, parmi les érables rouges"
 categories: ["coques-iphone", "coques-zen"]

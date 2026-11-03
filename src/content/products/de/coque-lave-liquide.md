@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Flüssige Lava"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lave-liquide-plat.webp"
 imageAlt: "Hülle Flüssige Lava: intensive, glänzende flüssige Reflexe in Orange und Rot"
 shortDescription: "Intensive, glänzende flüssige Reflexe in Orange und Rot."

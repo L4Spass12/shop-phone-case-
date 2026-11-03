@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Summer Terrace Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-terrasse-ete-plat.webp"
 imageAlt: "Summer Terrace Case: friends on a white terrace by the sea, drinks in hand"
 shortDescription: "Friends on a white terrace by the sea, drinks in hand."

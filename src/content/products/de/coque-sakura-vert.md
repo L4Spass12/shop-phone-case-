@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Jade-Sakura"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sakura-vert-plat.webp"
 imageAlt: "Hülle Jade-Sakura: Kirschblüten und Wirbel auf Jadegrün"
 shortDescription: "Kirschblüten und Wirbel auf Jadegrün."

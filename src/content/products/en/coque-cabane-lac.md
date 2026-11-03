@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Lake Cabin Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cabane-lac-plat.webp"
 imageAlt: "Lake Cabin Case: a colourful cabin by a mountain lake at dusk"
 shortDescription: "A colourful cabin by a mountain lake at dusk."

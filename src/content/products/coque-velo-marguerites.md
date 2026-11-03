@@ -1,6 +1,6 @@
 ---
 name: "Coque Vélo aux Marguerites"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-velo-marguerites-plat.webp"
 imageAlt: "Coque Vélo aux Marguerites : un vélo vert et son panier de marguerites, contre un mur blanc et bleu au soleil"
 categories: ["coques-iphone", "coques-riviera"]

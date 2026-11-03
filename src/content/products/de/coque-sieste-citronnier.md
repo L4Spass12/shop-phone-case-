@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Mittagsschlaf am Zitronenbaum"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-sieste-citronnier-plat.webp"
 imageAlt: "Hülle Mittagsschlaf am Zitronenbaum: Eine rote Katze schläft am Fenster, unter den Zweigen eines Zitronenbaums"
 shortDescription: "Eine rote Katze schläft am Fenster, unter den Zweigen eines Zitronenbaums."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Heart & Bow Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeur-noeud-plat.webp"
 imageAlt: "Heart & Bow Case: a burgundy heart tied with a ribbon, on a soft beige"
 shortDescription: "A burgundy heart tied with a ribbon, on a soft beige."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Lichtfalter"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-papillon-lumiere-plat.webp"
 imageAlt: "Leuchtend grüne iPhone-Hülle mit einem strahlenden gelben Schmetterling zwischen Funken"
 shortDescription: "Ein gelber Lichtfalter fliegt durch einen grünen Wirbel voller Funken."

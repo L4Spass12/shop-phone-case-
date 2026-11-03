@@ -1,6 +1,6 @@
 ---
 name: "Coque Nymphéas"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nympheas-plat.webp"
 imageAlt: "Coque Nymphéas : des nymphéas sur un lac au soleil couchant, façon impressionniste"
 categories: ["coques-iphone", "coques-fleurs", "coques-paysages"]

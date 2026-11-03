@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Riviera Terrace Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-terrasse-riviera-plat.webp"
 imageAlt: "iPhone case illustrated with a flowery terrace with a table, chair and lantern, facing the sea at sunset under a starry sky"
 shortDescription: "A flowery terrace facing the sea, at sunset under the first stars."

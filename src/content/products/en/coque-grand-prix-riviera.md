@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Riviera Grand Prix Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grand-prix-riviera-plat.webp"
 imageAlt: "Riviera Grand Prix Case: a red Formula 1 car taking a bend on a flowery coastal road by the sea"
 shortDescription: "A red Formula 1 car taking a bend on a flowery coastal road by the sea."

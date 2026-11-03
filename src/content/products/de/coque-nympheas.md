@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Seerosen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-nympheas-plat.webp"
 imageAlt: "Hülle Seerosen: Seerosen auf einem See bei Sonnenuntergang im impressionistischen Stil"
 shortDescription: "Seerosen auf einem See bei Sonnenuntergang im impressionistischen Stil."

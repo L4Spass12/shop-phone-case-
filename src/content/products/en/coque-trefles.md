@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Clover Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-trefles-plat.webp"
 imageAlt: "Clover Case: a shower of green clovers, symbols of luck"
 shortDescription: "A shower of green clovers, symbols of luck."

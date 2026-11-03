@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Waves and Clouds Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vagues-nuages-plat.webp"
 imageAlt: "Waves and Clouds Case: turquoise waves, mountains and pink clouds under a red sun, with a flight of cranes"
 shortDescription: "Turquoise waves, mountains and pink clouds under a red sun, with a flight of cranes."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Maison sur la Falaise"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-maison-falaise-plat.webp"
 imageAlt: "Coque Maison sur la Falaise : une petite maison sur une falaise, en ombres chinoises bleues"
 categories: ["coques-iphone", "coques-paysages"]

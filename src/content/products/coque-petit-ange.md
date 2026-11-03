@@ -1,6 +1,6 @@
 ---
 name: "Coque Petit Ange"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-petit-ange-plat.webp"
 imageAlt: "Coque iPhone bleu ciel avec un petit lapin tout doux aux ailes d'ange, entouré d'étoiles et d'un cœur rose"
 categories: ["coques-iphone", "coques-animaux", "coques-romantique", "coques-kawaii"]

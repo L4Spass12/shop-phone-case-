@@ -1,6 +1,6 @@
 ---
 name: "Coque Citrons Soleil"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-citrons-soleil-plat.webp"
 imageAlt: "Coque Citrons Soleil : des brins de citrons et de fleurs blanches sur un fond jaune soleil"
 categories: ["coques-iphone", "coques-fleurs", "coques-motifs"]

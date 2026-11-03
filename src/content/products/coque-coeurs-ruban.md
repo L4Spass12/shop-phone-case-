@@ -1,6 +1,6 @@
 ---
 name: "Coque Cœurs au Ruban"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coeurs-ruban-plat.webp"
 imageAlt: "Coque Cœurs au Ruban : des cœurs roses suspendus à un ruban, fins et délicats"
 categories: ["coques-iphone", "coques-romantique"]

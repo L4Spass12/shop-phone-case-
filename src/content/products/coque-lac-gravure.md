@@ -1,6 +1,6 @@
 ---
 name: "Coque Lac Gravure"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lac-gravure-plat.webp"
 imageAlt: "Coque Lac Gravure : un paysage de lac gravé sous un ciel vert forêt"
 categories: ["coques-iphone", "coques-paysages"]

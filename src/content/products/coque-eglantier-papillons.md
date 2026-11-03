@@ -1,6 +1,6 @@
 ---
 name: "Coque Églantier et Papillons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eglantier-papillons-plat.webp"
 imageAlt: "Coque Églantier et Papillons : des fleurs d'églantier et deux papillons sur un ciel bleu aquarelle"
 categories: ["coques-iphone", "coques-fleurs", "coques-romantique"]

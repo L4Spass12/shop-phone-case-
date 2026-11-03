@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Vichy Schleifen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-noeuds-plat.webp"
 imageAlt: "iPhone-Hülle mit salbeigrünem Vichy-Karo, kleinen grünen Schleifen und gelben Blumen in den weißen Karos"
 shortDescription: "Ein sanftes salbeigrünes Vichy-Karo mit kleinen Schleifen und gelben Blumen, frisch und ländlich."

@@ -1,6 +1,6 @@
 ---
 name: "Coque Vichy Nœuds"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-vichy-noeuds-plat.webp"
 imageAlt: "Coque iPhone à carreaux vichy vert sauge, avec des petits nœuds verts et des fleurs jaunes dans les carreaux blancs"
 categories: ["coques-iphone", "coques-motifs"]

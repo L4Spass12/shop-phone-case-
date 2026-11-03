@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Wolf und Mond"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-loup-lune-plat.webp"
 imageAlt: "Hülle Wolf und Mond: ein weißer Wolf unter dem Mond in einer blühenden Pastelllandschaft"
 shortDescription: "Ein weißer Wolf unter dem Mond in einer blühenden Pastelllandschaft."

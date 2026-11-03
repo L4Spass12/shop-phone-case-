@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kirschen und Wein"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-vin-plat.webp"
 imageAlt: "iPhone-Hülle mit ziegelroten und rosa Streifen, einem Glas Rotwein und zwei Kirschen"
 shortDescription: "Ein Glas Rotwein und zwei Kirschen auf ziegelroten und rosa Streifen."

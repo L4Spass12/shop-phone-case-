@@ -1,6 +1,6 @@
 ---
 name: "Coque Soie Rose"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soie-rose-plat.webp"
 imageAlt: "Coque Soie Rose : des ondulations de soie rose et vert acidulé"
 categories: ["coques-iphone", "coques-motifs"]

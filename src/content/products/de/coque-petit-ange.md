@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kleiner Engel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-petit-ange-plat.webp"
 imageAlt: "Himmelblaue iPhone-Hülle mit einem kuscheligen kleinen Hasen mit Engelsflügeln, umgeben von Sternen und einem rosa Herz"
 shortDescription: "Ein kuscheliger kleiner Hase mit Engelsflügeln schwebt auf beruhigendem Himmelblau, zwischen Sternen und einem rosa Herz."

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Neon Moon Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lune-neon-plat.webp"
 imageAlt: "Neon Moon Case: a neon moon and stars in purple clouds and a rainbow"
 shortDescription: "A neon moon and stars in purple clouds and a rainbow."

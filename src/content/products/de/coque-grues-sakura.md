@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kraniche und Sakura"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grues-sakura-plat.webp"
 imageAlt: "Hülle Kraniche und Sakura: weiße Kraniche zwischen blühenden Kirschbäumen"
 shortDescription: "Weiße Kraniche zwischen blühenden Kirschbäumen."

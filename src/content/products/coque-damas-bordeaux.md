@@ -1,6 +1,6 @@
 ---
 name: "Coque Damas Bordeaux"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-damas-bordeaux-plat.webp"
 imageAlt: "Coque Damas Bordeaux : des rubans, des fleurs et des papillons ton sur ton, sur un fond bordeaux"
 categories: ["coques-iphone", "coques-fleurs", "coques-romantique", "coques-motifs"]

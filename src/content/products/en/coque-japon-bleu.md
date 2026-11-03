@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Blue Japan Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-japon-bleu-plat.webp"
 imageAlt: "Blue Japan Case: a pine, a torii and flowers under the moon in shades of blue"
 shortDescription: "A pine, a torii and flowers under the moon in shades of blue."

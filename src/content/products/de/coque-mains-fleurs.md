@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Hände und Blumen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-mains-fleurs-plat.webp"
 imageAlt: "Hülle Hände und Blumen: Hände in allen Farben, die sich zwischen Blumen treffen"
 shortDescription: "Hände in allen Farben, die sich zwischen Blumen treffen."

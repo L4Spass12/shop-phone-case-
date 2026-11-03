@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Pflaumen-Hummer"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-homard-violet-plat.webp"
 imageAlt: "Hülle Pflaumen-Hummer: ein anstoßender Hummer auf pflaumenfarbenen Streifen"
 shortDescription: "Ein anstoßender Hummer auf pflaumenfarbenen Streifen."

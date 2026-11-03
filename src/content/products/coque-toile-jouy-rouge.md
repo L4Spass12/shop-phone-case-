@@ -1,6 +1,6 @@
 ---
 name: "Coque Toile de Jouy"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-toile-jouy-rouge-plat.webp"
 imageAlt: "Coque Toile de Jouy : une scène de neige façon toile de Jouy sous un ciel rouge"
 categories: ["coques-iphone", "coques-paysages"]

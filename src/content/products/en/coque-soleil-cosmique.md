@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Cosmic Sun Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-soleil-cosmique-plat.webp"
 imageAlt: "Cosmic Sun Case: a sun, a moon and planets in rainbow waves"
 shortDescription: "A sun, a moon and planets in rainbow waves."

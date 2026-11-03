@@ -1,6 +1,6 @@
 ---
 name: "Coque Cactus"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cactus-plat.webp"
 imageAlt: "Coque Cactus : des cactus verts tout ronds sur un fond pêche"
 categories: ["coques-iphone", "coques-fleurs"]

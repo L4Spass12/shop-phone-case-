@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sternenfuchs"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-renard-etoile-plat.webp"
 imageAlt: "Hülle Sternenfuchs: Ein Fuchs aus Licht läuft zwischen Sternschnuppen, unter der Mondsichel"
 shortDescription: "Ein Fuchs aus Licht läuft zwischen Sternschnuppen, unter der Mondsichel."

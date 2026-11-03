@@ -1,6 +1,6 @@
 ---
 name: "Coque Fraises à Carreaux"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fraises-carreaux-plat.webp"
 imageAlt: "Coque Fraises à Carreaux : de petites fraises sur un carreau rose et blanc"
 categories: ["coques-iphone", "coques-motifs"]

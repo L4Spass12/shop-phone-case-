@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Wild Rose and Butterflies Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eglantier-papillons-plat.webp"
 imageAlt: "Wild Rose and Butterflies Case: wild rose blossoms and two butterflies against a watercolour blue sky"
 shortDescription: "Wild rose blossoms and two butterflies against a watercolour blue sky."

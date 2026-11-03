@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Eidechse"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-lezard-plat.webp"
 imageAlt: "Hülle Eidechse: eine olivgrüne Eidechsenhaut mit tausend Schuppen"
 shortDescription: "Eine olivgrüne Eidechsenhaut mit tausend Schuppen."

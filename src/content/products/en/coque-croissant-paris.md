@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Paris Croissant Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-croissant-paris-plat.webp"
 imageAlt: "Paris Croissant Case: a golden croissant and \"Paris\" on blue stripes"
 shortDescription: "A golden croissant and \"Paris\" on blue stripes."

@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sternenblume"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleur-etoile-plat.webp"
 imageAlt: "Nachtblaue iPhone-Hülle, auf der ein weißer Hase eine leuchtende, sternförmige Blume in schillernden Farben betrachtet"
 shortDescription: "Ein kleiner weißer Hase betrachtet eine leuchtende Sternenblume in der blauen Nacht."

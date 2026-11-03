@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Moonlit Cat Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-chat-lune-plat.webp"
 imageAlt: "Midnight blue iPhone case with a cat sitting on a marble balcony gazing at the moon, between white lilies, lemons and golden clouds"
 shortDescription: "A cat gazes at the moon from a marble balcony, between white lilies, lemons and golden clouds."

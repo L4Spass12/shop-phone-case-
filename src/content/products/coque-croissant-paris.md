@@ -1,6 +1,6 @@
 ---
 name: "Coque Croissant Paris"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-croissant-paris-plat.webp"
 imageAlt: "Coque Croissant Paris : un croissant doré et « Paris » sur des rayures bleues"
 categories: ["coques-iphone", "coques-riviera"]

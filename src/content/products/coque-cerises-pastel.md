@@ -1,6 +1,6 @@
 ---
 name: "Coque Cerises Pastel"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-pastel-plat.webp"
 imageAlt: "Coque Cerises Pastel : des cerises et des nœuds roses tout doux sur un fond pastel"
 categories: ["coques-iphone", "coques-motifs"]

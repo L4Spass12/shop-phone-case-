@@ -1,6 +1,6 @@
 ---
 name: "Coque Serpent Paon"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-serpent-paon-plat.webp"
 imageAlt: "Coque Serpent Paon : des écailles de serpent aux couleurs de paon, vert et turquoise"
 categories: ["coques-iphone", "coques-motifs"]

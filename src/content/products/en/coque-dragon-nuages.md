@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Cloud Dragon Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-dragon-nuages-plat.webp"
 imageAlt: "Cloud Dragon Case: a Japanese dragon winding through red and blue clouds"
 shortDescription: "A Japanese dragon winding through red and blue clouds."

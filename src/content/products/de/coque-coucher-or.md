@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Goldener Sonnenuntergang"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-coucher-or-plat.webp"
 imageAlt: "Hülle Goldener Sonnenuntergang: ein goldener Sonnenuntergang aus einem blühenden Wald"
 shortDescription: "Ein goldener Sonnenuntergang aus einem blühenden Wald."

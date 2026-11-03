@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Ozelot"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ocelot-plat.webp"
 imageAlt: "Hülle Ozelot: ein gold-braunes Ozelotfell"
 shortDescription: "Ein gold-braunes Ozelotfell."

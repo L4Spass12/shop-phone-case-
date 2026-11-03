@@ -1,6 +1,6 @@
 ---
 name: "Coque Carreaux Anciens"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-carreaux-anciens-plat.webp"
 imageAlt: "Coque Carreaux Anciens : des carreaux vert-gris patinés par le temps"
 categories: ["coques-iphone", "coques-motifs"]

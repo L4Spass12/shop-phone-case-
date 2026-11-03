@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Kleine Rosen"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-petites-roses-plat.webp"
 imageAlt: "Hülle Kleine Rosen: kleine rote Rosen auf blassem Rosa"
 shortDescription: "Kleine rote Rosen auf blassem Rosa."

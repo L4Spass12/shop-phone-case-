@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Sternenkatze"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ciel-chat-plat.webp"
 imageAlt: "Hülle Sternenkatze: eine kleine Katze, die einen traumhaften Sternenhimmel betrachtet"
 shortDescription: "Eine kleine Katze, die einen traumhaften Sternenhimmel betrachtet."

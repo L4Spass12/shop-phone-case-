@@ -1,6 +1,6 @@
 ---
 name: "Coque Crocodile"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-crocodile-plat.webp"
 imageAlt: "Coque Crocodile : une peau de crocodile vert foncé"
 categories: ["coques-iphone", "coques-motifs"]

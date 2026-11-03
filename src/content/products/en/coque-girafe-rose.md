@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Pink Giraffe Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-girafe-rose-plat.webp"
 imageAlt: "iPhone case imitating a soft-looking pink and white giraffe fur"
 shortDescription: "A giraffe print in pink and white faux fur, soft to the eye and full of character."

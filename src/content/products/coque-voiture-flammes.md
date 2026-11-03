@@ -1,6 +1,6 @@
 ---
 name: "Coque Voiture Flammes"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-voiture-flammes-plat.webp"
 imageAlt: "Coque Voiture Flammes : une voiture de course chromée au milieu de flammes rétro"
 categories: ["coques-iphone", "coques-auto"]

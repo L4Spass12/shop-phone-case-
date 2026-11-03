@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Jade Mountains Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-montagnes-jade-plat.webp"
 imageAlt: "Jade Mountains Case: jade green mountains, a waterfall and cherry trees in bloom, in the mist"
 shortDescription: "Jade green mountains, a waterfall and cherry trees in bloom, in the mist."

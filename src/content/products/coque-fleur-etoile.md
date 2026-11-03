@@ -1,6 +1,6 @@
 ---
 name: "Coque Fleur d'Étoile"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-fleur-etoile-plat.webp"
 imageAlt: "Coque iPhone bleu nuit où un lapin blanc contemple une fleur lumineuse en forme d'étoile aux couleurs irisées"
 categories: ["coques-iphone", "coques-fleurs"]

@@ -2,7 +2,7 @@
 # Translation: only the TEXTS (name, shortDescription, imageAlt, body) are
 # used. Price, images and options come from the FR entry.
 name: "Flowery Coast Road Case"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-corniche-fleurie-plat.webp"
 imageAlt: "Flowery Coast Road Case: a winding road under the bougainvillea, with a sailboat on the sea"
 shortDescription: "A winding road under the bougainvillea, with a sailboat on the sea."

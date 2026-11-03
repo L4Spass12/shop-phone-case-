@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Jade-Finsternis"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-eclipse-verte-plat.webp"
 imageAlt: "Hülle Jade-Finsternis: eine Gestalt vor einer Finsternis in rosa Wolken auf grünem Himmel"
 shortDescription: "Eine Gestalt vor einer Finsternis in rosa Wolken auf grünem Himmel."

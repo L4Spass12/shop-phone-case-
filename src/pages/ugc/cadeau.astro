@@ -179,7 +179,7 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
                 <div><dt>Téléphone</dt><dd data-sum="model">—</dd></div>
                 <div><dt>Livraison</dt><dd>Offerte</dd></div>
               </dl>
-              <div class="gift-total"><span>Total</span><span><s data-was>24,90 €</s> 0,00 €</span></div>
+              <div class="gift-total"><span>Total</span><span><s data-was>27,90 €</s> 0,00 €</span></div>
               <p data-err hidden class="gift-alert mb-3">La commande n’a pas abouti. Réessayez dans un instant.</p>
               <button type="submit" class="btn-primary w-full justify-center" data-send>Recevoir ma coque offerte</button>
             </div>
@@ -332,7 +332,7 @@ const short = (b: string) => b.replace(/^Samsung /, '').replace(/^Google /, '');
       q('[data-sum="design"]').textContent = pick ? pick.label.replace(/^Coque /, '') : '—';
       q('[data-sum="mode"]').textContent = relief() ? 'En relief' : 'À plat';
       q('[data-sum="model"]').textContent = model ? model.label + (model.od ? ' (sur commande)' : '') : '—';
-      q('[data-was]').textContent = relief() ? '24,90 €' : '19,90 €';
+      q('[data-was]').textContent = relief() ? '27,90 €' : '22,90 €';
       const img = (box: HTMLElement) => {
         if (!pick) return;
         let el = box.querySelector('img');

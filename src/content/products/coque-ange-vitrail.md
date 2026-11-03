@@ -1,6 +1,6 @@
 ---
 name: "Coque Ange du Vitrail"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-ange-vitrail-plat.webp"
 imageAlt: "Coque Ange du Vitrail : un ange en prière devant un vitrail gothique, dans un rayon de lumière"
 categories: ["coques-iphone", "coques-paysages", "coques-romantique"]

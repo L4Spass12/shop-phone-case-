@@ -1,6 +1,6 @@
 ---
 name: "Coque Grues Dorées"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-grues-dorees-plat.webp"
 imageAlt: "Coque iPhone vert profond de style japonais, avec trois grues en vol, un soleil doré, des pins, des fleurs et une cascade"
 categories: ["coques-iphone", "coques-zen"]

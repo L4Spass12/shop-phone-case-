@@ -1,6 +1,6 @@
 ---
 name: "Coque Cerises et Rubans"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-cerises-rubans-plat.webp"
 imageAlt: "Coque Cerises et Rubans : des cerises rouges et des petits rubans roses sur un fond crème"
 categories: ["coques-iphone", "coques-motifs"]

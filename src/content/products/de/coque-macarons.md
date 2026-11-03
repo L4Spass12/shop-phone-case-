@@ -2,7 +2,7 @@
 # Übersetzung: nur die TEXTE (name, shortDescription, imageAlt, Text) werden
 # verwendet. Preis, Bilder und Optionen kommen aus der FR-Fassung.
 name: "Hülle Macarons"
-price: 19.90
+price: 22.90
 image: "/images/products/coque-macarons-plat.webp"
 imageAlt: "iPhone-Hülle voller bunter Macarons, verziert mit Bär, Küken, Hase, Erdbeeren und Blumen"
 shortDescription: "Eine Leckerei aus bunten Macarons mit süßen Kawaii-Gesichtern, Erdbeeren und Blumen."
