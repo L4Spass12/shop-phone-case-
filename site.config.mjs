@@ -302,12 +302,13 @@ const config = {
     // Comme le reste : le manifeste /seamless-items.json déclare les deux prix,
     // et le serveur de paiement refuse un relief payé au tarif du plat.
     catalogueReliefSurchargeCents: 500,
-    // Offre de lancement terminée le 03/11/2026 (prix passés à 22,90 € et
-    // 27,90 €). Prix à venir, annoncés à côté du prix (« puis… »). Un prix barré exigerait d'avoir déjà vendu
+    // Offre de lancement (studio et catalogue) : à plat 22,90 €, relief
+    // 27,90 € depuis le 03/11/2026. Prix à venir, annoncés à côté du prix
+    // (« puis 29,90 € », « puis 34,90 € »). Un prix barré exigerait d'avoir déjà vendu
     // à ce prix dans les 30 derniers jours (règle des annonces de réduction) :
     // on annonce donc le prix à venir. null pour retirer la mention à la fin
     // de l'offre.
-    launchNextCents: null,
+    launchNextCents: { flat: 2990, relief: 3490 },
     // Barre promo tout en haut du site : un clic copie le code. Le code
     // lui-même (remise, dates) se règle dans l'admin, rubrique Discounts.
     // `until` : la barre disparaît d'elle-même à cette date. null pour la
