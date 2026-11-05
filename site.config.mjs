@@ -221,7 +221,12 @@ const config = {
           id: 'xiaomi',
           label: 'Xiaomi',
           models: [
-            'Xiaomi 17 Pro', 'Xiaomi 17', 'Xiaomi 17T Pro', 'Xiaomi 17T',
+            // Du plus récent au plus ancien (ajout du 05/11/2026 : demande d'une
+            // cliente pour le 15T, gamme complétée d'après le catalogue fournisseur).
+            'Xiaomi 17 Ultra', 'Xiaomi 17 Pro', 'Xiaomi 17', 'Xiaomi 17T Pro', 'Xiaomi 17T',
+            'Xiaomi 15 Ultra', 'Xiaomi 15', 'Xiaomi 15T Pro', 'Xiaomi 15T',
+            'Xiaomi 14 Ultra', 'Xiaomi 14 Pro', 'Xiaomi 14', 'Xiaomi 14T Pro', 'Xiaomi 14T',
+            'Xiaomi 13T Pro', 'Xiaomi 13T',
             'Redmi Note 15 Pro 5G', 'Redmi Note 15 Pro 4G', 'Redmi Note 15 5G', 'Redmi Note 15 4G',
             'Redmi Note 14 Pro 5G', 'Redmi Note 14 Pro 4G', 'Redmi Note 14 5G', 'Redmi Note 14 4G',
             'Redmi Note 13 Pro 5G', 'Redmi Note 13 4G',
