@@ -12,6 +12,7 @@
  * 7 jours). Week-ends et jours fériés fixes sautés.
  */
 import { t, type Locale } from '../lib/i18n';
+import { SHIPPING_NOTICE } from '../lib/shipping-notice';
 
 interface Props {
   lang?: Locale;
@@ -27,7 +28,8 @@ const generique = {
 }[lang] ?? `en ${min} à ${max} jours ouvrés`;
 ---
 
-<span data-delivery-window data-min={min} data-max={max} data-lang={lang}>{
+<span data-delivery-window data-min={min} data-max={max} data-lang={lang}
+  data-ship-around={SHIPPING_NOTICE?.shipAround} data-ship-from={SHIPPING_NOTICE?.deliveryFrom} data-ship-to={SHIPPING_NOTICE?.deliveryTo}>{
   t('shop.deliveryWindow', lang, { window: generique })
 }</span>
 
@@ -52,8 +54,29 @@ const generique = {
   };
   const LOCALES: Record<string, string> = { fr: 'fr-FR', en: 'en-GB', de: 'de-DE' };
 
+  // Délai exceptionnel (lib/shipping-notice) : tant que la fenêtre n'est pas
+  // passée, on annonce la date prévue au lieu du calcul habituel, et le
+  // paragraphe « Expédition » de la fiche bascule sur sa version spéciale.
+  const NOTICE: Record<string, (s: string, a: string, b: string) => string> = {
+    fr: (s, a, b) => `Expédition prévue aux alentours du ${s}. Livraison estimée entre le ${a} et le ${b}.`,
+    en: (s, a, b) => `Shipping planned around ${s}. Estimated delivery between ${a} and ${b}.`,
+    de: (s, a, b) => `Versand voraussichtlich um den ${s}. Lieferung voraussichtlich zwischen dem ${a} und dem ${b}.`,
+  };
+  function noticeActive(el: HTMLElement) {
+    const to = el.dataset.shipTo;
+    return !!(el.dataset.shipAround && to && Date.now() <= Date.parse(`${to}T23:59:59Z`));
+  }
+
   document.querySelectorAll<HTMLElement>('[data-delivery-window]').forEach((el) => {
     const lang = el.dataset.lang || 'fr';
+    if (noticeActive(el)) {
+      const jour = new Intl.DateTimeFormat(LOCALES[lang] || 'fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
+      const d = (iso: string) => jour.format(new Date(`${iso}T12:00:00Z`));
+      el.textContent = (NOTICE[lang] || NOTICE.fr)(d(el.dataset.shipAround!), d(el.dataset.shipFrom!), d(el.dataset.shipTo!));
+      document.querySelectorAll<HTMLElement>('[data-ship-normal]').forEach((n) => (n.hidden = true));
+      document.querySelectorAll<HTMLElement>('[data-ship-notice]').forEach((n) => (n.hidden = false));
+      return;
+    }
     const min = Number(el.dataset.min) || 3;
     const max = Number(el.dataset.max) || 5;
     const auj = new Date();

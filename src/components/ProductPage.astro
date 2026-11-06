@@ -78,6 +78,7 @@ const L = {
     secureShipping: 'Livraison sécurisée', secureShippingSub: 'colis suivi',
     description: 'Description', shippingReturns: 'Livraison & retours',
     shippingTitle: 'Expédition', shippingText: "Préparée sous 24 à 48 h ouvrées dans notre atelier en France, puis expédiée avec un numéro de suivi.",
+    shippingNotice: "Délais de fabrication exceptionnellement prolongés : un réapprovisionnement de nos matériaux d'impression est en cours. Chaque coque est réalisée avec soin dans notre atelier en France, puis expédiée avec un numéro de suivi.",
     delaysTitle: "Modes de livraison",
     relayStrong: "Point relais Mondial Relay", relayText: " : 3,90 € en France, livré en 4 à 7 jours ouvrés. Vous choisissez votre point relais (commerce ou consigne) au paiement et vous êtes prévenu dès l'arrivée du colis.",
     homeStrong: "À domicile avec La Poste", homeText: " : 2,90 € en France métropolitaine, directement dans votre boîte aux lettres, avec suivi. Expédiée sous 1 à 2 jours ouvrés, puis livrée par La Poste en 3 jours ouvrés.",
@@ -100,6 +101,7 @@ const L = {
     secureShipping: 'Secure shipping', secureShippingSub: 'tracked parcel',
     description: 'Description', shippingReturns: 'Shipping & returns',
     shippingTitle: 'Shipping', shippingText: "Prepared within 24 to 48 business hours in our workshop in France, then shipped with a tracking number.",
+    shippingNotice: "Production is taking a little longer than usual while our printing materials are being restocked. Every case is made with care in our workshop in France, then shipped with a tracking number.",
     delaysTitle: "Delivery options",
     relayStrong: "Mondial Relay pickup point", relayText: ": €3.90 in France, delivered in 4 to 7 business days. You choose your pickup point (shop or locker) at checkout and get notified as soon as your parcel arrives.",
     homeStrong: "Home delivery with La Poste", homeText: ": €2.90 in mainland France, straight to your letterbox, with tracking. Shipped within 1 to 2 business days, then delivered by La Poste in 3 business days.",
@@ -122,6 +124,7 @@ const L = {
     secureShipping: 'Sicherer Versand', secureShippingSub: 'mit Sendungsverfolgung',
     description: 'Beschreibung', shippingReturns: 'Versand & Rückgabe',
     shippingTitle: 'Versand', shippingText: "Innerhalb von 24 bis 48 Werkstunden in unserem Atelier in Frankreich vorbereitet, dann mit Sendungsnummer verschickt.",
+    shippingNotice: "Die Herstellung dauert gerade etwas länger, da unsere Druckmaterialien nachgeliefert werden. Jede Hülle wird in unserem Atelier in Frankreich sorgfältig gefertigt und mit Sendungsnummer verschickt.",
     delaysTitle: "Versandarten",
     relayStrong: "Mondial-Relay-Abholstelle", relayText: ": 3,90 € in Frankreich, Lieferung in 4 bis 7 Werktagen. Du wählst deine Abholstelle (Geschäft oder Packstation) an der Kasse und wirst benachrichtigt, sobald dein Paket da ist.",
     homeStrong: "Lieferung nach Hause mit La Poste", homeText: ": 2,90 € in Frankreich (Festland), direkt in deinen Briefkasten, mit Sendungsverfolgung. Versand innerhalb von 1 bis 2 Werktagen, dann Zustellung durch La Poste in 3 Werktagen.",
@@ -1032,7 +1035,8 @@ const pickModelLabel = t('model.placeholder', lang);
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">{L.shippingTitle}</h3>
-            <p>{L.shippingText}</p>
+            <p data-ship-normal>{L.shippingText}</p>
+            <p data-ship-notice hidden>{L.shippingNotice}</p>
           </div>
           <div>
             <h3 class="text-cream font-medium mb-1.5">{L.delaysTitle}</h3>
