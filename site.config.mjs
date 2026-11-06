@@ -211,7 +211,11 @@ const config = {
             'Galaxy S25+', 'Galaxy S25 Edge', 'Galaxy S25 FE',
             'Galaxy S24+', 'Galaxy S24 FE',
             'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
-            'Galaxy S22',
+            // S22+ ajouté le 06/11/2026 (demande cliente), avec les S22 Ultra, S21
+            // et S20 du catalogue fournisseur.
+            'Galaxy S22 Ultra', 'Galaxy S22+', 'Galaxy S22',
+            'Galaxy S21 Ultra', 'Galaxy S21+', 'Galaxy S21', 'Galaxy S21 FE',
+            'Galaxy S20 Ultra', 'Galaxy S20+', 'Galaxy S20 FE',
             'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G', 'Galaxy A34 5G',
             'Galaxy A26 5G', 'Galaxy A25 5G', 'Galaxy A18', 'Galaxy A17',
             'Galaxy A16 5G', 'Galaxy A15', 'Galaxy A07', 'Galaxy A06 5G', 'Galaxy A05s',
