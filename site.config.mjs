@@ -207,7 +207,8 @@ const config = {
           id: 'samsung',
           label: 'Samsung Galaxy',
           models: [
-            'Galaxy S26+', 'Galaxy S26 Edge',
+            // S26 FE ajouté le 07/11/2026 (demande cliente).
+            'Galaxy S26+', 'Galaxy S26 Edge', 'Galaxy S26 FE',
             'Galaxy S25+', 'Galaxy S25 Edge', 'Galaxy S25 FE',
             'Galaxy S24+', 'Galaxy S24 FE',
             'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
