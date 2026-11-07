@@ -8,6 +8,7 @@ import { unsplashSrcset } from '../../../lib/image';
 import { inlineMd } from '../../../lib/inline-md';
 import { parseEntrySlug, t, localePrefix, ACTIVE_LOCALES, localeMeta } from '../../../lib/i18n';
 import InfiniteReveal from '../../../components/InfiniteReveal.astro';
+import { brandModels, cardImage, PHONE_MODELS } from '../../../lib/models';
 import { localizedProducts } from '../../../lib/products';
 
 export async function getStaticPaths() {
@@ -41,7 +42,7 @@ export async function getStaticPaths() {
           content,
           categoryLabels,
           products: langProducts
-            .filter(p => (p.data.categories || []).includes(cat.slug))
+            .filter(p => (cat as any).brand || (p.data.categories || []).includes(cat.slug))
             .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
         },
       });
@@ -130,6 +131,18 @@ const jsonLd: any[] = [breadcrumbSchema, collectionSchema];
 if (itemListSchema) jsonLd.push(itemListSchema);
 if (faqSchema) jsonLd.push(faqSchema);
 import CardStars from '../../../components/CardStars.astro';
+
+// Pages marque : liste des modèles compatibles (lue dans site.config.mjs).
+const brandList = (category as any).brand ? brandModels((category as any).brand) : null;
+const odDays = siteConfig.phoneModels?.onDemand?.delayDays ?? 2;
+const BT = ({
+  fr: { title: 'Modèles compatibles', intro: `Tous nos motifs existent pour chacun de ces modèles. Choisissez le vôtre sur la fiche produit : la coque est fabriquée pour lui.`, inStock: 'En stock', onDemand: `Sur commande (+${odDays} jours de délai, même prix)` },
+  en: { title: 'Compatible models', intro: `Every design is available for each of these models. Pick yours on the product page: the case is made for it.`, inStock: 'In stock', onDemand: `Made to order (+${odDays} days, same price)` },
+  de: { title: 'Kompatible Modelle', intro: `Jedes Motiv gibt es für alle diese Modelle. Wähle deins auf der Produktseite: Die Hülle wird dafür gefertigt.`, inStock: 'Auf Lager', onDemand: `Auf Bestellung (+${odDays} Tage, gleicher Preis)` },
+} as Record<string, { title: string; intro: string; inStock: string; onDemand: string }>)[lang];
+const cardImg = (p: any) => cardImage(parseEntrySlug(p.slug).slug, p.data.image, (category as any).cardModel);
+const modelHref = (id: string) => `${lp}/coques/${id}/`;
+const inStockLinks = (brandList?.inStock ?? []).map((label) => { const m = PHONE_MODELS.find((x) => x.label === label); return { label, href: m ? modelHref(m.id) : null }; });
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} jsonLd={jsonLd}>
@@ -173,8 +186,8 @@ import CardStars from '../../../components/CardStars.astro';
               <a href={productHref(product.slug)} class="group block">
                 <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-panel border border-white/[0.05] mb-5">
                   <img
-                    src={product.data.image}
-                    srcset={unsplashSrcset(product.data.image)}
+                    src={cardImg(product).src}
+                    srcset={cardImg(product).srcset ?? unsplashSrcset(product.data.image)}
                     sizes="(max-width: 767px) calc(50vw - 24px), (max-width: 1023px) calc(33vw - 24px), 300px"
                     alt={product.data.imageAlt ?? product.data.name}
                     class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
@@ -211,6 +224,35 @@ import CardStars from '../../../components/CardStars.astro';
       <div class="text-center py-20">
         <p class="text-sm text-n-500 font-light">{t('shop.collectionEmpty', lang)}</p>
       </div>
+    )}
+
+    {brandList && (brandList.inStock.length + brandList.onDemand.length) > 0 && (
+      <section class="mt-20 pt-12 border-t border-white/[0.08] max-w-3xl" aria-label={BT.title}>
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-cream mb-4">{BT.title}</h2>
+        <p class="text-sm text-n-400 font-light leading-relaxed mb-6">{BT.intro}</p>
+        {brandList.inStock.length > 0 && (
+          <>
+            <h3 class="text-xs uppercase tracking-widest text-n-500 font-medium mb-3">{BT.inStock}</h3>
+            <ul class="flex flex-wrap gap-2 mb-8">
+              {inStockLinks.map((m) => (
+                <li>{m.href
+                  ? <a href={m.href} class="inline-block rounded-full border border-white/[0.12] px-3 py-1.5 text-xs text-cream hover:border-white/30 transition-colors">{m.label}</a>
+                  : <span class="inline-block rounded-full border border-white/[0.12] px-3 py-1.5 text-xs text-cream">{m.label}</span>}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        {brandList.onDemand.length > 0 && (
+          <>
+            <h3 class="text-xs uppercase tracking-widest text-n-500 font-medium mb-3">{BT.onDemand}</h3>
+            <ul class="flex flex-wrap gap-2">
+              {brandList.onDemand.map((label) => (
+                <li><span class="inline-block rounded-full border border-white/[0.08] px-3 py-1.5 text-xs text-n-400">{label}</span></li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
     )}
 
     {Content && (

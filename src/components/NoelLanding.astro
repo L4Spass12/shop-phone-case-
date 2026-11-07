@@ -1,0 +1,352 @@
+---
+// Page « coque cadeau de Noël » (/coque-cadeau-noel/, /en/…, /de/…) :
+// répond aux recherches « cadeau noël personnalisé », « coque personnalisée
+// noël », « idée cadeau noël coque »… Idées par destinataire, formats du
+// studio, date limite de commande, puis renvoi vers le studio et quelques
+// motifs de la boutique. Même gabarit que CatLanding.
+//
+// ⚠️ À revoir chaque année : DEADLINE (date limite de commande pour Noël).
+// Elle tient compte de la seule livraison active pour Moroji (point relais,
+// 4 à 7 jours ouvrés en France, fabrication comprise).
+//
+// Textes : **mot** = mis en gras (<strong>).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../../site.config.mjs';
+import { localePrefix, type Locale } from '../lib/i18n';
+import { PHONE_MODELS } from '../lib/models';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const lp = localePrefix(lang);
+const url = (p: string) => `${lp}${p}`;
+const intl = lang === 'en' ? 'en-IE' : lang === 'de' ? 'de-DE' : 'fr-FR';
+const money = (c: number) => new Intl.NumberFormat(intl, { style: 'currency', currency: siteConfig.shop.currency }).format(c / 100);
+const flat = money(siteConfig.shop?.customCasePriceCents ?? 1990);
+const relief = money(siteConfig.shop?.customCaseReliefPriceCents ?? 2490);
+const iphones = PHONE_MODELS.filter((m) => m.brand === 'apple').map((m) => m.label);
+const galaxies = PHONE_MODELS.filter((m) => m.brand === 'samsung').map((m) => m.label);
+
+// Date limite de commande pour une livraison avant Noël en France.
+const DEADLINE = new Date('2026-12-12T12:00:00Z');
+const deadline = new Intl.DateTimeFormat(intl, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(DEADLINE);
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const md = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong class="text-cream font-medium">$1</strong>');
+const plain = (s: string) => s.replace(/\*\*/g, '');
+
+// Motifs de la boutique dans l'esprit des fêtes, pour qui préfère un dessin.
+const DESIGNS = [
+  { slug: 'coque-chalet-neige', name: { fr: 'Chalet sous la Neige', en: 'Snowy Chalet', de: 'Schneechalet' } },
+  { slug: 'coque-nuit-etoilee', name: { fr: 'Nuit Étoilée', en: 'Starry Night', de: 'Sternennacht' } },
+  { slug: 'coque-feux-artifice', name: { fr: "Feux d'Artifice", en: 'Fireworks', de: 'Feuerwerk' } },
+  { slug: 'coque-boule-disco', name: { fr: 'Boule Disco', en: 'Disco Ball', de: 'Discokugel' } },
+].map((d) => ({ ...d, img: `/images/products/${d.slug}-plat-400w.webp` }));
+
+const T = {
+  fr: {
+    title: 'Coque personnalisée : le cadeau de Noël original',
+    description: `Idée cadeau de Noël personnalisé : une coque de téléphone avec vos photos, un prénom ou un collage. iPhone, Samsung et plus, imprimée à l'unité en France, dès ${flat}.`,
+    h1: 'Une coque personnalisée pour Noël',
+    intro: `Un cadeau de Noël qu'on ne range pas dans un tiroir : une **coque personnalisée** avec vos photos, un prénom ou vos souvenirs ensemble. On la garde sur soi tous les jours. Créée en quelques minutes dans notre studio, elle est imprimée à l'unité dans notre atelier en France.`,
+    cta: 'Créer ma coque cadeau',
+    price: `À partir de ${flat}, ${relief} en relief · iPhone, Samsung, Xiaomi, Pixel, Honor`,
+    deadlineTitle: 'Date limite pour Noël',
+    deadlineText: `Pour une livraison **avant Noël en France**, commandez au plus tard le **${deadline}**. Chaque coque est fabriquée à la commande : plus vous commandez tôt, plus vous êtes tranquille.`,
+    whoTitle: 'Une idée de coque pour chacun',
+    who: [
+      ['Pour maman', 'Une photo de famille, ses enfants ou petits-enfants, ou un collage de vos plus beaux souvenirs. Le cadeau qui fait toujours son effet.'],
+      ['Pour votre moitié', 'Le modèle **Toi & Moi** ou une photo de vous deux, avec une date qui compte. Une coque couple à offrir, ou à assortir à la vôtre.'],
+      ['Pour votre meilleure amie', 'Un **pêle-mêle** de vos soirées, de vos voyages, de vos fous rires : vos souvenirs dans des cadres Polaroid.'],
+      ['Pour papa', 'Une photo avec ses enfants, son chien, sa voiture ou son équipe préférée avec la [coque foot personnalisée](/coque-foot-personnalisee/).'],
+      ['Pour un ado', 'Son prénom en grand, ses **initiales** dorées, un style manga ou ses photos préférées : il choisit le style, vous offrez.'],
+      ['Pour les grands-parents', 'Leurs petits-enfants réunis sur une seule coque, en grand format pour bien les voir.'],
+    ],
+    formatsTitle: 'Les formats préférés pour offrir',
+    formats: [
+      ['Photo plein format', 'Une seule belle photo, bord à bord.'],
+      ['Polaroid', 'Une à plusieurs photos dans des cadres façon Polaroid.'],
+      ['Pêle-mêle', 'Un collage de souvenirs, plusieurs photos sur une coque.'],
+      ['Prénom et initiales', 'Un prénom, des initiales ou un mot doux, avec nos polices.'],
+    ],
+    stepsTitle: 'Comment créer votre coque cadeau ?',
+    steps: [
+      ['Choisissez son téléphone', "Demandez discrètement le modèle exact (ou regardez dans Réglages, « Informations »). La coque est fabriquée pour lui."],
+      ['Ajoutez photos et textes', 'Importez vos photos, choisissez un modèle (Polaroid, Toi & Moi, pêle-mêle…), ajoutez un prénom. Vous voyez le rendu en direct.'],
+      ['Recevez-la à temps', `Commandez avant le **${deadline}** pour une livraison avant Noël en France.`],
+    ],
+    reliefTitle: 'À plat ou en relief',
+    reliefText: `**À plat (${flat})** : surface lisse, couleurs fidèles à vos photos. **En relief (${relief})** : l'encre est déposée en plusieurs couches, le motif se sent sous le doigt. Un effet qui surprend au déballage.`,
+    secretTitle: "Garder la surprise",
+    secretText: "Pas besoin de demander ses photos : prenez-les sur vos réseaux ou dans vos albums partagés. Pour le modèle, un coup d'œil à son téléphone suffit : la marque et la taille du bloc photo vous mettent sur la piste.",
+    designsTitle: 'Plutôt un motif tout prêt ?',
+    designsText: "Plus de 200 motifs exclusifs, à offrir sans rien créer. Quelques idées dans l'esprit des fêtes :",
+    designsAll: 'Voir toute la boutique',
+    modelsTitle: 'Modèles compatibles',
+    modelsMore: 'Xiaomi, Redmi, Google Pixel, Honor et d\'autres Samsung sont disponibles sur commande (2 jours de délai en plus).',
+    faqTitle: 'Questions fréquentes sur la coque cadeau de Noël',
+    faq: [
+      ['Jusqu’à quand commander pour recevoir la coque avant Noël ?', `En France, commandez au plus tard le ${deadline}. Pour une livraison hors de France, commandez quelques jours plus tôt.`],
+      ['Combien coûte une coque personnalisée ?', `${flat} à plat et ${relief} en relief, quel que soit le nombre de photos et de textes.`],
+      ['Je ne connais pas le modèle de son téléphone, comment faire ?', "Le nom exact se trouve dans Réglages, puis « Informations » (iPhone) ou « À propos du téléphone » (Android). Vous pouvez aussi nous écrire avec une photo du téléphone : on vous aide à l'identifier."],
+      ['Puis-je mettre plusieurs photos ?', 'Oui : autant de photos que vous voulez, ou un modèle avec plusieurs cadres comme le Polaroid ou le pêle-mêle.'],
+      ['Ma photo n’est pas parfaite, est-ce grave ?', 'Une photo prise avec un smartphone récent suffit. En cas de doute, l’onglet Aide du studio vous permet d’envoyer vos photos : notre atelier prépare le design pour vous (6,90 €, ajoutés seulement si vous commandez).'],
+      ['Puis-je la retourner si elle ne plaît pas ?', 'Une coque personnalisée est fabriquée pour une seule personne : comme le prévoit la loi, elle ne bénéficie pas du droit de rétractation. En cas de défaut d’impression, nous la refaisons. Les coques à motifs de la boutique peuvent, elles, être retournées sous 14 jours.'],
+    ],
+    more: 'Envie d’autres idées ? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Coque personnalisée avec vos photos</a>',
+    home: 'Accueil',
+    parent: 'Coque personnalisée',
+  },
+  en: {
+    title: 'Custom phone case: an original Christmas gift',
+    description: `Personalised Christmas gift idea: a phone case with your photos, a name or a collage. iPhone, Samsung and more, printed one at a time in France, from ${flat}.`,
+    h1: 'A custom phone case for Christmas',
+    intro: `A Christmas gift that never ends up in a drawer: a **custom phone case** with your photos, a name or your memories together. They carry it every day. Created in a few minutes in our studio, it is printed one at a time in our workshop in France.`,
+    cta: 'Create my gift case',
+    price: `From ${flat}, ${relief} raised · iPhone, Samsung, Xiaomi, Pixel, Honor`,
+    deadlineTitle: 'Christmas order deadline',
+    deadlineText: `For delivery **before Christmas in France**, order by **${deadline}**. Outside France, please order a few days earlier. Every case is made to order: the earlier you order, the more relaxed you can be.`,
+    whoTitle: 'A case idea for everyone',
+    who: [
+      ['For mum', 'A family photo, her children or grandchildren, or a collage of your best memories. A gift that always lands.'],
+      ['For your partner', 'The **You & Me** template or a photo of you both, with a date that matters. A couple case to give, or to match yours.'],
+      ['For your best friend', 'A **collage** of your nights out, trips and laughs: your memories in Polaroid frames.'],
+      ['For dad', 'A photo with his children, his dog, his car, or his favourite team colours.'],
+      ['For a teenager', 'Their name in big letters, golden **initials**, a manga style or their favourite photos: they choose the style, you give it.'],
+      ['For grandparents', 'All the grandchildren on one case, in a large format so they can see them well.'],
+    ],
+    formatsTitle: 'Favourite formats for gifting',
+    formats: [
+      ['Full photo', 'One beautiful photo, edge to edge.'],
+      ['Polaroid', 'One or more photos in Polaroid-style frames.'],
+      ['Collage', 'A collage of memories, several photos on one case.'],
+      ['Name and initials', 'A name, initials or a sweet word, with our fonts.'],
+    ],
+    stepsTitle: 'How to create your gift case',
+    steps: [
+      ['Pick their phone', 'Discreetly check the exact model (Settings, then "About"). The case is made for it.'],
+      ['Add photos and text', 'Upload your photos, pick a template (Polaroid, You & Me, collage…), add a name. You see the result live.'],
+      ['Get it in time', `Order by **${deadline}** for delivery before Christmas in France.`],
+    ],
+    reliefTitle: 'Flat or raised',
+    reliefText: `**Flat (${flat})**: smooth surface, colours true to your photos. **Raised (${relief})**: the ink is built up in several layers, so you can feel the design. A lovely surprise when unwrapping.`,
+    secretTitle: 'Keep it a surprise',
+    secretText: 'No need to ask for their photos: take them from social media or shared albums. For the model, a quick look at their phone is enough: the brand and camera block size will put you on the right track.',
+    designsTitle: 'Prefer a ready-made design?',
+    designsText: '200+ exclusive designs, to give without creating anything. A few festive ideas:',
+    designsAll: 'See the whole shop',
+    modelsTitle: 'Compatible models',
+    modelsMore: 'Xiaomi, Redmi, Google Pixel, Honor and more Samsung models are available to order (2 extra days).',
+    faqTitle: 'Christmas gift case FAQ',
+    faq: [
+      ['When should I order to receive it before Christmas?', `In France, order by ${deadline}. For delivery outside France, order a few days earlier.`],
+      ['How much does a custom case cost?', `${flat} flat and ${relief} raised, whatever the number of photos and texts.`],
+      ['I don’t know their phone model, what should I do?', 'The exact name is in Settings, then "About" (iPhone) or "About phone" (Android). You can also send us a photo of the phone: we will help you identify it.'],
+      ['Can I add several photos?', 'Yes: as many photos as you like, or a template with several frames like Polaroid or collage.'],
+      ['My photo isn’t perfect, is that a problem?', 'A photo taken with a recent smartphone is enough. If in doubt, the Help tab in the studio lets you send your photos: our workshop prepares the design for you (€6.90, added only if you order).'],
+      ['Can it be returned if they don’t like it?', 'A custom case is made for one person only, so by law it is not covered by the right of withdrawal. If there is a printing defect, we reprint it. Ready-made designs from the shop can be returned within 14 days.'],
+    ],
+    more: 'Looking for more ideas? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Custom phone case with your photos</a>',
+    home: 'Home',
+    parent: 'Custom phone case',
+  },
+  de: {
+    title: 'Handyhülle mit Foto: das originelle Weihnachtsgeschenk',
+    description: `Personalisierte Weihnachtsgeschenkidee: eine Handyhülle mit deinen Fotos, einem Namen oder einer Collage. iPhone, Samsung und mehr, einzeln in Frankreich bedruckt, ab ${flat}.`,
+    h1: 'Eine personalisierte Handyhülle zu Weihnachten',
+    intro: `Ein Weihnachtsgeschenk, das nicht in der Schublade landet: eine **Handyhülle mit Foto**, einem Namen oder euren gemeinsamen Erinnerungen. Man trägt sie jeden Tag bei sich. In wenigen Minuten im Studio gestaltet, wird sie einzeln in unserem Atelier in Frankreich bedruckt.`,
+    cta: 'Meine Geschenkhülle gestalten',
+    price: `Ab ${flat}, ${relief} mit Relief · iPhone, Samsung, Xiaomi, Pixel, Honor`,
+    deadlineTitle: 'Bestellschluss für Weihnachten',
+    deadlineText: `Für eine Lieferung **vor Weihnachten in Frankreich** bestelle bis spätestens **${deadline}**. Außerhalb Frankreichs bestelle bitte einige Tage früher. Jede Hülle wird auf Bestellung gefertigt: Je früher, desto entspannter.`,
+    whoTitle: 'Eine Hüllen-Idee für jeden',
+    who: [
+      ['Für Mama', 'Ein Familienfoto, ihre Kinder oder Enkel oder eine Collage eurer schönsten Erinnerungen. Kommt immer gut an.'],
+      ['Für deinen Schatz', 'Die Vorlage **Du & Ich** oder ein Foto von euch beiden, mit einem besonderen Datum. Eine Pärchenhülle zum Verschenken oder passend zu deiner.'],
+      ['Für die beste Freundin', 'Eine **Collage** eurer Abende, Reisen und Lachanfälle: eure Erinnerungen in Polaroid-Rahmen.'],
+      ['Für Papa', 'Ein Foto mit seinen Kindern, seinem Hund, seinem Auto oder in den Farben seines Lieblingsvereins.'],
+      ['Für Teenager', 'Der Name in groß, goldene **Initialen**, ein Manga-Stil oder Lieblingsfotos: Sie wählen den Stil, du schenkst.'],
+      ['Für Oma und Opa', 'Alle Enkel auf einer Hülle, groß genug, um sie gut zu sehen.'],
+    ],
+    formatsTitle: 'Die beliebtesten Formate zum Verschenken',
+    formats: [
+      ['Vollbild-Foto', 'Ein schönes Foto, randlos.'],
+      ['Polaroid', 'Ein oder mehrere Fotos in Polaroid-Rahmen.'],
+      ['Collage', 'Eine Collage aus Erinnerungen, mehrere Fotos auf einer Hülle.'],
+      ['Name und Initialen', 'Ein Name, Initialen oder ein liebes Wort, mit unseren Schriften.'],
+    ],
+    stepsTitle: 'So gestaltest du deine Geschenkhülle',
+    steps: [
+      ['Wähle das Handy', 'Finde unauffällig das genaue Modell heraus (Einstellungen, dann „Info“). Die Hülle wird dafür gefertigt.'],
+      ['Fotos und Text hinzufügen', 'Lade deine Fotos hoch, wähle eine Vorlage (Polaroid, Du & Ich, Collage…), füge einen Namen hinzu. Du siehst das Ergebnis sofort.'],
+      ['Rechtzeitig erhalten', `Bestelle bis **${deadline}** für eine Lieferung vor Weihnachten in Frankreich.`],
+    ],
+    reliefTitle: 'Flach oder mit Relief',
+    reliefText: `**Flach (${flat})**: glatte Oberfläche, Farben wie auf deinen Fotos. **Relief (${relief})**: Die Tinte wird in mehreren Schichten aufgetragen, das Motiv ist fühlbar. Eine schöne Überraschung beim Auspacken.`,
+    secretTitle: 'Die Überraschung bewahren',
+    secretText: 'Du musst nicht nach Fotos fragen: Nimm sie aus sozialen Netzwerken oder geteilten Alben. Für das Modell reicht ein Blick auf das Handy: Marke und Größe der Kamera bringen dich auf die richtige Spur.',
+    designsTitle: 'Lieber ein fertiges Motiv?',
+    designsText: 'Über 200 exklusive Motive, zum Verschenken ohne selbst zu gestalten. Ein paar festliche Ideen:',
+    designsAll: 'Den ganzen Shop ansehen',
+    modelsTitle: 'Kompatible Modelle',
+    modelsMore: 'Xiaomi, Redmi, Google Pixel, Honor und weitere Samsung-Modelle gibt es auf Bestellung (2 Tage mehr Lieferzeit).',
+    faqTitle: 'Fragen zur Geschenkhülle für Weihnachten',
+    faq: [
+      ['Bis wann muss ich bestellen, damit sie vor Weihnachten ankommt?', `In Frankreich bis spätestens ${deadline}. Für eine Lieferung außerhalb Frankreichs bestelle einige Tage früher.`],
+      ['Was kostet eine personalisierte Hülle?', `${flat} flach und ${relief} mit Relief, egal wie viele Fotos und Texte.`],
+      ['Ich kenne das Handymodell nicht, was tun?', 'Der genaue Name steht unter Einstellungen, dann „Info“ (iPhone) oder „Telefoninfo“ (Android). Du kannst uns auch ein Foto des Handys schicken: Wir helfen dir, es zu erkennen.'],
+      ['Kann ich mehrere Fotos verwenden?', 'Ja: so viele Fotos, wie du möchtest, oder eine Vorlage mit mehreren Rahmen wie Polaroid oder Collage.'],
+      ['Mein Foto ist nicht perfekt, ist das schlimm?', 'Ein Foto von einem aktuellen Smartphone reicht. Im Zweifel kannst du deine Fotos über den Hilfe-Tab im Studio schicken: Unser Atelier bereitet das Design für dich vor (6,90 €, nur bei Bestellung berechnet).'],
+      ['Kann ich sie zurückgeben, wenn sie nicht gefällt?', 'Eine personalisierte Hülle wird für eine einzige Person gefertigt: Laut Gesetz gilt dafür kein Widerrufsrecht. Bei einem Druckfehler drucken wir sie neu. Fertige Motive aus dem Shop können innerhalb von 14 Tagen zurückgegeben werden.'],
+    ],
+    more: 'Noch mehr Ideen? <a href="URL" class="underline underline-offset-4 hover:text-cream transition-colors">Handyhülle mit deinen Fotos</a>',
+    home: 'Startseite',
+    parent: 'Handyhülle mit Foto',
+  },
+}[lang];
+
+// Lien éventuel dans un texte : [libellé](/chemin/) → <a>, préfixé par la langue.
+const mdl = (s: string) => md(s).replace(/\[(.+?)\]\((\/[^)]*)\)/g, (_, t, p) => `<a href="${url(p)}" class="underline underline-offset-4 hover:text-cream transition-colors">${t}</a>`);
+
+const pageUrl = `${siteConfig.url}${url('/coque-cadeau-noel/')}`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: T.home, item: `${siteConfig.url}${url('/')}` },
+      { '@type': 'ListItem', position: 2, name: T.parent, item: `${siteConfig.url}${url('/coque-personnalisee/')}` },
+      { '@type': 'ListItem', position: 3, name: T.h1, item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: T.stepsTitle,
+    step: T.steps.map(([name, text], i) => ({ '@type': 'HowToStep', position: i + 1, name, text: plain(text) })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: plain(a) } })),
+  },
+];
+const h2 = 'text-2xl md:text-3xl font-medium tracking-tight text-cream';
+const card = 'rounded-2xl border border-white/[0.08] bg-panel p-6';
+---
+
+<BaseLayout title={`${T.title} | ${siteConfig.name}`} description={T.description} jsonLd={jsonLd} image="/images/menu-studio-wide.webp">
+  <div class="crumbs-shell max-w-7xl mx-auto px-6 pt-6 md:pt-8 pb-16 md:pb-24">
+    <nav class="site-breadcrumb flex items-center gap-2 text-xs text-n-500 mb-6 font-light" aria-label="breadcrumb">
+      <a href={url('/')} class="hover:text-cream transition-colors">{T.home}</a>
+      <span>/</span>
+      <a href={url('/coque-personnalisee/')} class="hover:text-cream transition-colors">{T.parent}</a>
+      <span>/</span>
+      <span class="text-n-400">{T.h1}</span>
+    </nav>
+
+    <section class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-14">
+      <div class="order-2 md:order-1">
+        <h1 class="text-4xl md:text-5xl font-medium tracking-tight text-cream leading-[1.1] mb-5">{T.h1}</h1>
+        <p class="text-base md:text-lg text-n-400 font-light leading-relaxed mb-7" set:html={md(T.intro)} />
+        <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+        <p class="text-sm text-n-500 font-light mt-4">{T.price}</p>
+      </div>
+      <img class="order-1 md:order-2 w-full rounded-3xl object-cover aspect-[5/2] md:aspect-[4/3]" src="/images/menu-studio-wide.webp"
+        alt={T.h1} width="1400" height="560" fetchpriority="high" decoding="async" />
+    </section>
+
+    <section class={`${card} mb-20 max-w-3xl`} aria-label={T.deadlineTitle}>
+      <h2 class="text-lg font-medium text-cream mb-2">🎄 {T.deadlineTitle}</h2>
+      <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(T.deadlineText)} />
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.whoTitle}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {T.who.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={mdl(text)} />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.formatsTitle}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {T.formats.map(([name, text]) => (
+          <div class={card}>
+            <h3 class="text-lg font-medium text-cream mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed">{text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-8`}>{T.stepsTitle}</h2>
+      <ol class="grid md:grid-cols-3 gap-6">
+        {T.steps.map(([name, text], i) => (
+          <li class={card}>
+            <span class="text-xs font-medium text-n-500 tracking-widest">0{i + 1}</span>
+            <h3 class="text-lg font-medium text-cream mt-2 mb-2">{name}</h3>
+            <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(text)} />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-6 mb-20">
+      {[[T.reliefTitle, T.reliefText], [T.secretTitle, T.secretText]].map(([h, p]) => (
+        <div class={card}>
+          <h2 class="text-lg font-medium text-cream mb-2">{h}</h2>
+          <p class="text-sm text-n-400 font-light leading-relaxed" set:html={md(p)} />
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-3`}>{T.designsTitle}</h2>
+      <p class="text-base text-n-400 font-light mb-8 max-w-2xl">{T.designsText}</p>
+      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {DESIGNS.map((d) => (
+          <li>
+            <a href={url(`/product/${d.slug}/`)} class="group block">
+              <img src={d.img} alt={d.name[lang]} width="400" height="500" loading="lazy" decoding="async"
+                class="w-full aspect-[4/5] object-cover rounded-[1.4rem] border border-white/[0.08] group-hover:scale-[1.02] transition-transform duration-300" />
+              <span class="block mt-3 text-sm font-medium text-cream">{d.name[lang]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="text-sm text-n-400 font-light mt-6">
+        <a href={url('/boutique/')} class="underline underline-offset-4 hover:text-cream transition-colors">{T.designsAll} →</a>
+      </p>
+    </section>
+
+    <section class="mb-20">
+      <h2 class={`${h2} mb-5`}>{T.modelsTitle}</h2>
+      <p class="text-sm text-n-400 font-light leading-relaxed"><strong class="text-cream font-medium">iPhone :</strong> {iphones.join(', ')}</p>
+      <p class="text-sm text-n-400 font-light leading-relaxed mt-2"><strong class="text-cream font-medium">Samsung :</strong> {galaxies.join(', ')}</p>
+      <p class="text-sm text-n-400 font-light leading-relaxed mt-2">{T.modelsMore}</p>
+    </section>
+
+    <section class="max-w-3xl mb-16">
+      <h2 class={`${h2} mb-6`}>{T.faqTitle}</h2>
+      <div class="space-y-3">
+        {T.faq.map(([q, a]) => (
+          <details class="rounded-2xl border border-white/[0.08] bg-panel px-6 py-4">
+            <summary class="cursor-pointer font-medium text-cream"><h3 class="inline text-base font-medium">{q}</h3></summary>
+            <p class="mt-3 text-sm text-n-400 font-light leading-relaxed" set:html={md(a)} />
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <div class="text-center">
+      <a href={url('/personnaliser')} class="btn-primary inline-flex items-center gap-2">{T.cta} →</a>
+      <p class="text-sm text-n-500 font-light mt-4" set:html={T.more.replace('URL', url('/coque-personnalisee/'))} />
+    </div>
+  </div>
+</BaseLayout>

@@ -147,3 +147,20 @@ export const MODEL_TEXT: Record<Locale, {
     footer: 'Hüllen nach Modell',
   },
 };
+
+/** Modèles d'une marque : en stock (pages modèle, photos) et sur commande. */
+export function brandModels(brandId: string): { inStock: string[]; onDemand: string[] } {
+  const inStock = ((siteConfig.phoneModels?.brands ?? []) as { id: string; models: { label: string }[] }[])
+    .filter((b) => b.id === brandId).flatMap((b) => b.models.map((m) => m.label));
+  const onDemand = ((siteConfig.phoneModels?.onDemand?.brands ?? []) as { id: string; models: string[] }[])
+    .filter((b) => b.id === brandId).flatMap((b) => b.models);
+  return { inStock, onDemand };
+}
+
+/** Vignette d'une coque pour une page marque : photo sur le modèle donné si
+ *  elle existe, sinon l'image principale. */
+export function cardImage(productSlug: string, image: string, modelId?: string): { src: string; srcset?: string } {
+  const photo = modelId ? modelPhoto(productSlug, modelId) : null;
+  if (!photo) return { src: image };
+  return { src: photo, srcset: `${photo.replace(/\.webp$/, '-500w.webp')} 500w, ${photo} 1000w` };
+}

@@ -111,6 +111,13 @@ const config = {
 
   productCategories: [
     { slug: 'coques-iphone', label: 'Coques iPhone' },
+    // Pages marque (07/11/2026) : toutes les coques, sans toucher aux fiches.
+    // `brand` = id de marque dans phoneModels (liste des modèles compatibles) ;
+    // `cardModel` = photos par modèle utilisées pour les vignettes.
+    { slug: 'coques-samsung', label: 'Coques Samsung Galaxy', brand: 'samsung', cardModel: 'galaxy-s26-ultra' },
+    { slug: 'coques-xiaomi', label: 'Coques Xiaomi et Redmi', brand: 'xiaomi' },
+    { slug: 'coques-google-pixel', label: 'Coques Google Pixel', brand: 'google' },
+    { slug: 'coques-honor', label: 'Coques Honor', brand: 'honor' },
     { slug: 'coques-animaux', label: 'Animaux', labels: { en: 'Animals', de: 'Tiere' }, theme: true },
     { slug: 'coques-romantique', label: 'Romantique', labels: { en: 'Romantic', de: 'Romantisch' }, theme: true },
     { slug: 'coques-kawaii', label: 'Mignon & kawaii', labels: { en: 'Cute & kawaii', de: 'Süß & Kawaii' }, theme: true },
