@@ -4,7 +4,7 @@
 // ensemble. null = délais normaux. Passé `deliveryTo`, les fiches produit
 // reviennent d'elles-mêmes au délai habituel (contrôle fait dans le navigateur).
 export const SHIPPING_NOTICE: { shipAround: string; deliveryFrom: string; deliveryTo: string } | null = {
-  shipAround: '2026-11-20',
-  deliveryFrom: '2026-11-22',
-  deliveryTo: '2026-11-25',
+  shipAround: '2026-12-05',
+  deliveryFrom: '2026-12-08',
+  deliveryTo: '2026-12-12',
 };
