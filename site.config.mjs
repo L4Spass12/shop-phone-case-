@@ -224,7 +224,8 @@ const config = {
             'Galaxy S22 Ultra', 'Galaxy S22+', 'Galaxy S22',
             'Galaxy S21 Ultra', 'Galaxy S21+', 'Galaxy S21', 'Galaxy S21 FE',
             'Galaxy S20 Ultra', 'Galaxy S20+', 'Galaxy S20 FE',
-            'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G', 'Galaxy A34 5G',
+            // A70 ajouté le 25/11/2026.
+            'Galaxy A70', 'Galaxy A57', 'Galaxy A55', 'Galaxy A37', 'Galaxy A35 5G', 'Galaxy A34 5G',
             'Galaxy A26 5G', 'Galaxy A25 5G', 'Galaxy A18', 'Galaxy A17',
             'Galaxy A16 5G', 'Galaxy A15', 'Galaxy A07', 'Galaxy A06 5G', 'Galaxy A05s',
           ],
